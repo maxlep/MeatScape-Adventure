@@ -1,7 +1,7 @@
 # Git setup
 git clone --recurse-submodules https://github.com/maxlep/MeatScape-Adventure.git
 
-git config --global diff.submodule 1
+git config --global diff.submodule log
 
 git config --global status.submodulesummary 1
 

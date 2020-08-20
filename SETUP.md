@@ -10,7 +10,7 @@ git config --global submodule.recurse 1
 git config push.recurseSubmodules on-demand
 
 # To make changes to the submodule
-1. cd AssetStore/
+1. cd Assets/AssetStore/
 
 2. git checkout master
 

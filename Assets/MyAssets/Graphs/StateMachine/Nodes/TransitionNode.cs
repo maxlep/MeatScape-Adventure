@@ -42,8 +42,15 @@ public class TransitionNode : Node
     public virtual void Initialize(StateMachineGraph parentGraph)
     {
         this.stateMachineGraph = parentGraph;
-        startingStateName = (GetInputPort("startingState").Connection.node as StateNode).Name;
-        nextStateName = (GetOutputPort("nextState").Connection.node as StateNode).Name;
+        InitNodeName();
+    }
+
+    private void InitNodeName()
+    {
+        StateNode inputState = (GetInputPort("startingState").Connection.node as StateNode);
+        StateNode outputState = (GetOutputPort("nextState").Connection.node as StateNode);
+        startingStateName = inputState != null ? inputState.Name : "Any State";
+        nextStateName = outputState != null ? outputState.Name : "<Missing>";
         name = $"{startingStateName} ---> {nextStateName}";
     }
 

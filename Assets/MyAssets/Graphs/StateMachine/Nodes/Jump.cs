@@ -3,17 +3,23 @@
 
 public class Jump : PlayerStateNode
 {
-    public float JumpVelocity = 50f;
+    public float timeToJumpApex = .4f;
+    public float maxJumpHeight = 4f;
+    
+    private float gravity;
+    private float jumpVelocity;
     
     public override void Initialize(StateMachineGraph parentGraph)
     {
         base.Initialize(parentGraph);
+        gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
+        jumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
     }
     
     public override void Enter()
     {
         playerController.UngroundMotor();
-        playerController.SetJumpVelocity(JumpVelocity);
+        playerController.SetJumpVelocity(jumpVelocity);
     }
 
     public override void Execute()
@@ -29,12 +35,5 @@ public class Jump : PlayerStateNode
     public override void Exit()
     {
         base.Exit();
-    }
-
-    private void UpdateVelocity(ref Vector3 currentVelocity)
-    {
-        if (!isActiveState) return;
-        
-        currentVelocity.y = JumpVelocity;
     }
 }

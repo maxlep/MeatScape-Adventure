@@ -6,13 +6,7 @@ using UnityEngine;
 public class PlayerStateMachine : LayeredStateMachine
 {
     [SerializeField] private PlayerController playerController;
-
-    protected override void Awake()
-    {
-        base.Awake();
-        InputManager.Instance.onJump += () => ActivateTrigger("Jump");
-        InputManager.Instance.onStab += () => ActivateTrigger("Attack");
-    }
+    
     
     protected override void InjectNodeDependencies(StateMachineGraph stateMachine)
     {

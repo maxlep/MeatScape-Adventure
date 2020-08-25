@@ -8,21 +8,22 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour, ICharacterController
 {
     [SerializeField] private KinematicCharacterMotor charMotor;
+    [SerializeField] private PlayerStateMachine stateMachine;
+    [SerializeField] private StateMachineParameters parameters;
     [SerializeField] private Transform characterTrans;
     [SerializeField] private Transform cameraTrans;
     
     public Vector2 moveInput { get; private set; }
-    
+    public bool jumpPressed { get; private set; } = false;
+
     private Vector3 playerVelocity = Vector3.zero;
     private Vector3 moveDirection;
     private Vector3 internalVelocityAdd = Vector3.zero;
     private InputAction playerMove;
     private float jumpVelocity = 0f;
-    private float lastAttackTime = Mathf.NegativeInfinity;
-    private bool jump = false;
 
     public Transform GetCameraTrans() => cameraTrans;
-    public bool MaintainingGround() => charMotor.GroundingStatus.IsStableOnGround;
+    
     public void SetPlayerVelocity(Vector3 newVelocity) => playerVelocity = newVelocity;
     public void SetJumpVelocity(float newVelocity) => jumpVelocity = newVelocity;
     public void UngroundMotor() => charMotor.ForceUnground(0.1f);
@@ -40,6 +41,10 @@ public class PlayerController : MonoBehaviour, ICharacterController
     void Awake()
     {
         playerMove = InputManager.Instance.GetPlayerMove_Action();
+        InputManager.Instance.onJump_Pressed += () => jumpPressed = true;
+        InputManager.Instance.onJump_Pressed += () => jumpPressed = false;
+        InputManager.Instance.onJump_Pressed += () => stateMachine.ActivateTrigger("Jump");
+        InputManager.Instance.onStab += () => stateMachine.ActivateTrigger("Attack");
     }
 
     // Update is called once per frame
@@ -74,6 +79,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
         {
             currentVelocity.y = jumpVelocity;
         }
+        
     }
 
     public void AfterCharacterUpdate(float deltaTime)
@@ -117,6 +123,17 @@ public class PlayerController : MonoBehaviour, ICharacterController
     }
 
     #endregion
+
+    private void UpdateParameters()
+    {
+        //parameters.SetBool("isGrounded", MaintainingGround());
+    }
+
+    
+    public bool MaintainingGround()
+    {
+        return charMotor.GroundingStatus.IsStableOnGround;
+    }
 
     private void GetInput()
     {

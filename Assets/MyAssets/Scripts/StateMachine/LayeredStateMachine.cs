@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using MyAssets.Scripts.StateMachine;
 using UnityEditor.Animations;
 using UnityEngine;
 using System.Linq;

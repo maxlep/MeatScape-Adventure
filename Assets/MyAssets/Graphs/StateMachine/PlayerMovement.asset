@@ -1,5 +1,115 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-4990919157884066038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3025855eed90dd4f81a5b42e0e18392, type: 3}
+  m_Name: ' <AirMovement>'
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 328, y: 280}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: -4990919157884066038}
+      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: -3641797515424182864}
+        reroutePoints: []
+      - fieldName: nextState
+        node: {fileID: 7873343730281513504}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: -4990919157884066038}
+      _typeQualifiedName: TransitionNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  previousState: {fileID: 0}
+  transitions: {fileID: 0}
+  isActiveState: 0
+  Name: 
+  MoveSpeed: 10
+  Acceleration: 0.025
+  Deacceleration: 0.015
+  timeToJumpApex: 0.4
+  maxJumpHeight: 4
+  fallMultiplier: 7
+  lowJumpTurnTime: 0.025
+  maxFallSpeed: 10
+--- !u!114 &-3641797515424182864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: 'Ground Movement ---> '
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -136, y: 264}
+  ports:
+    keys:
+    - startingState
+    - nextState
+    values:
+    - _fieldName: startingState
+      _node: {fileID: -3641797515424182864}
+      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: -1108589282178386599}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: nextState
+      _node: {fileID: -3641797515424182864}
+      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: -4990919157884066038}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  startingState: {fileID: 0}
+  nextState: {fileID: 0}
+  ValidStartStates: []
+  BoolConditions:
+  - TargetParameter: IsGrounded
+    value: 0
+    parameters: {fileID: 11400000, guid: ba91a2254f179c148b1c00b43ea37a8d, type: 2}
+  TriggerConditions: []
+  FloatConditions: []
+  IntConditions: []
+  parameters: {fileID: 11400000, guid: ba91a2254f179c148b1c00b43ea37a8d, type: 2}
+  startStateOptions: []
 --- !u!114 &-1108589282178386599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27,9 +137,6 @@ MonoBehaviour:
       - fieldName: EntryState
         node: {fileID: 647826158662486185}
         reroutePoints: []
-      - fieldName: nextState
-        node: {fileID: 7873343730281513504}
-        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 0
@@ -42,6 +149,9 @@ MonoBehaviour:
       - fieldName: startingState
         node: {fileID: 6332291481083292061}
         reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: -3641797515424182864}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
@@ -51,66 +161,8 @@ MonoBehaviour:
   isActiveState: 1
   Name: Ground Movement
   MoveSpeed: 10
-  Gravity: 50
   Acceleration: 0.025
   Deacceleration: 0.015
---- !u!114 &-517789998394687707
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Any State ---> Jump
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: -792, y: 328}
-  ports:
-    keys:
-    - startingState
-    - nextState
-    values:
-    - _fieldName: startingState
-      _node: {fileID: -517789998394687707}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: Transitions
-        node: {fileID: 4560253871089828436}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: nextState
-      _node: {fileID: -517789998394687707}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: previousState
-        node: {fileID: 3160719255603912525}
-        reroutePoints:
-        - {x: -398.7729, y: 259.43668}
-        - {x: 353.2422, y: 215.51366}
-        - {x: 347.91818, y: -30.721354}
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-  startingState: {fileID: 0}
-  nextState: {fileID: 0}
-  ValidStartStates: []
-  BoolConditions: []
-  TriggerConditions:
-  - TargetParameter: Attack
-    parameters: {fileID: 11400000, guid: ba91a2254f179c148b1c00b43ea37a8d, type: 2}
-  FloatConditions: []
-  IntConditions: []
-  parameters: {fileID: 11400000, guid: ba91a2254f179c148b1c00b43ea37a8d, type: 2}
-  startStateOptions: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,7 +182,8 @@ MonoBehaviour:
   - {fileID: 3160719255603912525}
   - {fileID: 7873343730281513504}
   - {fileID: 4560253871089828436}
-  - {fileID: -517789998394687707}
+  - {fileID: -4990919157884066038}
+  - {fileID: -3641797515424182864}
 --- !u!114 &647826158662486185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,7 +228,7 @@ MonoBehaviour:
   m_Name: Jump <Jump>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 376, y: -104}
+  position: {x: 312, y: -88}
   ports:
     keys:
     - previousState
@@ -189,9 +242,6 @@ MonoBehaviour:
       - fieldName: nextState
         node: {fileID: 6332291481083292061}
         reroutePoints: []
-      - fieldName: nextState
-        node: {fileID: -517789998394687707}
-        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 0
@@ -203,11 +253,7 @@ MonoBehaviour:
       connections:
       - fieldName: startingState
         node: {fileID: 7873343730281513504}
-        reroutePoints:
-        - {x: 848, y: -48}
-        - {x: 848, y: 336}
-        - {x: -224, y: 336}
-        - {x: -224, y: 416}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
@@ -216,7 +262,8 @@ MonoBehaviour:
   transitions: {fileID: 0}
   isActiveState: 0
   Name: Jump
-  JumpVelocity: 20
+  timeToJumpApex: 0.4
+  maxJumpHeight: 4
 --- !u!114 &4560253871089828436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,10 +286,7 @@ MonoBehaviour:
       _node: {fileID: 4560253871089828436}
       _typeQualifiedName: TransitionNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-      connections:
-      - fieldName: startingState
-        node: {fileID: -517789998394687707}
-        reroutePoints: []
+      connections: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
@@ -312,10 +356,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Jump ---> Ground Movement
+  m_Name: 'Jump ---> '
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -136, y: 376}
+  position: {x: 776, y: -120}
   ports:
     keys:
     - startingState
@@ -339,12 +383,13 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: previousState
-        node: {fileID: -1108589282178386599}
+        node: {fileID: -4990919157884066038}
         reroutePoints:
-        - {x: 352, y: 384}
-        - {x: 352, y: 240}
-        - {x: -704, y: 224}
-        - {x: -704, y: 16}
+        - {x: 1174.156, y: -51.224968}
+        - {x: 1172.2653, y: 247.5275}
+        - {x: 310.0429, y: 247.5275}
+        - {x: 310.0429, y: 306.1435}
+        - {x: 310.0429, y: 306.1435}
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0

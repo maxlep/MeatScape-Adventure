@@ -16,7 +16,8 @@ public class InputManager : MonoBehaviour
     public delegate void _OnStab();
     public delegate void _OnSave();
     public delegate void _OnLoad();
-    public delegate void _OnJump();
+    public delegate void _OnJump_Pressed();
+    public delegate void _OnJump_Released();
     public delegate void _OnSlash();
     public delegate void _OnUseBomb();
     public delegate void _OnWater_Pressed();
@@ -29,7 +30,8 @@ public class InputManager : MonoBehaviour
     public event _OnStab onStab;
     public event _OnSave onSave;
     public event _OnLoad onLoad;
-    public event _OnJump onJump;
+    public event _OnJump_Pressed onJump_Pressed;
+    public event _OnJump_Released onJump_Released;
     public event _OnSlash onSlash;
     public event _OnUseBomb onUseBomb;
     public event _OnWater_Pressed onWater_Pressed;
@@ -71,6 +73,7 @@ public class InputManager : MonoBehaviour
         playerWater.performed += OnWater_Pressed;
         playerWater.canceled += OnWater_Released;
         playerJump.started += OnJump_Pressed;
+        playerJump.canceled += OnJump_Released;
     }
 
     void Start()
@@ -138,7 +141,12 @@ public class InputManager : MonoBehaviour
     
     public void OnJump_Pressed(InputAction.CallbackContext ctx)
     {
-        if (onJump != null) onJump();
+        if (onJump_Pressed != null) onJump_Pressed();
+    }
+    
+    public void OnJump_Released(InputAction.CallbackContext ctx)
+    {
+        if (onJump_Released != null) onJump_Released();
     }
 
     public void OnSlash()

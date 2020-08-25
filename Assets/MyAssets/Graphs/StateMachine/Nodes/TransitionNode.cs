@@ -189,7 +189,7 @@ public class IntCondition
 
     public bool Evaluate()
     {
-        int paramValue = parameters.IntParameters[TargetParameter];
+        int paramValue = parameters.GetInt(TargetParameter);
         
         if (comparator == Comparator.GreaterThan)
             return paramValue > value;
@@ -233,7 +233,7 @@ public class FloatCondition
 
     public bool Evaluate()
     {
-        float paramValue = parameters.FloatParameters[TargetParameter];
+        float paramValue = parameters.GetFloat(TargetParameter);
 
         if (comparator == Comparator.GreaterThan)
             return paramValue > value;
@@ -264,7 +264,7 @@ public class BoolCondition
 
     public bool Evaluate()
     {
-        bool paramValue = parameters.BoolParameters[TargetParameter];
+        bool paramValue = parameters.GetBool(TargetParameter);
         return paramValue == value;
     }
     
@@ -292,7 +292,7 @@ public class TriggerCondition
 
     public bool Evaluate()
     {
-        bool paramValue = parameters.TriggerParameters[TargetParameter];
+        bool paramValue = parameters.GetTrigger(TargetParameter);
         return paramValue;
     }
     

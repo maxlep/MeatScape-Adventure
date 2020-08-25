@@ -1,5 +1,65 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7312282678681196256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: AirMovement ---> Jump
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 760, y: 264}
+  ports:
+    keys:
+    - startingState
+    - nextState
+    values:
+    - _fieldName: startingState
+      _node: {fileID: -7312282678681196256}
+      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: -4990919157884066038}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: nextState
+      _node: {fileID: -7312282678681196256}
+      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: 3160719255603912525}
+        reroutePoints:
+        - {x: 1149.5497, y: 327.8557}
+        - {x: 1146.7928, y: 166.58041}
+        - {x: 249.44066, y: 155.55305}
+        - {x: 249.44066, y: 3.926721}
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  startingState: {fileID: 0}
+  nextState: {fileID: 0}
+  ValidStartStates:
+  - {fileID: 3048326922035197335, guid: 1041de34463a9d8459d3ca74970e14e2, type: 2}
+  BoolConditions: []
+  TriggerConditions: []
+  FloatConditions: []
+  IntConditions: []
+  parameters: {fileID: 11400000, guid: ba91a2254f179c148b1c00b43ea37a8d, type: 2}
+  startStateOptions:
+  - {fileID: 6966676086006548103, guid: 1041de34463a9d8459d3ca74970e14e2, type: 2}
+  - {fileID: -3849779701611487170, guid: 1041de34463a9d8459d3ca74970e14e2, type: 2}
+  - {fileID: 3048326922035197335, guid: 1041de34463a9d8459d3ca74970e14e2, type: 2}
 --- !u!114 &-6884243189497224942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13,7 +73,7 @@ MonoBehaviour:
   m_Name: AirMovement ---> Ground Movement
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 760, y: 296}
+  position: {x: 760, y: 440}
   ports:
     keys:
     - startingState
@@ -39,8 +99,7 @@ MonoBehaviour:
       - fieldName: previousState
         node: {fileID: -1108589282178386599}
         reroutePoints:
-        - {x: 1164.6895, y: 364.2525}
-        - {x: 1164.6895, y: 364.2525}
+        - {x: 1168, y: 496}
         - {x: 1164.6895, y: 612.0709}
         - {x: -720, y: 592}
         - {x: -710.5222, y: -28.784298}
@@ -59,7 +118,10 @@ MonoBehaviour:
   FloatConditions: []
   IntConditions: []
   parameters: {fileID: 11400000, guid: ba91a2254f179c148b1c00b43ea37a8d, type: 2}
-  startStateOptions: []
+  startStateOptions:
+  - {fileID: 6966676086006548103, guid: 1041de34463a9d8459d3ca74970e14e2, type: 2}
+  - {fileID: -3849779701611487170, guid: 1041de34463a9d8459d3ca74970e14e2, type: 2}
+  - {fileID: 3048326922035197335, guid: 1041de34463a9d8459d3ca74970e14e2, type: 2}
 --- !u!114 &-4990919157884066038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,7 +135,7 @@ MonoBehaviour:
   m_Name: AirMovement <AirMovement>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 344, y: 264}
+  position: {x: 344, y: 280}
   ports:
     keys:
     - previousState
@@ -101,6 +163,9 @@ MonoBehaviour:
       connections:
       - fieldName: startingState
         node: {fileID: -6884243189497224942}
+        reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: -7312282678681196256}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -172,7 +237,10 @@ MonoBehaviour:
   FloatConditions: []
   IntConditions: []
   parameters: {fileID: 11400000, guid: ba91a2254f179c148b1c00b43ea37a8d, type: 2}
-  startStateOptions: []
+  startStateOptions:
+  - {fileID: 6966676086006548103, guid: 1041de34463a9d8459d3ca74970e14e2, type: 2}
+  - {fileID: -3849779701611487170, guid: 1041de34463a9d8459d3ca74970e14e2, type: 2}
+  - {fileID: 3048326922035197335, guid: 1041de34463a9d8459d3ca74970e14e2, type: 2}
 --- !u!114 &-1108589282178386599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,6 +319,7 @@ MonoBehaviour:
   - {fileID: -4990919157884066038}
   - {fileID: -3641797515424182864}
   - {fileID: -6884243189497224942}
+  - {fileID: -7312282678681196256}
 --- !u!114 &647826158662486185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,6 +377,9 @@ MonoBehaviour:
       connections:
       - fieldName: nextState
         node: {fileID: 6332291481083292061}
+        reroutePoints: []
+      - fieldName: nextState
+        node: {fileID: -7312282678681196256}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -412,7 +484,10 @@ MonoBehaviour:
   FloatConditions: []
   IntConditions: []
   parameters: {fileID: 11400000, guid: ba91a2254f179c148b1c00b43ea37a8d, type: 2}
-  startStateOptions: []
+  startStateOptions:
+  - {fileID: 6966676086006548103, guid: 1041de34463a9d8459d3ca74970e14e2, type: 2}
+  - {fileID: -3849779701611487170, guid: 1041de34463a9d8459d3ca74970e14e2, type: 2}
+  - {fileID: 3048326922035197335, guid: 1041de34463a9d8459d3ca74970e14e2, type: 2}
 --- !u!114 &7873343730281513504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -455,8 +530,7 @@ MonoBehaviour:
         - {x: 1168, y: 16}
         - {x: 1172.2653, y: 247.5275}
         - {x: 304, y: 240}
-        - {x: 310.0429, y: 306.1435}
-        - {x: 310.0429, y: 306.1435}
+        - {x: 304, y: 320}
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
@@ -469,4 +543,7 @@ MonoBehaviour:
   FloatConditions: []
   IntConditions: []
   parameters: {fileID: 11400000, guid: ba91a2254f179c148b1c00b43ea37a8d, type: 2}
-  startStateOptions: []
+  startStateOptions:
+  - {fileID: 6966676086006548103, guid: 1041de34463a9d8459d3ca74970e14e2, type: 2}
+  - {fileID: -3849779701611487170, guid: 1041de34463a9d8459d3ca74970e14e2, type: 2}
+  - {fileID: 3048326922035197335, guid: 1041de34463a9d8459d3ca74970e14e2, type: 2}

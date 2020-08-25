@@ -24,6 +24,7 @@ public class GroundMovement : PlayerStateNode
         base.Enter();
         playerController.onStartUpdateVelocity += UpdateVelocity;
         playerController.onStartUpdateRotation += UpdateRotation;
+        InitMoveDirection(); //Call to force update moveDir in case updateRot called b4 updateVel
     }
 
     public override void Execute()
@@ -48,7 +49,7 @@ public class GroundMovement : PlayerStateNode
         // This is called when the motor wants to know what its velocity should be right now
         Vector2 camForward = new Vector2(cameraTrans.forward.x, cameraTrans.forward.z).normalized;
         Quaternion rotOffset = Quaternion.FromToRotation(Vector2.up, camForward);
-        Vector2 rotatedMoveInput = rotOffset * playerController.moveInput;
+        Vector2 rotatedMoveInput = rotOffset * playerController.MoveInput;
         moveDirection = new Vector3(rotatedMoveInput.x, 0, rotatedMoveInput.y);
         Vector3 targetVelocity = moveDirection * MoveSpeed;
         Vector3 startVelocity = currentVelocity;
@@ -68,5 +69,13 @@ public class GroundMovement : PlayerStateNode
         if (moveDirection.AlmostZero()) return;
         currentRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
         playerController.SetPlayerRotation(currentRotation);
+    }
+    
+    private void InitMoveDirection()
+    {
+        Vector2 camForward = new Vector2(cameraTrans.forward.x, cameraTrans.forward.z).normalized;
+        Quaternion rotOffset = Quaternion.FromToRotation(Vector2.up, camForward);
+        Vector2 rotatedMoveInput = rotOffset * playerController.MoveInput;
+        moveDirection = new Vector3(rotatedMoveInput.x, 0, rotatedMoveInput.y);
     }
 }

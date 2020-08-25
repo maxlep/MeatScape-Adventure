@@ -19,6 +19,7 @@ public class Jump : PlayerStateNode
     
     public override void Enter()
     {
+        base.Enter();
         playerController.UngroundMotor();
         playerController.SetJumpVelocity(jumpVelocity);
     }

@@ -13,29 +13,23 @@ public class InputManager : MonoBehaviour
     public bool usingMouse { get; private set; }
 
     public delegate void _OnControlsChanged(PlayerInput inputs);
-    public delegate void _OnStab();
+    public delegate void _OnAttack();
+    public delegate void _OnDownwardAttack();
     public delegate void _OnSave();
     public delegate void _OnLoad();
     public delegate void _OnJump_Pressed();
     public delegate void _OnJump_Released();
-    public delegate void _OnSlash();
-    public delegate void _OnUseBomb();
-    public delegate void _OnWater_Pressed();
-    public delegate void _OnWater_Released();
     public delegate void _OnRestartGame();
     public delegate void _OnPauseGame();
     public delegate void _OnBackspace();
 
     public event _OnControlsChanged onControlsChanged;
-    public event _OnStab onStab;
+    public event _OnAttack onAttack;
+    public event _OnDownwardAttack onDownwardAttack;
     public event _OnSave onSave;
     public event _OnLoad onLoad;
     public event _OnJump_Pressed onJump_Pressed;
     public event _OnJump_Released onJump_Released;
-    public event _OnSlash onSlash;
-    public event _OnUseBomb onUseBomb;
-    public event _OnWater_Pressed onWater_Pressed;
-    public event _OnWater_Released onWater_Released;
     public event _OnRestartGame onRestartGame;
     public event _OnPauseGame onPauseGame;
     public event _OnBackspace onBackspace;
@@ -69,9 +63,7 @@ public class InputManager : MonoBehaviour
         playerWater = playerActions.FindAction("Water");
         playerJump = playerActions.FindAction("Jump");
         playerActions.Disable();
-
-        playerWater.performed += OnWater_Pressed;
-        playerWater.canceled += OnWater_Released;
+        
         playerJump.performed += OnJump_Pressed;
         playerJump.canceled += OnJump_Released;
     }
@@ -98,8 +90,6 @@ public class InputManager : MonoBehaviour
     {
         playerActions.Disable();
         uiActions.Disable();
-        playerWater.performed -= OnWater_Pressed;
-        playerWater.canceled -= OnWater_Released;
     }
 
     #region Action Getters
@@ -124,9 +114,14 @@ public class InputManager : MonoBehaviour
         usingMouse = inputs.currentControlScheme == "Keyboard&Mouse";
     }
 
-    public void OnStab()
+    public void OnAttack()
     {
-        if (onStab != null) onStab();
+        if (onAttack != null) onAttack();
+    }
+    
+    public void OnDownwardAttack()
+    {
+        if (onDownwardAttack != null) onDownwardAttack();
     }
     
     public void OnSave()
@@ -148,26 +143,7 @@ public class InputManager : MonoBehaviour
     {
         if (onJump_Released != null) onJump_Released();
     }
-
-    public void OnSlash()
-    {
-        if (onSlash != null) onSlash();
-    }
-
-    public void OnUseBomb()
-    {
-        if (onUseBomb != null) onUseBomb();
-    }
     
-    public void OnWater_Pressed(InputAction.CallbackContext ctx)
-    {
-        if (onWater_Pressed != null) onWater_Pressed();
-    }
-    
-    public void OnWater_Released(InputAction.CallbackContext ctx)
-    {
-        if (onWater_Released != null) onWater_Released();
-    }
 
     public void OnRestartGame()
     {

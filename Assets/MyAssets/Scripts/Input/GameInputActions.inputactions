@@ -22,9 +22,17 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Stab",
+                    "name": "Attack",
                     "type": "Button",
                     "id": "a2be4265-9e14-44d3-bb51-c02e84abad6f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "DownwardAttack",
+                    "type": "Button",
+                    "id": "7e1ba8a4-9715-4e1d-8d92-a8d3543b3a8b",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -38,14 +46,6 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Slash",
-                    "type": "Button",
-                    "id": "04930a25-c756-4969-ab6a-d3c1c5e83051",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
                     "name": "Menu",
                     "type": "Button",
                     "id": "486e5626-a70e-4a77-b068-246f84189832",
@@ -54,28 +54,12 @@
                     "interactions": ""
                 },
                 {
-                    "name": "UseBomb",
-                    "type": "Button",
-                    "id": "a265f2ab-0f2a-46ab-bbd9-ad162b6f8017",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Press"
-                },
-                {
                     "name": "RestartGame",
                     "type": "Button",
                     "id": "5a1a0ff6-8866-4388-8b9a-0112e9bf25b4",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Hold(duration=1,pressPoint=0.5)"
-                },
-                {
-                    "name": "Water",
-                    "type": "Button",
-                    "id": "724de88d-574c-4de2-b52a-161e35b99e0b",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
                 },
                 {
                     "name": "Save",
@@ -267,7 +251,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Stab",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -278,7 +262,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Stab",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -289,7 +273,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Touch",
-                    "action": "Stab",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -300,7 +284,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Joystick",
-                    "action": "Stab",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -311,7 +295,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "XR",
-                    "action": "Stab",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -350,17 +334,6 @@
                 },
                 {
                     "name": "",
-                    "id": "79b145a4-7b6e-499e-b664-65049ac68de7",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "UseBomb",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "37467301-907b-44be-8617-c6b037d372d1",
                     "path": "<Keyboard>/r",
                     "interactions": "",
@@ -378,83 +351,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "RestartGame",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "85d1e2a8-a800-4dc1-9205-4a45c2a645f4",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Water",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "2c85c6cf-4862-4517-9775-7b3c8683c527",
-                    "path": "<Gamepad>/leftShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Water",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "466bb625-296c-44c0-9428-b685228bfff5",
-                    "path": "<Gamepad>/leftShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Slash",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "28628e8a-46c9-4b7e-80aa-e67fbf5b5d03",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "Slash",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ee73675c-96b8-4707-ba15-c9909a89f8d2",
-                    "path": "<Touchscreen>/touch1/tap",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Touch",
-                    "action": "Slash",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "cf4910cd-1e9c-4d54-9589-65d7e8094827",
-                    "path": "<Joystick>/trigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Joystick",
-                    "action": "Slash",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7d65bf3b-5509-4ab6-b0bb-8719414d2468",
-                    "path": "<XRController>/{PrimaryAction}",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "XR",
-                    "action": "Slash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -521,6 +417,61 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Load",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0a500549-204d-4363-8ba0-748027f250ad",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "DownwardAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6ee670e7-ef75-4d1b-acd6-52fff9aed67a",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "DownwardAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f8bce1de-a92c-4f82-97c1-b1ab531b29e2",
+                    "path": "<Touchscreen>/primaryTouch/tap",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Touch",
+                    "action": "DownwardAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7698b71d-4f53-466a-8b09-9d45b8438d43",
+                    "path": "<Joystick>/trigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick",
+                    "action": "DownwardAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "78246f78-1a9a-44d4-b5ca-7c0dc3c4eb6a",
+                    "path": "<XRController>/{PrimaryAction}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XR",
+                    "action": "DownwardAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

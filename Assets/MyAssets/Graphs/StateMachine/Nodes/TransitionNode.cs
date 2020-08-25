@@ -52,6 +52,7 @@ public class TransitionNode : Node
         startingStateName = inputState != null ? inputState.Name : "Any State";
         nextStateName = outputState != null ? outputState.Name : "<Missing>";
         name = $"{startingStateName} ---> {nextStateName}";
+        SendParametersToConditions();
     }
 
     public List<StateNode> GetStartStateDropdown()
@@ -62,7 +63,12 @@ public class TransitionNode : Node
     private void OnValidate()
     {
         name = $"{startingStateName} ---> {nextStateName}";
-        
+        SendParametersToConditions();
+
+    }
+
+    private void SendParametersToConditions()
+    {
         foreach (var boolCondition in BoolConditions)
         {
             boolCondition.parameters = parameters;

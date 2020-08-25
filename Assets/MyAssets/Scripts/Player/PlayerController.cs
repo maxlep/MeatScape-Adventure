@@ -13,9 +13,11 @@ public class PlayerController : MonoBehaviour, ICharacterController
     [SerializeField] private StateMachineParameters parameters;
     [SerializeField] private Transform characterTrans;
     [SerializeField] private Transform cameraTrans;
+    [SerializeField] private Transform firePoint;
+    [SerializeField] private GameObject meatClump;
     
-    public Vector2 moveInput { get; private set; }
-    public bool jumpPressed { get; private set; } = false;
+    public Vector2 MoveInput { get; private set; }
+    public bool JumpPressed { get; private set; } = false;
 
     private Vector3 playerVelocity = Vector3.zero;
     private Quaternion playerRotation;
@@ -25,6 +27,8 @@ public class PlayerController : MonoBehaviour, ICharacterController
     private float jumpVelocity = 0f;
 
     public Transform GetCameraTrans() => cameraTrans;
+    public Transform GetFirePoint() => firePoint;
+    public GameObject GetMeatClump() => meatClump;
     
     public void SetPlayerVelocity(Vector3 newVelocity) => playerVelocity = newVelocity;
     public void SetPlayerRotation(Quaternion newRotation) => playerRotation = newRotation;
@@ -46,11 +50,12 @@ public class PlayerController : MonoBehaviour, ICharacterController
     void Awake()
     {
         playerMove = InputManager.Instance.GetPlayerMove_Action();
-        InputManager.Instance.onJump_Pressed += () => jumpPressed = true;
-        InputManager.Instance.onJump_Released += () => jumpPressed = false;
+        InputManager.Instance.onJump_Pressed += () => JumpPressed = true;
+        InputManager.Instance.onJump_Released += () => JumpPressed = false;
         
         InputManager.Instance.onJump_Pressed += () => stateMachine.ActivateTrigger("Jump");
-        InputManager.Instance.onStab += () => stateMachine.ActivateTrigger("Attack");
+        InputManager.Instance.onAttack += () => stateMachine.ActivateTrigger("Attack");
+        InputManager.Instance.onDownwardAttack += () => stateMachine.ActivateTrigger("DownwardAttack");
     }
 
     // Update is called once per frame
@@ -143,7 +148,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
 
     private void GetInput()
     {
-        moveInput = playerMove.ReadValue<Vector2>();
+        MoveInput = playerMove.ReadValue<Vector2>();
     }
     
     

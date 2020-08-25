@@ -45,16 +45,22 @@ public class TransitionNode : Node
     {
         this.stateMachineGraph = parentGraph;
         InitNodeName();
+        SendParametersToConditions();
     }
 
     private void InitNodeName()
     {
-        StateNode inputState = (GetInputPort("startingState").Connection.node as StateNode);
-        StateNode outputState = (GetOutputPort("nextState").Connection.node as StateNode);
+        var inputConnection = GetInputPort("startingState").Connection;
+        var outputConnection = GetOutputPort("nextState").Connection;
+
+        if (inputConnection == null || outputConnection == null)
+            return;
+        
+        StateNode inputState = inputConnection.node as StateNode;
+        StateNode outputState = outputConnection.node as StateNode;
         startingStateName = inputState != null ? inputState.Name : "Any State";
         nextStateName = outputState != null ? outputState.Name : "<Missing>";
         name = $"{startingStateName} ---> {nextStateName}";
-        SendParametersToConditions();
     }
 
     public List<StateNode> GetStartStateDropdown()

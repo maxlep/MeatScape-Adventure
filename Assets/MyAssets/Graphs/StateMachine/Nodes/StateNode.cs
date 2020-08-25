@@ -11,11 +11,14 @@ public class StateNode : Node
     [Input] public StateNode previousState;
     [Output] public TransitionNode transitions;
 
-    private StateMachineGraph stateMachineGraph;
-    private List<TransitionNode> transitionNodes = new List<TransitionNode>();
-
+    protected StateMachineGraph stateMachineGraph;
+    protected StateMachineParameters parameters;
+    protected List<TransitionNode> transitionNodes = new List<TransitionNode>();
+    
     [ReadOnly] public bool isActiveState = false;
     public string Name;
+    
+    public void SetParameters(StateMachineParameters newParams) => parameters = newParams;
 
     public virtual void Initialize(StateMachineGraph parentGraph)
     {

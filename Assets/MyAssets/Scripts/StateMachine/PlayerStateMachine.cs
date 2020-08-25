@@ -10,6 +10,8 @@ public class PlayerStateMachine : LayeredStateMachine
     
     protected override void InjectNodeDependencies(StateMachineGraph stateMachine)
     {
+        base.InjectNodeDependencies(stateMachine);
+        
         foreach (var stateNode in stateMachine.stateNodes)
         {
             var playerState = stateNode as PlayerStateNode;
@@ -17,11 +19,6 @@ public class PlayerStateMachine : LayeredStateMachine
             {
                 playerState.SetDependencies(playerController);
             }
-        }
-
-        foreach (var transitionNode in stateMachine.transitionNodes)
-        {
-            transitionNode.parameters = parameters;
         }
     }
 }

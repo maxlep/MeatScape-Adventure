@@ -52,8 +52,19 @@ public class LayeredStateMachine : MonoBehaviour
         
         Debug.Log("Finished Initializing State Machines");
     }
-    
-    protected virtual void InjectNodeDependencies(StateMachineGraph stateMachine) { }
+
+    protected virtual void InjectNodeDependencies(StateMachineGraph stateMachine)
+    {
+        foreach (var stateNode in stateMachine.stateNodes)
+        {
+            stateNode.SetParameters(parameters);
+        }
+
+        foreach (var transitionNode in stateMachine.transitionNodes)
+        {
+            transitionNode.SetParameters(parameters);
+        }
+    }
 
     protected virtual void ExecuteUpdates()
     {

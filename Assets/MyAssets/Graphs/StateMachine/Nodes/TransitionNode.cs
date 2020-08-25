@@ -32,12 +32,14 @@ public class TransitionNode : Node
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [FoldoutGroup("")]
     public List<IntCondition> IntConditions;
 
-    [HideInInspector] public StateMachineParameters parameters;
     [HideInInspector] public List<StateNode> startStateOptions = new List<StateNode>();
     
+    private StateMachineParameters parameters;
     private StateMachineGraph stateMachineGraph;
     private string startingStateName;
     private string nextStateName;
+
+    public void SetParameters(StateMachineParameters newParams) => parameters = newParams;
 
     public virtual void Initialize(StateMachineGraph parentGraph)
     {

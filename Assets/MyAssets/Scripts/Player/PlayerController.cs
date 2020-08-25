@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
     public bool jumpPressed { get; private set; } = false;
 
     private Vector3 playerVelocity = Vector3.zero;
+    private Quaternion playerRotation;
     private Vector3 moveDirection;
     private Vector3 internalVelocityAdd = Vector3.zero;
     private InputAction playerMove;
@@ -26,11 +27,14 @@ public class PlayerController : MonoBehaviour, ICharacterController
     public Transform GetCameraTrans() => cameraTrans;
     
     public void SetPlayerVelocity(Vector3 newVelocity) => playerVelocity = newVelocity;
+    public void SetPlayerRotation(Quaternion newRotation) => playerRotation = newRotation;
     public void SetJumpVelocity(float newVelocity) => jumpVelocity = newVelocity;
     public void UngroundMotor() => charMotor.ForceUnground(0.1f);
 
     public delegate void _OnStartUpdateVelocity(Vector3 currentVelocity);
+    public delegate void _OnStartUpdateRotation(Quaternion currentRotation);
     public event _OnStartUpdateVelocity onStartUpdateVelocity;
+    public event _OnStartUpdateRotation onStartUpdateRotation;
 
     #region Unity Methods
 
@@ -43,10 +47,8 @@ public class PlayerController : MonoBehaviour, ICharacterController
     {
         playerMove = InputManager.Instance.GetPlayerMove_Action();
         InputManager.Instance.onJump_Pressed += () => jumpPressed = true;
-        InputManager.Instance.onJump_Released += () =>
-        {
-            jumpPressed = false;
-        };
+        InputManager.Instance.onJump_Released += () => jumpPressed = false;
+        
         InputManager.Instance.onJump_Pressed += () => stateMachine.ActivateTrigger("Jump");
         InputManager.Instance.onStab += () => stateMachine.ActivateTrigger("Attack");
     }
@@ -69,9 +71,8 @@ public class PlayerController : MonoBehaviour, ICharacterController
 
     public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
     {
-        // This is called when the motor wants to know what its rotation should be right now
-        if (moveDirection.AlmostZero()) return;
-        currentRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
+        if (onStartUpdateRotation != null) onStartUpdateRotation.Invoke(currentRotation);
+        currentRotation = playerRotation;
     }
 
     public void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)

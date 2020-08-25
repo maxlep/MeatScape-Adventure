@@ -12,23 +12,23 @@ public class TransitionNode : Node
 
     [Tooltip("Transition only valid if ANY 1 or more of these states are active in OTHER state machine")]
     [ValueDropdown("GetStartStateDropdown")]
-    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.88f, 1f, .95f)] 
+    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.88f, 1f, .95f)]  [FoldoutGroup("")]
     public List<StateNode> ValidStartStates;
     
     [Tooltip("Transition only valid if ALL of these Bool condition are met")]
-    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)]
+    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [FoldoutGroup("")]
     public List<BoolCondition> BoolConditions;
     
     [Tooltip("Transition only valid if ALL of these Trigger condition are met")]
-    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)]
+    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [FoldoutGroup("")]
     public List<TriggerCondition> TriggerConditions;
     
     [Tooltip("Transition only valid if ALL of these Float condition are met")]
-    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)]
+    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [FoldoutGroup("")]
     public List<FloatCondition> FloatConditions;
     
     [Tooltip("Transition only valid if ALL of these Int condition are met")]
-    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)]
+    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [FoldoutGroup("")]
     public List<IntCondition> IntConditions;
 
     [HideInInspector] public StateMachineParameters parameters;

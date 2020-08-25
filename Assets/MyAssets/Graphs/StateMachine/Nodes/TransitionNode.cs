@@ -166,7 +166,7 @@ public class TransitionNode : Node
 public class IntCondition
 {
     
-    [ValueDropdown("GetIntNames")]
+    [ValueDropdown("GetIntNames")] [Required]
     [HideLabel] public string TargetParameter;
     [HideLabel] public Comparator comparator;
     [HideLabel] public float value;
@@ -212,7 +212,7 @@ public class IntCondition
 public class FloatCondition
 {
     
-    [ValueDropdown("GetFloatNames")]
+    [ValueDropdown("GetFloatNames")] [Required]
     [HideLabel] public string TargetParameter;
     [HideLabel] public Comparator comparator;
     [HideLabel] public float value;
@@ -251,7 +251,7 @@ public class FloatCondition
 public class BoolCondition
 {
     
-    [ValueDropdown("GetBoolNames")]
+    [ValueDropdown("GetBoolNames")] [Required]
     [HideLabel] public string TargetParameter;
     [HideLabel] public bool value;
     
@@ -274,7 +274,7 @@ public class BoolCondition
 public class TriggerCondition
 {
     
-    [ValueDropdown("GetTriggerNames")]
+    [ValueDropdown("GetTriggerNames")] [Required]
     [HideLabel] public string TargetParameter;
     
     [HideInInspector] public StateMachineParameters parameters;

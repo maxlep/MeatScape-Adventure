@@ -1,44 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
 
 
 [CreateAssetMenu(fileName = "StateMachineParameters", menuName = "ScriptableObjects/StateMachineParameters", order = 0)]
-public class StateMachineParameters : ScriptableObject
+public class StateMachineParameters : SerializedScriptableObject
 {
-    public BoolParameter[] BoolParameters;
-    public TriggerParameter[] TriggerParameters;
-    public FloatParameter[] FloatParameters;
-    public IntParameter[] IntParameters;
+    public Dictionary<string, bool> BoolParameters;
+    public Dictionary<string, bool> TriggerParameters;
+    public Dictionary<string, float> FloatParameters;
+    public Dictionary<string, int> IntParameters;
 
+    public void SetBool(string paramName, bool value)
+    {
+        if (BoolParameters.ContainsKey(paramName))
+        {
+            BoolParameters[paramName] = value;
+        }
+    }
+    
+    public void SetTrigger(string paramName)
+    {
+        if (TriggerParameters.ContainsKey(paramName))
+        {
+            TriggerParameters[paramName] = true;
+        }
+    }
+    
+    public void SetFloat(string paramName, float value)
+    {
+        if (FloatParameters.ContainsKey(paramName))
+        {
+            FloatParameters[paramName] = value;
+        }
+    }
+    
+    public void SetInt(string paramName, int value)
+    {
+        if (IntParameters.ContainsKey(paramName))
+        {
+            IntParameters[paramName] = value;
+        }
+    }
     
 }
 
-[System.Serializable]
-public class BoolParameter
-{
-    public string name;
-    public bool value;
-}
-
-[System.Serializable]
-public class TriggerParameter
-{
-    public string name;
-    public bool value;
-}
-
-[System.Serializable]
-public class FloatParameter
-{
-    public string name;
-    public float value;
-}
-
-[System.Serializable]
-public class IntParameter
-{
-    public string name;
-    public int value;
-}

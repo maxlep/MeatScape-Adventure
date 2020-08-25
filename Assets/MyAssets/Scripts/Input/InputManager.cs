@@ -72,7 +72,7 @@ public class InputManager : MonoBehaviour
 
         playerWater.performed += OnWater_Pressed;
         playerWater.canceled += OnWater_Released;
-        playerJump.started += OnJump_Pressed;
+        playerJump.performed += OnJump_Pressed;
         playerJump.canceled += OnJump_Released;
     }
 

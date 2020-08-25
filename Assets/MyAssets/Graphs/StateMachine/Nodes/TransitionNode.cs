@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -175,38 +176,25 @@ public class IntCondition
     
     private List<string> GetIntNames()
     {
-        List<String> intNames = new List<string>();
-        foreach (var intParam in parameters.IntParameters)
-        {
-            intNames.Add(intParam.name);
-        }
-
-        return intNames;
+        return parameters.IntParameters.Keys.ToList();
     }
 
     public bool Evaluate()
     {
-        //Find bool in SO and compare value
-        foreach (var intParam in parameters.IntParameters)
-        {
-            if (!intParam.name.Equals(TargetParameter))
-                continue;
+        int paramValue = parameters.IntParameters[TargetParameter];
+        
+        if (comparator == Comparator.GreaterThan)
+            return paramValue > value;
+        
+        else if (comparator == Comparator.LessThan)
+            return paramValue < value;
+        
+        else if (comparator == Comparator.EqualTo)
+            return paramValue == value;
+        
+        else if (comparator == Comparator.NotEqualTo)
+            return paramValue != value;
 
-            if (comparator == Comparator.GreaterThan)
-                return intParam.value > value;
-            
-            else if (comparator == Comparator.LessThan)
-                return intParam.value < value;
-            
-            else if (comparator == Comparator.EqualTo)
-                return intParam.value == value;
-            
-            else if (comparator == Comparator.NotEqualTo)
-                return intParam.value != value;
-
-        }
-
-        Debug.LogError($"Parameter {TargetParameter} could not be found in SO! Did you leave a ");
         return false;
     }
     
@@ -232,32 +220,19 @@ public class FloatCondition
     
     private List<string> GetFloatNames()
     {
-        List<String> floatNames = new List<string>();
-        foreach (var floatParam in parameters.FloatParameters)
-        {
-            floatNames.Add(floatParam.name);
-        }
-
-        return floatNames;
+        return parameters.FloatParameters.Keys.ToList();
     }
 
     public bool Evaluate()
     {
-        //Find bool in SO and compare value
-        foreach (var floatParam in parameters.FloatParameters)
-        {
-            if (!floatParam.name.Equals(TargetParameter))
-                continue;
+        float paramValue = parameters.FloatParameters[TargetParameter];
 
-            if (comparator == Comparator.GreaterThan)
-                return floatParam.value > value;
-            
-            else if (comparator == Comparator.LessThan)
-                return floatParam.value < value;
+        if (comparator == Comparator.GreaterThan)
+            return paramValue > value;
+        
+        else if (comparator == Comparator.LessThan)
+            return paramValue < value;
 
-        }
-
-        Debug.LogError($"Parameter {TargetParameter} could not be found in SO!");
         return false;
     }
     
@@ -276,28 +251,13 @@ public class BoolCondition
     
     private List<string> GetBoolNames()
     {
-        List<String> boolNames = new List<string>();
-        foreach (var boolParam in parameters.BoolParameters)
-        {
-            boolNames.Add(boolParam.name);
-        }
-
-        return boolNames;
+        return parameters.BoolParameters.Keys.ToList();
     }
 
     public bool Evaluate()
     {
-        //Find bool in SO and compare value
-        foreach (var boolParam in parameters.BoolParameters)
-        {
-            if (boolParam.name.Equals(TargetParameter))
-            {
-                return value == boolParam.value;
-            }
-        }
-        
-        Debug.LogError($"Parameter {TargetParameter} could not be found in SO!");
-        return false;
+        bool paramValue = parameters.BoolParameters[TargetParameter];
+        return paramValue == value;
     }
     
 }
@@ -316,7 +276,7 @@ public class TriggerCondition
         List<String> triggerNames = new List<string>();
         foreach (var triggerParam in parameters.TriggerParameters)
         {
-            triggerNames.Add(triggerParam.name);
+            return parameters.TriggerParameters.Keys.ToList();
         }
 
         return triggerNames;
@@ -324,17 +284,8 @@ public class TriggerCondition
 
     public bool Evaluate()
     {
-        //Find bool in SO and compare value
-        foreach (var triggerParam in parameters.TriggerParameters)
-        {
-            if (triggerParam.name.Equals(TargetParameter))
-            {
-                return triggerParam.value;
-            }
-        }
-        
-        Debug.LogError($"Parameter {TargetParameter} could not be found in SO!");
-        return false;
+        bool paramValue = parameters.TriggerParameters[TargetParameter];
+        return paramValue;
     }
     
 }

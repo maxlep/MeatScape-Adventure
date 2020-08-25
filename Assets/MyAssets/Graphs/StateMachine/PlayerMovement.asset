@@ -51,7 +51,10 @@ MonoBehaviour:
   startingState: {fileID: 0}
   nextState: {fileID: 0}
   ValidStartStates: []
-  BoolConditions: []
+  BoolConditions:
+  - TargetParameter: IsGrounded
+    value: 1
+    parameters: {fileID: 11400000, guid: ba91a2254f179c148b1c00b43ea37a8d, type: 2}
   TriggerConditions: []
   FloatConditions: []
   IntConditions: []
@@ -111,7 +114,7 @@ MonoBehaviour:
   Acceleration: 0.025
   Deacceleration: 0.015
   timeToJumpApex: 0.4
-  maxJumpHeight: 4
+  maxJumpHeight: 10
   fallMultiplier: 7
   lowJumpTurnTime: 0.025
   maxFallSpeed: 10

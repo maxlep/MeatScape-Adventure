@@ -48,7 +48,6 @@ public class StateNode : Node
     public virtual void Enter()
     {
         isActiveState = true;
-        Debug.Log($"Set active state: {name}");
     }
 
     public virtual void Execute()

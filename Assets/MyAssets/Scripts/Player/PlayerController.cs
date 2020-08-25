@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
     {
         playerMove = InputManager.Instance.GetPlayerMove_Action();
         InputManager.Instance.onJump_Pressed += () => jumpPressed = true;
-        InputManager.Instance.onJump_Pressed += () => jumpPressed = false;
+        InputManager.Instance.onJump_Released += () => jumpPressed = false;
         InputManager.Instance.onJump_Pressed += () => stateMachine.ActivateTrigger("Jump");
         InputManager.Instance.onStab += () => stateMachine.ActivateTrigger("Attack");
     }
@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
     // Update is called once per frame
     private void Update()
     {
+        UpdateParameters();
     }
 
     #endregion
@@ -126,7 +127,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
 
     private void UpdateParameters()
     {
-        //parameters.SetBool("isGrounded", MaintainingGround());
+        parameters.SetBool("IsGrounded", MaintainingGround());
     }
 
     

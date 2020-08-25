@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.Animations;
 using UnityEngine;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using Sirenix.OdinInspector;
 
 public class LayeredStateMachine : MonoBehaviour
@@ -124,16 +125,11 @@ public class LayeredStateMachine : MonoBehaviour
     //Send trigger down to state machines, then re-evaluate transitions
     public virtual void ActivateTrigger(string name)
     {
-        foreach (var triggerParam in parameters.TriggerParameters)
+        if (parameters.TriggerParameters.ContainsKey(name))
         {
-            if (triggerParam.name.Equals(name))
-            {
-                Debug.Log($"Hit trigger {triggerParam.name}");
-                triggerParam.value = true;
-                ForceCheckForTransitions();
-                triggerParam.value = false;
-                break;
-            }
+            parameters.TriggerParameters[name] = true;
+            ForceCheckForTransitions();
+            parameters.TriggerParameters[name] = false;
         }
     }
 

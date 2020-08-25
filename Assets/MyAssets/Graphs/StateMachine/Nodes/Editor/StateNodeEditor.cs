@@ -10,13 +10,13 @@ public class StateNodeEditor : NodeEditor
 
     public override void OnBodyGUI()
     {
-        EditorGUIUtility.labelWidth = 150;
+        EditorGUIUtility.labelWidth = 350;
         base.OnBodyGUI();
     }
 
     public override int GetWidth()
     {
-        return 450;
+        return 350;
     }
     
     public override Color GetTint()

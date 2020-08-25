@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Cinemachine.Utility;
 using KinematicCharacterController;
+using Sirenix.Serialization;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -42,7 +43,10 @@ public class PlayerController : MonoBehaviour, ICharacterController
     {
         playerMove = InputManager.Instance.GetPlayerMove_Action();
         InputManager.Instance.onJump_Pressed += () => jumpPressed = true;
-        InputManager.Instance.onJump_Released += () => jumpPressed = false;
+        InputManager.Instance.onJump_Released += () =>
+        {
+            jumpPressed = false;
+        };
         InputManager.Instance.onJump_Pressed += () => stateMachine.ActivateTrigger("Jump");
         InputManager.Instance.onStab += () => stateMachine.ActivateTrigger("Attack");
     }

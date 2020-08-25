@@ -1,17 +1,18 @@
-﻿using UnityEngine;
+﻿using Sirenix.OdinInspector;
+using UnityEngine;
 using UnityEngine.UI;
 
 
 public class AirMovement : PlayerStateNode
 {
-    public float MoveSpeed = 10f;
-    public float Acceleration = 0.025f;
-    public float Deacceleration = 0.015f;
-    public float timeToJumpApex = .4f;
-    public float maxJumpHeight = 4f;
-    public float fallMultiplier = 7f;
-    public float lowJumpTurnTime = .025f;
-    public float maxFallSpeed = 10f;
+    [FoldoutGroup("")] [LabelWidth(120)] public float MoveSpeed = 10f;
+    [FoldoutGroup("")] [LabelWidth(120)] public float Acceleration = 0.025f;
+    [FoldoutGroup("")] [LabelWidth(120)] public float Deacceleration = 0.015f;
+    [FoldoutGroup("")] [LabelWidth(120)] public float timeToJumpApex = .4f;
+    [FoldoutGroup("")] [LabelWidth(120)] public float maxJumpHeight = 4f;
+    [FoldoutGroup("")] [LabelWidth(120)] public float fallMultiplier = 7f;
+    [FoldoutGroup("")] [LabelWidth(120)] public float lowJumpDrag = .025f;
+    [FoldoutGroup("")] [LabelWidth(120)] public float maxFallSpeed = 10f;
 
     private float gravity;
     private float releaseJumpTime;
@@ -48,6 +49,8 @@ public class AirMovement : PlayerStateNode
 
     private void UpdateVelocity(Vector3 currentVelocity)
     {
+        if (!isActiveState) return;
+        
         // This is called when the motor wants to know what its velocity should be right now
         Vector2 camForward = new Vector2(cameraTrans.forward.x, cameraTrans.forward.z).normalized;
         Quaternion rotOffset = Quaternion.FromToRotation(Vector2.up, camForward);
@@ -62,15 +65,17 @@ public class AirMovement : PlayerStateNode
             currentVelocity = Vector3.SmoothDamp(startVelocity, targetVelocity, ref newVel, Deacceleration);
         else
             currentVelocity = Vector3.SmoothDamp(startVelocity, targetVelocity, ref newVel, Acceleration);
+        
+        currentVelocity.y = startVelocity.y;
 
-        if (startVelocity.y <= 0)  //Falling
+        if (currentVelocity.y <= 0)  //Falling
         {
             currentVelocity.y += gravity * (fallMultiplier - 1) * Time.deltaTime;
         }
-        else if (startVelocity.y > 0 && playerController.jumpPressed)    //Short jump
+        else if (currentVelocity.y > 0 && !playerController.jumpPressed)    //Short jump
         {
-            float percent = (Time.time - releaseJumpTime) / lowJumpTurnTime;
-            currentVelocity.y = Mathf.Lerp(currentVelocity.y, 0f, percent);
+            currentVelocity.y -= lowJumpDrag;
+            currentVelocity.y += gravity * Time.deltaTime;
         }
         else
         {

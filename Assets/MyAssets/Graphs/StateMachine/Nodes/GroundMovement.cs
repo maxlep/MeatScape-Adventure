@@ -1,12 +1,13 @@
-﻿using UnityEngine;
+﻿using Sirenix.OdinInspector;
+using UnityEngine;
 using UnityEngine.UI;
 
 
 public class GroundMovement : PlayerStateNode
 {
-    public float MoveSpeed = 10f;
-    public float Acceleration = 0.025f;
-    public float Deacceleration = 0.015f;
+    [FoldoutGroup("")] [LabelWidth(120)] public float MoveSpeed = 10f;
+    [FoldoutGroup("")] [LabelWidth(120)] public float Acceleration = 0.025f;
+    [FoldoutGroup("")] [LabelWidth(120)] public float Deacceleration = 0.015f;
 
     private Transform cameraTrans;
 
@@ -40,6 +41,8 @@ public class GroundMovement : PlayerStateNode
 
     private void UpdateVelocity(Vector3 currentVelocity)
     {
+        if (!isActiveState) return;
+        
         // This is called when the motor wants to know what its velocity should be right now
         Vector2 camForward = new Vector2(cameraTrans.forward.x, cameraTrans.forward.z).normalized;
         Quaternion rotOffset = Quaternion.FromToRotation(Vector2.up, camForward);

@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using Sirenix.OdinInspector;
+using UnityEngine;
 
 
 public class Jump : PlayerStateNode
 {
-    public float timeToJumpApex = .4f;
-    public float maxJumpHeight = 4f;
+    [FoldoutGroup("")] [LabelWidth(120)] public float timeToJumpApex = .4f;
+    [FoldoutGroup("")] [LabelWidth(120)] public float maxJumpHeight = 4f;
     
     private float gravity;
     private float jumpVelocity;

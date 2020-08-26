@@ -20,6 +20,10 @@ public class PlayerController : MonoBehaviour, ICharacterController
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference StoredJumpVelocity;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector2Reference MoveInput;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference JumpPressed;
+    [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference IsGrounded;
+    [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference AttackTrigger;
+    [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference JumpTrigger;
+    [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference DownwardAttackTrigger;
 
     private Vector3 moveDirection;
     private InputAction playerMove;
@@ -46,10 +50,10 @@ public class PlayerController : MonoBehaviour, ICharacterController
         playerMove = InputManager.Instance.GetPlayerMove_Action();
         InputManager.Instance.onJump_Pressed += () => JumpPressed.Value = true;
         InputManager.Instance.onJump_Released += () => JumpPressed.Value = false;
-        
-        InputManager.Instance.onJump_Pressed += () => stateMachine.ActivateTrigger("Jump");
-        InputManager.Instance.onAttack += () => stateMachine.ActivateTrigger("Attack");
-        InputManager.Instance.onDownwardAttack += () => stateMachine.ActivateTrigger("DownwardAttack");
+
+        InputManager.Instance.onJump_Pressed += () => JumpTrigger.Value = true;
+        InputManager.Instance.onAttack += () => AttackTrigger.Value = true;
+        InputManager.Instance.onDownwardAttack += () => DownwardAttackTrigger.Value = true;
     }
 
     // Update is called once per frame
@@ -131,7 +135,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
 
     private void UpdateParameters()
     {
-        parameters.SetBool("IsGrounded", MaintainingGround());
+        IsGrounded.Value = MaintainingGround();
     }
 
     

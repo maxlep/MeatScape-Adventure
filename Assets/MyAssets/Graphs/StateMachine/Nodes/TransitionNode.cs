@@ -172,8 +172,8 @@ public class TransitionNode : Node
 public class IntCondition
 {
     
-    [ValueDropdown("GetIntNames")] [Required]
-    [HideLabel] public string TargetParameter;
+    [ValueDropdown("GetInts")] [Required]
+    [HideLabel] public IntVariable TargetParameter;
     [HideLabel] public Comparator comparator;
     [HideLabel] public float value;
     
@@ -188,25 +188,25 @@ public class IntCondition
     }
     
     
-    private List<string> GetIntNames()
+    private List<IntVariable> GetInts()
     {
-        return parameters.IntParameters.Keys.ToList();
+        return parameters.IntParameters;
     }
 
     public bool Evaluate()
     {
-        int paramValue = parameters.GetInt(TargetParameter);
+        int paramValue = TargetParameter.Value;
         
         if (comparator == Comparator.GreaterThan)
             return paramValue > value;
         
-        else if (comparator == Comparator.LessThan)
+        if (comparator == Comparator.LessThan)
             return paramValue < value;
         
-        else if (comparator == Comparator.EqualTo)
+        if (comparator == Comparator.EqualTo)
             return paramValue == value;
         
-        else if (comparator == Comparator.NotEqualTo)
+        if (comparator == Comparator.NotEqualTo)
             return paramValue != value;
 
         return false;
@@ -218,8 +218,8 @@ public class IntCondition
 public class FloatCondition
 {
     
-    [ValueDropdown("GetFloatNames")] [Required]
-    [HideLabel] public string TargetParameter;
+    [ValueDropdown("GetFloats")] [Required]
+    [HideLabel] public FloatVariable TargetParameter;
     [HideLabel] public Comparator comparator;
     [HideLabel] public float value;
     
@@ -232,19 +232,19 @@ public class FloatCondition
     }
     
     
-    private List<string> GetFloatNames()
+    private List<FloatVariable> GetFloats()
     {
-        return parameters.FloatParameters.Keys.ToList();
+        return parameters.FloatParameters;
     }
 
     public bool Evaluate()
     {
-        float paramValue = parameters.GetFloat(TargetParameter);
+        float paramValue = TargetParameter.Value;
 
         if (comparator == Comparator.GreaterThan)
             return paramValue > value;
         
-        else if (comparator == Comparator.LessThan)
+        if (comparator == Comparator.LessThan)
             return paramValue < value;
 
         return false;
@@ -257,21 +257,20 @@ public class FloatCondition
 public class BoolCondition
 {
     
-    [ValueDropdown("GetBoolNames")] [Required]
-    [HideLabel] public string TargetParameter;
-    [HideLabel] public bool value;
+    [ValueDropdown("GetBools", AppendNextDrawer = true)] [Required]
+    [HideLabel] [HideInInlineEditors] public BoolVariable TargetParameter;
+    [LabelWidth(40f)] public bool value;
     
     [HideInInspector] public StateMachineParameters parameters;
     
-    private List<string> GetBoolNames()
+    private List<BoolVariable> GetBools()
     {
-        return parameters.BoolParameters.Keys.ToList();
+        return parameters.BoolParameters;
     }
 
     public bool Evaluate()
     {
-        bool paramValue = parameters.GetBool(TargetParameter);
-        return paramValue == value;
+        return TargetParameter.Value == value;
     }
     
 }
@@ -280,26 +279,19 @@ public class BoolCondition
 public class TriggerCondition
 {
     
-    [ValueDropdown("GetTriggerNames")] [Required]
-    [HideLabel] public string TargetParameter;
+    [ValueDropdown("GetTriggers")] [Required]
+    [HideLabel] public BoolVariable TargetParameter;
     
     [HideInInspector] public StateMachineParameters parameters;
     
-    private List<string> GetTriggerNames()
+    private List<BoolVariable> GetTriggers()
     {
-        List<String> triggerNames = new List<string>();
-        foreach (var triggerParam in parameters.TriggerParameters)
-        {
-            return parameters.TriggerParameters.Keys.ToList();
-        }
-
-        return triggerNames;
+        return parameters.TriggerParameters;
     }
 
     public bool Evaluate()
     {
-        bool paramValue = parameters.GetTrigger(TargetParameter);
-        return paramValue;
+        return TargetParameter.Value;
     }
     
 }

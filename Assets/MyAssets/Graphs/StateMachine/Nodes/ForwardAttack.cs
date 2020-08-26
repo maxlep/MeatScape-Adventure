@@ -9,6 +9,7 @@ public class ForwardAttack : PlayerStateNode
     [FoldoutGroup("")] [LabelWidth(120)] public FloatReference throwDelay;
     [FoldoutGroup("")] [LabelWidth(120)] public FloatReference forwardForce;
     [FoldoutGroup("")] [LabelWidth(120)] public FloatReference upwardForce;
+    [FoldoutGroup("")] [LabelWidth(120)] public BoolReference waitedAttackDelay;
 
     public override void Initialize(StateMachineGraph parentGraph)
     {
@@ -41,12 +42,12 @@ public class ForwardAttack : PlayerStateNode
     public override void Exit()
     {
         base.Exit();
-        parameters.SetBool("WaitedAttackDelay", false);
+        waitedAttackDelay.Value = false;
         
         LeanTween.value(0f, 1f, throwDelay.Value)
             .setOnComplete(_ =>
             {
-                parameters.SetBool("WaitedAttackDelay", true);
+                waitedAttackDelay.Value = true;
             });
     }
 }

@@ -33,7 +33,6 @@ public class LayeredStateMachine : MonoBehaviour
     protected virtual void InitStateMachines()
     {
         stateNodeDict.Clear();
-        parameters.ResetParametersToDefault();
         
         //Loop through and init nodes
         foreach (var stateMachine in stateMachines)
@@ -73,6 +72,8 @@ public class LayeredStateMachine : MonoBehaviour
         {
             stateMachine.ExecuteUpdates();
         }
+        
+        parameters.ResetTriggers();
     }
     
     protected virtual void ExecuteFixedUpdates()
@@ -132,14 +133,6 @@ public class LayeredStateMachine : MonoBehaviour
         {
             stateMachine.CheckForValidTransitions();
         }
-    }
-    
-    //Send trigger down to state machines, then re-evaluate transitions
-    public virtual void ActivateTrigger(string name)
-    {
-        parameters.SetTrigger(name, true);
-        ForceCheckForTransitions();
-        parameters.SetTrigger(name, false);
     }
 
 }

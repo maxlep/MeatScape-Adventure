@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
     [SerializeField] private Transform firePoint;
     [SerializeField] private GameObject meatClump;
     [SerializeField] private Vector2Reference MoveInput;
-    public bool JumpPressed { get; private set; } = false;
+    [SerializeField] private BoolReference JumpPressed;
 
     private Vector3 playerVelocity = Vector3.zero;
     private Quaternion playerRotation;
@@ -50,8 +50,8 @@ public class PlayerController : MonoBehaviour, ICharacterController
     void Awake()
     {
         playerMove = InputManager.Instance.GetPlayerMove_Action();
-        InputManager.Instance.onJump_Pressed += () => JumpPressed = true;
-        InputManager.Instance.onJump_Released += () => JumpPressed = false;
+        InputManager.Instance.onJump_Pressed += () => JumpPressed.Variable.Value = true;
+        InputManager.Instance.onJump_Released += () => JumpPressed.Variable.Value = false;
         
         InputManager.Instance.onJump_Pressed += () => stateMachine.ActivateTrigger("Jump");
         InputManager.Instance.onAttack += () => stateMachine.ActivateTrigger("Attack");

@@ -4,13 +4,18 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
+[InlineEditor(InlineEditorObjectFieldModes.Foldout)]
 [CreateAssetMenu(fileName = "QuaternionVariable", menuName = "Variables/QuaternionVariable", order = 0)]
 public class QuaternionVariable : ScriptableObject
 {
     [SerializeField] private Quaternion defaultValue;
     [SerializeField] private Quaternion runtimeValue;
-    public Quaternion Value => runtimeValue;
-
+    
+    public Quaternion Value
+    {
+        get => runtimeValue;
+        set => runtimeValue = value;
+    } 
     private void OnEnable()
     {
         runtimeValue = defaultValue;
@@ -20,9 +25,9 @@ public class QuaternionVariable : ScriptableObject
 [InlineProperty]
 public class QuaternionReference
 {
-    [HorizontalGroup("Split", LabelWidth = .09f)]
+    [HorizontalGroup("Split", LabelWidth = .09f)] [Tooltip("Use Constant or VariableReference")]
     [BoxGroup("Split/Left", ShowLabel = false)] [LabelWidth(.01f)]
-    public bool UseConstant = true;
+    public bool UseConstant = false;
     
     [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [ShowIf("UseConstant")]
     public Quaternion ConstantValue;

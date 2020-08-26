@@ -14,12 +14,13 @@ public class PlayerController : MonoBehaviour, ICharacterController
     [SerializeField] private StateMachineParameters parameters;
     [SerializeField] private Transform cameraTrans;
     [SerializeField] private Transform firePoint;
-    [SerializeField] private Vector3Reference NewVelocity;
-    [SerializeField] private QuaternionReference NewRotation;
-    [SerializeField] private Vector2Reference MoveInput;
-    [SerializeField] private BoolReference JumpPressed;
-    [SerializeField] private FloatReference StoredJumpVelocity;
     
+    [FoldoutGroup("Referenced Inputs")] [SerializeField] private Vector3Reference NewVelocity;
+    [FoldoutGroup("Referenced Inputs")] [SerializeField] private QuaternionReference NewRotation;
+    [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference StoredJumpVelocity;
+    [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector2Reference MoveInput;
+    [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference JumpPressed;
+
     private Vector3 moveDirection;
     private InputAction playerMove;
 

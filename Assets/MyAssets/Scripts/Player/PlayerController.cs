@@ -12,25 +12,20 @@ public class PlayerController : MonoBehaviour, ICharacterController
     [SerializeField] private KinematicCharacterMotor charMotor;
     [SerializeField] private PlayerStateMachine stateMachine;
     [SerializeField] private StateMachineParameters parameters;
-    [SerializeField] private Transform characterTrans;
     [SerializeField] private Transform cameraTrans;
     [SerializeField] private Transform firePoint;
-    [SerializeField] private GameObject meatClump;
     [SerializeField] private Vector3Reference NewVelocity;
     [SerializeField] private QuaternionReference NewRotation;
     [SerializeField] private Vector2Reference MoveInput;
     [SerializeField] private BoolReference JumpPressed;
+    [SerializeField] private FloatReference StoredJumpVelocity;
     
     private Vector3 moveDirection;
-    private Vector3 internalVelocityAdd = Vector3.zero;
     private InputAction playerMove;
-    private float jumpVelocity = 0f;
 
     public Transform GetCameraTrans() => cameraTrans;
     public Transform GetFirePoint() => firePoint;
-    public GameObject GetMeatClump() => meatClump;
     
-    public void SetJumpVelocity(float newVelocity) => jumpVelocity = newVelocity;
     public void UngroundMotor() => charMotor.ForceUnground(0.1f);
 
     public delegate void _OnStartUpdateVelocity(Vector3 currentVelocity);
@@ -84,9 +79,9 @@ public class PlayerController : MonoBehaviour, ICharacterController
 
         currentVelocity = NewVelocity.Value;
 
-        if (!Mathf.Approximately(jumpVelocity, 0f))
+        if (!Mathf.Approximately(StoredJumpVelocity.Value, 0f))
         {
-            currentVelocity.y = jumpVelocity;
+            currentVelocity.y = StoredJumpVelocity.Value;
         }
         
     }
@@ -94,7 +89,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
     public void AfterCharacterUpdate(float deltaTime)
     {
         // This is called after the motor has finished everything in its update
-        jumpVelocity = 0f;
+        StoredJumpVelocity.Value = 0f;
     }
 
     public bool IsColliderValidForCollisions(Collider coll)

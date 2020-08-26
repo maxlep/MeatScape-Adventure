@@ -6,6 +6,7 @@ public class Jump : PlayerStateNode
 {
     [FoldoutGroup("")] [LabelWidth(120)] public float timeToJumpApex = .4f;
     [FoldoutGroup("")] [LabelWidth(120)] public float maxJumpHeight = 4f;
+    [FoldoutGroup("")] [LabelWidth(120)] public FloatReference StoredJumpVelocity;
     
     private float gravity;
     private float jumpVelocity;
@@ -21,7 +22,7 @@ public class Jump : PlayerStateNode
     {
         base.Enter();
         playerController.UngroundMotor();
-        playerController.SetJumpVelocity(jumpVelocity);
+        StoredJumpVelocity.Value = jumpVelocity;
     }
 
     public override void Execute()

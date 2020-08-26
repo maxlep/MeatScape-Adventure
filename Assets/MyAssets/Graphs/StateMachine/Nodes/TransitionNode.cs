@@ -4,6 +4,7 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 using XNode;
 
 public class TransitionNode : Node
@@ -45,7 +46,7 @@ public class TransitionNode : Node
     {
         this.stateMachineGraph = parentGraph;
         InitNodeName();
-        SendParametersToConditions();
+        InitConditions();
     }
 
     private void InitNodeName()
@@ -71,30 +72,29 @@ public class TransitionNode : Node
     private void OnValidate()
     {
         name = $"{startingStateName} ---> {nextStateName}";
-        SendParametersToConditions();
-
+        InitConditions();
     }
 
-    private void SendParametersToConditions()
+    private void InitConditions()
     {
         foreach (var boolCondition in BoolConditions)
         {
-            boolCondition.parameters = parameters;
+            boolCondition.Init(parameters);
         }
         
         foreach (var triggerCondition in TriggerConditions)
         {
-            triggerCondition.parameters = parameters;
+            triggerCondition.Init(parameters);
         }
         
         foreach (var floatCondition in FloatConditions)
         {
-            floatCondition.parameters = parameters;
+            floatCondition.Init(parameters);
         }
         
         foreach (var intCondition in IntConditions)
         {
-            intCondition.parameters = parameters;
+            intCondition.Init(parameters);
         }
     }
     
@@ -178,6 +178,8 @@ public class IntCondition
     [HideLabel] public float value;
     
     [HideInInspector] public StateMachineParameters parameters;
+    [HideInInspector] public Dictionary<string, IntVariable> parameterDict = new Dictionary<string, IntVariable>();
+
     
     public enum Comparator
     {
@@ -191,6 +193,16 @@ public class IntCondition
     private List<IntVariable> GetInts()
     {
         return parameters.IntParameters;
+    }
+    
+    public void Init(StateMachineParameters machineParameters)
+    {
+        parameters = machineParameters;
+        parameterDict.Clear();
+        foreach (var intParam in parameters.IntParameters)
+        {
+            parameterDict.Add(intParam.name, intParam);
+        }
     }
 
     public bool Evaluate()
@@ -224,6 +236,8 @@ public class FloatCondition
     [HideLabel] public float value;
     
     [HideInInspector] public StateMachineParameters parameters;
+    [HideInInspector] public Dictionary<string, FloatVariable> parameterDict = new Dictionary<string, FloatVariable>();
+
     
     public enum Comparator
     {
@@ -235,6 +249,16 @@ public class FloatCondition
     private List<FloatVariable> GetFloats()
     {
         return parameters.FloatParameters;
+    }
+    
+    public void Init(StateMachineParameters machineParameters)
+    {
+        parameters = machineParameters;
+        parameterDict.Clear();
+        foreach (var floatParam in parameters.FloatParameters)
+        {
+            parameterDict.Add(floatParam.name, floatParam);
+        }
     }
 
     public bool Evaluate()
@@ -257,20 +281,31 @@ public class FloatCondition
 public class BoolCondition
 {
     
-    [ValueDropdown("GetBools", AppendNextDrawer = true)] [Required]
-    [HideLabel] [HideInInlineEditors] public BoolVariable TargetParameter;
+    [ValueDropdown("GetBoolNames")] [Required]
+    [HideLabel] public string TargetParameterName;
     [LabelWidth(40f)] public bool value;
     
     [HideInInspector] public StateMachineParameters parameters;
+    [HideInInspector] public Dictionary<string, BoolVariable> parameterDict = new Dictionary<string, BoolVariable>();
     
-    private List<BoolVariable> GetBools()
+    private List<String> GetBoolNames()
     {
-        return parameters.BoolParameters;
+        return (parameterDict.Count > 0) ?  parameterDict.Keys.ToList() : new List<string>() {""};
+    }
+
+    public void Init(StateMachineParameters machineParameters)
+    {
+        parameters = machineParameters;
+        parameterDict.Clear();
+        foreach (var boolParam in parameters.BoolParameters)
+        {
+            parameterDict.Add(boolParam.name, boolParam);
+        }
     }
 
     public bool Evaluate()
     {
-        return TargetParameter.Value == value;
+        return parameterDict[TargetParameterName].Value == value;
     }
     
 }
@@ -279,19 +314,31 @@ public class BoolCondition
 public class TriggerCondition
 {
     
-    [ValueDropdown("GetTriggers")] [Required]
-    [HideLabel] public BoolVariable TargetParameter;
+    [ValueDropdown("GetTriggerNames")] [Required]
+    [HideLabel] public string TargetParameterName;
     
     [HideInInspector] public StateMachineParameters parameters;
+    [HideInInspector] public Dictionary<string, BoolVariable> parameterDict = new Dictionary<string, BoolVariable>();
+
     
-    private List<BoolVariable> GetTriggers()
+    private List<String> GetTriggerNames()
     {
-        return parameters.TriggerParameters;
+        return (parameterDict.Count > 0) ?  parameterDict.Keys.ToList() : new List<string>() {""};
+    }
+    
+    public void Init(StateMachineParameters machineParameters)
+    {
+        parameters = machineParameters;
+        parameterDict.Clear();
+        foreach (var triggerParam in parameters.TriggerParameters)
+        {
+            parameterDict.Add(triggerParam.name, triggerParam);
+        }
     }
 
     public bool Evaluate()
     {
-        return TargetParameter.Value;
+        return parameterDict[TargetParameterName].Value;
     }
     
 }

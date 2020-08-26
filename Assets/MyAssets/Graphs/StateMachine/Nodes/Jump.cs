@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Jump : PlayerStateNode
 {
-    [FoldoutGroup("")] [LabelWidth(120)] public float timeToJumpApex = .4f;
-    [FoldoutGroup("")] [LabelWidth(120)] public float maxJumpHeight = 4f;
+    [FoldoutGroup("")] [LabelWidth(120)] public FloatReference timeToJumpApex;
+    [FoldoutGroup("")] [LabelWidth(120)] public FloatReference maxJumpHeight;
     [FoldoutGroup("")] [LabelWidth(120)] public FloatReference StoredJumpVelocity;
     
     private float gravity;
@@ -14,8 +14,8 @@ public class Jump : PlayerStateNode
     public override void Initialize(StateMachineGraph parentGraph)
     {
         base.Initialize(parentGraph);
-        gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
-        jumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
+        gravity = -(2 * maxJumpHeight.Value) / Mathf.Pow(timeToJumpApex.Value, 2);
+        jumpVelocity = Mathf.Abs(gravity) * timeToJumpApex.Value;
     }
     
     public override void Enter()

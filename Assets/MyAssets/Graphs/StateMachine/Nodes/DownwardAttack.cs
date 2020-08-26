@@ -5,8 +5,8 @@ using UnityEngine;
 public class DownwardAttack : PlayerStateNode
 {
     [FoldoutGroup("")] [LabelWidth(120)] public GameObject ammo;
-    [FoldoutGroup("")] [LabelWidth(120)] public float throwDelay = .4f;
-    [FoldoutGroup("")] [LabelWidth(120)] public float downwardForce = 1000;
+    [FoldoutGroup("")] [LabelWidth(120)] public FloatReference throwDelay;
+    [FoldoutGroup("")] [LabelWidth(120)] public FloatReference downwardForce;
 
     public override void Initialize(StateMachineGraph parentGraph)
     {
@@ -22,7 +22,7 @@ public class DownwardAttack : PlayerStateNode
 
         GameObject thrownClump = Instantiate(ammo, firePoint.position, startRotation);
         Rigidbody clumpRB = thrownClump.GetComponent<Rigidbody>();
-        clumpRB.AddForce(Vector3.down * downwardForce);
+        clumpRB.AddForce(Vector3.down * downwardForce.Value);
     }
 
     public override void Execute()
@@ -40,7 +40,7 @@ public class DownwardAttack : PlayerStateNode
         base.Exit();
         parameters.SetBool("WaitedAttackDelay", false);
         
-        LeanTween.value(0f, 1f, throwDelay)
+        LeanTween.value(0f, 1f, throwDelay.Value)
             .setOnComplete(_ =>
             {
                 parameters.SetBool("WaitedAttackDelay", true);

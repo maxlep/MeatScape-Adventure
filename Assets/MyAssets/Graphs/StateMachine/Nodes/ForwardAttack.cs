@@ -6,9 +6,9 @@ using UnityEngine;
 public class ForwardAttack : PlayerStateNode
 {
     [FoldoutGroup("")] [LabelWidth(120)] public GameObject ammo;
-    [FoldoutGroup("")] [LabelWidth(120)] public float throwDelay = .4f;
-    [FoldoutGroup("")] [LabelWidth(120)] public float forwardForce = 1000;
-    [FoldoutGroup("")] [LabelWidth(120)] public float upwardForce = 100;
+    [FoldoutGroup("")] [LabelWidth(120)] public FloatReference throwDelay;
+    [FoldoutGroup("")] [LabelWidth(120)] public FloatReference forwardForce;
+    [FoldoutGroup("")] [LabelWidth(120)] public FloatReference upwardForce;
 
     public override void Initialize(StateMachineGraph parentGraph)
     {
@@ -25,7 +25,7 @@ public class ForwardAttack : PlayerStateNode
 
         GameObject thrownClump = Instantiate(ammo, firePoint.position, startRotation);
         Rigidbody clumpRB = thrownClump.GetComponent<Rigidbody>();
-        clumpRB.AddForce(firePoint.forward * forwardForce + Vector3.up * upwardForce);
+        clumpRB.AddForce(firePoint.forward * forwardForce.Value + Vector3.up * upwardForce.Value);
     }
 
     public override void Execute()
@@ -43,7 +43,7 @@ public class ForwardAttack : PlayerStateNode
         base.Exit();
         parameters.SetBool("WaitedAttackDelay", false);
         
-        LeanTween.value(0f, 1f, throwDelay)
+        LeanTween.value(0f, 1f, throwDelay.Value)
             .setOnComplete(_ =>
             {
                 parameters.SetBool("WaitedAttackDelay", true);

@@ -28,13 +28,17 @@ public class BoolReference
 {
     [HorizontalGroup("Split", LabelWidth = .09f)] [Tooltip("Use Constant or VariableReference")]
     [BoxGroup("Split/Left", ShowLabel = false)] [LabelWidth(.01f)]
-    public bool UseConstant = false;
+    [SerializeField] private bool UseConstant = false;
     
     [BoxGroup("Split/Right", ShowLabel = false)] [LabelText("Value")] [ShowIf("UseConstant")]
-    public bool ConstantValue;
+    [SerializeField] private bool ConstantValue;
     
     [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [HideIf("UseConstant")] 
-    public BoolVariable Variable;
+    [SerializeField] private BoolVariable Variable;
     
-    public bool Value => UseConstant ? ConstantValue : Variable.Value;
+    public bool Value
+    {
+        get => UseConstant ? ConstantValue : Variable.Value;
+        set => Variable.Value = value;
+    }
 }

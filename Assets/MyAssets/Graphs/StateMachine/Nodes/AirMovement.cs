@@ -16,6 +16,9 @@ public class AirMovement : PlayerStateNode
     [FoldoutGroup("")] [LabelWidth(120)] public float MaxFallSpeed = 10f;
     [FoldoutGroup("")] [LabelWidth(120)] public Vector2Reference MoveInput;
     [FoldoutGroup("")] [LabelWidth(120)] public BoolReference JumpPressed;
+    [FoldoutGroup("")] [LabelWidth(120)] public Vector3Reference NewVelocityOut;
+    [FoldoutGroup("")] [LabelWidth(120)] public QuaternionReference NewRotationOut;
+    
 
     private float gravity;
     private float releaseJumpTime;
@@ -90,15 +93,15 @@ public class AirMovement : PlayerStateNode
         {
             currentVelocity.y = -Mathf.Abs(MaxFallSpeed);
         }
-        
-        playerController.SetPlayerVelocity(currentVelocity);
+
+        NewVelocityOut.Value = currentVelocity;
     }
     
     private void UpdateRotation(Quaternion currentRotation)
     {
         if (moveDirection.AlmostZero()) return;
         currentRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
-        playerController.SetPlayerRotation(currentRotation);
+        NewRotationOut.Value = currentRotation;
     }
 
     private void InitMoveDirection()

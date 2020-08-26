@@ -29,13 +29,17 @@ public class Vector2Reference
 {
     [HorizontalGroup("Split", LabelWidth = .09f)] [Tooltip("Use Constant or VariableReference")]
     [BoxGroup("Split/Left", ShowLabel = false)] [LabelWidth(.01f)]
-    public bool UseConstant = false;
+    [SerializeField] private bool UseConstant = false;
     
     [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [ShowIf("UseConstant")]
-    public Vector2 ConstantValue;
+    [SerializeField] private Vector2 ConstantValue;
     
     [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [HideIf("UseConstant")] 
-    public Vector2Variable Variable;
+    [SerializeField] private Vector2Variable Variable;
 
-    public Vector2 Value => UseConstant ? ConstantValue : Variable.Value;
+    public Vector2 Value
+    {
+        get => UseConstant ? ConstantValue : Variable.Value;
+        set => Variable.Value = value;
+    }
 }

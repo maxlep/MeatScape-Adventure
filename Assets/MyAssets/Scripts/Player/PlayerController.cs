@@ -16,11 +16,11 @@ public class PlayerController : MonoBehaviour, ICharacterController
     [SerializeField] private Transform cameraTrans;
     [SerializeField] private Transform firePoint;
     [SerializeField] private GameObject meatClump;
+    [SerializeField] private Vector3Reference NewVelocity;
+    [SerializeField] private QuaternionReference NewRotation;
     [SerializeField] private Vector2Reference MoveInput;
     [SerializeField] private BoolReference JumpPressed;
-
-    private Vector3 playerVelocity = Vector3.zero;
-    private Quaternion playerRotation;
+    
     private Vector3 moveDirection;
     private Vector3 internalVelocityAdd = Vector3.zero;
     private InputAction playerMove;
@@ -30,8 +30,6 @@ public class PlayerController : MonoBehaviour, ICharacterController
     public Transform GetFirePoint() => firePoint;
     public GameObject GetMeatClump() => meatClump;
     
-    public void SetPlayerVelocity(Vector3 newVelocity) => playerVelocity = newVelocity;
-    public void SetPlayerRotation(Quaternion newRotation) => playerRotation = newRotation;
     public void SetJumpVelocity(float newVelocity) => jumpVelocity = newVelocity;
     public void UngroundMotor() => charMotor.ForceUnground(0.1f);
 
@@ -50,8 +48,8 @@ public class PlayerController : MonoBehaviour, ICharacterController
     void Awake()
     {
         playerMove = InputManager.Instance.GetPlayerMove_Action();
-        InputManager.Instance.onJump_Pressed += () => JumpPressed.Variable.Value = true;
-        InputManager.Instance.onJump_Released += () => JumpPressed.Variable.Value = false;
+        InputManager.Instance.onJump_Pressed += () => JumpPressed.Value = true;
+        InputManager.Instance.onJump_Released += () => JumpPressed.Value = false;
         
         InputManager.Instance.onJump_Pressed += () => stateMachine.ActivateTrigger("Jump");
         InputManager.Instance.onAttack += () => stateMachine.ActivateTrigger("Attack");
@@ -77,14 +75,14 @@ public class PlayerController : MonoBehaviour, ICharacterController
     public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
     {
         if (onStartUpdateRotation != null) onStartUpdateRotation.Invoke(currentRotation);
-        currentRotation = playerRotation;
+        currentRotation = NewRotation.Value;
     }
 
     public void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
     {
         if (onStartUpdateVelocity != null) onStartUpdateVelocity.Invoke(currentVelocity);
 
-        currentVelocity = playerVelocity;
+        currentVelocity = NewVelocity.Value;
 
         if (!Mathf.Approximately(jumpVelocity, 0f))
         {
@@ -148,7 +146,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
 
     private void GetInput()
     {
-        MoveInput.Variable.Value = playerMove.ReadValue<Vector2>();
+        MoveInput.Value = playerMove.ReadValue<Vector2>();
     }
     
     

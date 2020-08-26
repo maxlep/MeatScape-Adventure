@@ -10,6 +10,8 @@ public class GroundMovement : PlayerStateNode
     [FoldoutGroup("")] [LabelWidth(120)] public float Acceleration = 0.025f;
     [FoldoutGroup("")] [LabelWidth(120)] public float Deacceleration = 0.015f;
     [FoldoutGroup("")] [LabelWidth(120)] public Vector2Reference MoveInput;
+    [FoldoutGroup("")] [LabelWidth(120)] public Vector3Reference NewVelocityOut;
+    [FoldoutGroup("")] [LabelWidth(120)] public QuaternionReference NewRotationOut;
 
     private Transform cameraTrans;
     private Vector3 moveDirection;
@@ -62,14 +64,14 @@ public class GroundMovement : PlayerStateNode
         else
             currentVelocity = Vector3.SmoothDamp(currentVelocity, targetVelocity, ref newVel, Acceleration);
 
-        playerController.SetPlayerVelocity(currentVelocity);
+        NewVelocityOut.Value = currentVelocity;
     }
 
     private void UpdateRotation(Quaternion currentRotation)
     {
         if (moveDirection.AlmostZero()) return;
         currentRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
-        playerController.SetPlayerRotation(currentRotation);
+        NewRotationOut.Value = currentRotation;
     }
     
     private void InitMoveDirection()

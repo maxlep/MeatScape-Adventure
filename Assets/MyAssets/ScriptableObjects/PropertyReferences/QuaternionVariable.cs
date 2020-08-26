@@ -27,13 +27,17 @@ public class QuaternionReference
 {
     [HorizontalGroup("Split", LabelWidth = .09f)] [Tooltip("Use Constant or VariableReference")]
     [BoxGroup("Split/Left", ShowLabel = false)] [LabelWidth(.01f)]
-    public bool UseConstant = false;
+    [SerializeField] private bool UseConstant = false;
     
     [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [ShowIf("UseConstant")]
-    public Quaternion ConstantValue;
+    [SerializeField] private Quaternion ConstantValue;
     
     [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [HideIf("UseConstant")]  
-    public QuaternionVariable Variable;
+    [SerializeField] private QuaternionVariable Variable;
 
-    public Quaternion Value => UseConstant ? ConstantValue : Variable.Value;
+    public Quaternion Value
+    {
+        get => UseConstant ? ConstantValue : Variable.Value;
+        set => Variable.Value = value;
+    }
 }

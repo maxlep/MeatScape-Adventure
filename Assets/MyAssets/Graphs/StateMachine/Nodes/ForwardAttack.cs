@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ForwardAttack : PlayerStateNode
 {
+    [FoldoutGroup("")] [LabelWidth(120)] public GameObject ammo;
     [FoldoutGroup("")] [LabelWidth(120)] public float throwDelay = .4f;
     [FoldoutGroup("")] [LabelWidth(120)] public float forwardForce = 1000;
     [FoldoutGroup("")] [LabelWidth(120)] public float upwardForce = 100;
@@ -17,12 +18,12 @@ public class ForwardAttack : PlayerStateNode
     public override void Enter()
     {
         base.Enter();
-
-        GameObject meatClump = playerController.GetMeatClump();
+        
+        
         Transform firePoint = playerController.GetFirePoint();
         Quaternion startRotation = Quaternion.LookRotation(firePoint.forward, Vector3.up);
 
-        GameObject thrownClump = Instantiate(meatClump, firePoint.position, startRotation);
+        GameObject thrownClump = Instantiate(ammo, firePoint.position, startRotation);
         Rigidbody clumpRB = thrownClump.GetComponent<Rigidbody>();
         clumpRB.AddForce(firePoint.forward * forwardForce + Vector3.up * upwardForce);
     }

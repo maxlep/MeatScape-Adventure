@@ -29,13 +29,17 @@ public class FloatReference
 {
     [HorizontalGroup("Split", LabelWidth = .09f)] [Tooltip("Use Constant or VariableReference")]
     [BoxGroup("Split/Left", ShowLabel = false)] [LabelWidth(.01f)]
-    public bool UseConstant = false;
+    [SerializeField] private bool UseConstant = false;
     
     [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [ShowIf("UseConstant")]
-    public float ConstantValue;
+    [SerializeField] private float ConstantValue;
     
     [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [HideIf("UseConstant")] 
-    public FloatVariable Variable;
+    [SerializeField] private FloatVariable Variable;
 
-    public float Value => UseConstant ? ConstantValue : Variable.Value;
+    public float Value
+    {
+        get => UseConstant ? ConstantValue : Variable.Value;
+        set => Variable.Value = value;
+    }
 }

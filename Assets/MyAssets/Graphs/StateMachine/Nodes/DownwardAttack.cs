@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DownwardAttack : PlayerStateNode
 {
+    [FoldoutGroup("")] [LabelWidth(120)] public GameObject ammo;
     [FoldoutGroup("")] [LabelWidth(120)] public float throwDelay = .4f;
     [FoldoutGroup("")] [LabelWidth(120)] public float downwardForce = 1000;
 
@@ -16,11 +17,10 @@ public class DownwardAttack : PlayerStateNode
     {
         base.Enter();
 
-        GameObject meatClump = playerController.GetMeatClump();
         Transform firePoint = playerController.GetFirePoint();
         Quaternion startRotation = Quaternion.LookRotation(firePoint.forward, Vector3.up);
 
-        GameObject thrownClump = Instantiate(meatClump, firePoint.position, startRotation);
+        GameObject thrownClump = Instantiate(ammo, firePoint.position, startRotation);
         Rigidbody clumpRB = thrownClump.GetComponent<Rigidbody>();
         clumpRB.AddForce(Vector3.down * downwardForce);
     }

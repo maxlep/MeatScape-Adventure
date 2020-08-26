@@ -15,8 +15,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
     [SerializeField] private Transform cameraTrans;
     [SerializeField] private Transform firePoint;
     [SerializeField] private GameObject meatClump;
-    
-    public Vector2 MoveInput { get; private set; }
+    [SerializeField] private Vector2Reference MoveInput;
     public bool JumpPressed { get; private set; } = false;
 
     private Vector3 playerVelocity = Vector3.zero;
@@ -148,7 +147,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
 
     private void GetInput()
     {
-        MoveInput = playerMove.ReadValue<Vector2>();
+        MoveInput.Variable.Value = playerMove.ReadValue<Vector2>();
     }
     
     

@@ -16,12 +16,9 @@ public class FloatVariable : ScriptableObject
     {
         get => runtimeValue;
         set => runtimeValue = value;
-    } 
-
-    private void OnEnable()
-    {
-        runtimeValue = defaultValue;
     }
+    private void OnEnable() => runtimeValue = defaultValue;
+    
 }
 
 [Serializable]

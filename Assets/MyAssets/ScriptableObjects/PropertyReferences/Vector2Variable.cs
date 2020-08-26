@@ -18,10 +18,8 @@ public class Vector2Variable : ScriptableObject
         set => runtimeValue = value;
     } 
 
-    private void OnEnable()
-    {
-        runtimeValue = defaultValue;
-    }
+    private void OnEnable() => runtimeValue = defaultValue;
+
 }
 
 [Serializable]

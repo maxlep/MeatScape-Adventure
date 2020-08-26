@@ -16,7 +16,7 @@ public class StateNodeEditor : NodeEditor
 
     public override int GetWidth()
     {
-        return 350;
+        return 400;
     }
     
     public override Color GetTint()

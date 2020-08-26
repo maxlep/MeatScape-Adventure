@@ -15,6 +15,7 @@ public class AirMovement : PlayerStateNode
     [FoldoutGroup("")] [LabelWidth(120)] public float LowJumpDrag = .025f;
     [FoldoutGroup("")] [LabelWidth(120)] public float MaxFallSpeed = 10f;
     [FoldoutGroup("")] [LabelWidth(120)] public Vector2Reference MoveInput;
+    [FoldoutGroup("")] [LabelWidth(120)] public FloatReference SomeFloat;
 
     private float gravity;
     private float releaseJumpTime;

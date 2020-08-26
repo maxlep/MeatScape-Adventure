@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Cinemachine.Utility;
 using KinematicCharacterController;
+using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;
 using UnityEngine.InputSystem;

@@ -10,6 +10,7 @@ public class Vector3Variable : ScriptableObject
 {
     [SerializeField] private Vector3 defaultValue;
     [SerializeField] private Vector3 runtimeValue;
+    [TextArea] [HideInInlineEditors] public String Description;
     
     public Vector3 Value
     {
@@ -25,8 +26,8 @@ public class Vector3Variable : ScriptableObject
 [InlineProperty]
 public class Vector3Reference
 {
-    [HorizontalGroup("Split", LabelWidth = .09f)] [Tooltip("Use Constant or VariableReference")]
-    [BoxGroup("Split/Left", ShowLabel = false)] [LabelWidth(.01f)]
+    [HorizontalGroup("Split", LabelWidth = .01f)] [PropertyTooltip("$Tooltip")]
+    [BoxGroup("Split/Left", ShowLabel = false)] [LabelText("$LabelText")] [LabelWidth(10f)]
     [SerializeField] private bool UseConstant = false;
     
     [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [ShowIf("UseConstant")]
@@ -34,6 +35,9 @@ public class Vector3Reference
     
     [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [HideIf("UseConstant")] 
     [SerializeField] private Vector3Variable Variable;
+    
+    public String Tooltip => Variable != null && !UseConstant ? Variable.Description : "";
+    public String LabelText => UseConstant ? "" : "?";
 
     public Vector3 Value
     {

@@ -10,6 +10,7 @@ public class QuaternionVariable : ScriptableObject
 {
     [SerializeField] private Quaternion defaultValue;
     [SerializeField] private Quaternion runtimeValue;
+    [TextArea] [HideInInlineEditors] public String Description;
     
     public Quaternion Value
     {
@@ -25,8 +26,8 @@ public class QuaternionVariable : ScriptableObject
 [InlineProperty]
 public class QuaternionReference
 {
-    [HorizontalGroup("Split", LabelWidth = .09f)] [Tooltip("Use Constant or VariableReference")]
-    [BoxGroup("Split/Left", ShowLabel = false)] [LabelWidth(.01f)]
+    [HorizontalGroup("Split", LabelWidth = .01f)] [PropertyTooltip("$Tooltip")]
+    [BoxGroup("Split/Left", ShowLabel = false)] [LabelText("$LabelText")] [LabelWidth(10f)]
     [SerializeField] private bool UseConstant = false;
     
     [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [ShowIf("UseConstant")]
@@ -34,6 +35,9 @@ public class QuaternionReference
     
     [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [HideIf("UseConstant")]  
     [SerializeField] private QuaternionVariable Variable;
+    
+    public String Tooltip => Variable != null && !UseConstant ? Variable.Description : "";
+    public String LabelText => UseConstant ? "" : "?";
 
     public Quaternion Value
     {

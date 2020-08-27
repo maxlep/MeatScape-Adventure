@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
+[Required]
 [InlineEditor(InlineEditorObjectFieldModes.Foldout)]
 [CreateAssetMenu(fileName = "Vector2Variable", menuName = "Variables/Vector2Variable", order = 0)]
 public class Vector2Variable : ScriptableObject
@@ -40,7 +41,7 @@ public class Vector2Reference
     [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [ShowIf("UseConstant")]
     [SerializeField] private Vector2 ConstantValue;
     
-    [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [HideIf("UseConstant")]
+    [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [HideIf("UseConstant")] 
     [SerializeField] private Vector2Variable Variable;
 
     public String Tooltip => Variable != null && !UseConstant ? Variable.Description : "";

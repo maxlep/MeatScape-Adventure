@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
+[Required]
 [InlineEditor(InlineEditorObjectFieldModes.Foldout)]
 [CreateAssetMenu(fileName = "QuaternionVariable", menuName = "Variables/QuaternionVariable", order = 0)]
 public class QuaternionVariable : ScriptableObject
@@ -40,7 +41,7 @@ public class QuaternionReference
     [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [ShowIf("UseConstant")]
     [SerializeField] private Quaternion ConstantValue;
     
-    [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [HideIf("UseConstant")]  
+    [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [HideIf("UseConstant")] 
     [SerializeField] private QuaternionVariable Variable;
     
     public String Tooltip => Variable != null && !UseConstant ? Variable.Description : "";

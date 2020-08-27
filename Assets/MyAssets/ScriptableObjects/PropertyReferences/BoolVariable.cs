@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
+[Required]
 [InlineEditor(InlineEditorObjectFieldModes.Foldout)]
 [CreateAssetMenu(fileName = "BoolVariable", menuName = "Variables/BoolVariable", order = 0)]
 public class BoolVariable : ScriptableObject
@@ -39,7 +40,7 @@ public class BoolReference
     [BoxGroup("Split/Right", ShowLabel = false)] [LabelText("Value")] [ShowIf("UseConstant")]
     [SerializeField] private bool ConstantValue;
     
-    [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [HideIf("UseConstant")] 
+    [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [HideIf("UseConstant")]
     [SerializeField] private BoolVariable Variable;
     
     public String Tooltip => Variable != null && !UseConstant ? Variable.Description : "";

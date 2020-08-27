@@ -2,6 +2,7 @@
 using Sirenix.OdinInspector;
 using UnityEngine;
 
+[Required]
 [CreateAssetMenu(fileName = "TriggerVariable", menuName = "Variables/TriggerVariable", order = 0)]
 public class TriggerVariable : ScriptableObject
 {

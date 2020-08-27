@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
+[Required]
 [InlineEditor(InlineEditorObjectFieldModes.Foldout)]
 [CreateAssetMenu(fileName = "IntVariable", menuName = "Variables/IntVariable", order = 0)]
 public class IntVariable : ScriptableObject

@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
     [SerializeField] private KinematicCharacterMotor charMotor;
     [SerializeField] private PlayerStateMachine stateMachine;
     [SerializeField] private StateMachineParameters parameters;
+    [SerializeField] private Animator animator;
     [SerializeField] private Transform cameraTrans;
     [SerializeField] private Transform firePoint;
     
@@ -136,6 +137,10 @@ public class PlayerController : MonoBehaviour, ICharacterController
     private void UpdateParameters()
     {
         IsGrounded.Value = MaintainingGround();
+
+        animator.SetFloat("HorizontalSpeed", Mathf.Sqrt(Mathf.Pow(NewVelocity.Value.x, 2) + Mathf.Pow(NewVelocity.Value.z, 2)));
+        animator.SetFloat("VerticalVelocity", NewVelocity.Value.y);
+        animator.SetBool("IsGrounded", IsGrounded.Value);
     }
 
     

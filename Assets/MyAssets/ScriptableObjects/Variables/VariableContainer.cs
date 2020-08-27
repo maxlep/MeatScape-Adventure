@@ -12,7 +12,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "VariableContainer", menuName = "VariableContainer", order = 0)]
 public class VariableContainer : ScriptableObject
 {
-    [FolderPath (RequireExistingPath = true)]
+    [FolderPath (RequireExistingPath = true), PropertyOrder(-2)]
     [SerializeField] private string FolderPath;
     [SerializeField] private bool IncludeSubdirectories = false;
     
@@ -35,7 +35,7 @@ public class VariableContainer : ScriptableObject
     [SerializeField] private List<Vector3Variable> Vector3Variables = new List<Vector3Variable>();
     
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)]
-    [SerializeField] private List<QuaternionVariable> quaternionVariables = new List<QuaternionVariable>();
+    [SerializeField] private List<QuaternionVariable> QuaternionVariables = new List<QuaternionVariable>();
     
     private const string ASSET_EXTENSION = ".asset";
 
@@ -49,7 +49,7 @@ public class VariableContainer : ScriptableObject
         FloatVariables.Clear();
         Vector2Variables.Clear();
         Vector3Variables.Clear();
-        quaternionVariables.Clear();
+        QuaternionVariables.Clear();
 
         foreach (var propertyPath in GetAssetRelativePaths(FolderPath))
         {
@@ -105,7 +105,7 @@ public class VariableContainer : ScriptableObject
                 AssetDatabase.LoadAssetAtPath(propertyPath, typeof(QuaternionVariable)) as QuaternionVariable;
             if (assetAsQuaternion != null)
             {
-                quaternionVariables.Add(assetAsQuaternion);
+                QuaternionVariables.Add(assetAsQuaternion);
                 continue;
             }
         }
@@ -115,7 +115,7 @@ public class VariableContainer : ScriptableObject
         $" | {FloatVariables.Count} Floats" +
         $" | {Vector2Variables.Count} Vector2s" +
         $" | {Vector3Variables.Count} Vector3s" +
-        $" | {quaternionVariables.Count} Quaternions");
+        $" | {QuaternionVariables.Count} Quaternions");
     }
 
     private List<string> GetAssetRelativePaths(string path)
@@ -143,4 +143,12 @@ public class VariableContainer : ScriptableObject
 
         return assetRelativePaths;
     }
+
+    [Button(ButtonSizes.Small), PropertyOrder(-1)]
+    public void SetThisFolder()
+    {
+        string fullPath = AssetDatabase.GetAssetPath(this);
+        FolderPath = fullPath.Substring(0, fullPath.LastIndexOf('/'));
+    } 
+    
 }

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using UnityEditor;
@@ -36,8 +37,6 @@ public class VariableContainer : ScriptableObject
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)]
     [SerializeField] private List<QuaternionVariable> quaternionVariables = new List<QuaternionVariable>();
     
-    
-    
     private const string ASSET_EXTENSION = ".asset";
 
     [GUIColor(0, 1, 0)]
@@ -52,7 +51,7 @@ public class VariableContainer : ScriptableObject
         Vector3Variables.Clear();
         quaternionVariables.Clear();
 
-        foreach (var propertyPath in GetAssetRelativePaths())
+        foreach (var propertyPath in GetAssetRelativePaths(FolderPath))
         {
             TriggerVariable assetAsTrigger = 
                 AssetDatabase.LoadAssetAtPath(propertyPath, typeof(TriggerVariable)) as TriggerVariable;
@@ -110,25 +109,35 @@ public class VariableContainer : ScriptableObject
                 continue;
             }
         }
-        Debug.Log($"Found {TriggerVariables.Count} Triggers");
-        Debug.Log($"Found {BoolVariables.Count} Bools");
-        Debug.Log($"Found {IntVariables.Count} Ints");
-        Debug.Log($"Found {FloatVariables.Count} Floats");
-        Debug.Log($"Found {Vector2Variables.Count} Vector2s");
-        Debug.Log($"Found {Vector3Variables.Count} Vector3s");
-        Debug.Log($"Found {quaternionVariables.Count} Quaternions");
+        Debug.Log($"{TriggerVariables.Count} Triggers" +
+        $" | {BoolVariables.Count} Bools" +
+        $" | {IntVariables.Count} Ints" +
+        $" | {FloatVariables.Count} Floats" +
+        $" | {Vector2Variables.Count} Vector2s" +
+        $" | {Vector3Variables.Count} Vector3s" +
+        $" | {quaternionVariables.Count} Quaternions");
     }
 
-    private List<string> GetAssetRelativePaths()
+    private List<string> GetAssetRelativePaths(string path)
     {
         List<string> assetRelativePaths = new List<string>();
-        var info = new DirectoryInfo(FolderPath);
+        var info = new DirectoryInfo(path);
         var fileInfo = info.GetFiles();
         foreach (var file in fileInfo)
         {
             if (file.Extension.Equals(ASSET_EXTENSION))
             {
-                assetRelativePaths.Add($"{FolderPath}/{file.Name}");
+                assetRelativePaths.Add($"{path}/{file.Name}");
+            }
+        }
+
+        if (IncludeSubdirectories)
+        {
+            string[] subdirectoryNames = AssetDatabase.GetSubFolders(path);
+            subdirectoryNames.ForEach(d => Debug.Log(d)); 
+            foreach (var subDir in subdirectoryNames)
+            {
+                assetRelativePaths = assetRelativePaths.Union(GetAssetRelativePaths(subDir).ToList()).ToList();
             }
         }
 

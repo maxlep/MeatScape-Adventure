@@ -9,13 +9,11 @@ public class AnimatorUpdater : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log("SUBSCRIBED");
         triggerJumpAnim.OnUpdate += Jump;
     }
 
     private void Jump()
     {
-        Debug.Log("JUMPED");
         animator.SetTrigger(Jump1);
     }
 }

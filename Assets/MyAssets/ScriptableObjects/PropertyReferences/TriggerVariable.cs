@@ -13,7 +13,6 @@ public class TriggerVariable : ScriptableObject
 
     public void Activate()
     {
-        Debug.Log("ACTIVATED");
         OnUpdate?.Invoke();
     }
 }

@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7107814362056093690}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.478, z: 0.328}
+  m_LocalPosition: {x: 0, y: 0.99, z: 0.328}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7107814362353387304}
@@ -112,11 +112,44 @@ MonoBehaviour:
   charMotor: {fileID: 7107814362353387305}
   stateMachine: {fileID: 7107814362353387319}
   parameters: {fileID: 11400000, guid: ba91a2254f179c148b1c00b43ea37a8d, type: 2}
-  characterTrans: {fileID: 7107814362353387304}
   cameraTrans: {fileID: 0}
   firePoint: {fileID: 7107814362056093691}
-  meatClump: {fileID: 7432549252289664644, guid: f257932619900ee48a82e1b4e73d5325,
-    type: 3}
+  NewVelocity:
+    UseConstant: 0
+    ConstantValue: {x: 0, y: 0, z: 0}
+    Variable: {fileID: 11400000, guid: 9bb89c095cc264240a1d00bcb25ce309, type: 2}
+  NewRotation:
+    UseConstant: 0
+    ConstantValue: {x: 0, y: 0, z: 0, w: 0}
+    Variable: {fileID: 11400000, guid: 642843bee527d554f9408523e1ab11c8, type: 2}
+  StoredJumpVelocity:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 2bf3ff9449cfd14419df1c2f76b56b20, type: 2}
+  MoveInput:
+    UseConstant: 0
+    ConstantValue: {x: 0, y: 0}
+    Variable: {fileID: 11400000, guid: f48af2d5870a315459ef8f032591c5be, type: 2}
+  JumpPressed:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: d00e7a08d0775a4429a3a5cfad1382a2, type: 2}
+  IsGrounded:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 7515e678ba0d82a4b92ee5e8bc9cee52, type: 2}
+  AttackTrigger:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 5e15a58a7e2120d4ab58b2aacd49f1ba, type: 2}
+  JumpTrigger:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 8e2d8d8393d169a41833e90623a37364, type: 2}
+  DownwardAttackTrigger:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 31e58218e23bba647933dcb11be0ac56, type: 2}
 --- !u!114 &7107814362353387319
 MonoBehaviour:
   m_ObjectHideFlags: 0

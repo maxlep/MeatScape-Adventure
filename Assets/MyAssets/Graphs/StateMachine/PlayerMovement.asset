@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AirMovement ---> Jump
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 760, y: 264}
+  position: {x: 776, y: 264}
   ports:
     keys:
     - startingState
@@ -72,7 +72,7 @@ MonoBehaviour:
   m_Name: AirMovement ---> Ground Movement
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 760, y: 440}
+  position: {x: 776, y: 440}
   ports:
     keys:
     - startingState
@@ -110,7 +110,7 @@ MonoBehaviour:
   nextState: {fileID: 0}
   ValidStartStates: []
   BoolConditions:
-  - TargetParameter: IsGrounded
+  - TargetParameterName: IsGrounded
     value: 1
     parameters: {fileID: 11400000, guid: ba91a2254f179c148b1c00b43ea37a8d, type: 2}
   TriggerConditions: []
@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Name: AirMovement <AirMovement>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 344, y: 280}
+  position: {x: 312, y: 280}
   ports:
     keys:
     - previousState
@@ -173,18 +173,54 @@ MonoBehaviour:
   transitions: {fileID: 0}
   isActiveState: 0
   Name: AirMovement
-  MoveSpeed: 10
-  Acceleration: 0.025
-  Deacceleration: 0.015
-  TimeToJumpApex: 0.6
-  MaxJumpHeight: 6
-  FallMultiplier: 3
-  LowJumpDrag: 20
-  MaxFallSpeed: 30
+  MoveSpeed:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 5c878f8db6decb043a9e07239782f2ef, type: 2}
+  Acceleration:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 01cf5e817fd7b5949977e10d09bb5ab6, type: 2}
+  Deacceleration:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: c4dbde759be93ec4cad673baf38c882c, type: 2}
+  TimeToJumpApex:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 1363a9d9ca886e741bf7446fd6169c24, type: 2}
+  MaxJumpHeight:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 0fd3177644ebffb41a70848abe4ba59b, type: 2}
+  FallMultiplier:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: add848a2a4596d842bf11239290fbb71, type: 2}
+  LowJumpDrag:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 40a7b4d889cf2e84b935f6621086aafa, type: 2}
+  MaxFallSpeed:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 7ce844f15ac152946bbf9df2bd27b40f, type: 2}
+  JumpPressed:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: d00e7a08d0775a4429a3a5cfad1382a2, type: 2}
   MoveInput:
     UseConstant: 0
     ConstantValue: {x: 0, y: 0}
     Variable: {fileID: 11400000, guid: f48af2d5870a315459ef8f032591c5be, type: 2}
+  NewVelocityOut:
+    UseConstant: 0
+    ConstantValue: {x: 0, y: 0, z: 0}
+    Variable: {fileID: 11400000, guid: 9bb89c095cc264240a1d00bcb25ce309, type: 2}
+  NewRotationOut:
+    UseConstant: 0
+    ConstantValue: {x: 0, y: 0, z: 0, w: 0}
+    Variable: {fileID: 11400000, guid: 642843bee527d554f9408523e1ab11c8, type: 2}
 --- !u!114 &-3641797515424182864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,7 +234,7 @@ MonoBehaviour:
   m_Name: Ground Movement ---> AirMovement
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -136, y: 248}
+  position: {x: -136, y: 312}
   ports:
     keys:
     - startingState
@@ -232,7 +268,7 @@ MonoBehaviour:
   nextState: {fileID: 0}
   ValidStartStates: []
   BoolConditions:
-  - TargetParameter: IsGrounded
+  - TargetParameterName: IsGrounded
     value: 0
     parameters: {fileID: 11400000, guid: ba91a2254f179c148b1c00b43ea37a8d, type: 2}
   TriggerConditions: []
@@ -295,13 +331,30 @@ MonoBehaviour:
   transitions: {fileID: 0}
   isActiveState: 1
   Name: Ground Movement
-  MoveSpeed: 10
-  Acceleration: 0.025
-  Deacceleration: 0.015
+  MoveSpeed:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 5c878f8db6decb043a9e07239782f2ef, type: 2}
+  Acceleration:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 01cf5e817fd7b5949977e10d09bb5ab6, type: 2}
+  Deacceleration:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: c4dbde759be93ec4cad673baf38c882c, type: 2}
   MoveInput:
     UseConstant: 0
     ConstantValue: {x: 0, y: 0}
     Variable: {fileID: 11400000, guid: f48af2d5870a315459ef8f032591c5be, type: 2}
+  NewVelocityOut:
+    UseConstant: 0
+    ConstantValue: {x: 0, y: 0, z: 0}
+    Variable: {fileID: 11400000, guid: 9bb89c095cc264240a1d00bcb25ce309, type: 2}
+  NewRotationOut:
+    UseConstant: 0
+    ConstantValue: {x: 0, y: 0, z: 0, w: 0}
+    Variable: {fileID: 11400000, guid: 642843bee527d554f9408523e1ab11c8, type: 2}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -406,8 +459,18 @@ MonoBehaviour:
   transitions: {fileID: 0}
   isActiveState: 0
   Name: Jump
-  timeToJumpApex: 0.6
-  maxJumpHeight: 6
+  timeToJumpApex:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 1363a9d9ca886e741bf7446fd6169c24, type: 2}
+  maxJumpHeight:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 0fd3177644ebffb41a70848abe4ba59b, type: 2}
+  StoredJumpVelocity:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 2bf3ff9449cfd14419df1c2f76b56b20, type: 2}
 --- !u!114 &4560253871089828436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -484,7 +547,7 @@ MonoBehaviour:
   ValidStartStates: []
   BoolConditions: []
   TriggerConditions:
-  - TargetParameter: Jump
+  - TargetParameterName: JumpTrigger
     parameters: {fileID: 11400000, guid: ba91a2254f179c148b1c00b43ea37a8d, type: 2}
   FloatConditions: []
   IntConditions: []

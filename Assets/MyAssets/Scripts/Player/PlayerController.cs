@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Cinemachine.Utility;
 using KinematicCharacterController;
+using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -11,27 +12,25 @@ public class PlayerController : MonoBehaviour, ICharacterController
     [SerializeField] private KinematicCharacterMotor charMotor;
     [SerializeField] private PlayerStateMachine stateMachine;
     [SerializeField] private StateMachineParameters parameters;
-    [SerializeField] private Transform characterTrans;
     [SerializeField] private Transform cameraTrans;
     [SerializeField] private Transform firePoint;
-    [SerializeField] private GameObject meatClump;
-    [SerializeField] private Vector2Reference MoveInput;
-    public bool JumpPressed { get; private set; } = false;
+    
+    [FoldoutGroup("Referenced Inputs")] [SerializeField] private Vector3Reference NewVelocity;
+    [FoldoutGroup("Referenced Inputs")] [SerializeField] private QuaternionReference NewRotation;
+    [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference StoredJumpVelocity;
+    [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector2Reference MoveInput;
+    [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference JumpPressed;
+    [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference IsGrounded;
+    [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference AttackTrigger;
+    [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference JumpTrigger;
+    [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference DownwardAttackTrigger;
 
-    private Vector3 playerVelocity = Vector3.zero;
-    private Quaternion playerRotation;
     private Vector3 moveDirection;
-    private Vector3 internalVelocityAdd = Vector3.zero;
     private InputAction playerMove;
-    private float jumpVelocity = 0f;
 
     public Transform GetCameraTrans() => cameraTrans;
     public Transform GetFirePoint() => firePoint;
-    public GameObject GetMeatClump() => meatClump;
     
-    public void SetPlayerVelocity(Vector3 newVelocity) => playerVelocity = newVelocity;
-    public void SetPlayerRotation(Quaternion newRotation) => playerRotation = newRotation;
-    public void SetJumpVelocity(float newVelocity) => jumpVelocity = newVelocity;
     public void UngroundMotor() => charMotor.ForceUnground(0.1f);
 
     public delegate void _OnStartUpdateVelocity(Vector3 currentVelocity);
@@ -49,12 +48,12 @@ public class PlayerController : MonoBehaviour, ICharacterController
     void Awake()
     {
         playerMove = InputManager.Instance.GetPlayerMove_Action();
-        InputManager.Instance.onJump_Pressed += () => JumpPressed = true;
-        InputManager.Instance.onJump_Released += () => JumpPressed = false;
-        
-        InputManager.Instance.onJump_Pressed += () => stateMachine.ActivateTrigger("Jump");
-        InputManager.Instance.onAttack += () => stateMachine.ActivateTrigger("Attack");
-        InputManager.Instance.onDownwardAttack += () => stateMachine.ActivateTrigger("DownwardAttack");
+        InputManager.Instance.onJump_Pressed += () => JumpPressed.Value = true;
+        InputManager.Instance.onJump_Released += () => JumpPressed.Value = false;
+
+        InputManager.Instance.onJump_Pressed += () => JumpTrigger.Value = true;
+        InputManager.Instance.onAttack += () => AttackTrigger.Value = true;
+        InputManager.Instance.onDownwardAttack += () => DownwardAttackTrigger.Value = true;
     }
 
     // Update is called once per frame
@@ -76,18 +75,18 @@ public class PlayerController : MonoBehaviour, ICharacterController
     public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
     {
         if (onStartUpdateRotation != null) onStartUpdateRotation.Invoke(currentRotation);
-        currentRotation = playerRotation;
+        currentRotation = NewRotation.Value;
     }
 
     public void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
     {
         if (onStartUpdateVelocity != null) onStartUpdateVelocity.Invoke(currentVelocity);
 
-        currentVelocity = playerVelocity;
+        currentVelocity = NewVelocity.Value;
 
-        if (!Mathf.Approximately(jumpVelocity, 0f))
+        if (!Mathf.Approximately(StoredJumpVelocity.Value, 0f))
         {
-            currentVelocity.y = jumpVelocity;
+            currentVelocity.y = StoredJumpVelocity.Value;
         }
         
     }
@@ -95,7 +94,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
     public void AfterCharacterUpdate(float deltaTime)
     {
         // This is called after the motor has finished everything in its update
-        jumpVelocity = 0f;
+        StoredJumpVelocity.Value = 0f;
     }
 
     public bool IsColliderValidForCollisions(Collider coll)
@@ -136,7 +135,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
 
     private void UpdateParameters()
     {
-        parameters.SetBool("IsGrounded", MaintainingGround());
+        IsGrounded.Value = MaintainingGround();
     }
 
     
@@ -147,7 +146,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
 
     private void GetInput()
     {
-        MoveInput.Variable.Value = playerMove.ReadValue<Vector2>();
+        MoveInput.Value = playerMove.ReadValue<Vector2>();
     }
     
     

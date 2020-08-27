@@ -6,15 +6,19 @@ using UnityEngine.UI;
 
 public class AirMovement : PlayerStateNode
 {
-    [FoldoutGroup("")] [LabelWidth(120)] public float MoveSpeed = 10f;
-    [FoldoutGroup("")] [LabelWidth(120)] public float Acceleration = 0.025f;
-    [FoldoutGroup("")] [LabelWidth(120)] public float Deacceleration = 0.015f;
-    [FoldoutGroup("")] [LabelWidth(120)] public float TimeToJumpApex = .4f;
-    [FoldoutGroup("")] [LabelWidth(120)] public float MaxJumpHeight = 4f;
-    [FoldoutGroup("")] [LabelWidth(120)] public float FallMultiplier = 7f;
-    [FoldoutGroup("")] [LabelWidth(120)] public float LowJumpDrag = .025f;
-    [FoldoutGroup("")] [LabelWidth(120)] public float MaxFallSpeed = 10f;
+    [FoldoutGroup("")] [LabelWidth(120)] public FloatReference MoveSpeed;
+    [FoldoutGroup("")] [LabelWidth(120)] public FloatReference Acceleration;
+    [FoldoutGroup("")] [LabelWidth(120)] public FloatReference Deacceleration;
+    [FoldoutGroup("")] [LabelWidth(120)] public FloatReference TimeToJumpApex;
+    [FoldoutGroup("")] [LabelWidth(120)] public FloatReference MaxJumpHeight;
+    [FoldoutGroup("")] [LabelWidth(120)] public FloatReference FallMultiplier;
+    [FoldoutGroup("")] [LabelWidth(120)] public FloatReference LowJumpDrag;
+    [FoldoutGroup("")] [LabelWidth(120)] public FloatReference MaxFallSpeed;
+    [FoldoutGroup("")] [LabelWidth(120)] public BoolReference JumpPressed;
     [FoldoutGroup("")] [LabelWidth(120)] public Vector2Reference MoveInput;
+    [FoldoutGroup("")] [LabelWidth(120)] public Vector3Reference NewVelocityOut;
+    [FoldoutGroup("")] [LabelWidth(120)] public QuaternionReference NewRotationOut;
+    
 
     private float gravity;
     private float releaseJumpTime;
@@ -25,7 +29,7 @@ public class AirMovement : PlayerStateNode
     {
         base.Initialize(parentGraph);
         cameraTrans = playerController.GetCameraTrans();
-        gravity = -(2 * MaxJumpHeight) / Mathf.Pow(TimeToJumpApex, 2);
+        gravity = -(2 * MaxJumpHeight.Value) / Mathf.Pow(TimeToJumpApex.Value, 2);
     }
     
     public override void Enter()
@@ -60,44 +64,50 @@ public class AirMovement : PlayerStateNode
         Quaternion rotOffset = Quaternion.FromToRotation(Vector2.up, camForward);
         Vector2 rotatedMoveInput = rotOffset * MoveInput.Value;
         moveDirection = new Vector3(rotatedMoveInput.x, 0, rotatedMoveInput.y);
-        Vector3 targetVelocity = moveDirection * MoveSpeed;
+        Vector3 targetVelocity = moveDirection * MoveSpeed.Value;
         Vector3 startVelocity = currentVelocity;
         Vector3 newVel = Vector3.zero;
 
         //If move input is basically zero, de-accelerate
         if (Mathf.Approximately(moveDirection.sqrMagnitude, 0f))
-            currentVelocity = Vector3.SmoothDamp(startVelocity, targetVelocity, ref newVel, Deacceleration);
+        {
+            currentVelocity = Vector3.SmoothDamp(currentVelocity, targetVelocity,
+                ref newVel, Deacceleration.Value);
+        }
         else
-            currentVelocity = Vector3.SmoothDamp(startVelocity, targetVelocity, ref newVel, Acceleration);
+        {
+            currentVelocity = Vector3.SmoothDamp(currentVelocity, targetVelocity,
+                ref newVel, Acceleration.Value);
+        }
         
         currentVelocity.y = startVelocity.y;
 
         if (currentVelocity.y <= 0)  //Falling
         {
-            currentVelocity.y += gravity * (FallMultiplier - 1) * Time.deltaTime;
+            currentVelocity.y += gravity * (FallMultiplier.Value - 1) * Time.deltaTime;
         }
-        else if (currentVelocity.y > 0 && !playerController.JumpPressed)    //Short jump
+        else if (currentVelocity.y > 0 && !JumpPressed.Value)    //Short jump
         {
-            currentVelocity.y -= LowJumpDrag * Time.deltaTime;
+            currentVelocity.y -= LowJumpDrag.Value * Time.deltaTime;
             currentVelocity.y += gravity * Time.deltaTime;
         }
         else
         {
             currentVelocity.y += gravity * Time.deltaTime;
         }
-        if (currentVelocity.y < -Mathf.Abs(MaxFallSpeed))   //Cap Speed
+        if (currentVelocity.y < -Mathf.Abs(MaxFallSpeed.Value))   //Cap Speed
         {
-            currentVelocity.y = -Mathf.Abs(MaxFallSpeed);
+            currentVelocity.y = -Mathf.Abs(MaxFallSpeed.Value);
         }
-        
-        playerController.SetPlayerVelocity(currentVelocity);
+
+        NewVelocityOut.Value = currentVelocity;
     }
     
     private void UpdateRotation(Quaternion currentRotation)
     {
         if (moveDirection.AlmostZero()) return;
         currentRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
-        playerController.SetPlayerRotation(currentRotation);
+        NewRotationOut.Value = currentRotation;
     }
 
     private void InitMoveDirection()

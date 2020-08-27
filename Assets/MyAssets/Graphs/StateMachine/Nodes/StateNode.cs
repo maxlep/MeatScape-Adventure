@@ -67,12 +67,12 @@ public class StateNode : Node
         isActiveState = false;
     }
 
-    public virtual StateNode CheckStateTransitions()
+    public virtual StateNode CheckStateTransitions(TriggerVariable receivedTrigger = null)
     {
         //Check global transitions
         foreach (var transition in stateMachineGraph.globalTransitions)
         {
-            if (transition.EvaluateConditions())
+            if (transition.EvaluateConditions(receivedTrigger))
             {
                 NodePort nextStatePort = transition.GetOutputPort("nextState");
                 return nextStatePort.Connection.node as StateNode;
@@ -82,7 +82,7 @@ public class StateNode : Node
         //Check connected transitions
         foreach (var transition in transitionNodes)
         {
-            if (transition.EvaluateConditions())
+            if (transition.EvaluateConditions(receivedTrigger))
             {
                 NodePort nextStatePort = transition.GetOutputPort("nextState");
                 return nextStatePort.Connection.node as StateNode;

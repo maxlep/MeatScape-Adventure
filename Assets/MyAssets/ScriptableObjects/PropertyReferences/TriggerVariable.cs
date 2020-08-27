@@ -2,7 +2,6 @@
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-[InlineEditor(InlineEditorObjectFieldModes.Foldout)]
 [CreateAssetMenu(fileName = "TriggerVariable", menuName = "Variables/TriggerVariable", order = 0)]
 public class TriggerVariable : ScriptableObject
 {

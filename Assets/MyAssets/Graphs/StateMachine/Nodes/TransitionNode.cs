@@ -97,14 +97,19 @@ public class TransitionNode : Node
             intCondition.Init(parameters);
         }
     }
-    
-    
+
 
     //Return true if all conditions are met
-    public bool EvaluateConditions()
+    //Optional trigger can be sent
+    public bool EvaluateConditions(TriggerVariable receivedTrigger = null)
     {
         bool result = true;
+        
+        //If triggers present but none passed, will never be true
+        if (!TriggerConditions.IsNullOrEmpty() && receivedTrigger == null)
+            return false;
 
+        
         //If no conditions, done
         if (BoolConditions.IsNullOrEmpty() && TriggerConditions.IsNullOrEmpty() &&
             FloatConditions.IsNullOrEmpty() && IntConditions.IsNullOrEmpty() &&
@@ -139,7 +144,7 @@ public class TransitionNode : Node
         {
             foreach (var triggerCondition in TriggerConditions)
             {
-                result &= triggerCondition.Evaluate();
+                result &= triggerCondition.Evaluate(receivedTrigger);
                 if (!result) return false;
             }
         }
@@ -318,7 +323,8 @@ public class TriggerCondition
     [HideLabel] public string TargetParameterName;
     
     [HideInInspector] public StateMachineParameters parameters;
-    [HideInInspector] public Dictionary<string, BoolVariable> parameterDict = new Dictionary<string, BoolVariable>();
+    [HideInInspector] public Dictionary<string, TriggerVariable> parameterDict = new Dictionary<string, TriggerVariable>();
+    public TriggerVariable GetTriggerVariable() => parameterDict[TargetParameterName];
 
     
     private List<String> GetTriggerNames()
@@ -336,9 +342,12 @@ public class TriggerCondition
         }
     }
 
-    public bool Evaluate()
+    //Check if the trigger variable that was activated matches the one for this condition
+    public bool Evaluate(TriggerVariable ReceivedTrigger)
     {
-        return parameterDict[TargetParameterName].Value;
+        Debug.Log($"This: {parameterDict[TargetParameterName]} | Received: {ReceivedTrigger}" +
+                  $" | Result: {parameterDict[TargetParameterName].Equals(ReceivedTrigger)}");
+        return parameterDict[TargetParameterName].Equals(ReceivedTrigger);
     }
     
 }

@@ -37,7 +37,7 @@ public class LayeredStateMachine : MonoBehaviour
         //Loop through and init nodes
         foreach (var stateMachine in stateMachines)
         {
-            stateMachine.SetParentMachine(this);
+            stateMachine.InjectDependencies(this, parameters);
             stateMachine.PopulateNodeLists();
             PopulateStateNodeDict(stateMachine);
             InjectNodeDependencies(stateMachine);
@@ -72,8 +72,6 @@ public class LayeredStateMachine : MonoBehaviour
         {
             stateMachine.ExecuteUpdates();
         }
-        
-        parameters.ResetTriggers();
     }
     
     protected virtual void ExecuteFixedUpdates()
@@ -124,15 +122,6 @@ public class LayeredStateMachine : MonoBehaviour
         }
 
         return activeStates;
-    }
-    
-    //Force each state machine to re-evaluate transitions
-    protected virtual void ForceCheckForTransitions()
-    {
-        foreach (var stateMachine in stateMachines)
-        {
-            stateMachine.CheckForValidTransitions();
-        }
     }
 
 }

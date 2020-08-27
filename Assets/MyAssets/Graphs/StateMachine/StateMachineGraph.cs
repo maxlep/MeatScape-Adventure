@@ -6,21 +6,22 @@ using XNode;
 [CreateAssetMenu(fileName = "StateMachineGraph", menuName = "Graphs/StateMachineGraph", order = 0)]
 public class StateMachineGraph : NodeGraph
 {
-    public LayeredStateMachine parentMachine { get; private set; }
     public List<StateNode> stateNodes { get; private set; } = new List<StateNode>();
     public List<TransitionNode> transitionNodes { get; private set; } = new List<TransitionNode>();
     public List<TransitionNode> globalTransitions { get; private set; } = new List<TransitionNode>();
     public StateNode currentState { get; private set; }
-    
-    private StartNode startNode;
 
-    public void SetParentMachine(LayeredStateMachine parent) => parentMachine = parent;
+    private StartNode startNode;
+    private LayeredStateMachine parentMachine;
+    private StateMachineParameters parameters;
+
     
     //For call by layered state machine to begin
     public void StartStateMachine()
     {
         InitStateNodes();
         InitTransitionNodes();
+        SubscribeToTriggers();
         EnterStartState();
     }
 
@@ -35,12 +36,18 @@ public class StateMachineGraph : NodeGraph
         currentState.ExecuteFixed();
     }
 
-    public void CheckForValidTransitions()
+    public void InjectDependencies(LayeredStateMachine parentMachine, StateMachineParameters parameters)
     {
-        StateNode nextState = currentState.CheckStateTransitions();
+        this.parentMachine = parentMachine;
+        this.parameters = parameters;
+    }
+
+    private void CheckForValidTransitions(TriggerVariable receivedTrigger = null)
+    {
+        StateNode nextState = currentState.CheckStateTransitions(receivedTrigger);
         if (nextState != null) ChangeState(nextState);
     }
-    
+
     public void PopulateNodeLists()
     {
         stateNodes.Clear();
@@ -129,6 +136,14 @@ public class StateMachineGraph : NodeGraph
         foreach (var transitionNode in transitionNodes)
         {
             transitionNode.Initialize(this);
+        }
+    }
+
+    private void SubscribeToTriggers()
+    {
+        foreach (var triggerVar in parameters.TriggerParameters)
+        {
+            triggerVar.OnUpdate += () => CheckForValidTransitions(triggerVar);
         }
     }
     

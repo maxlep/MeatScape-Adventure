@@ -12,11 +12,19 @@ public class IntVariable : ScriptableObject
     [SerializeField] private int runtimeValue;
     [TextArea] [HideInInlineEditors] public String Description;
     
+    public delegate void OnUpdate_();
+    public event OnUpdate_ OnUpdate;
+    
     public int Value
     {
         get => runtimeValue;
-        set => runtimeValue = value;
-    } 
+        set
+        {
+            runtimeValue = value;
+            OnUpdate?.Invoke();
+        }
+    }
+
     private void OnEnable() => runtimeValue = defaultValue;
     
 }

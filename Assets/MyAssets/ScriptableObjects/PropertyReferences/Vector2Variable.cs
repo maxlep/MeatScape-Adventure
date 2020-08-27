@@ -12,11 +12,18 @@ public class Vector2Variable : ScriptableObject
     [SerializeField] private Vector2 runtimeValue;
     [TextArea] [HideInInlineEditors] public String Description;
 
+    public delegate void OnUpdate_();
+    public event OnUpdate_ OnUpdate;
+    
     public Vector2 Value
     {
         get => runtimeValue;
-        set => runtimeValue = value;
-    } 
+        set
+        {
+            runtimeValue = value;
+            OnUpdate?.Invoke();
+        }
+    }
 
     private void OnEnable() => runtimeValue = defaultValue;
 

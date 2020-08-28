@@ -8,20 +8,20 @@ using XNode;
 
 public class StateNode : Node
 {
-    [Input] public StateNode previousState;
-    [Output] public TransitionNode transitions;
-    
-    [SerializeField] [LabelWidth(40f)] [Range(0f, 1f)] private float Zoom;
+    [Input]  [PropertyOrder(-3)]  public StateNode previousState;
+    [Output] [PropertyOrder(-2)]  public TransitionNode transitions;
+
     [SerializeField] private string Name;
 
     protected StateMachineGraph stateMachineGraph;
     protected VariableContainer parameters;
     protected List<TransitionNode> transitionNodes = new List<TransitionNode>();
 
+    [SerializeField] [HideInInspector] private float Zoom = .5f;
     [HideInInspector] public bool isActiveState = false;
 
     public string GetName() => Name;
-    
+
     public float GetZoom() => Zoom;
 
     public void SetParameters(VariableContainer newParams) => parameters = newParams;
@@ -96,6 +96,22 @@ public class StateNode : Node
         }
 
         return null;
+    }
+    
+    [HorizontalGroup("split", 20f)] [PropertyOrder(-1)]
+    [Button(ButtonSizes.Small, ButtonStyle.CompactBox, Name = "-")]
+    public void DecreaseZoom()
+    {
+        if (Zoom > .5f) Zoom = .5f;
+        else Zoom = 0f;
+    }
+
+    [HorizontalGroup("split/right", 20f)] [PropertyOrder(0)]
+    [Button(ButtonSizes.Small, ButtonStyle.CompactBox, Name = "+")] 
+    public void IncreaseZoom()
+    {
+        if (Zoom < .5f) Zoom = .5f;
+        else Zoom = 1f;
     }
     
     public override string ToString()

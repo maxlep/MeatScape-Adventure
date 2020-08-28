@@ -10,32 +10,32 @@ using XNode;
 
 public class TransitionNode : Node
 {
-    [Input] public StateNode startingState;
-    [Output] public StateNode nextState;
-
-    [SerializeField] [LabelWidth(40f)] [Range(0f, 1f)] private float Zoom = .5f;
+    [Input] [PropertyOrder(-3)] public StateNode startingState;
+    [Output] [PropertyOrder(-2)] public StateNode nextState;
 
     [Tooltip("Transition only valid if ANY 1 or more of these states are active in OTHER state machine")]
     [ValueDropdown("GetStartStateDropdown")]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.88f, 1f, .95f)]  [FoldoutGroup("", Expanded = true)]
     [SerializeField] private List<StateNode> ValidStartStates;
-    
+
     [Tooltip("Transition only valid if ALL of these Bool condition are met")]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [FoldoutGroup("")]
     [SerializeField] private List<BoolCondition> BoolConditions;
-    
+
     [Tooltip("Transition only valid if ALL of these Trigger condition are met")]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [FoldoutGroup("")]
     [SerializeField] private List<TriggerCondition> TriggerConditions;
-    
+
     [Tooltip("Transition only valid if ALL of these Float condition are met")]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [FoldoutGroup("")]
     [SerializeField] private List<FloatCondition> FloatConditions;
-    
+
     [Tooltip("Transition only valid if ALL of these Int condition are met")]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [FoldoutGroup("")]
     [SerializeField] private List<IntCondition> IntConditions;
 
+
+    [SerializeField] [HideInInspector] private float Zoom = .5f;
     [HideInInspector] public List<StateNode> startStateOptions = new List<StateNode>();
     
     private VariableContainer parameters;
@@ -45,6 +45,7 @@ public class TransitionNode : Node
 
     public void SetParameters(VariableContainer newParams) => parameters = newParams;
     public float GetZoom() => Zoom;
+    
 
     public virtual void Initialize(StateMachineGraph parentGraph)
     {
@@ -175,6 +176,23 @@ public class TransitionNode : Node
         }
 
         return result;
+    }
+
+
+    [HorizontalGroup("split", 20f)] [PropertyOrder(-1)]
+    [Button(ButtonSizes.Small, ButtonStyle.CompactBox, Name = "-")]
+    public void DecreaseZoom()
+    {
+        if (Zoom > .5f) Zoom = .5f;
+        else Zoom = 0f;
+    }
+
+    [HorizontalGroup("split/right", 20f)] [PropertyOrder(0)]
+    [Button(ButtonSizes.Small, ButtonStyle.CompactBox, Name = "+")] 
+    public void IncreaseZoom()
+    {
+        if (Zoom < .5f) Zoom = .5f;
+        else Zoom = 1f;
     }
 }
 

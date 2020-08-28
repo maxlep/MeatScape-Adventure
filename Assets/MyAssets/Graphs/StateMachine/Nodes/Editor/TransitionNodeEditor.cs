@@ -22,7 +22,7 @@ public class TransitionNodeEditor : NodeEditor
         if (asTransitionNode != null)
             zoomAmount = asTransitionNode.GetZoom();
         
-        return Mathf.CeilToInt(Mathf.Lerp(175, 400, zoomAmount));
+        return Mathf.CeilToInt(Mathf.Lerp(225, 400, zoomAmount));
     }
     
     public override Color GetTint()

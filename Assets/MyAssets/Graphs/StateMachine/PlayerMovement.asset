@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: AirMovement ---> Jump
+  m_Name: AirMovement -> AirJump
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 776, y: 264}
+  position: {x: 312, y: 200}
   ports:
     keys:
     - startingState
@@ -27,6 +27,9 @@ MonoBehaviour:
       - fieldName: transitions
         node: {fileID: -4990919157884066038}
         reroutePoints: []
+      - fieldName: transitions
+        node: {fileID: 7248169581288550152}
+        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 0
@@ -37,19 +40,17 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: previousState
-        node: {fileID: 3160719255603912525}
-        reroutePoints:
-        - {x: 1041.1833, y: 327.36447}
-        - {x: 1041.1833, y: 327.36447}
-        - {x: 1037.7999, y: 173.98378}
-        - {x: 233.67915, y: 148.04439}
-        - {x: 231.42355, y: 3.6861012}
+        node: {fileID: -5368650478412996812}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
   startingState: {fileID: 0}
   nextState: {fileID: 0}
+  ConditionPreview: 'Start: Downward Throw <DownwardAttack>
+
+'
   ValidStartStates:
   - {fileID: -6583862081062639760, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
   BoolConditions: []
@@ -71,10 +72,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: AirMovement ---> Ground Movement
+  m_Name: NoLowJump -> Ground Movement
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 776, y: 440}
+  position: {x: 536, y: 488}
   ports:
     keys:
     - startingState
@@ -85,6 +86,9 @@ MonoBehaviour:
       _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
+      - fieldName: transitions
+        node: {fileID: 7248169581288550152}
+        reroutePoints: []
       - fieldName: transitions
         node: {fileID: -4990919157884066038}
         reroutePoints: []
@@ -100,9 +104,9 @@ MonoBehaviour:
       - fieldName: previousState
         node: {fileID: -1108589282178386599}
         reroutePoints:
-        - {x: 1168, y: 496}
-        - {x: 1164.6895, y: 612.0709}
-        - {x: -720, y: 592}
+        - {x: 816, y: 544}
+        - {x: 832, y: 688}
+        - {x: -720, y: 688}
         - {x: -710.5222, y: -28.784298}
       _direction: 1
       _connectionType: 0
@@ -110,6 +114,9 @@ MonoBehaviour:
       _dynamic: 0
   startingState: {fileID: 0}
   nextState: {fileID: 0}
+  ConditionPreview: 'IsGrounded
+
+'
   ValidStartStates: []
   BoolConditions:
   - TargetParameterName: IsGrounded
@@ -123,6 +130,67 @@ MonoBehaviour:
   - {fileID: 9174840935225501389, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
   - {fileID: -8354906802381047596, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
   - {fileID: -6583862081062639760, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
+--- !u!114 &-5368650478412996812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9407b3066ed4db1853f20740c0e142f, type: 3}
+  m_Name: AirJump <Jump>
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 568, y: 232}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: -5368650478412996812}
+      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: -7312282678681196256}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: -5368650478412996812}
+      _typeQualifiedName: TransitionNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: 7248169581288550152}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  previousState: {fileID: 0}
+  transitions: {fileID: 0}
+  Name: AirJump
+  Zoom: 0
+  isActiveState: 0
+  timeToJumpApex:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 1363a9d9ca886e741bf7446fd6169c24, type: 2}
+  maxJumpHeight:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 0fd3177644ebffb41a70848abe4ba59b, type: 2}
+  StoredJumpVelocity:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 2bf3ff9449cfd14419df1c2f76b56b20, type: 2}
+  triggerJumpAnim: {fileID: 11400000, guid: 692eae34b308467428fcb511fd2a56c5, type: 2}
 --- !u!114 &-4990919157884066038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,7 +204,7 @@ MonoBehaviour:
   m_Name: AirMovement <AirMovement>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 312, y: 280}
+  position: {x: -24, y: 264}
   ports:
     keys:
     - previousState
@@ -163,11 +231,13 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: startingState
-        node: {fileID: -6884243189497224942}
-        reroutePoints: []
-      - fieldName: startingState
         node: {fileID: -7312282678681196256}
         reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: -6884243189497224942}
+        reroutePoints:
+        - {x: 422.16278, y: 532.0766}
+        - {x: 422.16278, y: 532.0766}
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
@@ -235,10 +305,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Ground Movement ---> AirMovement
+  m_Name: Ground Movement -> AirMovement
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -136, y: 312}
+  position: {x: -328, y: 232}
   ports:
     keys:
     - startingState
@@ -270,6 +340,9 @@ MonoBehaviour:
       _dynamic: 0
   startingState: {fileID: 0}
   nextState: {fileID: 0}
+  ConditionPreview: '!IsGrounded
+
+'
   ValidStartStates: []
   BoolConditions:
   - TargetParameterName: IsGrounded
@@ -278,7 +351,7 @@ MonoBehaviour:
   TriggerConditions: []
   FloatConditions: []
   IntConditions: []
-  Zoom: 0.5
+  Zoom: 0
   startStateOptions:
   - {fileID: 9174840935225501389, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
   - {fileID: -8354906802381047596, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
@@ -383,6 +456,8 @@ MonoBehaviour:
   - {fileID: -3641797515424182864}
   - {fileID: -6884243189497224942}
   - {fileID: -7312282678681196256}
+  - {fileID: -5368650478412996812}
+  - {fileID: 7248169581288550152}
 --- !u!114 &647826158662486185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -427,7 +502,7 @@ MonoBehaviour:
   m_Name: Jump <Jump>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 296, y: -40}
+  position: {x: -40, y: -40}
   ports:
     keys:
     - previousState
@@ -441,9 +516,6 @@ MonoBehaviour:
       - fieldName: nextState
         node: {fileID: 6332291481083292061}
         reroutePoints: []
-      - fieldName: nextState
-        node: {fileID: -7312282678681196256}
-        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 0
@@ -456,13 +528,11 @@ MonoBehaviour:
       - fieldName: previousState
         node: {fileID: -4990919157884066038}
         reroutePoints:
-        - {x: 594.8613, y: 29.55433}
-        - {x: 581.4865, y: 199.41437}
-        - {x: 581.4865, y: 199.41437}
-        - {x: 269.8535, y: 215.46414}
-        - {x: 269.8535, y: 215.46414}
-        - {x: 253.80373, y: 337.1749}
-        - {x: 253.80373, y: 337.1749}
+        - {x: 241.28091, y: 26.095827}
+        - {x: 241.28091, y: 222.99306}
+        - {x: 241.28091, y: 222.99306}
+        - {x: -46.393623, y: 234.50005}
+        - {x: -42.557964, y: 308.65616}
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
@@ -523,10 +593,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Ground Movement ---> Jump
+  m_Name: Ground Movement -> Jump
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -136, y: -56}
+  position: {x: -296, y: -152}
   ports:
     keys:
     - startingState
@@ -558,6 +628,9 @@ MonoBehaviour:
       _dynamic: 0
   startingState: {fileID: 0}
   nextState: {fileID: 0}
+  ConditionPreview: 'JumpTrigger
+
+'
   ValidStartStates: []
   BoolConditions: []
   TriggerConditions:
@@ -565,8 +638,121 @@ MonoBehaviour:
     parameters: {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
   FloatConditions: []
   IntConditions: []
-  Zoom: 0.5
+  Zoom: 0
   startStateOptions:
   - {fileID: 9174840935225501389, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
   - {fileID: -8354906802381047596, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
   - {fileID: -6583862081062639760, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
+--- !u!114 &7248169581288550152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3025855eed90dd4f81a5b42e0e18392, type: 3}
+  m_Name: NoLowJump <AirMovement>
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 856, y: 248}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: 7248169581288550152}
+      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: -5368650478412996812}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: 7248169581288550152}
+      _typeQualifiedName: TransitionNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: startingState
+        node: {fileID: -6884243189497224942}
+        reroutePoints:
+        - {x: 1128.9238, y: 313.79257}
+        - {x: 1128.9238, y: 313.79257}
+        - {x: 1131.5858, y: 457.5406}
+        - {x: 1130.2549, y: 458.87158}
+        - {x: 468.74777, y: 464.1956}
+        - {x: 468.74777, y: 464.1956}
+        - {x: 470.0788, y: 534.7386}
+        - {x: 470.0788, y: 534.7386}
+      - fieldName: startingState
+        node: {fileID: -7312282678681196256}
+        reroutePoints:
+        - {x: 1127.5928, y: 316.45456}
+        - {x: 1127.5928, y: 316.45456}
+        - {x: 1124.9308, y: 166.05156}
+        - {x: 1124.9308, y: 166.05156}
+        - {x: 288, y: 160}
+        - {x: 277.08377, y: 252.56657}
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  previousState: {fileID: 0}
+  transitions: {fileID: 0}
+  Name: NoLowJump
+  Zoom: 0
+  isActiveState: 0
+  MoveSpeed:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 5c878f8db6decb043a9e07239782f2ef, type: 2}
+  Acceleration:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 01cf5e817fd7b5949977e10d09bb5ab6, type: 2}
+  Deacceleration:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: c4dbde759be93ec4cad673baf38c882c, type: 2}
+  TimeToJumpApex:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 1363a9d9ca886e741bf7446fd6169c24, type: 2}
+  MaxJumpHeight:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 0fd3177644ebffb41a70848abe4ba59b, type: 2}
+  FallMultiplier:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: add848a2a4596d842bf11239290fbb71, type: 2}
+  LowJumpDrag:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 40a7b4d889cf2e84b935f6621086aafa, type: 2}
+  MaxFallSpeed:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 7ce844f15ac152946bbf9df2bd27b40f, type: 2}
+  JumpPressed:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: d00e7a08d0775a4429a3a5cfad1382a2, type: 2}
+  MoveInput:
+    UseConstant: 0
+    ConstantValue: {x: 0, y: 0}
+    Variable: {fileID: 11400000, guid: f48af2d5870a315459ef8f032591c5be, type: 2}
+  NewVelocityOut:
+    UseConstant: 0
+    ConstantValue: {x: 0, y: 0, z: 0}
+    Variable: {fileID: 11400000, guid: 9bb89c095cc264240a1d00bcb25ce309, type: 2}
+  NewRotationOut:
+    UseConstant: 0
+    ConstantValue: {x: 0, y: 0, z: 0, w: 0}
+    Variable: {fileID: 11400000, guid: 642843bee527d554f9408523e1ab11c8, type: 2}

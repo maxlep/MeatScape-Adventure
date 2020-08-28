@@ -13,6 +13,9 @@ public class TransitionNode : Node
     [Input] [PropertyOrder(-3)] public StateNode startingState;
     [Output] [PropertyOrder(-2)] public StateNode nextState;
 
+    [TextArea] [HideLabel]
+    [SerializeField] private string ConditionPreview;
+
     [Tooltip("Transition only valid if ANY 1 or more of these states are active in OTHER state machine")]
     [ValueDropdown("GetStartStateDropdown")]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.88f, 1f, .95f)]  [FoldoutGroup("", Expanded = true)]
@@ -66,7 +69,7 @@ public class TransitionNode : Node
         StateNode outputState = outputConnection.node as StateNode;
         startingStateName = inputState != null ? inputState.GetName() : "Any State";
         nextStateName = outputState != null ? outputState.GetName() : "<Missing>";
-        name = $"{startingStateName} ---> {nextStateName}";
+        name = $"{startingStateName} -> {nextStateName}";
     }
 
     public List<StateNode> GetStartStateDropdown()
@@ -76,31 +79,41 @@ public class TransitionNode : Node
 
     private void OnValidate()
     {
-        name = $"{startingStateName} ---> {nextStateName}";
+        name = $"{startingStateName} -> {nextStateName}";
         InitConditions();
         
     }
 
     private void InitConditions()
     {
+        ConditionPreview = "";
+        
+        foreach (var startState in ValidStartStates)
+        {
+            ConditionPreview += $"Start: {startState}\n";
+        }
         foreach (var boolCondition in BoolConditions)
         {
             boolCondition.Init(parameters);
+            ConditionPreview += $"{boolCondition}\n";
         }
         
         foreach (var triggerCondition in TriggerConditions)
         {
             triggerCondition.Init(parameters);
+            ConditionPreview += $"{triggerCondition}\n";
         }
         
         foreach (var floatCondition in FloatConditions)
         {
             floatCondition.Init(parameters);
+            ConditionPreview += $"{floatCondition}\n";
         }
         
         foreach (var intCondition in IntConditions)
         {
             intCondition.Init(parameters);
+            ConditionPreview += $"{intCondition}\n";
         }
     }
 
@@ -201,7 +214,7 @@ public class IntCondition
 {
     
     [ValueDropdown("GetInts")] [Required]
-    [HideLabel] public IntVariable TargetParameter;
+    [HideLabel] public string TargetParameterName;
     [HideLabel] public Comparator comparator;
     [HideLabel] public float value;
     
@@ -218,9 +231,9 @@ public class IntCondition
     }
     
     
-    private List<IntVariable> GetInts()
+    private List<string> GetInts()
     {
-        return parameters.GetIntVariables();
+        return (parameterDict.Count > 0) ?  parameterDict.Keys.ToList() : new List<string>() {""};
     }
     
     public void Init(VariableContainer machineParameters)
@@ -235,7 +248,7 @@ public class IntCondition
 
     public bool Evaluate()
     {
-        int paramValue = TargetParameter.Value;
+        int paramValue = parameterDict[TargetParameterName].Value;
         
         if (comparator == Comparator.GreaterThan)
             return paramValue > value;
@@ -251,7 +264,11 @@ public class IntCondition
 
         return false;
     }
-    
+
+    public override string ToString()
+    {
+        return $"{TargetParameterName} {comparator} {value}";
+    }
 }
 
 [System.Serializable]
@@ -259,7 +276,7 @@ public class FloatCondition
 {
     
     [ValueDropdown("GetFloats")] [Required]
-    [HideLabel] public FloatVariable TargetParameter;
+    [HideLabel] public string TargetParameterName;
     [HideLabel] public Comparator comparator;
     [HideLabel] public float value;
     
@@ -274,9 +291,9 @@ public class FloatCondition
     }
     
     
-    private List<FloatVariable> GetFloats()
+    private List<string> GetFloats()
     {
-        return parameters.GetFloatVariables();
+        return (parameterDict.Count > 0) ?  parameterDict.Keys.ToList() : new List<string>() {""};
     }
     
     public void Init(VariableContainer machineParameters)
@@ -291,7 +308,7 @@ public class FloatCondition
 
     public bool Evaluate()
     {
-        float paramValue = TargetParameter.Value;
+        float paramValue = parameterDict[TargetParameterName].Value;
 
         if (comparator == Comparator.GreaterThan)
             return paramValue > value;
@@ -300,6 +317,11 @@ public class FloatCondition
             return paramValue < value;
 
         return false;
+    }
+    
+    public override string ToString()
+    {
+        return $"{TargetParameterName} {comparator} {value}";
     }
     
 }
@@ -336,6 +358,11 @@ public class BoolCondition
         return parameterDict[TargetParameterName].Value == value;
     }
     
+    public override string ToString()
+    {
+        return value ? $"{TargetParameterName}" : $"!{TargetParameterName}";
+    }
+    
 }
 
 [System.Serializable]
@@ -369,6 +396,11 @@ public class TriggerCondition
     public bool Evaluate(TriggerVariable ReceivedTrigger)
     {
         return parameterDict[TargetParameterName].Equals(ReceivedTrigger);
+    }
+    
+    public override string ToString()
+    {
+        return $"{TargetParameterName}";
     }
     
 }

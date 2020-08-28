@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -14,24 +15,24 @@ public class TransitionNode : Node
 
     [Tooltip("Transition only valid if ANY 1 or more of these states are active in OTHER state machine")]
     [ValueDropdown("GetStartStateDropdown")]
-    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.88f, 1f, .95f)]  [FoldoutGroup("")]
-    public List<StateNode> ValidStartStates;
+    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.88f, 1f, .95f)]  [FoldoutGroup("", Expanded = true)]
+    [SerializeField] private List<StateNode> ValidStartStates;
     
     [Tooltip("Transition only valid if ALL of these Bool condition are met")]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [FoldoutGroup("")]
-    public List<BoolCondition> BoolConditions;
+    [SerializeField] private List<BoolCondition> BoolConditions;
     
     [Tooltip("Transition only valid if ALL of these Trigger condition are met")]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [FoldoutGroup("")]
-    public List<TriggerCondition> TriggerConditions;
+    [SerializeField] private List<TriggerCondition> TriggerConditions;
     
     [Tooltip("Transition only valid if ALL of these Float condition are met")]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [FoldoutGroup("")]
-    public List<FloatCondition> FloatConditions;
+    [SerializeField] private List<FloatCondition> FloatConditions;
     
     [Tooltip("Transition only valid if ALL of these Int condition are met")]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [FoldoutGroup("")]
-    public List<IntCondition> IntConditions;
+    [SerializeField] private List<IntCondition> IntConditions;
 
     [HideInInspector] public List<StateNode> startStateOptions = new List<StateNode>();
     
@@ -73,6 +74,7 @@ public class TransitionNode : Node
     {
         name = $"{startingStateName} ---> {nextStateName}";
         InitConditions();
+        
     }
 
     private void InitConditions()

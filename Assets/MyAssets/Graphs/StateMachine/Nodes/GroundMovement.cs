@@ -6,12 +6,12 @@ using UnityEngine.UI;
 
 public class GroundMovement : PlayerStateNode
 {
-    [FoldoutGroup("")] [LabelWidth(120)] public FloatReference MoveSpeed;
-    [FoldoutGroup("")] [LabelWidth(120)] public FloatReference Acceleration;
-    [FoldoutGroup("")] [LabelWidth(120)] public FloatReference Deacceleration;
-    [FoldoutGroup("")] [LabelWidth(120)] public Vector2Reference MoveInput;
-    [FoldoutGroup("")] [LabelWidth(120)] public Vector3Reference NewVelocityOut;
-    [FoldoutGroup("")] [LabelWidth(120)] public QuaternionReference NewRotationOut;
+    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private FloatReference MoveSpeed;
+    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private FloatReference Acceleration;
+    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private FloatReference Deacceleration;
+    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private Vector2Reference MoveInput;
+    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private Vector3Reference NewVelocityOut;
+    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private QuaternionReference NewRotationOut;
 
     private Transform cameraTrans;
     private Vector3 moveDirection;

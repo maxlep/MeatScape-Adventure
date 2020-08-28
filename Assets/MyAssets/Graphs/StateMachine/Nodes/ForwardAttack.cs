@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class ForwardAttack : PlayerStateNode
 {
-    [FoldoutGroup("")] [LabelWidth(120)] public GameObject ammo;
-    [FoldoutGroup("")] [LabelWidth(120)] public FloatReference throwDelay;
-    [FoldoutGroup("")] [LabelWidth(120)] public FloatReference forwardForce;
-    [FoldoutGroup("")] [LabelWidth(120)] public FloatReference upwardForce;
-    [FoldoutGroup("")] [LabelWidth(120)] public BoolReference waitedAttackDelay;
+    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private GameObject ammo;
+    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private FloatReference throwDelay;
+    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private FloatReference forwardForce;
+    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private FloatReference upwardForce;
+    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private BoolReference waitedAttackDelay;
 
     public override void Initialize(StateMachineGraph parentGraph)
     {

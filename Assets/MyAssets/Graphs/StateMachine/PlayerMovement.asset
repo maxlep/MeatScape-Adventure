@@ -150,8 +150,8 @@ MonoBehaviour:
       - fieldName: nextState
         node: {fileID: -3641797515424182864}
         reroutePoints: []
-      - fieldName: nextState
-        node: {fileID: 7873343730281513504}
+      - fieldName: transitions
+        node: {fileID: 3160719255603912525}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -378,7 +378,6 @@ MonoBehaviour:
   - {fileID: 6332291481083292061}
   - {fileID: -1108589282178386599}
   - {fileID: 3160719255603912525}
-  - {fileID: 7873343730281513504}
   - {fileID: 4560253871089828436}
   - {fileID: -4990919157884066038}
   - {fileID: -3641797515424182864}
@@ -454,9 +453,16 @@ MonoBehaviour:
       _typeQualifiedName: TransitionNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: startingState
-        node: {fileID: 7873343730281513504}
-        reroutePoints: []
+      - fieldName: previousState
+        node: {fileID: -4990919157884066038}
+        reroutePoints:
+        - {x: 594.8613, y: 29.55433}
+        - {x: 581.4865, y: 199.41437}
+        - {x: 581.4865, y: 199.41437}
+        - {x: 269.8535, y: 215.46414}
+        - {x: 269.8535, y: 215.46414}
+        - {x: 253.80373, y: 337.1749}
+        - {x: 253.80373, y: 337.1749}
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
@@ -560,66 +566,6 @@ MonoBehaviour:
   FloatConditions: []
   IntConditions: []
   Zoom: 0.5
-  startStateOptions:
-  - {fileID: 9174840935225501389, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
-  - {fileID: -8354906802381047596, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
-  - {fileID: -6583862081062639760, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
---- !u!114 &7873343730281513504
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Jump ---> AirMovement
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 808, y: -56}
-  ports:
-    keys:
-    - startingState
-    - nextState
-    values:
-    - _fieldName: startingState
-      _node: {fileID: 7873343730281513504}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: 3160719255603912525}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: nextState
-      _node: {fileID: 7873343730281513504}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: previousState
-        node: {fileID: -4990919157884066038}
-        reroutePoints:
-        - {x: 1168, y: 16}
-        - {x: 1172.2653, y: 247.5275}
-        - {x: 304, y: 240}
-        - {x: 304, y: 320}
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-  startingState: {fileID: 0}
-  nextState: {fileID: 0}
-  ValidStartStates:
-  - {fileID: 9174840935225501389, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
-  BoolConditions: []
-  TriggerConditions: []
-  FloatConditions: []
-  IntConditions: []
-  Zoom: 0
   startStateOptions:
   - {fileID: 9174840935225501389, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
   - {fileID: -8354906802381047596, guid: 1873cdd2965623e4386b829a278254b2, type: 2}

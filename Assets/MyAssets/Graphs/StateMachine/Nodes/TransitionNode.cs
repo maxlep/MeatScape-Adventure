@@ -368,8 +368,6 @@ public class TriggerCondition
     //Check if the trigger variable that was activated matches the one for this condition
     public bool Evaluate(TriggerVariable ReceivedTrigger)
     {
-        Debug.Log($"This: {parameterDict[TargetParameterName]} | Received: {ReceivedTrigger}" +
-                  $" | Result: {parameterDict[TargetParameterName].Equals(ReceivedTrigger)}");
         return parameterDict[TargetParameterName].Equals(ReceivedTrigger);
     }
     

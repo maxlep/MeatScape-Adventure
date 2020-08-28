@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using XNode;
@@ -16,6 +17,7 @@ public class StateNode : Node
     protected StateMachineGraph stateMachineGraph;
     protected VariableContainer parameters;
     protected List<TransitionNode> transitionNodes = new List<TransitionNode>();
+    protected StateNode noTransitionState;
 
     [SerializeField] [HideInInspector] private float Zoom = .5f;
     [HideInInspector] public bool isActiveState = false;
@@ -40,7 +42,13 @@ public class StateNode : Node
         NodePort transitionsPort = GetOutputPort("transitions");
         transitionsPort.GetConnections().ForEach(c =>
         {
-            transitionNodes.Add(c.node as TransitionNode);
+            TransitionNode nodeAsTransition = (c.node as TransitionNode);
+            if (nodeAsTransition != null)
+                transitionNodes.Add(c.node as TransitionNode);
+            
+            StateNode nodeAsState = (c.node as StateNode);
+            if (nodeAsState != null)
+                noTransitionState = nodeAsState;
         });
     }
 
@@ -75,6 +83,9 @@ public class StateNode : Node
 
     public virtual StateNode CheckStateTransitions(TriggerVariable receivedTrigger = null)
     {
+        //Check for direct connection to state that bypasses transtions
+        if (noTransitionState != null) return noTransitionState;
+        
         //Check global transitions
         foreach (var transition in stateMachineGraph.globalTransitions)
         {

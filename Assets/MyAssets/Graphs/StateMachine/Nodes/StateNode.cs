@@ -12,13 +12,13 @@ public class StateNode : Node
     [Output] public TransitionNode transitions;
 
     protected StateMachineGraph stateMachineGraph;
-    protected StateMachineParameters parameters;
+    protected VariableContainer parameters;
     protected List<TransitionNode> transitionNodes = new List<TransitionNode>();
     
     [ReadOnly] public bool isActiveState = false;
     public string Name;
     
-    public void SetParameters(StateMachineParameters newParams) => parameters = newParams;
+    public void SetParameters(VariableContainer newParams) => parameters = newParams;
 
     public virtual void Initialize(StateMachineGraph parentGraph)
     {

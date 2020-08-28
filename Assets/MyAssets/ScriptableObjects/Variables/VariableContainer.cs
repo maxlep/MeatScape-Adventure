@@ -16,28 +16,37 @@ public class VariableContainer : ScriptableObject
     [SerializeField] private string FolderPath;
     [SerializeField] private bool IncludeSubdirectories = false;
     
-    [PropertySpace(SpaceBefore = 10, SpaceAfter = 10)]
+    [Required] [PropertySpace(SpaceBefore = 10, SpaceAfter = 10)]
     [SerializeField] private List<TriggerVariable> TriggerVariables = new List<TriggerVariable>();
     
-    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)]
+    [Required] [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)]
     [SerializeField] private List<BoolVariable> BoolVariables = new List<BoolVariable>();
     
-    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)]
+    [Required] [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)]
     [SerializeField] private List<IntVariable> IntVariables = new List<IntVariable>();
     
-    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)]
+    [Required] [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)]
     [SerializeField] private List<FloatVariable> FloatVariables = new List<FloatVariable>();
     
-    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)]
+    [Required] [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)]
     [SerializeField] private List<Vector2Variable> Vector2Variables = new List<Vector2Variable>();
     
-    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)]
+    [Required] [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)]
     [SerializeField] private List<Vector3Variable> Vector3Variables = new List<Vector3Variable>();
     
-    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)]
+    [Required] [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)]
     [SerializeField] private List<QuaternionVariable> QuaternionVariables = new List<QuaternionVariable>();
     
     private const string ASSET_EXTENSION = ".asset";
+
+    public List<TriggerVariable> GetTriggerVariables() => TriggerVariables;
+    public List<BoolVariable> GetBoolVariables() => BoolVariables;
+    public List<IntVariable> GetIntVariables() => IntVariables;
+    public List<FloatVariable> GetFloatVariables() => FloatVariables;
+    public List<Vector2Variable> GetVector2Variables() => Vector2Variables;
+    public List<Vector3Variable> GetVector3Variables() => Vector3Variables;
+    public List<QuaternionVariable> GetQuaternionVariables() => QuaternionVariables;
+
 
     [GUIColor(0, 1, 0)]
     [Button(ButtonSizes.Large)]

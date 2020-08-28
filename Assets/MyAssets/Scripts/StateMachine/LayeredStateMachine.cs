@@ -9,7 +9,7 @@ using Sirenix.OdinInspector;
 public class LayeredStateMachine : MonoBehaviour
 {
     [SerializeField] protected StateMachineGraph[] stateMachines;
-    [SerializeField] protected StateMachineParameters parameters;
+    [SerializeField] protected VariableContainer parameters;
 
     protected Dictionary<StateNode, StateMachineGraph> stateNodeDict = new Dictionary<StateNode, StateMachineGraph>();
 

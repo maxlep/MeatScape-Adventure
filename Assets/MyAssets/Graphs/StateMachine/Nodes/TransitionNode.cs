@@ -35,12 +35,12 @@ public class TransitionNode : Node
 
     [HideInInspector] public List<StateNode> startStateOptions = new List<StateNode>();
     
-    private StateMachineParameters parameters;
+    private VariableContainer parameters;
     private StateMachineGraph stateMachineGraph;
     private string startingStateName;
     private string nextStateName;
 
-    public void SetParameters(StateMachineParameters newParams) => parameters = newParams;
+    public void SetParameters(VariableContainer newParams) => parameters = newParams;
 
     public virtual void Initialize(StateMachineGraph parentGraph)
     {
@@ -182,7 +182,7 @@ public class IntCondition
     [HideLabel] public Comparator comparator;
     [HideLabel] public float value;
     
-    [HideInInspector] public StateMachineParameters parameters;
+    [HideInInspector] public VariableContainer parameters;
     [HideInInspector] public Dictionary<string, IntVariable> parameterDict = new Dictionary<string, IntVariable>();
 
     
@@ -197,14 +197,14 @@ public class IntCondition
     
     private List<IntVariable> GetInts()
     {
-        return parameters.IntParameters;
+        return parameters.GetIntVariables();
     }
     
-    public void Init(StateMachineParameters machineParameters)
+    public void Init(VariableContainer machineParameters)
     {
         parameters = machineParameters;
         parameterDict.Clear();
-        foreach (var intParam in parameters.IntParameters)
+        foreach (var intParam in parameters.GetIntVariables())
         {
             parameterDict.Add(intParam.name, intParam);
         }
@@ -240,7 +240,7 @@ public class FloatCondition
     [HideLabel] public Comparator comparator;
     [HideLabel] public float value;
     
-    [HideInInspector] public StateMachineParameters parameters;
+    [HideInInspector] public VariableContainer parameters;
     [HideInInspector] public Dictionary<string, FloatVariable> parameterDict = new Dictionary<string, FloatVariable>();
 
     
@@ -253,14 +253,14 @@ public class FloatCondition
     
     private List<FloatVariable> GetFloats()
     {
-        return parameters.FloatParameters;
+        return parameters.GetFloatVariables();
     }
     
-    public void Init(StateMachineParameters machineParameters)
+    public void Init(VariableContainer machineParameters)
     {
         parameters = machineParameters;
         parameterDict.Clear();
-        foreach (var floatParam in parameters.FloatParameters)
+        foreach (var floatParam in parameters.GetFloatVariables())
         {
             parameterDict.Add(floatParam.name, floatParam);
         }
@@ -290,7 +290,7 @@ public class BoolCondition
     [HideLabel] public string TargetParameterName;
     [LabelWidth(40f)] public bool value;
     
-    [HideInInspector] public StateMachineParameters parameters;
+    [HideInInspector] public VariableContainer parameters;
     [HideInInspector] public Dictionary<string, BoolVariable> parameterDict = new Dictionary<string, BoolVariable>();
     
     private List<String> GetBoolNames()
@@ -298,11 +298,11 @@ public class BoolCondition
         return (parameterDict.Count > 0) ?  parameterDict.Keys.ToList() : new List<string>() {""};
     }
 
-    public void Init(StateMachineParameters machineParameters)
+    public void Init(VariableContainer machineParameters)
     {
         parameters = machineParameters;
         parameterDict.Clear();
-        foreach (var boolParam in parameters.BoolParameters)
+        foreach (var boolParam in parameters.GetBoolVariables())
         {
             parameterDict.Add(boolParam.name, boolParam);
         }
@@ -322,7 +322,7 @@ public class TriggerCondition
     [ValueDropdown("GetTriggerNames")] [Required]
     [HideLabel] public string TargetParameterName;
     
-    [HideInInspector] public StateMachineParameters parameters;
+    [HideInInspector] public VariableContainer parameters;
     [HideInInspector] public Dictionary<string, TriggerVariable> parameterDict = new Dictionary<string, TriggerVariable>();
     public TriggerVariable GetTriggerVariable() => parameterDict[TargetParameterName];
 
@@ -332,11 +332,11 @@ public class TriggerCondition
         return (parameterDict.Count > 0) ?  parameterDict.Keys.ToList() : new List<string>() {""};
     }
     
-    public void Init(StateMachineParameters machineParameters)
+    public void Init(VariableContainer machineParameters)
     {
         parameters = machineParameters;
         parameterDict.Clear();
-        foreach (var triggerParam in parameters.TriggerParameters)
+        foreach (var triggerParam in parameters.GetTriggerVariables())
         {
             parameterDict.Add(triggerParam.name, triggerParam);
         }

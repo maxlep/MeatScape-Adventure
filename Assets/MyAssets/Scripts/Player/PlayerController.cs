@@ -12,7 +12,6 @@ public class PlayerController : MonoBehaviour, ICharacterController
 {
     [SerializeField] private KinematicCharacterMotor charMotor;
     [SerializeField] private PlayerStateMachine stateMachine;
-    [SerializeField] private StateMachineParameters parameters;
     [SerializeField] private Animator animator;
     [SerializeField] private Transform cameraTrans;
     [SerializeField] private Transform firePoint;

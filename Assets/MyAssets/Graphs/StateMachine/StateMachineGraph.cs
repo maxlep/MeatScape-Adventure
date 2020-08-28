@@ -13,7 +13,7 @@ public class StateMachineGraph : NodeGraph
 
     private StartNode startNode;
     private LayeredStateMachine parentMachine;
-    private StateMachineParameters parameters;
+    private VariableContainer parameters;
 
     
     //For call by layered state machine to begin
@@ -36,7 +36,7 @@ public class StateMachineGraph : NodeGraph
         currentState.ExecuteFixed();
     }
 
-    public void InjectDependencies(LayeredStateMachine parentMachine, StateMachineParameters parameters)
+    public void InjectDependencies(LayeredStateMachine parentMachine, VariableContainer parameters)
     {
         this.parentMachine = parentMachine;
         this.parameters = parameters;
@@ -141,7 +141,7 @@ public class StateMachineGraph : NodeGraph
 
     private void SubscribeToTriggers()
     {
-        foreach (var triggerVar in parameters.TriggerParameters)
+        foreach (var triggerVar in parameters.GetTriggerVariables())
         {
             triggerVar.OnUpdate += () => CheckForValidTransitions(triggerVar);
         }

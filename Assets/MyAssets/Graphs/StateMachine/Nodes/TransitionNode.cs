@@ -13,6 +13,8 @@ public class TransitionNode : Node
     [Input] public StateNode startingState;
     [Output] public StateNode nextState;
 
+    [SerializeField] [LabelWidth(40f)] [Range(0f, 1f)] private float Zoom = .5f;
+
     [Tooltip("Transition only valid if ANY 1 or more of these states are active in OTHER state machine")]
     [ValueDropdown("GetStartStateDropdown")]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.88f, 1f, .95f)]  [FoldoutGroup("", Expanded = true)]
@@ -42,6 +44,7 @@ public class TransitionNode : Node
     private string nextStateName;
 
     public void SetParameters(VariableContainer newParams) => parameters = newParams;
+    public float GetZoom() => Zoom;
 
     public virtual void Initialize(StateMachineGraph parentGraph)
     {
@@ -60,8 +63,8 @@ public class TransitionNode : Node
         
         StateNode inputState = inputConnection.node as StateNode;
         StateNode outputState = outputConnection.node as StateNode;
-        startingStateName = inputState != null ? inputState.Name : "Any State";
-        nextStateName = outputState != null ? outputState.Name : "<Missing>";
+        startingStateName = inputState != null ? inputState.GetName() : "Any State";
+        nextStateName = outputState != null ? outputState.GetName() : "<Missing>";
         name = $"{startingStateName} ---> {nextStateName}";
     }
 

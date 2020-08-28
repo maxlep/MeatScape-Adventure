@@ -7,6 +7,7 @@ using XNodeEditor;
 [NodeEditor.CustomNodeEditorAttribute(typeof(StateNode))]
 public class StateNodeEditor : NodeEditor
 {
+    private float zoomAmount = 1f;
 
     public override void OnBodyGUI()
     {
@@ -16,7 +17,11 @@ public class StateNodeEditor : NodeEditor
 
     public override int GetWidth()
     {
-        return 450;
+        StateNode asStateNode = target as StateNode;
+        if (asStateNode != null)
+            zoomAmount = asStateNode.GetZoom();
+
+        return Mathf.CeilToInt(Mathf.Lerp(225, 400, zoomAmount));
     }
     
     public override Color GetTint()

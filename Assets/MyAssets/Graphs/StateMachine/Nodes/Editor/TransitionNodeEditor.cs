@@ -7,16 +7,22 @@ using XNodeEditor;
 [NodeEditor.CustomNodeEditorAttribute(typeof(TransitionNode))]
 public class TransitionNodeEditor : NodeEditor
 {
+    private float zoomAmount = 1f;
     
     public override void OnBodyGUI()
     {
-        EditorGUIUtility.labelWidth = 120;
+        EditorGUIUtility.labelWidth = 120f;
         base.OnBodyGUI();
     }
 
     public override int GetWidth()
     {
-        return 350;
+        
+        TransitionNode asTransitionNode = target as TransitionNode;
+        if (asTransitionNode != null)
+            zoomAmount = asTransitionNode.GetZoom();
+        
+        return Mathf.CeilToInt(Mathf.Lerp(225, 400, zoomAmount));
     }
     
     public override Color GetTint()

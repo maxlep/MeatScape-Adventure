@@ -10,14 +10,20 @@ public class StateNode : Node
 {
     [Input] public StateNode previousState;
     [Output] public TransitionNode transitions;
+    
+    [SerializeField] [LabelWidth(40f)] [Range(0f, 1f)] private float Zoom;
+    [SerializeField] private string Name;
 
     protected StateMachineGraph stateMachineGraph;
     protected VariableContainer parameters;
     protected List<TransitionNode> transitionNodes = new List<TransitionNode>();
+
+    [HideInInspector] public bool isActiveState = false;
+
+    public string GetName() => Name;
     
-    [ReadOnly] public bool isActiveState = false;
-    public string Name;
-    
+    public float GetZoom() => Zoom;
+
     public void SetParameters(VariableContainer newParams) => parameters = newParams;
 
     public virtual void Initialize(StateMachineGraph parentGraph)

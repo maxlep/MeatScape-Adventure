@@ -204,7 +204,7 @@ MonoBehaviour:
   m_Name: AirMovement <AirMovement>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -24, y: 264}
+  position: {x: -8, y: 264}
   ports:
     keys:
     - previousState
@@ -215,9 +215,6 @@ MonoBehaviour:
       _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: nextState
-        node: {fileID: -3641797515424182864}
-        reroutePoints: []
       - fieldName: transitions
         node: {fileID: 3160719255603912525}
         reroutePoints: []
@@ -308,7 +305,7 @@ MonoBehaviour:
   m_Name: Ground Movement -> AirMovement
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -328, y: 232}
+  position: {x: -312, y: -184}
   ports:
     keys:
     - startingState
@@ -332,8 +329,10 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: previousState
-        node: {fileID: -4990919157884066038}
-        reroutePoints: []
+        node: {fileID: 7248169581288550152}
+        reroutePoints:
+        - {x: 800.4118, y: -121.748146}
+        - {x: 812.3908, y: 298.84787}
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
@@ -502,7 +501,7 @@ MonoBehaviour:
   m_Name: Jump <Jump>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -40, y: -40}
+  position: {x: -120, y: 56}
   ports:
     keys:
     - previousState
@@ -528,7 +527,7 @@ MonoBehaviour:
       - fieldName: previousState
         node: {fileID: -4990919157884066038}
         reroutePoints:
-        - {x: 241.28091, y: 26.095827}
+        - {x: 240, y: 128}
         - {x: 241.28091, y: 222.99306}
         - {x: 241.28091, y: 222.99306}
         - {x: -46.393623, y: 234.50005}
@@ -596,7 +595,7 @@ MonoBehaviour:
   m_Name: Ground Movement -> Jump
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -296, y: -152}
+  position: {x: -376, y: 40}
   ports:
     keys:
     - startingState
@@ -669,6 +668,9 @@ MonoBehaviour:
       connections:
       - fieldName: transitions
         node: {fileID: -5368650478412996812}
+        reroutePoints: []
+      - fieldName: nextState
+        node: {fileID: -3641797515424182864}
         reroutePoints: []
       _direction: 0
       _connectionType: 0

@@ -108,7 +108,7 @@ MonoBehaviour:
         - {x: 1905.5376, y: 670.9506}
         - {x: 1906.7782, y: 868.2027}
         - {x: 1906.7782, y: 868.2027}
-        - {x: 570.67474, y: 847.11285}
+        - {x: 592, y: 848}
         - {x: 586.8023, y: 313.6639}
         - {x: 586.8023, y: 313.6639}
       _direction: 1
@@ -288,9 +288,9 @@ MonoBehaviour:
       _dynamic: 0
   startingState: {fileID: 0}
   nextState: {fileID: 0}
-  ConditionPreview: 'WaitedAttackDelay
+  ConditionPreview: '- WaitedAttackDelay
 
-    AttackTrigger
+    - AttackTrigger
 
 '
   ValidStartStates: []
@@ -417,12 +417,13 @@ MonoBehaviour:
       _dynamic: 0
   startingState: {fileID: 0}
   nextState: {fileID: 0}
-  ConditionPreview: 'Start: AirMovement <AirMovement>
+  ConditionPreview: '- Start: AirMovement
 
-    Start: NoLowJump <AirMovement>
+    - Start: NoLowJump
 
-    WaitedAttackDelay
+    - WaitedAttackDelay
 
+    -
     DownwardAttackTrigger
 
 '

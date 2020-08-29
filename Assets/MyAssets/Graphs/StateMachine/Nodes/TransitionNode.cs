@@ -90,30 +90,30 @@ public class TransitionNode : Node
         
         foreach (var startState in ValidStartStates)
         {
-            ConditionPreview += $"Start: {startState}\n";
+            ConditionPreview += $"- Start: {startState.GetName()}\n";
         }
         foreach (var boolCondition in BoolConditions)
         {
             boolCondition.Init(parameters);
-            ConditionPreview += $"{boolCondition}\n";
+            ConditionPreview += $"- {boolCondition}\n";
         }
         
         foreach (var triggerCondition in TriggerConditions)
         {
             triggerCondition.Init(parameters);
-            ConditionPreview += $"{triggerCondition}\n";
+            ConditionPreview += $"- {triggerCondition}\n";
         }
         
         foreach (var floatCondition in FloatConditions)
         {
             floatCondition.Init(parameters);
-            ConditionPreview += $"{floatCondition}\n";
+            ConditionPreview += $"- {floatCondition}\n";
         }
         
         foreach (var intCondition in IntConditions)
         {
             intCondition.Init(parameters);
-            ConditionPreview += $"{intCondition}\n";
+            ConditionPreview += $"- {intCondition}\n";
         }
     }
 

@@ -18,6 +18,8 @@ public class FreeLookAddOn : MonoBehaviour
     private void Awake()
     {
         lookInput = InputManager.Instance.GetPlayerLook_Action();
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     private void Start()

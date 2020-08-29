@@ -10,10 +10,14 @@ public class FreeLookAddOn : MonoBehaviour
 {
     [SerializeField] [Range(0f, 10f)] private float LookSpeedX = 1f;
     [SerializeField] [Range(0f, 10f)] private float LookSpeedY = 1f;
+    [SerializeField] private float accelerationX = .025f;
+    [SerializeField] private float accelerationY = .025f;
     [SerializeField] private bool InvertY = false;
     
     private CinemachineFreeLook _freeLookComponent;
     private InputAction lookInput;
+    private float previousVelocityX = 0f;
+    private float previousVelocityY = 0f;
 
     private void Awake()
     {
@@ -40,10 +44,25 @@ public class FreeLookAddOn : MonoBehaviour
         lookMovement.y = InvertY ? -lookMovement.y : lookMovement.y;
 
         // This is because X axis is only contains between -180 and 180 instead of 0 and 1 like the Y axis
-        lookMovement.x = lookMovement.x * 180f; 
+        lookMovement.x = lookMovement.x * 180f;
 
-        //Ajust axis values using look speed and Time.deltaTime so the look doesn't go faster if there is more FPS
-        _freeLookComponent.m_XAxis.Value += lookMovement.x * LookSpeedX * Time.deltaTime;
-        _freeLookComponent.m_YAxis.Value += lookMovement.y * LookSpeedY * Time.deltaTime;
+        float targetVelocityX = lookMovement.x * LookSpeedX;
+        float targetVelocityY = lookMovement.y * LookSpeedY;
+
+        float outVelocityX = 0f;
+        float outVelocityY = 0f;
+
+        //Accelerate and Deaccelerate the move velocity
+        float newVelocityX = Mathf.SmoothDamp(previousVelocityX, targetVelocityX, ref outVelocityX, accelerationX);
+        float newVelocityY = Mathf.SmoothDamp(previousVelocityY, targetVelocityY, ref outVelocityY, accelerationY);
+        
+
+        //Adjust axis values using look speed and Time.deltaTime so the look doesn't go faster if there is more FPS
+        _freeLookComponent.m_XAxis.Value += newVelocityX * Time.deltaTime;
+        _freeLookComponent.m_YAxis.Value += newVelocityY * Time.deltaTime;
+        
+        
+    previousVelocityX = newVelocityX;
+    previousVelocityY = newVelocityY;
     }
 }

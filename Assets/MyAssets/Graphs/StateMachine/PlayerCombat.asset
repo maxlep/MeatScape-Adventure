@@ -385,7 +385,7 @@ MonoBehaviour:
   m_Name: DoNothing -> Downward Throw
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 984, y: 584}
+  position: {x: 984, y: 568}
   ports:
     keys:
     - startingState
@@ -417,12 +417,18 @@ MonoBehaviour:
       _dynamic: 0
   startingState: {fileID: 0}
   nextState: {fileID: 0}
-  ConditionPreview: 'WaitedAttackDelay
+  ConditionPreview: 'Start: AirMovement <AirMovement>
+
+    Start: NoLowJump <AirMovement>
+
+    WaitedAttackDelay
 
     DownwardAttackTrigger
 
 '
-  ValidStartStates: []
+  ValidStartStates:
+  - {fileID: -4990919157884066038, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  - {fileID: 7248169581288550152, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   BoolConditions:
   - TargetParameterName: WaitedAttackDelay
     value: 1

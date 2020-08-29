@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Reflection;
 using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
@@ -37,6 +35,10 @@ public class TransitionNode : Node
     [Tooltip("Transition only valid if ALL of these Int condition are met")]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [FoldoutGroup("")]
     [SerializeField] private List<IntCondition> IntConditions;
+    
+    [Tooltip("Transition only valid if ALL of these Int condition are met")]
+    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [FoldoutGroup("")]
+    [SerializeField] private List<TimerCondition> TimerConditions;
 
 
     [SerializeField] [HideInInspector] private float Zoom = .5f;
@@ -85,6 +87,14 @@ public class TransitionNode : Node
         
     }
 
+    public void StartTimers()
+    {
+        foreach (var timerCondition in TimerConditions)
+        {
+            timerCondition.StartTimer();
+        }
+    }
+
     private void InitConditions()
     {
         ConditionPreview = "";
@@ -115,6 +125,12 @@ public class TransitionNode : Node
         {
             intCondition.Init(parameters);
             ConditionPreview += $"- {intCondition}\n";
+        }
+        
+        foreach (var timerCondition in TimerConditions)
+        {
+            timerCondition.Init(parameters);
+            ConditionPreview += $"- {timerCondition}\n";
         }
     }
 
@@ -188,6 +204,16 @@ public class TransitionNode : Node
                 if (!result) return false;
             }
         }
+        
+        //Check TimerConditions (AND)
+        if (!TimerConditions.IsNullOrEmpty())
+        {
+            foreach (var timerCondition in TimerConditions)
+            {
+                result &= timerCondition.Evaluate();
+                if (!result) return false;
+            }
+        }
 
         return result;
     }
@@ -208,200 +234,4 @@ public class TransitionNode : Node
         if (Zoom < .5f) Zoom = .5f;
         else Zoom = 1f;
     }
-}
-
-[System.Serializable]
-public class IntCondition
-{
-    
-    [ValueDropdown("GetInts")] [Required]
-    [HideLabel] public string TargetParameterName;
-    [HideLabel] public Comparator comparator;
-    [HideLabel] public float value;
-    
-    [HideInInspector] public VariableContainer parameters;
-    [HideInInspector] public Dictionary<string, IntVariable> parameterDict = new Dictionary<string, IntVariable>();
-
-    
-    public enum Comparator
-    {
-        LessThan,
-        GreaterThan,
-        EqualTo,
-        NotEqualTo
-    }
-    
-    
-    private List<string> GetInts()
-    {
-        return (parameterDict.Count > 0) ?  parameterDict.Keys.ToList() : new List<string>() {""};
-    }
-    
-    public void Init(VariableContainer machineParameters)
-    {
-        parameters = machineParameters;
-        parameterDict.Clear();
-        foreach (var intParam in parameters.GetIntVariables())
-        {
-            parameterDict.Add(intParam.name, intParam);
-        }
-    }
-
-    public bool Evaluate()
-    {
-        int paramValue = parameterDict[TargetParameterName].Value;
-        
-        if (comparator == Comparator.GreaterThan)
-            return paramValue > value;
-        
-        if (comparator == Comparator.LessThan)
-            return paramValue < value;
-        
-        if (comparator == Comparator.EqualTo)
-            return paramValue == value;
-        
-        if (comparator == Comparator.NotEqualTo)
-            return paramValue != value;
-
-        return false;
-    }
-
-    public override string ToString()
-    {
-        return $"{TargetParameterName} {comparator} {value}";
-    }
-}
-
-[System.Serializable]
-public class FloatCondition
-{
-    
-    [ValueDropdown("GetFloats")] [Required]
-    [HideLabel] public string TargetParameterName;
-    [HideLabel] public Comparator comparator;
-    [HideLabel] public float value;
-    
-    [HideInInspector] public VariableContainer parameters;
-    [HideInInspector] public Dictionary<string, FloatVariable> parameterDict = new Dictionary<string, FloatVariable>();
-
-    
-    public enum Comparator
-    {
-        LessThan,
-        GreaterThan
-    }
-    
-    
-    private List<string> GetFloats()
-    {
-        return (parameterDict.Count > 0) ?  parameterDict.Keys.ToList() : new List<string>() {""};
-    }
-    
-    public void Init(VariableContainer machineParameters)
-    {
-        parameters = machineParameters;
-        parameterDict.Clear();
-        foreach (var floatParam in parameters.GetFloatVariables())
-        {
-            parameterDict.Add(floatParam.name, floatParam);
-        }
-    }
-
-    public bool Evaluate()
-    {
-        float paramValue = parameterDict[TargetParameterName].Value;
-
-        if (comparator == Comparator.GreaterThan)
-            return paramValue > value;
-        
-        if (comparator == Comparator.LessThan)
-            return paramValue < value;
-
-        return false;
-    }
-    
-    public override string ToString()
-    {
-        return $"{TargetParameterName} {comparator} {value}";
-    }
-    
-}
-
-
-[System.Serializable]
-public class BoolCondition
-{
-    
-    [ValueDropdown("GetBoolNames")] [Required]
-    [HideLabel] public string TargetParameterName;
-    [LabelWidth(40f)] public bool value;
-    
-    [HideInInspector] public VariableContainer parameters;
-    [HideInInspector] public Dictionary<string, BoolVariable> parameterDict = new Dictionary<string, BoolVariable>();
-    
-    private List<String> GetBoolNames()
-    {
-        return (parameterDict.Count > 0) ?  parameterDict.Keys.ToList() : new List<string>() {""};
-    }
-
-    public void Init(VariableContainer machineParameters)
-    {
-        parameters = machineParameters;
-        parameterDict.Clear();
-        foreach (var boolParam in parameters.GetBoolVariables())
-        {
-            parameterDict.Add(boolParam.name, boolParam);
-        }
-    }
-
-    public bool Evaluate()
-    {
-        return parameterDict[TargetParameterName].Value == value;
-    }
-    
-    public override string ToString()
-    {
-        return value ? $"{TargetParameterName}" : $"!{TargetParameterName}";
-    }
-    
-}
-
-[System.Serializable]
-public class TriggerCondition
-{
-    
-    [ValueDropdown("GetTriggerNames")] [Required]
-    [HideLabel] public string TargetParameterName;
-    
-    [HideInInspector] public VariableContainer parameters;
-    [HideInInspector] public Dictionary<string, TriggerVariable> parameterDict = new Dictionary<string, TriggerVariable>();
-    public TriggerVariable GetTriggerVariable() => parameterDict[TargetParameterName];
-
-    
-    private List<String> GetTriggerNames()
-    {
-        return (parameterDict.Count > 0) ?  parameterDict.Keys.ToList() : new List<string>() {""};
-    }
-    
-    public void Init(VariableContainer machineParameters)
-    {
-        parameters = machineParameters;
-        parameterDict.Clear();
-        foreach (var triggerParam in parameters.GetTriggerVariables())
-        {
-            parameterDict.Add(triggerParam.name, triggerParam);
-        }
-    }
-
-    //Check if the trigger variable that was activated matches the one for this condition
-    public bool Evaluate(TriggerVariable ReceivedTrigger)
-    {
-        return parameterDict[TargetParameterName].Equals(ReceivedTrigger);
-    }
-    
-    public override string ToString()
-    {
-        return $"{TargetParameterName}";
-    }
-    
 }

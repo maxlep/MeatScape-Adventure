@@ -38,6 +38,9 @@ public class VariableContainer : ScriptableObject
     [Required] [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)]
     [SerializeField] private List<QuaternionVariable> QuaternionVariables = new List<QuaternionVariable>();
     
+    [Required] [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)]
+    [SerializeField] private List<TimerVariable> TimerVariables = new List<TimerVariable>();
+    
     private const string ASSET_EXTENSION = ".asset";
 
     public List<TriggerVariable> GetTriggerVariables() => TriggerVariables;
@@ -47,6 +50,7 @@ public class VariableContainer : ScriptableObject
     public List<Vector2Variable> GetVector2Variables() => Vector2Variables;
     public List<Vector3Variable> GetVector3Variables() => Vector3Variables;
     public List<QuaternionVariable> GetQuaternionVariables() => QuaternionVariables;
+    public List<TimerVariable> GetTimerVariables() => TimerVariables;
 
 
     [GUIColor(0, 1, 0)]
@@ -60,6 +64,7 @@ public class VariableContainer : ScriptableObject
         Vector2Variables.Clear();
         Vector3Variables.Clear();
         QuaternionVariables.Clear();
+        TimerVariables.Clear();
 
         foreach (var propertyPath in GetAssetRelativePaths(FolderPath))
         {
@@ -118,6 +123,14 @@ public class VariableContainer : ScriptableObject
                 QuaternionVariables.Add(assetAsQuaternion);
                 continue;
             }
+            
+            TimerVariable assetAsTimer = 
+                AssetDatabase.LoadAssetAtPath(propertyPath, typeof(TimerVariable)) as TimerVariable;
+            if (assetAsTimer != null)
+            {
+                TimerVariables.Add(assetAsTimer);
+                continue;
+            }
         }
         Debug.Log($"{TriggerVariables.Count} Triggers" +
         $" | {BoolVariables.Count} Bools" +
@@ -125,7 +138,8 @@ public class VariableContainer : ScriptableObject
         $" | {FloatVariables.Count} Floats" +
         $" | {Vector2Variables.Count} Vector2s" +
         $" | {Vector3Variables.Count} Vector3s" +
-        $" | {QuaternionVariables.Count} Quaternions");
+        $" | {QuaternionVariables.Count} Quaternions" +
+        $" | {TimerVariables.Count} Timers");
     }
 
     private List<string> GetAssetRelativePaths(string path)

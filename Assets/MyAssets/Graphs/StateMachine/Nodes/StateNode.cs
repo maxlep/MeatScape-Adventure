@@ -66,6 +66,10 @@ public class StateNode : Node
     public virtual void Enter()
     {
         isActiveState = true;
+        foreach (var transition in transitionNodes)
+        {
+            transition.StartTimers();
+        }
     }
 
     public virtual void Execute()

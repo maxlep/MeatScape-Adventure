@@ -21,14 +21,25 @@ public class StateReferenceNode : Node
     public virtual void Initialize(StateMachineGraph parentGraph)
     {
         this.stateMachineGraph = parentGraph;
+        PopulateLinkedNodes();
     }
 
     private void OnValidate()
     {
+        PopulateLinkedNodes();
+    }
+
+    private void PopulateLinkedNodes()
+    {
+        linkedNodes.Clear();
         if (referencedNode != null)
         {
-            linkedNodes.Clear();
             linkedNodes.Add(referencedNode);
+        }
+        foreach (var stateRefNode in stateMachineGraph.StateReferenceNodes)
+        {
+            if (stateRefNode.ReferencedNode == referencedNode)
+                linkedNodes.Add(stateRefNode);
         }
     }
 

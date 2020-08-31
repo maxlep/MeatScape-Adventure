@@ -12,21 +12,12 @@ public class StateMachineGraph : NodeGraph
     public List<TransitionNode> globalTransitions { get; private set; } = new List<TransitionNode>();
     public List<StateReferenceNode> StateReferenceNodes { get; private set; } = new List<StateReferenceNode>();
     public StateNode currentState { get; private set; }
+    public LayeredStateMachine parentMachine { get; private set; }
 
     private StartNode startNode;
-    private LayeredStateMachine parentMachine;
     private VariableContainer parameters;
 
-    
-    //For call by layered state machine to begin
-    public void StartStateMachine()
-    {
-        InitStateNodes();
-        InitTransitionNodes();
-        InitStateReferenceNodes();
-        SubscribeToTriggers();
-        EnterStartState();
-    }
+    #region LifeCycle Methods
 
     public void ExecuteUpdates()
     {
@@ -39,19 +30,59 @@ public class StateMachineGraph : NodeGraph
         currentState.ExecuteFixed();
     }
 
+    #endregion
+
+    #region Init/Dep Injection
+
+    //For call by layered state machine to begin
+    public void StartStateMachine()
+    {
+        InitStateNodes();
+        InitTransitionNodes();
+        InitStateReferenceNodes();
+        SubscribeToTriggers();
+        EnterStartState();
+    }
+    
+    private void InitStateNodes()
+    {
+        foreach (var stateNode in stateNodes)
+        {
+            stateNode.Initialize(this);
+        }
+    }
+
+    private void InitTransitionNodes()
+    {
+        foreach (var transitionNode in transitionNodes)
+        {
+            transitionNode.Initialize(this);
+        }
+    }
+
+    private void InitStateReferenceNodes()
+    {
+        foreach (var stateRefNode in StateReferenceNodes)
+        {
+            stateRefNode.Initialize(this);
+        }
+    }
+
+    private void SubscribeToTriggers()
+    {
+        foreach (var triggerVar in parameters.GetTriggerVariables())
+        {
+            triggerVar.OnUpdate += () => CheckForValidTransitions(triggerVar);
+        }
+    }
+    
     public void InjectDependencies(LayeredStateMachine parentMachine, VariableContainer parameters)
     {
         this.parentMachine = parentMachine;
         this.parameters = parameters;
     }
-
-    private void CheckForValidTransitions(TriggerVariable receivedTrigger = null)
-    {
-        StateNode nextState = currentState.CheckStateTransitions(receivedTrigger);
-        if (nextState != null) ChangeState(nextState);
-    }
-
-    public void PopulateNodeLists()
+    
+     public void PopulateNodeLists()
     {
         stateNodes.Clear();
         transitionNodes.Clear();
@@ -115,18 +146,22 @@ public class StateMachineGraph : NodeGraph
         }
     }
 
-    //Send other active states to transiton node on request
-    public List<StateNode> GetActiveStates()
-    {
-        return parentMachine.GetActiveStates(this);
-    }
+    #endregion
+
+    #region State Management
 
     private void EnterStartState()
     {
         currentState = startNode.GetOutputPort("EntryState").Connection.node as StateNode;
         currentState.Enter();
     }
-
+    
+    private void CheckForValidTransitions(TriggerVariable receivedTrigger = null)
+    {
+        StateNode nextState = currentState.CheckStateTransitions(receivedTrigger);
+        if (nextState != null) ChangeState(nextState);
+    }
+    
     private void ChangeState(StateNode nextState)
     {
         // Debug.Log($"Change: {currentState.name} -> {nextState.name}");
@@ -135,36 +170,19 @@ public class StateMachineGraph : NodeGraph
         currentState.Enter();
     }
 
-    private void InitStateNodes()
+    #endregion
+
+    public override Node AddNode(Type type)
     {
-        foreach (var stateNode in stateNodes)
-        {
-            stateNode.Initialize(this);
-        }
+        Node newNode = base.AddNode(type);
+        parentMachine.InitStateMachines();
+        return newNode;
     }
 
-    private void InitTransitionNodes()
+    //Send other active states to transiton node on request
+    public List<StateNode> GetActiveStates()
     {
-        foreach (var transitionNode in transitionNodes)
-        {
-            transitionNode.Initialize(this);
-        }
-    }
-
-    private void InitStateReferenceNodes()
-    {
-        foreach (var stateRefNode in StateReferenceNodes)
-        {
-            stateRefNode.Initialize(this);
-        }
-    }
-
-    private void SubscribeToTriggers()
-    {
-        foreach (var triggerVar in parameters.GetTriggerVariables())
-        {
-            triggerVar.OnUpdate += () => CheckForValidTransitions(triggerVar);
-        }
+        return parentMachine.GetActiveStates(this);
     }
 
     public void ToggleExpandAll(bool expanded)

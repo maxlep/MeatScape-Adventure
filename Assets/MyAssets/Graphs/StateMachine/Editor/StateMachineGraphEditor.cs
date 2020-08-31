@@ -10,7 +10,11 @@ using XNodeEditor;
 public class StateMachineGraphEditor : NodeGraphEditor
 {
     /// <summary> Add items for the context menu when right-clicking this node. Override to add custom menu items. </summary>
-    public override void AddContextMenuItems(GenericMenu menu) {
+    public override void AddContextMenuItems(GenericMenu menu)
+    {
+        menu.AddItem(new GUIContent("Init State Machines"), false,
+            () => (target as StateMachineGraph).parentMachine.InitStateMachines());
+        menu.AddSeparator("");
         menu.AddItem(new GUIContent("Expand All"), false, () => (target as StateMachineGraph).ToggleExpandAll(false));
         menu.AddItem(new GUIContent("Collapse All"), false, () => (target as StateMachineGraph).ToggleExpandAll(true));
         menu.AddSeparator("");

@@ -19,27 +19,27 @@ public class TransitionNode : Node
     [Tooltip("Transition only valid if ANY 1 or more of these states are active in OTHER state machine")]
     [ValueDropdown("GetStartStateDropdown")]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.88f, 1f, .95f)]  [HideIf("$zoom")]
-    [SerializeField] private List<StateNode> ValidStartStates;
+    [SerializeField] private List<StateNode> ValidStartStates = new List<StateNode>();
 
     [Tooltip("Transition only valid if ALL of these Bool condition are met")]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
-    [SerializeField] private List<BoolCondition> BoolConditions;
+    [SerializeField] private List<BoolCondition> BoolConditions = new List<BoolCondition>();
 
     [Tooltip("Transition only valid if ALL of these Trigger condition are met")]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
-    [SerializeField] private List<TriggerCondition> TriggerConditions;
+    [SerializeField] private List<TriggerCondition> TriggerConditions = new List<TriggerCondition>();
 
     [Tooltip("Transition only valid if ALL of these Float condition are met")]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
-    [SerializeField] private List<FloatCondition> FloatConditions;
+    [SerializeField] private List<FloatCondition> FloatConditions = new List<FloatCondition>();
 
     [Tooltip("Transition only valid if ALL of these Int condition are met")]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
-    [SerializeField] private List<IntCondition> IntConditions;
+    [SerializeField] private List<IntCondition> IntConditions = new List<IntCondition>();
     
     [Tooltip("Transition only valid if ALL of these Int condition are met")]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
-    [SerializeField] private List<TimerCondition> TimerConditions;
+    [SerializeField] private List<TimerCondition> TimerConditions = new List<TimerCondition>();
 
 
     [SerializeField] [HideInInspector] protected bool zoom = false;

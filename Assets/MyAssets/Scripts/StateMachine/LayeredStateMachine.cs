@@ -13,6 +13,9 @@ public class LayeredStateMachine : MonoBehaviour
 
     protected Dictionary<StateNode, StateMachineGraph> stateNodeDict = new Dictionary<StateNode, StateMachineGraph>();
 
+
+    #region LifeCycle Methods
+
     protected virtual void Awake()
     {
         InitStateMachines();
@@ -27,10 +30,30 @@ public class LayeredStateMachine : MonoBehaviour
     {
         ExecuteFixedUpdates();
     }
+    
+    protected virtual void ExecuteUpdates()
+    {
+        foreach (var stateMachine in stateMachines)
+        {
+            stateMachine.ExecuteUpdates();
+        }
+    }
+    
+    protected virtual void ExecuteFixedUpdates()
+    {
+        foreach (var stateMachine in stateMachines)
+        {
+            stateMachine.ExecuteFixedUpdates();
+        }
+    }
+
+    #endregion
+
+    #region Init/Dep Injection
 
     [GUIColor(0, 1, 0)]
     [Button(ButtonSizes.Large)]
-    protected virtual void InitStateMachines()
+    public virtual void InitStateMachines()
     {
         stateNodeDict.Clear();
         
@@ -66,21 +89,7 @@ public class LayeredStateMachine : MonoBehaviour
         }
     }
 
-    protected virtual void ExecuteUpdates()
-    {
-        foreach (var stateMachine in stateMachines)
-        {
-            stateMachine.ExecuteUpdates();
-        }
-    }
     
-    protected virtual void ExecuteFixedUpdates()
-    {
-        foreach (var stateMachine in stateMachines)
-        {
-            stateMachine.ExecuteFixedUpdates();
-        }
-    }
 
     //Populate dictionary of State Nodes and their respective State Machine
     protected virtual void PopulateStateNodeDict(StateMachineGraph stateMachine)
@@ -107,6 +116,8 @@ public class LayeredStateMachine : MonoBehaviour
         Debug.Log($"Sending {receivingStateMachine} {otherStateNodes.Count} stateNodes for dropdown");
         receivingStateMachine.SendValidStatesToTransitions(otherStateNodes);
     }
+
+    #endregion
 
     //Send requesting state machine list of active states in the other state machines
     //For transition node valid start states

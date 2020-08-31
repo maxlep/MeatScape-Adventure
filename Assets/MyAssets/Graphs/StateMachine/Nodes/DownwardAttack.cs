@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class DownwardAttack : PlayerStateNode
 {
-    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private GameObject ammo;
-    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private FloatReference throwDelay;
-    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private FloatReference downwardForce;
-    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private BoolReference waitedAttackDelay;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private GameObject ammo;
+    [HideIf("$zoom")][LabelWidth(120)] [SerializeField] private FloatReference throwDelay;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private FloatReference downwardForce;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private BoolReference waitedAttackDelay;
 
     public override void Initialize(StateMachineGraph parentGraph)
     {

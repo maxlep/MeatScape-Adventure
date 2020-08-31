@@ -18,31 +18,31 @@ public class TransitionNode : Node
 
     [Tooltip("Transition only valid if ANY 1 or more of these states are active in OTHER state machine")]
     [ValueDropdown("GetStartStateDropdown")]
-    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.88f, 1f, .95f)]  [FoldoutGroup("", Expanded = true)]
+    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.88f, 1f, .95f)]  [HideIf("$zoom")]
     [SerializeField] private List<StateNode> ValidStartStates;
 
     [Tooltip("Transition only valid if ALL of these Bool condition are met")]
-    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [FoldoutGroup("")]
+    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
     [SerializeField] private List<BoolCondition> BoolConditions;
 
     [Tooltip("Transition only valid if ALL of these Trigger condition are met")]
-    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [FoldoutGroup("")]
+    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
     [SerializeField] private List<TriggerCondition> TriggerConditions;
 
     [Tooltip("Transition only valid if ALL of these Float condition are met")]
-    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [FoldoutGroup("")]
+    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
     [SerializeField] private List<FloatCondition> FloatConditions;
 
     [Tooltip("Transition only valid if ALL of these Int condition are met")]
-    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [FoldoutGroup("")]
+    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
     [SerializeField] private List<IntCondition> IntConditions;
     
     [Tooltip("Transition only valid if ALL of these Int condition are met")]
-    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [FoldoutGroup("")]
+    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
     [SerializeField] private List<TimerCondition> TimerConditions;
 
 
-    [SerializeField] [HideInInspector] private bool zoom = false;
+    [SerializeField] [HideInInspector] protected bool zoom = false;
     [HideInInspector] public List<StateNode> startStateOptions = new List<StateNode>();
     
     private VariableContainer parameters;

@@ -6,10 +6,10 @@ using UnityEngine;
 
 public class AirStall : PlayerStateNode
 {
-    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private bool restrictX = true;
-    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private bool restrictY = true;
-    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private bool restrictZ = true;
-    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private Vector3Reference NewVelocityOut;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private bool restrictX = true;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private bool restrictY = true;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private bool restrictZ = true;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private Vector3Reference NewVelocityOut;
 
 
     public override void Enter()

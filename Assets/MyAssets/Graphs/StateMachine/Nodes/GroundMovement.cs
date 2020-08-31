@@ -7,12 +7,12 @@ using UnityEngine.UI;
 
 public class GroundMovement : PlayerStateNode
 {
-    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private FloatReference MoveSpeed;
-    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private FloatReference Acceleration;
-    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private FloatReference Deacceleration;
-    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private Vector2Reference MoveInput;
-    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private Vector3Reference NewVelocityOut;
-    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private QuaternionReference NewRotationOut;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private FloatReference MoveSpeed;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private FloatReference Acceleration;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private FloatReference Deacceleration;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private Vector2Reference MoveInput;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private Vector3Reference NewVelocityOut;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private QuaternionReference NewRotationOut;
 
     private Transform cameraTrans;
     private Vector3 moveDirection;

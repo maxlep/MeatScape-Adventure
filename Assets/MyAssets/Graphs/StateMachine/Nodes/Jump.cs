@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class Jump : PlayerStateNode
 {
-    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private FloatReference timeToJumpApex;
-    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private FloatReference maxJumpHeight;
-    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private FloatReference StoredJumpVelocity;
-    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private TriggerVariable triggerJumpAnim;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private FloatReference timeToJumpApex;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private FloatReference maxJumpHeight;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private FloatReference StoredJumpVelocity;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private TriggerVariable triggerJumpAnim;
     
     private float gravity;
     private float jumpVelocity;

@@ -20,7 +20,7 @@ public class StateNode : Node
     protected List<TransitionNode> transitionNodes = new List<TransitionNode>();
     protected StateNode noTransitionState;
 
-    [SerializeField] [HideInInspector] private bool zoom = false;
+    [SerializeField] [HideInInspector] protected bool zoom = false;
     [HideInInspector] public bool isActiveState = false;
 
     public string GetName() => Name;

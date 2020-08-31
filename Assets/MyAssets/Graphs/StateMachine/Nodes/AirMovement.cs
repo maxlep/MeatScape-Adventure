@@ -7,18 +7,18 @@ using UnityEngine.UI;
 
 public class AirMovement : PlayerStateNode
 {
-    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private FloatReference MoveSpeed;
-    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private FloatReference Acceleration;
-    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private FloatReference Deacceleration;
-    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private FloatReference TimeToJumpApex;
-    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private FloatReference MaxJumpHeight;
-    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private FloatReference FallMultiplier;
-    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private FloatReference LowJumpDrag;
-    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private FloatReference MaxFallSpeed;
-    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private BoolReference JumpPressed;
-    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private Vector2Reference MoveInput;
-    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private Vector3Reference NewVelocityOut;
-    [FoldoutGroup("")] [LabelWidth(120)] [SerializeField] private QuaternionReference NewRotationOut;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private FloatReference MoveSpeed;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private FloatReference Acceleration;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private FloatReference Deacceleration;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private FloatReference TimeToJumpApex;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private FloatReference MaxJumpHeight;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private FloatReference FallMultiplier;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private FloatReference LowJumpDrag;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private FloatReference MaxFallSpeed;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private BoolReference JumpPressed;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private Vector2Reference MoveInput;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private Vector3Reference NewVelocityOut;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private QuaternionReference NewRotationOut;
     
 
     private float gravity;

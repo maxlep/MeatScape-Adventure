@@ -128,31 +128,31 @@ public class TransitionNode : Node
         }
         foreach (var boolCondition in BoolConditions)
         {
-            boolCondition.Init(parameters);
+            boolCondition.Init(parameters, name);
             ConditionPreview += $"- {boolCondition}\n";
         }
         
         foreach (var triggerCondition in TriggerConditions)
         {
-            triggerCondition.Init(parameters);
+            triggerCondition.Init(parameters, name);
             ConditionPreview += $"- {triggerCondition}\n";
         }
         
         foreach (var floatCondition in FloatConditions)
         {
-            floatCondition.Init(parameters);
+            floatCondition.Init(parameters, name);
             ConditionPreview += $"- {floatCondition}\n";
         }
         
         foreach (var intCondition in IntConditions)
         {
-            intCondition.Init(parameters);
+            intCondition.Init(parameters, name);
             ConditionPreview += $"- {intCondition}\n";
         }
         
         foreach (var timerCondition in TimerConditions)
         {
-            timerCondition.Init(parameters);
+            timerCondition.Init(parameters, name);
             ConditionPreview += $"- {timerCondition}\n";
         }
     }

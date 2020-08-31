@@ -15,15 +15,18 @@ public class BoolCondition
     
     [HideInInspector] public VariableContainer parameters;
     [HideInInspector] public Dictionary<string, BoolVariable> parameterDict = new Dictionary<string, BoolVariable>();
+
+    private string parentTransitionName = "";
     
     private List<String> GetBoolNames()
     {
         return (parameterDict.Count > 0) ?  parameterDict.Keys.ToList() : new List<string>() {""};
     }
 
-    public void Init(VariableContainer machineParameters)
+    public void Init(VariableContainer machineParameters, string transitionName)
     {
         parameters = machineParameters;
+        parentTransitionName = transitionName;
         parameterDict.Clear();
         foreach (var boolParam in parameters.GetBoolVariables())
         {
@@ -33,6 +36,9 @@ public class BoolCondition
 
     public bool Evaluate()
     {
+        if (!parameterDict.ContainsKey(TargetParameterName))
+            Debug.LogError($"Transition {parentTransitionName} Bool Condition can't find targetParam {TargetParameterName}!" +
+                           $"Did the name of SO parameter change but not update in dropdown?");
         return parameterDict[TargetParameterName].Value == value;
     }
     

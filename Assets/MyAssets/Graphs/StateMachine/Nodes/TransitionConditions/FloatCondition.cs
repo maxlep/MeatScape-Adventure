@@ -16,6 +16,8 @@ public class FloatCondition
     [HideInInspector] public VariableContainer parameters;
     [HideInInspector] public Dictionary<string, FloatVariable> parameterDict = new Dictionary<string, FloatVariable>();
 
+    private string parentTransitionName = "";
+
     
     public enum Comparator
     {
@@ -29,9 +31,10 @@ public class FloatCondition
         return (parameterDict.Count > 0) ?  parameterDict.Keys.ToList() : new List<string>() {""};
     }
     
-    public void Init(VariableContainer machineParameters)
+    public void Init(VariableContainer machineParameters, string transitionName)
     {
         parameters = machineParameters;
+        parentTransitionName = transitionName;
         parameterDict.Clear();
         foreach (var floatParam in parameters.GetFloatVariables())
         {
@@ -41,6 +44,10 @@ public class FloatCondition
 
     public bool Evaluate()
     {
+        if (!parameterDict.ContainsKey(TargetParameterName))
+            Debug.LogError($"Transition {parentTransitionName} Float Condition can't find targetParam " + 
+                           $"{TargetParameterName}! Did the name of SO parameter change but not update in dropdown?");
+        
         float paramValue = parameterDict[TargetParameterName].Value;
 
         if (comparator == Comparator.GreaterThan)

@@ -16,6 +16,8 @@ public class IntCondition
     [HideInInspector] public VariableContainer parameters;
     [HideInInspector] public Dictionary<string, IntVariable> parameterDict = new Dictionary<string, IntVariable>();
 
+    private string parentTransitionName = "";
+
     
     public enum Comparator
     {
@@ -31,9 +33,10 @@ public class IntCondition
         return (parameterDict.Count > 0) ?  parameterDict.Keys.ToList() : new List<string>() {""};
     }
     
-    public void Init(VariableContainer machineParameters)
+    public void Init(VariableContainer machineParameters, string transitionName)
     {
         parameters = machineParameters;
+        parentTransitionName = transitionName;
         parameterDict.Clear();
         foreach (var intParam in parameters.GetIntVariables())
         {
@@ -43,6 +46,10 @@ public class IntCondition
 
     public bool Evaluate()
     {
+        if (!parameterDict.ContainsKey(TargetParameterName))
+            Debug.LogError($"Transition {parentTransitionName} Int Condition can't find targetParam " + 
+                           $"{TargetParameterName}! Did the name of SO parameter change but not update in dropdown?");
+        
         int paramValue = parameterDict[TargetParameterName].Value;
         
         if (comparator == Comparator.GreaterThan)

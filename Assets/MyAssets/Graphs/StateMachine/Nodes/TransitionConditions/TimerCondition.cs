@@ -24,15 +24,18 @@ public class TimerCondition
     [HideInInspector] public Dictionary<string, TimerVariable> parameterDict = new Dictionary<string, TimerVariable>();
 
     private float startTime = Mathf.NegativeInfinity;
+    private string parentTransitionName = "";
+
     
     private List<string> GetTimerNames()
     {
         return (parameterDict.Count > 0) ?  parameterDict.Keys.ToList() : new List<string>() {""};
     }
 
-    public void Init(VariableContainer machineParameters)
+    public void Init(VariableContainer machineParameters, string transitionName)
     {
         parameters = machineParameters;
+        parentTransitionName = transitionName;
         parameterDict.Clear();
         foreach (var timerParam in parameters.GetTimerVariables())
         {
@@ -42,6 +45,10 @@ public class TimerCondition
 
     public bool Evaluate()
     {
+        if (!parameterDict.ContainsKey(TargetParameterName))
+            Debug.LogError($"Transition {parentTransitionName} Timer Condition can't find targetParam " + 
+                           $"{TargetParameterName}! Did the name of SO parameter change but not update in dropdown?");
+        
         UpdateTime();
         
         if (UseConstant)

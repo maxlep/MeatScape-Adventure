@@ -16,15 +16,18 @@ public class TriggerCondition
     [HideInInspector] public Dictionary<string, TriggerVariable> parameterDict = new Dictionary<string, TriggerVariable>();
     public TriggerVariable GetTriggerVariable() => parameterDict[TargetParameterName];
 
+    private string parentTransitionName = "";
+
     
     private List<String> GetTriggerNames()
     {
         return (parameterDict.Count > 0) ?  parameterDict.Keys.ToList() : new List<string>() {""};
     }
     
-    public void Init(VariableContainer machineParameters)
+    public void Init(VariableContainer machineParameters, string transitionName)
     {
         parameters = machineParameters;
+        parentTransitionName = transitionName;
         parameterDict.Clear();
         foreach (var triggerParam in parameters.GetTriggerVariables())
         {
@@ -35,6 +38,9 @@ public class TriggerCondition
     //Check if the trigger variable that was activated matches the one for this condition
     public bool Evaluate(TriggerVariable ReceivedTrigger)
     {
+        if (!parameterDict.ContainsKey(TargetParameterName))
+            Debug.LogError($"Transition {parentTransitionName} Timer Condition can't find targetParam " + 
+                           $"{TargetParameterName}! Did the name of SO parameter change but not update in dropdown?");
         return parameterDict[TargetParameterName].Equals(ReceivedTrigger);
     }
     

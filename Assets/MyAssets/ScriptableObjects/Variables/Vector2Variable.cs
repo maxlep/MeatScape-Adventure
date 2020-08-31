@@ -40,7 +40,10 @@ namespace MyAssets.ScriptableObjects.Variables
         public Vector2 Value
         {
             get => UseConstant ? ConstantValue : Variable.Value;
-            set => Variable.Value = value;
+            set
+            {
+                if (Variable != null) Variable.Value = value;
+            } 
         }
     }
 }

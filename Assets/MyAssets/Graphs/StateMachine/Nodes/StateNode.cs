@@ -38,6 +38,7 @@ public class StateNode : Node
         this.stateMachineGraph = parentGraph;
         isActiveState = false;
         PopulateTransitionNodeList();
+        PopulateLinkedNodes();
     }
 
     private void PopulateTransitionNodeList()
@@ -55,6 +56,16 @@ public class StateNode : Node
             if (nodeAsState != null)
                 noTransitionState = nodeAsState;
         });
+    }
+
+    private void PopulateLinkedNodes()
+    {
+        linkedNodes.Clear();
+        foreach (var stateRefNode in stateMachineGraph.StateReferenceNodes)
+        {
+            if (stateRefNode.ReferencedNode == this)
+                linkedNodes.Add(stateRefNode);
+        }
     }
 
     protected override void Init()
@@ -100,8 +111,7 @@ public class StateNode : Node
         {
             if (transition.EvaluateConditions(receivedTrigger))
             {
-                NodePort nextStatePort = transition.GetOutputPort("nextState");
-                return nextStatePort.Connection.node as StateNode;
+                return transition.GetNextState();
             }
         }
         
@@ -110,8 +120,7 @@ public class StateNode : Node
         {
             if (transition.EvaluateConditions(receivedTrigger))
             {
-                NodePort nextStatePort = transition.GetOutputPort("nextState");
-                return nextStatePort.Connection.node as StateNode;
+                return transition.GetNextState();
             }
         }
 

@@ -167,9 +167,8 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: previousState
-        node: {fileID: -1108589282178386599}
-        reroutePoints:
-        - {x: 843.8317, y: 755.84064}
+        node: {fileID: -5081197550139966255}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
@@ -254,6 +253,41 @@ MonoBehaviour:
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 2bf3ff9449cfd14419df1c2f76b56b20, type: 2}
   triggerJumpAnim: {fileID: 11400000, guid: 692eae34b308467428fcb511fd2a56c5, type: 2}
+--- !u!114 &-5081197550139966255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: State Reference
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1672, y: 72}
+  ports:
+    keys:
+    - previousState
+    values:
+    - _fieldName: previousState
+      _node: {fileID: -5081197550139966255}
+      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: -6884243189497224942}
+        reroutePoints: []
+      - fieldName: nextState
+        node: {fileID: -1126308274419738181}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  previousState: {fileID: 0}
+  referencedNode: {fileID: -1108589282178386599}
 --- !u!114 &-4990919157884066038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -488,7 +522,7 @@ MonoBehaviour:
   m_Name: Pound Fall -> Ground Movement
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1144, y: -360}
+  position: {x: 1160, y: -360}
   ports:
     keys:
     - startingState
@@ -512,9 +546,8 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: previousState
-        node: {fileID: -1108589282178386599}
-        reroutePoints:
-        - {x: 282.60117, y: -548.3826}
+        node: {fileID: -5081197550139966255}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
@@ -564,12 +597,6 @@ MonoBehaviour:
       connections:
       - fieldName: EntryState
         node: {fileID: 647826158662486185}
-        reroutePoints: []
-      - fieldName: nextState
-        node: {fileID: -1126308274419738181}
-        reroutePoints: []
-      - fieldName: nextState
-        node: {fileID: -6884243189497224942}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -648,6 +675,7 @@ MonoBehaviour:
   - {fileID: 8343376373493045657}
   - {fileID: -7894526708747482007}
   - {fileID: -1126308274419738181}
+  - {fileID: -5081197550139966255}
 --- !u!114 &326285495737826313
 MonoBehaviour:
   m_ObjectHideFlags: 0

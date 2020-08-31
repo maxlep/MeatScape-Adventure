@@ -68,13 +68,13 @@ public class TransitionNode : Node
     private void InitNodeName()
     {
         var inputConnection = GetInputPort("startingState").Connection;
-        var outputConnection = GetOutputPort("nextState").Connection;
+        StateNode outputState = GetNextState();
 
-        if (inputConnection == null || outputConnection == null)
+        if (inputConnection == null || outputState == null)
             return;
         
         StateNode inputState = inputConnection.node as StateNode;
-        StateNode outputState = outputConnection.node as StateNode;
+        
         startingStateName = inputState != null ? inputState.GetName() : "Any State";
         nextStateName = outputState != null ? outputState.GetName() : "<Missing>";
         name = $"{startingStateName} -> {nextStateName}";
@@ -83,6 +83,24 @@ public class TransitionNode : Node
     public List<StateNode> GetStartStateDropdown()
     {
         return startStateOptions;
+    }
+
+    public StateNode GetNextState()
+    {
+        var outputConnection = GetOutputPort("nextState").Connection;
+
+        if (outputConnection == null) return null;
+        
+        StateNode connectionAsState = outputConnection.node as StateNode;
+        StateReferenceNode connectionAsRef = outputConnection.node as StateReferenceNode;
+
+        if (connectionAsState != null)
+            return connectionAsState;
+
+        else if (connectionAsRef != null)
+            return connectionAsRef.ReferencedNode;
+
+        return null;
     }
 
     private void OnValidate()

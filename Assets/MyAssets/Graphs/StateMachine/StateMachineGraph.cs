@@ -10,6 +10,7 @@ public class StateMachineGraph : NodeGraph
     public List<StateNode> stateNodes { get; private set; } = new List<StateNode>();
     public List<TransitionNode> transitionNodes { get; private set; } = new List<TransitionNode>();
     public List<TransitionNode> globalTransitions { get; private set; } = new List<TransitionNode>();
+    public List<StateReferenceNode> StateReferenceNodes { get; private set; } = new List<StateReferenceNode>();
     public StateNode currentState { get; private set; }
 
     private StartNode startNode;
@@ -22,6 +23,7 @@ public class StateMachineGraph : NodeGraph
     {
         InitStateNodes();
         InitTransitionNodes();
+        InitStateReferenceNodes();
         SubscribeToTriggers();
         EnterStartState();
     }
@@ -54,6 +56,7 @@ public class StateMachineGraph : NodeGraph
         stateNodes.Clear();
         transitionNodes.Clear();
         globalTransitions.Clear();
+        StateReferenceNodes.Clear();
         
         foreach (var node in nodes)
         {
@@ -90,6 +93,14 @@ public class StateMachineGraph : NodeGraph
             if (nodeAsStart != null)
             {
                 startNode = nodeAsStart;
+                continue;
+            }
+            
+            //If its an StateReferenceNode
+            var nodeAsRef = node as StateReferenceNode;
+            if (nodeAsRef != null)
+            {
+                StateReferenceNodes.Add(nodeAsRef);
                 continue;
             }
         }
@@ -137,6 +148,14 @@ public class StateMachineGraph : NodeGraph
         foreach (var transitionNode in transitionNodes)
         {
             transitionNode.Initialize(this);
+        }
+    }
+
+    private void InitStateReferenceNodes()
+    {
+        foreach (var stateRefNode in StateReferenceNodes)
+        {
+            stateRefNode.Initialize(this);
         }
     }
 

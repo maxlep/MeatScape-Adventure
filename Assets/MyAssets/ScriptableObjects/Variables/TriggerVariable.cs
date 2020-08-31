@@ -1,18 +1,15 @@
-﻿using System;
-using Sirenix.OdinInspector;
+﻿using Sirenix.OdinInspector;
 using UnityEngine;
 
-[Required]
-[CreateAssetMenu(fileName = "TriggerVariable", menuName = "Variables/TriggerVariable", order = 0)]
-public class TriggerVariable : ScriptableObject
+namespace MyAssets.ScriptableObjects.Variables
 {
-    [TextArea] [HideInInlineEditors] public String Description;
-    
-    public delegate void OnUpdate_();
-    public event OnUpdate_ OnUpdate;
-
-    public void Activate()
+    [Required]
+    [CreateAssetMenu(fileName = "TriggerVariable", menuName = "Variables/TriggerVariable", order = 0)]
+    public class TriggerVariable : Variable
     {
-        OnUpdate?.Invoke();
+        public void Activate()
+        {
+            base.BroadcastUpdate();
+        }
     }
 }

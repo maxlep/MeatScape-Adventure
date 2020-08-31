@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using UnityEditor;

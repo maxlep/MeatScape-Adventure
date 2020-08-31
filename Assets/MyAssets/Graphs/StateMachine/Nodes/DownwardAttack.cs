@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using MyAssets.ScriptableObjects.Variables;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 

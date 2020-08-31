@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using MyAssets.ScriptableObjects.Variables;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class AnimatorUpdater : MonoBehaviour
@@ -9,7 +10,7 @@ public class AnimatorUpdater : MonoBehaviour
 
     private void Awake()
     {
-        triggerJumpAnim.OnUpdate += Jump;
+        triggerJumpAnim.Subscribe(Jump);
     }
 
     private void Jump()

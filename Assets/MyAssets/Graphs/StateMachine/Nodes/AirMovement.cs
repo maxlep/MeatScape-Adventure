@@ -1,4 +1,5 @@
 ﻿using Cinemachine.Utility;
+using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;

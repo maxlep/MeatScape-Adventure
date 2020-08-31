@@ -1,54 +1,46 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-[Required]
-[InlineEditor(InlineEditorObjectFieldModes.Foldout)]
-[CreateAssetMenu(fileName = "BoolVariable", menuName = "Variables/BoolVariable", order = 0)]
-public class BoolVariable : ScriptableObject
+namespace MyAssets.ScriptableObjects.Variables
 {
-    [SerializeField] private bool defaultValue;
-    [SerializeField] private bool runtimeValue;
-    [TextArea] [HideInInlineEditors] public String Description;
-    
-    public delegate void OnUpdate_();
-    public event OnUpdate_ OnUpdate;
-    
-    public bool Value
+    [Required]
+    // [InlineEditor(InlineEditorObjectFieldModes.Foldout)]
+    [CreateAssetMenu(fileName = "BoolVariable", menuName = "Variables/BoolVariable", order = 0)]
+    public class BoolVariable : Variable
     {
-        get => runtimeValue;
-        set
+        [SerializeField] private bool defaultValue;
+        [SerializeField] private bool runtimeValue;
+
+        public bool Value
         {
-            runtimeValue = value;
-            OnUpdate?.Invoke();
+            get => runtimeValue;
+            set
+            {
+                runtimeValue = value;
+                base.BroadcastUpdate();
+            }
         }
+
+        private void OnEnable() => runtimeValue = defaultValue;
     }
 
-    private void OnEnable() => runtimeValue = defaultValue;
-}
-
-[Serializable]
-[InlineProperty]
-public class BoolReference
-{
-    [HorizontalGroup("Split", LabelWidth = .01f)] [PropertyTooltip("$Tooltip")]
-    [BoxGroup("Split/Left", ShowLabel = false)] [LabelText("$LabelText")] [LabelWidth(10f)]
-    [SerializeField] private bool UseConstant = false;
-    
-    [BoxGroup("Split/Right", ShowLabel = false)] [LabelText("Value")] [ShowIf("UseConstant")]
-    [SerializeField] private bool ConstantValue;
-    
-    [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [HideIf("UseConstant")]
-    [SerializeField] private BoolVariable Variable;
-    
-    public String Tooltip => Variable != null && !UseConstant ? Variable.Description : "";
-    public String LabelText => UseConstant ? "" : "?";
-    
-    public bool Value
+    [Serializable]
+    [InlineProperty]
+    public class BoolReference : Reference
     {
-        get => UseConstant ? ConstantValue : Variable.Value;
-        set => Variable.Value = value;
+        [BoxGroup("Split/Right", ShowLabel = false)] [LabelText("Value")] [ShowIf("UseConstant")]
+        [SerializeField] private bool ConstantValue;
+    
+        [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [HideIf("UseConstant")]
+        [SerializeField] private BoolVariable Variable;
+    
+        public String Tooltip => Variable != null && !UseConstant ? Variable.Description : "";
+    
+        public bool Value
+        {
+            get => UseConstant ? ConstantValue : Variable.Value;
+            set => Variable.Value = value;
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MyAssets.ScriptableObjects.Variables;
 using UnityEngine;
 using XNode;
 

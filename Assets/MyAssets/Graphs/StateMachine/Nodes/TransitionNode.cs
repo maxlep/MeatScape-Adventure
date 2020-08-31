@@ -41,7 +41,7 @@ public class TransitionNode : Node
     [SerializeField] private List<TimerCondition> TimerConditions;
 
 
-    [SerializeField] [HideInInspector] private float Zoom = .5f;
+    [SerializeField] [HideInInspector] private bool Zoom = false;
     [HideInInspector] public List<StateNode> startStateOptions = new List<StateNode>();
     
     private VariableContainer parameters;
@@ -50,7 +50,7 @@ public class TransitionNode : Node
     private string nextStateName;
 
     public void SetParameters(VariableContainer newParams) => parameters = newParams;
-    public float GetZoom() => Zoom;
+    public bool GetZoom() => Zoom;
     
 
     public virtual void Initialize(StateMachineGraph parentGraph)
@@ -217,21 +217,37 @@ public class TransitionNode : Node
 
         return result;
     }
-
+    
 
     [HorizontalGroup("split", 20f)] [PropertyOrder(-1)]
-    [Button(ButtonSizes.Small, ButtonStyle.CompactBox, Name = "-")]
-    public void DecreaseZoom()
+    [Button(ButtonSizes.Small, ButtonStyle.CompactBox, Name = "$GetZoomButtonName")]
+    public void ToggleZoom()
     {
-        if (Zoom > .5f) Zoom = .5f;
-        else Zoom = 0f;
+        Zoom = !Zoom;
+        ToggleExpandFoldout();
     }
 
-    [HorizontalGroup("split/right", 20f)] [PropertyOrder(0)]
-    [Button(ButtonSizes.Small, ButtonStyle.CompactBox, Name = "+")] 
-    public void IncreaseZoom()
+    private string GetZoomButtonName()
     {
-        if (Zoom < .5f) Zoom = .5f;
-        else Zoom = 1f;
+        return Zoom ? "+" : "-";
+    }
+
+    private void ToggleExpandFoldout()
+    {
+        PropertyInfo[] props = typeof(TransitionNode).GetProperties();
+        foreach (PropertyInfo prop in props)
+        {
+            object[] attrs = prop.GetCustomAttributes(true);
+            foreach (object attr in attrs)
+            {
+                FoldoutGroupAttribute foldoutAttr = attr as FoldoutGroupAttribute;
+                if (foldoutAttr != null)
+                {
+                    foldoutAttr.Expanded = Zoom;
+                    Debug.Log(foldoutAttr.Expanded);
+                    Debug.Log(Zoom);
+                }
+            }
+        }
     }
 }

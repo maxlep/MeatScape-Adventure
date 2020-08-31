@@ -33,8 +33,6 @@ public class PlayerController : MonoBehaviour, ICharacterController
 
     public Transform GetCameraTrans() => cameraTrans;
     public Transform GetFirePoint() => firePoint;
-    
-    public void UngroundMotor() => charMotor.ForceUnground(0.1f);
 
     public delegate void _OnStartUpdateVelocity(Vector3 currentVelocity);
     public delegate void _OnStartUpdateRotation(Quaternion currentRotation);
@@ -155,6 +153,12 @@ public class PlayerController : MonoBehaviour, ICharacterController
     private void GetInput()
     {
         MoveInput.Value = playerMove.ReadValue<Vector2>();
+    }
+
+    public void UngroundMotor()
+    {
+        IsGrounded.Value = false;
+        charMotor.ForceUnground(0.1f);
     }
     
     

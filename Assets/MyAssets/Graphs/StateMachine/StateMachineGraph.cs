@@ -164,7 +164,7 @@ public class StateMachineGraph : NodeGraph
     
     private void ChangeState(StateNode nextState)
     {
-        // Debug.Log($"Change: {currentState.name} -> {nextState.name}");
+        Debug.Log($"Change: {currentState.name} -> {nextState.name}");
         currentState.Exit();
         currentState = nextState;
         currentState.Enter();

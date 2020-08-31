@@ -19,7 +19,7 @@ public class StateNodeEditor : NodeEditor
     {
         StateNode asStateNode = target as StateNode;
         if (asStateNode != null)
-            zoomed = asStateNode.GetZoom();
+            zoomed = asStateNode.Zoom;
 
         return zoomed ? 225 : 400;
     }

@@ -147,6 +147,18 @@ public class StateMachineGraph : NodeGraph
             triggerVar.OnUpdate += () => CheckForValidTransitions(triggerVar);
         }
     }
+
+    public void ToggleExpandAll(bool expanded)
+    {
+        foreach (var transitionNode in transitionNodes)
+        {
+            transitionNode.Zoom = expanded;
+        }
+        foreach (var stateNode in stateNodes)
+        {
+            stateNode.Zoom = expanded;
+        }
+    }
     
 
     

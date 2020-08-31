@@ -20,12 +20,16 @@ public class StateNode : Node
     protected List<TransitionNode> transitionNodes = new List<TransitionNode>();
     protected StateNode noTransitionState;
 
-    [SerializeField] [HideInInspector] private bool Zoom = false;
+    [SerializeField] [HideInInspector] private bool zoom = false;
     [HideInInspector] public bool isActiveState = false;
 
     public string GetName() => Name;
 
-    public bool GetZoom() => Zoom;
+    public bool Zoom
+    {
+        get => zoom;
+        set => zoom = value;
+    }
 
     public void SetParameters(VariableContainer newParams) => parameters = newParams;
 
@@ -118,12 +122,12 @@ public class StateNode : Node
     [Button(ButtonSizes.Small, ButtonStyle.CompactBox, Name = "$GetZoomButtonName")]
     public void ToggleZoom()
     {
-        Zoom = !Zoom;
+        zoom = !zoom;
     }
 
     private string GetZoomButtonName()
     {
-        return Zoom ? "+" : "-";
+        return zoom ? "+" : "-";
     }
     
     public override string ToString()

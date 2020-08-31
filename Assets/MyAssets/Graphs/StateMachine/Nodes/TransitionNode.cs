@@ -42,7 +42,7 @@ public class TransitionNode : Node
     [SerializeField] private List<TimerCondition> TimerConditions;
 
 
-    [SerializeField] [HideInInspector] private bool Zoom = false;
+    [SerializeField] [HideInInspector] private bool zoom = false;
     [HideInInspector] public List<StateNode> startStateOptions = new List<StateNode>();
     
     private VariableContainer parameters;
@@ -51,7 +51,11 @@ public class TransitionNode : Node
     private string nextStateName;
 
     public void SetParameters(VariableContainer newParams) => parameters = newParams;
-    public bool GetZoom() => Zoom;
+    public bool Zoom
+    {
+        get => zoom;
+        set => zoom = value;
+    }
     
 
     public virtual void Initialize(StateMachineGraph parentGraph)
@@ -224,11 +228,11 @@ public class TransitionNode : Node
     [Button(ButtonSizes.Small, ButtonStyle.CompactBox, Name = "$GetZoomButtonName")]
     public void ToggleZoom()
     {
-        Zoom = !Zoom;
+        zoom = !zoom;
     }
 
     private string GetZoomButtonName()
     {
-        return Zoom ? "+" : "-";
+        return zoom ? "+" : "-";
     }
 }

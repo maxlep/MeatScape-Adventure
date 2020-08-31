@@ -20,7 +20,7 @@ public class TransitionNodeEditor : NodeEditor
         
         TransitionNode asTransitionNode = target as TransitionNode;
         if (asTransitionNode != null)
-            zoomed = asTransitionNode.GetZoom();
+            zoomed = asTransitionNode.Zoom;
         
         return zoomed ? 225 : 400;
     }

@@ -14,6 +14,7 @@ public class InputManager : MonoBehaviour
 
     public delegate void _OnControlsChanged(PlayerInput inputs);
     public delegate void _OnAttack();
+    public delegate void _OnGroundPound();
     public delegate void _OnDownwardAttack();
     public delegate void _OnSave();
     public delegate void _OnLoad();
@@ -25,6 +26,7 @@ public class InputManager : MonoBehaviour
 
     public event _OnControlsChanged onControlsChanged;
     public event _OnAttack onAttack;
+    public event _OnGroundPound onGroundPound;
     public event _OnDownwardAttack onDownwardAttack;
     public event _OnSave onSave;
     public event _OnLoad onLoad;
@@ -117,6 +119,11 @@ public class InputManager : MonoBehaviour
     public void OnAttack()
     {
         if (onAttack != null) onAttack();
+    }
+    
+    public void OnGroundPound()
+    {
+        if (onGroundPound != null) onGroundPound();
     }
     
     public void OnDownwardAttack()

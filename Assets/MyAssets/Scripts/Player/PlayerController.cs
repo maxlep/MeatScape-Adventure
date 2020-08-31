@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable AttackTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable JumpTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable DownwardAttackTrigger;
+    [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable GroundPoundTrigger;
 
     private Vector3 moveDirection;
     private InputAction playerMove;
@@ -56,6 +57,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
         InputManager.Instance.onJump_Pressed += () => JumpTrigger.Activate();
         InputManager.Instance.onAttack += () => AttackTrigger.Activate();
         InputManager.Instance.onDownwardAttack += () => DownwardAttackTrigger.Activate();
+        InputManager.Instance.onGroundPound += () => GroundPoundTrigger.Activate();
     }
 
     // Update is called once per frame

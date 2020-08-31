@@ -16,7 +16,13 @@ public class AirStall : PlayerStateNode
         base.Enter();
         playerController.onStartUpdateVelocity += UpdateVelocity;
     }
-    
+
+    public override void Exit()
+    {
+        base.Exit();
+        playerController.onStartUpdateVelocity -= UpdateVelocity;
+    }
+
     private void UpdateVelocity(Vector3 currentVelocity)
     {
         if (restrictX) currentVelocity.x = 0f;

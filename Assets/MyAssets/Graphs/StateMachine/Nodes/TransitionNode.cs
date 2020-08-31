@@ -149,7 +149,7 @@ public class TransitionNode : Node
         //If no conditions, done
         if (BoolConditions.IsNullOrEmpty() && TriggerConditions.IsNullOrEmpty() &&
             FloatConditions.IsNullOrEmpty() && IntConditions.IsNullOrEmpty() &&
-            ValidStartStates.IsNullOrEmpty()) 
+            ValidStartStates.IsNullOrEmpty() && TimerConditions.IsNullOrEmpty()) 
             return true;
         
         //Check Valid start states (OR)

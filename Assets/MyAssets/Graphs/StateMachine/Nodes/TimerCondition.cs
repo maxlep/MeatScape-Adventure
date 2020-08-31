@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
+using Unity.Collections;
 using UnityEngine;
 
 [System.Serializable]
@@ -15,7 +16,7 @@ public class TimerCondition
     [LabelText("Duration")] private float ConstantDuration;
     
     [ShowIf("$UseConstant")] [ShowInInspector] [LabelWidth(65f)]
-    [LabelText("Remaining")] private float ConstantRemainingTime;
+    [Sirenix.OdinInspector.ReadOnly] [LabelText("Remaining")] private float ConstantRemainingTime;
     
     [LabelWidth(80f)] public bool UseConstant;
     
@@ -52,6 +53,7 @@ public class TimerCondition
     public void StartTimer()
     {
         startTime = Time.time;
+        ConstantRemainingTime = ConstantDuration;
         parameterDict[TargetParameterName]?.StartTimer();
     }
 

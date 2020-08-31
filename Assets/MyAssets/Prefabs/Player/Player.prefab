@@ -41,16 +41,16 @@ MonoBehaviour:
   LockTranslationY: 0
   LockTranslationZ: 0
   Params:
-    InstanceID: -1
+    InstanceID: -32808
     Bits:
-      m_bits: 0
+      m_bits: 520
     TwoDPlane: 1
-    PositionParameterMode: 1
+    PositionParameterMode: 2
     RotationParameterMode: 1
     PositionExponentialHalfLife: 0.02
-    PositionOscillationHalfLife: 0.1
+    PositionOscillationHalfLife: 0.05
     PositionOscillationFrequency: 5
-    PositionOscillationDampingRatio: 0.5
+    PositionOscillationDampingRatio: 0.595
     MoveReactionMultiplier: 1
     LinearImpulseMultiplier: 1
     RotationExponentialHalfLife: 0.02
@@ -64,12 +64,11 @@ MonoBehaviour:
   BoneChains:
   - Root: {fileID: 2496787583837387773}
     Exclusion:
-    - {fileID: 3792207903946248190}
-    - {fileID: 2644570033274675591}
+    - {fileID: 3611944904611973518}
     EffectorReaction: 1
     LooseRoot: 0
     ParamsOverride: {fileID: 0}
-    AnimationBlendCurveType: 3
+    AnimationBlendCurveType: 5
     AnimationBlendCustomCurve:
       serializedVersion: 2
       m_Curve:
@@ -94,7 +93,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    LengthStiffnessCurveType: 0
+    LengthStiffnessCurveType: 1
     LengthStiffnessCustomCurve:
       serializedVersion: 2
       m_Curve:
@@ -144,7 +143,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    MaxBendAngleCap: 180
+    MaxBendAngleCap: 30
     BendAngleCapCurveType: 0
     BendAngleCapCustomCurve:
       serializedVersion: 2
@@ -200,7 +199,7 @@ MonoBehaviour:
     EnableUnityCollision: 0
     EnableInterChainCollision: 0
     Gravity: {x: 0, y: 0, z: 0}
-    SquashAndStretchCurveType: 2
+    SquashAndStretchCurveType: 1
     SquashAndStretchCustomCurve:
       serializedVersion: 2
       m_Curve:
@@ -228,12 +227,7 @@ MonoBehaviour:
     MaxSquash: 1.1
     MaxStretch: 2
   MaxCollisionResolutionSpeed: 3
-  BoingColliders:
-  - {fileID: 1875655585568449077}
-  - {fileID: 1337051419459627008}
-  - {fileID: 5263186853241572450}
-  - {fileID: 757058341736106722}
-  - {fileID: 373452611178393177}
+  BoingColliders: []
   UnityColliders: []
   DebugDrawRawBones: 0
   DebugDrawTargetBones: 0
@@ -510,7 +504,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stateMachines:
   - {fileID: 11400000, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  - {fileID: 11400000, guid: 1041de34463a9d8459d3ca74970e14e2, type: 2}
+  - {fileID: 0}
   parameters: {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
   playerController: {fileID: 7107814362353387316}
 --- !u!136 &7107814362353387318
@@ -845,21 +839,15 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1451734507604200379}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &3792207903946248190 stripped
+--- !u!4 &3611944904611973518 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 2343340929672922181, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+  m_CorrespondingSourceObject: {fileID: -6483586873036832203, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
     type: 3}
   m_PrefabInstance: {fileID: 1451734507604200379}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &2644570033274675591 stripped
+--- !u!4 &1418389424614517840 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 3501265830196685372, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
-    type: 3}
-  m_PrefabInstance: {fileID: 1451734507604200379}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1793823560576399082 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
     type: 3}
   m_PrefabInstance: {fileID: 1451734507604200379}
   m_PrefabAsset: {fileID: 0}
@@ -875,9 +863,9 @@ Animator:
     type: 3}
   m_PrefabInstance: {fileID: 1451734507604200379}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1418389424614517840 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+--- !u!1 &1793823560576399082 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
     type: 3}
   m_PrefabInstance: {fileID: 1451734507604200379}
   m_PrefabAsset: {fileID: 0}

@@ -20,12 +20,12 @@ public class StateNode : Node
     protected List<TransitionNode> transitionNodes = new List<TransitionNode>();
     protected StateNode noTransitionState;
 
-    [SerializeField] [HideInInspector] private float Zoom = .5f;
+    [SerializeField] [HideInInspector] private bool Zoom = false;
     [HideInInspector] public bool isActiveState = false;
 
     public string GetName() => Name;
 
-    public float GetZoom() => Zoom;
+    public bool GetZoom() => Zoom;
 
     public void SetParameters(VariableContainer newParams) => parameters = newParams;
 
@@ -115,19 +115,15 @@ public class StateNode : Node
     }
     
     [HorizontalGroup("split", 20f)] [PropertyOrder(-1)]
-    [Button(ButtonSizes.Small, ButtonStyle.CompactBox, Name = "-")]
-    public void DecreaseZoom()
+    [Button(ButtonSizes.Small, ButtonStyle.CompactBox, Name = "$GetZoomButtonName")]
+    public void ToggleZoom()
     {
-        if (Zoom > .5f) Zoom = .5f;
-        else Zoom = 0f;
+        Zoom = !Zoom;
     }
 
-    [HorizontalGroup("split/right", 20f)] [PropertyOrder(0)]
-    [Button(ButtonSizes.Small, ButtonStyle.CompactBox, Name = "+")] 
-    public void IncreaseZoom()
+    private string GetZoomButtonName()
     {
-        if (Zoom < .5f) Zoom = .5f;
-        else Zoom = 1f;
+        return Zoom ? "+" : "-";
     }
     
     public override string ToString()

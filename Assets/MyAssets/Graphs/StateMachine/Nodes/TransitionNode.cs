@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
@@ -224,30 +225,10 @@ public class TransitionNode : Node
     public void ToggleZoom()
     {
         Zoom = !Zoom;
-        ToggleExpandFoldout();
     }
 
     private string GetZoomButtonName()
     {
         return Zoom ? "+" : "-";
-    }
-
-    private void ToggleExpandFoldout()
-    {
-        PropertyInfo[] props = typeof(TransitionNode).GetProperties();
-        foreach (PropertyInfo prop in props)
-        {
-            object[] attrs = prop.GetCustomAttributes(true);
-            foreach (object attr in attrs)
-            {
-                FoldoutGroupAttribute foldoutAttr = attr as FoldoutGroupAttribute;
-                if (foldoutAttr != null)
-                {
-                    foldoutAttr.Expanded = Zoom;
-                    Debug.Log(foldoutAttr.Expanded);
-                    Debug.Log(Zoom);
-                }
-            }
-        }
     }
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Forward Throw <ForwardAttack>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1320, y: 168}
+  position: {x: 1688, y: 136}
   ports:
     keys:
     - previousState
@@ -36,9 +36,10 @@ MonoBehaviour:
       _typeQualifiedName: TransitionNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: startingState
-        node: {fileID: 6819386015519354801}
-        reroutePoints: []
+      - fieldName: previousState
+        node: {fileID: 9174840935225501389}
+        reroutePoints:
+        - {x: 1501.6616, y: -47.71274}
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
@@ -65,74 +66,6 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 253f68b1cd3945c488bcb8015d51137c, type: 2}
---- !u!114 &-6662423894570782471
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Downward Throw -> DoNothing
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 1608, y: 600}
-  ports:
-    keys:
-    - startingState
-    - nextState
-    values:
-    - _fieldName: startingState
-      _node: {fileID: -6662423894570782471}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: -6583862081062639760}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: nextState
-      _node: {fileID: -6662423894570782471}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: previousState
-        node: {fileID: 9174840935225501389}
-        reroutePoints:
-        - {x: 1905.5376, y: 670.9506}
-        - {x: 1905.5376, y: 670.9506}
-        - {x: 1906.7782, y: 868.2027}
-        - {x: 1906.7782, y: 868.2027}
-        - {x: 592, y: 848}
-        - {x: 586.8023, y: 313.6639}
-        - {x: 586.8023, y: 313.6639}
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-  startingState: {fileID: 0}
-  nextState: {fileID: 0}
-  ConditionPreview: 
-  ValidStartStates: []
-  BoolConditions: []
-  TriggerConditions: []
-  FloatConditions: []
-  IntConditions: []
-  TimerConditions: []
-  zoom: 0
-  startStateOptions:
-  - {fileID: -1108589282178386599, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  - {fileID: 3160719255603912525, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  - {fileID: -4990919157884066038, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  - {fileID: -5368650478412996812, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  - {fileID: 7248169581288550152, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  - {fileID: 326285495737826313, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  - {fileID: -4813754887986621945, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
 --- !u!114 &-6583862081062639760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,7 +79,7 @@ MonoBehaviour:
   m_Name: Downward Throw <DownwardAttack>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1320, y: 584}
+  position: {x: 1688, y: 584}
   ports:
     keys:
     - previousState
@@ -169,9 +102,10 @@ MonoBehaviour:
       _typeQualifiedName: TransitionNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: startingState
-        node: {fileID: -6662423894570782471}
-        reroutePoints: []
+      - fieldName: previousState
+        node: {fileID: 9174840935225501389}
+        reroutePoints:
+        - {x: 1376, y: 1184}
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
@@ -213,8 +147,6 @@ MonoBehaviour:
   - {fileID: 7323983362953568521}
   - {fileID: -8354906802381047596}
   - {fileID: -6583862081062639760}
-  - {fileID: 6819386015519354801}
-  - {fileID: -6662423894570782471}
 --- !u!114 &4601134146122477444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,7 +160,7 @@ MonoBehaviour:
   m_Name: Start
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 340.92575, y: 273.49353}
+  position: {x: 168, y: 264}
   ports:
     keys:
     - EntryState
@@ -259,7 +191,7 @@ MonoBehaviour:
   m_Name: DoNothing -> Forward Throw
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 984, y: 168}
+  position: {x: 1192, y: 88}
   ports:
     keys:
     - startingState
@@ -316,71 +248,6 @@ MonoBehaviour:
   - {fileID: 7248169581288550152, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   - {fileID: 326285495737826313, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   - {fileID: -4813754887986621945, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
---- !u!114 &6819386015519354801
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Forward Throw -> DoNothing
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 1624, y: 184}
-  ports:
-    keys:
-    - startingState
-    - nextState
-    values:
-    - _fieldName: startingState
-      _node: {fileID: 6819386015519354801}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: -8354906802381047596}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: nextState
-      _node: {fileID: 6819386015519354801}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: previousState
-        node: {fileID: 9174840935225501389}
-        reroutePoints:
-        - {x: 1912.9811, y: 249.15381}
-        - {x: 1911.7406, y: 142.46402}
-        - {x: 586.8023, y: 148.66692}
-        - {x: 585.5617, y: 316.14508}
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-  startingState: {fileID: 0}
-  nextState: {fileID: 0}
-  ConditionPreview: 
-  ValidStartStates: []
-  BoolConditions: []
-  TriggerConditions: []
-  FloatConditions: []
-  IntConditions: []
-  TimerConditions: []
-  zoom: 0
-  startStateOptions:
-  - {fileID: -1108589282178386599, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  - {fileID: 3160719255603912525, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  - {fileID: -4990919157884066038, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  - {fileID: -5368650478412996812, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  - {fileID: 7248169581288550152, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  - {fileID: 326285495737826313, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  - {fileID: -4813754887986621945, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
 --- !u!114 &7323983362953568521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -394,7 +261,7 @@ MonoBehaviour:
   m_Name: DoNothing -> Downward Throw
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 984, y: 664}
+  position: {x: 1192, y: 600}
   ports:
     keys:
     - startingState
@@ -485,11 +352,11 @@ MonoBehaviour:
       - fieldName: EntryState
         node: {fileID: 4601134146122477444}
         reroutePoints: []
-      - fieldName: nextState
-        node: {fileID: -6662423894570782471}
+      - fieldName: transitions
+        node: {fileID: -8354906802381047596}
         reroutePoints: []
-      - fieldName: nextState
-        node: {fileID: 6819386015519354801}
+      - fieldName: transitions
+        node: {fileID: -6583862081062639760}
         reroutePoints: []
       _direction: 0
       _connectionType: 0

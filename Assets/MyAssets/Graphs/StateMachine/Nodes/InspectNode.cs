@@ -16,7 +16,7 @@ public class StateInfo
     [SerializeField] [HideLabel] private StateNode state;
     [SerializeField] [ShowIf("$expanded")] [HideLabel] [TextArea(3, 3)] private string transitionInfo;
 
-    private bool expanded = false;
+    private bool expanded = true;
 
     public StateInfo(StateNode state, string transitionInfo)
     {
@@ -56,11 +56,13 @@ public class StateInfo
 
 public class InspectNode : Node
 {
-    [ListDrawerSettings(Expanded = true, DraggableItems = false, IsReadOnly = true, HideAddButton = true, HideRemoveButton =  true)]
+    [ListDrawerSettings(Expanded = true, DraggableItems = false, IsReadOnly = true, HideAddButton = true, 
+        HideRemoveButton =  true, OnTitleBarGUI = "DrawExpandButtonPrevious")]
     [SerializeField] [HorizontalGroup("t")] [VerticalGroup("t/Previous")] [LabelText("Previous States")]
     private List<StateInfo> previousStates = new List<StateInfo>();
     
-    [ListDrawerSettings(Expanded = true, DraggableItems = false, IsReadOnly = true, HideAddButton = true, HideRemoveButton =  true)]
+    [ListDrawerSettings(Expanded = true, DraggableItems = false, IsReadOnly = true, HideAddButton = true, 
+        HideRemoveButton =  true, OnTitleBarGUI = "DrawExpandButtonNext")]
     [SerializeField] [HorizontalGroup("t")] [VerticalGroup("t/Next")] [LabelText("Next States")]
     private List<StateInfo> nextStates = new List<StateInfo>();
 
@@ -68,6 +70,42 @@ public class InspectNode : Node
     {
         name = $"Inspecting {inspectedState.name}";
         PopulateStateInfoLists(inspectedState);
+    }
+    
+    private void DrawExpandButtonPrevious()
+    {
+        if (SirenixEditorGUI.ToolbarButton(EditorIcons.Plus))
+        {
+            foreach (var stateInfo in previousStates)
+            {
+                stateInfo.Expanded = true;
+            }
+        }
+        if (SirenixEditorGUI.ToolbarButton(EditorIcons.Minus))
+        {
+            foreach (var stateInfo in previousStates)
+            {
+                stateInfo.Expanded = false;
+            }
+        }
+    }
+    
+    private void DrawExpandButtonNext()
+    {
+        if (SirenixEditorGUI.ToolbarButton(EditorIcons.Plus))
+        {
+            foreach (var stateInfo in nextStates)
+            {
+                stateInfo.Expanded = true;
+            }
+        }
+        if (SirenixEditorGUI.ToolbarButton(EditorIcons.Minus))
+        {
+            foreach (var stateInfo in nextStates)
+            {
+                stateInfo.Expanded = false;
+            }
+        }
     }
 
     private void PopulateStateInfoLists(StateNode inspectedState)

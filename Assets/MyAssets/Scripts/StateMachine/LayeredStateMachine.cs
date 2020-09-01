@@ -47,6 +47,14 @@ public class LayeredStateMachine : MonoBehaviour
         }
     }
 
+    protected void OnDrawGizmos()
+    {
+        foreach (var stateMachine in stateMachines)
+        {
+            stateMachine.DrawGizmos();
+        }
+    }
+
     #endregion
 
     #region Init/Dep Injection

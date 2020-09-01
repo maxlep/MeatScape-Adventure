@@ -30,6 +30,11 @@ public class StateMachineGraph : NodeGraph
         currentState.ExecuteFixed();
     }
 
+    public void DrawGizmos()
+    {
+        currentState.DrawGizmos();
+    }
+
     #endregion
 
     #region Init/Dep Injection

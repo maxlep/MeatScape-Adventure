@@ -38,6 +38,8 @@ public class StateNode : Node
     }
 
     public void SetParameters(VariableContainer newParams) => parameters = newParams;
+    
+    #region Init/Dep Injection
 
     public virtual void Initialize(StateMachineGraph parentGraph)
     {
@@ -128,16 +130,17 @@ public class StateNode : Node
             nextStates = nextStates.Union(refNode.nextStates).ToList();
         }
     }
-
-    protected override void Init()
-    {
-        base.Init();
-    }
+    
+    
 
     private void OnValidate()
     {
         name = $"{Name} <{this.GetType().Name}>";
     }
+    
+    #endregion
+    
+    #region LifeCycle Methods
 
     public virtual void Enter()
     {
@@ -161,6 +164,13 @@ public class StateNode : Node
     {
         isActiveState = false;
     }
+    
+    public virtual void DrawGizmos()
+    {
+        
+    }
+    
+    #endregion
 
     public virtual StateNode CheckStateTransitions(TriggerVariable receivedTrigger = null)
     {

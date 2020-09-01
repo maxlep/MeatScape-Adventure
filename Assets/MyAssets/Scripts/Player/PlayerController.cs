@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
 
     public Transform GetCameraTrans() => cameraTrans;
     public Transform GetFirePoint() => firePoint;
+    public Animator GetAnimator() => animator;
 
     public delegate void _OnStartUpdateVelocity(Vector3 currentVelocity);
     public delegate void _OnStartUpdateRotation(Quaternion currentRotation);
@@ -139,9 +140,9 @@ public class PlayerController : MonoBehaviour, ICharacterController
     {
         IsGrounded.Value = MaintainingGround();
 
-        animator.SetFloat("HorizontalSpeed", Mathf.Sqrt(Mathf.Pow(NewVelocity.Value.x, 2) + Mathf.Pow(NewVelocity.Value.z, 2)));
-        animator.SetFloat("VerticalVelocity", NewVelocity.Value.y);
-        animator.SetBool("IsGrounded", IsGrounded.Value);
+        // animator.SetFloat("HorizontalSpeed", Mathf.Sqrt(Mathf.Pow(NewVelocity.Value.x, 2) + Mathf.Pow(NewVelocity.Value.z, 2)));
+        // animator.SetFloat("VerticalVelocity", NewVelocity.Value.y);
+        // animator.SetBool("IsGrounded", IsGrounded.Value);
     }
 
     

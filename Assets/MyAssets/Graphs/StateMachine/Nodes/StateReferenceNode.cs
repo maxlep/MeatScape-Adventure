@@ -30,12 +30,6 @@ public class StateReferenceNode : Node
         PopulateTransitionNodeList();
     }
 
-    private void OnValidate()
-    {
-        PopulateLinkedNodes();
-        name = $"{referencedNode.GetName()} <{referencedNode.GetType().Name}>";
-    }
-
     private void PopulateLinkedNodes()
     {
         linkedNodes.Clear();
@@ -43,6 +37,8 @@ public class StateReferenceNode : Node
         {
             linkedNodes.Add(referencedNode);
         }
+        Debug.Log(name);
+        Debug.Log(stateMachineGraph.StateReferenceNodes?.Count);
         foreach (var stateRefNode in stateMachineGraph.StateReferenceNodes)
         {
             if (stateRefNode.ReferencedNode == referencedNode)

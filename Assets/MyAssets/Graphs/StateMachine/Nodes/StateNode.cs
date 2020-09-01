@@ -18,15 +18,17 @@ public class StateNode : Node
 
     protected StateMachineGraph stateMachineGraph;
     protected VariableContainer parameters;
-    protected List<TransitionNode> transitionNodes = new List<TransitionNode>();
     protected List<StateReferenceNode> referenceNodes = new List<StateReferenceNode>();
-    protected StateNode noTransitionState;
 
     [SerializeField] [HideInInspector] protected bool zoom = false;
     [HideInInspector] public bool isActiveState = false;
-    
+
     public List<StateNode> previousStates { get; private set; } = new List<StateNode>();
     public List<StateNode> nextStates { get; private set; } = new List<StateNode>();
+    public List<TransitionNode> previousTransitionNodes { get; private set; } = new List<TransitionNode>();
+    public List<TransitionNode> nextTransitionNodes { get; private set; } = new List<TransitionNode>();
+    public StateNode nextNoTransitionState { get; private set; }
+    public List<StateNode> previousNoTransitionStates { get; private set; } = new List<StateNode>();
 
     public string GetName() => Name;
     public StateMachineGraph GetParentGraph() => stateMachineGraph;
@@ -46,13 +48,14 @@ public class StateNode : Node
         this.stateMachineGraph = parentGraph;
         isActiveState = false;
         PopulateLinkedRefNodes();
-        PopulateTransitionNodeList();
+        PopulateTransitionNodeLists();
         PopulatePreviousStates();
         PopulateNextStates();
     }
 
     private void PopulateLinkedRefNodes()
     {
+        referenceNodes.Clear();
         linkedNodes.Clear();
         foreach (var stateRefNode in stateMachineGraph.StateReferenceNodes)
         {
@@ -61,57 +64,83 @@ public class StateNode : Node
                 referenceNodes.Add(stateRefNode);
                 linkedNodes.Add(stateRefNode);
             }
-                
         }
     }
 
-    private void PopulateTransitionNodeList()
+    private void PopulateTransitionNodeLists()
     {
-        transitionNodes.Clear();
-        noTransitionState = null;
+        previousTransitionNodes.Clear();
+        nextTransitionNodes.Clear();
+        previousNoTransitionStates.Clear();
+        nextNoTransitionState = null;
 
-        //Check this node for transitions
-        StoreTransitionsFromNode(this);
+        //Check this node for transitions (previous and next)
+        StoreTransitionsFromNode(this, true);
+        StoreTransitionsFromNode(this, false);
         
-        //Check ref nodes for transitions
+        //Check ref nodes for transitions (previous and next)
         foreach (var refNode in referenceNodes)
         {
-            StoreTransitionsFromNode(refNode);
+            StoreTransitionsFromNode(refNode, true);
+            StoreTransitionsFromNode(refNode, false);
         }
     }
 
-    private void StoreTransitionsFromNode(Node node)
+    private void StoreTransitionsFromNode(Node node, bool isInputPort)
     {
-        NodePort refTransitionsPort = node.GetOutputPort("transitions");
-        refTransitionsPort.GetConnections().ForEach(c =>
+        NodePort transitionsPort = (isInputPort) ? node.GetInputPort("previousState")
+            : node.GetOutputPort("transitions");
+        
+        transitionsPort.GetConnections().ForEach(c =>
         {
             //Check for connected transitions
             TransitionNode nodeAsTransition = (c.node as TransitionNode);
             if (nodeAsTransition != null)
-                transitionNodes.Add(c.node as TransitionNode);
+            {
+                if (isInputPort)
+                    previousTransitionNodes.Add(c.node as TransitionNode);
+                else
+                    nextTransitionNodes.Add(c.node as TransitionNode);
+            }
+                
             
             //Check for direct state connections
             StateNode nodeAsState = (c.node as StateNode);
             if (nodeAsState != null)
             {
-                if (noTransitionState != null) 
-                    Debug.LogError("More than 1 directly connected state" +
-                                   $"found for node {node.name}! Make sure <2 states" +
-                                   $"are connected directly");
+                if (isInputPort)
+                {
+                    previousNoTransitionStates.Add(nodeAsState);
+                }
+                else
+                {
+                    if (nextNoTransitionState != null) 
+                        Debug.LogError("More than 1 directly connected state output" +
+                                       $"found for node {node.name}! Make sure <2 states" +
+                                       $"are connected directly");
                 
-                noTransitionState = nodeAsState;
+                    nextNoTransitionState = nodeAsState;
+                }
             }
             
             //Check for direct ref node connections
             StateReferenceNode nodeAsRef = (c.node as StateReferenceNode);
             if (nodeAsRef != null && nodeAsRef.ReferencedState != null)
             {
-                if (noTransitionState != null) 
-                    Debug.LogError("More than 1 directly connected state" +
-                                   $"found for node {node.name}! Make sure <2 states" +
-                                   $"are connected directly");
+                if (isInputPort)
+                {
+                    previousNoTransitionStates.Add(nodeAsRef.ReferencedState);
+                }
+                else
+                {
+                    if (nextNoTransitionState != null) 
+                        Debug.LogError("More than 1 directly connected state output" +
+                                       $"found for node {node.name}! Make sure <2 states" +
+                                       $"are connected directly");
                 
-                noTransitionState = nodeAsRef.ReferencedState;
+                    nextNoTransitionState = nodeAsRef.ReferencedState;
+                }
+                
             }
                 
         });
@@ -120,51 +149,32 @@ public class StateNode : Node
     private void PopulatePreviousStates()
     {
         previousStates.Clear();
-
-        //Get previous states for this node
-        PopulatePreviousStatesForNode(this);
         
-        //Get previous states for each ref node
-        foreach (var refNode in referenceNodes)
+        //Get previous state from direct connection
+        foreach (var previousNoTransitionState in previousNoTransitionStates)
         {
-            PopulatePreviousStatesForNode(refNode);
+            previousStates.Add(previousNoTransitionState);
+        }
+
+        //Get previous states from transitions (this node and ref nodes accounted for)
+        foreach (var transitionNode in previousTransitionNodes)
+        {
+            StateNode transState = transitionNode.GetStartingState();
+            if (transState != null)
+                previousStates.Add(transState);
         }
     }
 
-    private void PopulatePreviousStatesForNode(Node node)
-    {
-        NodePort transitionsPort = node.GetInputPort("previousState");
-        transitionsPort.GetConnections().ForEach(c =>
-        {
-            //Get previous states from transition nodes on input
-            TransitionNode nodeAsTransition = (c.node as TransitionNode);
-            if (nodeAsTransition != null)
-            {
-                previousStates.Add(nodeAsTransition.GetStartingState());
-            }
-
-            //Get directly connected previous states
-            StateNode nodeAsState = (c.node as StateNode);
-            if (nodeAsState != null)
-                previousStates.Add(nodeAsState);
-            
-            //Get directly connected previous ref states
-            StateReferenceNode nodeAsRef = (c.node as StateReferenceNode);
-            if (nodeAsRef != null)
-                previousStates.Add(nodeAsRef.ReferencedState);
-        });
-    }
-    
     private void PopulateNextStates()
     {
         nextStates.Clear();
         
         //Get next state from direct connection
-        if (noTransitionState != null)
-            nextStates.Add(noTransitionState);
+        if (nextNoTransitionState != null)
+            nextStates.Add(nextNoTransitionState);
 
         //Get next states from transitions (this node and ref nodes accounted for)
-        foreach (var transitionNode in transitionNodes)
+        foreach (var transitionNode in nextTransitionNodes)
         {
             StateNode transState = transitionNode.GetNextState();
             if (transState != null)
@@ -185,7 +195,7 @@ public class StateNode : Node
     public virtual void Enter()
     {
         isActiveState = true;
-        foreach (var transition in transitionNodes)
+        foreach (var transition in nextTransitionNodes)
         {
             transition.StartTimers();
         }
@@ -215,7 +225,7 @@ public class StateNode : Node
     public virtual StateNode CheckStateTransitions(TriggerVariable receivedTrigger = null)
     {
         //Check for direct connection to state that bypasses transitions
-        if (noTransitionState != null) return noTransitionState;
+        if (nextNoTransitionState != null) return nextNoTransitionState;
         
         //Check global transitions
         foreach (var transition in stateMachineGraph.globalTransitions)
@@ -227,7 +237,7 @@ public class StateNode : Node
         }
         
         //Check connected and ref node transitions
-        foreach (var transition in transitionNodes)
+        foreach (var transition in nextTransitionNodes)
         {
             if (transition.EvaluateConditions(receivedTrigger))
             {

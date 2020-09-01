@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using Sirenix.Utilities.Editor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -12,9 +13,8 @@ using Node = XNode.Node;
 public class StateInfo
 {
     [InlineButton("Test", "+")]
-    [ListDrawerSettings(Expanded = true, DraggableItems = false, IsReadOnly = true, HideAddButton = true, HideRemoveButton =  true)]
     [SerializeField] [HideLabel] private StateNode state;
-    [SerializeField] [HideLabel] [TextArea] private string transitionInfo;
+    [SerializeField] [HideLabel] [TextArea(3, 3)] private string transitionInfo;
 
     public StateInfo(StateNode state, string transitionInfo)
     {
@@ -44,44 +44,65 @@ public class StateInfo
 
 public class InspectNode : Node
 {
-    [ListDrawerSettings(OnEndListElementGUI = "DrawNextButton", Expanded = true, DraggableItems = false, IsReadOnly = true, HideAddButton = true, HideRemoveButton =  true)][SerializeField] [HorizontalGroup("t")]
-    [VerticalGroup("t/Previous")] [LabelText("Previous")] private List<StateInfo> previousStates = new List<StateInfo>();
+    [ListDrawerSettings(Expanded = true, DraggableItems = false, IsReadOnly = true, HideAddButton = true, HideRemoveButton =  true)]
+    [SerializeField] [HorizontalGroup("t")] [VerticalGroup("t/Previous")] [LabelText("Previous")]
+    private List<StateInfo> previousStates = new List<StateInfo>();
     
-    [ListDrawerSettings(OnEndListElementGUI = "DrawNextButton", Expanded = true, DraggableItems = false, IsReadOnly = true, HideAddButton = true, HideRemoveButton =  true)][SerializeField] [HorizontalGroup("t")]
-    [VerticalGroup("t/Next")] [LabelText("Next")] private List<StateInfo> nextStates = new List<StateInfo>();
-    
-    private void DrawPreviousButton(int index)
-    {
-        if (SirenixEditorGUI.ToolbarButton(EditorIcons.MagnifyingGlass))
-        {
-            Debug.Log(this.previousStates.Count.ToString());
-        }
-    }
-    
-    private void DrawNextButton(int index)
-    {
-        if (SirenixEditorGUI.ToolbarButton(EditorIcons.MagnifyingGlass))
-        {
-            Debug.Log(this.nextStates.Count.ToString());
-        }
-    }
-    
+    [ListDrawerSettings(Expanded = true, DraggableItems = false, IsReadOnly = true, HideAddButton = true, HideRemoveButton =  true)]
+    [SerializeField] [HorizontalGroup("t")] [VerticalGroup("t/Next")] [LabelText("Next")]
+    private List<StateInfo> nextStates = new List<StateInfo>();
+
     public void Initialize(StateNode inspectedState)
     {
         name = $"Inspecting {inspectedState.name}";
-        
+        PopulateStateInfoLists(inspectedState);
+    }
+
+    private void PopulateStateInfoLists(StateNode inspectedState)
+    {
         previousStates.Clear();
         nextStates.Clear();
 
-        foreach (var previousState in inspectedState.previousStates)
+        //Add Previous state info from transitions
+        foreach (var previousTransition in inspectedState.previousTransitionNodes)
         {
-            StateInfo info = new StateInfo(previousState, "shiieeet");
+            StateNode prevState = previousTransition.GetStartingState();
+            string conditions = previousTransition.ConditionPreview;
+            
+            StateInfo info = new StateInfo(prevState, conditions);
             previousStates.Add(info);
         }
-        
-        foreach (var nextState in inspectedState.nextStates)
+
+        //Add Previous state info from direct connections
+        if (!inspectedState.previousNoTransitionStates.IsNullOrEmpty())
         {
-            StateInfo info = new StateInfo(nextState, "shiieeet");
+            foreach (var previousNoTransState in inspectedState.previousNoTransitionStates)
+            {
+                StateNode prevState = previousNoTransState;
+                string conditions = $"<Bypass>";
+            
+                StateInfo info = new StateInfo(prevState, conditions);
+                previousStates.Add(info);
+            }
+        }
+        
+        //Add Next state info from transitions
+        foreach (var nextTransition in inspectedState.nextTransitionNodes)
+        {
+            StateNode nextState = nextTransition.GetNextState();
+            string conditions = nextTransition.ConditionPreview;
+            
+            StateInfo info = new StateInfo(nextState, conditions);
+            nextStates.Add(info);
+        }
+
+        //Add Next state info from direct connection
+        if (inspectedState.nextNoTransitionState != null)
+        {
+            StateNode nextState = inspectedState.nextNoTransitionState;
+            string conditions = $"<Bypass>";
+        
+            StateInfo info = new StateInfo(nextState, conditions);
             nextStates.Add(info);
         }
     }

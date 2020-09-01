@@ -14,7 +14,7 @@ public class TransitionNode : Node
     [Output] [PropertyOrder(-2)] public StateNode nextState;
 
     [TextArea] [HideLabel]
-    [SerializeField] private string ConditionPreview;
+    [SerializeField] private string conditionPreview;
 
     [Tooltip("Transition only valid if ANY 1 or more of these states are active in OTHER state machine")]
     [ValueDropdown("GetStartStateDropdown")]
@@ -44,6 +44,8 @@ public class TransitionNode : Node
 
     [SerializeField] [HideInInspector] protected bool zoom = false;
     [HideInInspector] public List<StateNode> startStateOptions = new List<StateNode>();
+
+    public string ConditionPreview => conditionPreview;
     
     private VariableContainer parameters;
     private StateMachineGraph stateMachineGraph;
@@ -138,40 +140,40 @@ public class TransitionNode : Node
 
     private void InitConditions()
     {
-        ConditionPreview = "";
+        conditionPreview = "";
         
         foreach (var startState in ValidStartStates)
         {
-            ConditionPreview += $"- Start: {startState.GetName()}\n";
+            conditionPreview += $"- Start: {startState.GetName()}\n";
         }
         foreach (var boolCondition in BoolConditions)
         {
             boolCondition.Init(parameters, name);
-            ConditionPreview += $"- {boolCondition}\n";
+            conditionPreview += $"- {boolCondition}\n";
         }
         
         foreach (var triggerCondition in TriggerConditions)
         {
             triggerCondition.Init(parameters, name);
-            ConditionPreview += $"- {triggerCondition}\n";
+            conditionPreview += $"- {triggerCondition}\n";
         }
         
         foreach (var floatCondition in FloatConditions)
         {
             floatCondition.Init(parameters, name);
-            ConditionPreview += $"- {floatCondition}\n";
+            conditionPreview += $"- {floatCondition}\n";
         }
         
         foreach (var intCondition in IntConditions)
         {
             intCondition.Init(parameters, name);
-            ConditionPreview += $"- {intCondition}\n";
+            conditionPreview += $"- {intCondition}\n";
         }
         
         foreach (var timerCondition in TimerConditions)
         {
             timerCondition.Init(parameters, name);
-            ConditionPreview += $"- {timerCondition}\n";
+            conditionPreview += $"- {timerCondition}\n";
         }
     }
 

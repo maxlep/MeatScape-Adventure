@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using XNode;
 using XNodeEditor;
 
 [CustomNodeGraphEditor(typeof(StateMachineGraph))]
@@ -14,6 +15,7 @@ public class StateMachineGraphEditor : NodeGraphEditor
     {
         menu.AddItem(new GUIContent("Init State Machines"), false,
             () => (target as StateMachineGraph).parentMachine.InitStateMachines());
+        menu.AddItem(new GUIContent("Remove All Inspect Nodes"), false, RemoveAllInspectNodes);
         menu.AddSeparator("");
         menu.AddItem(new GUIContent("Expand All"), false, () => (target as StateMachineGraph).ToggleExpandAll(false));
         menu.AddItem(new GUIContent("Collapse All"), false, () => (target as StateMachineGraph).ToggleExpandAll(true));
@@ -47,6 +49,22 @@ public class StateMachineGraphEditor : NodeGraphEditor
         else menu.AddDisabledItem(new GUIContent("Paste"));
         menu.AddItem(new GUIContent("Preferences"), false, () => NodeEditorReflection.OpenPreferences());
         menu.AddCustomContextMenuItems(target);
+    }
+
+    private void RemoveAllInspectNodes()
+    {
+        List<InspectNode> nodesToRemove = new List<InspectNode>();
+        foreach (var node in target.nodes)
+        {
+            InspectNode nodeAsInspect = node as InspectNode;
+            if (nodeAsInspect != null)
+                nodesToRemove.Add(nodeAsInspect);
+        }
+
+        foreach (var nodeToRemove in nodesToRemove)
+        {
+            RemoveNode(nodeToRemove);
+        }
     }
 
 }

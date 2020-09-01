@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cinemachine.Utility;
 using KinematicCharacterController;
 using MyAssets.ScriptableObjects.Variables;
+using MyAssets.Scripts.PoseAnimator;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;
@@ -16,6 +17,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
     [SerializeField] private Animator animator;
     [SerializeField] private Transform cameraTrans;
     [SerializeField] private Transform firePoint;
+    [SerializeField] private Transform root;
     
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private Vector3Reference NewVelocity;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private QuaternionReference NewRotation;
@@ -34,6 +36,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
     public Transform GetCameraTrans() => cameraTrans;
     public Transform GetFirePoint() => firePoint;
     public Animator GetAnimator() => animator;
+    public Transform GetRoot() => root;
 
     public delegate void _OnStartUpdateVelocity(Vector3 currentVelocity);
     public delegate void _OnStartUpdateRotation(Quaternion currentRotation);

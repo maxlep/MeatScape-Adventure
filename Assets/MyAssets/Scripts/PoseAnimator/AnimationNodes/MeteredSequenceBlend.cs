@@ -14,9 +14,9 @@ public class MeteredSequenceBlend : PlayerStateNode
 {
     [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] [Range(0.0f, 1.0f)] protected float weight = 1.0f;
     [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private string fbxName;
-    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] protected List<string> clipNames;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] protected List<AnimationClip> poses;
     [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private AnimationCurve[] transitionCurves;
-    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private BoneTransformWeight[] boneTransformWeights;
+    [Sirenix.OdinInspector.ReadOnly] [SerializeField] BoneTransformWeight[] boneTransformWeights;
     
     [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private Vector3Reference moveVelocity;
     [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] [Sirenix.OdinInspector.ReadOnly] private float meter = 0;
@@ -32,8 +32,7 @@ public class MeteredSequenceBlend : PlayerStateNode
     public override void Initialize(StateMachineGraph parentGraph)
     {
         base.Initialize(parentGraph);
-        // Load animation clips.
-        var poses = clipNames.Select(clip => SampleUtility.LoadAnimationClipFromFbx(fbxName, clip)).ToList();
+        
         if (!poses.Any() || poses.Any(pose => pose == null))
             return;
         
@@ -48,6 +47,10 @@ public class MeteredSequenceBlend : PlayerStateNode
         m_BoneWeights = new NativeArray<float>(numTransforms, Allocator.Persistent, NativeArrayOptions.ClearMemory);
         for (var i = 0; i < numTransforms; ++i)
             m_Handles[i] = animator.BindStreamTransform(allTransforms[i + 1]);
+        
+        // Load selected bones
+        var root = new BoneTransformWeight() {transform = playerController.GetRoot(), weight = 1.0f};
+        boneTransformWeights = new[] { root };
         
         // Set bone weights for selected transforms and their hierarchy.
         m_BoneChildrenIndices = new List<List<int>>(boneTransformWeights.Length);
@@ -141,7 +144,7 @@ public class MeteredSequenceBlend : PlayerStateNode
     
     (int start, int end, float weight) GetTransitionIndices()
     {
-        var numPoses = clipNames.Count;
+        var numPoses = poses.Count;
         var stepSize = 1.0f / numPoses;
 
         var start = Mathf.FloorToInt(Mathf.Clamp(weight / stepSize, 0, numPoses - 1));

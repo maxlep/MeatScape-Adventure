@@ -12,9 +12,11 @@ using Node = XNode.Node;
 [System.Serializable]
 public class StateInfo
 {
-    [InlineButton("Test", "+")]
+    [InlineButton("ToggleExpand", "$GetExpandButtonName")]
     [SerializeField] [HideLabel] private StateNode state;
-    [SerializeField] [HideLabel] [TextArea(3, 3)] private string transitionInfo;
+    [SerializeField] [ShowIf("$expanded")] [HideLabel] [TextArea(3, 3)] private string transitionInfo;
+
+    private bool expanded = false;
 
     public StateInfo(StateNode state, string transitionInfo)
     {
@@ -34,22 +36,32 @@ public class StateInfo
         set => TransitionInfo = value;
     }
 
-    
-    private List<StateNode> Test()
+    public bool Expanded
     {
-        Debug.Log("Test");
-        return null;
+        get => expanded;
+        set => expanded = value;
+    }
+
+    
+    public void ToggleExpand()
+    {
+        expanded = !expanded;
+    }
+    
+    private string GetExpandButtonName()
+    {
+        return expanded ? "-" : "+";
     }
 }
 
 public class InspectNode : Node
 {
     [ListDrawerSettings(Expanded = true, DraggableItems = false, IsReadOnly = true, HideAddButton = true, HideRemoveButton =  true)]
-    [SerializeField] [HorizontalGroup("t")] [VerticalGroup("t/Previous")] [LabelText("Previous")]
+    [SerializeField] [HorizontalGroup("t")] [VerticalGroup("t/Previous")] [LabelText("Previous States")]
     private List<StateInfo> previousStates = new List<StateInfo>();
     
     [ListDrawerSettings(Expanded = true, DraggableItems = false, IsReadOnly = true, HideAddButton = true, HideRemoveButton =  true)]
-    [SerializeField] [HorizontalGroup("t")] [VerticalGroup("t/Next")] [LabelText("Next")]
+    [SerializeField] [HorizontalGroup("t")] [VerticalGroup("t/Next")] [LabelText("Next States")]
     private List<StateInfo> nextStates = new List<StateInfo>();
 
     public void Initialize(StateNode inspectedState)

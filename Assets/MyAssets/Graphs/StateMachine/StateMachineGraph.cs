@@ -172,13 +172,6 @@ public class StateMachineGraph : NodeGraph
 
     #endregion
 
-    public override Node AddNode(Type type)
-    {
-        Node newNode = base.AddNode(type);
-        parentMachine.InitStateMachines();
-        return newNode;
-    }
-
     //Send other active states to transiton node on request
     public List<StateNode> GetActiveStates()
     {

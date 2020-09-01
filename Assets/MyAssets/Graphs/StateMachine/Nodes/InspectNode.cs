@@ -7,6 +7,7 @@ using Node = XNode.Node;
 
 public class InspectNode : Node
 {
+    [TextArea]
     [SerializeField] [HideLabel] private string text;
 
     public void Initialize(StateNode inspectedState)

@@ -25,6 +25,7 @@ public class StateNode : Node
     [HideInInspector] public bool isActiveState = false;
 
     public string GetName() => Name;
+    public StateMachineGraph GetParentGraph() => stateMachineGraph;
 
     public bool Zoom
     {

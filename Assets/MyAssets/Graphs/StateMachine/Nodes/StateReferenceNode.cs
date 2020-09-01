@@ -33,6 +33,7 @@ public class StateReferenceNode : Node
     private void OnValidate()
     {
         PopulateLinkedNodes();
+        name = $"{referencedNode.GetName()} <{referencedNode.GetType().Name}>";
     }
 
     private void PopulateLinkedNodes()

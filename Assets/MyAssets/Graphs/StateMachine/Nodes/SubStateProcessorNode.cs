@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class SubstateProcessorNode : StateNode
+public class SubStateProcessorNode : StateNode
 {
     [ListDrawerSettings(Expanded = true)]
     [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private List<StateNode> subStates;

@@ -1,60 +1,53 @@
-using System;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using MyAssets.ScriptableObjects.Variables;
 using MyAssets.Scripts.PoseAnimator;
+using Sirenix.OdinInspector;
 using Unity.Collections;
 using UnityEngine;
-using UnityEngine.Playables;
 using UnityEngine.Animations;
+using UnityEngine.Playables;
 
-
-
-public class SequenceMixer : MonoBehaviour
+public class SequenceBlend : PlayerStateNode
 {
-    [SerializeField] [Range(0.0f, 1.0f)] protected float weight = 1.0f;
-    [SerializeField] private string fbxName;
-    [SerializeField] protected List<AnimationClip> poses;
-    [SerializeField] private AnimationCurve[] transitionCurves;
-
-    public BoneTransformWeight[] boneTransformWeights;
-
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] [Range(0.0f, 1.0f)] protected float weight = 1.0f;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] protected string fbxName;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] protected List<AnimationClip> poses;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] protected AnimationCurve[] transitionCurves;
+    [HideIf("$zoom")] [LabelWidth(120)] [Sirenix.OdinInspector.ReadOnly] [SerializeField] protected BoneTransformWeight[] boneTransformWeights;
+    
+    Animator animator;
     List<List<int>> m_BoneChildrenIndices;
-
     NativeArray<TransformStreamHandle> m_Handles;
     NativeArray<float> m_BoneWeights;
-
     PlayableGraph m_Graph;
     AnimationScriptPlayable m_CustomMixerPlayable;
 
-    void UpdateWeights()
+    public override void Initialize(StateMachineGraph parentGraph)
     {
-        for (var i = 0; i < boneTransformWeights.Length; ++i)
-        {
-            var boneWeight = boneTransformWeights[i].weight;
-            var childrenIndices = m_BoneChildrenIndices[i];
-            foreach (var index in childrenIndices)
-                m_BoneWeights[index] = boneWeight;
-        }
-    }
-
-    void OnEnable()
-    {
-        // Load animation clips.
+        base.Initialize(parentGraph);
+        
         if (!poses.Any() || poses.Any(pose => pose == null))
             return;
-
-        var animator = GetComponent<Animator>();
-
+        
+        animator = playerController.GetAnimator();
+        
         // Get all the transforms in the hierarchy.
         var allTransforms = animator.transform.GetComponentsInChildren<Transform>();
         var numTransforms = allTransforms.Length - 1;
-
+        
         // Fill native arrays (all the bones have a weight of 0.0).
         m_Handles = new NativeArray<TransformStreamHandle>(numTransforms, Allocator.Persistent, NativeArrayOptions.UninitializedMemory);
         m_BoneWeights = new NativeArray<float>(numTransforms, Allocator.Persistent, NativeArrayOptions.ClearMemory);
         for (var i = 0; i < numTransforms; ++i)
             m_Handles[i] = animator.BindStreamTransform(allTransforms[i + 1]);
-
+        
+        // Load selected bones
+        var root = new BoneTransformWeight() {transform = playerController.GetRoot(), weight = 1.0f};
+        boneTransformWeights = new[] { root };
+        
         // Set bone weights for selected transforms and their hierarchy.
         m_BoneChildrenIndices = new List<List<int>>(boneTransformWeights.Length);
         foreach (var boneTransform in boneTransformWeights)
@@ -67,10 +60,10 @@ public class SequenceMixer : MonoBehaviour
                 Debug.Assert(boneIndex > 0, "Index can't be less or equal to 0");
                 childrenIndices.Add(boneIndex - 1);
             }
-
+        
             m_BoneChildrenIndices.Add(childrenIndices);
         }
-
+        
         // Create job
         var job = new SequenceBlendJob()
         {
@@ -80,48 +73,58 @@ public class SequenceMixer : MonoBehaviour
             poseAIndex = 0,
             poseBIndex = 1
         };
-
+        
         // Create graph with custom mixer.
         m_Graph = PlayableGraph.Create("SequenceMixer");
         m_Graph.SetTimeUpdateMode(DirectorUpdateMode.GameTime);
-
+        
         m_CustomMixerPlayable = AnimationScriptPlayable.Create(m_Graph, job);
         m_CustomMixerPlayable.SetProcessInputs(false);
         poses.ForEach(pose =>
         {
             m_CustomMixerPlayable.AddInput(AnimationClipPlayable.Create(m_Graph, pose), 0, 1.0f);
         });
-
+        
         var output = AnimationPlayableOutput.Create(m_Graph, "output2", animator);
         output.SetSourcePlayable(m_CustomMixerPlayable);
-
+        
         m_Graph.Play();
     }
 
-    protected void Update()
+    public override void Execute()
     {
         var job = m_CustomMixerPlayable.GetJobData<SequenceBlendJob>();
-
+        
         UpdateWeights();
         var sequenceIndices = GetTransitionIndices();
-        // var interp = transitionCurves[sequenceIndices.start].Evaluate(weight);
-
+        
         job.weight = sequenceIndices.weight;
         job.poseAIndex = sequenceIndices.start;
         job.poseBIndex = sequenceIndices.end;
         job.boneWeights = m_BoneWeights;
-
+        
         m_CustomMixerPlayable.SetJobData(job);
     }
 
-    void OnDisable()
+    private void OnDestroy()
     {
         m_Graph.Destroy();
         m_Handles.Dispose();
         m_BoneWeights.Dispose();
     }
-    
-    private (int start, int end, float weight) GetTransitionIndices()
+
+    void UpdateWeights()
+    {
+        for (var i = 0; i < boneTransformWeights.Length; ++i)
+        {
+            var boneWeight = boneTransformWeights[i].weight;
+            var childrenIndices = m_BoneChildrenIndices[i];
+            foreach (var index in childrenIndices)
+                m_BoneWeights[index] = boneWeight;
+        }
+    }
+
+    (int start, int end, float weight) GetTransitionIndices()
     {
         var numPoses = poses.Count;
         var stepSize = 1.0f / numPoses;

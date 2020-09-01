@@ -36,8 +36,25 @@ public class MeteredSequenceMixer : SequenceMixer
 
     private void OnDrawGizmos()
     {
-        var center = transform.position;
-        var extents = (center + Vector3.down, center + Vector3.up);
-        // Gizmos.DrawLine();
+        var radius = strideLength / Mathf.PI;
+        var contact = transform.position;
+        var center = contact + (radius * transform.up);
+        var rotation = meter / strideLength * 180;
+        var extents = (contact, center + (radius * transform.up), center - radius * transform.forward, center + radius * transform.forward);
+        var rotated = (
+            RotatePointAroundPivot(extents.Item1, center, rotation), 
+            RotatePointAroundPivot(extents.Item2, center, rotation),
+            RotatePointAroundPivot(extents.Item3, center, rotation),
+            RotatePointAroundPivot(extents.Item4, center, rotation)
+        );
+        Gizmos.DrawLine(rotated.Item1, rotated.Item2);
+        Gizmos.DrawLine(rotated.Item3, rotated.Item4);
+    }
+    
+    private Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot, float angle) {
+        var dir = point - pivot; // get point direction relative to pivot
+        dir = Quaternion.AngleAxis(angle, transform.right) * dir; // rotate it
+        point = dir + pivot; // calculate rotated point
+        return point; // return it
     }
 }

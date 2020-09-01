@@ -74,6 +74,14 @@ public class InspectNode : Node
     {
         previousStates.Clear();
         nextStates.Clear();
+        
+        //Check if its connected to StartState
+        if (inspectedState.isEntryState)
+        {
+            StateInfo info = new StateInfo(null, "<Start State>");
+            previousStates.Add(info);
+        }
+            
 
         //Add Previous state info from transitions
         foreach (var previousTransition in inspectedState.previousTransitionNodes)

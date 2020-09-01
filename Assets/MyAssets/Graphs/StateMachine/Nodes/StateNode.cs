@@ -29,6 +29,7 @@ public class StateNode : Node
     public List<TransitionNode> nextTransitionNodes { get; private set; } = new List<TransitionNode>();
     public StateNode nextNoTransitionState { get; private set; }
     public List<StateNode> previousNoTransitionStates { get; private set; } = new List<StateNode>();
+    public bool isEntryState { get; private set; }
 
     public string GetName() => Name;
     public StateMachineGraph GetParentGraph() => stateMachineGraph;
@@ -73,6 +74,7 @@ public class StateNode : Node
         nextTransitionNodes.Clear();
         previousNoTransitionStates.Clear();
         nextNoTransitionState = null;
+        isEntryState = false;
 
         //Check this node for transitions (previous and next)
         StoreTransitionsFromNode(this, true);
@@ -142,7 +144,11 @@ public class StateNode : Node
                 }
                 
             }
-                
+            
+            //Check if connected to entry node
+            StartNode nodeAsStart = (c.node as StartNode);
+            if (nodeAsStart != null)
+                isEntryState = true;
         });
     }
 

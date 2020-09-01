@@ -97,8 +97,8 @@ public class MeteredSequenceBlend : PlayerStateNode
         var job = m_CustomMixerPlayable.GetJobData<SequenceBlendJob>();
         
         UpdateWeights();
+        UpdateMeter();
         var sequenceIndices = GetTransitionIndices();
-        // var interp = transitionCurves[sequenceIndices.start].Evaluate(weight);
         
         job.weight = sequenceIndices.weight;
         job.poseAIndex = sequenceIndices.start;
@@ -106,15 +106,14 @@ public class MeteredSequenceBlend : PlayerStateNode
         job.boneWeights = m_BoneWeights;
         
         m_CustomMixerPlayable.SetJobData(job);
-        Debug.Log(moveVelocity.Value);
     }
 
-    // void OnDisable()
-    // {
-    //     m_Graph.Destroy();
-    //     m_Handles.Dispose();
-    //     m_BoneWeights.Dispose();
-    // }
+    private void OnDestroy()
+    {
+        m_Graph.Destroy();
+        m_Handles.Dispose();
+        m_BoneWeights.Dispose();
+    }
 
     void UpdateWeights()
     {
@@ -125,6 +124,19 @@ public class MeteredSequenceBlend : PlayerStateNode
             foreach (var index in childrenIndices)
                 m_BoneWeights[index] = boneWeight;
         }
+    }
+    
+    void UpdateMeter()
+    {
+        meter += Time.deltaTime * moveVelocity.Value.magnitude;
+
+        if (meter >= strideLength * 2)
+        {
+            meter %= strideLength;
+        }
+
+        var pct = meter / strideLength / 2;
+        weight = pct;
     }
     
     (int start, int end, float weight) GetTransitionIndices()

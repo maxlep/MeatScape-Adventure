@@ -37,8 +37,6 @@ public class StateReferenceNode : Node
         {
             linkedNodes.Add(referencedNode);
         }
-        Debug.Log(name);
-        Debug.Log(stateMachineGraph.StateReferenceNodes?.Count);
         foreach (var stateRefNode in stateMachineGraph.StateReferenceNodes)
         {
             if (stateRefNode.ReferencedNode == referencedNode)

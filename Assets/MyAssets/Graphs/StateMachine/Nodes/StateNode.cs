@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
 using TMPro;
@@ -23,6 +24,9 @@ public class StateNode : Node
 
     [SerializeField] [HideInInspector] protected bool zoom = false;
     [HideInInspector] public bool isActiveState = false;
+    
+    public List<StateNode> previousStates { get; private set; } = new List<StateNode>();
+    public List<StateNode> nextStates { get; private set; } = new List<StateNode>();
 
     public string GetName() => Name;
     public StateMachineGraph GetParentGraph() => stateMachineGraph;
@@ -41,6 +45,8 @@ public class StateNode : Node
         isActiveState = false;
         PopulateTransitionNodeList();
         PopulateLinkedRefNodes();
+        PopulatePreviousStates();
+        PopulateNextStates();
     }
 
     private void PopulateTransitionNodeList()
@@ -57,6 +63,10 @@ public class StateNode : Node
             StateNode nodeAsState = (c.node as StateNode);
             if (nodeAsState != null)
                 noTransitionState = nodeAsState;
+            
+            StateReferenceNode nodeAsRef = (c.node as StateReferenceNode);
+            if (nodeAsRef != null && nodeAsRef.ReferencedState != null)
+                noTransitionState = nodeAsRef.ReferencedState;
         });
     }
 
@@ -65,12 +75,57 @@ public class StateNode : Node
         linkedNodes.Clear();
         foreach (var stateRefNode in stateMachineGraph.StateReferenceNodes)
         {
-            if (stateRefNode.ReferencedNode == this)
+            if (stateRefNode.ReferencedState == this)
             {
                 referenceNodes.Add(stateRefNode);
                 linkedNodes.Add(stateRefNode);
             }
                 
+        }
+    }
+
+    private void PopulatePreviousStates()
+    {
+        previousStates.Clear();
+
+        NodePort transitionsPort = GetInputPort("previousState");
+        transitionsPort.GetConnections().ForEach(c =>
+        {
+            TransitionNode nodeAsTransition = (c.node as TransitionNode);
+            if (nodeAsTransition != null)
+            {
+                previousStates.Add(nodeAsTransition.GetStartingState());
+            }
+                
+            
+            StateNode nodeAsState = (c.node as StateNode);
+            if (nodeAsState != null)
+                previousStates.Add(nodeAsState);
+        });
+        
+        foreach (var refNode in referenceNodes)
+        {
+            previousStates = previousStates.Union(refNode.previousStates).ToList();
+        }
+    }
+    
+    private void PopulateNextStates()
+    {
+        nextStates.Clear();
+        
+        if (noTransitionState != null)
+            nextStates.Add(noTransitionState);
+
+        foreach (var transitionNode in transitionNodes)
+        {
+            StateNode transState = transitionNode.GetNextState();
+            if (transState != null)
+                nextStates.Add(transState);
+        }
+        
+        foreach (var refNode in referenceNodes)
+        {
+            nextStates = nextStates.Union(refNode.nextStates).ToList();
         }
     }
 

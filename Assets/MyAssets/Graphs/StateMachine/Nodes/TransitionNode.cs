@@ -98,7 +98,25 @@ public class TransitionNode : Node
             return connectionAsState;
 
         else if (connectionAsRef != null)
-            return connectionAsRef.ReferencedNode;
+            return connectionAsRef.ReferencedState;
+
+        return null;
+    }
+    
+    public StateNode GetStartingState()
+    {
+        var inputConnection = GetInputPort("startingState").Connection;
+
+        if (inputConnection == null) return null;
+        
+        StateNode connectionAsState = inputConnection.node as StateNode;
+        StateReferenceNode connectionAsRef = inputConnection.node as StateReferenceNode;
+
+        if (connectionAsState != null)
+            return connectionAsState;
+
+        else if (connectionAsRef != null)
+            return connectionAsRef.ReferencedState;
 
         return null;
     }

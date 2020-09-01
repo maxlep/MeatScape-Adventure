@@ -16,7 +16,7 @@ public class InspectNodeEditor : NodeEditor
 
     public override int GetWidth()
     {
-        return 400;
+        return 550;
     }
     
     public override Color GetTint()

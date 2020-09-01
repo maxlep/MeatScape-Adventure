@@ -18,6 +18,7 @@ public class StateNode : Node
     protected StateMachineGraph stateMachineGraph;
     protected VariableContainer parameters;
     protected List<TransitionNode> transitionNodes = new List<TransitionNode>();
+    protected List<StateReferenceNode> referenceNodes = new List<StateReferenceNode>();
     protected StateNode noTransitionState;
 
     [SerializeField] [HideInInspector] protected bool zoom = false;
@@ -38,7 +39,7 @@ public class StateNode : Node
         this.stateMachineGraph = parentGraph;
         isActiveState = false;
         PopulateTransitionNodeList();
-        PopulateLinkedNodes();
+        PopulateLinkedRefNodes();
     }
 
     private void PopulateTransitionNodeList()
@@ -58,13 +59,17 @@ public class StateNode : Node
         });
     }
 
-    private void PopulateLinkedNodes()
+    private void PopulateLinkedRefNodes()
     {
         linkedNodes.Clear();
         foreach (var stateRefNode in stateMachineGraph.StateReferenceNodes)
         {
             if (stateRefNode.ReferencedNode == this)
+            {
+                referenceNodes.Add(stateRefNode);
                 linkedNodes.Add(stateRefNode);
+            }
+                
         }
     }
 
@@ -121,6 +126,16 @@ public class StateNode : Node
             if (transition.EvaluateConditions(receivedTrigger))
             {
                 return transition.GetNextState();
+            }
+        }
+        
+        //Check transitions on reference nodes
+        foreach (var refNode in referenceNodes)
+        {
+            StateNode nextState = refNode.CheckStateTransitions(receivedTrigger);
+            if (nextState != null)
+            {
+                return nextState;
             }
         }
 

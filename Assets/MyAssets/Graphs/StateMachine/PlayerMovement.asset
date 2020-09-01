@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: AirMovement -> Pound Stall
+  m_Name: NoLowJump -> Pound Stall
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 696, y: -552}
@@ -25,10 +25,10 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: transitions
-        node: {fileID: -4990919157884066038}
+        node: {fileID: 7248169581288550152}
         reroutePoints: []
       - fieldName: transitions
-        node: {fileID: 7248169581288550152}
+        node: {fileID: -859353586313913734}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -280,6 +280,7 @@ MonoBehaviour:
   ports:
     keys:
     - previousState
+    - transitions
     values:
     - _fieldName: previousState
       _node: {fileID: -5081197550139966255}
@@ -299,7 +300,17 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: -5081197550139966255}
+      _typeQualifiedName: TransitionNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
   previousState: {fileID: 0}
+  transitions: {fileID: 0}
   referencedNode: {fileID: -1108589282178386599}
 --- !u!114 &-4990919157884066038
 MonoBehaviour:
@@ -340,10 +351,6 @@ MonoBehaviour:
       - fieldName: startingState
         node: {fileID: -7312282678681196256}
         reroutePoints: []
-      - fieldName: startingState
-        node: {fileID: -7894526708747482007}
-        reroutePoints:
-        - {x: 576, y: -96}
       - fieldName: startingState
         node: {fileID: -6884243189497224942}
         reroutePoints: []
@@ -695,7 +702,7 @@ MonoBehaviour:
   transitions: {fileID: 0}
   Name: Ground Movement
   zoom: 1
-  isActiveState: 0
+  isActiveState: 1
   MoveSpeed:
     UseConstant: 0
     ConstantValue: 0
@@ -720,6 +727,49 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: {x: 0, y: 0, z: 0, w: 0}
     Variable: {fileID: 11400000, guid: 642843bee527d554f9408523e1ab11c8, type: 2}
+--- !u!114 &-859353586313913734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: State Reference
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 120, y: -536}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: -859353586313913734}
+      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: -859353586313913734}
+      _typeQualifiedName: TransitionNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: startingState
+        node: {fileID: -7894526708747482007}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  previousState: {fileID: 0}
+  transitions: {fileID: 0}
+  referencedNode: {fileID: -4990919157884066038}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -752,6 +802,7 @@ MonoBehaviour:
   - {fileID: -5081197550139966255}
   - {fileID: -3193452684244252466}
   - {fileID: 134294574884168145}
+  - {fileID: -859353586313913734}
 --- !u!114 &134294574884168145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -769,6 +820,7 @@ MonoBehaviour:
   ports:
     keys:
     - previousState
+    - transitions
     values:
     - _fieldName: previousState
       _node: {fileID: 134294574884168145}
@@ -782,7 +834,17 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: 134294574884168145}
+      _typeQualifiedName: TransitionNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
   previousState: {fileID: 0}
+  transitions: {fileID: 0}
   referencedNode: {fileID: 7248169581288550152}
 --- !u!114 &326285495737826313
 MonoBehaviour:
@@ -1071,14 +1133,12 @@ MonoBehaviour:
         - {x: 1584, y: 32}
         - {x: 752, y: 128}
       - fieldName: startingState
-        node: {fileID: -7894526708747482007}
-        reroutePoints:
-        - {x: 1664, y: 176}
-        - {x: 1520, y: -112}
-        - {x: 432, y: -96}
-      - fieldName: startingState
         node: {fileID: -3193452684244252466}
         reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: -7894526708747482007}
+        reroutePoints:
+        - {x: 724.68207, y: -301.61765}
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0

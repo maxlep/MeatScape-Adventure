@@ -1,14 +1,10 @@
-﻿using System.Collections;
+﻿using System.Linq;
 using System.Collections.Generic;
-using Cinemachine.Utility;
 using KinematicCharacterController;
 using MyAssets.ScriptableObjects.Variables;
-using MyAssets.Scripts.PoseAnimator;
 using Sirenix.OdinInspector;
-using Sirenix.Serialization;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour, ICharacterController
 {
@@ -18,6 +14,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
     [SerializeField] private Transform cameraTrans;
     [SerializeField] private Transform firePoint;
     [SerializeField] private Transform root;
+    [SerializeField] private PlayerSize startSize;
     
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private Vector3Reference NewVelocity;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private QuaternionReference NewRotation;
@@ -30,8 +27,17 @@ public class PlayerController : MonoBehaviour, ICharacterController
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable DownwardAttackTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable GroundPoundTrigger;
 
+    [SerializeField] private VariableContainer SizeProps;
+    [FoldoutGroup("Size Controlled Properties")] [SerializeField] private FloatVariable MaxJumpHeight;
+
     private Vector3 moveDirection;
     private InputAction playerMove;
+
+    private Dictionary<PlayerSize, string> PlayerSizeMap;
+    private Dictionary<string, float> SizePropsDict;
+    private PlayerSize _currentSize;
+
+    public PlayerSize CurrentSize { get => _currentSize; set => SetPlayerSize(value); }
 
     public Transform GetCameraTrans() => cameraTrans;
     public Transform GetFirePoint() => firePoint;
@@ -60,6 +66,16 @@ public class PlayerController : MonoBehaviour, ICharacterController
         InputManager.Instance.onAttack += () => AttackTrigger.Activate();
         InputManager.Instance.onDownwardAttack += () => DownwardAttackTrigger.Activate();
         InputManager.Instance.onGroundPound += () => GroundPoundTrigger.Activate();
+        InputManager.Instance.onRegenerateMeat += () => CurrentSize++;
+
+        PlayerSizeMap = new Dictionary<PlayerSize, string> {
+            {PlayerSize.Small, "Small"},
+            {PlayerSize.Medium, "Medium"},
+            {PlayerSize.Large, "Large"}
+        };
+        SizePropsDict = SizeProps.GetFloatVariables().ToDictionary(v => v.name, v => v.Value);
+
+        CurrentSize = startSize;
     }
 
     // Update is called once per frame
@@ -165,5 +181,18 @@ public class PlayerController : MonoBehaviour, ICharacterController
         charMotor.ForceUnground(0.1f);
     }
     
+    private void SetPlayerSize(PlayerSize value) {
+        if(value < PlayerSize.Small) _currentSize = PlayerSize.Small;
+        else if(value > PlayerSize.Large) _currentSize = PlayerSize.Large;
+        else _currentSize = value;
+        Debug.Log(value);
+        MaxJumpHeight.Value = SizePropsDict[$"{PlayerSizeMap[_currentSize]}JumpHeight"];
+    }
     
+}
+
+public enum PlayerSize {
+    Small,
+    Medium,
+    Large
 }

@@ -12,6 +12,8 @@ public class ForwardAttack : PlayerStateNode
     [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private FloatReference upwardForce;
     [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private BoolReference waitedAttackDelay;
 
+    private bool clumpThrown;
+
     public override void Initialize(StateMachineGraph parentGraph)
     {
         base.Initialize(parentGraph);
@@ -20,7 +22,8 @@ public class ForwardAttack : PlayerStateNode
     public override void Enter()
     {
         base.Enter();
-        
+
+        if(playerController.CurrentSize == PlayerSize.Small) return;
         
         Transform firePoint = playerController.GetFirePoint();
         Quaternion startRotation = Quaternion.LookRotation(firePoint.forward, Vector3.up);
@@ -28,6 +31,9 @@ public class ForwardAttack : PlayerStateNode
         GameObject thrownClump = Instantiate(ammo, firePoint.position, startRotation);
         Rigidbody clumpRB = thrownClump.GetComponent<Rigidbody>();
         clumpRB.AddForce(firePoint.forward * forwardForce.Value + Vector3.up * upwardForce.Value);
+
+        clumpThrown = true;
+        playerController.CurrentSize -= 1;
     }
 
     public override void Execute()
@@ -43,6 +49,9 @@ public class ForwardAttack : PlayerStateNode
     public override void Exit()
     {
         base.Exit();
+
+        if(!clumpThrown) return;
+
         waitedAttackDelay.Value = false;
         
         LeanTween.value(0f, 1f, throwDelay.Value)
@@ -50,5 +59,7 @@ public class ForwardAttack : PlayerStateNode
             {
                 waitedAttackDelay.Value = true;
             });
+
+        clumpThrown = false;
     }
 }

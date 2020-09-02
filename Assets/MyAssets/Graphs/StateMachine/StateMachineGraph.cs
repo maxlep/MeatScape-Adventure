@@ -12,7 +12,7 @@ public class StateMachineGraph : NodeGraph
     public List<TransitionNode> transitionNodes { get; private set; } = new List<TransitionNode>();
     public List<TransitionNode> globalTransitions { get; private set; } = new List<TransitionNode>();
     public List<StateReferenceNode> StateReferenceNodes { get; private set; } = new List<StateReferenceNode>();
-    public List<StateNode> currentStates { get; private set; }
+    public List<StateNode> currentStates { get; private set; } = new List<StateNode>();
     public LayeredStateMachine parentMachine { get; private set; }
 
     private List<StartNode> startNodes = new List<StartNode>();

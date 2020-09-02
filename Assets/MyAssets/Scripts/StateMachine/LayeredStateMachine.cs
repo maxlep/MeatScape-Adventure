@@ -121,7 +121,6 @@ public class LayeredStateMachine : MonoBehaviour
             }
         }
         
-        Debug.Log($"Sending {receivingStateMachine} {otherStateNodes.Count} stateNodes for dropdown");
         receivingStateMachine.SendValidStatesToTransitions(otherStateNodes);
     }
 

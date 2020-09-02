@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using MyAssets.ScriptableObjects.Variables;
 using UnityEngine;
 using XNode;
@@ -46,7 +47,7 @@ public class StateMachineGraph : NodeGraph
         InitTransitionNodes();
         InitStateReferenceNodes();
         SubscribeToTriggers();
-        EnterStartState();
+        EnterStartStates();
     }
     
     private void InitStateNodes()
@@ -141,6 +142,9 @@ public class StateMachineGraph : NodeGraph
                 continue;
             }
         }
+        
+        //Sort start nodes by execution order
+        startNodes =  startNodes.OrderBy(s => s.ExecutionOrderIndex).ToList();
     }
 
     //Init transition nodes with other machine states for dropdown
@@ -156,7 +160,7 @@ public class StateMachineGraph : NodeGraph
 
     #region State Management
 
-    private void EnterStartState()
+    private void EnterStartStates()
     {
         currentStates.Clear();
         
@@ -191,7 +195,7 @@ public class StateMachineGraph : NodeGraph
     
     private void ChangeState(StateNode exitingState, StateNode nextState)
     {
-        Debug.Log($"{name}: {exitingState.name} -> {nextState.name}");
+        //Debug.Log($"{name}: {exitingState.name} -> {nextState.name}");
 
         int index = currentStates.IndexOf(exitingState);
         exitingState.Exit();

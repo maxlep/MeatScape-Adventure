@@ -1,13 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using UnityEngine;
 
 public class SubStateProcessorNode : StateNode
 {
-    [ListDrawerSettings(Expanded = true)]
-    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private List<StateNode> subStates;
-    
+    [ValidateInput("ValidateInput",
+        "You added a SubStateProcessorNode to the list! Do you want infinite loop?")]
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] 
+    private List<StateNode> subStates;
     
     #region LifeCycle Methods
 
@@ -42,4 +46,17 @@ public class SubStateProcessorNode : StateNode
     }
     
     #endregion
+
+    private bool ValidateInput(List<StateNode> stateList)
+    {
+        //Dont allow adding SubStateProcessorNode to the list
+        foreach (var state in stateList)
+        {
+            SubStateProcessorNode stateAsSubstateProcessor = state as SubStateProcessorNode;
+            if (stateAsSubstateProcessor != null)
+                return false;
+        }
+        
+        return true;
+    }
 }

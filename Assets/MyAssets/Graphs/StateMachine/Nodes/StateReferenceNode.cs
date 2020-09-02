@@ -48,6 +48,11 @@ public class StateReferenceNode : Node
                 linkedNodes.Add(stateRefNode);
         }
     }
+    
+    private void OnValidate()
+    {
+        name = $"{referencedState.GetName()} <Reference>";
+    }
 
 
 }

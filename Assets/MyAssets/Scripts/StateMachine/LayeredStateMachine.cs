@@ -136,7 +136,11 @@ public class LayeredStateMachine : MonoBehaviour
         {
             if (stateMachine != requestingStateMachine)
             {
-                activeStates.Add(stateMachine.currentState);
+                foreach (var currentState in stateMachine.currentStates)
+                {
+                    activeStates.Add(currentState);
+                }
+                
             }
         }
 

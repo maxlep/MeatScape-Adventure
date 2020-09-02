@@ -13,7 +13,7 @@ public class TransitionNode : Node
     [Input] [PropertyOrder(-3)] public StateNode startingState;
     [Output] [PropertyOrder(-2)] public StateNode nextState;
 
-    [TextArea] [HideLabel]
+    [TextArea(3,10)] [HideLabel]
     [SerializeField] private string conditionPreview;
 
     [Tooltip("Transition only valid if ANY 1 or more of these states are active in OTHER state machine")]
@@ -126,8 +126,6 @@ public class TransitionNode : Node
     private void OnValidate()
     {
         name = $"{startingStateName} -> {nextStateName}";
-        InitConditions();
-        
     }
 
     public void StartTimers()

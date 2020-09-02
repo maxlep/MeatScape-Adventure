@@ -11,10 +11,10 @@ public class StateMachineGraph : NodeGraph
     public List<TransitionNode> transitionNodes { get; private set; } = new List<TransitionNode>();
     public List<TransitionNode> globalTransitions { get; private set; } = new List<TransitionNode>();
     public List<StateReferenceNode> StateReferenceNodes { get; private set; } = new List<StateReferenceNode>();
-    public StateNode currentState { get; private set; }
+    public List<StateNode> currentStates { get; private set; }
     public LayeredStateMachine parentMachine { get; private set; }
 
-    private StartNode startNode;
+    private List<StartNode> startNodes = new List<StartNode>();
     private VariableContainer parameters;
 
     #region LifeCycle Methods
@@ -22,17 +22,17 @@ public class StateMachineGraph : NodeGraph
     public void ExecuteUpdates()
     {
         CheckForValidTransitions();
-        currentState.Execute();
+        currentStates.ForEach(s => s.Execute());
     }
         
     public void ExecuteFixedUpdates()
     {
-        currentState.ExecuteFixed();
+        currentStates.ForEach(s => s.ExecuteFixed());
     }
 
     public void DrawGizmos()
     {
-        currentState.DrawGizmos();
+        currentStates.ForEach(s => s.DrawGizmos());
     }
 
     #endregion
@@ -90,10 +90,11 @@ public class StateMachineGraph : NodeGraph
      public void PopulateNodeLists()
     {
         stateNodes.Clear();
+        startNodes.Clear();
         transitionNodes.Clear();
         globalTransitions.Clear();
         StateReferenceNodes.Clear();
-        
+
         foreach (var node in nodes)
         {
             //If its an StateNode
@@ -128,7 +129,7 @@ public class StateMachineGraph : NodeGraph
             var nodeAsStart = node as StartNode;
             if (nodeAsStart != null)
             {
-                startNode = nodeAsStart;
+                startNodes.Add(nodeAsStart);
                 continue;
             }
             
@@ -157,22 +158,46 @@ public class StateMachineGraph : NodeGraph
 
     private void EnterStartState()
     {
-        currentState = startNode.GetOutputPort("EntryState").Connection.node as StateNode;
-        currentState.Enter();
+        currentStates.Clear();
+        
+        //Loop through start nodes and enter entry states
+        foreach (var startNode in startNodes)
+        {
+            StateNode entryState = startNode.GetOutputPort("EntryState").Connection.node as StateNode;
+            if (entryState != null)
+            {
+                currentStates.Add(entryState);
+                entryState.Enter();
+            }
+        }
     }
     
     private void CheckForValidTransitions(TriggerVariable receivedTrigger = null)
     {
-        StateNode nextState = currentState.CheckStateTransitions(receivedTrigger);
-        if (nextState != null) ChangeState(nextState);
+        List<(StateNode fromState, StateNode toState)> validTransitions = new List<(StateNode fromState, StateNode toState)>();
+        
+        //Store valid state changes
+        for (int i = 0; i < currentStates.Count; i++)
+        {
+            StateNode nextState = currentStates[i].CheckStateTransitions(receivedTrigger);
+            if (nextState != null) validTransitions.Add((currentStates[i], nextState));
+        }
+        
+        foreach (var (exitingState, nextState) in validTransitions)
+        {
+            ChangeState(exitingState, nextState);
+        }
     }
     
-    private void ChangeState(StateNode nextState)
+    private void ChangeState(StateNode exitingState, StateNode nextState)
     {
-        //Debug.Log($"Change: {currentState.name} -> {nextState.name}");
-        currentState.Exit();
-        currentState = nextState;
-        currentState.Enter();
+        Debug.Log($"{name}: {exitingState.name} -> {nextState.name}");
+
+        int index = currentStates.IndexOf(exitingState);
+        exitingState.Exit();
+        currentStates.Insert(index, nextState);
+        currentStates.Remove(exitingState);
+        nextState.Enter();
     }
 
     #endregion

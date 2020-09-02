@@ -28,6 +28,7 @@ public class BoolCondition
         parameters = machineParameters;
         parentTransitionName = transitionName;
         parameterDict.Clear();
+        
         foreach (var boolParam in parameters.GetBoolVariables())
         {
             parameterDict.Add(boolParam.name, boolParam);

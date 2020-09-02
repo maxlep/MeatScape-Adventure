@@ -453,12 +453,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd5e862f0bc35a440a0be2e140e792a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: SizeControlledProperties
+      Entry: 6
+      Data: 
   charMotor: {fileID: 7107814362353387305}
   stateMachine: {fileID: 7107814362353387319}
   animator: {fileID: 4994225347301766698}
   cameraTrans: {fileID: 0}
   firePoint: {fileID: 7107814362056093691}
   root: {fileID: 2496787583837387773}
+  model: {fileID: 0}
+  startSize: 0
   NewVelocity:
     UseConstant: 0
     ConstantValue: {x: 0, y: 0, z: 0}
@@ -483,6 +497,10 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 7515e678ba0d82a4b92ee5e8bc9cee52, type: 2}
+  PlayerCurrentSize:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 0}
   AttackTrigger: {fileID: 11400000, guid: 5e15a58a7e2120d4ab58b2aacd49f1ba, type: 2}
   JumpTrigger: {fileID: 11400000, guid: cde4df9a2139a5e419bc8adc56c875e2, type: 2}
   DownwardAttackTrigger: {fileID: 11400000, guid: 822517391a151a64b895a16b5e8b04c1,
@@ -545,9 +563,9 @@ MonoBehaviour:
   StepHandling: 1
   MaxStepHeight: 0.5
   AllowSteppingWithoutStableGrounding: 0
-  MinRequiredStepDepth: 0.1
+  MinRequiredStepDepth: 0
   LedgeAndDenivelationHandling: 1
-  MaxStableDistanceFromLedge: 0.5
+  MaxStableDistanceFromLedge: 0
   MaxVelocityForLedgeSnap: 0
   MaxStableDenivelationAngle: 180
   InteractiveRigidbodyHandling: 1
@@ -795,6 +813,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
         type: 3}

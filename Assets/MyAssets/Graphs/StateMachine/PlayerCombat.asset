@@ -47,7 +47,7 @@ MonoBehaviour:
   transitions: {fileID: 0}
   Name: Forward Throw
   zoom: 0
-  isActiveState: 1
+  isActiveState: 0
   ammo: {fileID: 7432549252289664644, guid: f257932619900ee48a82e1b4e73d5325, type: 3}
   throwDelay:
     UseConstant: 0
@@ -226,6 +226,9 @@ MonoBehaviour:
 
     - AttackTrigger
 
+    - PlayerCurrentSize
+    GreaterThan 0
+
 '
   ValidStartStates: []
   BoolConditions:
@@ -236,7 +239,11 @@ MonoBehaviour:
   - TargetParameterName: AttackTrigger
     parameters: {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
   FloatConditions: []
-  IntConditions: []
+  IntConditions:
+  - TargetParameterName: PlayerCurrentSize
+    comparator: 1
+    value: 0
+    parameters: {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
   TimerConditions: []
   zoom: 0
   startStateOptions:
@@ -247,7 +254,6 @@ MonoBehaviour:
   - {fileID: 7248169581288550152, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   - {fileID: 326285495737826313, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   - {fileID: -4813754887986621945, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  - {fileID: 0}
 --- !u!114 &7323983362953568521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,6 +308,8 @@ MonoBehaviour:
     -
     DownwardAttackTrigger
 
+    - PlayerCurrentSize GreaterThan 0
+
 '
   ValidStartStates:
   - {fileID: -4990919157884066038, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
@@ -314,7 +322,11 @@ MonoBehaviour:
   - TargetParameterName: DownwardAttackTrigger
     parameters: {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
   FloatConditions: []
-  IntConditions: []
+  IntConditions:
+  - TargetParameterName: PlayerCurrentSize
+    comparator: 1
+    value: 0
+    parameters: {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
   TimerConditions: []
   zoom: 0
   startStateOptions:
@@ -325,7 +337,6 @@ MonoBehaviour:
   - {fileID: 7248169581288550152, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   - {fileID: 326285495737826313, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   - {fileID: -4813754887986621945, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  - {fileID: 0}
 --- !u!114 &7574179755061179093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -422,4 +433,4 @@ MonoBehaviour:
   transitions: {fileID: 0}
   Name: DoNothing
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1

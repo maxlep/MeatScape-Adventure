@@ -23,8 +23,6 @@ public class ForwardAttack : PlayerStateNode
     {
         base.Enter();
 
-        if(playerController.CurrentSize == PlayerSize.Small) return;
-        
         Transform firePoint = playerController.GetFirePoint();
         Quaternion startRotation = Quaternion.LookRotation(firePoint.forward, Vector3.up);
 
@@ -32,7 +30,6 @@ public class ForwardAttack : PlayerStateNode
         Rigidbody clumpRB = thrownClump.GetComponent<Rigidbody>();
         clumpRB.AddForce(firePoint.forward * forwardForce.Value + Vector3.up * upwardForce.Value);
 
-        clumpThrown = true;
         playerController.CurrentSize -= 1;
     }
 
@@ -50,8 +47,6 @@ public class ForwardAttack : PlayerStateNode
     {
         base.Exit();
 
-        if(!clumpThrown) return;
-
         waitedAttackDelay.Value = false;
         
         LeanTween.value(0f, 1f, throwDelay.Value)
@@ -59,7 +54,5 @@ public class ForwardAttack : PlayerStateNode
             {
                 waitedAttackDelay.Value = true;
             });
-
-        clumpThrown = false;
     }
 }

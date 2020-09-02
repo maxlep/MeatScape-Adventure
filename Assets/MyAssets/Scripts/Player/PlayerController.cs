@@ -6,7 +6,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour, ICharacterController
+public class PlayerController : SerializedMonoBehaviour, ICharacterController
 {
     [SerializeField] private KinematicCharacterMotor charMotor;
     [SerializeField] private PlayerStateMachine stateMachine;
@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
     [SerializeField] private Transform cameraTrans;
     [SerializeField] private Transform firePoint;
     [SerializeField] private Transform root;
+    [SerializeField] private Transform model;
     [SerializeField] private PlayerSize startSize;
     
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private Vector3Reference NewVelocity;
@@ -22,19 +23,17 @@ public class PlayerController : MonoBehaviour, ICharacterController
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector2Reference MoveInput;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference JumpPressed;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference IsGrounded;
+    [FoldoutGroup("Transition Parameters")] [SerializeField] private IntReference PlayerCurrentSize;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable AttackTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable JumpTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable DownwardAttackTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable GroundPoundTrigger;
 
-    [SerializeField] private VariableContainer SizeProps;
-    [FoldoutGroup("Size Controlled Properties")] [SerializeField] private FloatVariable MaxJumpHeight;
+    [SerializeField] private List<SizeControlledFloatReference> SizeControlledProperties;
 
     private Vector3 moveDirection;
     private InputAction playerMove;
 
-    private Dictionary<PlayerSize, string> PlayerSizeMap;
-    private Dictionary<string, float> SizePropsDict;
     private PlayerSize _currentSize;
 
     public PlayerSize CurrentSize { get => _currentSize; set => SetPlayerSize(value); }
@@ -67,13 +66,6 @@ public class PlayerController : MonoBehaviour, ICharacterController
         InputManager.Instance.onDownwardAttack += () => DownwardAttackTrigger.Activate();
         InputManager.Instance.onGroundPound += () => GroundPoundTrigger.Activate();
         InputManager.Instance.onRegenerateMeat += () => CurrentSize++;
-
-        PlayerSizeMap = new Dictionary<PlayerSize, string> {
-            {PlayerSize.Small, "Small"},
-            {PlayerSize.Medium, "Medium"},
-            {PlayerSize.Large, "Large"}
-        };
-        SizePropsDict = SizeProps.GetFloatVariables().ToDictionary(v => v.name, v => v.Value);
 
         CurrentSize = startSize;
     }
@@ -182,17 +174,22 @@ public class PlayerController : MonoBehaviour, ICharacterController
     }
     
     private void SetPlayerSize(PlayerSize value) {
-        if(value < PlayerSize.Small) _currentSize = PlayerSize.Small;
+        if(value == _currentSize) return;
+        else if(value < PlayerSize.Small) _currentSize = PlayerSize.Small;
         else if(value > PlayerSize.Large) _currentSize = PlayerSize.Large;
         else _currentSize = value;
-        Debug.Log(value);
-        MaxJumpHeight.Value = SizePropsDict[$"{PlayerSizeMap[_currentSize]}JumpHeight"];
+
+        PlayerCurrentSize.Value = (int)_currentSize;
+
+        float scale = 0.5f * ((int)_currentSize + 1);
+        // model.localScale = new Vector3(scale, scale, scale);
+        LeanTween.scale(model.gameObject, new Vector3(scale, scale, scale), 0.5f);
+
+        charMotor.SetCapsuleDimensions(0.25f * ((int)_currentSize + 1), ((int)_currentSize + 1), 0.5f * ((int)_currentSize + 1));
+        
+        foreach(SizeControlledFloatReference prop in SizeControlledProperties) {
+            prop.UpdateValue(_currentSize);
+        }
     }
     
-}
-
-public enum PlayerSize {
-    Small,
-    Medium,
-    Large
 }

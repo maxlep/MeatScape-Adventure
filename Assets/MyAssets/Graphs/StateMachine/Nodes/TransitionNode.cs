@@ -46,7 +46,7 @@ public class TransitionNode : Node
     [HideInInspector] public List<StateNode> startStateOptions = new List<StateNode>();
 
     public string ConditionPreview => conditionPreview;
-    
+    protected bool isInitialized = false;
     private VariableContainer parameters;
     private StateMachineGraph stateMachineGraph;
     private string startingStateName;
@@ -59,10 +59,17 @@ public class TransitionNode : Node
         set => zoom = value;
     }
     
+    public bool IsInitialized
+    {
+        get => isInitialized;
+        set => isInitialized = value;
+    }
+    
 
     public virtual void Initialize(StateMachineGraph parentGraph)
     {
         this.stateMachineGraph = parentGraph;
+        isInitialized = true;
         InitNodeName();
         InitConditions();
     }

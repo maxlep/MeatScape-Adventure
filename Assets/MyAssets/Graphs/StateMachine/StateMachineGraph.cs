@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using MyAssets.ScriptableObjects.Variables;
+using Sirenix.Utilities;
 using UnityEngine;
 using XNode;
 
@@ -43,35 +44,67 @@ public class StateMachineGraph : NodeGraph
     //For call by layered state machine to begin
     public void StartStateMachine()
     {
-        InitStateNodes();
-        InitTransitionNodes();
-        InitStateReferenceNodes();
+        //Set all nodes to NOT initialized
+        stateNodes.ForEach(s => s.IsInitialized = false);
+        transitionNodes.ForEach(t => t.IsInitialized = false);
+        StateReferenceNodes.ForEach(r => r.IsInitialized = false);
+
+        nodeInitCount = 0;
+        //TODO: Traverse nodes outward from start node and init them
+        startNodes.ForEach(s => InitNodesRecursively(s));
+
         SubscribeToTriggers();
         EnterStartStates();
     }
-    
-    private void InitStateNodes()
-    {
-        foreach (var stateNode in stateNodes)
-        {
-            stateNode.Initialize(this);
-        }
-    }
 
-    private void InitTransitionNodes()
-    {
-        foreach (var transitionNode in transitionNodes)
-        {
-            transitionNode.Initialize(this);
-        }
-    }
+    int nodeInitCount = 0;
 
-    private void InitStateReferenceNodes()
+    private void InitNodesRecursively(Node nextNode)
     {
-        foreach (var stateRefNode in StateReferenceNodes)
+        //Base cases:
+        //    - nextNode is already initialized
+        //    - nextNode has no more connected nodes
+        
+
+        //Init nodes, return if already initialized
+        StateNode nodeAsState = nextNode as StateNode;
+        if (nodeAsState != null)
         {
-            stateRefNode.Initialize(this);
+            if (nodeAsState.IsInitialized) return;
+            nodeAsState.Initialize(this);
+            Debug.Log($"{name} | {nextNode.name} | {nextNode.LinkedNodes.Count}");
+            nodeInitCount++;
         }
+
+        TransitionNode nodeAsTransition = nextNode as TransitionNode;
+        if (nodeAsTransition != null)
+        {
+            if (nodeAsTransition.IsInitialized) return;
+            nodeAsTransition.Initialize(this);
+            Debug.Log($"{name} | {nextNode.name} | {nextNode.LinkedNodes.Count}");
+            nodeInitCount++;
+        }
+        
+        StateReferenceNode nodeAsReference = nextNode as StateReferenceNode;
+        if (nodeAsReference != null)
+        {
+            if (nodeAsReference.IsInitialized) return;
+            nodeAsReference.Initialize(this);
+            Debug.Log($"{name} | {nextNode.name} | {nextNode.LinkedNodes.Count}");
+            nodeInitCount++;
+        }
+        
+        //Call recursively for each linked node
+        nextNode.LinkedNodes.ForEach(InitNodesRecursively);
+
+        //Call recursively for each connected node, return if none connected
+        nextNode.Outputs.ForEach(output =>
+        {
+            var connections = output.GetConnections();
+            if (connections.Count < 1) return;
+            
+            connections.ForEach(c => InitNodesRecursively(c.node));
+        });
     }
 
     private void SubscribeToTriggers()

@@ -16,13 +16,21 @@ public class StateReferenceNode : Node
     [ValueDropdown("GetStateNodes")]
     [SerializeField] [Required] [HideLabel] private StateNode referencedState;
     
+    protected bool isInitialized = false;
     private StateMachineGraph stateMachineGraph;
 
     public StateNode ReferencedState => referencedState;
+    
+    public bool IsInitialized
+    {
+        get => isInitialized;
+        set => isInitialized = value;
+    }
 
     public virtual void Initialize(StateMachineGraph parentGraph)
     {
         this.stateMachineGraph = parentGraph;
+        isInitialized = true;
         PopulateLinkedNodes();
     }
     

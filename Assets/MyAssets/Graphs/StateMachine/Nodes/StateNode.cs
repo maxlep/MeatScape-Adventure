@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,6 +20,7 @@ public class StateNode : Node
     protected StateMachineGraph stateMachineGraph;
     protected VariableContainer parameters;
     protected List<StateReferenceNode> referenceNodes = new List<StateReferenceNode>();
+    protected bool isInitialized = false;
 
     [SerializeField] [HideInInspector] protected bool zoom = false;
     [HideInInspector] public bool isActiveState = false;
@@ -40,6 +42,12 @@ public class StateNode : Node
         set => zoom = value;
     }
 
+    public bool IsInitialized
+    {
+        get => isInitialized;
+        set => isInitialized = value;
+    }
+
     public void SetParameters(VariableContainer newParams) => parameters = newParams;
     
     #region Init/Dep Injection
@@ -48,6 +56,7 @@ public class StateNode : Node
     {
         this.stateMachineGraph = parentGraph;
         isActiveState = false;
+        isInitialized = true;
         PopulateLinkedRefNodes();
         PopulateTransitionNodeLists();
         PopulatePreviousStates();

@@ -17,28 +17,33 @@ public class TransitionNode : Node
     [SerializeField] private string conditionPreview;
 
     [Tooltip("Transition only valid if ANY 1 or more of these states are active in OTHER state machine")]
-    [ValueDropdown("GetStartStateDropdown")] [ListDrawerSettings(Expanded = true)]
+    [ValueDropdown("GetStartStateDropdown")] [ListDrawerSettings(Expanded = true)] 
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.88f, 1f, .95f)]  [HideIf("$zoom")]
     [SerializeField] private List<StateNode> ValidStartStates = new List<StateNode>();
 
     [Tooltip("Transition only valid if ALL of these Bool condition are met")] [ListDrawerSettings(Expanded = true)]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
+    [OnValueChanged("InitConditions")]
     [SerializeField] private List<BoolCondition> BoolConditions = new List<BoolCondition>();
 
     [Tooltip("Transition only valid if ALL of these Trigger condition are met")] [ListDrawerSettings(Expanded = true)]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
+    [OnValueChanged("InitConditions")]
     [SerializeField] private List<TriggerCondition> TriggerConditions = new List<TriggerCondition>();
 
     [Tooltip("Transition only valid if ALL of these Float condition are met")] [ListDrawerSettings(Expanded = true)]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
+    [OnValueChanged("InitConditions")]
     [SerializeField] private List<FloatCondition> FloatConditions = new List<FloatCondition>();
 
     [Tooltip("Transition only valid if ALL of these Int condition are met")] [ListDrawerSettings(Expanded = true)]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
+    [OnValueChanged("InitConditions")]
     [SerializeField] private List<IntCondition> IntConditions = new List<IntCondition>();
     
     [Tooltip("Transition only valid if ALL of these Int condition are met")] [ListDrawerSettings(Expanded = true)]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
+    [OnValueChanged("InitConditions")]
     [SerializeField] private List<TimerCondition> TimerConditions = new List<TimerCondition>();
 
 
@@ -64,7 +69,6 @@ public class TransitionNode : Node
         get => isInitialized;
         set => isInitialized = value;
     }
-    
 
     public virtual void Initialize(StateMachineGraph parentGraph)
     {

@@ -68,8 +68,6 @@ public class IntCondition
             foreach (var intParam in p.GetIntVariables())
             {
                 nameToVarDict.Add(intParam.name, intParam);
-                Debug.Log($"Adding prop {intParam.name} to {parentTransitionName}");
-
             }
             parameterDict.Add(p.name, nameToVarDict);
         });

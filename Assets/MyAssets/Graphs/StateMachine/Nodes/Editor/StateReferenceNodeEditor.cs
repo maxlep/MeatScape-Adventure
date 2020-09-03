@@ -39,6 +39,11 @@ public class StateReferenceNodeEditor : NodeEditor
         // Actions if only one node is selected
         if (Selection.objects.Length == 1 && Selection.activeObject is XNode.Node) {
             XNode.Node node = Selection.activeObject as XNode.Node;
+            menu.AddItem(new GUIContent("Edit Script"), false, () =>
+            {
+                string assetPath = AssetDatabase.GetAssetPath(MonoScript.FromScriptableObject(target));
+                AssetDatabase.OpenAsset(AssetDatabase.LoadAssetAtPath<MonoScript>(assetPath));
+            });
             menu.AddItem(new GUIContent("Inspect"), false, () =>
             {
                 StateNode referencedState = (target as StateReferenceNode).ReferencedState;

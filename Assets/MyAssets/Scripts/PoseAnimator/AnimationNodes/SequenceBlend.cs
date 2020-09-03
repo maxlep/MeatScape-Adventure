@@ -1,22 +1,25 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using MyAssets.ScriptableObjects.Variables;
 using MyAssets.Scripts.PoseAnimator;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
+using UnityEngine.Serialization;
+using Debug = UnityEngine.Debug;
 
 public class SequenceBlend : PlayerStateNode
 {
-    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] [Range(0.0f, 1.0f)] protected float weight = 1.0f;
-    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] protected string fbxName;
-    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] protected List<AnimationClip> poses;
-    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] protected AnimationCurve[] transitionCurves;
-    [HideIf("$zoom")] [LabelWidth(120)] [Sirenix.OdinInspector.ReadOnly] [SerializeField] protected BoneTransformWeight[] boneTransformWeights;
+    [HideIf("$zoom"), LabelWidth(120), SerializeField] protected FloatReference factor;
+    [HideIf("$zoom"), LabelWidth(120), SerializeField] protected ExtrapolateBehavior extrapolateMode;
+    [HideIf("$zoom"), LabelWidth(120), SerializeField] protected SequenceUnit[] sequence;
+    [HideIf("$zoom"), LabelWidth(120), SerializeField] protected BoneTransformWeight[] boneTransformWeights;
     
     Animator animator;
     List<List<int>> m_BoneChildrenIndices;
@@ -26,12 +29,13 @@ public class SequenceBlend : PlayerStateNode
     AnimationScriptPlayable m_CustomMixerPlayable;
 
     public override void Initialize(StateMachineGraph parentGraph)
+    // public override void Enter()
     {
         base.Initialize(parentGraph);
         
-        if (!poses.Any() || poses.Any(pose => pose == null))
+        if (!sequence.Any() || sequence.Any(pose => pose.pose == null))
             return;
-        
+
         animator = playerController.GetAnimator();
         
         // Get all the transforms in the hierarchy.
@@ -75,17 +79,17 @@ public class SequenceBlend : PlayerStateNode
         };
         
         // Create graph with custom mixer.
-        m_Graph = PlayableGraph.Create("SequenceMixer");
+        m_Graph = PlayableGraph.Create(base.name);
         m_Graph.SetTimeUpdateMode(DirectorUpdateMode.GameTime);
         
         m_CustomMixerPlayable = AnimationScriptPlayable.Create(m_Graph, job);
         m_CustomMixerPlayable.SetProcessInputs(false);
-        poses.ForEach(pose =>
+        sequence.ForEach(clip =>
         {
-            m_CustomMixerPlayable.AddInput(AnimationClipPlayable.Create(m_Graph, pose), 0, 1.0f);
+            m_CustomMixerPlayable.AddInput(AnimationClipPlayable.Create(m_Graph, clip.pose), 0, 1.0f);
         });
         
-        var output = AnimationPlayableOutput.Create(m_Graph, "output2", animator);
+        var output = AnimationPlayableOutput.Create(m_Graph, $"{base.name}_Output", animator);
         output.SetSourcePlayable(m_CustomMixerPlayable);
         
         m_Graph.Play();
@@ -105,6 +109,26 @@ public class SequenceBlend : PlayerStateNode
         
         m_CustomMixerPlayable.SetJobData(job);
     }
+
+    public override void Enter()
+    {
+        base.Enter();
+        Debug.Log($"ENTER" + m_Graph.GetEditorName());
+        m_Graph.Play();
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        Debug.Log($"EXIT" + m_Graph.GetEditorName());
+        m_Graph.Stop();
+    }
+
+    // private void OnDisable()
+    // {
+    //     Debug.Log($"DISABLE" + m_Graph.GetEditorName());
+    //     m_Graph?.Stop();
+    // }
 
     private void OnDestroy()
     {
@@ -126,16 +150,34 @@ public class SequenceBlend : PlayerStateNode
 
     (int start, int end, float weight) GetTransitionIndices()
     {
-        var numPoses = poses.Count;
-        var stepSize = 1.0f / numPoses;
+        var numPoses = sequence.Length;
+        var poseSize = 1.0f / numPoses;
 
-        var start = Mathf.FloorToInt(Mathf.Clamp(weight / stepSize, 0, numPoses - 1));
-        var wrap = start == (numPoses - 1);
-        var end = wrap ? 0 : start + 1;
+        Debug.Assert(!float.IsPositiveInfinity(Mathf.Abs(factor.Value)));
+        var poseNum = factor.Value / poseSize;
+        // Debug.Log($"Blend: {numPoses}, {poseSize}, {factor.Value}, {poseNum}");
+        int start, end;
+        float transitionWeight;
+        switch (extrapolateMode)
+        {
+            case ExtrapolateBehavior.Hold:
+                start = Mathf.RoundToInt(Mathf.Clamp(poseNum, 0, numPoses - 1));
+                end = Mathf.Min(start + 1, numPoses - 1);
+                transitionWeight = factor.Value / poseSize;
+                break;
+            case ExtrapolateBehavior.Overshoot:
+            case ExtrapolateBehavior.PingPong:
+                throw new NotImplementedException();
+            default:
+            case ExtrapolateBehavior.Wrap:
+                start = Mathf.FloorToInt(poseNum % numPoses);
+                end = (start + 1) % numPoses;
+                transitionWeight = (factor.Value % poseSize) / poseSize;
+                break;
+        }
 
-        var transitionWeight = (weight % stepSize) / stepSize;
-        var interpWeight = transitionCurves[start].Evaluate(transitionWeight);
-        
+        var interpWeight = sequence[start].transition.Evaluate(transitionWeight);
+
         return (start, end, interpWeight);
     }
 }

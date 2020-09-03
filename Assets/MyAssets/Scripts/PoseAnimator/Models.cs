@@ -11,4 +11,16 @@ namespace MyAssets.Scripts.PoseAnimator
         [Range(0.0f, 1.0f)]
         public float weight;
     }
+
+    [Serializable]
+    public struct SequenceUnit
+    {
+        public AnimationClip pose;
+        public AnimationCurve transition;
+    }
+
+    public enum ExtrapolateBehavior
+    {
+        Hold, Wrap, PingPong, Overshoot
+    }
 }

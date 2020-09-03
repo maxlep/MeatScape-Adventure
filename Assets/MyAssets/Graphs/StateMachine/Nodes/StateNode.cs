@@ -198,7 +198,7 @@ public class StateNode : Node
     }
 
     
-    private void OnValidate()
+    protected virtual void OnValidate()
     {
         name = $"{Name} <{this.GetType().Name}>";
     }

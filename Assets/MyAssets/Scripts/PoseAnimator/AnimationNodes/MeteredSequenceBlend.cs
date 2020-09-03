@@ -32,6 +32,6 @@ public class MeteredSequenceBlend : SequenceBlend
         }
 
         var pct = meter / strideLength / 2;
-        weight = pct;
+        factor.Value = pct;
     }
 }

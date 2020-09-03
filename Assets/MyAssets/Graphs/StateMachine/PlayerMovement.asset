@@ -54,12 +54,8 @@ MonoBehaviour:
   ValidStartStates: []
   BoolConditions: []
   TriggerConditions:
-  - TargetContainerName: StateMachineProps
-    TargetParameterName: GroundPoundTrigger
+  - targetParameter: {fileID: 11400000, guid: e68ad060bf5f14a4fbc04729ff1c7732, type: 2}
     KeepTriggerOn: 0
-    parameterList:
-    - {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
-    - {fileID: 11400000, guid: b300786b390443145a8a34ac8b973b61, type: 2}
   FloatConditions: []
   IntConditions: []
   TimerConditions: []
@@ -183,18 +179,16 @@ MonoBehaviour:
 '
   ValidStartStates: []
   BoolConditions:
-  - TargetContainerName: StateMachineProps
-    TargetParameterName: IsGrounded
+  - targetParameter:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: 7515e678ba0d82a4b92ee5e8bc9cee52, type: 2}
     value: 1
-    parameterList:
-    - {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
-    - {fileID: 11400000, guid: b300786b390443145a8a34ac8b973b61, type: 2}
-  - TargetContainerName: StateMachineProps
-    TargetParameterName: WaitedJumpGroundDelay
+  - targetParameter:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: 358e23c96757a634d87c428b8667b8ee, type: 2}
     value: 1
-    parameterList:
-    - {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
-    - {fileID: 11400000, guid: b300786b390443145a8a34ac8b973b61, type: 2}
   TriggerConditions: []
   FloatConditions: []
   IntConditions: []
@@ -526,12 +520,11 @@ MonoBehaviour:
 '
   ValidStartStates: []
   BoolConditions:
-  - TargetContainerName: StateMachineProps
-    TargetParameterName: IsGrounded
+  - targetParameter:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: 7515e678ba0d82a4b92ee5e8bc9cee52, type: 2}
     value: 0
-    parameterList:
-    - {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
-    - {fileID: 11400000, guid: b300786b390443145a8a34ac8b973b61, type: 2}
   TriggerConditions: []
   FloatConditions: []
   IntConditions: []
@@ -591,12 +584,11 @@ MonoBehaviour:
 '
   ValidStartStates: []
   BoolConditions:
-  - TargetContainerName: StateMachineProps
-    TargetParameterName: IsGrounded
+  - targetParameter:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: 7515e678ba0d82a4b92ee5e8bc9cee52, type: 2}
     value: 1
-    parameterList:
-    - {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
-    - {fileID: 11400000, guid: b300786b390443145a8a34ac8b973b61, type: 2}
   TriggerConditions: []
   FloatConditions: []
   IntConditions: []
@@ -656,12 +648,11 @@ MonoBehaviour:
 '
   ValidStartStates: []
   BoolConditions:
-  - TargetContainerName: StateMachineProps
-    TargetParameterName: IsGrounded
+  - targetParameter:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: 7515e678ba0d82a4b92ee5e8bc9cee52, type: 2}
     value: 1
-    parameterList:
-    - {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
-    - {fileID: 11400000, guid: b300786b390443145a8a34ac8b973b61, type: 2}
   TriggerConditions: []
   FloatConditions: []
   IntConditions: []
@@ -1116,12 +1107,8 @@ MonoBehaviour:
   ValidStartStates: []
   BoolConditions: []
   TriggerConditions:
-  - TargetContainerName: StateMachineProps
-    TargetParameterName: JumpTrigger
+  - targetParameter: {fileID: 11400000, guid: cde4df9a2139a5e419bc8adc56c875e2, type: 2}
     KeepTriggerOn: 0
-    parameterList:
-    - {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
-    - {fileID: 11400000, guid: b300786b390443145a8a34ac8b973b61, type: 2}
   FloatConditions: []
   IntConditions: []
   TimerConditions: []
@@ -1276,7 +1263,7 @@ MonoBehaviour:
       _dynamic: 0
   startingState: {fileID: 0}
   nextState: {fileID: 0}
-  conditionPreview: '- <ConstTimer>: 0.5 sec
+  conditionPreview: '- PoundStall: 1 sec
 
 '
   ValidStartStates: []
@@ -1285,13 +1272,10 @@ MonoBehaviour:
   FloatConditions: []
   IntConditions: []
   TimerConditions:
-  - TargetContainerName: 
-    TargetParameterName: PoundStall
-    ConstantDuration: 0.5
-    UseConstant: 1
-    parameterList:
-    - {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
-    - {fileID: 11400000, guid: b300786b390443145a8a34ac8b973b61, type: 2}
+  - targetParameter:
+      UseConstant: 0
+      ConstantDuration: 0
+      Variable: {fileID: 11400000, guid: 8eb00a017e6eab542ab970b1e1145189, type: 2}
   zoom: 1
   startStateOptions:
   - {fileID: 9174840935225501389, guid: 1873cdd2965623e4386b829a278254b2, type: 2}

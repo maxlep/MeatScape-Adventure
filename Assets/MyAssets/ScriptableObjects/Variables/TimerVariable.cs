@@ -44,17 +44,54 @@ public class TimerReference
     [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [ShowIf("UseConstant")]
     [SerializeField] private float ConstantDuration;
     [ShowInInspector] private float ConstantRemainingTime;
-    
+
     [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [HideIf("UseConstant")] 
     [SerializeField] private TimerVariable Variable;
-    
+
+    private float startTime = Mathf.NegativeInfinity;
+
     public String Tooltip => Variable != null && !UseConstant ? Variable.Description : "";
     public String LabelText => UseConstant ? "" : "?";
 
-    public float Duration => UseConstant ? ConstantDuration : Variable.Duration;
-    public float RemainingTime => UseConstant ? ConstantRemainingTime : Variable.RemainingTime;
-    
-    private float startTime = Mathf.NegativeInfinity;
+    public float Duration
+    {
+        get
+        {
+            if (UseConstant)
+                return ConstantDuration;
+            if (Variable != null)
+                return Variable.Duration;
+            
+            Debug.LogError("Trying to access duration for timer variable that is not set!");
+            return Mathf.Infinity;
+        }
+    }
+
+    public float RemainingTime
+    {
+        get
+        {
+            if (UseConstant)
+                return ConstantRemainingTime;
+            if (Variable != null)
+                return Variable.RemainingTime;
+            
+            Debug.LogError("Trying to access remaining time for timer variable that is not set!");
+            return Mathf.Infinity;
+        }
+    }
+
+
+    public String Name
+    {
+        get
+        {
+            if (UseConstant) 
+                return $"<Const>{ConstantRemainingTime}";
+                
+            return (Variable != null) ? Variable.name : "<Missing Timer>";
+        }
+    }
 
 
     public void StartTimer()

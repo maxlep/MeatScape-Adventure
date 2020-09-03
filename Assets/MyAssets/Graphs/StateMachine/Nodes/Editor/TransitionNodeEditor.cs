@@ -22,7 +22,7 @@ public class TransitionNodeEditor : NodeEditor
         if (asTransitionNode != null)
             zoomed = asTransitionNode.Zoom;
         
-        return zoomed ? 225 : 400;
+        return zoomed ? 300 : 400;
     }
     
     public override Color GetTint()

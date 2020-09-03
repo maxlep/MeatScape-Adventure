@@ -37,6 +37,16 @@ namespace MyAssets.ScriptableObjects.Variables
         [SerializeField] private FloatVariable Variable;
     
         public String Tooltip => Variable != null && !UseConstant ? Variable.Description : "";
+        public String Name
+        {
+            get
+            {
+                if (UseConstant) 
+                    return $"<Const>{ConstantValue}";
+                
+                return (Variable != null) ? Variable.name : "<Missing Float>";
+            }
+        }
 
         public float Value
         {

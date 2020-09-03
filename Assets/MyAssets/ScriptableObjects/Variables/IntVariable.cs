@@ -37,6 +37,17 @@ namespace MyAssets.ScriptableObjects.Variables
         [SerializeField] private IntVariable Variable;
     
         public String Tooltip => Variable != null && !UseConstant ? Variable.Description : "";
+        
+        public String Name
+        {
+            get
+            {
+                if (UseConstant) 
+                    return $"<Const>{ConstantValue}";
+                
+                return (Variable != null) ? Variable.name : "<Missing Int>";
+            }
+        }
 
         public int Value
         {

@@ -9,19 +9,11 @@ using UnityEngine;
 public class FloatCondition
 {
     
-    [ValueDropdown("GetContainerNames")] [Required]
-    [HideLabel] public string TargetContainerName;
-    
-    [ValueDropdown("GetFloatNames")] [Required][ShowIf("HasSelectedContainer")]
-    [HideLabel]  public string TargetParameterName;
+    [SerializeField] [HideLabel] private FloatReference targetParameter;
     
     [HideLabel] public Comparator comparator;
     [HideLabel] public float value;
     
-    [HideInInspector] public List<VariableContainer> parameterList;
-    [HideInInspector] public Dictionary<string, Dictionary<string, FloatVariable>> parameterDict = 
-        new Dictionary<string, Dictionary<string, FloatVariable>>();
-
     private string parentTransitionName = "";
 
     
@@ -30,56 +22,15 @@ public class FloatCondition
         LessThan,
         GreaterThan
     }
-    
-    private List<String> GetContainerNames()
-    {
-        return (parameterDict.Count > 0) ?  parameterDict.Keys.ToList() : new List<string>() {""};
-    }
 
-    private List<String> GetFloatNames()
+    public void Init(string transitionName)
     {
-        //Return bool names if selected container
-        if (parameterDict.Count > 0 && HasSelectedContainer() && parameterDict.ContainsKey(TargetContainerName))
-            return parameterDict[TargetContainerName].Keys.ToList();
-
-        return new List<string>() {""};
-    }
-
-    private bool HasSelectedContainer()
-    {
-        if (TargetContainerName == null || TargetContainerName.Equals(""))
-            return false;
-
-        return true;
-    }
-    
-    
-    public void Init(List<VariableContainer> machineParameters, string transitionName)
-    {
-        parameterList = machineParameters;
         parentTransitionName = transitionName;
-        parameterDict.Clear();
-        
-        //Init dictionary that maps VariableContainerName -> VarName -> Var
-        parameterList.ForEach(p =>
-        {
-            Dictionary<string, FloatVariable> nameToVarDict = new Dictionary<string, FloatVariable>();
-            foreach (var floatParam in p.GetFloatVariables())
-            {
-                nameToVarDict.Add(floatParam.name, floatParam);
-            }
-            parameterDict.Add(p.name, nameToVarDict);
-        });
     }
 
     public bool Evaluate()
     {
-        if (!parameterDict.ContainsKey(TargetContainerName) || 
-            !parameterDict[TargetContainerName].ContainsKey(TargetParameterName))
-            Debug.LogError($"Transition {parentTransitionName} Float Condition can't find targetParam " + 
-                           $"{TargetParameterName}! Did the name of SO parameter or its container change but not update in dropdown?");
-        
-        float paramValue = parameterDict[TargetContainerName][TargetParameterName].Value;
+        float paramValue = targetParameter.Value;
 
         if (comparator == Comparator.GreaterThan)
             return paramValue > value;
@@ -92,7 +43,10 @@ public class FloatCondition
     
     public override string ToString()
     {
-        return $"{TargetParameterName} {comparator} {value}";
+        if (targetParameter != null)
+            return $"{targetParameter.Name} {comparator} {value}";
+        else
+            return "<Missing Float>";
     }
     
 }

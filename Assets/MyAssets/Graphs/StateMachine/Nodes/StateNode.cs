@@ -263,8 +263,8 @@ public class StateNode : Node
         return null;
     }
     
-    [HorizontalGroup("split", 20f)] [PropertyOrder(-1)]
-    [Button(ButtonSizes.Small, ButtonStyle.CompactBox, Name = "$GetZoomButtonName")]
+    [HorizontalGroup("split", 30f)] [PropertyOrder(-1)]
+    [Button(ButtonSizes.Medium, ButtonStyle.CompactBox, Name = "$GetZoomButtonName")]
     public void ToggleZoom()
     {
         zoom = !zoom;

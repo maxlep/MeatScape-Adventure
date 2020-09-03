@@ -30,13 +30,23 @@ namespace MyAssets.ScriptableObjects.Variables
     public class BoolReference : Reference
     {
         [BoxGroup("Split/Right", ShowLabel = false)] [LabelText("Value")] [ShowIf("UseConstant")]
-        [SerializeField] private bool ConstantValue;
+        [SerializeField] private bool ConstantValue = false;
     
         [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [HideIf("UseConstant")]
         [SerializeField] private BoolVariable Variable;
     
         public String Tooltip => Variable != null && !UseConstant ? Variable.Description : "";
-    
+        public String Name
+        {
+            get
+            {
+                if (UseConstant) 
+                    return $"<Const>{ConstantValue}";
+                
+                return (Variable != null) ? Variable.name : "<Missing Bool>";
+            }
+        }
+
         public bool Value
         {
             get => UseConstant ? ConstantValue : Variable.Value;

@@ -18,7 +18,7 @@ public class StateNode : Node
     [SerializeField] private string Name;
 
     protected StateMachineGraph stateMachineGraph;
-    protected VariableContainer parameters;
+    protected List<VariableContainer> parameterList;
     protected List<StateReferenceNode> referenceNodes = new List<StateReferenceNode>();
     protected bool isInitialized = false;
 
@@ -48,7 +48,7 @@ public class StateNode : Node
         set => isInitialized = value;
     }
 
-    public void SetParameters(VariableContainer newParams) => parameters = newParams;
+    public void SetParameters(List<VariableContainer> newParams) => parameterList = newParams;
     
     #region Init/Dep Injection
 

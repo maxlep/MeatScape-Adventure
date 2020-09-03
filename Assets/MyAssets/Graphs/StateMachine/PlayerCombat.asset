@@ -233,18 +233,27 @@ MonoBehaviour:
 '
   ValidStartStates: []
   BoolConditions:
-  - TargetParameterName: WaitedAttackDelay
+  - TargetContainerName: StateMachineProps
+    TargetParameterName: WaitedAttackDelay
     value: 1
-    parameters: {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
+    parameterList:
+    - {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
+    - {fileID: 11400000, guid: b300786b390443145a8a34ac8b973b61, type: 2}
   TriggerConditions:
-  - TargetParameterName: AttackTrigger
-    parameters: {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
+  - TargetContainerName: StateMachineProps
+    TargetParameterName: AttackTrigger
+    parameterList:
+    - {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
+    - {fileID: 11400000, guid: b300786b390443145a8a34ac8b973b61, type: 2}
   FloatConditions: []
   IntConditions:
-  - TargetParameterName: PlayerCurrentSize
+  - TargetContainerName: StateMachineProps
+    TargetParameterName: PlayerCurrentSize
     comparator: 1
     value: 0
-    parameters: {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
+    parameterList:
+    - {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
+    - {fileID: 11400000, guid: b300786b390443145a8a34ac8b973b61, type: 2}
   TimerConditions: []
   zoom: 0
   startStateOptions:
@@ -268,7 +277,7 @@ MonoBehaviour:
   m_Name: DoNothing -> Downward Throw
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1192, y: 600}
+  position: {x: 1192, y: 744}
   ports:
     keys:
     - startingState
@@ -316,18 +325,27 @@ MonoBehaviour:
   - {fileID: -4990919157884066038, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   - {fileID: 7248169581288550152, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   BoolConditions:
-  - TargetParameterName: WaitedAttackDelay
+  - TargetContainerName: StateMachineProps
+    TargetParameterName: WaitedAttackDelay
     value: 1
-    parameters: {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
+    parameterList:
+    - {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
+    - {fileID: 11400000, guid: b300786b390443145a8a34ac8b973b61, type: 2}
   TriggerConditions:
-  - TargetParameterName: DownwardAttackTrigger
-    parameters: {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
+  - TargetContainerName: StateMachineProps
+    TargetParameterName: DownwardAttackTrigger
+    parameterList:
+    - {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
+    - {fileID: 11400000, guid: b300786b390443145a8a34ac8b973b61, type: 2}
   FloatConditions: []
   IntConditions:
-  - TargetParameterName: PlayerCurrentSize
+  - TargetContainerName: StateMachineProps
+    TargetParameterName: PlayerCurrentSize
     comparator: 1
     value: 0
-    parameters: {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
+    parameterList:
+    - {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
+    - {fileID: 11400000, guid: b300786b390443145a8a34ac8b973b61, type: 2}
   TimerConditions: []
   zoom: 0
   startStateOptions:

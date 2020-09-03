@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
@@ -8,13 +9,18 @@ using UnityEngine;
 public class IntCondition
 {
     
-    [ValueDropdown("GetInts")] [Required]
-    [HideLabel] public string TargetParameterName;
+    [ValueDropdown("GetContainerNames")] [Required]
+    [HideLabel] public string TargetContainerName;
+    
+    [ValueDropdown("GetIntNames")] [Required][ShowIf("HasSelectedContainer")]
+    [HideLabel]  public string TargetParameterName;
+    
     [HideLabel] public Comparator comparator;
     [HideLabel] public float value;
     
-    [HideInInspector] public VariableContainer parameters;
-    [HideInInspector] public Dictionary<string, IntVariable> parameterDict = new Dictionary<string, IntVariable>();
+    [HideInInspector] public List<VariableContainer> parameterList;
+    [HideInInspector] public Dictionary<string, Dictionary<string, IntVariable>> parameterDict = 
+        new Dictionary<string, Dictionary<string, IntVariable>>();
 
     private string parentTransitionName = "";
 
@@ -27,30 +33,56 @@ public class IntCondition
         NotEqualTo
     }
     
-    
-    private List<string> GetInts()
+    private List<String> GetContainerNames()
     {
         return (parameterDict.Count > 0) ?  parameterDict.Keys.ToList() : new List<string>() {""};
     }
-    
-    public void Init(VariableContainer machineParameters, string transitionName)
+
+    private List<String> GetIntNames()
     {
-        parameters = machineParameters;
+        //Return bool names if selected container
+        if (parameterDict.Count > 0 && HasSelectedContainer() && parameterDict.ContainsKey(TargetContainerName))
+            return parameterDict[TargetContainerName].Keys.ToList();
+
+        return new List<string>() {""};
+    }
+
+    private bool HasSelectedContainer()
+    {
+        if (TargetContainerName == null || TargetContainerName.Equals(""))
+            return false;
+
+        return true;
+    }
+
+    public void Init(List<VariableContainer> machineParameters, string transitionName)
+    {
+        parameterList = machineParameters;
         parentTransitionName = transitionName;
         parameterDict.Clear();
-        foreach (var intParam in parameters.GetIntVariables())
+        
+        //Init dictionary that maps VariableContainerName -> VarName -> Var
+        parameterList.ForEach(p =>
         {
-            parameterDict.Add(intParam.name, intParam);
-        }
+            Dictionary<string, IntVariable> nameToVarDict = new Dictionary<string, IntVariable>();
+            foreach (var intParam in p.GetIntVariables())
+            {
+                nameToVarDict.Add(intParam.name, intParam);
+                Debug.Log($"Adding prop {intParam.name} to {parentTransitionName}");
+
+            }
+            parameterDict.Add(p.name, nameToVarDict);
+        });
     }
 
     public bool Evaluate()
     {
-        if (!parameterDict.ContainsKey(TargetParameterName))
+        if (!parameterDict.ContainsKey(TargetContainerName) || 
+            !parameterDict[TargetContainerName].ContainsKey(TargetParameterName))
             Debug.LogError($"Transition {parentTransitionName} Int Condition can't find targetParam " + 
-                           $"{TargetParameterName}! Did the name of SO parameter change but not update in dropdown?");
+                           $"{TargetParameterName}! Did the name of SO parameter or its container change but not update in dropdown?");
         
-        int paramValue = parameterDict[TargetParameterName].Value;
+        int paramValue = parameterDict[TargetContainerName][TargetParameterName].Value;
         
         if (comparator == Comparator.GreaterThan)
             return paramValue > value;

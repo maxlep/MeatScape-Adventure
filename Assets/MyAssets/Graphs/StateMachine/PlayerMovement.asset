@@ -54,8 +54,11 @@ MonoBehaviour:
   ValidStartStates: []
   BoolConditions: []
   TriggerConditions:
-  - TargetParameterName: GroundPoundTrigger
-    parameters: {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
+  - TargetContainerName: StateMachineProps
+    TargetParameterName: GroundPoundTrigger
+    parameterList:
+    - {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
+    - {fileID: 11400000, guid: b300786b390443145a8a34ac8b973b61, type: 2}
   FloatConditions: []
   IntConditions: []
   TimerConditions: []
@@ -114,15 +117,10 @@ MonoBehaviour:
   nextState: {fileID: 0}
   conditionPreview: '- Start: Downward Throw
 
-    - !
-
 '
   ValidStartStates:
   - {fileID: -6583862081062639760, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
-  BoolConditions:
-  - TargetParameterName: 
-    value: 0
-    parameters: {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
+  BoolConditions: []
   TriggerConditions: []
   FloatConditions: []
   IntConditions: []
@@ -184,12 +182,18 @@ MonoBehaviour:
 '
   ValidStartStates: []
   BoolConditions:
-  - TargetParameterName: IsGrounded
+  - TargetContainerName: StateMachineProps
+    TargetParameterName: IsGrounded
     value: 1
-    parameters: {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
-  - TargetParameterName: WaitedJumpGroundDelay
+    parameterList:
+    - {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
+    - {fileID: 11400000, guid: b300786b390443145a8a34ac8b973b61, type: 2}
+  - TargetContainerName: StateMachineProps
+    TargetParameterName: WaitedJumpGroundDelay
     value: 1
-    parameters: {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
+    parameterList:
+    - {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
+    - {fileID: 11400000, guid: b300786b390443145a8a34ac8b973b61, type: 2}
   TriggerConditions: []
   FloatConditions: []
   IntConditions: []
@@ -521,9 +525,12 @@ MonoBehaviour:
 '
   ValidStartStates: []
   BoolConditions:
-  - TargetParameterName: IsGrounded
+  - TargetContainerName: StateMachineProps
+    TargetParameterName: IsGrounded
     value: 0
-    parameters: {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
+    parameterList:
+    - {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
+    - {fileID: 11400000, guid: b300786b390443145a8a34ac8b973b61, type: 2}
   TriggerConditions: []
   FloatConditions: []
   IntConditions: []
@@ -583,9 +590,12 @@ MonoBehaviour:
 '
   ValidStartStates: []
   BoolConditions:
-  - TargetParameterName: IsGrounded
+  - TargetContainerName: StateMachineProps
+    TargetParameterName: IsGrounded
     value: 1
-    parameters: {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
+    parameterList:
+    - {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
+    - {fileID: 11400000, guid: b300786b390443145a8a34ac8b973b61, type: 2}
   TriggerConditions: []
   FloatConditions: []
   IntConditions: []
@@ -645,9 +655,12 @@ MonoBehaviour:
 '
   ValidStartStates: []
   BoolConditions:
-  - TargetParameterName: IsGrounded
+  - TargetContainerName: StateMachineProps
+    TargetParameterName: IsGrounded
     value: 1
-    parameters: {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
+    parameterList:
+    - {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
+    - {fileID: 11400000, guid: b300786b390443145a8a34ac8b973b61, type: 2}
   TriggerConditions: []
   FloatConditions: []
   IntConditions: []
@@ -707,7 +720,7 @@ MonoBehaviour:
   transitions: {fileID: 0}
   Name: Ground Movement
   zoom: 1
-  isActiveState: 0
+  isActiveState: 1
   MoveSpeed:
     UseConstant: 0
     ConstantValue: 0
@@ -952,7 +965,7 @@ MonoBehaviour:
   m_Name: Jump <Jump>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -24, y: 168}
+  position: {x: 8, y: 168}
   ports:
     keys:
     - previousState
@@ -1064,7 +1077,7 @@ MonoBehaviour:
   m_Name: Ground Movement -> Jump
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -328, y: 152}
+  position: {x: -440, y: 152}
   ports:
     keys:
     - startingState
@@ -1102,12 +1115,15 @@ MonoBehaviour:
   ValidStartStates: []
   BoolConditions: []
   TriggerConditions:
-  - TargetParameterName: JumpTrigger
-    parameters: {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
+  - TargetContainerName: StateMachineProps
+    TargetParameterName: JumpTrigger
+    parameterList:
+    - {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
+    - {fileID: 11400000, guid: b300786b390443145a8a34ac8b973b61, type: 2}
   FloatConditions: []
   IntConditions: []
   TimerConditions: []
-  zoom: 1
+  zoom: 0
   startStateOptions:
   - {fileID: 9174840935225501389, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
   - {fileID: -8354906802381047596, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
@@ -1164,7 +1180,7 @@ MonoBehaviour:
   transitions: {fileID: 0}
   Name: NoLowJump
   zoom: 1
-  isActiveState: 1
+  isActiveState: 0
   MoveSpeed:
     UseConstant: 0
     ConstantValue: 0
@@ -1267,10 +1283,13 @@ MonoBehaviour:
   FloatConditions: []
   IntConditions: []
   TimerConditions:
-  - TargetParameterName: PoundStall
+  - TargetContainerName: 
+    TargetParameterName: PoundStall
     ConstantDuration: 0.5
     UseConstant: 1
-    parameters: {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
+    parameterList:
+    - {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
+    - {fileID: 11400000, guid: b300786b390443145a8a34ac8b973b61, type: 2}
   zoom: 1
   startStateOptions:
   - {fileID: 9174840935225501389, guid: 1873cdd2965623e4386b829a278254b2, type: 2}

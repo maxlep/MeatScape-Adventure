@@ -17,7 +17,7 @@ public class StateMachineGraph : NodeGraph
     public LayeredStateMachine parentMachine { get; private set; }
 
     private List<StartNode> startNodes = new List<StartNode>();
-    private VariableContainer parameters;
+    private List<VariableContainer> parameterList = new List<VariableContainer>();
 
     #region LifeCycle Methods
 
@@ -61,18 +61,12 @@ public class StateMachineGraph : NodeGraph
 
     private void InitNodesRecursively(Node nextNode)
     {
-        //Base cases:
-        //    - nextNode is already initialized
-        //    - nextNode has no more connected nodes
-        
-
         //Init nodes, return if already initialized
         StateNode nodeAsState = nextNode as StateNode;
         if (nodeAsState != null)
         {
             if (nodeAsState.IsInitialized) return;
             nodeAsState.Initialize(this);
-            Debug.Log($"{name} | {nextNode.name} | {nextNode.LinkedNodes.Count}");
             nodeInitCount++;
         }
 
@@ -81,7 +75,6 @@ public class StateMachineGraph : NodeGraph
         {
             if (nodeAsTransition.IsInitialized) return;
             nodeAsTransition.Initialize(this);
-            Debug.Log($"{name} | {nextNode.name} | {nextNode.LinkedNodes.Count}");
             nodeInitCount++;
         }
         
@@ -90,7 +83,6 @@ public class StateMachineGraph : NodeGraph
         {
             if (nodeAsReference.IsInitialized) return;
             nodeAsReference.Initialize(this);
-            Debug.Log($"{name} | {nextNode.name} | {nextNode.LinkedNodes.Count}");
             nodeInitCount++;
         }
         
@@ -109,16 +101,20 @@ public class StateMachineGraph : NodeGraph
 
     private void SubscribeToTriggers()
     {
-        foreach (var triggerVar in parameters.GetTriggerVariables())
+        parameterList.ForEach(p =>
         {
-            triggerVar.OnUpdate += () => CheckForValidTransitions(triggerVar);
-        }
+            foreach (var triggerVar in p.GetTriggerVariables())
+            {
+                triggerVar.OnUpdate += () => CheckForValidTransitions(triggerVar);
+            }
+        });
+        
     }
     
-    public void InjectDependencies(LayeredStateMachine parentMachine, VariableContainer parameters)
+    public void InjectDependencies(LayeredStateMachine parentMachine, List<VariableContainer> parameters)
     {
         this.parentMachine = parentMachine;
-        this.parameters = parameters;
+        this.parameterList = parameters;
     }
     
      public void PopulateNodeLists()

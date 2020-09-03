@@ -17,27 +17,27 @@ public class TransitionNode : Node
     [SerializeField] private string conditionPreview;
 
     [Tooltip("Transition only valid if ANY 1 or more of these states are active in OTHER state machine")]
-    [ValueDropdown("GetStartStateDropdown")]
+    [ValueDropdown("GetStartStateDropdown")] [ListDrawerSettings(Expanded = true)]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.88f, 1f, .95f)]  [HideIf("$zoom")]
     [SerializeField] private List<StateNode> ValidStartStates = new List<StateNode>();
 
-    [Tooltip("Transition only valid if ALL of these Bool condition are met")]
+    [Tooltip("Transition only valid if ALL of these Bool condition are met")] [ListDrawerSettings(Expanded = true)]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
     [SerializeField] private List<BoolCondition> BoolConditions = new List<BoolCondition>();
 
-    [Tooltip("Transition only valid if ALL of these Trigger condition are met")]
+    [Tooltip("Transition only valid if ALL of these Trigger condition are met")] [ListDrawerSettings(Expanded = true)]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
     [SerializeField] private List<TriggerCondition> TriggerConditions = new List<TriggerCondition>();
 
-    [Tooltip("Transition only valid if ALL of these Float condition are met")]
+    [Tooltip("Transition only valid if ALL of these Float condition are met")] [ListDrawerSettings(Expanded = true)]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
     [SerializeField] private List<FloatCondition> FloatConditions = new List<FloatCondition>();
 
-    [Tooltip("Transition only valid if ALL of these Int condition are met")]
+    [Tooltip("Transition only valid if ALL of these Int condition are met")] [ListDrawerSettings(Expanded = true)]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
     [SerializeField] private List<IntCondition> IntConditions = new List<IntCondition>();
     
-    [Tooltip("Transition only valid if ALL of these Int condition are met")]
+    [Tooltip("Transition only valid if ALL of these Int condition are met")] [ListDrawerSettings(Expanded = true)]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
     [SerializeField] private List<TimerCondition> TimerConditions = new List<TimerCondition>();
 
@@ -47,12 +47,12 @@ public class TransitionNode : Node
 
     public string ConditionPreview => conditionPreview;
     protected bool isInitialized = false;
-    private VariableContainer parameters;
+    private List<VariableContainer> parameterList;
     private StateMachineGraph stateMachineGraph;
     private string startingStateName;
     private string nextStateName;
 
-    public void SetParameters(VariableContainer newParams) => parameters = newParams;
+    public void SetParameters(List<VariableContainer> newParams) => parameterList = newParams;
     public bool Zoom
     {
         get => zoom;
@@ -153,31 +153,31 @@ public class TransitionNode : Node
         }
         foreach (var boolCondition in BoolConditions)
         {
-            boolCondition.Init(parameters, name);
+            boolCondition.Init(parameterList, name);
             conditionPreview += $"- {boolCondition}\n";
         }
         
         foreach (var triggerCondition in TriggerConditions)
         {
-            triggerCondition.Init(parameters, name);
+            triggerCondition.Init(parameterList, name);
             conditionPreview += $"- {triggerCondition}\n";
         }
         
         foreach (var floatCondition in FloatConditions)
         {
-            floatCondition.Init(parameters, name);
+            floatCondition.Init(parameterList, name);
             conditionPreview += $"- {floatCondition}\n";
         }
         
         foreach (var intCondition in IntConditions)
         {
-            intCondition.Init(parameters, name);
+            intCondition.Init(parameterList, name);
             conditionPreview += $"- {intCondition}\n";
         }
         
         foreach (var timerCondition in TimerConditions)
         {
-            timerCondition.Init(parameters, name);
+            timerCondition.Init(parameterList, name);
             conditionPreview += $"- {timerCondition}\n";
         }
     }

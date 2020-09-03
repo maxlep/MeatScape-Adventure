@@ -193,11 +193,6 @@ public class TransitionNode : Node
     {
         bool result = true;
         
-        //If triggers present but none passed, will never be true
-        if (!TriggerConditions.IsNullOrEmpty() && receivedTrigger == null)
-            return false;
-
-        
         //If no conditions, done
         if (BoolConditions.IsNullOrEmpty() && TriggerConditions.IsNullOrEmpty() &&
             FloatConditions.IsNullOrEmpty() && IntConditions.IsNullOrEmpty() &&

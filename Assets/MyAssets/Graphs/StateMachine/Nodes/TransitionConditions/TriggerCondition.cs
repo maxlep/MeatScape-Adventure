@@ -14,11 +14,17 @@ public class TriggerCondition
     [ValueDropdown("GetFloatNames")] [Required][ShowIf("HasSelectedContainer")]
     [HideLabel]  public string TargetParameterName;
     
+    [ShowIf("HasSelectedContainer")] [Tooltip("Keep this trigger condition on after first match")]
+    [LabelWidth(100f)] [InfoBox("Trigger will keep evaluating true after first receive!",
+        InfoMessageType.Warning, "KeepTriggerOn")]
+    public bool KeepTriggerOn = false;
+    
     [HideInInspector] public List<VariableContainer> parameterList;
     [HideInInspector] public Dictionary<string, Dictionary<string, TriggerVariable>> parameterDict = 
         new Dictionary<string, Dictionary<string, TriggerVariable>>();
 
     private string parentTransitionName = "";
+    private bool stayingActive = false;
 
     private List<String> GetContainerNames()
     {
@@ -46,6 +52,7 @@ public class TriggerCondition
     {
         parameterList = machineParameters;
         parentTransitionName = transitionName;
+        stayingActive = false;
         parameterDict.Clear();
         
         //Init dictionary that maps VariableContainerName -> VarName -> Var
@@ -63,11 +70,18 @@ public class TriggerCondition
     //Check if the trigger variable that was activated matches the one for this condition
     public bool Evaluate(TriggerVariable ReceivedTrigger)
     {
+        if (stayingActive) return true;
+        
         if (!parameterDict.ContainsKey(TargetContainerName) || 
             !parameterDict[TargetContainerName].ContainsKey(TargetParameterName))
             Debug.LogError($"Transition {parentTransitionName} Trigger Condition can't find targetParam " + 
                            $"{TargetParameterName}! Did the name of SO parameter or its container change but not update in dropdown?");
-        return parameterDict[TargetContainerName][TargetParameterName].Equals(ReceivedTrigger);
+
+        bool triggerMatches = parameterDict[TargetContainerName][TargetParameterName].Equals(ReceivedTrigger);
+        if (triggerMatches && KeepTriggerOn)
+            stayingActive = true;
+        
+        return triggerMatches;
     }
     
     public override string ToString()

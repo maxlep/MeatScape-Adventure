@@ -1,11 +1,12 @@
 ﻿using System;
 using KinematicCharacterController;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 
 public class PlayerStateMachine : LayeredStateMachine
 {
-    [SerializeField] private PlayerController playerController;
+    [SerializeField] [SceneObjectsOnly] private PlayerController playerController;
     
     
     protected override void InjectNodeDependencies(StateMachineGraph stateMachine)

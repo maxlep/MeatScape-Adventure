@@ -28,7 +28,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable JumpTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable DownwardAttackTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable GroundPoundTrigger;
-
+    
     [SerializeField] private List<SizeControlledFloatReference> SizeControlledProperties;
 
     private Vector3 moveDirection;

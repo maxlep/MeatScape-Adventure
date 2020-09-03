@@ -1,13 +1,13 @@
 ﻿using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
 using UnityEngine;
-
+[HideReferenceObjectPicker]
 public class SizeControlledFloatReference {
     [SerializeField] private FloatVariable ControlledVariable;
     [Space]
-    [Required] [SerializeField] private FloatReference Small;
-    [Required] [SerializeField] private FloatReference Medium;
-    [Required] [SerializeField] private FloatReference Large;
+    [Required] [HideReferenceObjectPicker] [SerializeField] private FloatReference Small;
+    [Required] [HideReferenceObjectPicker] [SerializeField] private FloatReference Medium;
+    [Required] [HideReferenceObjectPicker] [SerializeField] private FloatReference Large;
 
     public void UpdateValue(PlayerSize playerSize) {
         if(playerSize == PlayerSize.Small) ControlledVariable.Value = Small.Value;

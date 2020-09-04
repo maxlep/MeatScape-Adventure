@@ -3,7 +3,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 [HideReferenceObjectPicker]
 public class SizeControlledFloatReference {
-    [SerializeField] private FloatVariable ControlledVariable;
+    [Required] [SerializeField] private FloatVariable ControlledVariable;
     [Space]
     [Required] [HideReferenceObjectPicker] [SerializeField] private FloatReference Small;
     [Required] [HideReferenceObjectPicker] [SerializeField] private FloatReference Medium;

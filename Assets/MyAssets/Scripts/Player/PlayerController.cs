@@ -20,7 +20,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [SerializeField] private Transform firePoint;
     [SerializeField] private Transform root;
     [SerializeField] private Transform model;
-    [SerializeField] private PlayerSize startSize;
     
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private Vector3Reference NewVelocity;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private QuaternionReference NewRotation;
@@ -33,15 +32,24 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable JumpTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable DownwardAttackTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable GroundPoundTrigger;
-    
-    [SerializeField] private List<SizeControlledFloatReference> SizeControlledProperties;
+
+    [FoldoutGroup("Size Parameters")] [SerializeField] private PlayerSize startSize;
+    [FoldoutGroup("Size Parameters")] [HideReferenceObjectPicker] [SerializeField] [SuffixLabel("ms")] private FloatReference changeSizeTime;
+    [FoldoutGroup("Size Parameters")] [HideReferenceObjectPicker] [SerializeField] private Vector3Reference smallModelScale;
+    [FoldoutGroup("Size Parameters")] [HideReferenceObjectPicker] [SerializeField] private Vector3Reference mediumModelScale;
+    [FoldoutGroup("Size Parameters")] [HideReferenceObjectPicker] [SerializeField] private Vector3Reference largeModelScale;
+    [FoldoutGroup("Size Parameters")] [HideReferenceObjectPicker] [SerializeField] private Vector3Reference smallCapsuleSize;
+    [FoldoutGroup("Size Parameters")] [HideReferenceObjectPicker] [SerializeField] private Vector3Reference mediumCapsuleSize;
+    [FoldoutGroup("Size Parameters")] [HideReferenceObjectPicker] [SerializeField] private Vector3Reference largeCapsuleSize;
+    [FoldoutGroup("Size Parameters")] [SerializeField] private List<SizeControlledFloatReference> SizeControlledProperties;
 
     private Vector3 moveDirection;
     private InputAction playerMove;
 
     private PlayerSize _currentSize;
-
     public PlayerSize CurrentSize { get => _currentSize; set => SetPlayerSize(value); }
+    private Vector3Reference[] modelScales;
+    private Vector3Reference[] capsuleSizes;
 
     public Transform GetCameraTrans() => cameraTrans;
     public Transform GetFirePoint() => firePoint;
@@ -71,6 +79,9 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         InputManager.Instance.onDownwardAttack += () => DownwardAttackTrigger.Activate();
         InputManager.Instance.onGroundPound += () => GroundPoundTrigger.Activate();
         InputManager.Instance.onRegenerateMeat += () => CurrentSize++;
+
+        modelScales = new Vector3Reference[] {smallModelScale, mediumModelScale, largeModelScale};
+        capsuleSizes = new Vector3Reference[] {smallCapsuleSize, mediumCapsuleSize, largeCapsuleSize};
 
         CurrentSize = startSize;
     }
@@ -184,13 +195,12 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         else if(value > PlayerSize.Large) _currentSize = PlayerSize.Large;
         else _currentSize = value;
 
-        PlayerCurrentSize.Value = (int)_currentSize;
+        int intSize = (int)_currentSize;
+        PlayerCurrentSize.Value = intSize;
 
-        float scale = 0.5f * ((int)_currentSize + 1);
-        // model.localScale = new Vector3(scale, scale, scale);
-        LeanTween.scale(model.gameObject, new Vector3(scale, scale, scale), 0.5f);
-
-        charMotor.SetCapsuleDimensions(0.25f * ((int)_currentSize + 1), ((int)_currentSize + 1), 0.5f * ((int)_currentSize + 1));
+        LeanTween.scale(model.gameObject, modelScales[intSize].Value, changeSizeTime.Value / 1000);
+        Vector3 capsuleSize = capsuleSizes[intSize].Value;
+        charMotor.SetCapsuleDimensions(capsuleSize.x, capsuleSize.y, capsuleSize.z);
         
         foreach(SizeControlledFloatReference prop in SizeControlledProperties) {
             prop.UpdateValue(_currentSize);

@@ -599,6 +599,8 @@ MonoBehaviour:
   - {fileID: 2707482321196679568}
   - {fileID: 257019424456394427}
   - {fileID: 8243805061456828152}
+  - {fileID: 2923737762509335735}
+  - {fileID: 3530653217615675558}
 --- !u!114 &257019424456394427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -612,7 +614,7 @@ MonoBehaviour:
   m_Name: Jump -> Ground Movement
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 2088, y: 584}
+  position: {x: 2056, y: 664}
   ports:
     keys:
     - startingState
@@ -636,7 +638,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: previousState
-        node: {fileID: 2567095372823415316}
+        node: {fileID: 3530653217615675558}
         reroutePoints: []
       _direction: 1
       _connectionType: 1
@@ -745,9 +747,6 @@ MonoBehaviour:
       - fieldName: nextState
         node: {fileID: -2479464383247129141}
         reroutePoints: []
-      - fieldName: nextState
-        node: {fileID: 257019424456394427}
-        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 0
@@ -815,6 +814,92 @@ MonoBehaviour:
   outAccelHoriz: {fileID: 11400000, guid: eeafa63b88e188d49ab1fa67135df466, type: 2}
   outVelVert: {fileID: 11400000, guid: 36f2c267ad1a0bc408ffc0d0422f0051, type: 2}
   outAccelVert: {fileID: 11400000, guid: aca9c6cae1c6ecd47b2c59564a3b16d3, type: 2}
+--- !u!114 &2923737762509335735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: Jump <Reference>
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 3688, y: -328}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: 2923737762509335735}
+      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: 8243805061456828152}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: 2923737762509335735}
+      _typeQualifiedName: TransitionNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  previousState: {fileID: 0}
+  transitions: {fileID: 0}
+  referencedState: {fileID: 4519367803428870115}
+--- !u!114 &3530653217615675558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: Ground Movement <Reference>
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 2584, y: 872}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: 3530653217615675558}
+      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: 257019424456394427}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: 3530653217615675558}
+      _typeQualifiedName: TransitionNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  previousState: {fileID: 0}
+  transitions: {fileID: 0}
+  referencedState: {fileID: 412120333977285081}
 --- !u!114 &4176948142499552886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -942,9 +1027,6 @@ MonoBehaviour:
       connections:
       - fieldName: nextState
         node: {fileID: 7148953881133016071}
-        reroutePoints: []
-      - fieldName: nextState
-        node: {fileID: 8243805061456828152}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -1133,7 +1215,7 @@ MonoBehaviour:
   m_Name: Fall -> Jump
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1048, y: -344}
+  position: {x: 3176, y: -344}
   ports:
     keys:
     - startingState
@@ -1157,7 +1239,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: previousState
-        node: {fileID: 4519367803428870115}
+        node: {fileID: 2923737762509335735}
         reroutePoints: []
       _direction: 1
       _connectionType: 1
@@ -1165,18 +1247,14 @@ MonoBehaviour:
       _dynamic: 0
   startingState: {fileID: 0}
   nextState: {fileID: 0}
-  conditionPreview: '- MoveVert_Player_Resultant GreaterThan 0
+  conditionPreview: '- JumpTrigger
 
 '
   ValidStartStates: []
   BoolConditions: []
-  TriggerConditions: []
-  FloatConditions:
-  - targetParameter:
-      UseConstant: 0
-      ConstantValue: 0
-      Variable: {fileID: 11400000, guid: 36f2c267ad1a0bc408ffc0d0422f0051, type: 2}
-    comparator: 1
-    value: 0
+  TriggerConditions:
+  - targetParameter: {fileID: 11400000, guid: 692eae34b308467428fcb511fd2a56c5, type: 2}
+    KeepTriggerOn: 0
+  FloatConditions: []
   IntConditions: []
   TimerConditions: []

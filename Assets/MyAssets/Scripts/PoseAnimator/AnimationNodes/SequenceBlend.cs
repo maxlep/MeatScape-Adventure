@@ -29,7 +29,6 @@ public class SequenceBlend : PlayerStateNode
     AnimationScriptPlayable m_CustomMixerPlayable;
 
     public override void RuntimeInitialize()
-    // public override void Enter()
     {
         Debug.Log($"Initialize {name}");
 
@@ -88,11 +87,37 @@ public class SequenceBlend : PlayerStateNode
         {
             m_CustomMixerPlayable.AddInput(AnimationClipPlayable.Create(m_Graph, clip.pose), 0, 1.0f);
         });
+
+        // var testPlayable = AnimationLayerMixerPlayable.Create(m_Graph);
+        // m_CustomMixerPlayable.ConnectInput();
         
         var output = AnimationPlayableOutput.Create(m_Graph, $"{base.name}_Output", animator);
         output.SetSourcePlayable(m_CustomMixerPlayable);
         
         m_Graph.Play();
+    }
+
+    private int blendTweenId;
+    
+    public override void Enter()
+    {
+        base.Enter();
+        
+        Debug.Log($"ENTER" + m_Graph.GetEditorName());
+        LeanTween.value(playerController.gameObject, (value) =>
+        {
+            boneTransformWeights[0].weight = value;
+        }, 0f, 1f, 1f);
+        
+        m_Graph.Play();
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        
+        Debug.Log($"EXIT" + m_Graph.GetEditorName());
+        m_Graph.Stop();
     }
 
     public override void Execute()
@@ -108,21 +133,6 @@ public class SequenceBlend : PlayerStateNode
         job.boneWeights = m_BoneWeights;
         
         m_CustomMixerPlayable.SetJobData(job);
-    }
-
-    public override void Enter()
-    {
-        base.Enter();
-        // Debug.Log($"Enter {name}");
-        Debug.Log($"ENTER" + m_Graph.GetEditorName());
-        m_Graph.Play();
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
-        Debug.Log($"EXIT" + m_Graph.GetEditorName());
-        m_Graph.Stop();
     }
 
     // private void OnDisable()

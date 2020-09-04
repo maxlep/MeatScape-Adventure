@@ -41,6 +41,7 @@ public class StateReferenceNode : Node
     
     private  List<StateNode> GetStateNodes()
     {
+        Debug.Log($"{stateMachineGraph.name} has state nodes: {stateMachineGraph.stateNodes.Count}");
         return stateMachineGraph.stateNodes;
     }
 

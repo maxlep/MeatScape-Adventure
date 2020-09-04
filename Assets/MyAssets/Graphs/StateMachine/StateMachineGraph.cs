@@ -54,7 +54,7 @@ public class StateMachineGraph : NodeGraph
         startNodes.ForEach(s => InitNodesRecursively(s, isRuntime));
 
         SubscribeToTriggers();
-        EnterStartStates();
+         if (isRuntime) EnterStartStates();
     }
 
     int nodeInitCount = 0;

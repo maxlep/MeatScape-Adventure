@@ -357,7 +357,7 @@ MonoBehaviour:
   transitions: {fileID: 0}
   Name: Walk
   zoom: 0
-  isActiveState: 1
+  isActiveState: 0
   factor:
     UseConstant: 0
     ConstantValue: 0
@@ -623,6 +623,7 @@ MonoBehaviour:
   - {fileID: 2707482321196679568}
   - {fileID: 257019424456394427}
   - {fileID: 8243805061456828152}
+  - {fileID: 351493736079857609}
 --- !u!114 &257019424456394427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -633,7 +634,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Jump -> Ground Movement
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 2088, y: 584}
@@ -700,6 +701,46 @@ MonoBehaviour:
   - {fileID: 9174840935225501389, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
   - {fileID: -8354906802381047596, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
   - {fileID: -6583862081062639760, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
+--- !u!114 &351493736079857609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: State Reference
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1276.8145, y: 990.7901}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: 351493736079857609}
+      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: 351493736079857609}
+      _typeQualifiedName: TransitionNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  previousState: {fileID: 0}
+  transitions: {fileID: 0}
+  referencedState: {fileID: 0}
 --- !u!114 &412120333977285081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -750,7 +791,7 @@ MonoBehaviour:
   transitions: {fileID: 0}
   Name: Ground Movement
   zoom: 0
-  isActiveState: 1
+  isActiveState: 0
   subStates:
   - {fileID: 6613936028350023393}
   - {fileID: -5713928271148728981}
@@ -1178,7 +1219,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Fall -> Jump
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1048, y: -344}

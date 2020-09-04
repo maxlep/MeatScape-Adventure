@@ -11,7 +11,7 @@ using XNode;
 public class TransitionNode : Node
 {
     [Input] [PropertyOrder(-3)] public StateNode startingState;
-    [Output] [PropertyOrder(-2)] public StateNode nextState;
+    [Output (connectionType = ConnectionType.Override)] [PropertyOrder(-2)] public StateNode nextState;
 
     [TextArea(3,10)] [HideLabel]
     [SerializeField] private string conditionPreview;

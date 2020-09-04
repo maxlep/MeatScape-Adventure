@@ -9,6 +9,8 @@ public class TimeManager : MonoBehaviour
 {
     public static TimeManager Instance;
 
+    [SerializeField] private GameObject pauseText;
+
     private bool isPaused = false;
     private float beforeTimeScale;
 
@@ -18,6 +20,7 @@ public class TimeManager : MonoBehaviour
         else Destroy(this);
 
         InputManager.Instance.onPauseGame += TogglePauseGame;
+        pauseText.SetActive(false);
     }
 
     public void TogglePauseGame()
@@ -33,5 +36,6 @@ public class TimeManager : MonoBehaviour
             Time.timeScale = beforeTimeScale;
             isPaused = false;
         }
+        pauseText.SetActive(isPaused);
     }
 }

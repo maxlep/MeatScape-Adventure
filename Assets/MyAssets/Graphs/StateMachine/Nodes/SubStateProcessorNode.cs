@@ -22,6 +22,12 @@ public class SubStateProcessorNode : StateNode
         subStates.ForEach(s => s.Initialize(parentGraph));
     }
 
+    public override void RuntimeInitialize()
+    {
+        base.RuntimeInitialize();
+        subStates.ForEach(s => s.RuntimeInitialize());
+    }
+
     public override void Enter()
     {
         base.Enter();

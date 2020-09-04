@@ -28,11 +28,11 @@ public class SequenceBlend : PlayerStateNode
     PlayableGraph m_Graph;
     AnimationScriptPlayable m_CustomMixerPlayable;
 
-    public override void Initialize(StateMachineGraph parentGraph)
+    public override void RuntimeInitialize()
     // public override void Enter()
     {
-        base.Initialize(parentGraph);
-        
+        Debug.Log($"Initialize {name}");
+
         if (!sequence.Any() || sequence.Any(pose => pose.pose == null))
             return;
 
@@ -113,6 +113,7 @@ public class SequenceBlend : PlayerStateNode
     public override void Enter()
     {
         base.Enter();
+        // Debug.Log($"Enter {name}");
         Debug.Log($"ENTER" + m_Graph.GetEditorName());
         m_Graph.Play();
     }

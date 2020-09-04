@@ -33,6 +33,7 @@ public class Jump : PlayerStateNode
         base.Enter();
         playerController.UngroundMotor();
         StoredJumpVelocity.Value = jumpVelocity;
+        Debug.Log($"Activate jump {name}");
         triggerJumpAnim.Activate();
     }
 

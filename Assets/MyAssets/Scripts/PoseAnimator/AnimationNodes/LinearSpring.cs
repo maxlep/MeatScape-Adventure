@@ -17,7 +17,7 @@ public class LinearSpring : PlayerStateNode
 {
     [HideIf("$zoom"), LabelWidth(120), SerializeField] [EnumToggleButtons] protected Vector3Axes axis;
 
-    [HideIf("$zoom"), LabelWidth(120), SerializeField] protected Vector3Reference moveVelocity;
+    [HideIf("$zoom"), LabelWidth(120), SerializeField] protected FloatReference inputVelocity;
     
     [HideIf("$zoom"), LabelWidth(120), SerializeField] protected FloatReference outWeight;
 
@@ -33,39 +33,24 @@ public class LinearSpring : PlayerStateNode
 
     public override void Execute()
     {
-        var raw = GetAxisValue();
+        var raw = inputVelocity.Value;
         var divisor = max;
         var pct = raw / divisor;
         if (raw > 0) pct = 1 - pct;
         
-        Debug.Log($"{name} {raw}, {divisor}, {pct}");
+        // Debug.Log($"{name} {raw}, {divisor}, {pct}");
         outWeight.Value = pct;
     }
 
     public override void Enter()
     {
         base.Enter();
-        startVelocity = GetAxisValue();
+        startVelocity = inputVelocity.Value;
     }
 
     public override void Exit()
     {
         base.Exit();
         startVelocity = 0;
-    }
-
-    protected float GetAxisValue()
-    {
-        switch (axis)
-        {
-            case Vector3Axes.X:
-                return moveVelocity.Value.x;
-            case Vector3Axes.Y:
-                return moveVelocity.Value.y;
-            case Vector3Axes.Z:
-                return moveVelocity.Value.z;
-            default:
-                return 0;
-        }
     }
 }

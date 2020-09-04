@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Fall <SequenceBlend>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 2504, y: 472}
+  position: {x: 2616, y: 440}
   ports:
     keys:
     - previousState
@@ -114,7 +114,7 @@ MonoBehaviour:
   m_Name: Jump -> Fall
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1976, y: 232}
+  position: {x: 2072, y: 200}
   ports:
     keys:
     - startingState
@@ -146,7 +146,7 @@ MonoBehaviour:
       _dynamic: 0
   startingState: {fileID: 0}
   nextState: {fileID: 0}
-  conditionPreview: '- VerticalMovementPercent LessThan 0
+  conditionPreview: '- MoveVert_Player_Resultant LessThan 0
 
 '
   ValidStartStates: []
@@ -156,12 +156,12 @@ MonoBehaviour:
   - targetParameter:
       UseConstant: 0
       ConstantValue: 0
-      Variable: {fileID: 11400000, guid: 93585d830ef2ec747a9353efb9086a7a, type: 2}
+      Variable: {fileID: 11400000, guid: 36f2c267ad1a0bc408ffc0d0422f0051, type: 2}
     comparator: 0
     value: 0
   IntConditions: []
   TimerConditions: []
-  zoom: 1
+  zoom: 0
   startStateOptions:
   - {fileID: -1108589282178386599, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   - {fileID: 3160719255603912525, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
@@ -183,10 +183,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 930e558c2cd3476d9597f9c3ee7ea28d, type: 3}
-  m_Name: Start 0
+  m_Name: Start 1
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 248, y: 184}
+  position: {x: 184, y: 184}
   ports:
     keys:
     - EntryState
@@ -204,7 +204,7 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   EntryState: {fileID: 0}
-  executionOrderIndex: 0
+  executionOrderIndex: 1
 --- !u!114 &-7348441339498573471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,7 +218,7 @@ MonoBehaviour:
   m_Name: Fall Driver <LinearSpring>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 2504, y: -72}
+  position: {x: 2616, y: -104}
   ports:
     keys:
     - previousState
@@ -248,10 +248,10 @@ MonoBehaviour:
   zoom: 0
   isActiveState: 0
   axis: 1
-  moveVelocity:
+  inputVelocity:
     UseConstant: 0
-    ConstantValue: {x: 0, y: 0, z: 0}
-    Variable: {fileID: 11400000, guid: 9bb89c095cc264240a1d00bcb25ce309, type: 2}
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 36f2c267ad1a0bc408ffc0d0422f0051, type: 2}
   outWeight:
     UseConstant: 0
     ConstantValue: 0
@@ -272,7 +272,7 @@ MonoBehaviour:
   m_Name: Jump Driver <LinearSpring>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1480, y: -88}
+  position: {x: 1544, y: -152}
   ports:
     keys:
     - previousState
@@ -302,10 +302,10 @@ MonoBehaviour:
   zoom: 0
   isActiveState: 0
   axis: 1
-  moveVelocity:
+  inputVelocity:
     UseConstant: 0
-    ConstantValue: {x: 0, y: 0, z: 0}
-    Variable: {fileID: 11400000, guid: 9bb89c095cc264240a1d00bcb25ce309, type: 2}
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 36f2c267ad1a0bc408ffc0d0422f0051, type: 2}
   outWeight:
     UseConstant: 0
     ConstantValue: 0
@@ -326,7 +326,7 @@ MonoBehaviour:
   m_Name: Walk <SequenceBlend>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 584, y: 440}
+  position: {x: 520, y: 440}
   ports:
     keys:
     - previousState
@@ -353,7 +353,7 @@ MonoBehaviour:
   previousState: {fileID: 0}
   transitions: {fileID: 0}
   Name: Walk
-  zoom: 1
+  zoom: 0
   isActiveState: 1
   factor:
     UseConstant: 0
@@ -477,7 +477,7 @@ MonoBehaviour:
   m_Name: Fall <SubStateProcessorNode>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 2504, y: 232}
+  position: {x: 2616, y: 200}
   ports:
     keys:
     - previousState
@@ -510,7 +510,7 @@ MonoBehaviour:
   previousState: {fileID: 0}
   transitions: {fileID: 0}
   Name: Fall
-  zoom: 1
+  zoom: 0
   isActiveState: 0
   subStates:
   - {fileID: -7348441339498573471}
@@ -528,7 +528,7 @@ MonoBehaviour:
   m_Name: Fall -> Ground Movement
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 3016, y: 216}
+  position: {x: 3176, y: 184}
   ports:
     keys:
     - startingState
@@ -574,7 +574,7 @@ MonoBehaviour:
   FloatConditions: []
   IntConditions: []
   TimerConditions: []
-  zoom: 1
+  zoom: 0
   startStateOptions:
   - {fileID: -1108589282178386599, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   - {fileID: 3160719255603912525, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
@@ -613,6 +613,8 @@ MonoBehaviour:
   - {fileID: -8921124270436989113}
   - {fileID: -4449075156651536019}
   - {fileID: -7348441339498573471}
+  - {fileID: 5837300415127249948}
+  - {fileID: 2707482321196679568}
 --- !u!114 &412120333977285081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -626,7 +628,7 @@ MonoBehaviour:
   m_Name: Ground Movement <SubStateProcessorNode>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 584, y: 184}
+  position: {x: 520, y: 184}
   ports:
     keys:
     - previousState
@@ -659,7 +661,7 @@ MonoBehaviour:
   previousState: {fileID: 0}
   transitions: {fileID: 0}
   Name: Ground Movement
-  zoom: 1
+  zoom: 0
   isActiveState: 1
   subStates:
   - {fileID: 6613936028350023393}
@@ -677,7 +679,7 @@ MonoBehaviour:
   m_Name: Ground Movement <Reference>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 3496, y: 232}
+  position: {x: 3736, y: 216}
   ports:
     keys:
     - previousState
@@ -707,6 +709,57 @@ MonoBehaviour:
   previousState: {fileID: 0}
   transitions: {fileID: 0}
   referencedState: {fileID: 412120333977285081}
+--- !u!114 &2707482321196679568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6440c9a7cc054193b396079ae2209cba, type: 3}
+  m_Name: ' <MovementTracker>'
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 520, y: -1080}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: 2707482321196679568}
+      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: EntryState
+        node: {fileID: 5837300415127249948}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: 2707482321196679568}
+      _typeQualifiedName: TransitionNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  previousState: {fileID: 0}
+  transitions: {fileID: 0}
+  Name: 
+  zoom: 0
+  isActiveState: 0
+  probe: {fileID: 0}
+  numFrames: 10
+  outVelHoriz: {fileID: 11400000, guid: dd2cd63ae1d9c034096f0b67bb5bcf62, type: 2}
+  outAccelHoriz: {fileID: 11400000, guid: eeafa63b88e188d49ab1fa67135df466, type: 2}
+  outVelVert: {fileID: 11400000, guid: 36f2c267ad1a0bc408ffc0d0422f0051, type: 2}
+  outAccelVert: {fileID: 11400000, guid: aca9c6cae1c6ecd47b2c59564a3b16d3, type: 2}
 --- !u!114 &4176948142499552886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -720,7 +773,7 @@ MonoBehaviour:
   m_Name: Jump <SequenceBlend>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1480, y: 456}
+  position: {x: 1544, y: 488}
   ports:
     keys:
     - previousState
@@ -747,7 +800,7 @@ MonoBehaviour:
   previousState: {fileID: 0}
   transitions: {fileID: 0}
   Name: Jump
-  zoom: 1
+  zoom: 0
   isActiveState: 0
   factor:
     UseConstant: 0
@@ -821,7 +874,7 @@ MonoBehaviour:
   m_Name: Jump <SubStateProcessorNode>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1480, y: 216}
+  position: {x: 1544, y: 200}
   ports:
     keys:
     - previousState
@@ -854,11 +907,43 @@ MonoBehaviour:
   previousState: {fileID: 0}
   transitions: {fileID: 0}
   Name: Jump
-  zoom: 1
+  zoom: 0
   isActiveState: 0
   subStates:
   - {fileID: -6081461329572686580}
   - {fileID: 4176948142499552886}
+--- !u!114 &5837300415127249948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 930e558c2cd3476d9597f9c3ee7ea28d, type: 3}
+  m_Name: Start 0
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 232, y: -1000}
+  ports:
+    keys:
+    - EntryState
+    values:
+    - _fieldName: EntryState
+      _node: {fileID: 5837300415127249948}
+      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: 2707482321196679568}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  EntryState: {fileID: 0}
+  executionOrderIndex: 0
 --- !u!114 &6613936028350023393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -872,7 +957,7 @@ MonoBehaviour:
   m_Name: Perambulator <SurveyorWheel>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 584, y: -264}
+  position: {x: 520, y: -136}
   ports:
     keys:
     - previousState
@@ -931,7 +1016,7 @@ MonoBehaviour:
   m_Name: Ground Movement -> Jump
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1032, y: 200}
+  position: {x: 1032, y: 184}
   ports:
     keys:
     - startingState
@@ -963,21 +1048,18 @@ MonoBehaviour:
       _dynamic: 0
   startingState: {fileID: 0}
   nextState: {fileID: 0}
-  conditionPreview: '- !IsGrounded
+  conditionPreview: '- JumpTrigger
 
 '
   ValidStartStates: []
-  BoolConditions:
-  - targetParameter:
-      UseConstant: 0
-      ConstantValue: 0
-      Variable: {fileID: 11400000, guid: 7515e678ba0d82a4b92ee5e8bc9cee52, type: 2}
-    value: 0
-  TriggerConditions: []
+  BoolConditions: []
+  TriggerConditions:
+  - targetParameter: {fileID: 11400000, guid: 692eae34b308467428fcb511fd2a56c5, type: 2}
+    KeepTriggerOn: 0
   FloatConditions: []
   IntConditions: []
   TimerConditions: []
-  zoom: 1
+  zoom: 0
   startStateOptions:
   - {fileID: -1108589282178386599, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   - {fileID: 3160719255603912525, guid: 7a3214574a4315847bb608ab776638ad, type: 2}

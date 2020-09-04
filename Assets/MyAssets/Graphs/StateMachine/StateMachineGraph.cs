@@ -49,17 +49,32 @@ public class StateMachineGraph : NodeGraph
         transitionNodes.ForEach(t => t.IsInitialized = false);
         StateReferenceNodes.ForEach(r => r.IsInitialized = false);
 
-        nodeInitCount = 0;
-        //TODO: Traverse nodes outward from start node and init them
-        startNodes.ForEach(s => InitNodesRecursively(s, isRuntime));
+        if (isRuntime) startNodes.ForEach(InitNodesRecursively);
+        else InitNodes();
 
         SubscribeToTriggers();
-         if (isRuntime) EnterStartStates();
+        if (isRuntime) EnterStartStates();
     }
 
-    int nodeInitCount = 0;
+    //Init all nodes on graph, not runtime
+    private void InitNodes()
+    {
+        foreach (var stateNode in stateNodes)
+        {
+            stateNode.Initialize(this);
+        }
+        foreach (var transitionNode in transitionNodes)
+        {
+            transitionNode.Initialize(this);
+        }
+        foreach (var stateReferenceNode in StateReferenceNodes)
+        {
+            stateReferenceNode.Initialize(this);
+        }
+    }
 
-    private void InitNodesRecursively(Node nextNode, bool isRuntime)
+    //Init nodes recursively branching out from each start node
+    private void InitNodesRecursively(Node nextNode)
     {
         //Init nodes, return if already initialized
         StateNode nodeAsState = nextNode as StateNode;
@@ -67,8 +82,7 @@ public class StateMachineGraph : NodeGraph
         {
             if (nodeAsState.IsInitialized) return;
             nodeAsState.Initialize(this);
-            if (isRuntime) nodeAsState.RuntimeInitialize();
-            nodeInitCount++;
+            nodeAsState.RuntimeInitialize();
         }
 
         TransitionNode nodeAsTransition = nextNode as TransitionNode;
@@ -76,8 +90,7 @@ public class StateMachineGraph : NodeGraph
         {
             if (nodeAsTransition.IsInitialized) return;
             nodeAsTransition.Initialize(this);
-            if (isRuntime) nodeAsTransition.RuntimeInitialize();
-            nodeInitCount++;
+            nodeAsTransition.RuntimeInitialize();
         }
         
         StateReferenceNode nodeAsReference = nextNode as StateReferenceNode;
@@ -85,12 +98,11 @@ public class StateMachineGraph : NodeGraph
         {
             if (nodeAsReference.IsInitialized) return;
             nodeAsReference.Initialize(this);
-            if (isRuntime) nodeAsReference.RuntimeInitialize();
-            nodeInitCount++;
+            nodeAsReference.RuntimeInitialize();
         }
         
         //Call recursively for each linked node
-        nextNode.LinkedNodes.ForEach(n => InitNodesRecursively(n, isRuntime));
+        nextNode.LinkedNodes.ForEach(n => InitNodesRecursively(n));
 
         //Call recursively for each connected node, return if none connected
         nextNode.Outputs.ForEach(output =>
@@ -98,7 +110,7 @@ public class StateMachineGraph : NodeGraph
             var connections = output.GetConnections();
             if (connections.Count < 1) return;
             
-            connections.ForEach(c => InitNodesRecursively(c.node, isRuntime));
+            connections.ForEach(c => InitNodesRecursively(c.node));
         });
     }
 

@@ -41,7 +41,6 @@ public class StateReferenceNode : Node
     
     private  List<StateNode> GetStateNodes()
     {
-        Debug.Log($"{stateMachineGraph.name} has state nodes: {stateMachineGraph.stateNodes.Count}");
         return stateMachineGraph.stateNodes;
     }
 
@@ -65,7 +64,7 @@ public class StateReferenceNode : Node
     
     private void OnValidate()
     {
-        name = $"{referencedState.GetName()} <Reference>";
+        name = (referencedState != null) ? $"{referencedState.GetName()} <Reference>" : "<Missing State> <Reference>";
     }
 
 

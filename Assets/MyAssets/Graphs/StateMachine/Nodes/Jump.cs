@@ -1,4 +1,5 @@
-﻿using MyAssets.ScriptableObjects.Variables;
+﻿using System;
+using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -18,10 +19,15 @@ public class Jump : PlayerStateNode
     public override void Initialize(StateMachineGraph parentGraph)
     {
         base.Initialize(parentGraph);
+    }
+
+    public override void RuntimeInitialize()
+    {
+        base.RuntimeInitialize();
         gravity = -(2 * maxJumpHeight.Value) / Mathf.Pow(timeToJumpApex.Value, 2);
         jumpVelocity = Mathf.Abs(gravity) * timeToJumpApex.Value;
     }
-    
+
     public override void Enter()
     {
         base.Enter();

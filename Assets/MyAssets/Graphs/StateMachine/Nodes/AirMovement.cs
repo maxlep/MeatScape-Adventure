@@ -29,10 +29,15 @@ public class AirMovement : PlayerStateNode
     public override void Initialize(StateMachineGraph parentGraph)
     {
         base.Initialize(parentGraph);
+    }
+
+    public override void RuntimeInitialize()
+    {
+        base.RuntimeInitialize();
         cameraTrans = playerController.GetCameraTrans();
         gravity = -(2 * MaxJumpHeight.Value) / Mathf.Pow(TimeToJumpApex.Value, 2);
     }
-    
+
     public override void Enter()
     {
         base.Enter();

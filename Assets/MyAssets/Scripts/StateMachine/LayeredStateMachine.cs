@@ -18,7 +18,7 @@ public class LayeredStateMachine : MonoBehaviour
 
     protected virtual void Awake()
     {
-        InitStateMachines();
+        InitStateMachines(true);
     }
 
     protected virtual void Update()
@@ -60,8 +60,14 @@ public class LayeredStateMachine : MonoBehaviour
     #region Init/Dep Injection
 
     [GUIColor(0, 1, 0)]
-    [Button(ButtonSizes.Large)]
-    public virtual void InitStateMachines()
+    [Button(ButtonSizes.Large, Name = "InitStateMachines")]
+    public virtual void InitStateMachinesEditor()
+    {
+        InitStateMachines(false);
+    }
+
+    
+    public virtual void InitStateMachines(bool isRuntime)
     {
         stateNodeDict.Clear();
         
@@ -78,7 +84,7 @@ public class LayeredStateMachine : MonoBehaviour
         foreach (var stateMachine in stateMachines)
         {
             SendValidStartStates(stateMachine);
-            stateMachine.StartStateMachine();
+            stateMachine.StartStateMachine(isRuntime);
         }
         
         Debug.Log("Finished Initializing State Machines");

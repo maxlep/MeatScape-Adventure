@@ -63,6 +63,11 @@ public class StateNode : Node
         PopulateNextStates();
     }
 
+    public virtual void RuntimeInitialize()
+    {
+        
+    }
+
     private void PopulateLinkedRefNodes()
     {
         referenceNodes.Clear();

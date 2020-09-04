@@ -34,6 +34,11 @@ public class StateReferenceNode : Node
         PopulateLinkedNodes();
     }
     
+    public virtual void RuntimeInitialize()
+    {
+        
+    }
+    
     private  List<StateNode> GetStateNodes()
     {
         return stateMachineGraph.stateNodes;

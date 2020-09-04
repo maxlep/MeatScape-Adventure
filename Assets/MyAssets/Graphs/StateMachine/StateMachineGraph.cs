@@ -42,7 +42,7 @@ public class StateMachineGraph : NodeGraph
     #region Init/Dep Injection
 
     //For call by layered state machine to begin
-    public void StartStateMachine()
+    public void StartStateMachine(bool isRuntime)
     {
         //Set all nodes to NOT initialized
         stateNodes.ForEach(s => s.IsInitialized = false);
@@ -51,7 +51,7 @@ public class StateMachineGraph : NodeGraph
 
         nodeInitCount = 0;
         //TODO: Traverse nodes outward from start node and init them
-        startNodes.ForEach(s => InitNodesRecursively(s));
+        startNodes.ForEach(s => InitNodesRecursively(s, isRuntime));
 
         SubscribeToTriggers();
         EnterStartStates();
@@ -59,7 +59,7 @@ public class StateMachineGraph : NodeGraph
 
     int nodeInitCount = 0;
 
-    private void InitNodesRecursively(Node nextNode)
+    private void InitNodesRecursively(Node nextNode, bool isRuntime)
     {
         //Init nodes, return if already initialized
         StateNode nodeAsState = nextNode as StateNode;
@@ -67,6 +67,7 @@ public class StateMachineGraph : NodeGraph
         {
             if (nodeAsState.IsInitialized) return;
             nodeAsState.Initialize(this);
+            if (isRuntime) nodeAsState.RuntimeInitialize();
             nodeInitCount++;
         }
 
@@ -75,6 +76,7 @@ public class StateMachineGraph : NodeGraph
         {
             if (nodeAsTransition.IsInitialized) return;
             nodeAsTransition.Initialize(this);
+            if (isRuntime) nodeAsTransition.RuntimeInitialize();
             nodeInitCount++;
         }
         
@@ -83,11 +85,12 @@ public class StateMachineGraph : NodeGraph
         {
             if (nodeAsReference.IsInitialized) return;
             nodeAsReference.Initialize(this);
+            if (isRuntime) nodeAsReference.RuntimeInitialize();
             nodeInitCount++;
         }
         
         //Call recursively for each linked node
-        nextNode.LinkedNodes.ForEach(InitNodesRecursively);
+        nextNode.LinkedNodes.ForEach(n => InitNodesRecursively(n, isRuntime));
 
         //Call recursively for each connected node, return if none connected
         nextNode.Outputs.ForEach(output =>
@@ -95,7 +98,7 @@ public class StateMachineGraph : NodeGraph
             var connections = output.GetConnections();
             if (connections.Count < 1) return;
             
-            connections.ForEach(c => InitNodesRecursively(c.node));
+            connections.ForEach(c => InitNodesRecursively(c.node, isRuntime));
         });
     }
 

@@ -14,7 +14,7 @@ public class StateMachineGraphEditor : NodeGraphEditor
     public override void AddContextMenuItems(GenericMenu menu)
     {
         menu.AddItem(new GUIContent("Init State Machines"), false,
-            () => (target as StateMachineGraph).parentMachine.InitStateMachines());
+            () => (target as StateMachineGraph).parentMachine.InitStateMachines(false));
         menu.AddItem(new GUIContent("Remove All Inspect Nodes"), false, RemoveAllInspectNodes);
         menu.AddSeparator("");
         menu.AddItem(new GUIContent("Expand All"), false, () => (target as StateMachineGraph).ToggleExpandAll(false));

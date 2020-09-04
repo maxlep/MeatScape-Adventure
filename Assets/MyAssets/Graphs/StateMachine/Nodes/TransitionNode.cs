@@ -77,6 +77,11 @@ public class TransitionNode : Node
         InitNodeName();
         InitConditions();
     }
+    
+    public virtual void RuntimeInitialize()
+    {
+        
+    }
 
     private void InitNodeName()
     {

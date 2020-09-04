@@ -146,14 +146,22 @@ MonoBehaviour:
       _dynamic: 0
   startingState: {fileID: 0}
   nextState: {fileID: 0}
-  conditionPreview: 
+  conditionPreview: '- VerticalMovementPercent LessThan 0
+
+'
   ValidStartStates: []
   BoolConditions: []
   TriggerConditions: []
-  FloatConditions: []
+  FloatConditions:
+  - targetParameter:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: 93585d830ef2ec747a9353efb9086a7a, type: 2}
+    comparator: 0
+    value: 0
   IntConditions: []
   TimerConditions: []
-  zoom: 0
+  zoom: 1
   startStateOptions:
   - {fileID: -1108589282178386599, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   - {fileID: 3160719255603912525, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
@@ -345,7 +353,7 @@ MonoBehaviour:
   previousState: {fileID: 0}
   transitions: {fileID: 0}
   Name: Walk
-  zoom: 0
+  zoom: 1
   isActiveState: 1
   factor:
     UseConstant: 0
@@ -502,7 +510,7 @@ MonoBehaviour:
   previousState: {fileID: 0}
   transitions: {fileID: 0}
   Name: Fall
-  zoom: 0
+  zoom: 1
   isActiveState: 0
   subStates:
   - {fileID: -7348441339498573471}
@@ -552,14 +560,21 @@ MonoBehaviour:
       _dynamic: 0
   startingState: {fileID: 0}
   nextState: {fileID: 0}
-  conditionPreview: 
+  conditionPreview: '- IsGrounded
+
+'
   ValidStartStates: []
-  BoolConditions: []
+  BoolConditions:
+  - targetParameter:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: 7515e678ba0d82a4b92ee5e8bc9cee52, type: 2}
+    value: 1
   TriggerConditions: []
   FloatConditions: []
   IntConditions: []
   TimerConditions: []
-  zoom: 0
+  zoom: 1
   startStateOptions:
   - {fileID: -1108589282178386599, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   - {fileID: 3160719255603912525, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
@@ -598,7 +613,6 @@ MonoBehaviour:
   - {fileID: -8921124270436989113}
   - {fileID: -4449075156651536019}
   - {fileID: -7348441339498573471}
-  - {fileID: 2249676695528166926}
 --- !u!114 &412120333977285081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -645,74 +659,11 @@ MonoBehaviour:
   previousState: {fileID: 0}
   transitions: {fileID: 0}
   Name: Ground Movement
-  zoom: 0
+  zoom: 1
   isActiveState: 1
   subStates:
   - {fileID: 6613936028350023393}
   - {fileID: -5713928271148728981}
---- !u!114 &2249676695528166926
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 752eefb8640d91b40b105efbae41e058, type: 3}
-  m_Name: Walk <MeteredSequenceBlend>
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 616, y: 168}
-  ports:
-    keys:
-    - previousState
-    - transitions
-    values:
-    - _fieldName: previousState
-      _node: {fileID: 2249676695528166926}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: EntryState
-        node: {fileID: -7532187177855471807}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: transitions
-      _node: {fileID: 2249676695528166926}
-      _typeQualifiedName: TransitionNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: startingState
-        node: {fileID: 7148953881133016071}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-  previousState: {fileID: 0}
-  transitions: {fileID: 0}
-  Name: Walk
-  zoom: 0
-  isActiveState: 1
-  factor:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  extrapolateMode: 0
-  sequence: []
-  boneTransformWeights:
-  - transform: {fileID: 0}
-    weight: 1
-  moveVelocity:
-    UseConstant: 0
-    ConstantValue: {x: 0, y: 0, z: 0}
-    Variable: {fileID: 11400000, guid: 9bb89c095cc264240a1d00bcb25ce309, type: 2}
-  meter: 2.268934
-  strideLength: 1.2
 --- !u!114 &2567095372823415316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -796,7 +747,7 @@ MonoBehaviour:
   previousState: {fileID: 0}
   transitions: {fileID: 0}
   Name: Jump
-  zoom: 0
+  zoom: 1
   isActiveState: 0
   factor:
     UseConstant: 0
@@ -903,7 +854,7 @@ MonoBehaviour:
   previousState: {fileID: 0}
   transitions: {fileID: 0}
   Name: Jump
-  zoom: 0
+  zoom: 1
   isActiveState: 0
   subStates:
   - {fileID: -6081461329572686580}
@@ -921,7 +872,7 @@ MonoBehaviour:
   m_Name: Perambulator <SurveyorWheel>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 584, y: -104}
+  position: {x: 584, y: -264}
   ports:
     keys:
     - previousState
@@ -994,9 +945,6 @@ MonoBehaviour:
       - fieldName: transitions
         node: {fileID: 412120333977285081}
         reroutePoints: []
-      - fieldName: transitions
-        node: {fileID: 2249676695528166926}
-        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 0
@@ -1015,14 +963,21 @@ MonoBehaviour:
       _dynamic: 0
   startingState: {fileID: 0}
   nextState: {fileID: 0}
-  conditionPreview: 
+  conditionPreview: '- !IsGrounded
+
+'
   ValidStartStates: []
-  BoolConditions: []
+  BoolConditions:
+  - targetParameter:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: 7515e678ba0d82a4b92ee5e8bc9cee52, type: 2}
+    value: 0
   TriggerConditions: []
   FloatConditions: []
   IntConditions: []
   TimerConditions: []
-  zoom: 0
+  zoom: 1
   startStateOptions:
   - {fileID: -1108589282178386599, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   - {fileID: 3160719255603912525, guid: 7a3214574a4315847bb608ab776638ad, type: 2}

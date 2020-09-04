@@ -17,7 +17,9 @@ public class TriggerCondition
 
     private string parentTransitionName = "";
     private bool stayingActive = false;
-    
+
+    public TriggerVariable TargetParameter => targetParameter;
+
 
     public void Init(string transitionName)
     {
@@ -36,7 +38,7 @@ public class TriggerCondition
         
         return triggerMatches;
     }
-    
+
     public override string ToString()
     {
         if (targetParameter != null)

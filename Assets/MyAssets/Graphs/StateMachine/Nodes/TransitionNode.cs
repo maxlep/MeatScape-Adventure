@@ -47,17 +47,21 @@ public class TransitionNode : Node
     [SerializeField] private List<TimerCondition> TimerConditions = new List<TimerCondition>();
 
 
-    [SerializeField] [HideInInspector] protected bool zoom = false;
-    [HideInInspector] public List<StateNode> startStateOptions = new List<StateNode>();
+    private bool zoom = false;
+    private List<StateNode> startStateOptions = new List<StateNode>();
+    private List<TriggerVariable> triggerVars = new List<TriggerVariable>();
 
+    public List<TriggerVariable> TriggerVars => triggerVars;
     public string ConditionPreview => conditionPreview;
+
+
     protected bool isInitialized = false;
     private List<VariableContainer> parameterList;
     private StateMachineGraph stateMachineGraph;
     private string startingStateName;
     private string nextStateName;
 
-    public void SetParameters(List<VariableContainer> newParams) => parameterList = newParams;
+    public void SetStartStates(List<StateNode> startStates) => startStateOptions = startStates;
     public bool Zoom
     {
         get => zoom;
@@ -73,6 +77,7 @@ public class TransitionNode : Node
     public virtual void Initialize(StateMachineGraph parentGraph)
     {
         this.stateMachineGraph = parentGraph;
+        triggerVars.Clear();
         isInitialized = true;
         InitNodeName();
         InitConditions();
@@ -170,6 +175,8 @@ public class TransitionNode : Node
         foreach (var triggerCondition in TriggerConditions)
         {
             triggerCondition.Init(name);
+            if (triggerCondition.TargetParameter != null) 
+                triggerVars.Add(triggerCondition.TargetParameter);
             conditionPreview += $"- {triggerCondition}\n";
         }
         

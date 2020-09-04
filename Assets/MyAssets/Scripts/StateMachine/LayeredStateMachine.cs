@@ -9,7 +9,6 @@ using Sirenix.OdinInspector;
 public class LayeredStateMachine : MonoBehaviour
 {
     [SerializeField] protected StateMachineGraph[] stateMachines;
-    [SerializeField] private List<VariableContainer> parameterList = new List<VariableContainer>();
 
     protected Dictionary<StateNode, StateMachineGraph> stateNodeDict = new Dictionary<StateNode, StateMachineGraph>();
 
@@ -74,7 +73,7 @@ public class LayeredStateMachine : MonoBehaviour
         //Loop through and init nodes
         foreach (var stateMachine in stateMachines)
         {
-            stateMachine.InjectDependencies(this, parameterList);
+            stateMachine.InjectDependencies(this);
             stateMachine.PopulateNodeLists();
             PopulateStateNodeDict(stateMachine);
             InjectNodeDependencies(stateMachine);
@@ -92,15 +91,7 @@ public class LayeredStateMachine : MonoBehaviour
 
     protected virtual void InjectNodeDependencies(StateMachineGraph stateMachine)
     {
-        foreach (var stateNode in stateMachine.stateNodes)
-        {
-            stateNode.SetParameters(parameterList);
-        }
 
-        foreach (var transitionNode in stateMachine.transitionNodes)
-        {
-            transitionNode.SetParameters(parameterList);
-        }
     }
 
     

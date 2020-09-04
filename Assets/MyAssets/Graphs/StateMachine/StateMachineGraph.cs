@@ -17,7 +17,7 @@ public class StateMachineGraph : NodeGraph
     public LayeredStateMachine parentMachine { get; private set; }
 
     private List<StartNode> startNodes = new List<StartNode>();
-    private List<VariableContainer> parameterList = new List<VariableContainer>();
+    private HashSet<TriggerVariable> triggersFromTransitions = new HashSet<TriggerVariable>();
 
     #region LifeCycle Methods
 
@@ -116,20 +116,23 @@ public class StateMachineGraph : NodeGraph
 
     private void SubscribeToTriggers()
     {
-        parameterList.ForEach(p =>
+        foreach (var transitionNode in transitionNodes)
         {
-            foreach (var triggerVar in p.GetTriggerVariables())
+            foreach (var transitionTrigger in transitionNode.TriggerVars)
             {
-                triggerVar.OnUpdate += () => CheckForValidTransitions(triggerVar);
+                triggersFromTransitions.Add(transitionTrigger);
             }
-        });
-        
+        }
+
+        foreach (var triggerVar in triggersFromTransitions)
+        {
+            triggerVar.OnUpdate += () => CheckForValidTransitions(triggerVar);
+        }
     }
     
-    public void InjectDependencies(LayeredStateMachine parentMachine, List<VariableContainer> parameters)
+    public void InjectDependencies(LayeredStateMachine parentMachine)
     {
         this.parentMachine = parentMachine;
-        this.parameterList = parameters;
     }
     
      public void PopulateNodeLists()
@@ -196,7 +199,7 @@ public class StateMachineGraph : NodeGraph
     {
         foreach (var transitionNode in transitionNodes)
         {
-            transitionNode.startStateOptions = otherStateNodes;
+            transitionNode.SetStartStates(otherStateNodes);
         }
     }
 

@@ -15,6 +15,12 @@ public class SubStateProcessorNode : StateNode
     
     #region LifeCycle Methods
 
+    public override void Initialize(StateMachineGraph parentGraph)
+    {
+        base.Initialize(parentGraph);
+        subStates.ForEach(s => s.Initialize(parentGraph));
+    }
+
     public override void Enter()
     {
         base.Enter();

@@ -26,6 +26,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference StoredJumpVelocity;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector2Reference MoveInput;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference JumpPressed;
+    [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference RegenerateMeatPressed;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference IsGrounded;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private IntReference PlayerCurrentSize;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable AttackTrigger;
@@ -34,7 +35,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable GroundPoundTrigger;
 
     [FoldoutGroup("Size Parameters")] [SerializeField] private PlayerSize startSize;
-    [FoldoutGroup("Size Parameters")] [HideReferenceObjectPicker] [SerializeField] [SuffixLabel("ms")] private FloatReference changeSizeTime;
+    [FoldoutGroup("Size Parameters")] [HideReferenceObjectPicker] [SerializeField] [SuffixLabel("ms")]
+    private FloatReference changeSizeTime;
     [FoldoutGroup("Size Parameters")] [HideReferenceObjectPicker] [SerializeField] private Vector3Reference smallModelScale;
     [FoldoutGroup("Size Parameters")] [HideReferenceObjectPicker] [SerializeField] private Vector3Reference mediumModelScale;
     [FoldoutGroup("Size Parameters")] [HideReferenceObjectPicker] [SerializeField] private Vector3Reference largeModelScale;
@@ -73,12 +75,13 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         playerMove = InputManager.Instance.GetPlayerMove_Action();
         InputManager.Instance.onJump_Pressed += () => JumpPressed.Value = true;
         InputManager.Instance.onJump_Released += () => JumpPressed.Value = false;
+        InputManager.Instance.onRegenerateMeat_Started += () => RegenerateMeatPressed.Value = true;
+        InputManager.Instance.onRegenerateMeat_Pressed += () => RegenerateMeatPressed.Value = false;
 
         InputManager.Instance.onJump_Pressed += () => JumpTrigger.Activate();
         InputManager.Instance.onAttack += () => AttackTrigger.Activate();
         InputManager.Instance.onDownwardAttack += () => DownwardAttackTrigger.Activate();
         InputManager.Instance.onGroundPound += () => GroundPoundTrigger.Activate();
-        InputManager.Instance.onRegenerateMeat += () => CurrentSize++;
 
         modelScales = new Vector3Reference[] {smallModelScale, mediumModelScale, largeModelScale};
         capsuleSizes = new Vector3Reference[] {smallCapsuleSize, mediumCapsuleSize, largeCapsuleSize};
@@ -171,7 +174,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         // animator.SetFloat("VerticalVelocity", NewVelocity.Value.y);
         // animator.SetBool("IsGrounded", IsGrounded.Value);
     }
-
     
     public bool MaintainingGround()
     {
@@ -190,9 +192,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     }
     
     private void SetPlayerSize(PlayerSize value) {
-        if(value == _currentSize) return;
-        else if(value < PlayerSize.Small) _currentSize = PlayerSize.Small;
-        else if(value > PlayerSize.Large) _currentSize = PlayerSize.Large;
+        if(value == _currentSize || value < PlayerSize.Small || value > PlayerSize.Large) return;
         else _currentSize = value;
 
         int intSize = (int)_currentSize;

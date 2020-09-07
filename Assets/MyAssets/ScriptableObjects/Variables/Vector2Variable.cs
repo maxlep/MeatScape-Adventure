@@ -39,7 +39,21 @@ namespace MyAssets.ScriptableObjects.Variables
 
         public Vector2 Value
         {
-            get => UseConstant ? ConstantValue : Variable.Value;
+            get
+            {
+                if (Variable != null)
+                    return UseConstant ? ConstantValue : Variable.Value;
+                else
+                {
+                    if (UseConstant)
+                        return ConstantValue;
+                    else
+                    {
+                        Debug.LogError("Trying to access Vector2 variable but none set in inspector!");
+                        return Vector2.zero;
+                    }
+                }
+            }
             set
             {
                 if (Variable != null) Variable.Value = value;

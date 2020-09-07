@@ -40,7 +40,21 @@ namespace MyAssets.ScriptableObjects.Variables
 
         public Quaternion Value
         {
-            get => UseConstant ? ConstantValue : Variable.Value;
+            get
+            {
+                if (Variable != null)
+                    return UseConstant ? ConstantValue : Variable.Value;
+                else
+                {
+                    if (UseConstant)
+                        return ConstantValue;
+                    else
+                    {
+                        Debug.LogError("Trying to access Quaternion variable but none set in inspector!");
+                        return Quaternion.identity;
+                    }
+                }
+            }
             set
             {
                 if (Variable != null) Variable.Value = value;

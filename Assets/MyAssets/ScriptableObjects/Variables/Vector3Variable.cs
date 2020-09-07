@@ -48,7 +48,15 @@ namespace MyAssets.ScriptableObjects.Variables
                 if (Variable != null)
                     return UseConstant ? ConstantValue : Variable.Value;
                 else
-                    return Vector3.zero;
+                {
+                    if (UseConstant)
+                        return ConstantValue;
+                    else
+                    {
+                        Debug.LogError("Trying to access Vector3 variable but none set in inspector!");
+                        return Vector3.zero;
+                    }
+                }
             }
             set
             {

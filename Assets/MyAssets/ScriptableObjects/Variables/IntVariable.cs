@@ -51,7 +51,21 @@ namespace MyAssets.ScriptableObjects.Variables
 
         public int Value
         {
-            get => UseConstant ? ConstantValue : Variable.Value;
+            get
+            {
+                if (Variable != null)
+                    return UseConstant ? ConstantValue : Variable.Value;
+                else
+                {
+                    if (UseConstant)
+                        return ConstantValue;
+                    else
+                    {
+                        Debug.LogError("Trying to access Int variable but none set in inspector!");
+                        return 0;
+                    }
+                }
+            }
             set
             {
                 if (Variable != null) Variable.Value = value;

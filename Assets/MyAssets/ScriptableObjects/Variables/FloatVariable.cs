@@ -50,7 +50,21 @@ namespace MyAssets.ScriptableObjects.Variables
 
         public float Value
         {
-            get => UseConstant ? ConstantValue : Variable.Value;
+            get
+            {
+                if (Variable != null)
+                    return UseConstant ? ConstantValue : Variable.Value;
+                else
+                {
+                    if (UseConstant)
+                        return ConstantValue;
+                    else
+                    {
+                        Debug.LogError("Trying to access Float variable but none set in inspector!");
+                        return 0f;
+                    }
+                }
+            }
             set
             {
                 if (Variable != null) Variable.Value = value;

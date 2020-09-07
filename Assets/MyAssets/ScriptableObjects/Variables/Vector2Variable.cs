@@ -9,8 +9,8 @@ namespace MyAssets.ScriptableObjects.Variables
     [CreateAssetMenu(fileName = "Vector2Variable", menuName = "Variables/Vector2Variable", order = 0)]
     public class Vector2Variable : Variable
     {
-        [SerializeField] private Vector2 defaultValue;
-        [SerializeField] private Vector2 runtimeValue;
+        [SerializeField] [LabelWidth(110f)] private Vector2 defaultValue;
+        [SerializeField] [LabelWidth(110f)] private Vector2 runtimeValue;
 
         public Vector2 Value
         {

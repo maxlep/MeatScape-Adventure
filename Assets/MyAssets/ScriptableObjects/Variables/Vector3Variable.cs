@@ -11,8 +11,8 @@ namespace MyAssets.ScriptableObjects.Variables
     [CreateAssetMenu(fileName = "Vector3Variable", menuName = "Variables/Vector3Variable", order = 0)]
     public class Vector3Variable : Variable
     {
-        [SerializeField] private Vector3 defaultValue;
-        [SerializeField] private Vector3 runtimeValue;
+        [SerializeField] [LabelWidth(110f)] private Vector3 defaultValue;
+        [SerializeField] [LabelWidth(110f)] private Vector3 runtimeValue;
     
         public Vector3 Value
         {
@@ -43,11 +43,17 @@ namespace MyAssets.ScriptableObjects.Variables
 
         public Vector3 Value
         {
-            get => UseConstant ? ConstantValue : Variable.Value;
+            get
+            {
+                if (Variable != null)
+                    return UseConstant ? ConstantValue : Variable.Value;
+                else
+                    return Vector3.zero;
+            }
             set
             {
                 if (Variable != null) Variable.Value = value;
-            } 
+            }
         }
     }
 }

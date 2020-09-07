@@ -9,8 +9,8 @@ namespace MyAssets.ScriptableObjects.Variables
     [CreateAssetMenu(fileName = "QuaternionVariable", menuName = "Variables/QuaternionVariable", order = 0)]
     public class QuaternionVariable : Variable
     {
-        [SerializeField] private Quaternion defaultValue;
-        [SerializeField] private Quaternion runtimeValue;
+        [SerializeField] [LabelWidth(110f)] private Quaternion defaultValue;
+        [SerializeField] [LabelWidth(110f)] private Quaternion runtimeValue;
     
         public Quaternion Value
         {

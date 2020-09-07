@@ -12,8 +12,8 @@ using XNode;
 
 public class StateNode : Node
 {
-    [Input]  [PropertyOrder(-3)]  public StateMachineConnection previousState;
-    [Output] [PropertyOrder(-2)]  public StateMachineConnection transitions;
+    [Input(typeConstraint = TypeConstraint.Strict)]  [PropertyOrder(-3)]  public StateMachineConnection previousState;
+    [Output(typeConstraint = TypeConstraint.Strict)] [PropertyOrder(-2)]  public StateMachineConnection transitions;
 
     [SerializeField] private string Name;
 

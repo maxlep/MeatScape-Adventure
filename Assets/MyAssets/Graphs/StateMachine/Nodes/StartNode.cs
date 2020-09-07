@@ -6,7 +6,7 @@ using XNode;
 
 public class StartNode : Node
 {
-    [Output (connectionType = ConnectionType.Override)] public StateMachineConnection EntryState;
+    [Output (connectionType = ConnectionType.Override, typeConstraint = TypeConstraint.Strict)] public StateMachineConnection EntryState;
     
     [InfoBox("You connected >1 entry state to this node! Please only connect 1 at most.", InfoMessageType.Error,
         "HasMultipleConnection")] [LabelWidth(135f)]

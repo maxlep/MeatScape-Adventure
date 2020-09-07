@@ -10,8 +10,8 @@ using XNode;
 
 public class TransitionNode : Node
 {
-    [Input] [PropertyOrder(-3)] public StateNode startingState;
-    [Output (connectionType = ConnectionType.Override)] [PropertyOrder(-2)] public StateNode nextState;
+    [Input] [PropertyOrder(-3)] public StateMachineConnection startingState;
+    [Output (connectionType = ConnectionType.Override)] [PropertyOrder(-2)] public StateMachineConnection nextState;
 
     [TextArea(3,10)] [HideLabel]
     [SerializeField] private string conditionPreview;

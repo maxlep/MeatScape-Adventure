@@ -21,8 +21,8 @@ MonoBehaviour:
     values:
     - _fieldName: startingState
       _node: {fileID: -7894526708747482007}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: transitions
         node: {fileID: -859353586313913734}
@@ -36,8 +36,8 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: nextState
       _node: {fileID: -7894526708747482007}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: previousState
         node: {fileID: -4813754887986621945}
@@ -46,8 +46,6 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 0
       _dynamic: 0
-  startingState: {fileID: 0}
-  nextState: {fileID: 0}
   conditionPreview: '- GroundPoundTrigger
 
 '
@@ -80,8 +78,8 @@ MonoBehaviour:
     values:
     - _fieldName: startingState
       _node: {fileID: -7312282678681196256}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: transitions
         node: {fileID: -4990919157884066038}
@@ -95,8 +93,8 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: nextState
       _node: {fileID: -7312282678681196256}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: previousState
         node: {fileID: -5368650478412996812}
@@ -105,8 +103,6 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 0
       _dynamic: 0
-  startingState: {fileID: 0}
-  nextState: {fileID: 0}
   conditionPreview: '- Start: Downward Throw
 
 '
@@ -138,8 +134,8 @@ MonoBehaviour:
     values:
     - _fieldName: startingState
       _node: {fileID: -6884243189497224942}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: transitions
         node: {fileID: -4990919157884066038}
@@ -150,8 +146,8 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: nextState
       _node: {fileID: -6884243189497224942}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: previousState
         node: {fileID: -5081197550139966255}
@@ -160,8 +156,6 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 0
       _dynamic: 0
-  startingState: {fileID: 0}
-  nextState: {fileID: 0}
   conditionPreview: '- IsGrounded
 
     - WaitedJumpGroundDelay
@@ -193,7 +187,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> Ground Movement'
+  m_Name: ' -> '
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 798.4178, y: 691.48706}
@@ -204,9 +198,12 @@ MonoBehaviour:
     values:
     - _fieldName: startingState
       _node: {fileID: -6648554734812905058}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
+      - fieldName: transitions
+        node: {fileID: 0}
+        reroutePoints: []
       - fieldName: transitions
         node: {fileID: -4675422572620251151}
         reroutePoints: []
@@ -216,8 +213,8 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: nextState
       _node: {fileID: -6648554734812905058}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: previousState
         node: {fileID: -5081197550139966255}
@@ -226,8 +223,6 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 0
       _dynamic: 0
-  startingState: {fileID: 0}
-  nextState: {fileID: 0}
   conditionPreview: '- !RegenerateMeatPressed
 
 '
@@ -263,8 +258,8 @@ MonoBehaviour:
     values:
     - _fieldName: previousState
       _node: {fileID: -5368650478412996812}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: nextState
         node: {fileID: -7312282678681196256}
@@ -275,8 +270,8 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: transitions
       _node: {fileID: -5368650478412996812}
-      _typeQualifiedName: TransitionNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: previousState
         node: {fileID: 7248169581288550152}
@@ -285,10 +280,8 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  previousState: {fileID: 0}
-  transitions: {fileID: 0}
   Name: AirJump
-  zoom: 0
+  zoom: 1
   isActiveState: 0
   timeToJumpApex:
     UseConstant: 0
@@ -332,8 +325,8 @@ MonoBehaviour:
     values:
     - _fieldName: previousState
       _node: {fileID: -5081197550139966255}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: nextState
         node: {fileID: -6884243189497224942}
@@ -356,15 +349,13 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: transitions
       _node: {fileID: -5081197550139966255}
-      _typeQualifiedName: TransitionNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  previousState: {fileID: 0}
-  transitions: {fileID: 0}
   referencedState: {fileID: -1108589282178386599}
 --- !u!114 &-4990919157884066038
 MonoBehaviour:
@@ -387,8 +378,8 @@ MonoBehaviour:
     values:
     - _fieldName: previousState
       _node: {fileID: -4990919157884066038}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: transitions
         node: {fileID: 3160719255603912525}
@@ -399,8 +390,8 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: transitions
       _node: {fileID: -4990919157884066038}
-      _typeQualifiedName: TransitionNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: startingState
         node: {fileID: -7312282678681196256}
@@ -412,10 +403,8 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  previousState: {fileID: 0}
-  transitions: {fileID: 0}
   Name: AirMovement
-  zoom: 0
+  zoom: 1
   isActiveState: 0
   MoveSpeed:
     UseConstant: 0
@@ -486,8 +475,8 @@ MonoBehaviour:
     values:
     - _fieldName: previousState
       _node: {fileID: -4813754887986621945}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: nextState
         node: {fileID: -7894526708747482007}
@@ -498,8 +487,8 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: transitions
       _node: {fileID: -4813754887986621945}
-      _typeQualifiedName: TransitionNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: startingState
         node: {fileID: 8343376373493045657}
@@ -508,10 +497,8 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  previousState: {fileID: 0}
-  transitions: {fileID: 0}
   Name: Pound Stall
-  zoom: 0
+  zoom: 1
   isActiveState: 0
   restrictX: 1
   restrictY: 1
@@ -541,8 +528,8 @@ MonoBehaviour:
     values:
     - _fieldName: previousState
       _node: {fileID: -4675422572620251151}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: nextState
         node: {fileID: 1774001216532265918}
@@ -556,8 +543,8 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: transitions
       _node: {fileID: -4675422572620251151}
-      _typeQualifiedName: TransitionNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: startingState
         node: {fileID: -6648554734812905058}
@@ -566,10 +553,8 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  previousState: {fileID: 0}
-  transitions: {fileID: 0}
   Name: 
-  zoom: 0
+  zoom: 1
   isActiveState: 0
   MoveSpeed:
     UseConstant: 0
@@ -620,8 +605,8 @@ MonoBehaviour:
     values:
     - _fieldName: startingState
       _node: {fileID: -3641797515424182864}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: transitions
         node: {fileID: -1108589282178386599}
@@ -632,8 +617,8 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: nextState
       _node: {fileID: -3641797515424182864}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: previousState
         node: {fileID: 134294574884168145}
@@ -642,8 +627,6 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 0
       _dynamic: 0
-  startingState: {fileID: 0}
-  nextState: {fileID: 0}
   conditionPreview: '- !IsGrounded
 
 '
@@ -679,8 +662,8 @@ MonoBehaviour:
     values:
     - _fieldName: startingState
       _node: {fileID: -3193452684244252466}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: transitions
         node: {fileID: 7248169581288550152}
@@ -691,8 +674,8 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: nextState
       _node: {fileID: -3193452684244252466}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: previousState
         node: {fileID: -5081197550139966255}
@@ -701,8 +684,6 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 0
       _dynamic: 0
-  startingState: {fileID: 0}
-  nextState: {fileID: 0}
   conditionPreview: '- IsGrounded
 
 '
@@ -738,8 +719,8 @@ MonoBehaviour:
     values:
     - _fieldName: startingState
       _node: {fileID: -1126308274419738181}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: transitions
         node: {fileID: 326285495737826313}
@@ -750,8 +731,8 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: nextState
       _node: {fileID: -1126308274419738181}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: previousState
         node: {fileID: -5081197550139966255}
@@ -760,8 +741,6 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 0
       _dynamic: 0
-  startingState: {fileID: 0}
-  nextState: {fileID: 0}
   conditionPreview: '- IsGrounded
 
 '
@@ -797,8 +776,8 @@ MonoBehaviour:
     values:
     - _fieldName: previousState
       _node: {fileID: -1108589282178386599}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: EntryState
         node: {fileID: 647826158662486185}
@@ -809,8 +788,8 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: transitions
       _node: {fileID: -1108589282178386599}
-      _typeQualifiedName: TransitionNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: startingState
         node: {fileID: 6332291481083292061}
@@ -825,11 +804,9 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  previousState: {fileID: 0}
-  transitions: {fileID: 0}
   Name: Ground Movement
-  zoom: 0
-  isActiveState: 0
+  zoom: 1
+  isActiveState: 1
   MoveSpeed:
     UseConstant: 0
     ConstantValue: 0
@@ -875,8 +852,8 @@ MonoBehaviour:
     values:
     - _fieldName: previousState
       _node: {fileID: -859353586313913734}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections: []
       _direction: 0
       _connectionType: 0
@@ -884,8 +861,8 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: transitions
       _node: {fileID: -859353586313913734}
-      _typeQualifiedName: TransitionNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: startingState
         node: {fileID: -7894526708747482007}
@@ -894,8 +871,6 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  previousState: {fileID: 0}
-  transitions: {fileID: 0}
   referencedState: {fileID: -4990919157884066038}
 --- !u!114 &11400000
 MonoBehaviour:
@@ -930,9 +905,9 @@ MonoBehaviour:
   - {fileID: 134294574884168145}
   - {fileID: -859353586313913734}
   - {fileID: 5828536401669366259}
-  - {fileID: -4675422572620251151}
   - {fileID: 1774001216532265918}
   - {fileID: -6648554734812905058}
+  - {fileID: -4675422572620251151}
 --- !u!114 &134294574884168145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -954,8 +929,8 @@ MonoBehaviour:
     values:
     - _fieldName: previousState
       _node: {fileID: 134294574884168145}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: nextState
         node: {fileID: -3641797515424182864}
@@ -966,15 +941,13 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: transitions
       _node: {fileID: 134294574884168145}
-      _typeQualifiedName: TransitionNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  previousState: {fileID: 0}
-  transitions: {fileID: 0}
   referencedState: {fileID: 7248169581288550152}
 --- !u!114 &326285495737826313
 MonoBehaviour:
@@ -997,8 +970,8 @@ MonoBehaviour:
     values:
     - _fieldName: previousState
       _node: {fileID: 326285495737826313}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: nextState
         node: {fileID: 8343376373493045657}
@@ -1009,8 +982,8 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: transitions
       _node: {fileID: 326285495737826313}
-      _typeQualifiedName: TransitionNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: startingState
         node: {fileID: -1126308274419738181}
@@ -1019,10 +992,8 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  previousState: {fileID: 0}
-  transitions: {fileID: 0}
   Name: Pound Fall
-  zoom: 0
+  zoom: 1
   isActiveState: 0
   PoundSpeed:
     UseConstant: 1
@@ -1052,8 +1023,8 @@ MonoBehaviour:
     values:
     - _fieldName: EntryState
       _node: {fileID: 647826158662486185}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: previousState
         node: {fileID: -1108589282178386599}
@@ -1062,7 +1033,6 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 0
       _dynamic: 0
-  EntryState: {fileID: 0}
   executionOrderIndex: 0
 --- !u!114 &1774001216532265918
 MonoBehaviour:
@@ -1085,8 +1055,8 @@ MonoBehaviour:
     values:
     - _fieldName: startingState
       _node: {fileID: 1774001216532265918}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: transitions
         node: {fileID: -1108589282178386599}
@@ -1097,8 +1067,8 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: nextState
       _node: {fileID: 1774001216532265918}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: previousState
         node: {fileID: -4675422572620251151}
@@ -1107,8 +1077,6 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 0
       _dynamic: 0
-  startingState: {fileID: 0}
-  nextState: {fileID: 0}
   conditionPreview: '- Start: DoNothing
 
     - RegenerateMeatPressed
@@ -1147,8 +1115,8 @@ MonoBehaviour:
     values:
     - _fieldName: previousState
       _node: {fileID: 3160719255603912525}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: nextState
         node: {fileID: 6332291481083292061}
@@ -1159,8 +1127,8 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: transitions
       _node: {fileID: 3160719255603912525}
-      _typeQualifiedName: TransitionNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: previousState
         node: {fileID: -4990919157884066038}
@@ -1169,10 +1137,8 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  previousState: {fileID: 0}
-  transitions: {fileID: 0}
   Name: Jump
-  zoom: 0
+  zoom: 1
   isActiveState: 0
   timeToJumpApex:
     UseConstant: 0
@@ -1216,8 +1182,8 @@ MonoBehaviour:
     values:
     - _fieldName: previousState
       _node: {fileID: 5828536401669366259}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections: []
       _direction: 0
       _connectionType: 0
@@ -1225,8 +1191,8 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: transitions
       _node: {fileID: 5828536401669366259}
-      _typeQualifiedName: TransitionNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: startingState
         node: {fileID: -7894526708747482007}
@@ -1235,8 +1201,6 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  previousState: {fileID: 0}
-  transitions: {fileID: 0}
   referencedState: {fileID: 7248169581288550152}
 --- !u!114 &6332291481083292061
 MonoBehaviour:
@@ -1259,8 +1223,8 @@ MonoBehaviour:
     values:
     - _fieldName: startingState
       _node: {fileID: 6332291481083292061}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: transitions
         node: {fileID: -1108589282178386599}
@@ -1271,8 +1235,8 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: nextState
       _node: {fileID: 6332291481083292061}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: previousState
         node: {fileID: 3160719255603912525}
@@ -1281,8 +1245,6 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 0
       _dynamic: 0
-  startingState: {fileID: 0}
-  nextState: {fileID: 0}
   conditionPreview: '- JumpTrigger
 
 '
@@ -1315,8 +1277,8 @@ MonoBehaviour:
     values:
     - _fieldName: previousState
       _node: {fileID: 7248169581288550152}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: transitions
         node: {fileID: -5368650478412996812}
@@ -1327,8 +1289,8 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: transitions
       _node: {fileID: 7248169581288550152}
-      _typeQualifiedName: TransitionNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: startingState
         node: {fileID: -7312282678681196256}
@@ -1342,11 +1304,9 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  previousState: {fileID: 0}
-  transitions: {fileID: 0}
   Name: NoLowJump
   zoom: 1
-  isActiveState: 1
+  isActiveState: 0
   MoveSpeed:
     UseConstant: 0
     ConstantValue: 0
@@ -1416,8 +1376,8 @@ MonoBehaviour:
     values:
     - _fieldName: startingState
       _node: {fileID: 8343376373493045657}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: transitions
         node: {fileID: -4813754887986621945}
@@ -1428,8 +1388,8 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: nextState
       _node: {fileID: 8343376373493045657}
-      _typeQualifiedName: StateNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: previousState
         node: {fileID: 326285495737826313}
@@ -1438,8 +1398,6 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 0
       _dynamic: 0
-  startingState: {fileID: 0}
-  nextState: {fileID: 0}
   conditionPreview: '- PoundStall: 1 sec
 
 '

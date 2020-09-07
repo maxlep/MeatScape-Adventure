@@ -9,8 +9,8 @@ using XNode;
 
 public class StateReferenceNode : Node
 {
-    [Input] [PropertyOrder(-3)] public StateNode previousState;
-    [Output] [PropertyOrder(-2)]  public TransitionNode transitions;
+    [Input] [PropertyOrder(-3)] public StateMachineConnection previousState;
+    [Output] [PropertyOrder(-2)]  public StateMachineConnection transitions;
 
 
     [ValueDropdown("GetStateNodes")]

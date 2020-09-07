@@ -1,10 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using MyAssets.ScriptableObjects.Variables;
 using Sirenix.Utilities;
 using UnityEngine;
 using XNode;
+
+//To represent connections in state machine graph
+[Serializable]
+public class StateMachineConnection
+{
+
+}
 
 [CreateAssetMenu(fileName = "StateMachineGraph", menuName = "Graphs/StateMachineGraph", order = 0)]
 public class StateMachineGraph : NodeGraph

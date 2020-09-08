@@ -598,7 +598,6 @@ MonoBehaviour:
   firePoint: {fileID: 7107814362056093691}
   root: {fileID: 2496787583837387773}
   model: {fileID: 1418389424614517840}
-  startSize: 2
   NewVelocity:
     UseConstant: 0
     ConstantValue: {x: 0, y: 0, z: 0}
@@ -619,6 +618,10 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: d00e7a08d0775a4429a3a5cfad1382a2, type: 2}
+  RegenerateMeatPressed:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 1e71fdf7b990af544a546d5a04101cbf, type: 2}
   IsGrounded:
     UseConstant: 0
     ConstantValue: 0
@@ -632,6 +635,23 @@ MonoBehaviour:
   DownwardAttackTrigger: {fileID: 11400000, guid: 822517391a151a64b895a16b5e8b04c1,
     type: 2}
   GroundPoundTrigger: {fileID: 11400000, guid: e68ad060bf5f14a4fbc04729ff1c7732, type: 2}
+  startSize: 2
+  changeSizeTime:
+    UseConstant: 1
+    ConstantValue: 150
+    Variable: {fileID: 0}
+  smallModelScale:
+    UseConstant: 1
+    ConstantValue: {x: 0.5, y: 0.5, z: 0.5}
+    Variable: {fileID: 0}
+  mediumModelScale:
+    UseConstant: 1
+    ConstantValue: {x: 1, y: 1, z: 1}
+    Variable: {fileID: 0}
+  largeModelScale:
+    UseConstant: 1
+    ConstantValue: {x: 1.5, y: 1.5, z: 1.5}
+    Variable: {fileID: 0}
 --- !u!114 &7107814362353387319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -648,10 +668,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   - {fileID: 11400000, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
   - {fileID: 11400000, guid: fb10b2dfe5bf49549a2e8220798c11fc, type: 2}
-  parameterList:
-  - {fileID: 11400000, guid: 06bf3977872d9e44eaac5cab442dc336, type: 2}
-  - {fileID: 11400000, guid: b300786b390443145a8a34ac8b973b61, type: 2}
-  - {fileID: 11400000, guid: afef19cd23b1c0142a71821f1ebfc543, type: 2}
   playerController: {fileID: 7107814362353387316}
 --- !u!136 &7107814362353387318
 CapsuleCollider:

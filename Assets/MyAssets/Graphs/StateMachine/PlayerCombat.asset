@@ -16,21 +16,9 @@ MonoBehaviour:
   position: {x: 1688, y: 136}
   ports:
     keys:
-    - previousState
     - transitions
+    - previousState
     values:
-    - _fieldName: previousState
-      _node: {fileID: -8354906802381047596}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: nextState
-        node: {fileID: 5736769057387298889}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
     - _fieldName: transitions
       _node: {fileID: -8354906802381047596}
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
@@ -41,7 +29,19 @@ MonoBehaviour:
         reroutePoints: []
       _direction: 1
       _connectionType: 0
-      _typeConstraint: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: previousState
+      _node: {fileID: -8354906802381047596}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: 5736769057387298889}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
       _dynamic: 0
   Name: Forward Throw
   zoom: 0
@@ -79,21 +79,9 @@ MonoBehaviour:
   position: {x: 1688, y: 584}
   ports:
     keys:
-    - previousState
     - transitions
+    - previousState
     values:
-    - _fieldName: previousState
-      _node: {fileID: -6583862081062639760}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: nextState
-        node: {fileID: 7323983362953568521}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
     - _fieldName: transitions
       _node: {fileID: -6583862081062639760}
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
@@ -104,7 +92,19 @@ MonoBehaviour:
         reroutePoints: []
       _direction: 1
       _connectionType: 0
-      _typeConstraint: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: previousState
+      _node: {fileID: -6583862081062639760}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: 7323983362953568521}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
       _dynamic: 0
   Name: Downward Throw
   zoom: 0
@@ -170,7 +170,7 @@ MonoBehaviour:
         reroutePoints: []
       _direction: 1
       _connectionType: 1
-      _typeConstraint: 0
+      _typeConstraint: 2
       _dynamic: 0
   executionOrderIndex: 0
 --- !u!114 &5736769057387298889
@@ -189,21 +189,9 @@ MonoBehaviour:
   position: {x: 1192, y: 88}
   ports:
     keys:
-    - startingState
     - nextState
+    - startingState
     values:
-    - _fieldName: startingState
-      _node: {fileID: 5736769057387298889}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: 9174840935225501389}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
     - _fieldName: nextState
       _node: {fileID: 5736769057387298889}
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
@@ -214,7 +202,19 @@ MonoBehaviour:
         reroutePoints: []
       _direction: 1
       _connectionType: 1
-      _typeConstraint: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: startingState
+      _node: {fileID: 5736769057387298889}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: 9174840935225501389}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
       _dynamic: 0
   conditionPreview: '- Start: Ground Movement
 
@@ -262,21 +262,9 @@ MonoBehaviour:
   position: {x: 1192, y: 744}
   ports:
     keys:
-    - startingState
     - nextState
+    - startingState
     values:
-    - _fieldName: startingState
-      _node: {fileID: 7323983362953568521}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: 9174840935225501389}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
     - _fieldName: nextState
       _node: {fileID: 7323983362953568521}
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
@@ -287,7 +275,19 @@ MonoBehaviour:
         reroutePoints: []
       _direction: 1
       _connectionType: 1
-      _typeConstraint: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: startingState
+      _node: {fileID: 7323983362953568521}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: 9174840935225501389}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
       _dynamic: 0
   conditionPreview: '- Start: AirMovement
 
@@ -338,24 +338,9 @@ MonoBehaviour:
   position: {x: 2248, y: 280}
   ports:
     keys:
-    - previousState
     - transitions
+    - previousState
     values:
-    - _fieldName: previousState
-      _node: {fileID: 7574179755061179093}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: -8354906802381047596}
-        reroutePoints: []
-      - fieldName: transitions
-        node: {fileID: -6583862081062639760}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
     - _fieldName: transitions
       _node: {fileID: 7574179755061179093}
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
@@ -363,7 +348,22 @@ MonoBehaviour:
       connections: []
       _direction: 1
       _connectionType: 0
-      _typeConstraint: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: previousState
+      _node: {fileID: 7574179755061179093}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: -6583862081062639760}
+        reroutePoints: []
+      - fieldName: transitions
+        node: {fileID: -8354906802381047596}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
       _dynamic: 0
   referencedState: {fileID: 9174840935225501389}
 --- !u!114 &9174840935225501389
@@ -382,9 +382,24 @@ MonoBehaviour:
   position: {x: 664, y: 264}
   ports:
     keys:
-    - previousState
     - transitions
+    - previousState
     values:
+    - _fieldName: transitions
+      _node: {fileID: 9174840935225501389}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: startingState
+        node: {fileID: 7323983362953568521}
+        reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: 5736769057387298889}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
     - _fieldName: previousState
       _node: {fileID: 9174840935225501389}
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
@@ -395,22 +410,7 @@ MonoBehaviour:
         reroutePoints: []
       _direction: 0
       _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: transitions
-      _node: {fileID: 9174840935225501389}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: startingState
-        node: {fileID: 5736769057387298889}
-        reroutePoints: []
-      - fieldName: startingState
-        node: {fileID: 7323983362953568521}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
+      _typeConstraint: 2
       _dynamic: 0
   Name: DoNothing
   zoom: 0

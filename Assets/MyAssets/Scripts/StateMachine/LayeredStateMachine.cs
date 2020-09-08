@@ -5,11 +5,13 @@ using UnityEngine;
 using System.Linq;
 using System.Net.Configuration;
 using System.Runtime.ConstrainedExecution;
+using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
 
 public class LayeredStateMachine : MonoBehaviour
 {
     [SerializeField] protected StateMachineGraph[] stateMachines;
+    [SerializeField] protected VariableContainer debugParameters;
 
     protected Dictionary<StateNode, StateMachineGraph> stateNodeDict = new Dictionary<StateNode, StateMachineGraph>();
     private bool enableDebugGUI = false;
@@ -156,7 +158,13 @@ public class LayeredStateMachine : MonoBehaviour
     private void OnGUI()
     {
         if (!enableDebugGUI) return;
-        
+
+        DrawStateMachineDebug();
+        DrawDebugParameters();
+    }
+
+    private void DrawStateMachineDebug()
+    {
         //Current States
         float pivotX = 10f;
         float pivotY = 80f;
@@ -194,8 +202,144 @@ public class LayeredStateMachine : MonoBehaviour
             
             previousHeights += height + betweenStatesMargin;
         }
-        
     }
+
+    private void DrawDebugParameters()
+    {
+        float width = 200f;
+        float pivotX = Screen.width - width - 10f;
+        float pivotY = 10f;
+        float lineHeight = 20f;
+        float betweenTypeMargin = 15f;
+        
+        float previousHeights = 0f;
+
+        //Bools
+        GUI.TextField(new Rect(pivotX, pivotY + previousHeights, width, lineHeight),
+            $"Bool Variables: \n");
+        previousHeights += lineHeight;
+        
+        string boolString = "";
+        foreach (var boolVariable in debugParameters.GetBoolVariables())
+        {
+            boolString += $"- {boolVariable.name}: {boolVariable.Value} \n";
+        }
+
+        float boolSize = (lineHeight) * debugParameters.GetBoolVariables().Count;
+        
+        GUI.TextField(new Rect(pivotX, pivotY + previousHeights, width, boolSize),
+            boolString);
+        previousHeights += boolSize + betweenTypeMargin;
+        
+        //Ints
+        GUI.TextField(new Rect(pivotX, pivotY + previousHeights, width, lineHeight),
+            $"Int Variables: \n");
+        previousHeights += lineHeight;
+        
+        string intString = "";
+        foreach (var intVariable in debugParameters.GetIntVariables())
+        {
+            intString += $"- {intVariable.name}: {intVariable.Value} \n";
+        }
+        
+        float intSize = (lineHeight) * debugParameters.GetIntVariables().Count;
+
+
+        GUI.TextField(new Rect(pivotX, pivotY + previousHeights, width, intSize),
+            intString);
+        previousHeights += intSize + betweenTypeMargin;
+        
+        //Floats
+        GUI.TextField(new Rect(pivotX, pivotY + previousHeights, width, lineHeight),
+            $"Float Variables: \n");
+        previousHeights += lineHeight;
+        
+        string floatString = "";
+        foreach (var floatVariable in debugParameters.GetFloatVariables())
+        {
+            floatString += $"- {floatVariable.name}: {floatVariable.Value} \n";
+        }
+        
+        float floatSize = (lineHeight) * debugParameters.GetFloatVariables().Count;
+
+
+        GUI.TextField(new Rect(pivotX, pivotY + previousHeights, width, floatSize),
+            floatString);
+        previousHeights += floatSize + betweenTypeMargin;
+        
+        //Vector2
+        GUI.TextField(new Rect(pivotX, pivotY + previousHeights, width, lineHeight),
+            $"Vector2 Variables: \n");
+        previousHeights += lineHeight;
+        
+        string vector2String = "";
+        foreach (var vector2Variable in debugParameters.GetVector2Variables())
+        {
+            floatString += $"- {vector2Variable.name}: {vector2Variable.Value} \n";
+        }
+        
+        float vector2Size = (lineHeight) * debugParameters.GetVector2Variables().Count;
+
+
+        GUI.TextField(new Rect(pivotX, pivotY + previousHeights, width, vector2Size),
+            floatString);
+        previousHeights += vector2Size + betweenTypeMargin;
+        
+        //Vector3
+        GUI.TextField(new Rect(pivotX, pivotY + previousHeights, width, lineHeight),
+            $"Vector3 Variables: \n");
+        previousHeights += lineHeight;
+        
+        string vector3String = "";
+        foreach (var vector3Variable in debugParameters.GetVector3Variables())
+        {
+            vector3String += $"- {vector3Variable.name}: {vector3Variable.Value} \n";
+        }
+        
+        float vector3Size = (lineHeight) * debugParameters.GetVector3Variables().Count;
+
+
+        GUI.TextField(new Rect(pivotX, pivotY + previousHeights, width, vector3Size),
+            vector3String);
+        previousHeights += vector3Size + betweenTypeMargin;
+        
+        //Quaternion
+        GUI.TextField(new Rect(pivotX, pivotY + previousHeights, width, lineHeight),
+            $"Quaternion Variables: \n");
+        previousHeights += lineHeight;
+        
+        string quaternionString = "";
+        foreach (var quaternionVariable in debugParameters.GetQuaternionVariables())
+        {
+            quaternionString += $"- {quaternionVariable.name}: {quaternionVariable.Value} \n";
+        }
+        
+        float quaternionSize = (lineHeight) * debugParameters.GetQuaternionVariables().Count;
+
+
+        GUI.TextField(new Rect(pivotX, pivotY + previousHeights, width, quaternionSize),
+            quaternionString);
+        previousHeights += quaternionSize + betweenTypeMargin;
+        
+        //Timer
+        GUI.TextField(new Rect(pivotX, pivotY + previousHeights, width, lineHeight),
+            $"Timer Variables: \n");
+        previousHeights += lineHeight;
+        
+        string timerString = "";
+        foreach (var timerVariable in debugParameters.GetTimerVariables())
+        {
+            timerString += $"- {timerVariable.name}: {timerVariable.RemainingTime} \n";
+        }
+        
+        float timerSize = (lineHeight) * debugParameters.GetTimerVariables().Count;
+
+
+        GUI.TextField(new Rect(pivotX, pivotY + previousHeights, width, timerSize),
+            timerString);
+        previousHeights += timerSize + betweenTypeMargin;
+    }
+    
 
     #endregion
 

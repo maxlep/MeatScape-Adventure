@@ -63,7 +63,6 @@ public class StateTransitionMixer : PlayerStateNode
         tweenPlayable = playable;
         mixerPlayable  = AnimationMixerPlayable.Create(playableGraph, 2);
 
-        Debug.Log($"{activePlayable.GetHandle() == tweenPlayable.GetHandle()}");
         mixerPlayable.ConnectInput(0, activePlayable, 0);
         mixerPlayable.ConnectInput(1, tweenPlayable, 0);
 

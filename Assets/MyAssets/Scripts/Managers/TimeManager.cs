@@ -11,10 +11,10 @@ public class TimeManager : MonoBehaviour
 {
     public static TimeManager Instance;
 
-    [SerializeField] private bool enableDebugGUI = false;
     [SerializeField] private GameObject pauseText;
     [SerializeField] private GameObject manualUpdateText;
 
+    private bool enableDebugGUI = false;
     private bool isPaused = false;
     private bool manualUpdate = false;
     private bool skipFrame = false;
@@ -31,6 +31,7 @@ public class TimeManager : MonoBehaviour
         InputManager.Instance.onReduceTimeScale += () => ChangeTimeScale(-10f);
         InputManager.Instance.onResetTimeScale += ResetTimeScale;
         InputManager.Instance.onIncreaseTimeScale += () => ChangeTimeScale(10f);
+        InputManager.Instance.onEnableDebug += ToggleDebugMode;
         pauseText.SetActive(false);
     }
 
@@ -43,6 +44,7 @@ public class TimeManager : MonoBehaviour
     private void ResetTimeScale()
     {
         timescaleFactor = 1f;
+        if (!isPaused) Time.timeScale = timescaleFactor;
     }
 
     private void SkipFrame()
@@ -98,6 +100,22 @@ public class TimeManager : MonoBehaviour
         }
     }
 
+    private void ToggleDebugMode()
+    {
+        enableDebugGUI = !enableDebugGUI;
+
+        if (enableDebugGUI)
+        {
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+    }
+
     private void OnGUI()
     {
         if (!enableDebugGUI) return;
@@ -105,21 +123,22 @@ public class TimeManager : MonoBehaviour
         float pivotX = 10f;
         float pivotY = 10f;
         float height = 20f;
-        float verticalMargin = 0f;
-        float smallButtonWidth = 80f;
-        
-        GUI.TextArea(new Rect(pivotX, pivotY, 200, height),
-            "(P) Manual Update: " + ((manualUpdate) ? "<Enabled>" : "<Disabled>"));
+        float verticalMargin = 3f;
+        float smallButtonWidth = 70f;
 
-        GUI.TextArea(new Rect(pivotX, pivotY + height + verticalMargin, 200, 20),
+
+        GUI.TextArea(new Rect(pivotX, pivotY, 210, 20),
             $"Timescale: {timescaleFactor}");
-        
-        GUI.TextArea(new Rect(pivotX, pivotY + (height + verticalMargin) * 2, smallButtonWidth, 20),
-            $"(J) -10%");
-        GUI.TextArea(new Rect(pivotX + smallButtonWidth, pivotY + (height + verticalMargin) * 2, smallButtonWidth, 20),
-            $"(K) Reset");
-        GUI.TextArea(new Rect(pivotX + smallButtonWidth * 2, pivotY + (height + verticalMargin) * 2, smallButtonWidth, 20),
-            $"(L) +10%");
-        
+
+        if (GUI.Button(new Rect(pivotX, pivotY + (height + verticalMargin), smallButtonWidth, 20),
+            $"(J) -10%")) ChangeTimeScale(-10f);
+        ;
+        if (GUI.Button(new Rect(pivotX + smallButtonWidth, pivotY + (height + verticalMargin), smallButtonWidth, 20),
+            $"(K) Reset")) ResetTimeScale();
+        if (GUI.Button(new Rect(pivotX + smallButtonWidth * 2, pivotY + (height + verticalMargin), smallButtonWidth, 20),
+            $"(L) +10%")) ChangeTimeScale(10f);
+
+        if (GUI.Button(new Rect(pivotX, pivotY + (height + verticalMargin) * 2, 210, height),
+            "(P) Manual Update: " + ((manualUpdate) ? "<Enabled>" : "<Disabled>"))) ToggleManualUpdate();
     }
 }

@@ -29,6 +29,7 @@ public class InputManager : MonoBehaviour
     public delegate void _OnReduceTimeScale();
     public delegate void _OnResetTimeScale();
     public delegate void _OnIncreaseTimeScale();
+    public delegate void _OnEnableDebug();
 
     public event _OnControlsChanged onControlsChanged;
     public event _OnAttack onAttack;
@@ -47,6 +48,7 @@ public class InputManager : MonoBehaviour
     public event _OnReduceTimeScale onReduceTimeScale;
     public event _OnResetTimeScale onResetTimeScale;
     public event _OnIncreaseTimeScale onIncreaseTimeScale;
+    public event _OnEnableDebug onEnableDebug;
 
     private PlayerInput _inputs;
     private InputActionMap playerActions, uiActions;
@@ -209,6 +211,11 @@ public class InputManager : MonoBehaviour
     public void OnIncreaseTimeScale()
     {
         if (onIncreaseTimeScale != null) onIncreaseTimeScale();
+    }
+    
+    public void OnEnableDebug()
+    {
+        if (onEnableDebug != null) onEnableDebug();
     }
 
     #endregion

@@ -9,10 +9,10 @@ using Sirenix.OdinInspector;
 
 public class LayeredStateMachine : MonoBehaviour
 {
-    [SerializeField] private bool enableDebugGUI = false;
     [SerializeField] protected StateMachineGraph[] stateMachines;
 
     protected Dictionary<StateNode, StateMachineGraph> stateNodeDict = new Dictionary<StateNode, StateMachineGraph>();
+    private bool enableDebugGUI = false;
 
 
     #region LifeCycle Methods
@@ -20,6 +20,7 @@ public class LayeredStateMachine : MonoBehaviour
     protected virtual void Awake()
     {
         InitStateMachines(true);
+        InputManager.Instance.onEnableDebug += ToggleDebugMode;
     }
 
     protected virtual void Update()
@@ -146,6 +147,11 @@ public class LayeredStateMachine : MonoBehaviour
     }
 
     #region Debug
+    
+    private void ToggleDebugMode()
+    {
+        enableDebugGUI = !enableDebugGUI;
+    }
 
     private void OnGUI()
     {

@@ -23,9 +23,11 @@ public class StateMachineGraph : NodeGraph
     public List<StateReferenceNode> StateReferenceNodes { get; private set; } = new List<StateReferenceNode>();
     public List<StateNode> currentStates { get; private set; } = new List<StateNode>();
     public LayeredStateMachine parentMachine { get; private set; }
+    public bool DebugOnStateChange => debugOnStateChange;
 
     private List<StartNode> startNodes = new List<StartNode>();
     private HashSet<TriggerVariable> triggersFromTransitions = new HashSet<TriggerVariable>();
+    private bool debugOnStateChange = false;
 
     #region LifeCycle Methods
 
@@ -52,6 +54,7 @@ public class StateMachineGraph : NodeGraph
     //For call by layered state machine to begin
     public void StartStateMachine(bool isRuntime)
     {
+        SetDebugOnStateChange(false);
         //Set all nodes to NOT initialized
         stateNodes.ForEach(s => s.IsInitialized = false);
         transitionNodes.ForEach(t => t.IsInitialized = false);
@@ -250,7 +253,7 @@ public class StateMachineGraph : NodeGraph
     
     private void ChangeState(StateNode exitingState, StateNode nextState)
     {
-        //Debug.Log($"{name}: {exitingState.name} -> {nextState.name}");
+        if (debugOnStateChange) Debug.LogError($"{name}: {exitingState.name} -> {nextState.name}");
 
         int index = currentStates.IndexOf(exitingState);
         exitingState.Exit();
@@ -277,6 +280,16 @@ public class StateMachineGraph : NodeGraph
         {
             stateNode.Zoom = expanded;
         }
+    }
+
+    private void SetDebugOnStateChange(bool enable)
+    {
+        this.debugOnStateChange = enable;
+    }
+
+    public void ToggleDebugOnStateChange()
+    {
+        debugOnStateChange = !debugOnStateChange;
     }
     
 

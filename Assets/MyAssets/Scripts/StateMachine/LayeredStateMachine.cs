@@ -163,25 +163,36 @@ public class LayeredStateMachine : MonoBehaviour
         float width = 300f;
         float lineHeight = 20f;
         float verticalMargin = 0f;
+        float betweenStatesMargin = 5f;
         
         float previousHeights = 0f;
 
         for (int i = 0; i < stateMachines.Length; i++)
         {
+
+            string currentStatesString = "";
+            GUI.TextField(new Rect(pivotX, pivotY + previousHeights + i*verticalMargin, width/2, lineHeight),
+                $"{stateMachines[i].name}: \n");
             
-            string currentStatesString = $"{stateMachines[i].name}: \n";
+            bool debugOnStateChange = stateMachines[i].DebugOnStateChange;
+            if (GUI.Button(new Rect(pivotX + 150f, pivotY + previousHeights + i * verticalMargin, width/2, lineHeight),
+                "PauseOnChange: " + (debugOnStateChange ? "YES" : "NO"))) stateMachines[i].ToggleDebugOnStateChange();
+
+            previousHeights += lineHeight;
+            
             foreach (var currentState in stateMachines[i].currentStates)
             {
+                
                 currentStatesString += $"- {currentState.name}\n";
             }
 
-            int lineCount = stateMachines[i].currentStates.Count + 1;
+            int lineCount = stateMachines[i].currentStates.Count;
             float height = lineCount * lineHeight;
 
             GUI.TextField(new Rect(pivotX, pivotY + previousHeights + i*verticalMargin, width, height),
                 $"{currentStatesString}");
-
-            previousHeights += height;
+            
+            previousHeights += height + betweenStatesMargin;
         }
         
     }

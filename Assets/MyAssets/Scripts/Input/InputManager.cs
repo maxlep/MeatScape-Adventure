@@ -24,6 +24,11 @@ public class InputManager : MonoBehaviour
     public delegate void _OnRegenerateMeat_Pressed();
     public delegate void _OnPauseGame();
     public delegate void _OnBackspace();
+    public delegate void _OnFrameForward();
+    public delegate void _OnManualUpdate();
+    public delegate void _OnReduceTimeScale();
+    public delegate void _OnResetTimeScale();
+    public delegate void _OnIncreaseTimeScale();
 
     public event _OnControlsChanged onControlsChanged;
     public event _OnAttack onAttack;
@@ -37,6 +42,11 @@ public class InputManager : MonoBehaviour
     public event _OnRegenerateMeat_Pressed onRegenerateMeat_Pressed;
     public event _OnPauseGame onPauseGame;
     public event _OnBackspace onBackspace;
+    public event _OnFrameForward onFrameForward;
+    public event _OnManualUpdate onManualUpdate;
+    public event _OnReduceTimeScale onReduceTimeScale;
+    public event _OnResetTimeScale onResetTimeScale;
+    public event _OnIncreaseTimeScale onIncreaseTimeScale;
 
     private PlayerInput _inputs;
     private InputActionMap playerActions, uiActions;
@@ -174,6 +184,31 @@ public class InputManager : MonoBehaviour
     public void OnBackspace()
     {
         if (onBackspace != null) onBackspace();
+    }
+    
+    public void OnFrameForward()
+    {
+        if (onFrameForward != null) onFrameForward();
+    }
+    
+    public void OnManualUpdate()
+    {
+        if (onManualUpdate != null) onManualUpdate();
+    }
+    
+    public void OnReduceTimeScale()
+    {
+        if (onReduceTimeScale != null) onReduceTimeScale();
+    }
+    
+    public void OnResetTimeScale()
+    {
+        if (onResetTimeScale != null) onResetTimeScale();
+    }
+    
+    public void OnIncreaseTimeScale()
+    {
+        if (onIncreaseTimeScale != null) onIncreaseTimeScale();
     }
 
     #endregion

@@ -153,8 +153,8 @@ public class LayeredStateMachine : MonoBehaviour
         
         //Current States
         float pivotX = 10f;
-        float pivotY = 10f;
-        float width = 400f;
+        float pivotY = 80f;
+        float width = 300f;
         float lineHeight = 20f;
         float verticalMargin = 0f;
         

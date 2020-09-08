@@ -16,9 +16,12 @@ using Debug = UnityEngine.Debug;
 
 public class SequenceBlend : PlayerStateNode
 {
+    [HideIf("$zoom"), LabelWidth(120), SerializeField] protected float transitionTime = 1f;
+    [HideIf("$zoom"), LabelWidth(120), SerializeField] protected AnimationCurve transitionCurve = AnimationCurve.Linear(0, 0, 1, 1);
     [HideIf("$zoom"), LabelWidth(120), SerializeField] protected FloatReference factor;
     [HideIf("$zoom"), LabelWidth(120), SerializeField] protected ExtrapolateBehavior extrapolateMode;
     [HideIf("$zoom"), LabelWidth(120), SerializeField] protected SequenceUnit[] sequence;
+    [HideIf("$zoom"), LabelWidth(120), SerializeField] protected bool loopSequence = true;
     [HideIf("$zoom"), LabelWidth(120), SerializeField] protected BoneTransformWeight[] boneTransformWeights;
     
     Animator animator;
@@ -30,6 +33,8 @@ public class SequenceBlend : PlayerStateNode
 
     public override void RuntimeInitialize()
     {
+        base.RuntimeInitialize();
+
         Debug.Log($"Initialize {name}");
 
         if (!sequence.Any() || sequence.Any(pose => pose.pose == null))
@@ -78,9 +83,10 @@ public class SequenceBlend : PlayerStateNode
         };
         
         // Create graph with custom mixer.
-        m_Graph = PlayableGraph.Create(base.name);
+        // m_Graph = PlayableGraph.Create(base.name);
+        m_Graph = StateTransitionMixer.Instance.GetGraph();
         m_Graph.SetTimeUpdateMode(DirectorUpdateMode.GameTime);
-        
+
         m_CustomMixerPlayable = AnimationScriptPlayable.Create(m_Graph, job);
         m_CustomMixerPlayable.SetProcessInputs(false);
         sequence.ForEach(clip =>
@@ -91,10 +97,10 @@ public class SequenceBlend : PlayerStateNode
         // var testPlayable = AnimationLayerMixerPlayable.Create(m_Graph);
         // m_CustomMixerPlayable.ConnectInput();
         
-        var output = AnimationPlayableOutput.Create(m_Graph, $"{base.name}_Output", animator);
-        output.SetSourcePlayable(m_CustomMixerPlayable);
+        // var output = AnimationPlayableOutput.Create(m_Graph, $"{base.name}_Output", animator);
+        // output.SetSourcePlayable(m_CustomMixerPlayable);
         
-        m_Graph.Play();
+        // m_Graph.Play();
     }
 
     private int blendTweenId;
@@ -103,25 +109,29 @@ public class SequenceBlend : PlayerStateNode
     {
         base.Enter();
         
-        Debug.Log($"ENTER" + m_Graph.GetEditorName());
-        LeanTween.value(playerController.gameObject, (value) =>
-        {
-            boneTransformWeights[0].weight = value;
-        }, 0f, 1f, 1f);
-        
-        m_Graph.Play();
+        // Debug.Log($"ENTER {name} {m_Graph.GetEditorName()}");
+        StateTransitionMixer.Instance.Blend(m_CustomMixerPlayable, transitionTime, transitionCurve);
+
+        // LeanTween.value(playerController.gameObject, (value) =>
+        // {
+        //     boneTransformWeights[0].weight = value;
+        // }, 0f, 1f, 1f);
+
+        // m_Graph.Play();
     }
 
     public override void Exit()
     {
         base.Exit();
         
-        Debug.Log($"EXIT" + m_Graph.GetEditorName());
-        m_Graph.Stop();
+        // Debug.Log($"EXIT" + m_Graph.GetEditorName());
+        // m_Graph.Stop();
     }
 
     public override void Execute()
     {
+        base.Execute();
+
         var job = m_CustomMixerPlayable.GetJobData<SequenceBlendJob>();
         
         UpdateWeights();
@@ -162,6 +172,8 @@ public class SequenceBlend : PlayerStateNode
     (int start, int end, float weight) GetTransitionIndices()
     {
         var numPoses = sequence.Length;
+        if (loopSequence) numPoses -= 1;
+
         var poseSize = 1.0f / numPoses;
 
         Debug.Assert(!float.IsPositiveInfinity(Mathf.Abs(factor.Value)));

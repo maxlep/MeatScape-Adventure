@@ -58,9 +58,8 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
             outAccelHoriz.Value = accel.xz().RoundNearZero();
             outVelVert.Value = vel.y.RoundNearZero();
             outAccelVert.Value = accel.y.RoundNearZero();
-            Debug.Log(Mathf.Epsilon);
 
-            Debug.Log($"Execute fixed {name}, {pos}, {vel}, {accel}");
+            // Debug.Log($"Execute fixed {name}, {pos}, {vel}, {accel}");
             // Debug.Assert(vel.y > 0);
         }
 

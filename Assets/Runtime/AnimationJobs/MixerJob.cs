@@ -15,21 +15,43 @@ public struct MixerJob : IAnimationJob
 
     public void ProcessRootMotion(AnimationStream stream)
     {
-        var streamA = stream.GetInputStream(0);
-        var streamB = stream.GetInputStream(1);
-
-        var velocity = Vector3.Lerp(streamA.velocity, streamB.velocity, weight);
-        var angularVelocity = Vector3.Lerp(streamA.angularVelocity, streamB.angularVelocity, weight);
-        stream.velocity = velocity;
-        stream.angularVelocity = angularVelocity;
+        // var streamA = stream.GetInputStream(0);
+        // var streamB = stream.GetInputStream(1);
+        //
+        // var velocity = Vector3.Lerp(streamA.velocity, streamB.velocity, weight);
+        // var angularVelocity = Vector3.Lerp(streamA.angularVelocity, streamB.angularVelocity, weight);
+        // stream.velocity = velocity;
+        // stream.angularVelocity = angularVelocity;
     }
 
     public void ProcessAnimation(AnimationStream stream)
     {
+        if (stream.inputStreamCount == 0)
+        {
+            return;
+        }
+        
         var streamA = stream.GetInputStream(0);
+        var numHandles = handles.Length;
+
+        if (stream.inputStreamCount < 2)
+        {
+            for (var i = 0; i < numHandles; ++i)
+            {
+                var handle = handles[i];
+
+                var posA = handle.GetLocalPosition(streamA);
+                handle.SetLocalPosition(stream, posA);
+
+                var rotA = handle.GetLocalRotation(streamA);
+                handle.SetLocalRotation(stream, rotA);
+            }
+
+            return;
+        }
+
         var streamB = stream.GetInputStream(1);
 
-        var numHandles = handles.Length;
         for (var i = 0; i < numHandles; ++i)
         {
             var handle = handles[i];

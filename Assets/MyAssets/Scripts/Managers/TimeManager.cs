@@ -49,6 +49,8 @@ public class TimeManager : MonoBehaviour
 
     private void SkipFrame()
     {
+        if (!manualUpdate) return;
+        
         Time.timeScale = 1f;
         skipFrame = true;
     }
@@ -140,5 +142,8 @@ public class TimeManager : MonoBehaviour
 
         if (GUI.Button(new Rect(pivotX, pivotY + (height + verticalMargin) * 2, 210, height),
             "(P) Manual Update: " + ((manualUpdate) ? "<Enabled>" : "<Disabled>"))) ToggleManualUpdate();
+        
+        if (GUI.Button(new Rect(pivotX + 210, pivotY + (height + verticalMargin) * 2, smallButtonWidth, height),
+            "(N) Next")) SkipFrame();
     }
 }

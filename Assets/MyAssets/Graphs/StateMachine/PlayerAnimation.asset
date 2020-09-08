@@ -40,15 +40,15 @@ MonoBehaviour:
   Name: Fall
   zoom: 0
   isActiveState: 0
-  transitionTime: 0.2
+  transitionTime: 0.5
   transitionCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
@@ -56,8 +56,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 2
-      outSlope: 2
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
@@ -147,7 +147,7 @@ MonoBehaviour:
   m_Name: Jump -> Fall
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 2136, y: 104}
+  position: {x: 2104, y: 104}
   ports:
     keys:
     - nextState
@@ -171,10 +171,10 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: transitions
-        node: {fileID: 4519367803428870115}
+        node: {fileID: 412120333977285081}
         reroutePoints: []
       - fieldName: transitions
-        node: {fileID: 412120333977285081}
+        node: {fileID: 4519367803428870115}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -249,10 +249,7 @@ MonoBehaviour:
       _node: {fileID: -7348441339498573471}
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: startingState
-        node: {fileID: 8243805061456828152}
-        reroutePoints: []
+      connections: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 2
@@ -535,6 +532,9 @@ MonoBehaviour:
       - fieldName: startingState
         node: {fileID: -2479464383247129141}
         reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: 8243805061456828152}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 2
@@ -662,7 +662,7 @@ MonoBehaviour:
   m_Name: Jump -> Ground Movement
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 2216, y: 856}
+  position: {x: 2104, y: 696}
   ports:
     keys:
     - nextState
@@ -737,10 +737,10 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: startingState
-        node: {fileID: 7148953881133016071}
+        node: {fileID: -7623122778319895782}
         reroutePoints: []
       - fieldName: startingState
-        node: {fileID: -7623122778319895782}
+        node: {fileID: 7148953881133016071}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -983,7 +983,7 @@ MonoBehaviour:
   m_Name: Ground Movement <Reference>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 2584, y: 872}
+  position: {x: 2520, y: 904}
   ports:
     keys:
     - transitions
@@ -1136,10 +1136,10 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: startingState
-        node: {fileID: -7623122778319895782}
+        node: {fileID: 257019424456394427}
         reroutePoints: []
       - fieldName: startingState
-        node: {fileID: 257019424456394427}
+        node: {fileID: -7623122778319895782}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -1318,7 +1318,7 @@ MonoBehaviour:
   m_Name: ' -> '
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 3176, y: -344}
+  position: {x: 3224, y: -344}
   ports:
     keys:
     - nextState
@@ -1342,7 +1342,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: transitions
-        node: {fileID: -7348441339498573471}
+        node: {fileID: -4449075156651536019}
         reroutePoints: []
       _direction: 0
       _connectionType: 0

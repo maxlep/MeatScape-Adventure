@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEditor.Animations;
 using UnityEngine;
 using System.Linq;
+using System.Net.Configuration;
 using System.Runtime.ConstrainedExecution;
 using Sirenix.OdinInspector;
 
 public class LayeredStateMachine : MonoBehaviour
 {
+    [SerializeField] private bool enableDebugGUI = false;
     [SerializeField] protected StateMachineGraph[] stateMachines;
 
     protected Dictionary<StateNode, StateMachineGraph> stateNodeDict = new Dictionary<StateNode, StateMachineGraph>();
@@ -142,5 +144,42 @@ public class LayeredStateMachine : MonoBehaviour
 
         return activeStates;
     }
+
+    #region Debug
+
+    private void OnGUI()
+    {
+        if (!enableDebugGUI) return;
+        
+        //Current States
+        float pivotX = 10f;
+        float pivotY = 10f;
+        float width = 400f;
+        float lineHeight = 20f;
+        float verticalMargin = 0f;
+        
+        float previousHeights = 0f;
+
+        for (int i = 0; i < stateMachines.Length; i++)
+        {
+            
+            string currentStatesString = $"{stateMachines[i].name}: \n";
+            foreach (var currentState in stateMachines[i].currentStates)
+            {
+                currentStatesString += $"- {currentState.name}\n";
+            }
+
+            int lineCount = stateMachines[i].currentStates.Count + 1;
+            float height = lineCount * lineHeight;
+
+            GUI.TextField(new Rect(pivotX, pivotY + previousHeights + i*verticalMargin, width, height),
+                $"{currentStatesString}");
+
+            previousHeights += height;
+        }
+        
+    }
+
+    #endregion
 
 }

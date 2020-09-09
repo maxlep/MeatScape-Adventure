@@ -38,9 +38,10 @@ public class Vector3Condition
 
     public bool Evaluate()
     {
+        return false;
         bool xIs = Compare(xCompare, targetParameter.Value.x);
-        bool yIs = Compare(xCompare, targetParameter.Value.y);
-        bool zIs = Compare(xCompare, targetParameter.Value.z);
+        bool yIs = Compare(yCompare, targetParameter.Value.y);
+        bool zIs = Compare(zCompare, targetParameter.Value.z);
         return xIs && yIs && zIs;
     }
 

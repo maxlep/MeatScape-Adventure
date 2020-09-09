@@ -214,7 +214,7 @@ public class TransitionNode : Node
             conditionPreview += $"- {vector2Condition}\n";
         }
         
-        foreach (var vector3Condition in Vector2Conditions)
+        foreach (var vector3Condition in Vector3Conditions)
         {
             vector3Condition.Init(name);
             conditionPreview += $"- {vector3Condition}\n";

@@ -106,7 +106,7 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
         {
             base.Enter();
         
-            // Debug.Log($"ENTER {name} {m_Graph.GetEditorName()}");
+            Debug.Log($"ENTER {name} {m_Graph.GetEditorName()}");
             StateTransitionMixer.Instance.Blend(m_CustomMixerPlayable, transitionTime, transitionCurve);
 
             // LeanTween.value(playerController.gameObject, (value) =>

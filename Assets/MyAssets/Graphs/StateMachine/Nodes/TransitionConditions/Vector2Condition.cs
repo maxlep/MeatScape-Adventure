@@ -18,7 +18,9 @@ public class Vector2Condition
     {
         Ignore,
         LessThan,
-        GreaterThan
+        GreaterThan,
+        AbsGreaterThan,
+        AbsLessThan,
     }
     
     [Serializable]
@@ -35,8 +37,9 @@ public class Vector2Condition
 
     public bool Evaluate()
     {
+        return false;
         bool xIs = Compare(xCompare, targetParameter.Value.x);
-        bool yIs = Compare(xCompare, targetParameter.Value.y);
+        bool yIs = Compare(yCompare, targetParameter.Value.y);
         return xIs && yIs;
     }
 
@@ -53,9 +56,15 @@ public class Vector2Condition
                 return paramValue > comparison.value;
             case Comparator.LessThan:
                 return paramValue < comparison.value;
+            case Comparator.AbsGreaterThan:
+                return Mathf.Abs(paramValue) > comparison.value;
+            case Comparator.AbsLessThan:
+                return Mathf.Abs(paramValue) < comparison.value;
             case Comparator.Ignore:
                 return true;
         }
+        
+        Debug.Log(this.ToString());
 
         return false;
     }

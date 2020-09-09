@@ -275,14 +275,14 @@ public class LayeredStateMachine : MonoBehaviour
         string vector2String = "";
         foreach (var vector2Variable in debugParameters.GetVector2Variables())
         {
-            floatString += $"- {vector2Variable.name}: {vector2Variable.Value} \n";
+            vector2String += $"- {vector2Variable.name}: {vector2Variable.Value} \n";
         }
         
         float vector2Size = (lineHeight) * debugParameters.GetVector2Variables().Count;
 
 
         GUI.TextField(new Rect(pivotX, pivotY + previousHeights, width, vector2Size),
-            floatString);
+            vector2String);
         previousHeights += vector2Size + betweenTypeMargin;
         
         //Vector3

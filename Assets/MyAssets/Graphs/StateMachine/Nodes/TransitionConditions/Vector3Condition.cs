@@ -6,7 +6,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 
 [System.Serializable]
-public class Vector3Condition
+public class Vector3Condition : ITransitionCondition
 {
     [HideLabel, Required, SerializeField] private Vector3Reference targetParameter;
 
@@ -36,7 +36,7 @@ public class Vector3Condition
         parentTransitionName = transitionName;
     }
 
-    public bool Evaluate()
+    public bool Evaluate(TriggerVariable receivedTrigger)
     {
         return false;
         bool xIs = Compare(xCompare, targetParameter.Value.x);

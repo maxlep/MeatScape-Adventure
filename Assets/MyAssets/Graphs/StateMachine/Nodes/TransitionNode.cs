@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
@@ -60,6 +61,7 @@ public class TransitionNode : Node
     private bool zoom = false;
     private List<StateNode> startStateOptions = new List<StateNode>();
     private List<TriggerVariable> triggerVars = new List<TriggerVariable>();
+    private List<ITransitionCondition> allConditions = new List<ITransitionCondition>();
 
     public List<TriggerVariable> TriggerVars => triggerVars;
     public string ConditionPreview => conditionPreview;
@@ -90,7 +92,19 @@ public class TransitionNode : Node
         triggerVars.Clear();
         isInitialized = true;
         InitNodeName();
+
+        //Here add all conditions to master list for evaluation and init
+        allConditions.Clear();
+        allConditions = allConditions.Union(BoolConditions).ToList();
+        allConditions = allConditions.Union(TriggerConditions).ToList();
+        allConditions = allConditions.Union(FloatConditions).ToList();
+        allConditions = allConditions.Union(IntConditions).ToList();
+        allConditions = allConditions.Union(TimerConditions).ToList();
+        allConditions = allConditions.Union(Vector2Conditions).ToList();
+        allConditions = allConditions.Union(Vector3Conditions).ToList();
         InitConditions();
+        
+        PopulateTriggerList();
     }
     
     public virtual void RuntimeInitialize()
@@ -116,6 +130,15 @@ public class TransitionNode : Node
     public List<StateNode> GetStartStateDropdown()
     {
         return startStateOptions;
+    }
+
+    private void PopulateTriggerList()
+    {
+        foreach (var triggerCondition in TriggerConditions)
+        {
+            if (triggerCondition.TargetParameter != null) 
+                triggerVars.Add(triggerCondition.TargetParameter);
+        }
     }
 
     public StateNode GetNextState()
@@ -176,48 +199,11 @@ public class TransitionNode : Node
         {
             conditionPreview += $"- Start: {startState.GetName()}\n";
         }
-        foreach (var boolCondition in BoolConditions)
+
+        foreach (var condition in allConditions)
         {
-            boolCondition.Init(name);
-            conditionPreview += $"- {boolCondition}\n";
-        }
-        
-        foreach (var triggerCondition in TriggerConditions)
-        {
-            triggerCondition.Init(name);
-            if (triggerCondition.TargetParameter != null) 
-                triggerVars.Add(triggerCondition.TargetParameter);
-            conditionPreview += $"- {triggerCondition}\n";
-        }
-        
-        foreach (var floatCondition in FloatConditions)
-        {
-            floatCondition.Init(name);
-            conditionPreview += $"- {floatCondition}\n";
-        }
-        
-        foreach (var intCondition in IntConditions)
-        {
-            intCondition.Init(name);
-            conditionPreview += $"- {intCondition}\n";
-        }
-        
-        foreach (var timerCondition in TimerConditions)
-        {
-            timerCondition.Init(name);
-            conditionPreview += $"- {timerCondition}\n";
-        }
-        
-        foreach (var vector2Condition in Vector2Conditions)
-        {
-            vector2Condition.Init(name);
-            conditionPreview += $"- {vector2Condition}\n";
-        }
-        
-        foreach (var vector3Condition in Vector3Conditions)
-        {
-            vector3Condition.Init(name);
-            conditionPreview += $"- {vector3Condition}\n";
+            condition.Init(name);
+            conditionPreview += $"- {condition}\n";
         }
     }
 
@@ -227,13 +213,7 @@ public class TransitionNode : Node
     public bool EvaluateConditions(TriggerVariable receivedTrigger = null)
     {
         bool result = true;
-        
-        //If no conditions, done
-        if (BoolConditions.IsNullOrEmpty() && TriggerConditions.IsNullOrEmpty() &&
-            FloatConditions.IsNullOrEmpty() && IntConditions.IsNullOrEmpty() &&
-            ValidStartStates.IsNullOrEmpty() && TimerConditions.IsNullOrEmpty()) 
-            return true;
-        
+
         //Check Valid start states (OR)
         if (!ValidStartStates.IsNullOrEmpty())
         {
@@ -246,73 +226,13 @@ public class TransitionNode : Node
             }));
             if (!isValidStateActive) return false;
         }
-
-        //Check BoolConditions (AND)
-        if (!BoolConditions.IsNullOrEmpty())
-        {
-            foreach (var boolCondition in BoolConditions)
-            {
-                result &= boolCondition.Evaluate();
-                if (!result) return false;
-            }
-        }
-
-        //Check TriggerConditions (AND)
-        if (!TriggerConditions.IsNullOrEmpty())
-        {
-            foreach (var triggerCondition in TriggerConditions)
-            {
-                result &= triggerCondition.Evaluate(receivedTrigger);
-                if (!result) return false;
-            }
-        }
-
-        //Check FloatConditions (AND)
-        if (!FloatConditions.IsNullOrEmpty())
-        {
-            foreach (var floatCondition in FloatConditions)
-            {
-                result &= floatCondition.Evaluate();
-                if (!result) return false;
-            }
-        }
         
-        //Check IntConditions (AND)
-        if (!IntConditions.IsNullOrEmpty())
+        //Check Conditions (AND)
+        if (!allConditions.IsNullOrEmpty())
         {
-            foreach (var intCondition in IntConditions)
+            foreach (var condition in allConditions)
             {
-                result &= intCondition.Evaluate();
-                if (!result) return false;
-            }
-        }
-        
-        //Check TimerConditions (AND)
-        if (!TimerConditions.IsNullOrEmpty())
-        {
-            foreach (var timerCondition in TimerConditions)
-            {
-                result &= timerCondition.Evaluate();
-                if (!result) return false;
-            }
-        }
-        
-        //Check Vector2Conditions (AND)
-        if (!Vector2Conditions.IsNullOrEmpty())
-        {
-            foreach (var vector2Condition in Vector2Conditions)
-            {
-                result &= vector2Condition.Evaluate();
-                if (!result) return false;
-            }
-        }
-        
-        //Check Vector3Conditions (AND)
-        if (!Vector3Conditions.IsNullOrEmpty())
-        {
-            foreach (var vector3Condition in Vector3Conditions)
-            {
-                result &= vector3Condition.Evaluate();
+                result &= condition.Evaluate(receivedTrigger);
                 if (!result) return false;
             }
         }

@@ -6,7 +6,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 
 [System.Serializable]
-public class BoolCondition
+public class BoolCondition : ITransitionCondition
 {
     [SerializeField] [HideLabel] private BoolReference targetParameter;
     
@@ -19,7 +19,7 @@ public class BoolCondition
         parentTransitionName = transitionName;
     }
 
-    public bool Evaluate()
+    public bool Evaluate(TriggerVariable receivedTrigger)
     {
 
         return targetParameter.Value == value;

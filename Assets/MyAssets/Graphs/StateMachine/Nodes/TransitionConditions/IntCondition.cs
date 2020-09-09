@@ -6,7 +6,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 
 [System.Serializable]
-public class IntCondition
+public class IntCondition : ITransitionCondition
 {
     
     [SerializeField] [HideLabel] private IntReference targetParameter;
@@ -31,7 +31,7 @@ public class IntCondition
         parentTransitionName = transitionName;
     }
 
-    public bool Evaluate()
+    public bool Evaluate(TriggerVariable receivedTrigger)
     {
         int paramValue = targetParameter.Value;
         

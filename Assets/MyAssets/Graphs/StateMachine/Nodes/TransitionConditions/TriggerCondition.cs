@@ -6,7 +6,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 
 [System.Serializable]
-public class TriggerCondition
+public class TriggerCondition : ITransitionCondition
 {
     [SerializeField] [HideLabel] private TriggerVariable targetParameter;
     
@@ -28,11 +28,11 @@ public class TriggerCondition
     }
 
     //Check if the trigger variable that was activated matches the one for this condition
-    public bool Evaluate(TriggerVariable ReceivedTrigger)
+    public bool Evaluate(TriggerVariable receivedTrigger)
     {
         if (stayingActive) return true;
 
-        bool triggerMatches = targetParameter.Equals(ReceivedTrigger);
+        bool triggerMatches = targetParameter.Equals(receivedTrigger);
         if (triggerMatches && KeepTriggerOn)
             stayingActive = true;
         

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
 using Unity.Collections;
 using UnityEngine;
 
 [System.Serializable]
-public class TimerCondition
+public class TimerCondition : ITransitionCondition
 {
     [SerializeField] [HideLabel] private TimerReference targetParameter;
 
@@ -17,7 +18,7 @@ public class TimerCondition
         parentTransitionName = transitionName;
     }
 
-    public bool Evaluate()
+    public bool Evaluate(TriggerVariable receivedTrigger)
     {
         UpdateTime();
         

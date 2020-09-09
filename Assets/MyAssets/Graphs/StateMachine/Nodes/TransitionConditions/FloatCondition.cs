@@ -6,7 +6,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 
 [System.Serializable]
-public class FloatCondition
+public class FloatCondition : ITransitionCondition
 {
     
     [SerializeField] [HideLabel] private FloatReference targetParameter;
@@ -28,7 +28,7 @@ public class FloatCondition
         parentTransitionName = transitionName;
     }
 
-    public bool Evaluate()
+    public bool Evaluate(TriggerVariable receivedTrigger)
     {
         float paramValue = targetParameter.Value;
 

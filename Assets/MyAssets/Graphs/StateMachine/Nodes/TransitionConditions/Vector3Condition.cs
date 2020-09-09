@@ -21,10 +21,12 @@ public class Vector3Condition : ITransitionCondition
     {
         Ignore,
         LessThan,
-        GreaterThan
+        GreaterThan,
+        AbsGreaterThan,
+        AbsLessThan,
     }
     
-    [Serializable]
+    [System.Serializable]
     public struct Comparison
     {
         public Comparator comparator;
@@ -38,7 +40,6 @@ public class Vector3Condition : ITransitionCondition
 
     public bool Evaluate(TriggerVariable receivedTrigger)
     {
-        return false;
         bool xIs = Compare(xCompare, targetParameter.Value.x);
         bool yIs = Compare(yCompare, targetParameter.Value.y);
         bool zIs = Compare(zCompare, targetParameter.Value.z);
@@ -58,6 +59,10 @@ public class Vector3Condition : ITransitionCondition
                 return paramValue > comparison.value;
             case Comparator.LessThan:
                 return paramValue < comparison.value;
+            case Comparator.AbsGreaterThan:
+                return Mathf.Abs(paramValue) > comparison.value;
+            case Comparator.AbsLessThan:
+                return Mathf.Abs(paramValue) < comparison.value;
             case Comparator.Ignore:
                 return true;
         }

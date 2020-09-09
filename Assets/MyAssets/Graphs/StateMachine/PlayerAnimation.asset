@@ -217,7 +217,7 @@ MonoBehaviour:
   m_Name: Start 2
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -904, y: 312}
+  position: {x: -1000, y: 392}
   ports:
     keys:
     - EntryState
@@ -287,6 +287,77 @@ MonoBehaviour:
   min: 0
   max: -35
   peakThreshold: 20
+--- !u!114 &-7074754986663678180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: Ground Movement -> Idle
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1048, y: -424}
+  ports:
+    keys:
+    - startingState
+    - nextState
+    values:
+    - _fieldName: startingState
+      _node: {fileID: -7074754986663678180}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: 412120333977285081}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: nextState
+      _node: {fileID: -7074754986663678180}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: 4467610210530022387}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+  conditionPreview: '- IsGrounded
+
+    - 0 AbsLessThan 0.001 && 0 AbsLessThan 0.001
+
+'
+  ValidStartStates: []
+  BoolConditions:
+  - targetParameter:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: 7515e678ba0d82a4b92ee5e8bc9cee52, type: 2}
+    value: 1
+  TriggerConditions: []
+  FloatConditions: []
+  IntConditions: []
+  TimerConditions: []
+  Vector2Conditions:
+  - targetParameter:
+      UseConstant: 0
+      ConstantValue: {x: 0, y: 0}
+      Variable: {fileID: 11400000, guid: dd2cd63ae1d9c034096f0b67bb5bcf62, type: 2}
+    xCompare:
+      comparator: 4
+      value: 0.001
+    yCompare:
+      comparator: 4
+      value: 0.001
+  Vector3Conditions: []
 --- !u!114 &-6081461329572686580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,7 +423,7 @@ MonoBehaviour:
   m_Name: Walk <SequenceBlend>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 520, y: 440}
+  position: {x: 408, y: 472}
   ports:
     keys:
     - transitions
@@ -527,7 +598,7 @@ MonoBehaviour:
   m_Name: Idle <SubStateProcessorNode>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -536, y: 296}
+  position: {x: -632, y: 392}
   ports:
     keys:
     - previousState
@@ -552,6 +623,9 @@ MonoBehaviour:
       connections:
       - fieldName: startingState
         node: {fileID: 1882534402556617292}
+        reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: 7148953881133016071}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -624,10 +698,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Fall -> Ground Movement
+  m_Name: Fall -> Idle
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 3176, y: 184}
+  position: {x: 3240, y: 296}
   ports:
     keys:
     - nextState
@@ -709,6 +783,8 @@ MonoBehaviour:
   - {fileID: 1882534402556617292}
   - {fileID: 6227656847239980657}
   - {fileID: -4801274928944331001}
+  - {fileID: -7074754986663678180}
+  - {fileID: 4467610210530022387}
 --- !u!114 &257019424456394427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -719,7 +795,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Jump -> Ground Movement
+  m_Name: Jump -> Idle
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 2104, y: 696}
@@ -787,7 +863,7 @@ MonoBehaviour:
   m_Name: Ground Movement <SubStateProcessorNode>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 520, y: 184}
+  position: {x: 408, y: 216}
   ports:
     keys:
     - transitions
@@ -803,6 +879,9 @@ MonoBehaviour:
         reroutePoints: []
       - fieldName: startingState
         node: {fileID: 7148953881133016071}
+        reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: -7074754986663678180}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -839,7 +918,7 @@ MonoBehaviour:
   m_Name: Idle -> Ground Movement
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -8, y: 312}
+  position: {x: -88, y: 184}
   ports:
     keys:
     - startingState
@@ -869,7 +948,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- 0 GreaterThan 0 && 0 GreaterThan 0
+  conditionPreview: '- 0 AbsGreaterThan 0 && 0 AbsGreaterThan 0
 
 '
   ValidStartStates: []
@@ -884,10 +963,10 @@ MonoBehaviour:
       ConstantValue: {x: 0, y: 0}
       Variable: {fileID: 11400000, guid: dd2cd63ae1d9c034096f0b67bb5bcf62, type: 2}
     xCompare:
-      comparator: 2
+      comparator: 3
       value: 0
     yCompare:
-      comparator: 2
+      comparator: 3
       value: 0
   Vector3Conditions: []
 --- !u!114 &2216499061113259886
@@ -903,7 +982,7 @@ MonoBehaviour:
   m_Name: Start 1
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 264, y: -696}
+  position: {x: -888, y: -408}
   ports:
     keys:
     - EntryState
@@ -934,7 +1013,7 @@ MonoBehaviour:
   m_Name: Transition Mixer <StateTransitionMixer>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 968, y: -696}
+  position: {x: -184, y: -408}
   ports:
     keys:
     - transitions
@@ -972,10 +1051,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
-  m_Name: Ground Movement <Reference>
+  m_Name: Idle <Reference>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 3736, y: 216}
+  position: {x: 3704, y: 296}
   ports:
     keys:
     - transitions
@@ -1002,7 +1081,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  referencedState: {fileID: 412120333977285081}
+  referencedState: {fileID: -4801274928944331001}
 --- !u!114 &2707482321196679568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1016,7 +1095,7 @@ MonoBehaviour:
   m_Name: Player Movement Tracker <MovementTracker>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 984, y: -1080}
+  position: {x: -168, y: -792}
   ports:
     keys:
     - transitions
@@ -1103,7 +1182,7 @@ MonoBehaviour:
   m_Name: Mixer Processor <SubStateProcessorNode>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 520, y: -696}
+  position: {x: -632, y: -408}
   ports:
     keys:
     - previousState
@@ -1145,7 +1224,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
-  m_Name: Ground Movement <Reference>
+  m_Name: Idle <Reference>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 2584, y: 1032}
@@ -1175,7 +1254,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  referencedState: {fileID: 412120333977285081}
+  referencedState: {fileID: -4801274928944331001}
 --- !u!114 &4176948142499552886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1276,6 +1355,47 @@ MonoBehaviour:
   boneTransformWeights:
   - transform: {fileID: 0}
     weight: 1
+--- !u!114 &4467610210530022387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: Idle <Reference>
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1512, y: -408}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: 4467610210530022387}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: -7074754986663678180}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: 4467610210530022387}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  referencedState: {fileID: -4801274928944331001}
 --- !u!114 &4519367803428870115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1341,7 +1461,7 @@ MonoBehaviour:
   m_Name: Start 0
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 280, y: -1080}
+  position: {x: -872, y: -792}
   ports:
     keys:
     - EntryState
@@ -1372,7 +1492,7 @@ MonoBehaviour:
   m_Name: Idle <SequenceBlend>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -536, y: 488}
+  position: {x: -632, y: 632}
   ports:
     keys:
     - previousState
@@ -1497,7 +1617,7 @@ MonoBehaviour:
   m_Name: Perambulator <SurveyorWheel>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 520, y: -136}
+  position: {x: 408, y: -104}
   ports:
     keys:
     - transitions
@@ -1554,7 +1674,7 @@ MonoBehaviour:
   m_Name: Ground Movement -> Jump
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1032, y: 312}
+  position: {x: 968, y: 408}
   ports:
     keys:
     - nextState
@@ -1579,6 +1699,9 @@ MonoBehaviour:
       connections:
       - fieldName: transitions
         node: {fileID: 412120333977285081}
+        reroutePoints: []
+      - fieldName: transitions
+        node: {fileID: -4801274928944331001}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -1670,7 +1793,7 @@ MonoBehaviour:
   m_Name: Parameter Processor <SubStateProcessorNode>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 536, y: -1080}
+  position: {x: -616, y: -792}
   ports:
     keys:
     - previousState

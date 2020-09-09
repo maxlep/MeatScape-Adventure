@@ -37,7 +37,6 @@ public class Vector2Condition : ITransitionCondition
 
     public bool Evaluate(TriggerVariable receivedTrigger)
     {
-        return false;
         bool xIs = Compare(xCompare, targetParameter.Value.x);
         bool yIs = Compare(yCompare, targetParameter.Value.y);
         return xIs && yIs;

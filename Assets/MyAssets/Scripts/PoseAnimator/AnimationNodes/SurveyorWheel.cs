@@ -6,7 +6,7 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
 {
     public class SurveyorWheel : PlayerStateNode
     {
-        [SerializeField] private Vector3Reference moveVelocity;
+        [SerializeField] private Vector2Reference moveVelocity;
         [SerializeField] private FloatReference strideLength;
         [SerializeField] private FloatReference distance;
         [SerializeField] private FloatReference cyclePercent;
@@ -46,7 +46,7 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
         
         private void UpdateDistance()
         {
-            var distanceLastFrame = Time.deltaTime * moveVelocity.Value.xz().magnitude;
+            var distanceLastFrame = Time.deltaTime * moveVelocity.Value.magnitude;
             distance.Value += distanceLastFrame;
 
             if (distance.Value >= cycleLength)

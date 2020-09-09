@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 [System.Serializable]
-public class Vector3Condition
+public class Vector2Condition
 {
-    [HideLabel, Required, SerializeField] private Vector3Reference targetParameter;
+    [HideLabel, Required, SerializeField] private Vector2Reference targetParameter;
 
     [HideLabel] public Comparison xCompare;
     [HideLabel] public Comparison yCompare;
-    [HideLabel] public Comparison zCompare;
 
     private string parentTransitionName = "";
 
@@ -40,13 +37,12 @@ public class Vector3Condition
     {
         bool xIs = Compare(xCompare, targetParameter.Value.x);
         bool yIs = Compare(xCompare, targetParameter.Value.y);
-        bool zIs = Compare(xCompare, targetParameter.Value.z);
-        return xIs && yIs && zIs;
+        return xIs && yIs;
     }
 
     public override string ToString()
     {
-        return $"{targetParameter.Value.x} {xCompare.comparator} {xCompare.value} && {targetParameter.Value.y} {yCompare.comparator} {yCompare.value} && {targetParameter.Value.z} {zCompare.comparator} {zCompare.value}";
+        return $"{targetParameter.Value.x} {xCompare.comparator} {xCompare.value} && {targetParameter.Value.y} {yCompare.comparator} {yCompare.value}";
     }
 
     private bool Compare(Comparison comparison, float paramValue)

@@ -202,6 +202,8 @@ MonoBehaviour:
     value: -0.1
   IntConditions: []
   TimerConditions: []
+  Vector2Conditions: []
+  Vector3Conditions: []
 --- !u!114 &-7532187177855471807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,7 +217,7 @@ MonoBehaviour:
   m_Name: Start 2
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 184, y: 184}
+  position: {x: 72, y: 200}
   ports:
     keys:
     - EntryState
@@ -617,6 +619,8 @@ MonoBehaviour:
   FloatConditions: []
   IntConditions: []
   TimerConditions: []
+  Vector2Conditions: []
+  Vector3Conditions: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -717,6 +721,8 @@ MonoBehaviour:
       UseConstant: 0
       ConstantDuration: 0
       Variable: {fileID: 11400000, guid: 6e616a1c683baec4b8bc37b19781ee73, type: 2}
+  Vector2Conditions: []
+  Vector3Conditions: []
 --- !u!114 &412120333977285081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -782,7 +788,7 @@ MonoBehaviour:
   m_Name: Start 1
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 264, y: -584}
+  position: {x: 264, y: -696}
   ports:
     keys:
     - EntryState
@@ -813,7 +819,7 @@ MonoBehaviour:
   m_Name: Transition Mixer <StateTransitionMixer>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 968, y: -584}
+  position: {x: 968, y: -696}
   ports:
     keys:
     - transitions
@@ -982,7 +988,7 @@ MonoBehaviour:
   m_Name: Mixer Processor <SubStateProcessorNode>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 520, y: -584}
+  position: {x: 520, y: -696}
   ports:
     keys:
     - previousState
@@ -1011,7 +1017,7 @@ MonoBehaviour:
       _dynamic: 0
   Name: Mixer Processor
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   subStates:
   - {fileID: 2262669774243954757}
 --- !u!114 &3530653217615675558
@@ -1280,8 +1286,8 @@ MonoBehaviour:
   isActiveState: 0
   moveVelocity:
     UseConstant: 0
-    ConstantValue: {x: 0, y: 0, z: 0}
-    Variable: {fileID: 11400000, guid: 9bb89c095cc264240a1d00bcb25ce309, type: 2}
+    ConstantValue: {x: 0, y: 0}
+    Variable: {fileID: 11400000, guid: dd2cd63ae1d9c034096f0b67bb5bcf62, type: 2}
   strideLength:
     UseConstant: 0
     ConstantValue: 0
@@ -1349,6 +1355,8 @@ MonoBehaviour:
   FloatConditions: []
   IntConditions: []
   TimerConditions: []
+  Vector2Conditions: []
+  Vector3Conditions: []
 --- !u!114 &8243805061456828152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1407,6 +1415,8 @@ MonoBehaviour:
     value: 0.1
   IntConditions: []
   TimerConditions: []
+  Vector2Conditions: []
+  Vector3Conditions: []
 --- !u!114 &8411942365436646107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1449,6 +1459,6 @@ MonoBehaviour:
       _dynamic: 0
   Name: Parameter Processor
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   subStates:
   - {fileID: 2707482321196679568}

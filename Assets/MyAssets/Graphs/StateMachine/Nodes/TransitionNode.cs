@@ -45,6 +45,16 @@ public class TransitionNode : Node
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
     [OnValueChanged("InitConditions")]
     [SerializeField] private List<TimerCondition> TimerConditions = new List<TimerCondition>();
+    
+    [Tooltip("Transition only valid if ALL of these Vector2 condition are met")] [ListDrawerSettings(Expanded = true, DraggableItems = false)]
+    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
+    [OnValueChanged("InitConditions")]
+    [SerializeField] private List<Vector2Condition> Vector2Conditions = new List<Vector2Condition>();
+    
+    [Tooltip("Transition only valid if ALL of these Vector3 condition are met")] [ListDrawerSettings(Expanded = true, DraggableItems = false)]
+    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
+    [OnValueChanged("InitConditions")]
+    [SerializeField] private List<Vector3Condition> Vector3Conditions = new List<Vector3Condition>();
 
 
     private bool zoom = false;
@@ -197,6 +207,18 @@ public class TransitionNode : Node
             timerCondition.Init(name);
             conditionPreview += $"- {timerCondition}\n";
         }
+        
+        foreach (var vector2Condition in Vector2Conditions)
+        {
+            vector2Condition.Init(name);
+            conditionPreview += $"- {vector2Condition}\n";
+        }
+        
+        foreach (var vector3Condition in Vector2Conditions)
+        {
+            vector3Condition.Init(name);
+            conditionPreview += $"- {vector3Condition}\n";
+        }
     }
 
 
@@ -271,6 +293,26 @@ public class TransitionNode : Node
             foreach (var timerCondition in TimerConditions)
             {
                 result &= timerCondition.Evaluate();
+                if (!result) return false;
+            }
+        }
+        
+        //Check Vector2Conditions (AND)
+        if (!Vector2Conditions.IsNullOrEmpty())
+        {
+            foreach (var vector2Condition in Vector2Conditions)
+            {
+                result &= vector2Condition.Evaluate();
+                if (!result) return false;
+            }
+        }
+        
+        //Check Vector3Conditions (AND)
+        if (!Vector3Conditions.IsNullOrEmpty())
+        {
+            foreach (var vector3Condition in Vector3Conditions)
+            {
+                result &= vector3Condition.Evaluate();
                 if (!result) return false;
             }
         }

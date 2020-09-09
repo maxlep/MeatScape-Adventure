@@ -1,37 +1,32 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using MyAssets.ScriptableObjects.Variables;
-using MyAssets.Scripts.PoseAnimator;
+﻿using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
-using Unity.Collections;
 using UnityEngine;
-using UnityEngine.Animations;
-using UnityEngine.Playables;
 
-public class MeteredSequenceBlend : SequenceBlend
+namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
 {
-    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private Vector3Reference moveVelocity;
-    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] [Sirenix.OdinInspector.ReadOnly] private float meter = 0;
-    [HideIf("$zoom")] [LabelWidth(120)] [Range(0.5f, 5.0f)] public float strideLength = 2f;
-
-    public override void Execute()
+    public class MeteredSequenceBlend : SequenceBlend
     {
-        UpdateMeter();
-        base.Execute();
-    }
+        [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private Vector3Reference moveVelocity;
+        [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] [Sirenix.OdinInspector.ReadOnly] private float meter = 0;
+        [HideIf("$zoom")] [LabelWidth(120)] [Range(0.5f, 5.0f)] public float strideLength = 2f;
 
-    void UpdateMeter()
-    {
-        meter += Time.deltaTime * moveVelocity.Value.magnitude;
-
-        if (meter >= strideLength * 2)
+        public override void Execute()
         {
-            meter %= strideLength;
+            UpdateMeter();
+            base.Execute();
         }
 
-        var pct = meter / strideLength / 2;
-        factor.Value = pct;
+        void UpdateMeter()
+        {
+            meter += Time.deltaTime * moveVelocity.Value.magnitude;
+
+            if (meter >= strideLength * 2)
+            {
+                meter %= strideLength;
+            }
+
+            var pct = meter / strideLength / 2;
+            factor.Value = pct;
+        }
     }
 }

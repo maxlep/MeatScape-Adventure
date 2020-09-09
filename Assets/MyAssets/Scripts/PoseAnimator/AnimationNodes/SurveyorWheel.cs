@@ -1,10 +1,8 @@
-﻿using System;
-using System.ComponentModel;
-using MyAssets.ScriptableObjects.Variables;
+﻿using MyAssets.ScriptableObjects.Variables;
 using MyAssets.Scripts.Utils;
 using UnityEngine;
 
-namespace MyAssets.Scripts.PoseAnimator.Components
+namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
 {
     public class SurveyorWheel : PlayerStateNode
     {

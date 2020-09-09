@@ -64,6 +64,8 @@ namespace MyAssets.Scripts.PoseAnimator.Components
         {
             base.DrawGizmos();
 
+            if (probe == null) return;
+
             var up = probe.up;
             var forward = probe.forward;
             var right = probe.right;

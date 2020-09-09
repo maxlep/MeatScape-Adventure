@@ -35,8 +35,6 @@ public class SequenceBlend : PlayerStateNode
     {
         base.RuntimeInitialize();
 
-        Debug.Log($"Initialize {name}");
-
         if (!sequence.Any() || sequence.Any(pose => pose.pose == null))
             return;
 
@@ -172,9 +170,8 @@ public class SequenceBlend : PlayerStateNode
     (int start, int end, float weight) GetTransitionIndices()
     {
         var numPoses = sequence.Length;
-        if (loopSequence) numPoses -= 1;
 
-        var poseSize = 1.0f / numPoses;
+        var poseSize = 1.0f / (loopSequence ? numPoses : numPoses - 1);
 
         Debug.Assert(!float.IsPositiveInfinity(Mathf.Abs(factor.Value)));
         var poseNum = factor.Value / poseSize;
@@ -184,7 +181,7 @@ public class SequenceBlend : PlayerStateNode
         switch (extrapolateMode)
         {
             case ExtrapolateBehavior.Hold:
-                start = Mathf.RoundToInt(Mathf.Clamp(poseNum, 0, numPoses - 1));
+                start = Mathf.FloorToInt(Mathf.Clamp(poseNum, 0, numPoses - 1));
                 end = Mathf.Min(start + 1, numPoses - 1);
                 transitionWeight = factor.Value / poseSize;
                 break;

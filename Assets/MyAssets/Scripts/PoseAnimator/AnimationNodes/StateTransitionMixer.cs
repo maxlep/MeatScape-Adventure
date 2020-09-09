@@ -56,7 +56,9 @@ public class StateTransitionMixer : PlayerStateNode
         if (tweening && lastTween != null)
         {
             lastTween.callOnCompletes();
-            LeanTween.cancel(lastTween.id);
+            lastTween.setOnUpdate((float value) => { });
+            lastTween.setOnComplete(() => { });
+            // LeanTween.pause(lastTween.id);
         }
         
         // tweenPlayable = AnimatorControllerPlayable.Create(playableGraph, ac);

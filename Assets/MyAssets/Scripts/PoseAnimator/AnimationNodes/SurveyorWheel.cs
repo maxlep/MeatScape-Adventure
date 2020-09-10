@@ -1,16 +1,21 @@
-﻿using MyAssets.ScriptableObjects.Variables;
+﻿using System;
+using MyAssets.ScriptableObjects.Variables;
 using MyAssets.Scripts.Utils;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
 {
     public class SurveyorWheel : PlayerStateNode
     {
-        [SerializeField] private Vector2Reference moveVelocity;
-        [SerializeField] private FloatReference strideLength;
-        [SerializeField] private FloatReference distance;
-        [SerializeField] private FloatReference cyclePercent;
-        [SerializeField, Sirenix.OdinInspector.ReadOnly] private Transform probe;
+        [HideIf("$zoom"), LabelWidth(120), SerializeField] private Vector2Reference moveVelocity;
+        [HideIf("$zoom"), LabelWidth(120), SerializeField] private FloatReference strideLength;
+        [HideIf("$zoom"), LabelWidth(120), SerializeField] private FloatReference distance;
+        [HideIf("$zoom"), LabelWidth(120), SerializeField] private FloatReference cyclePercent;
+
+        [HideIf("$zoom"), LabelWidth(120), SerializeField] private bool resetOnStart = true;
+        [HideIf("$zoom"), LabelWidth(120), SerializeField, ShowIf("resetOnStart")] private float roundToMultiple = 1;
+        [HideIf("$zoom"), LabelWidth(120), SerializeField, Sirenix.OdinInspector.ReadOnly] private Transform probe;
 
         private float cycleLength;
         private float radius;
@@ -18,20 +23,31 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
         protected override void OnValidate()
         {
             base.OnValidate();
+
             UpdateCachedValues();
         }
 
-        public override void Initialize(StateMachineGraph parentGraph)
+        public override void RuntimeInitialize()
         {
-            base.Initialize(parentGraph);
+            base.RuntimeInitialize();
+            
+            probe = playerController.transform;
         }
 
         public override void Enter()
         {
+            base.Enter();
+            
             UpdateCachedValues();
-            probe = playerController.transform;
+            if (resetOnStart)
+            {
+                var roundedPct = Mathf.Floor(cyclePercent.Value / roundToMultiple) * roundToMultiple;
+                cyclePercent.Value = Mathf.Clamp(roundedPct, 0, 1);
+                distance.Value = cyclePercent.Value * cycleLength;
+                Debug.Log(cyclePercent.Value +" "+ distance.Value);
+            }
         }
-        
+
         private void UpdateCachedValues()
         {
             cycleLength = 2 * strideLength.Value;
@@ -41,6 +57,7 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
         public override void Execute()
         {
             base.Execute();
+
             UpdateDistance();
         }
         

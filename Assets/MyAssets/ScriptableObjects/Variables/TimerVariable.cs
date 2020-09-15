@@ -18,6 +18,7 @@ public class TimerVariable : ScriptableObject
 
     public float Duration => duration;
     public float RemainingTime => remaingTime;
+    public float ElapsedTime => duration - remaingTime;
 
     private float startTime = Mathf.NegativeInfinity;
     
@@ -44,6 +45,20 @@ public class TimerReference
     [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [ShowIf("UseConstant")]
     [SerializeField] private float ConstantDuration;
     [ShowInInspector] private float ConstantRemainingTime;
+
+    public float ElapsedTime
+    {
+        get
+        {
+            if (UseConstant)
+                return ConstantDuration - ConstantRemainingTime;
+            if (Variable != null)
+                return Variable.ElapsedTime;
+            
+            Debug.LogError("Trying to access elapsed time for timer variable that is not set!");
+            return Mathf.Infinity;
+        }
+    }
 
     [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [HideIf("UseConstant")] 
     [SerializeField] private TimerVariable Variable;

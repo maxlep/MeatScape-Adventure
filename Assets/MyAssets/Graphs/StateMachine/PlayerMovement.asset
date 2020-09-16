@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96ade182131c6464e90b9ffc95aad257, type: 3}
-  m_Name: Sit <StateNode>
+  m_Name: Sit <StateNode> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 2344, y: -648}
@@ -96,6 +96,7 @@ MonoBehaviour:
 
 '
   ValidStartStates: []
+  InvalidStartStates: []
   BoolConditions: []
   TriggerConditions:
   - targetParameter: {fileID: 11400000, guid: e68ad060bf5f14a4fbc04729ff1c7732, type: 2}
@@ -151,11 +152,12 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- Start: Downward Throw
+  conditionPreview: '- Valid: Downward Throw
 
 '
   ValidStartStates:
   - {fileID: -6583862081062639760, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
+  InvalidStartStates: []
   BoolConditions: []
   TriggerConditions: []
   FloatConditions: []
@@ -212,6 +214,7 @@ MonoBehaviour:
 
 '
   ValidStartStates: []
+  InvalidStartStates: []
   BoolConditions:
   - targetParameter:
       UseConstant: 0
@@ -239,10 +242,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> Ground Movement'
+  m_Name: RegenerateMeat -> No Regenerate
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1288, y: 824}
+  position: {x: 776, y: -2456}
   ports:
     keys:
     - nextState
@@ -254,7 +257,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: previousState
-        node: {fileID: -5081197550139966255}
+        node: {fileID: -6579928100487502534}
         reroutePoints: []
       _direction: 1
       _connectionType: 1
@@ -276,6 +279,7 @@ MonoBehaviour:
 
 '
   ValidStartStates: []
+  InvalidStartStates: []
   BoolConditions:
   - targetParameter:
       UseConstant: 0
@@ -288,6 +292,50 @@ MonoBehaviour:
   TimerConditions: []
   Vector2Conditions: []
   Vector3Conditions: []
+--- !u!114 &-6579928100487502534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: No Regenerate <Reference>
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1464, y: -2152}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: -6579928100487502534}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: -6648554734812905058}
+        reroutePoints: []
+      - fieldName: nextState
+        node: {fileID: 4561756819883085569}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: -6579928100487502534}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  referencedState: {fileID: -698635519420842403}
 --- !u!114 &-5368650478412996812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,7 +346,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c9407b3066ed4db1853f20740c0e142f, type: 3}
-  m_Name: AirJump <Jump>
+  m_Name: AirJump <Jump> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1160, y: -8}
@@ -395,9 +443,6 @@ MonoBehaviour:
         node: {fileID: -3193452684244252466}
         reroutePoints: []
       - fieldName: nextState
-        node: {fileID: -6648554734812905058}
-        reroutePoints: []
-      - fieldName: nextState
         node: {fileID: 7029236538494561041}
         reroutePoints: []
       _direction: 0
@@ -415,7 +460,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3025855eed90dd4f81a5b42e0e18392, type: 3}
-  m_Name: AirMovement <AirMovement>
+  m_Name: AirMovement <AirMovement> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 408, y: 152}
@@ -512,7 +557,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0d5269aa6174d64197af3747b814ea2, type: 3}
-  m_Name: Pound Stall <AirStall>
+  m_Name: Pound Stall <AirStall> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 312, y: -984}
@@ -565,10 +610,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 51ffc788b631c4c4d97dc30a5bd5e85a, type: 3}
-  m_Name: ' <RegenerateMeat>'
+  m_Name: RegenerateMeat <RegenerateMeat> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 504, y: 952}
+  position: {x: -24, y: -2232}
   ports:
     keys:
     - transitions
@@ -581,6 +626,9 @@ MonoBehaviour:
       connections:
       - fieldName: startingState
         node: {fileID: -6648554734812905058}
+        reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: 4561756819883085569}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -598,8 +646,8 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  Name: 
-  zoom: 1
+  Name: RegenerateMeat
+  zoom: 0
   isActiveState: 0
   MoveSpeed:
     UseConstant: 0
@@ -676,6 +724,7 @@ MonoBehaviour:
 
 '
   ValidStartStates: []
+  InvalidStartStates: []
   BoolConditions:
   - targetParameter:
       UseConstant: 0
@@ -735,6 +784,7 @@ MonoBehaviour:
 
 '
   ValidStartStates: []
+  InvalidStartStates: []
   BoolConditions:
   - targetParameter:
       UseConstant: 0
@@ -747,6 +797,37 @@ MonoBehaviour:
   TimerConditions: []
   Vector2Conditions: []
   Vector3Conditions: []
+--- !u!114 &-1939194279676468460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 930e558c2cd3476d9597f9c3ee7ea28d, type: 3}
+  m_Name: Start 1
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -1608, y: -2248}
+  ports:
+    keys:
+    - EntryState
+    values:
+    - _fieldName: EntryState
+      _node: {fileID: -1939194279676468460}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: -698635519420842403}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+  executionOrderIndex: 1
 --- !u!114 &-1126308274419738181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -794,6 +875,7 @@ MonoBehaviour:
 
 '
   ValidStartStates: []
+  InvalidStartStates: []
   BoolConditions:
   - targetParameter:
       UseConstant: 0
@@ -816,7 +898,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: da111ca52dd64bb6a384ac70a329bbfd, type: 3}
-  m_Name: Ground Movement <GroundMovement>
+  m_Name: Ground Movement <GroundMovement> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -1048, y: -40}
@@ -836,9 +918,6 @@ MonoBehaviour:
       - fieldName: startingState
         node: {fileID: -3641797515424182864}
         reroutePoints: []
-      - fieldName: startingState
-        node: {fileID: 1774001216532265918}
-        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 2
@@ -857,7 +936,7 @@ MonoBehaviour:
       _dynamic: 0
   Name: Ground Movement
   zoom: 1
-  isActiveState: 0
+  isActiveState: 1
   MoveSpeed:
     UseConstant: 0
     ConstantValue: 0
@@ -923,6 +1002,52 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   referencedState: {fileID: -4990919157884066038}
+--- !u!114 &-698635519420842403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96ade182131c6464e90b9ffc95aad257, type: 3}
+  m_Name: No Regenerate <StateNode> (PlayerMovement)
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -1256, y: -2280}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: -698635519420842403}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: EntryState
+        node: {fileID: -1939194279676468460}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: -698635519420842403}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: startingState
+        node: {fileID: 1774001216532265918}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  Name: No Regenerate
+  zoom: 0
+  isActiveState: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -961,6 +1086,10 @@ MonoBehaviour:
   - {fileID: -4675422572620251151}
   - {fileID: -7918136757166445424}
   - {fileID: 7029236538494561041}
+  - {fileID: 4561756819883085569}
+  - {fileID: -1939194279676468460}
+  - {fileID: -698635519420842403}
+  - {fileID: -6579928100487502534}
 --- !u!114 &134294574884168145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1012,7 +1141,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 049f62ae732a9ff418a2bfe8f9737efc, type: 3}
-  m_Name: Pound Fall <Pound>
+  m_Name: Pound Fall <Pound> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1400, y: -792}
@@ -1097,10 +1226,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: 'Ground Movement -> '
+  m_Name: No Regenerate -> RegenerateMeat
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -280, y: 824}
+  position: {x: -744, y: -2344}
   ports:
     keys:
     - nextState
@@ -1124,19 +1253,20 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: transitions
-        node: {fileID: -1108589282178386599}
+        node: {fileID: -698635519420842403}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- Start: DoNothing
+  conditionPreview: '- Valid: Ground Movement
 
     - RegenerateMeatPressed
 
 '
   ValidStartStates:
-  - {fileID: 9174840935225501389, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
+  - {fileID: -1108589282178386599}
+  InvalidStartStates: []
   BoolConditions:
   - targetParameter:
       UseConstant: 0
@@ -1159,7 +1289,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c9407b3066ed4db1853f20740c0e142f, type: 3}
-  m_Name: Jump <Jump>
+  m_Name: Jump <Jump> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 120, y: 136}
@@ -1216,6 +1346,65 @@ MonoBehaviour:
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 358e23c96757a634d87c428b8667b8ee, type: 2}
   triggerJumpAnim: {fileID: 11400000, guid: 692eae34b308467428fcb511fd2a56c5, type: 2}
+--- !u!114 &4561756819883085569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: RegenerateMeat -> No Regenerate
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 776, y: -1880}
+  ports:
+    keys:
+    - nextState
+    - startingState
+    values:
+    - _fieldName: nextState
+      _node: {fileID: 4561756819883085569}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: -6579928100487502534}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: startingState
+      _node: {fileID: 4561756819883085569}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: -4675422572620251151}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  conditionPreview: '- Invalid: Ground Movement
+
+    - Invalid: Downward Throw
+
+'
+  ValidStartStates: []
+  InvalidStartStates:
+  - {fileID: -1108589282178386599}
+  - {fileID: -6583862081062639760, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
+  BoolConditions: []
+  TriggerConditions: []
+  FloatConditions: []
+  IntConditions: []
+  TimerConditions: []
+  Vector2Conditions: []
+  Vector3Conditions: []
 --- !u!114 &5828536401669366259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1300,8 +1489,11 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: 
+  conditionPreview: '- JumpTrigger
+
+'
   ValidStartStates: []
+  InvalidStartStates: []
   BoolConditions: []
   TriggerConditions:
   - targetParameter: {fileID: 11400000, guid: cde4df9a2139a5e419bc8adc56c875e2, type: 2}
@@ -1354,8 +1546,11 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: 
+  conditionPreview: '- PostPoundDelay_Move: 0.2 sec
+
+'
   ValidStartStates: []
+  InvalidStartStates: []
   BoolConditions: []
   TriggerConditions: []
   FloatConditions: []
@@ -1377,7 +1572,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3025855eed90dd4f81a5b42e0e18392, type: 3}
-  m_Name: NoLowJump <AirMovement>
+  m_Name: NoLowJump <AirMovement> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1560, y: -24}
@@ -1512,6 +1707,7 @@ MonoBehaviour:
 
 '
   ValidStartStates: []
+  InvalidStartStates: []
   BoolConditions: []
   TriggerConditions: []
   FloatConditions: []

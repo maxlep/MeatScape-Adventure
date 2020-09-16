@@ -4,7 +4,7 @@ using MyAssets.ScriptableObjects.Variables;
 
 public class RegenerateMeat : GroundMovement
 {
-    [HideReferenceObjectPicker] [SerializeField] private FloatReference regenerateMeatTime;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private FloatReference regenerateMeatTime;
     
     private float regenerateMeatStartTime;
 

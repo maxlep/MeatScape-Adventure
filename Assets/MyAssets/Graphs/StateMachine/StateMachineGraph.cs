@@ -204,15 +204,7 @@ public class StateMachineGraph : NodeGraph
         //Sort start nodes by execution order
         startNodes =  startNodes.OrderBy(s => s.ExecutionOrderIndex).ToList();
     }
-
-    //Init transition nodes with other machine states for dropdown
-    public void SendValidStatesToTransitions(List<StateNode> otherStateNodes)
-    {
-        foreach (var transitionNode in transitionNodes)
-        {
-            transitionNode.SetStartStates(otherStateNodes);
-        }
-    }
+     
 
     #endregion
 
@@ -268,6 +260,11 @@ public class StateMachineGraph : NodeGraph
     public List<StateNode> GetActiveStates()
     {
         return parentMachine.GetActiveStates(this);
+    }
+
+    public bool CheckInvalidStateActive(List<StateNode> invalidStates)
+    {
+        return parentMachine.CheckInvalidStateActive(invalidStates);
     }
 
     public void ToggleExpandAll(bool expanded)

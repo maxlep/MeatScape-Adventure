@@ -205,7 +205,8 @@ public class StateNode : Node
     
     protected virtual void OnValidate()
     {
-        name = $"{Name} <{this.GetType().Name}>";
+        string graphName = (stateMachineGraph != null) ? stateMachineGraph.name : "";
+        name = $"{Name} <{this.GetType().Name}> ({graphName})";
     }
     
     #endregion

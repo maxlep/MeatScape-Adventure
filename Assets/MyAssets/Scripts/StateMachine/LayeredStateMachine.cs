@@ -7,6 +7,7 @@ using System.Net.Configuration;
 using System.Runtime.ConstrainedExecution;
 using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 
 public class LayeredStateMachine : MonoBehaviour
 {
@@ -87,7 +88,6 @@ public class LayeredStateMachine : MonoBehaviour
         //Actually start machine and send over state nodes dict from other machines
         foreach (var stateMachine in stateMachines)
         {
-            SendValidStartStates(stateMachine);
             stateMachine.StartStateMachine(isRuntime);
         }
         
@@ -109,43 +109,62 @@ public class LayeredStateMachine : MonoBehaviour
             stateNodeDict.Add(stateNode, stateMachine);
         }
     }
-
-    //Get list of all states that are not for this machine
-    //Send list over to the state machine so it can then send to transition nodes
-    protected virtual void SendValidStartStates(StateMachineGraph receivingStateMachine)
-    {
-        List<StateNode> otherStateNodes = new List<StateNode>();
-        foreach (var stateNode in stateNodeDict.Keys)
-        {
-            if (stateNodeDict[stateNode] != receivingStateMachine)
-            {
-                otherStateNodes.Add(stateNode);
-            }
-        }
-        
-        receivingStateMachine.SendValidStatesToTransitions(otherStateNodes);
-    }
+    
 
     #endregion
 
-    //Send requesting state machine list of active states in the other state machines
+    //Send requesting state machine list of active states
     //For transition node valid start states
     public virtual List<StateNode> GetActiveStates(StateMachineGraph requestingStateMachine)
     {
         List<StateNode> activeStates = new List<StateNode>();
         foreach (var stateMachine in stateMachines)
         {
-            if (stateMachine != requestingStateMachine)
+            foreach (var currentState in stateMachine.currentStates)
             {
-                foreach (var currentState in stateMachine.currentStates)
-                {
-                    activeStates.Add(currentState);
-                }
-                
+                activeStates.Add(currentState);
             }
         }
 
         return activeStates;
+    }
+
+    //Return true if invalid state is in any of its state machine's active states
+    public virtual bool CheckInvalidStateActive(List<StateNode> invalidStates)
+    {
+        Dictionary<StateNode, StateMachineGraph> invalidStateDict  = new Dictionary<StateNode, StateMachineGraph>();
+        
+        //Populate dict of statemachine and its invalid state
+        invalidStates.ForEach(s =>
+        {
+            if (!stateNodeDict.ContainsKey(s))
+                Debug.LogError($"Trying to check invalid start state, {s.name} ,that is not part of state machines!");
+            if (!invalidStateDict.ContainsKey(s)) 
+                invalidStateDict.Add(s, stateNodeDict[s]);
+        });
+
+        bool result = false;
+        
+        //For each statemachine, check that at least 1 (OR) invalid state is active
+        foreach (var stateMachine in stateMachines)
+        {
+            bool isInvalidStateActive = false;
+            foreach (var pair in invalidStateDict)
+            {
+                if (pair.Value == stateMachine)
+                {
+                    if (stateMachine.currentStates.Contains(pair.Key))
+                    {
+                        isInvalidStateActive = true;
+                        break;
+                    }
+                }
+            }
+
+            result |= isInvalidStateActive;
+        }
+
+        return result;
     }
 
     #region Debug

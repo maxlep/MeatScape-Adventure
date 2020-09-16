@@ -17,49 +17,53 @@ public class TransitionNode : Node
     [TextArea(3,10)] [HideLabel]
     [SerializeField] private string conditionPreview;
 
-    [Tooltip("Transition only valid if ANY 1 or more of these states are active in OTHER state machine")]
-    [ValueDropdown("GetStartStateDropdown")] [ListDrawerSettings(Expanded = true, DraggableItems = false)]
+    [Tooltip("Transition only valid if ANY 1 or more of these states are active in OTHER state machine")] 
+    [ListDrawerSettings(Expanded = true, DraggableItems = false)] [Required]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.88f, 1f, .95f)]  [HideIf("$zoom")]
     [SerializeField] private List<StateNode> ValidStartStates = new List<StateNode>();
+    
+    [Tooltip("Transition only valid if ANY 1 or more of these states are not active in OTHER state machine")] 
+    [ListDrawerSettings(Expanded = true, DraggableItems = false)] [Required]
+    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.88f, 1f, .95f)]  [HideIf("$zoom")]
+    [SerializeField] private List<StateNode> InvalidStartStates = new List<StateNode>();
 
     [Tooltip("Transition only valid if ALL of these Bool condition are met")] [ListDrawerSettings(Expanded = true, DraggableItems = false)]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
-    [OnValueChanged("InitConditions")]
+    [OnValueChanged("InitConditions")] [Required]
     [SerializeField] private List<BoolCondition> BoolConditions = new List<BoolCondition>();
 
     [Tooltip("Transition only valid if ALL of these Trigger condition are met")] [ListDrawerSettings(Expanded = true, DraggableItems = false)]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
-    [OnValueChanged("InitConditions")]
+    [OnValueChanged("InitConditions")] [Required]
     [SerializeField] private List<TriggerCondition> TriggerConditions = new List<TriggerCondition>();
 
     [Tooltip("Transition only valid if ALL of these Float condition are met")] [ListDrawerSettings(Expanded = true, DraggableItems = false)]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
-    [OnValueChanged("InitConditions")]
+    [OnValueChanged("InitConditions")] [Required]
     [SerializeField] private List<FloatCondition> FloatConditions = new List<FloatCondition>();
 
     [Tooltip("Transition only valid if ALL of these Int condition are met")] [ListDrawerSettings(Expanded = true, DraggableItems = false)]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
-    [OnValueChanged("InitConditions")]
+    [OnValueChanged("InitConditions")] [Required]
     [SerializeField] private List<IntCondition> IntConditions = new List<IntCondition>();
     
     [Tooltip("Transition only valid if ALL of these Int condition are met")] [ListDrawerSettings(Expanded = true, DraggableItems = false)]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
-    [OnValueChanged("InitConditions")]
+    [OnValueChanged("InitConditions")] [Required]
     [SerializeField] private List<TimerCondition> TimerConditions = new List<TimerCondition>();
     
     [Tooltip("Transition only valid if ALL of these Vector2 condition are met")] [ListDrawerSettings(Expanded = true, DraggableItems = false)]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
-    [OnValueChanged("InitConditions")]
+    [OnValueChanged("InitConditions")] [Required]
     [SerializeField] private List<Vector2Condition> Vector2Conditions = new List<Vector2Condition>();
     
     [Tooltip("Transition only valid if ALL of these Vector3 condition are met")] [ListDrawerSettings(Expanded = true, DraggableItems = false)]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
-    [OnValueChanged("InitConditions")]
+    [OnValueChanged("InitConditions")] [Required]
     [SerializeField] private List<Vector3Condition> Vector3Conditions = new List<Vector3Condition>();
 
 
     private bool zoom = false;
-    private List<StateNode> startStateOptions = new List<StateNode>();
     private List<TriggerVariable> triggerVars = new List<TriggerVariable>();
     private List<ITransitionCondition> allConditions = new List<ITransitionCondition>();
 
@@ -73,7 +77,6 @@ public class TransitionNode : Node
     private string startingStateName;
     private string nextStateName;
 
-    public void SetStartStates(List<StateNode> startStates) => startStateOptions = startStates;
     public bool Zoom
     {
         get => zoom;
@@ -125,11 +128,6 @@ public class TransitionNode : Node
         startingStateName = inputState != null ? inputState.GetName() : "Any State";
         nextStateName = outputState != null ? outputState.GetName() : "<Missing>";
         name = $"{startingStateName} -> {nextStateName}";
-    }
-
-    public List<StateNode> GetStartStateDropdown()
-    {
-        return startStateOptions;
     }
 
     private void PopulateTriggerList()
@@ -195,9 +193,14 @@ public class TransitionNode : Node
     {
         conditionPreview = "";
         
-        foreach (var startState in ValidStartStates)
+        foreach (var validState in ValidStartStates)
         {
-            conditionPreview += $"- Start: {startState.GetName()}\n";
+            conditionPreview += $"- Valid: {validState.GetName()}\n";
+        }
+        
+        foreach (var inValidState in InvalidStartStates)
+        {
+            conditionPreview += $"- Invalid: {inValidState.GetName()}\n";
         }
 
         foreach (var condition in allConditions)
@@ -225,6 +228,17 @@ public class TransitionNode : Node
                 if (validState == activeState) isValidStateActive = true;
             }));
             if (!isValidStateActive) return false;
+        }
+        
+        //Check inValid start states (OR)
+        if (!InvalidStartStates.IsNullOrEmpty())
+        {
+            bool isInvalidStateAcitve = false;
+
+            isInvalidStateAcitve = stateMachineGraph.CheckInvalidStateActive(InvalidStartStates);
+      
+            
+            if (isInvalidStateAcitve) return false;
         }
         
         //Check Conditions (AND)

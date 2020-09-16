@@ -8,6 +8,7 @@ public class EnemyController : MonoBehaviour, ICharacterController
     [SerializeField] private KinematicCharacterMotor characterMotor;
     [SerializeField, SuffixLabel("m/s^2", Overlay = true)] private float Gravity = 10f;
     [SerializeField] private int MaxHealth = 1;
+    [SerializeField] private GameObject deathParticles;
 
     public delegate void OnDeath_();
     public event OnDeath_ OnDeath;
@@ -92,6 +93,7 @@ public class EnemyController : MonoBehaviour, ICharacterController
     private void KillEnemy() {
         OnDeath?.Invoke();
         KinematicCharacterSystem.UnregisterCharacterMotor(characterMotor);
+        EffectsManager.Instance?.SpawnParticlesAtPoint(deathParticles, transform.position, Quaternion.identity);
         Destroy(this.gameObject);
     }
 

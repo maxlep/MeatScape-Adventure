@@ -23,7 +23,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [SerializeField] private Transform root;
     [SerializeField] private Transform model;
     [SerializeField] private CapsuleCollider playerCollider;
-    
+    [SerializeField] private AudioClip jumpAttackClip;
+
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private Vector3Reference NewVelocity;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private QuaternionReference NewRotation;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference StoredJumpVelocity;
@@ -212,18 +213,23 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         GameObject otherGameObject = other.gameObject;
         if(otherGameObject.layer == LayerMask.NameToLayer("EnemyJumpTrigger"))
         {
-            EnemyJumpHurtTrigger enemyController = otherGameObject.GetComponent<EnemyJumpHurtTrigger>();
-            if (enemyController == null) return;
-            
-             float playerBottomY = playerCollider.bounds.center.y - playerCollider.bounds.extents.y;
-             float enemyTriggerBottomY = other.bounds.center.y - other.bounds.extents.y;
-             
-             //Only jump attack if player is above bottom of enemy trigger and falling downwards
-             if(playerBottomY > enemyTriggerBottomY && NewVelocity.Value.y <= 0f) {
-                enemyController.DamageEnemy(1);
-                JumpAttackTrigger.Activate();
-             }
+            AttemptJumpAttack(other, otherGameObject);
+        }
+    }
 
+    private void AttemptJumpAttack(Collider enemyCollider, GameObject enemyObject)
+    {
+        EnemyJumpHurtTrigger enemyController = enemyObject.GetComponent<EnemyJumpHurtTrigger>();
+        if (enemyController == null) return;
+            
+        float playerBottomY = playerCollider.bounds.center.y - playerCollider.bounds.extents.y;
+        float enemyTriggerBottomY = enemyCollider.bounds.center.y - enemyCollider.bounds.extents.y;
+             
+        //Only jump attack if player is above bottom of enemy trigger and falling downwards
+        if(playerBottomY > enemyTriggerBottomY && NewVelocity.Value.y <= 0f) {
+            enemyController.DamageEnemy(1);
+            JumpAttackTrigger.Activate();
+            EffectsManager.Instance?.PlayClipAtPoint(jumpAttackClip, transform.position, .5f);
         }
     }
     

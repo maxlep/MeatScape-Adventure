@@ -217,11 +217,13 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
             
              float playerBottomY = playerCollider.bounds.center.y - playerCollider.bounds.extents.y;
              float enemyTriggerBottomY = other.bounds.center.y - other.bounds.extents.y;
-             if(playerBottomY > enemyTriggerBottomY) {
+             
+             //Only jump attack if player is above bottom of enemy trigger and falling downwards
+             if(playerBottomY > enemyTriggerBottomY && NewVelocity.Value.y <= 0f) {
                 enemyController.DamageEnemy(1);
+                JumpAttackTrigger.Activate();
              }
-            
-            JumpAttackTrigger.Activate();
+
         }
     }
     

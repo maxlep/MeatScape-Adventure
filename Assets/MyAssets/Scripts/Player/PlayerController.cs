@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using KinematicCharacterController;
 using MyAssets.ScriptableObjects.Variables;
@@ -20,6 +21,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [SerializeField] private Transform firePoint;
     [SerializeField] private Transform root;
     [SerializeField] private Transform model;
+    [SerializeField] private CapsuleCollider playerCollider;
     
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private Vector3Reference NewVelocity;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private QuaternionReference NewRotation;
@@ -33,6 +35,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable JumpTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable DownwardAttackTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable GroundPoundTrigger;
+    [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable JumpAttackTrigger;
 
     [FoldoutGroup("Size Parameters")] [SerializeField] private PlayerSize startSize;
     [FoldoutGroup("Size Parameters")] [HideReferenceObjectPicker] [SerializeField] [SuffixLabel("ms")]
@@ -203,5 +206,23 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
             prop.UpdateValue(_currentSize);
         }
     }
-    
+
+    private void OnTriggerEnter(Collider other) {
+        GameObject otherGameObject = other.gameObject;
+        if(otherGameObject.layer == LayerMask.NameToLayer("EnemyJumpTrigger"))
+        {
+            EnemyJumpHurtTrigger enemyController = otherGameObject.GetComponent<EnemyJumpHurtTrigger>();
+            if (enemyController == null) return;
+            
+            BoxCollider enemyCollider = (BoxCollider)other;
+            
+            // float playerBottomY = playerCollider.bounds.center.y - playerCollider.bounds.extents.y;
+            // float enemyTopY = enemyCollider.bounds.center.y + enemyCollider.bounds.extents.y;
+            // if(playerBottomY > enemyTopY) {
+                enemyController.DamageEnemy(1);
+            // }
+            
+            JumpAttackTrigger.Activate();
+        }
+    }
 }

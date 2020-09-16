@@ -8,7 +8,7 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
 {
     public class SurveyorWheel : PlayerStateNode
     {
-        [HideIf("$zoom"), LabelWidth(120), SerializeField] private Vector2Reference moveVelocity;
+        [HideIf("$zoom"), LabelWidth(120), SerializeField] private Vector2Vec3Reference moveVelocity;
         [HideIf("$zoom"), LabelWidth(120), SerializeField] private FloatReference strideLength;
         [HideIf("$zoom"), LabelWidth(120), SerializeField] private FloatReference distance;
         [HideIf("$zoom"), LabelWidth(120), SerializeField] private FloatReference cyclePercent;

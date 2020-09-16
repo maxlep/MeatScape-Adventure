@@ -9,7 +9,7 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
     {
         [HideIf("$zoom"), LabelWidth(120), SerializeField] [EnumToggleButtons] protected Vector3Axes axis;
 
-        [HideIf("$zoom"), LabelWidth(120), SerializeField] protected FloatReference inputVelocity;
+        [HideIf("$zoom"), LabelWidth(120), SerializeField] protected FloatVec3Reference inputVelocity;
     
         [HideIf("$zoom"), LabelWidth(120), SerializeField] protected FloatReference outWeight;
 

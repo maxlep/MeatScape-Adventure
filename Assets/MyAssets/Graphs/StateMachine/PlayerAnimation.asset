@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 934d46b3c50342afa1950c0843fbec0d, type: 3}
-  m_Name: Fall <SequenceBlend> ()
+  m_Name: Fall <SequenceBlend>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 2616, y: 440}
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 65e22c5401b34e11b350842c67acb2ad, type: 3}
-  m_Name: Pound Driver <TimerDriver> ()
+  m_Name: Pound Driver <TimerDriver>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1192, y: 1352}
@@ -192,10 +192,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Ground Movement -> Fall
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 2104, y: 104}
+  position: {x: 2120, y: 104}
   ports:
     keys:
     - nextState
@@ -228,9 +228,13 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: 
+  conditionPreview: '- !IsGrounded
+
+    - 0 Ignore 0 && 0 LessThan -0.1 && 0 Ignore
+    0
+
+'
   ValidStartStates: []
-  InvalidStartStates: []
   BoolConditions:
   - targetParameter:
       UseConstant: 0
@@ -238,17 +242,24 @@ MonoBehaviour:
       Variable: {fileID: 11400000, guid: 7515e678ba0d82a4b92ee5e8bc9cee52, type: 2}
     value: 0
   TriggerConditions: []
-  FloatConditions:
-  - targetParameter:
-      UseConstant: 0
-      ConstantValue: 0
-      Variable: {fileID: 11400000, guid: 36f2c267ad1a0bc408ffc0d0422f0051, type: 2}
-    comparator: 0
-    value: -0.1
+  FloatConditions: []
   IntConditions: []
   TimerConditions: []
   Vector2Conditions: []
-  Vector3Conditions: []
+  Vector3Conditions:
+  - targetParameter:
+      UseConstant: 0
+      ConstantValue: {x: 0, y: 0, z: 0}
+      Variable: {fileID: 11400000, guid: dd2cd63ae1d9c034096f0b67bb5bcf62, type: 2}
+    xCompare:
+      comparator: 0
+      value: 0
+    yCompare:
+      comparator: 1
+      value: -0.1
+    zCompare:
+      comparator: 0
+      value: 0
 --- !u!114 &-7532187177855471807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -290,10 +301,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5e0958b1d2747a5b2e337bda72ad6b8, type: 3}
-  m_Name: Fall Driver <LinearSpring> ()
+  m_Name: Fall Driver <LinearSpring>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 2616, y: -104}
+  position: {x: 2616, y: -120}
   ports:
     keys:
     - transitions
@@ -322,9 +333,11 @@ MonoBehaviour:
   isActiveState: 0
   axis: 1
   inputVelocity:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 36f2c267ad1a0bc408ffc0d0422f0051, type: 2}
+    Source:
+      UseConstant: 0
+      ConstantValue: {x: 0, y: 0, z: 0}
+      Variable: {fileID: 11400000, guid: dd2cd63ae1d9c034096f0b67bb5bcf62, type: 2}
+    Component: 0
   outWeight:
     UseConstant: 0
     ConstantValue: 0
@@ -342,7 +355,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Ground Movement -> Idle
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1048, y: -424}
@@ -375,9 +388,13 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: 
+  conditionPreview: '- IsGrounded
+
+    - 0 AbsLessThan 0.001 && 0 Ignore 0 && 0 AbsLessThan
+    0.001
+
+'
   ValidStartStates: []
-  InvalidStartStates: []
   BoolConditions:
   - targetParameter:
       UseConstant: 0
@@ -388,18 +405,21 @@ MonoBehaviour:
   FloatConditions: []
   IntConditions: []
   TimerConditions: []
-  Vector2Conditions:
+  Vector2Conditions: []
+  Vector3Conditions:
   - targetParameter:
       UseConstant: 0
-      ConstantValue: {x: 0, y: 0}
+      ConstantValue: {x: 0, y: 0, z: 0}
       Variable: {fileID: 11400000, guid: dd2cd63ae1d9c034096f0b67bb5bcf62, type: 2}
     xCompare:
       comparator: 4
       value: 0.001
     yCompare:
+      comparator: 0
+      value: 0
+    zCompare:
       comparator: 4
       value: 0.001
-  Vector3Conditions: []
 --- !u!114 &-6081461329572686580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -410,10 +430,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5e0958b1d2747a5b2e337bda72ad6b8, type: 3}
-  m_Name: Jump Driver <LinearSpring> ()
+  m_Name: Jump Driver <LinearSpring>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1544, y: -152}
+  position: {x: 1544, y: -168}
   ports:
     keys:
     - transitions
@@ -442,9 +462,11 @@ MonoBehaviour:
   isActiveState: 0
   axis: 1
   inputVelocity:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 36f2c267ad1a0bc408ffc0d0422f0051, type: 2}
+    Source:
+      UseConstant: 0
+      ConstantValue: {x: 0, y: 0, z: 0}
+      Variable: {fileID: 11400000, guid: dd2cd63ae1d9c034096f0b67bb5bcf62, type: 2}
+    Component: 0
   outWeight:
     UseConstant: 0
     ConstantValue: 0
@@ -462,7 +484,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 934d46b3c50342afa1950c0843fbec0d, type: 3}
-  m_Name: Walk <SequenceBlend> ()
+  m_Name: Walk <SequenceBlend>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 408, y: 472}
@@ -637,7 +659,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bde82b2b60b32034ba17ac993ef9ed6f, type: 3}
-  m_Name: Idle <SubStateProcessorNode> ()
+  m_Name: Idle <SubStateProcessorNode>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -632, y: 392}
@@ -675,7 +697,7 @@ MonoBehaviour:
       _dynamic: 0
   Name: Idle
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   subStates:
   - {fileID: 6227656847239980657}
 --- !u!114 &-4449075156651536019
@@ -688,7 +710,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bde82b2b60b32034ba17ac993ef9ed6f, type: 3}
-  m_Name: Fall <SubStateProcessorNode> ()
+  m_Name: Fall <SubStateProcessorNode>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 2616, y: 200}
@@ -743,7 +765,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Fall -> Idle
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 3240, y: 296}
@@ -776,12 +798,11 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- Valid: Ground Movement
+  conditionPreview: '- Start: Ground Movement
 
 '
   ValidStartStates:
   - {fileID: -1108589282178386599, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  InvalidStartStates: []
   BoolConditions: []
   TriggerConditions: []
   FloatConditions: []
@@ -891,7 +912,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Jump -> Pound Stall
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 3224, y: -936}
@@ -927,12 +948,11 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- Valid: Pound Stall
+  conditionPreview: '- Start: Pound Stall
 
 '
   ValidStartStates:
   - {fileID: -4813754887986621945, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  InvalidStartStates: []
   BoolConditions: []
   TriggerConditions: []
   FloatConditions: []
@@ -950,10 +970,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Jump -> Idle
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 2104, y: 696}
+  position: {x: 2120, y: 1016}
   ports:
     keys:
     - nextState
@@ -983,9 +1003,12 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: 
+  conditionPreview: '- IsGrounded
+
+    - JumpMinTime: 0.05 sec
+
+'
   ValidStartStates: []
-  InvalidStartStates: []
   BoolConditions:
   - targetParameter:
       UseConstant: 0
@@ -1012,7 +1035,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bde82b2b60b32034ba17ac993ef9ed6f, type: 3}
-  m_Name: Ground Movement <SubStateProcessorNode> ()
+  m_Name: Ground Movement <SubStateProcessorNode>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 408, y: 216}
@@ -1067,7 +1090,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Pound Stall -> Pound Fall
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1656, y: 1624}
@@ -1100,12 +1123,11 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- Valid: Pound Fall
+  conditionPreview: '- Start: Pound Fall
 
 '
   ValidStartStates:
   - {fileID: 326285495737826313, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  InvalidStartStates: []
   BoolConditions: []
   TriggerConditions: []
   FloatConditions: []
@@ -1123,7 +1145,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Idle -> Ground Movement
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -88, y: 184}
@@ -1156,26 +1178,30 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: 
+  conditionPreview: '- 0 AbsGreaterThan 0 && 0 Ignore 0 && 0 AbsGreaterThan 0
+
+'
   ValidStartStates: []
-  InvalidStartStates: []
   BoolConditions: []
   TriggerConditions: []
   FloatConditions: []
   IntConditions: []
   TimerConditions: []
-  Vector2Conditions:
+  Vector2Conditions: []
+  Vector3Conditions:
   - targetParameter:
       UseConstant: 0
-      ConstantValue: {x: 0, y: 0}
+      ConstantValue: {x: 0, y: 0, z: 0}
       Variable: {fileID: 11400000, guid: dd2cd63ae1d9c034096f0b67bb5bcf62, type: 2}
     xCompare:
       comparator: 3
       value: 0
     yCompare:
+      comparator: 0
+      value: 0
+    zCompare:
       comparator: 3
       value: 0
-  Vector3Conditions: []
 --- !u!114 &2216499061113259886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1217,7 +1243,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 501103f640914568a337070fe9e55971, type: 3}
-  m_Name: Transition Mixer <StateTransitionMixer> ()
+  m_Name: Transition Mixer <StateTransitionMixer>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -200, y: -408}
@@ -1246,7 +1272,7 @@ MonoBehaviour:
       _dynamic: 0
   Name: Transition Mixer
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   defaultTweenDuration: 0.5
 --- !u!114 &2567095372823415316
 MonoBehaviour:
@@ -1299,7 +1325,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6440c9a7cc054193b396079ae2209cba, type: 3}
-  m_Name: Player Movement Tracker <MovementTracker> ()
+  m_Name: Player Movement Tracker <MovementTracker>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -168, y: -792}
@@ -1331,10 +1357,8 @@ MonoBehaviour:
   isActiveState: 0
   probe: {fileID: 0}
   numFrames: 10
-  outVelHoriz: {fileID: 11400000, guid: dd2cd63ae1d9c034096f0b67bb5bcf62, type: 2}
-  outAccelHoriz: {fileID: 11400000, guid: eeafa63b88e188d49ab1fa67135df466, type: 2}
-  outVelVert: {fileID: 11400000, guid: 36f2c267ad1a0bc408ffc0d0422f0051, type: 2}
-  outAccelVert: {fileID: 11400000, guid: aca9c6cae1c6ecd47b2c59564a3b16d3, type: 2}
+  outVel: {fileID: 11400000, guid: dd2cd63ae1d9c034096f0b67bb5bcf62, type: 2}
+  outAccel: {fileID: 11400000, guid: c10948b397e5e3e4d8134214ba8cd29d, type: 2}
 --- !u!114 &2923737762509335735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1386,7 +1410,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 934d46b3c50342afa1950c0843fbec0d, type: 3}
-  m_Name: Pound Stall <SequenceBlend> ()
+  m_Name: Pound Stall <SequenceBlend>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1192, y: 1832}
@@ -1520,7 +1544,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Pound Fall -> Idle
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 2568, y: 1656}
@@ -1553,12 +1577,11 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- Valid: Ground Movement
+  conditionPreview: '- Start: Ground Movement
 
 '
   ValidStartStates:
   - {fileID: -1108589282178386599, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  InvalidStartStates: []
   BoolConditions: []
   TriggerConditions: []
   FloatConditions: []
@@ -1576,7 +1599,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bde82b2b60b32034ba17ac993ef9ed6f, type: 3}
-  m_Name: Mixer Processor <SubStateProcessorNode> ()
+  m_Name: Mixer Processor <SubStateProcessorNode>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -632, y: -408}
@@ -1608,7 +1631,7 @@ MonoBehaviour:
       _dynamic: 0
   Name: Mixer Processor
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   subStates:
   - {fileID: 2262669774243954757}
 --- !u!114 &3530653217615675558
@@ -1662,7 +1685,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 934d46b3c50342afa1950c0843fbec0d, type: 3}
-  m_Name: Jump <SequenceBlend> ()
+  m_Name: Jump <SequenceBlend>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1544, y: 488}
@@ -1803,7 +1826,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bde82b2b60b32034ba17ac993ef9ed6f, type: 3}
-  m_Name: Jump <SubStateProcessorNode> ()
+  m_Name: Jump <SubStateProcessorNode>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1544, y: 200}
@@ -1889,7 +1912,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bde82b2b60b32034ba17ac993ef9ed6f, type: 3}
-  m_Name: Pound Stall <SubStateProcessorNode> ()
+  m_Name: Pound Stall <SubStateProcessorNode>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1192, y: 1608}
@@ -1935,7 +1958,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 934d46b3c50342afa1950c0843fbec0d, type: 3}
-  m_Name: Idle <SequenceBlend> ()
+  m_Name: Idle <SequenceBlend>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -632, y: 632}
@@ -1964,7 +1987,7 @@ MonoBehaviour:
       _dynamic: 0
   Name: Idle
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   transitionTime: 0.5
   transitionCurve:
     serializedVersion: 2
@@ -2101,7 +2124,7 @@ MonoBehaviour:
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: afdd76c4e6d54d54807c933595e7a19a, type: 3}
-  m_Name: Perambulator <SurveyorWheel> ()
+  m_Name: Perambulator <SurveyorWheel>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 408, y: -104}
@@ -2132,9 +2155,12 @@ MonoBehaviour:
   zoom: 0
   isActiveState: 0
   moveVelocity:
-    UseConstant: 0
-    ConstantValue: {x: 0, y: 0}
-    Variable: {fileID: 11400000, guid: dd2cd63ae1d9c034096f0b67bb5bcf62, type: 2}
+    Source:
+      UseConstant: 0
+      ConstantValue: {x: 0, y: 0, z: 0}
+      Variable: {fileID: 11400000, guid: dd2cd63ae1d9c034096f0b67bb5bcf62, type: 2}
+    ComponentX: 0
+    ComponentY: 2
   strideLength:
     UseConstant: 0
     ConstantValue: 0
@@ -2160,7 +2186,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Ground Movement -> Jump
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 968, y: 408}
@@ -2196,9 +2222,10 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: 
+  conditionPreview: '- JumpTrigger
+
+'
   ValidStartStates: []
-  InvalidStartStates: []
   BoolConditions: []
   TriggerConditions:
   - targetParameter: {fileID: 11400000, guid: 692eae34b308467428fcb511fd2a56c5, type: 2}
@@ -2218,7 +2245,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 934d46b3c50342afa1950c0843fbec0d, type: 3}
-  m_Name: Pound Fall <SequenceBlend> ()
+  m_Name: Pound Fall <SequenceBlend>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 2120, y: 1640}
@@ -2324,7 +2351,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Fall -> Jump
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 3224, y: -344}
@@ -2357,22 +2384,30 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: 
+  conditionPreview: '- 0 Ignore 0 && 0 GreaterThan 0.1 && 0 Ignore 0
+
+'
   ValidStartStates: []
-  InvalidStartStates: []
   BoolConditions: []
   TriggerConditions: []
-  FloatConditions:
-  - targetParameter:
-      UseConstant: 0
-      ConstantValue: 0
-      Variable: {fileID: 11400000, guid: 36f2c267ad1a0bc408ffc0d0422f0051, type: 2}
-    comparator: 1
-    value: 0.1
+  FloatConditions: []
   IntConditions: []
   TimerConditions: []
   Vector2Conditions: []
-  Vector3Conditions: []
+  Vector3Conditions:
+  - targetParameter:
+      UseConstant: 0
+      ConstantValue: {x: 0, y: 0, z: 0}
+      Variable: {fileID: 11400000, guid: dd2cd63ae1d9c034096f0b67bb5bcf62, type: 2}
+    xCompare:
+      comparator: 0
+      value: 0
+    yCompare:
+      comparator: 2
+      value: 0.1
+    zCompare:
+      comparator: 0
+      value: 0
 --- !u!114 &8411942365436646107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2383,7 +2418,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bde82b2b60b32034ba17ac993ef9ed6f, type: 3}
-  m_Name: Parameter Processor <SubStateProcessorNode> ()
+  m_Name: Parameter Processor <SubStateProcessorNode>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -616, y: -792}
@@ -2415,6 +2450,6 @@ MonoBehaviour:
       _dynamic: 0
   Name: Parameter Processor
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   subStates:
   - {fileID: 2707482321196679568}

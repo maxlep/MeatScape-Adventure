@@ -13,10 +13,8 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
         [HideIf("$zoom"), LabelWidth(120), SerializeField] private Transform probe;
         [HideIf("$zoom"), LabelWidth(120), SerializeField] private int numFrames;
         
-        [HideIf("$zoom"), LabelWidth(120), SerializeField] private Vector2Variable outVelHoriz;
-        [HideIf("$zoom"), LabelWidth(120), SerializeField] private Vector2Variable outAccelHoriz;
-        [HideIf("$zoom"), LabelWidth(120), SerializeField] private FloatVariable outVelVert;
-        [HideIf("$zoom"), LabelWidth(120), SerializeField] private FloatVariable outAccelVert;
+        [HideIf("$zoom"), LabelWidth(120), SerializeField] private Vector3Variable outVel;
+        [HideIf("$zoom"), LabelWidth(120), SerializeField] private Vector3Variable outAccel;
 
         private LinkedList<Vector3> posHist;
         private LinkedList<Vector3> velHist;
@@ -54,10 +52,8 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
             posHist.AddFirst(pos);
             velHist.AddFirst(vel);
 
-            outVelHoriz.Value = vel.xz().RoundNearZero();
-            outAccelHoriz.Value = accel.xz().RoundNearZero();
-            outVelVert.Value = vel.y.RoundNearZero();
-            outAccelVert.Value = accel.y.RoundNearZero();
+            outVel.Value = vel.RoundNearZero();
+            outAccel.Value = accel.RoundNearZero();
 
             // Debug.Log($"Execute fixed {name}, {pos}, {vel}, {accel}");
             // Debug.Assert(vel.y > 0);

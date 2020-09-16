@@ -18,6 +18,7 @@ public class AirMovement : PlayerStateNode
     [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private BoolReference JumpPressed;
     [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private Vector2Reference MoveInput;
     [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private Vector3Reference NewVelocityOut;
+    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private Vector3Reference cachedVelocity;
     [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private QuaternionReference NewRotationOut;
     
 
@@ -111,8 +112,9 @@ public class AirMovement : PlayerStateNode
     
     private void UpdateRotation(Quaternion currentRotation)
     {
-        if (moveDirection.AlmostZero()) return;
-        currentRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
+        Vector3 lookDirection = new Vector3(cachedVelocity.Value.x, 0f, cachedVelocity.Value.z);
+        if (Mathf.Approximately(lookDirection.magnitude, 0f)) return;
+        currentRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
         NewRotationOut.Value = currentRotation;
     }
 

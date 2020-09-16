@@ -208,7 +208,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         }
     }
 
-    private void OnTriggerEnter(Collider other) {
+    private void OnTriggerStay(Collider other) {
         GameObject otherGameObject = other.gameObject;
         if(otherGameObject.layer == LayerMask.NameToLayer("EnemyJumpTrigger"))
         {

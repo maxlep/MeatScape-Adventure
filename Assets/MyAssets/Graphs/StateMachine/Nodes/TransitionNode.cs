@@ -124,8 +124,18 @@ public class TransitionNode : Node
             return;
         
         StateNode inputState = inputConnection.node as StateNode;
+        StateReferenceNode inputReferenceState = inputConnection.node as StateReferenceNode;
+        AnyStateNode inputAnyState = inputConnection.node as AnyStateNode;
         
-        startingStateName = inputState != null ? inputState.GetName() : "Any State";
+        if (inputState != null)
+            startingStateName = inputState.GetName();
+        else if (inputReferenceState != null)
+            startingStateName = inputReferenceState.ReferencedState.GetName();
+        else if (inputAnyState != null)
+            startingStateName = "Any State";
+        else
+            startingStateName = "<Missing>";
+        
         nextStateName = outputState != null ? outputState.GetName() : "<Missing>";
         name = $"{startingStateName} -> {nextStateName}";
     }

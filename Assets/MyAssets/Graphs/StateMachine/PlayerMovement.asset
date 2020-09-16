@@ -133,7 +133,9 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: 
+  conditionPreview: '- GroundPoundTrigger
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -158,7 +160,7 @@ MonoBehaviour:
   m_Name: AirMovement -> AirJump
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 712, y: 88}
+  position: {x: 1192, y: 200}
   ports:
     keys:
     - nextState
@@ -217,7 +219,7 @@ MonoBehaviour:
   m_Name: AirMovement -> Ground Movement
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1208, y: 360}
+  position: {x: 1336, y: 872}
   ports:
     keys:
     - nextState
@@ -247,7 +249,11 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: 
+  conditionPreview: '- IsGrounded
+
+    - WaitedJumpGroundDelay
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -310,7 +316,9 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: 
+  conditionPreview: '- !RegenerateMeatPressed
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -382,7 +390,7 @@ MonoBehaviour:
   m_Name: AirJump <Jump> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1160, y: 104}
+  position: {x: 1640, y: 216}
   ports:
     keys:
     - transitions
@@ -449,7 +457,7 @@ MonoBehaviour:
   m_Name: Ground Movement <Reference>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 3368, y: 232}
+  position: {x: 3592, y: 440}
   ports:
     keys:
     - transitions
@@ -496,7 +504,7 @@ MonoBehaviour:
   m_Name: AirMovement <AirMovement> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 408, y: 264}
+  position: {x: 584, y: 264}
   ports:
     keys:
     - transitions
@@ -683,7 +691,9 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: 
+  conditionPreview: '- JumpAttackTrigger
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -819,7 +829,9 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: 
+  conditionPreview: '- !IsGrounded
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -847,7 +859,7 @@ MonoBehaviour:
   m_Name: NoLowJump -> Ground Movement
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 2088, y: -56}
+  position: {x: 2744, y: 152}
   ports:
     keys:
     - nextState
@@ -877,7 +889,9 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: 
+  conditionPreview: '- IsGrounded
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -966,7 +980,9 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: 
+  conditionPreview: '- IsGrounded
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -1403,6 +1419,8 @@ MonoBehaviour:
       _dynamic: 0
   conditionPreview: '- Valid: Ground Movement
 
+    - RegenerateMeatPressed
+
 '
   ValidStartStates:
   - {fileID: -1108589282178386599}
@@ -1686,7 +1704,9 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: 
+  conditionPreview: '- PostPoundDelay_Move: 0.2 sec
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -1713,7 +1733,7 @@ MonoBehaviour:
   m_Name: NoLowJump <AirMovement> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1560, y: 88}
+  position: {x: 2104, y: 216}
   ports:
     keys:
     - transitions
@@ -1730,7 +1750,7 @@ MonoBehaviour:
       - fieldName: startingState
         node: {fileID: -7312282678681196256}
         reroutePoints:
-        - {x: 1232, y: -80}
+        - {x: 1712, y: 32}
       _direction: 1
       _connectionType: 0
       _typeConstraint: 2
@@ -1886,7 +1906,9 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: 
+  conditionPreview: '- PoundStall: 0.3 sec
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []

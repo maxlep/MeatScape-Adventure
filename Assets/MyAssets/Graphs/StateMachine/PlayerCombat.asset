@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a5b13c47b83130d4b8b43bf8c05f286e, type: 3}
-  m_Name: Forward Throw <ForwardAttack>
+  m_Name: Forward Throw <ForwardAttack> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1688, y: 136}
@@ -73,7 +73,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 957190098a97870418a3f12e7ab67e15, type: 3}
-  m_Name: Downward Throw <DownwardAttack>
+  m_Name: Downward Throw <DownwardAttack> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1688, y: 584}
@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: DoNothing -> Forward Throw
+  m_Name: ' -> '
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1192, y: 88}
@@ -216,18 +216,12 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- Start: Ground Movement
-
-    - WaitedAttackDelay
-
-    - AttackTrigger
-
-    -
-    PlayerCurrentSize GreaterThan 0
+  conditionPreview: '- Valid: Ground Movement
 
 '
   ValidStartStates:
   - {fileID: -1108589282178386599, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  InvalidStartStates: []
   BoolConditions:
   - targetParameter:
       UseConstant: 0
@@ -258,7 +252,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: DoNothing -> Downward Throw
+  m_Name: ' -> '
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1192, y: 744}
@@ -291,21 +285,15 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- Start: AirMovement
+  conditionPreview: '- Valid: AirMovement
 
-    - Start: NoLowJump
-
-    - WaitedAttackDelay
-
-    -
-    DownwardAttackTrigger
-
-    - PlayerCurrentSize GreaterThan 0
+    - Valid: NoLowJump
 
 '
   ValidStartStates:
   - {fileID: -4990919157884066038, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   - {fileID: 7248169581288550152, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  InvalidStartStates: []
   BoolConditions:
   - targetParameter:
       UseConstant: 0
@@ -380,7 +368,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2f388c6640e5483089ca4745aaf3730c, type: 3}
-  m_Name: DoNothing <PlayerStateNode>
+  m_Name: DoNothing <PlayerStateNode> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 664, y: 264}
@@ -418,4 +406,4 @@ MonoBehaviour:
       _dynamic: 0
   Name: DoNothing
   zoom: 0
-  isActiveState: 1
+  isActiveState: 0

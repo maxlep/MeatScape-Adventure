@@ -28,6 +28,7 @@ public class LayeredStateMachine : MonoBehaviour
 
     protected virtual void Update()
     {
+        HandleTransitions();
         ExecuteUpdates();
     }
 
@@ -127,6 +128,18 @@ public class LayeredStateMachine : MonoBehaviour
         }
 
         return activeStates;
+    }
+
+    private void HandleTransitions()
+    {
+        foreach (var stateMachine in stateMachines)
+        {
+            stateMachine.CheckForValidTransitions();
+        }
+        foreach (var stateMachine in stateMachines)
+        {
+            stateMachine.ApplyValidTransitions();
+        }
     }
 
     //Return true if invalid state is in any of its state machine's active states

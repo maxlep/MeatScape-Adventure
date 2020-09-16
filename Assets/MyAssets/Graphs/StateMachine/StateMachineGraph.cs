@@ -27,13 +27,14 @@ public class StateMachineGraph : NodeGraph
 
     private List<StartNode> startNodes = new List<StartNode>();
     private HashSet<TriggerVariable> triggersFromTransitions = new HashSet<TriggerVariable>();
+    private List<(StateNode fromState, StateNode toState)> validTransitions = new List<(StateNode fromState, StateNode toState)>();
+    private TriggerVariable receivedTrigger;
     private bool debugOnStateChange = false;
 
     #region LifeCycle Methods
 
     public void ExecuteUpdates()
     {
-        CheckForValidTransitions();
         currentStates.ForEach(s => s.Execute());
     }
         
@@ -55,6 +56,8 @@ public class StateMachineGraph : NodeGraph
     public void StartStateMachine(bool isRuntime)
     {
         SetDebugOnStateChange(false);
+        validTransitions.Clear();
+        
         //Set all nodes to NOT initialized
         stateNodes.ForEach(s => s.IsInitialized = false);
         transitionNodes.ForEach(t => t.IsInitialized = false);
@@ -137,7 +140,7 @@ public class StateMachineGraph : NodeGraph
 
         foreach (var triggerVar in triggersFromTransitions)
         {
-            triggerVar.OnUpdate += () => CheckForValidTransitions(triggerVar);
+            triggerVar.OnUpdate += () => receivedTrigger = triggerVar;
         }
     }
     
@@ -226,21 +229,27 @@ public class StateMachineGraph : NodeGraph
         }
     }
     
-    private void CheckForValidTransitions(TriggerVariable receivedTrigger = null)
+    public void CheckForValidTransitions()
     {
-        List<(StateNode fromState, StateNode toState)> validTransitions = new List<(StateNode fromState, StateNode toState)>();
-        
         //Store valid state changes
         for (int i = 0; i < currentStates.Count; i++)
         {
             StateNode nextState = currentStates[i].CheckStateTransitions(receivedTrigger);
             if (nextState != null) validTransitions.Add((currentStates[i], nextState));
         }
-        
+
+        //Reset Cached trigger
+        receivedTrigger = null;
+    }
+
+    public void ApplyValidTransitions()
+    {
         foreach (var (exitingState, nextState) in validTransitions)
         {
             ChangeState(exitingState, nextState);
         }
+
+        validTransitions.Clear();
     }
     
     private void ChangeState(StateNode exitingState, StateNode nextState)

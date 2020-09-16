@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using KinematicCharacterController;
 using MyAssets.ScriptableObjects.Variables;
+using Shapes;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -214,15 +215,14 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
             EnemyJumpHurtTrigger enemyController = otherGameObject.GetComponent<EnemyJumpHurtTrigger>();
             if (enemyController == null) return;
             
-            BoxCollider enemyCollider = (BoxCollider)other;
-            
-            // float playerBottomY = playerCollider.bounds.center.y - playerCollider.bounds.extents.y;
-            // float enemyTopY = enemyCollider.bounds.center.y + enemyCollider.bounds.extents.y;
-            // if(playerBottomY > enemyTopY) {
+             float playerBottomY = playerCollider.bounds.center.y - playerCollider.bounds.extents.y;
+             float enemyTriggerBottomY = other.bounds.center.y - other.bounds.extents.y;
+             if(playerBottomY > enemyTriggerBottomY) {
                 enemyController.DamageEnemy(1);
-            // }
+             }
             
             JumpAttackTrigger.Activate();
         }
     }
+    
 }

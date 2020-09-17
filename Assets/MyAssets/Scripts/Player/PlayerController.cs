@@ -229,7 +229,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         if(playerBottomY > enemyTriggerBottomY && NewVelocity.Value.y <= 0f) {
             enemyController.DamageEnemy(1);
             JumpAttackTrigger.Activate();
-            EffectsManager.Instance?.PlayClipAtPoint(jumpAttackClip, transform.position, .5f);
+            CameraShakeManager.Instance.ShakeCamera(1.75f, .3f, .3f);
+            EffectsManager.Instance?.PlayClipAtPoint(jumpAttackClip, transform.position, .4f);
         }
     }
     

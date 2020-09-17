@@ -54,12 +54,6 @@ public class StateReferenceNode : Node
             linkedNodes.Add(referencedState);
         }
         
-        //Store link to each ref node that points to same state
-        foreach (var stateRefNode in stateMachineGraph.StateReferenceNodes)
-        {
-            if (stateRefNode.ReferencedState == referencedState)
-                linkedNodes.Add(stateRefNode);
-        }
     }
     
     private void OnValidate()

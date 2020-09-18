@@ -15,6 +15,9 @@ public class StateNode : Node
     [Input(typeConstraint = TypeConstraint.Strict)]  [PropertyOrder(-3)]  public StateMachineConnection previousState;
     [Output(typeConstraint = TypeConstraint.Strict)] [PropertyOrder(-2)]  public StateMachineConnection transitions;
 
+    [Tooltip("If enabled, this state will be completely skipped if on enter, there are valid transition out of state.")]
+    [SerializeField] private bool BypassState = false;
+
     [SerializeField] private string Name;
 
     protected StateMachineGraph stateMachineGraph;
@@ -34,6 +37,7 @@ public class StateNode : Node
     public bool isEntryState { get; private set; }
 
     public string GetName() => Name;
+    public bool GetBypassState() => BypassState;
     public StateMachineGraph GetParentGraph() => stateMachineGraph;
 
     public bool Zoom

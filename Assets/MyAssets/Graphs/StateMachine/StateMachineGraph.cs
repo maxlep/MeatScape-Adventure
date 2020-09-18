@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using MyAssets.ScriptableObjects.Variables;
@@ -237,9 +238,6 @@ public class StateMachineGraph : NodeGraph
             StateNode nextState = currentStates[i].CheckStateTransitions(receivedTrigger);
             if (nextState != null) validTransitions.Add((currentStates[i], nextState));
         }
-
-        //Reset Cached trigger
-        receivedTrigger = null;
     }
 
     public void ApplyValidTransitions()
@@ -250,17 +248,37 @@ public class StateMachineGraph : NodeGraph
         }
 
         validTransitions.Clear();
+        
+        //Reset Cached trigger
+        receivedTrigger = null;
     }
     
     private void ChangeState(StateNode exitingState, StateNode nextState)
     {
-        if (debugOnStateChange) Debug.LogError($"{name}: {exitingState.name} -> {nextState.name}");
+        //Check if nextState has bypass enabled, if so recursively check transitions and bypass
+        nextState = GetBypassStateRecursively(nextState);
 
         int index = currentStates.IndexOf(exitingState);
         exitingState.Exit();
         currentStates.Insert(index, nextState);
         currentStates.Remove(exitingState);
         nextState.Enter();
+        
+        if (debugOnStateChange) Debug.LogError($"{name}: {exitingState.name} -> {nextState.name}");
+    }
+
+    private StateNode GetBypassStateRecursively(StateNode nodeToBypass)
+    {
+        if (nodeToBypass.GetBypassState())
+        {
+            StateNode bypassNextState = nodeToBypass.CheckStateTransitions();
+            if (bypassNextState != null)
+                return GetBypassStateRecursively(bypassNextState);
+            else
+                return nodeToBypass;
+        }
+        else
+            return nodeToBypass;
     }
 
     #endregion

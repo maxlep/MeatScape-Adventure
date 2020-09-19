@@ -37,7 +37,7 @@ public class FreeLookAddOn : MonoBehaviour
         Look();
     }
     
-    // Update the look movement each time the event is trigger
+    // Update the look movement each time the event is trigger.
     private void Look()
     {
         //If mouse is outside game view, dont rotate camera

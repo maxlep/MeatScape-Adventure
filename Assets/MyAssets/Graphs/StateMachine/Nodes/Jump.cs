@@ -24,13 +24,13 @@ public class Jump : PlayerStateNode
     public override void RuntimeInitialize()
     {
         base.RuntimeInitialize();
-        gravity = -(2 * maxJumpHeight.Value) / Mathf.Pow(timeToJumpApex.Value, 2);
-        jumpVelocity = Mathf.Abs(gravity) * timeToJumpApex.Value;
     }
 
     public override void Enter()
     {
         base.Enter();
+        gravity = -(2 * maxJumpHeight.Value) / Mathf.Pow(timeToJumpApex.Value, 2);
+        jumpVelocity = Mathf.Abs(gravity) * timeToJumpApex.Value;
         playerController.UngroundMotor();
         StoredJumpVelocity.Value = jumpVelocity;
         triggerJumpAnim.Activate();

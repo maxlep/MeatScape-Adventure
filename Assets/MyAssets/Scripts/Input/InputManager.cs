@@ -52,7 +52,7 @@ public class InputManager : MonoBehaviour
 
     private PlayerInput _inputs;
     private InputActionMap playerActions, uiActions;
-    private InputAction playerMove, playerLook, playerJump, playerRegenerateMeat;
+    private InputAction playerMove, playerLook, playerJump, playerRegenerateMeat, mousePosition;
 
     public static bool PlatformInvertsScroll()
     {
@@ -78,6 +78,7 @@ public class InputManager : MonoBehaviour
         playerLook = playerActions.FindAction("Look");
         playerJump = playerActions.FindAction("Jump");
         playerRegenerateMeat = playerActions.FindAction("RegenerateMeat");
+        mousePosition = uiActions.FindAction("MousePosition");
         playerActions.Disable();
         
         playerJump.performed += OnJump_Pressed;
@@ -121,6 +122,11 @@ public class InputManager : MonoBehaviour
     public InputAction GetPlayerLook_Action()
     {
         return playerLook;
+    }
+    
+    public InputAction GetMousePosition_Action()
+    {
+        return mousePosition;
     }
 
     #endregion

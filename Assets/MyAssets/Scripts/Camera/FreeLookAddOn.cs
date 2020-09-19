@@ -15,13 +15,14 @@ public class FreeLookAddOn : MonoBehaviour
     [SerializeField] private bool InvertY = false;
     
     private CinemachineFreeLook _freeLookComponent;
-    private InputAction lookInput;
+    private InputAction lookInput, mousePosition;
     private float previousVelocityX = 0f;
     private float previousVelocityY = 0f;
 
     private void Awake()
     {
         lookInput = InputManager.Instance.GetPlayerLook_Action();
+        mousePosition = InputManager.Instance.GetMousePosition_Action();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -35,10 +36,17 @@ public class FreeLookAddOn : MonoBehaviour
     {
         Look();
     }
-
+    
     // Update the look movement each time the event is trigger
     private void Look()
     {
+        //If mouse is outside game view, dont rotate camera
+        Vector2 mousePos = mousePosition.ReadValue<Vector2>();
+        Rect screenRect = new Rect(0,0, Screen.width, Screen.height);
+        if (!screenRect.Contains(mousePos))
+            return;
+        
+        
         //Normalize the vector to have an uniform vector in whichever form it came from (I.E Gamepad, mouse, etc)
         Vector2 lookMovement = lookInput.ReadValue<Vector2>();
         lookMovement.y = InvertY ? -lookMovement.y : lookMovement.y;

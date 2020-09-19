@@ -36,7 +36,6 @@ public class AirMovement : PlayerStateNode
     {
         base.RuntimeInitialize();
         cameraTrans = playerController.GetCameraTrans();
-        gravity = -(2 * MaxJumpHeight.Value) / Mathf.Pow(TimeToJumpApex.Value, 2);
     }
 
     public override void Enter()
@@ -67,6 +66,7 @@ public class AirMovement : PlayerStateNode
     private void UpdateVelocity(Vector3 currentVelocity)
     {
         // This is called when the motor wants to know what its velocity should be right now
+        gravity = -(2 * MaxJumpHeight.Value) / Mathf.Pow(TimeToJumpApex.Value, 2);
         Vector2 camForward = new Vector2(cameraTrans.forward.x, cameraTrans.forward.z).normalized;
         Quaternion rotOffset = Quaternion.FromToRotation(Vector2.up, camForward);
         Vector2 rotatedMoveInput = rotOffset * MoveInput.Value;

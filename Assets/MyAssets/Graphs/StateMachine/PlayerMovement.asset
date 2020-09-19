@@ -84,6 +84,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: Sit
   zoom: 0
   isActiveState: 0
@@ -133,7 +134,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- GroundPoundTrigger
+  conditionPreview: '- GroundPoundTrigger_Controller
 
 '
   ValidStartStates: []
@@ -249,9 +250,9 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- IsGrounded
+  conditionPreview: '- IsGrounded_Controller
 
-    - WaitedJumpGroundDelay
+    - WaitedJumpGroundDelay_Movement
 
 '
   ValidStartStates: []
@@ -316,7 +317,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- !RegenerateMeatPressed
+  conditionPreview: '- !RegenerateMeatPressed_Controller
 
 '
   ValidStartStates: []
@@ -420,6 +421,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: AirJump
   zoom: 0
   isActiveState: 0
@@ -537,6 +539,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: AirMovement
   zoom: 0
   isActiveState: 0
@@ -635,6 +638,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: Pound Stall
   zoom: 0
   isActiveState: 0
@@ -691,7 +695,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- JumpAttackTrigger
+  conditionPreview: '- JumpAttackTrigger_Controller
 
 '
   ValidStartStates: []
@@ -751,6 +755,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: RegenerateMeat
   zoom: 0
   isActiveState: 0
@@ -829,7 +834,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- !IsGrounded
+  conditionPreview: '- !IsGrounded_Controller
 
 '
   ValidStartStates: []
@@ -889,7 +894,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- IsGrounded
+  conditionPreview: '- IsGrounded_Controller
 
 '
   ValidStartStates: []
@@ -980,7 +985,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- IsGrounded
+  conditionPreview: '- IsGrounded_Controller
 
 '
   ValidStartStates: []
@@ -1043,6 +1048,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: Ground Movement
   zoom: 0
   isActiveState: 1
@@ -1158,6 +1164,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: No Regenerate
   zoom: 0
   isActiveState: 1
@@ -1291,6 +1298,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: Pound Fall
   zoom: 0
   isActiveState: 0
@@ -1419,7 +1427,7 @@ MonoBehaviour:
       _dynamic: 0
   conditionPreview: '- Valid: Ground Movement
 
-    - RegenerateMeatPressed
+    - RegenerateMeatPressed_Controller
 
 '
   ValidStartStates:
@@ -1480,6 +1488,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: Jump
   zoom: 0
   isActiveState: 0
@@ -1647,7 +1656,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- JumpTrigger
+  conditionPreview: '- JumpTrigger_Controller
 
 '
   ValidStartStates: []
@@ -1704,7 +1713,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- PostPoundDelay_Move: 0.2 sec
+  conditionPreview: '- PostPoundDelay_Movement: 0.2 sec
 
 '
   ValidStartStates: []
@@ -1767,6 +1776,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: NoLowJump
   zoom: 0
   isActiveState: 0
@@ -1906,7 +1916,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- PoundStall: 0.3 sec
+  conditionPreview: '- PoundStall_Movement: 0.3 sec
 
 '
   ValidStartStates: []

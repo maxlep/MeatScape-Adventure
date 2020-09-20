@@ -37,6 +37,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: Fall
   zoom: 0
   isActiveState: 0
@@ -171,6 +172,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: Pound Driver
   zoom: 0
   isActiveState: 0
@@ -225,7 +227,12 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: 
+  conditionPreview: '- !IsGrounded_Controller
+
+    - 0 Ignore 0 && 0 LessThan -0.1
+    && 0 Ignore 0
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -321,6 +328,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: Throw Down
   zoom: 0
   isActiveState: 0
@@ -428,6 +436,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: Fall Driver
   zoom: 0
   isActiveState: 0
@@ -547,10 +556,10 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- IsGrounded
+  conditionPreview: '- IsGrounded_Controller
 
-    - 0 AbsLessThan 0.001 && 0 Ignore 0 && 0 AbsLessThan
-    0.001
+    - 0 AbsLessThan 0.001 && 0 Ignore
+    0 && 0 AbsLessThan 0.001
 
 '
   ValidStartStates: []
@@ -617,6 +626,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: Jump Driver
   zoom: 0
   isActiveState: 0
@@ -712,6 +722,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: Walk
   zoom: 0
   isActiveState: 0
@@ -890,6 +901,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: Throw Down
   zoom: 0
   isActiveState: 0
@@ -945,6 +957,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: Idle
   zoom: 0
   isActiveState: 1
@@ -999,6 +1012,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: Fall
   zoom: 0
   isActiveState: 0
@@ -1107,10 +1121,10 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- !IsGrounded
+  conditionPreview: '- !IsGrounded_Controller
 
-    - 0 Ignore 0 && 0 LessThan -0.1 && 0 Ignore
-    0
+    - 0 Ignore 0 && 0 LessThan -0.1
+    && 0 Ignore 0
 
 '
   ValidStartStates: []
@@ -1259,6 +1273,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: Throw Down
   zoom: 0
   isActiveState: 0
@@ -1487,6 +1502,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: Ground Movement
   zoom: 0
   isActiveState: 0
@@ -1533,6 +1549,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: Throw Forward
   zoom: 0
   isActiveState: 0
@@ -1641,7 +1658,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- JumpTrigger
+  conditionPreview: '- JumpTrigger_Anim
 
 '
   ValidStartStates: []
@@ -1847,6 +1864,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: Transition Mixer
   zoom: 0
   isActiveState: 1
@@ -1929,6 +1947,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: Player Movement Tracker
   zoom: 0
   isActiveState: 0
@@ -2014,6 +2033,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: Pound Stall
   zoom: 0
   isActiveState: 0
@@ -2207,6 +2227,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: Mixer Processor
   zoom: 0
   isActiveState: 1
@@ -2249,6 +2270,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: Throw Forward
   zoom: 0
   isActiveState: 0
@@ -2356,6 +2378,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: Jump
   zoom: 0
   isActiveState: 0
@@ -2550,6 +2573,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: Jump
   zoom: 0
   isActiveState: 0
@@ -2752,6 +2776,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: Throw Forward
   zoom: 0
   isActiveState: 0
@@ -2834,6 +2859,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: Pound Stall
   zoom: 0
   isActiveState: 0
@@ -2959,6 +2985,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: Idle
   zoom: 0
   isActiveState: 1
@@ -3125,6 +3152,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: Perambulator
   zoom: 0
   isActiveState: 0
@@ -3196,7 +3224,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- JumpTrigger
+  conditionPreview: '- JumpTrigger_Anim
 
 '
   ValidStartStates: []
@@ -3253,6 +3281,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: Pound Fall
   zoom: 0
   isActiveState: 0
@@ -3356,6 +3385,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: Parameter Processor
   zoom: 0
   isActiveState: 1

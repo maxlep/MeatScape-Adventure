@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96ade182131c6464e90b9ffc95aad257, type: 3}
-  m_Name: Sit <StateNode> ()
+  m_Name: Sit <StateNode> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 2344, y: -648}
@@ -388,7 +388,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c9407b3066ed4db1853f20740c0e142f, type: 3}
-  m_Name: AirJump <Jump> ()
+  m_Name: AirJump <Jump> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1640, y: 216}
@@ -503,7 +503,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3025855eed90dd4f81a5b42e0e18392, type: 3}
-  m_Name: AirMovement <AirMovement> ()
+  m_Name: AirMovement <AirMovement> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 584, y: 264}
@@ -605,7 +605,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0d5269aa6174d64197af3747b814ea2, type: 3}
-  m_Name: Pound Stall <AirStall> ()
+  m_Name: Pound Stall <AirStall> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 136, y: -1144}
@@ -719,7 +719,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 51ffc788b631c4c4d97dc30a5bd5e85a, type: 3}
-  m_Name: RegenerateMeat <RegenerateMeat> ()
+  m_Name: RegenerateMeat <RegenerateMeat> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -24, y: -2232}
@@ -759,34 +759,6 @@ MonoBehaviour:
   Name: RegenerateMeat
   zoom: 0
   isActiveState: 0
-  MoveSpeed:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 5c878f8db6decb043a9e07239782f2ef, type: 2}
-  Acceleration:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 01cf5e817fd7b5949977e10d09bb5ab6, type: 2}
-  Deacceleration:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: c4dbde759be93ec4cad673baf38c882c, type: 2}
-  MoveInput:
-    UseConstant: 0
-    ConstantValue: {x: 0, y: 0}
-    Variable: {fileID: 11400000, guid: f48af2d5870a315459ef8f032591c5be, type: 2}
-  NewVelocityOut:
-    UseConstant: 0
-    ConstantValue: {x: 0, y: 0, z: 0}
-    Variable: {fileID: 11400000, guid: 9bb89c095cc264240a1d00bcb25ce309, type: 2}
-  cachedVelocity:
-    UseConstant: 0
-    ConstantValue: {x: 0, y: 0, z: 0}
-    Variable: {fileID: 11400000, guid: dd2cd63ae1d9c034096f0b67bb5bcf62, type: 2}
-  NewRotationOut:
-    UseConstant: 0
-    ConstantValue: {x: 0, y: 0, z: 0, w: 0}
-    Variable: {fileID: 11400000, guid: 642843bee527d554f9408523e1ab11c8, type: 2}
   regenerateMeatTime:
     UseConstant: 1
     ConstantValue: 1
@@ -1012,7 +984,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: da111ca52dd64bb6a384ac70a329bbfd, type: 3}
-  m_Name: Ground Movement <GroundMovement> ()
+  m_Name: Ground Movement <GroundMovement> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -1048, y: -40}
@@ -1131,7 +1103,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96ade182131c6464e90b9ffc95aad257, type: 3}
-  m_Name: No Regenerate <StateNode> ()
+  m_Name: No Regenerate <StateNode> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -1256, y: -2280}
@@ -1265,7 +1237,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 049f62ae732a9ff418a2bfe8f9737efc, type: 3}
-  m_Name: Pound Fall <Pound> ()
+  m_Name: Pound Fall <Pound> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1400, y: -792}
@@ -1455,7 +1427,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c9407b3066ed4db1853f20740c0e142f, type: 3}
-  m_Name: Jump <Jump> ()
+  m_Name: Jump <Jump> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 72, y: 248}
@@ -1739,7 +1711,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3025855eed90dd4f81a5b42e0e18392, type: 3}
-  m_Name: NoLowJump <AirMovement> ()
+  m_Name: NoLowJump <AirMovement> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 2104, y: 216}

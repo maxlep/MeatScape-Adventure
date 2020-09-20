@@ -2,7 +2,7 @@
 using UnityEngine;
 using MyAssets.ScriptableObjects.Variables;
 
-public class RegenerateMeat : GroundMovement
+public class RegenerateMeat : PlayerStateNode
 {
     [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private FloatReference regenerateMeatTime;
     
@@ -18,8 +18,8 @@ public class RegenerateMeat : GroundMovement
     {
         base.Execute();
         if(Time.time >= (regenerateMeatStartTime + regenerateMeatTime.Value)) {
-             playerController.CurrentSize++;
-             regenerateMeatStartTime = Time.time;
+            playerController.CurrentSize++;
+            regenerateMeatStartTime = Time.time;
         }
     }
 }

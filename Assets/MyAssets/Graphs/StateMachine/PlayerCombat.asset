@@ -43,6 +43,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: Forward Throw
   zoom: 0
   isActiveState: 0
@@ -106,6 +107,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: Downward Throw
   zoom: 0
   isActiveState: 0
@@ -218,12 +220,12 @@ MonoBehaviour:
       _dynamic: 0
   conditionPreview: '- Valid: Ground Movement
 
-    - WaitedAttackDelay
-
-    - AttackTrigger
+    - WaitedAttackDelay_Combat
 
     -
-    PlayerCurrentSize GreaterThan 0
+    AttackTrigger_Controller
+
+    - PlayerCurrentSize_Controller GreaterThan 0
 
 '
   ValidStartStates:
@@ -296,12 +298,13 @@ MonoBehaviour:
 
     - Valid: NoLowJump
 
-    - WaitedAttackDelay
+    - WaitedAttackDelay_Combat
 
     -
-    DownwardAttackTrigger
+    DownwardAttackTrigger_Controller
 
-    - PlayerCurrentSize GreaterThan 0
+    - PlayerCurrentSize_Controller GreaterThan
+    0
 
 '
   ValidStartStates:
@@ -418,6 +421,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: DoNothing
   zoom: 0
   isActiveState: 1

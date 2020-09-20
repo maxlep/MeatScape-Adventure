@@ -194,7 +194,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     }
     
     private void SetPlayerSize(PlayerSize value) {
-        if(value == _currentSize || value < PlayerSize.Small || value > PlayerSize.Large) return;
+        if(value < PlayerSize.Small || value > PlayerSize.Large) return;
         else _currentSize = value;
 
         int intSize = (int)_currentSize;

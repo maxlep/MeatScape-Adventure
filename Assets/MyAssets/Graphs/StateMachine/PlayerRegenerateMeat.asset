@@ -41,7 +41,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: 'RegnerateDoNothing -> '
+  m_Name: RegnerateDoNothing -> RegenerateMeatState
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -616, y: 840}
@@ -74,9 +74,9 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- RegenerateMeatPressed
+  conditionPreview: '- RegenerateMeatPressed_Controller
 
-    - IsGrounded
+    - IsGrounded_Controller
 
 '
   ValidStartStates: []
@@ -108,7 +108,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2f388c6640e5483089ca4745aaf3730c, type: 3}
-  m_Name: RegnerateDoNothing <PlayerStateNode> ()
+  m_Name: RegnerateDoNothing <PlayerStateNode> (PlayerRegenerateMeat)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -1704, y: 792}
@@ -147,6 +147,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  BypassState: 0
   Name: RegnerateDoNothing
   zoom: 0
   isActiveState: 1
@@ -179,7 +180,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> RegnerateDoNothing'
+  m_Name: RegenerateMeatState -> RegnerateDoNothing
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1192, y: 312}
@@ -236,7 +237,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> RegnerateDoNothing'
+  m_Name: RegenerateMeatState -> RegnerateDoNothing
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 2088, y: 856}
@@ -271,7 +272,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- !RegenerateMeatPressed
+  conditionPreview: '- !RegenerateMeatPressed_Controller
 
 '
   ValidStartStates: []
@@ -298,7 +299,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 51ffc788b631c4c4d97dc30a5bd5e85a, type: 3}
-  m_Name: ' <RegenerateMeat> ()'
+  m_Name: RegenerateMeatState <RegenerateMeat> (PlayerRegenerateMeat)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 408, y: 904}
@@ -334,38 +335,11 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  Name: 
+  BypassState: 0
+  Name: RegenerateMeatState
   zoom: 0
   isActiveState: 0
-  MoveSpeed:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 5c878f8db6decb043a9e07239782f2ef, type: 2}
-  Acceleration:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 01cf5e817fd7b5949977e10d09bb5ab6, type: 2}
-  Deacceleration:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: c4dbde759be93ec4cad673baf38c882c, type: 2}
-  MoveInput:
-    UseConstant: 0
-    ConstantValue: {x: 0, y: 0}
-    Variable: {fileID: 11400000, guid: f48af2d5870a315459ef8f032591c5be, type: 2}
-  NewVelocityOut:
-    UseConstant: 0
-    ConstantValue: {x: 0, y: 0, z: 0}
-    Variable: {fileID: 11400000, guid: 9bb89c095cc264240a1d00bcb25ce309, type: 2}
-  cachedVelocity:
-    UseConstant: 0
-    ConstantValue: {x: 0, y: 0, z: 0}
-    Variable: {fileID: 11400000, guid: dd2cd63ae1d9c034096f0b67bb5bcf62, type: 2}
-  NewRotationOut:
-    UseConstant: 0
-    ConstantValue: {x: 0, y: 0, z: 0, w: 0}
-    Variable: {fileID: 11400000, guid: 642843bee527d554f9408523e1ab11c8, type: 2}
   regenerateMeatTime:
     UseConstant: 1
-    ConstantValue: 1
+    ConstantValue: 3
     Variable: {fileID: 0}

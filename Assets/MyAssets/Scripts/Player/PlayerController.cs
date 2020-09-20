@@ -77,8 +77,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         playerMove = InputManager.Instance.GetPlayerMove_Action();
         InputManager.Instance.onJump_Pressed += () => JumpPressed.Value = true;
         InputManager.Instance.onJump_Released += () => JumpPressed.Value = false;
-        InputManager.Instance.onRegenerateMeat_Started += () => RegenerateMeatPressed.Value = true;
-        InputManager.Instance.onRegenerateMeat_Pressed += () => RegenerateMeatPressed.Value = false;
+        InputManager.Instance.onRegenerateMeat_Pressed += () => RegenerateMeatPressed.Value = true;
+        InputManager.Instance.onRegenerateMeat_Released += () => RegenerateMeatPressed.Value = false;
 
         InputManager.Instance.onJump_Pressed += () => JumpTrigger.Activate();
         InputManager.Instance.onAttack += () => AttackTrigger.Activate();

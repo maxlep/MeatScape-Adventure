@@ -17,12 +17,12 @@ public class TransitionNode : Node
     [TextArea(3,10)] [HideLabel]
     [SerializeField] private string conditionPreview;
 
-    [Tooltip("Transition only valid if ANY 1 or more of these states are active in OTHER state machine")] 
+    [Tooltip("Transition only valid if ANY 1 or more of these states are active in respective state machine")] 
     [ListDrawerSettings(Expanded = true, DraggableItems = false)] [Required]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.88f, 1f, .95f)]  [HideIf("$zoom")]
     [SerializeField] private List<StateNode> ValidStartStates = new List<StateNode>();
     
-    [Tooltip("Transition only valid if ANY 1 or more of these states are not active in OTHER state machine")] 
+    [Tooltip("Transition only valid if NONE of these states are active in respective state machine")] 
     [ListDrawerSettings(Expanded = true, DraggableItems = false)] [Required]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.88f, 1f, .95f)]  [HideIf("$zoom")]
     [SerializeField] private List<StateNode> InvalidStartStates = new List<StateNode>();
@@ -129,7 +129,7 @@ public class TransitionNode : Node
         
         if (inputState != null)
             startingStateName = inputState.GetName();
-        else if (inputReferenceState != null)
+        else if (inputReferenceState != null && inputReferenceState.ReferencedState != null)
             startingStateName = inputReferenceState.ReferencedState.GetName();
         else if (inputAnyState != null)
             startingStateName = "Any State";

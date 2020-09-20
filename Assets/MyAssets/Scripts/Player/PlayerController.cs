@@ -45,7 +45,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Size Parameters")] [HideReferenceObjectPicker] [SerializeField] private Vector3Reference smallModelScale;
     [FoldoutGroup("Size Parameters")] [HideReferenceObjectPicker] [SerializeField] private Vector3Reference mediumModelScale;
     [FoldoutGroup("Size Parameters")] [HideReferenceObjectPicker] [SerializeField] private Vector3Reference largeModelScale;
-    [FoldoutGroup("Size Parameters")] [SerializeField] private List<SizeControlledFloatReference> SizeControlledProperties;
+    [SerializeField] private List<SizeControlledFloatReference> SizeControlledProperties;
 
     private Vector3 moveDirection;
     private InputAction playerMove;

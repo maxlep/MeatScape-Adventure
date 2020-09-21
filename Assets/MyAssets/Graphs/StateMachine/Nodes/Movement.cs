@@ -10,68 +10,120 @@ using UnityEngine.UI;
 
 public class Movement : PlayerStateNode
 {
+    /**************************************
+        * Horizontal Movement *
+    **************************************/
+    
     [HideIf("$zoom")] [LabelWidth(165)] [SerializeField]
+    [TabGroup("Horizontal Movement")]
     private bool EnableHorizontalMovement = true;
     
     [HideIf("$zoom")] [LabelWidth(165)] [SerializeField]
+    [TabGroup("Horizontal Movement")]
+    private bool EnableFastTurn = true;
+    
+    [HideIf("$zoom")] [LabelWidth(165)] [SerializeField] 
+    [TabGroup("Vertical Movement")]
     private bool EnableVerticalMovement = false;
 
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Horizontal Movement")]
     private FloatReference MoveSpeed;
 
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Horizontal Movement")]
     private FloatReference TurnSpeed;
-    
+
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    private FloatReference FastTurnSpeed;
-    
-    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Horizontal Movement")]
     private FloatReference RotationDeltaMax;
 
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Horizontal Movement")]
     private FloatReference Acceleration;
-    
-    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    private FloatReference FastTurnPercentThreshold;
-    
-    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    private FloatReference FastTurnAngleThreshold;
-    
-    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    private FloatReference StopFastTurnDeltaAngle;
-    
 
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Horizontal Movement")]
     private FloatReference Deacceleration;
-
+    
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Horizontal Movement")]
     private Vector2Reference MoveInput;
 
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Horizontal Movement")]
     private Vector3Reference NewVelocityOut;
 
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Horizontal Movement")]
     private Vector3Reference cachedVelocity;
 
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Horizontal Movement")]
     private QuaternionReference NewRotationOut;
+    
+    /**************************************
+             * Fast Turn *
+    **************************************/
+    
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Horizontal Movement")] [ShowIf("$EnableFastTurn")]
+    private FloatReference FastTurnSpeed;
+
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Horizontal Movement")] [ShowIf("$EnableFastTurn")]
+    private FloatReference FastTurnPercentThreshold;
+
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Horizontal Movement")] [ShowIf("$EnableFastTurn")]
+    private FloatReference FastTurnAngleThreshold;
+
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Horizontal Movement")] [ShowIf("$EnableFastTurn")]
+    private FloatReference StopFastTurnDeltaAngle;
+
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Horizontal Movement")] [ShowIf("$EnableFastTurn")]
+    private FloatReference FastTurnInputDeadZone;
+    
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Horizontal Movement")] [ShowIf("$EnableFastTurn")]
+    private FloatReference FastTurnBreakDeacceleration;
+    
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Horizontal Movement")] [ShowIf("$EnableFastTurn")]
+    private FloatReference FastTurnBreakSpeedThreshold;
+    
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Horizontal Movement")] [ShowIf("$EnableFastTurn")]
+    private FloatReference MoveInputRequiredDelta;
+    
+    /**************************************
+        * Vertical Movement *
+    **************************************/
 
     [HideIf("$zoom")] [ShowIf("$EnableVerticalMovement")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Vertical Movement")]
     private FloatReference TimeToJumpApex;
 
     [HideIf("$zoom")] [ShowIf("$EnableVerticalMovement")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Vertical Movement")]
     private FloatReference MaxJumpHeight;
 
     [HideIf("$zoom")] [ShowIf("$EnableVerticalMovement")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Vertical Movement")]
     private FloatReference FallMultiplier;
 
     [HideIf("$zoom")] [ShowIf("$EnableVerticalMovement")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Vertical Movement")]
     private FloatReference LowJumpDrag;
 
     [HideIf("$zoom")] [ShowIf("$EnableVerticalMovement")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Vertical Movement")]
     private FloatReference MaxFallSpeed;
 
     [HideIf("$zoom")] [ShowIf("$EnableVerticalMovement")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Vertical Movement")]
     private BoolReference JumpPressed;
 
     private Transform cameraTrans;
@@ -81,6 +133,7 @@ public class Movement : PlayerStateNode
     private bool isFastTurning;
     private Vector3 fastTurnStartDir;
     private Vector3 newDirection;
+    private Vector3 lastMoveInputDirection = Vector3.zero;
 
     public override void Initialize(StateMachineGraph parentGraph)
     {
@@ -128,63 +181,71 @@ public class Movement : PlayerStateNode
 
     private Vector3 CalculateHorizontalVelocity(Vector3 currentVelocity)
     {
-        //Rotate current vel towards target vel
-        Vector2 horizontalVelocity = currentVelocity.xz();
-        Vector2 vel = Vector3.zero;
-
+        /**************************************
+         * Determine if Fast Turning
+         **************************************/
+        
+        if (EnableFastTurn)
+            CheckForFastTurn(currentVelocity);
+        
         float currentTurnSpeed;
-        float FastTurnThreshold = FastTurnPercentThreshold.Value * MoveSpeed.Value;
+        Vector2 horizontalVelocity = currentVelocity.xz();
 
-        float deltaAngle = Vector3.Angle(currentVelocity.Flatten(), moveDirection.Flatten());
-        Debug.Log(deltaAngle);
-
-        //Start fast turn if angle > threshholdd
-        if (!isFastTurning && deltaAngle > FastTurnAngleThreshold.Value)
-        {
-            isFastTurning = true;
-            fastTurnStartDir = currentVelocity.Flatten().normalized;
-        }
-            
-        
-        //Stop fast turning when close enough to target
-        else if (isFastTurning && deltaAngle < StopFastTurnDeltaAngle.Value)
-            isFastTurning = false;
-
-        //Dont fast turn if moving too fast (instead will probably brake)
-        else if (horizontalVelocity.magnitude > FastTurnThreshold)
-            isFastTurning = false;
-        
+        //Update turn speed based on isFastTurning
         if (isFastTurning)
             currentTurnSpeed = FastTurnSpeed.Value;
         else
             currentTurnSpeed = TurnSpeed.Value;
-
         
+        /**************************************
+         * Get New Move Direction
+         **************************************/
+
+        //Rotate current vel towards target vel to get new direction
+        Vector2 dummyVel = Vector3.zero;
         Vector2 dir = Vector2.SmoothDamp(horizontalVelocity.normalized, moveDirection.xz(),
-            ref vel, currentTurnSpeed);
+            ref dummyVel, currentTurnSpeed);
 
         newDirection = new Vector3(dir.x, 0f, dir.y).normalized;
+        
+        /**************************************
+         * Get New Move Speed
+         **************************************/
 
-        float speed = 0f;
+        //Accelerate/DeAccelerate from current Speed to target speed
+        float dummySpeed = 0f;
         float currentSpeed = currentVelocity.Flatten().magnitude;
         float targetSpeed = MoveInput.Value.magnitude * MoveSpeed.Value;
 
         if (targetSpeed > currentSpeed)
             newSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed,
-                ref speed, Acceleration.Value);
+                ref dummySpeed, Acceleration.Value);
         else
             newSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed,
-                ref speed, Deacceleration.Value);
+                ref dummySpeed, Deacceleration.Value);
+        
+        /*********************************************
+         * Override Speed and Direction if Fast Turning
+         *********************************************/
 
-        //If fast turning, deaccelerate to 0
+        //If fast turning, DeAccelerate to 0 to brake
         if (isFastTurning)
         {
             newSpeed = Mathf.SmoothDamp(currentSpeed, 0f,
-                ref speed, Deacceleration.Value/4f);
+                ref dummySpeed, FastTurnBreakDeacceleration.Value);
+
+            newDirection = fastTurnStartDir;
+
+            //If finished stopping, turn to face moveDir
+            if (newSpeed < FastTurnBreakSpeedThreshold.Value)
+                newDirection = moveDirection.Flatten().normalized;
         }
-            
-
-
+        
+        //Cache moveInput value
+        //Dont cache values in deadzone
+        if (MoveInput.Value.magnitude > FastTurnInputDeadZone.Value)
+            lastMoveInputDirection = MoveInput.Value.normalized;
+        
         return newDirection * newSpeed;
     }
 
@@ -236,6 +297,41 @@ public class Movement : PlayerStateNode
         moveDirection = new Vector3(rotatedMoveInput.x, 0, rotatedMoveInput.y);
     }
 
+    private void CheckForFastTurn(Vector3 currentVelocity)
+    {
+        //Angle between move input of this frame and previous
+        float deltaAngle_MoveInput = Vector3.Angle(MoveInput.Value.normalized, lastMoveInputDirection);
+
+        //Dont fast turn if angle change is gradual (meaning they r rotating stick instead of flicking)
+        //If already fast turning, dont check this
+        if (!isFastTurning && deltaAngle_MoveInput < MoveInputRequiredDelta.Value)
+            return;
+        
+        float FastTurnThreshold = FastTurnPercentThreshold.Value * MoveSpeed.Value;
+        Vector2 horizontalVelocity = currentVelocity.xz();
+
+        //Dont start fast turn if moving too fast (instead will probably brake)
+        if (!isFastTurning && horizontalVelocity.magnitude > FastTurnThreshold)
+            return;
+            
+
+        //Angle between flattened current speed and flattened desired move direction
+        float deltaAngle_VelToMoveDir = Vector3.Angle(currentVelocity.Flatten(), moveDirection.Flatten());
+
+        //Start fast turn if angle > ThreshHold and input magnitude > DeadZone
+        if (!isFastTurning && deltaAngle_VelToMoveDir > FastTurnAngleThreshold.Value &&
+            MoveInput.Value.magnitude > FastTurnInputDeadZone.Value)
+        {
+            isFastTurning = true;
+            fastTurnStartDir = currentVelocity.Flatten().normalized;
+        }
+        
+        //Stop fast turning when close enough to target
+        else if (isFastTurning && deltaAngle_VelToMoveDir < StopFastTurnDeltaAngle.Value)
+            isFastTurning = false;
+
+    }
+
     public override void DrawGizmos()
     {
         if (playerController == null) return;
@@ -248,10 +344,13 @@ public class Movement : PlayerStateNode
         Vector3 startPos = playerController.transform.position;
         Vector3 endPos = playerController.transform.position + newDirection * (newSpeed / MoveSpeed.Value) * 10f;
         Vector3 endPos2 = playerController.transform.position + moveDirection * 10f;
-        
-        Draw.Line(startPos, endPos, Color.magenta);
-        Draw.Line(startPos, endPos2, Color.yellow);
-        Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos, .5f, new Color(1f, 0f, 1f , .35f));
-        Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos2, .5f, new Color(1f, 1f, 0f , .35f));
+
+        Color moveInputColor = isFastTurning ? new Color(1f, 0f, 0f, .35f) : new Color(1f, 1f, 0f, .35f);
+        Color actualMoveColor = new Color(0f, 1f, 0f, .35f);
+
+        Draw.Line(startPos, endPos, moveInputColor);
+        Draw.Line(startPos, endPos2, actualMoveColor);
+        Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos, .35f, moveInputColor);
+        Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos2, .35f, actualMoveColor);
     }
 }

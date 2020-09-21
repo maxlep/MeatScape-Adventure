@@ -21,7 +21,7 @@ public class StateNodeEditor : NodeEditor
         if (asStateNode != null)
             zoomed = asStateNode.Zoom;
 
-        return zoomed ? 275 : 450;
+        return zoomed ? 275 : 500;
     }
     
     public override Color GetTint()

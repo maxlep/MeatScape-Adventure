@@ -20,7 +20,7 @@ public class StateNode : Node
 
     [SerializeField] private string Name;
 
-    protected const int LABEL_WIDTH = 150;
+    protected const int LABEL_WIDTH = 175;
         
     protected StateMachineGraph stateMachineGraph;
     protected List<VariableContainer> parameterList;

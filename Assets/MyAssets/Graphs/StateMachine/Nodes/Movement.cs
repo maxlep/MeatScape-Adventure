@@ -79,6 +79,7 @@ public class Movement : PlayerStateNode
 
     private float newSpeed;
     private bool isFastTurning;
+    private Vector3 fastTurnStartDir;
     private Vector3 newDirection;
 
     public override void Initialize(StateMachineGraph parentGraph)
@@ -134,19 +135,23 @@ public class Movement : PlayerStateNode
         float currentTurnSpeed;
         float FastTurnThreshold = FastTurnPercentThreshold.Value * MoveSpeed.Value;
 
-        Vector3 cachedHorizontalVelocity = new Vector3(cachedVelocity.Value.x, 0f, cachedVelocity.Value.z);
-        float deltaAngle = Vector3.Angle(cachedHorizontalVelocity, moveDirection);
-        
-        //Start fast turn if angle > threshhold
+        float deltaAngle = Vector3.Angle(currentVelocity.Flatten(), moveDirection.Flatten());
+        Debug.Log(deltaAngle);
+
+        //Start fast turn if angle > threshholdd
         if (!isFastTurning && deltaAngle > FastTurnAngleThreshold.Value)
+        {
             isFastTurning = true;
+            fastTurnStartDir = currentVelocity.Flatten().normalized;
+        }
+            
         
         //Stop fast turning when close enough to target
-        if (isFastTurning && deltaAngle < StopFastTurnDeltaAngle.Value)
+        else if (isFastTurning && deltaAngle < StopFastTurnDeltaAngle.Value)
             isFastTurning = false;
 
-        //Dont fast turn if moving too fast
-        if (horizontalVelocity.magnitude > FastTurnThreshold)
+        //Dont fast turn if moving too fast (instead will probably brake)
+        else if (horizontalVelocity.magnitude > FastTurnThreshold)
             isFastTurning = false;
         
         if (isFastTurning)
@@ -155,13 +160,13 @@ public class Movement : PlayerStateNode
             currentTurnSpeed = TurnSpeed.Value;
 
         
-        Vector2 dir = Vector2.SmoothDamp(horizontalVelocity.normalized, new Vector2(moveDirection.x, moveDirection.z),
+        Vector2 dir = Vector2.SmoothDamp(horizontalVelocity.normalized, moveDirection.xz(),
             ref vel, currentTurnSpeed);
 
         newDirection = new Vector3(dir.x, 0f, dir.y).normalized;
 
         float speed = 0f;
-        float currentSpeed = horizontalVelocity.magnitude;
+        float currentSpeed = currentVelocity.Flatten().magnitude;
         float targetSpeed = MoveInput.Value.magnitude * MoveSpeed.Value;
 
         if (targetSpeed > currentSpeed)
@@ -171,10 +176,14 @@ public class Movement : PlayerStateNode
             newSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed,
                 ref speed, Deacceleration.Value);
 
-        float fastTurnMoveSpeed = 1f;
-        
+        //If fast turning, deaccelerate to 0
         if (isFastTurning)
-            newSpeed = fastTurnMoveSpeed;
+        {
+            newSpeed = Mathf.SmoothDamp(currentSpeed, 0f,
+                ref speed, Deacceleration.Value/4f);
+        }
+            
+
 
         return newDirection * newSpeed;
     }

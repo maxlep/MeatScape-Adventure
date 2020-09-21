@@ -46,6 +46,15 @@ namespace MyAssets.Scripts.Utils
             point = dir + pivot;
             return point;
         }
+        
+        /// <summary>
+        /// Flatten Vector by zeroing y component
+        /// </summary>
+        /// <param name="vec"></param>
+        /// <returns></returns>
+        public static Vector3 Flatten(this Vector3 vec) {
+            return new Vector3(vec.x, 0f, vec.z);
+        }
     }
 
     [Serializable]

@@ -20,6 +20,8 @@ public class StateNode : Node
 
     [SerializeField] private string Name;
 
+    protected const int LABEL_WIDTH = 150;
+        
     protected StateMachineGraph stateMachineGraph;
     protected List<VariableContainer> parameterList;
     protected List<StateReferenceNode> referenceNodes = new List<StateReferenceNode>();

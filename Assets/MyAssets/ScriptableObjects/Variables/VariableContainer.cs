@@ -18,28 +18,28 @@ public class VariableContainer : ScriptableObject
     [SerializeField] private bool IncludeSubdirectories = false;
     [TextArea] public String Description;
     
-    [Required] [PropertySpace(SpaceBefore = 10, SpaceAfter = 10)]
+    [Required] [PropertySpace(SpaceBefore = 10, SpaceAfter = 10)] [ListDrawerSettings(ShowPaging = false)]
     [SerializeField] private List<TriggerVariable> TriggerVariables = new List<TriggerVariable>();
     
-    [Required] [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)]
+    [Required] [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [ListDrawerSettings(ShowPaging = false)]
     [SerializeField] private List<BoolVariable> BoolVariables = new List<BoolVariable>();
     
-    [Required] [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)]
+    [Required] [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [ListDrawerSettings(ShowPaging = false)]
     [SerializeField] private List<IntVariable> IntVariables = new List<IntVariable>();
     
-    [Required] [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)]
+    [Required] [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [ListDrawerSettings(ShowPaging = false)]
     [SerializeField] private List<FloatVariable> FloatVariables = new List<FloatVariable>();
     
-    [Required] [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)]
+    [Required] [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [ListDrawerSettings(ShowPaging = false)]
     [SerializeField] private List<Vector2Variable> Vector2Variables = new List<Vector2Variable>();
     
-    [Required] [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)]
+    [Required] [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [ListDrawerSettings(ShowPaging = false)]
     [SerializeField] private List<Vector3Variable> Vector3Variables = new List<Vector3Variable>();
     
-    [Required] [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)]
+    [Required] [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [ListDrawerSettings(ShowPaging = false)]
     [SerializeField] private List<QuaternionVariable> QuaternionVariables = new List<QuaternionVariable>();
     
-    [Required] [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)]
+    [Required] [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [ListDrawerSettings(ShowPaging = false)]
     [SerializeField] private List<TimerVariable> TimerVariables = new List<TimerVariable>();
     
     private const string ASSET_EXTENSION = ".asset";

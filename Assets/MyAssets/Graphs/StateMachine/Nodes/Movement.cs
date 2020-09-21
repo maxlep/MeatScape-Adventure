@@ -1,4 +1,5 @@
-﻿using Cinemachine.Utility;
+﻿using AmplifyShaderEditor;
+using Cinemachine.Utility;
 using MyAssets.ScriptableObjects.Variables;
 using MyAssets.Scripts.Utils;
 using Shapes;
@@ -15,52 +16,69 @@ public class Movement : PlayerStateNode
     [HideIf("$zoom")] [LabelWidth(165)] [SerializeField]
     private bool EnableVerticalMovement = false;
 
-    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField]
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     private FloatReference MoveSpeed;
 
-    [HideIf("$zoom")] [SuffixLabel("*Pi")] [LabelWidth(120)] [SerializeField]
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     private FloatReference TurnSpeed;
+    
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    private FloatReference FastTurnSpeed;
+    
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    private FloatReference RotationDeltaMax;
 
-    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField]
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     private FloatReference Acceleration;
+    
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    private FloatReference FastTurnPercentThreshold;
+    
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    private FloatReference FastTurnAngleThreshold;
+    
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    private FloatReference StopFastTurnDeltaAngle;
+    
 
-    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField]
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     private FloatReference Deacceleration;
 
-    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField]
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     private Vector2Reference MoveInput;
 
-    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField]
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     private Vector3Reference NewVelocityOut;
 
-    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField]
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     private Vector3Reference cachedVelocity;
 
-    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField]
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     private QuaternionReference NewRotationOut;
 
-    [HideIf("$zoom")] [ShowIf("$EnableVerticalMovement")] [LabelWidth(120)] [SerializeField]
+    [HideIf("$zoom")] [ShowIf("$EnableVerticalMovement")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     private FloatReference TimeToJumpApex;
 
-    [HideIf("$zoom")] [ShowIf("$EnableVerticalMovement")] [LabelWidth(120)] [SerializeField]
+    [HideIf("$zoom")] [ShowIf("$EnableVerticalMovement")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     private FloatReference MaxJumpHeight;
 
-    [HideIf("$zoom")] [ShowIf("$EnableVerticalMovement")] [LabelWidth(120)] [SerializeField]
+    [HideIf("$zoom")] [ShowIf("$EnableVerticalMovement")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     private FloatReference FallMultiplier;
 
-    [HideIf("$zoom")] [ShowIf("$EnableVerticalMovement")] [LabelWidth(120)] [SerializeField]
+    [HideIf("$zoom")] [ShowIf("$EnableVerticalMovement")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     private FloatReference LowJumpDrag;
 
-    [HideIf("$zoom")] [ShowIf("$EnableVerticalMovement")] [LabelWidth(120)] [SerializeField]
+    [HideIf("$zoom")] [ShowIf("$EnableVerticalMovement")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     private FloatReference MaxFallSpeed;
 
-    [HideIf("$zoom")] [ShowIf("$EnableVerticalMovement")] [LabelWidth(120)] [SerializeField]
+    [HideIf("$zoom")] [ShowIf("$EnableVerticalMovement")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     private BoolReference JumpPressed;
 
     private Transform cameraTrans;
     private Vector3 moveDirection;
 
     private float newSpeed;
+    private bool isFastTurning;
     private Vector3 newDirection;
 
     public override void Initialize(StateMachineGraph parentGraph)
@@ -113,8 +131,32 @@ public class Movement : PlayerStateNode
         Vector2 horizontalVelocity = currentVelocity.xz();
         Vector2 vel = Vector3.zero;
 
+        float currentTurnSpeed;
+        float FastTurnThreshold = FastTurnPercentThreshold.Value * MoveSpeed.Value;
+
+        Vector3 cachedHorizontalVelocity = new Vector3(cachedVelocity.Value.x, 0f, cachedVelocity.Value.z);
+        float deltaAngle = Vector3.Angle(cachedHorizontalVelocity, moveDirection);
+        
+        //Start fast turn if angle > threshhold
+        if (!isFastTurning && deltaAngle > FastTurnAngleThreshold.Value)
+            isFastTurning = true;
+        
+        //Stop fast turning when close enough to target
+        if (isFastTurning && deltaAngle < StopFastTurnDeltaAngle.Value)
+            isFastTurning = false;
+
+        //Dont fast turn if moving too fast
+        if (horizontalVelocity.magnitude > FastTurnThreshold)
+            isFastTurning = false;
+        
+        if (isFastTurning)
+            currentTurnSpeed = FastTurnSpeed.Value;
+        else
+            currentTurnSpeed = TurnSpeed.Value;
+
+        
         Vector2 dir = Vector2.SmoothDamp(horizontalVelocity.normalized, new Vector2(moveDirection.x, moveDirection.z),
-            ref vel, TurnSpeed.Value);
+            ref vel, currentTurnSpeed);
 
         newDirection = new Vector3(dir.x, 0f, dir.y).normalized;
 
@@ -128,6 +170,11 @@ public class Movement : PlayerStateNode
         else
             newSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed,
                 ref speed, Deacceleration.Value);
+
+        float fastTurnMoveSpeed = 1f;
+        
+        if (isFastTurning)
+            newSpeed = fastTurnMoveSpeed;
 
         return newDirection * newSpeed;
     }
@@ -160,9 +207,15 @@ public class Movement : PlayerStateNode
 
     private void UpdateRotation(Quaternion currentRotation)
     {
-        Vector3 lookDirection = new Vector3(cachedVelocity.Value.x, 0f, cachedVelocity.Value.z);
-        if (Mathf.Approximately(lookDirection.magnitude, 0f)) return;
-        currentRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
+        Vector3 lookDirection = playerController.transform.forward;
+        Vector3 velocityDirection = new Vector3(cachedVelocity.Value.x, 0f, cachedVelocity.Value.z);
+
+        Quaternion lookRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
+        Quaternion velocityRotation = Quaternion.LookRotation(velocityDirection, Vector3.up);
+
+        if (Mathf.Approximately(velocityDirection.magnitude, 0f)) return;
+
+        currentRotation = Quaternion.RotateTowards(lookRotation, velocityRotation, RotationDeltaMax.Value);
         NewRotationOut.Value = currentRotation;
     }
     

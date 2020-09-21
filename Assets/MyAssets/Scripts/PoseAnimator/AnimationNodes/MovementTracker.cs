@@ -10,11 +10,11 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
 {
     public class MovementTracker : PlayerStateNode
     {
-        [HideIf("$zoom"), LabelWidth(120), SerializeField] private Transform probe;
-        [HideIf("$zoom"), LabelWidth(120), SerializeField] private int numFrames;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private Transform probe;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private int numFrames;
         
-        [HideIf("$zoom"), LabelWidth(120), SerializeField] private Vector3Variable outVel;
-        [HideIf("$zoom"), LabelWidth(120), SerializeField] private Vector3Variable outAccel;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private Vector3Variable outVel;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private Vector3Variable outAccel;
 
         private LinkedList<Vector3> posHist;
         private LinkedList<Vector3> velHist;

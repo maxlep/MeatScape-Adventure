@@ -4,7 +4,7 @@ using MyAssets.ScriptableObjects.Variables;
 
 public class RegenerateMeat : PlayerStateNode
 {
-    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private FloatReference regenerateMeatTime;
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference regenerateMeatTime;
     
     private float regenerateMeatStartTime;
 

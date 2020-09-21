@@ -15,13 +15,13 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
 {
     public class SequenceBlend : PlayerStateNode
     {
-        [HideIf("$zoom"), LabelWidth(120), SerializeField] protected float transitionTime = 1f;
-        [HideIf("$zoom"), LabelWidth(120), SerializeField] protected AnimationCurve transitionCurve = AnimationCurve.Linear(0, 0, 1, 1);
-        [HideIf("$zoom"), LabelWidth(120), SerializeField] protected FloatReference factor;
-        [HideIf("$zoom"), LabelWidth(120), SerializeField] protected ExtrapolateBehavior extrapolateMode;
-        [HideIf("$zoom"), LabelWidth(120), SerializeField] protected SequenceUnit[] sequence;
-        [HideIf("$zoom"), LabelWidth(120), SerializeField] protected bool loopSequence = true;
-        [HideIf("$zoom"), LabelWidth(120), SerializeField] protected BoneTransformWeight[] boneTransformWeights;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] protected float transitionTime = 1f;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] protected AnimationCurve transitionCurve = AnimationCurve.Linear(0, 0, 1, 1);
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] protected FloatReference factor;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] protected ExtrapolateBehavior extrapolateMode;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] protected SequenceUnit[] sequence;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] protected bool loopSequence = true;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] protected BoneTransformWeight[] boneTransformWeights;
     
         Animator animator;
         List<List<int>> m_BoneChildrenIndices;

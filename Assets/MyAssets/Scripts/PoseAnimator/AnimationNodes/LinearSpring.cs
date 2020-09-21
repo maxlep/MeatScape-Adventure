@@ -7,13 +7,13 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
 {
     public class LinearSpring : PlayerStateNode
     {
-        [HideIf("$zoom"), LabelWidth(120), SerializeField] [EnumToggleButtons] protected Vector3Axes axis;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] [EnumToggleButtons] protected Vector3Axes axis;
 
-        [HideIf("$zoom"), LabelWidth(120), SerializeField] protected FloatVec3Reference inputVelocity;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] protected FloatVec3Reference inputVelocity;
     
-        [HideIf("$zoom"), LabelWidth(120), SerializeField] protected FloatReference outWeight;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] protected FloatReference outWeight;
 
-        [HideIf("$zoom"), LabelWidth(120), SerializeField] protected float min, max;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] protected float min, max;
 
         private float startVelocity;
         [SerializeField] float peakThreshold = 20f;

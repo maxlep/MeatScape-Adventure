@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class DownwardAttack : PlayerStateNode
 {
-    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private GameObject ammo;
-    [HideIf("$zoom")][LabelWidth(120)] [SerializeField] private FloatReference throwDelay;
-    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private FloatReference downwardForce;
-    [HideIf("$zoom")] [LabelWidth(120)] [SerializeField] private BoolReference waitedAttackDelay;
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private GameObject ammo;
+    [HideIf("$zoom")][LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference throwDelay;
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference downwardForce;
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private BoolReference waitedAttackDelay;
 
     private bool clumpThrown;
 

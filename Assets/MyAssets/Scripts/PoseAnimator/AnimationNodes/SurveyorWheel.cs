@@ -8,14 +8,14 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
 {
     public class SurveyorWheel : PlayerStateNode
     {
-        [HideIf("$zoom"), LabelWidth(120), SerializeField] private Vector2Vec3Reference moveVelocity;
-        [HideIf("$zoom"), LabelWidth(120), SerializeField] private FloatReference strideLength;
-        [HideIf("$zoom"), LabelWidth(120), SerializeField] private FloatReference distance;
-        [HideIf("$zoom"), LabelWidth(120), SerializeField] private FloatReference cyclePercent;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private Vector2Vec3Reference moveVelocity;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private FloatReference strideLength;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private FloatReference distance;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private FloatReference cyclePercent;
 
-        [HideIf("$zoom"), LabelWidth(120), SerializeField] private bool resetOnStart = true;
-        [HideIf("$zoom"), LabelWidth(120), SerializeField, ShowIf("resetOnStart")] private float roundToMultiple = 1;
-        [HideIf("$zoom"), LabelWidth(120), SerializeField, Sirenix.OdinInspector.ReadOnly] private Transform probe;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private bool resetOnStart = true;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField, ShowIf("resetOnStart")] private float roundToMultiple = 1;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField, Sirenix.OdinInspector.ReadOnly] private Transform probe;
 
         private float cycleLength;
         private float radius;

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96ade182131c6464e90b9ffc95aad257, type: 3}
-  m_Name: Sit <StateNode> (PlayerMovement)
+  m_Name: Sit <StateNode> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 2456, y: -648}
@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Air Movement -> AirJump
+  m_Name: ' -> '
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1384, y: 152}
@@ -124,6 +124,9 @@ MonoBehaviour:
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
+      - fieldName: transitions
+        node: {fileID: 0}
+        reroutePoints: []
       - fieldName: transitions
         node: {fileID: -1088559452340399852}
         reroutePoints: []
@@ -195,7 +198,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Air Movement -> Ground Movement
+  m_Name: ' -> '
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1496, y: 1064}
@@ -222,17 +225,16 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: transitions
+        node: {fileID: 0}
+        reroutePoints: []
+      - fieldName: transitions
         node: {fileID: -1088559452340399852}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- IsGrounded_Controller
-
-    - WaitedJumpGroundDelay_Movement
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -262,7 +264,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c9407b3066ed4db1853f20740c0e142f, type: 3}
-  m_Name: AirJump <Jump> (PlayerMovement)
+  m_Name: AirJump <Jump> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1832, y: 200}
@@ -503,7 +505,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0d5269aa6174d64197af3747b814ea2, type: 3}
-  m_Name: Pound Stall <AirStall> (PlayerMovement)
+  m_Name: Pound Stall <AirStall> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 168, y: -1144}
@@ -557,7 +559,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: NoLowJump -> AirJump
+  m_Name: ' -> '
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 200, y: 856}
@@ -616,7 +618,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Ground Movement -> NoLowJump
+  m_Name: ' -> '
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -344, y: -584}
@@ -643,15 +645,16 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: transitions
+        node: {fileID: 0}
+        reroutePoints: []
+      - fieldName: transitions
         node: {fileID: -1108589282178386599}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- !IsGrounded_Controller
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -676,7 +679,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: NoLowJump -> Ground Movement
+  m_Name: ' -> '
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 3096, y: 136}
@@ -703,15 +706,16 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: transitions
+        node: {fileID: 0}
+        reroutePoints: []
+      - fieldName: transitions
         node: {fileID: 380770011948553577}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- IsGrounded_Controller
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -736,7 +740,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Pound Fall -> Sit
+  m_Name: ' -> '
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1912, y: -760}
@@ -769,9 +773,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- IsGrounded_Controller
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -796,7 +798,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: da111ca52dd64bb6a384ac70a329bbfd, type: 3}
-  m_Name: Ground Movement <Movement> (PlayerMovement)
+  m_Name: Ground Movement <Movement> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -1048, y: -40}
@@ -835,7 +837,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Ground Movement
   zoom: 0
-  isActiveState: 1
+  isActiveState: 0
   EnableHorizontalMovement: 1
   EnableFastTurn: 1
   EnableVerticalMovement: 0
@@ -850,7 +852,7 @@ MonoBehaviour:
   RotationDeltaMax:
     UseConstant: 0
     ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 2d03360e010c92841865e41092adc680, type: 2}
+    Variable: {fileID: 11400000, guid: a64bfe3334e8d724ba0f651a87de2d4d, type: 2}
   Acceleration:
     UseConstant: 0
     ConstantValue: 0
@@ -902,7 +904,7 @@ MonoBehaviour:
   FastTurnBreakSpeedThreshold:
     UseConstant: 0
     ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 0c39edad5884d3b46b4b2ee4439b1eb1, type: 2}
+    Variable: {fileID: 11400000, guid: b651223cd61c08f4bbd7489c8c03b773, type: 2}
   MoveInputRequiredDelta:
     UseConstant: 0
     ConstantValue: 0
@@ -941,7 +943,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: da111ca52dd64bb6a384ac70a329bbfd, type: 3}
-  m_Name: Air Movement <Movement> (PlayerMovement)
+  m_Name: Air Movement <Movement> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 648, y: 88}
@@ -995,7 +997,7 @@ MonoBehaviour:
   RotationDeltaMax:
     UseConstant: 0
     ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 2d03360e010c92841865e41092adc680, type: 2}
+    Variable: {fileID: 11400000, guid: a64bfe3334e8d724ba0f651a87de2d4d, type: 2}
   Acceleration:
     UseConstant: 0
     ConstantValue: 0
@@ -1132,7 +1134,6 @@ MonoBehaviour:
   nodes:
   - {fileID: 647826158662486185}
   - {fileID: 6332291481083292061}
-  - {fileID: -1108589282178386599}
   - {fileID: 3160719255603912525}
   - {fileID: -3641797515424182864}
   - {fileID: -6884243189497224942}
@@ -1148,8 +1149,6 @@ MonoBehaviour:
   - {fileID: 7029236538494561041}
   - {fileID: -4727255185880807703}
   - {fileID: 7887303959653831427}
-  - {fileID: -1088559452340399852}
-  - {fileID: 380770011948553577}
   - {fileID: 2880018288348904183}
   - {fileID: -7388518117265528419}
   - {fileID: -7219773110116539802}
@@ -1157,6 +1156,9 @@ MonoBehaviour:
   - {fileID: 276245312325452325}
   - {fileID: 3953402089961387451}
   - {fileID: 5601859753555772258}
+  - {fileID: -1088559452340399852}
+  - {fileID: -1108589282178386599}
+  - {fileID: 380770011948553577}
 --- !u!114 &276245312325452325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1167,7 +1169,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Air Movement -> Pound Stall
+  m_Name: ' -> '
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -344, y: -1208}
@@ -1203,9 +1205,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- GroundPoundTrigger_Controller
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -1227,7 +1227,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 049f62ae732a9ff418a2bfe8f9737efc, type: 3}
-  m_Name: Pound Fall <Pound> (PlayerMovement)
+  m_Name: Pound Fall <Pound> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1272, y: -808}
@@ -1282,7 +1282,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: da111ca52dd64bb6a384ac70a329bbfd, type: 3}
-  m_Name: NoLowJump <Movement> (PlayerMovement)
+  m_Name: NoLowJump <Movement> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 2456, y: 120}
@@ -1318,7 +1318,7 @@ MonoBehaviour:
   BypassState: 0
   Name: NoLowJump
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   EnableHorizontalMovement: 1
   EnableFastTurn: 1
   EnableVerticalMovement: 1
@@ -1333,7 +1333,7 @@ MonoBehaviour:
   RotationDeltaMax:
     UseConstant: 0
     ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 2d03360e010c92841865e41092adc680, type: 2}
+    Variable: {fileID: 11400000, guid: a64bfe3334e8d724ba0f651a87de2d4d, type: 2}
   Acceleration:
     UseConstant: 0
     ConstantValue: 0
@@ -1499,7 +1499,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c9407b3066ed4db1853f20740c0e142f, type: 3}
-  m_Name: Jump <Jump> (PlayerMovement)
+  m_Name: Jump <Jump> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 72, y: 248}
@@ -1611,7 +1611,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: NoLowJump -> AirJump
+  m_Name: ' -> '
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 200, y: 1432}
@@ -1647,9 +1647,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- JumpAttackTrigger_Controller
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -1671,7 +1669,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Ground Movement -> Jump
+  m_Name: ' -> '
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -408, y: 136}
@@ -1698,15 +1696,16 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: transitions
+        node: {fileID: 0}
+        reroutePoints: []
+      - fieldName: transitions
         node: {fileID: -1108589282178386599}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- JumpTrigger_Controller
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -1728,7 +1727,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Sit -> Ground Movement
+  m_Name: ' -> '
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 3112, y: -536}
@@ -1761,9 +1760,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- PostPoundDelay_Movement: 0.2 sec
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -1961,7 +1958,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Pound Stall -> Pound Fall
+  m_Name: ' -> '
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 728, y: -1000}
@@ -1994,9 +1991,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- PoundStall_Movement: 0.3 sec
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []

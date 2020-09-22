@@ -41,7 +41,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 51ffc788b631c4c4d97dc30a5bd5e85a, type: 3}
-  m_Name: RegenerateMeat <RegenerateMeat> (PlayerRegenerateMeat)
+  m_Name: RegenerateMeat <RegenerateMeat> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 120, y: 392}
@@ -84,9 +84,17 @@ MonoBehaviour:
   Name: RegenerateMeat
   zoom: 0
   isActiveState: 0
-  regenerateMeatTime:
+  RegenerateMeatTime:
     UseConstant: 1
     ConstantValue: 1
+    Variable: {fileID: 0}
+  MoveSpeed:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 5c878f8db6decb043a9e07239782f2ef, type: 2}
+  MoveSpeedDecreaseFactor:
+    UseConstant: 1
+    ConstantValue: 2
     Variable: {fileID: 0}
 --- !u!114 &-3568187515719975042
 MonoBehaviour:
@@ -272,6 +280,9 @@ MonoBehaviour:
 
     - RegenerateMeatPressed_Controller
 
+    -
+    PlayerCurrentSize_Controller LessThan 2
+
 '
   ValidStartStates:
   - {fileID: -1108589282178386599, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
@@ -284,7 +295,13 @@ MonoBehaviour:
     value: 1
   TriggerConditions: []
   FloatConditions: []
-  IntConditions: []
+  IntConditions:
+  - targetParameter:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: cdaba327a8069d04b9e20fa38eeab583, type: 2}
+    comparator: 0
+    value: 2
   TimerConditions: []
   Vector2Conditions: []
   Vector3Conditions: []
@@ -345,7 +362,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96ade182131c6464e90b9ffc95aad257, type: 3}
-  m_Name: No Regenerate <StateNode> (PlayerRegenerateMeat)
+  m_Name: No Regenerate <StateNode> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -1112, y: 344}

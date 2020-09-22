@@ -10,7 +10,7 @@ namespace MyAssets.ScriptableObjects.Variables
     // [CreateAssetMenu(fileName = "Variable", menuName = "Variables/Variable", order = 0)]
     public class Variable : ScriptableObject
     {
-        [TextArea] [HideInInlineEditors] public String Description;
+        [TextArea (7, 10)] [HideInInlineEditors] public String Description;
 
         public event OnUpdate OnUpdate;
 

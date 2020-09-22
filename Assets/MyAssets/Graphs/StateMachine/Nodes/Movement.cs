@@ -286,6 +286,11 @@ public class Movement : PlayerStateNode
         if (Mathf.Approximately(velocityDirection.magnitude, 0f)) return;
 
         currentRotation = Quaternion.RotateTowards(lookRotation, velocityRotation, RotationDeltaMax.Value);
+        
+        //If fast turning, instead rotate to desired turn direction
+        Quaternion moveInputRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
+        if (isFastTurning) currentRotation = Quaternion.RotateTowards(lookRotation, moveInputRotation, RotationDeltaMax.Value);
+        
         NewRotationOut.Value = currentRotation;
     }
     
@@ -306,17 +311,19 @@ public class Movement : PlayerStateNode
         //If already fast turning, dont check this
         if (!isFastTurning && deltaAngle_MoveInput < MoveInputRequiredDelta.Value)
             return;
+
+        //If threshold is >=1 then set to infinity and disable threshold
+        float FastTurnThreshold = (FastTurnPercentThreshold.Value >= 1f) ?
+        Mathf.Infinity : FastTurnPercentThreshold.Value * MoveSpeed.Value;
         
-        float FastTurnThreshold = FastTurnPercentThreshold.Value * MoveSpeed.Value;
         Vector2 horizontalVelocity = currentVelocity.xz();
 
         //Dont start fast turn if moving too fast (instead will probably brake)
         if (!isFastTurning && horizontalVelocity.magnitude > FastTurnThreshold)
             return;
-            
 
         //Angle between flattened current speed and flattened desired move direction
-        float deltaAngle_VelToMoveDir = Vector3.Angle(currentVelocity.Flatten(), moveDirection.Flatten());
+        float deltaAngle_VelToMoveDir = Vector3.Angle(currentVelocity.Flatten().normalized, moveDirection.normalized);
 
         //Start fast turn if angle > ThreshHold and input magnitude > DeadZone
         if (!isFastTurning && deltaAngle_VelToMoveDir > FastTurnAngleThreshold.Value &&

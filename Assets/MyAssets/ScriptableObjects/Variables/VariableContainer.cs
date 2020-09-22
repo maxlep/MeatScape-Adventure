@@ -16,7 +16,7 @@ public class VariableContainer : ScriptableObject
     [FolderPath (RequireExistingPath = true), PropertyOrder(-2)]
     [SerializeField] private string FolderPath;
     [SerializeField] private bool IncludeSubdirectories = false;
-    [TextArea] public String Description;
+    [TextArea (5, 10)] public String Description;
     
     [Required] [PropertySpace(SpaceBefore = 10, SpaceAfter = 10)] [ListDrawerSettings(ShowPaging = false)]
     [SerializeField] private List<TriggerVariable> TriggerVariables = new List<TriggerVariable>();

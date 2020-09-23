@@ -21,9 +21,9 @@ public class Jump : PlayerStateNode
         base.Initialize(parentGraph);
     }
 
-    public override void RuntimeInitialize()
+    public override void RuntimeInitialize(int startNodeIndex)
     {
-        base.RuntimeInitialize();
+        base.RuntimeInitialize(startNodeIndex);
     }
 
     public override void Enter()

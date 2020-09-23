@@ -24,9 +24,9 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
             base.Initialize(parentGraph);
         }
 
-        public override void RuntimeInitialize()
+        public override void RuntimeInitialize(int startNodeIndex)
         {
-            base.RuntimeInitialize();
+            base.RuntimeInitialize(startNodeIndex);
 
             probe = playerController.transform;
         }

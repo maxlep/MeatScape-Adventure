@@ -23,16 +23,16 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
 
         public static StateTransitionMixer Instance;
 
-        public override void RuntimeInitialize()
+        public override void RuntimeInitialize(int startNodeIndex)
         {
-            base.RuntimeInitialize();
+            base.RuntimeInitialize(startNodeIndex);
 
             if (Instance == null) Instance = this;
             else Destroy(this);
         
             // Creates the graph, the mixer and binds them to the Animator.
-            playableGraph = PlayableGraph.Create();
-            playableOutput = AnimationPlayableOutput.Create(playableGraph, $"{base.name}", playerController.GetAnimator());
+            playableGraph = PlayableGraph.Create(base.name);
+            playableOutput = AnimationPlayableOutput.Create(playableGraph, $"{base.name}_Output", playerController.GetAnimator());
             activePlayable = AnimationScriptPlayable.Create(playableGraph, new NoOpJob());
             playableOutput.SetSourcePlayable(activePlayable);
             playableGraph.Play();

@@ -37,6 +37,7 @@ public class StateNode : Node
     public StateNode nextNoTransitionState { get; private set; }
     public List<StateNode> previousNoTransitionStates { get; private set; } = new List<StateNode>();
     public bool isEntryState { get; private set; }
+    public int StartNodeIndex { get; private set; }
 
     public string GetName() => Name;
     public bool GetBypassState() => BypassState;
@@ -69,9 +70,9 @@ public class StateNode : Node
         PopulateNextStates();
     }
 
-    public virtual void RuntimeInitialize()
+    public virtual void RuntimeInitialize(int startNodeIndex)
     {
-        
+        StartNodeIndex = startNodeIndex;
     }
 
     private void PopulateLinkedRefNodes()

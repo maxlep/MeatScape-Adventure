@@ -10,8 +10,8 @@ public class StartNode : Node
     
     [InfoBox("You connected >1 entry state to this node! Please only connect 1 at most.", InfoMessageType.Error,
         "HasMultipleConnection")] [LabelWidth(135f)]
-    [SerializeField] private int executionOrderIndex = 0;
-
+    [SerializeField] protected int executionOrderIndex = 0;
+    
     public int ExecutionOrderIndex
     {
         get => executionOrderIndex;
@@ -24,7 +24,12 @@ public class StartNode : Node
         return false;
     }
 
-    private void OnValidate()
+    public virtual void RuntimeInitialize()
+    {
+        
+    }
+
+    protected virtual void OnValidate()
     {
         name = $"Start {executionOrderIndex}";
     }

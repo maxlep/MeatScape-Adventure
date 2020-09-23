@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using MyAssets.ScriptableObjects.Variables;
+using MyAssets.Scripts.PoseAnimator.AnimationNodes;
+using MyAssets.Scripts.PoseAnimator.Components;
 using Sirenix.Utilities;
 using UnityEngine;
 using XNode;
@@ -23,6 +25,7 @@ public class StateMachineGraph : NodeGraph
     public List<TransitionNode> globalTransitions { get; private set; } = new List<TransitionNode>();
     public List<StateReferenceNode> StateReferenceNodes { get; private set; } = new List<StateReferenceNode>();
     public List<StateNode> currentStates { get; private set; } = new List<StateNode>();
+    public List<AnimationLayerStartNode> AnimationLayerStartNodes { get; private set; } = new List<AnimationLayerStartNode>();
     public LayeredStateMachine parentMachine { get; private set; }
     public bool DebugOnStateChange => debugOnStateChange;
 
@@ -58,14 +61,18 @@ public class StateMachineGraph : NodeGraph
     {
         SetDebugOnStateChange(false);
         validTransitions.Clear();
-        
+
         //Set all nodes to NOT initialized
         stateNodes.ForEach(s => s.IsInitialized = false);
         transitionNodes.ForEach(t => t.IsInitialized = false);
         StateReferenceNodes.ForEach(r => r.IsInitialized = false);
 
-        if (isRuntime) startNodes.ForEach(InitNodesRecursively);
-        else InitNodes();
+        if (isRuntime) startNodes.ForEach((i) =>
+        {
+            i.RuntimeInitialize();
+            InitNodesRecursively(i, i.ExecutionOrderIndex);
+        });
+    else InitNodes();
 
         SubscribeToTriggers();
         if (isRuntime) EnterStartStates();
@@ -89,7 +96,7 @@ public class StateMachineGraph : NodeGraph
     }
 
     //Init nodes recursively branching out from each start node
-    private void InitNodesRecursively(Node nextNode)
+    private void InitNodesRecursively(Node nextNode, int startNodeIndex)
     {
         //Init nodes, return if already initialized
         StateNode nodeAsState = nextNode as StateNode;
@@ -97,7 +104,7 @@ public class StateMachineGraph : NodeGraph
         {
             if (nodeAsState.IsInitialized) return;
             nodeAsState.Initialize(this);
-            nodeAsState.RuntimeInitialize();
+            nodeAsState.RuntimeInitialize(startNodeIndex);
         }
 
         TransitionNode nodeAsTransition = nextNode as TransitionNode;
@@ -117,7 +124,7 @@ public class StateMachineGraph : NodeGraph
         }
         
         //Call recursively for each linked node
-        nextNode.LinkedNodes.ForEach(n => InitNodesRecursively(n));
+        nextNode.LinkedNodes.ForEach(n => InitNodesRecursively(n, startNodeIndex));
 
         //Call recursively for each connected node, return if none connected
         nextNode.Outputs.ForEach(output =>
@@ -125,7 +132,7 @@ public class StateMachineGraph : NodeGraph
             var connections = output.GetConnections();
             if (connections.Count < 1) return;
             
-            connections.ForEach(c => InitNodesRecursively(c.node));
+            connections.ForEach(c => InitNodesRecursively(c.node, startNodeIndex));
         });
     }
 
@@ -149,6 +156,11 @@ public class StateMachineGraph : NodeGraph
     {
         this.parentMachine = parentMachine;
     }
+
+    public void InjectAnimatable(Animatable animatable)
+    {
+        AnimationLayerStartNodes.ForEach(i => i.Animatable = animatable);
+    }
     
      public void PopulateNodeLists()
     {
@@ -157,6 +169,7 @@ public class StateMachineGraph : NodeGraph
         transitionNodes.Clear();
         globalTransitions.Clear();
         StateReferenceNodes.Clear();
+        AnimationLayerStartNodes.Clear();
 
         foreach (var node in nodes)
         {
@@ -187,11 +200,18 @@ public class StateMachineGraph : NodeGraph
                 });
                 continue;
             }
-            
+
             //If its an StartNode
             var nodeAsStart = node as StartNode;
             if (nodeAsStart != null)
             {
+                //If its an AnimationLayerStartNode
+                var nodeAsAnimationLayer = node as AnimationLayerStartNode;
+                if (nodeAsAnimationLayer != null)
+                {
+                    AnimationLayerStartNodes.Add(nodeAsAnimationLayer);
+                }
+                
                 startNodes.Add(nodeAsStart);
                 continue;
             }

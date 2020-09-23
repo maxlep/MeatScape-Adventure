@@ -30,9 +30,9 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
         PlayableGraph m_Graph;
         AnimationScriptPlayable m_CustomMixerPlayable;
 
-        public override void RuntimeInitialize()
+        public override void RuntimeInitialize(int startNodeIndex)
         {
-            base.RuntimeInitialize();
+            base.RuntimeInitialize(startNodeIndex);
 
             if (!sequence.Any() || sequence.Any(pose => pose.pose == null))
                 return;

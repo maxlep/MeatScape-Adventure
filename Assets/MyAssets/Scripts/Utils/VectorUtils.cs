@@ -1,5 +1,4 @@
 ﻿using System;
-using AmplifyShaderEditor;
 using UnityEngine;
 
 namespace MyAssets.Scripts.Utils

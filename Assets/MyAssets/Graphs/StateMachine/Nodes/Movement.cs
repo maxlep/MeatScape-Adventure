@@ -279,6 +279,7 @@ public class Movement : PlayerStateNode
     {
         Vector3 lookDirection = playerController.transform.forward;
         Vector3 velocityDirection = new Vector3(cachedVelocity.Value.x, 0f, cachedVelocity.Value.z);
+        if (velocityDirection == Vector3.zero) velocityDirection = Vector3.forward;
 
         Quaternion lookRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
         Quaternion velocityRotation = Quaternion.LookRotation(velocityDirection, Vector3.up);

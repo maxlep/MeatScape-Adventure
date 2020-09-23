@@ -88,11 +88,11 @@ public class Movement : PlayerStateNode
     
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Horizontal Movement")] [ShowIf("$EnableFastTurn")]
-    private FloatReference FastTurnBreakDeacceleration;
+    private FloatReference FastTurnBrakeDeacceleration;
     
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Horizontal Movement")] [ShowIf("$EnableFastTurn")]
-    private FloatReference FastTurnBreakSpeedThreshold;
+    private FloatReference FastTurnBrakeSpeedThreshold;
     
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Horizontal Movement")] [ShowIf("$EnableFastTurn")]
@@ -232,12 +232,12 @@ public class Movement : PlayerStateNode
         if (isFastTurning)
         {
             newSpeed = Mathf.SmoothDamp(currentSpeed, 0f,
-                ref dummySpeed, FastTurnBreakDeacceleration.Value);
+                ref dummySpeed, FastTurnBrakeDeacceleration.Value);
 
             newDirection = fastTurnStartDir;
 
             //If finished stopping, turn to face moveDir
-            if (newSpeed < FastTurnBreakSpeedThreshold.Value)
+            if (newSpeed < FastTurnBrakeSpeedThreshold.Value)
                 newDirection = moveDirection.Flatten().normalized;
         }
         

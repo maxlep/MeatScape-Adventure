@@ -72,14 +72,14 @@ public class StateMachineGraph : NodeGraph
             i.RuntimeInitialize();
             InitNodesRecursively(i, i.ExecutionOrderIndex);
         });
-    else InitNodes();
+        else InitNodesNonRuntime();
 
         SubscribeToTriggers();
         if (isRuntime) EnterStartStates();
     }
 
     //Init all nodes on graph, not runtime
-    private void InitNodes()
+    private void InitNodesNonRuntime()
     {
         foreach (var stateNode in stateNodes)
         {

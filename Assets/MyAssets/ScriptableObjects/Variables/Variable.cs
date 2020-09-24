@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -22,6 +23,11 @@ namespace MyAssets.ScriptableObjects.Variables
         protected void BroadcastUpdate()
         {
             OnUpdate?.Invoke();
+        }
+
+        private void OnDisable()
+        {
+            OnUpdate = null;
         }
     }
     

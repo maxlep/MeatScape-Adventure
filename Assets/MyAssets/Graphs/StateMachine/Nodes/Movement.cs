@@ -15,51 +15,55 @@ public class Movement : PlayerStateNode
     **************************************/
     
     [HideIf("$zoom")] [LabelWidth(165)] [SerializeField]
-    [TabGroup("Horizontal Movement")]
+    [TabGroup("Horizontal Movement")] [Required]
     private bool EnableHorizontalMovement = true;
     
     [HideIf("$zoom")] [LabelWidth(165)] [SerializeField]
-    [TabGroup("Horizontal Movement")]
+    [TabGroup("Horizontal Movement")] [Required]
     private bool EnableFastTurn = true;
     
     [HideIf("$zoom")] [LabelWidth(165)] [SerializeField] 
-    [TabGroup("Vertical Movement")]
+    [TabGroup("Vertical Movement")] [Required]
     private bool EnableVerticalMovement = false;
+    
+    [HideIf("$zoom")] [LabelWidth(165)] [SerializeField] 
+    [TabGroup("Horizontal Movement")] [Required]
+    private TransformSceneReference PlayerCameraTransform;
 
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Horizontal Movement")]
+    [TabGroup("Horizontal Movement")] [Required]
     private FloatReference MoveSpeed;
 
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Horizontal Movement")]
+    [TabGroup("Horizontal Movement")] [Required]
     private FloatReference TurnSpeed;
 
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Horizontal Movement")]
+    [TabGroup("Horizontal Movement")] [Required]
     private FloatReference RotationDeltaMax;
 
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Horizontal Movement")]
+    [TabGroup("Horizontal Movement")] [Required]
     private FloatReference Acceleration;
 
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Horizontal Movement")]
+    [TabGroup("Horizontal Movement")] [Required]
     private FloatReference Deacceleration;
     
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Horizontal Movement")]
+    [TabGroup("Horizontal Movement")] [Required]
     private Vector2Reference MoveInput;
 
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Horizontal Movement")]
+    [TabGroup("Horizontal Movement")] [Required]
     private Vector3Reference NewVelocityOut;
 
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Horizontal Movement")]
+    [TabGroup("Horizontal Movement")] [Required]
     private Vector3Reference cachedVelocity;
 
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Horizontal Movement")]
+    [TabGroup("Horizontal Movement")] [Required]
     private QuaternionReference NewRotationOut;
     
     /**************************************
@@ -68,65 +72,78 @@ public class Movement : PlayerStateNode
     
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Horizontal Movement")] [ShowIf("$EnableFastTurn")]
+    [Required]
     private FloatReference FastTurnSpeed;
 
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Horizontal Movement")] [ShowIf("$EnableFastTurn")]
+    [Required]
     private FloatReference FastTurnPercentThreshold;
 
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Horizontal Movement")] [ShowIf("$EnableFastTurn")]
+    [Required]
     private FloatReference FastTurnAngleThreshold;
 
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Horizontal Movement")] [ShowIf("$EnableFastTurn")]
+    [Required]
     private FloatReference StopFastTurnDeltaAngle;
 
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Horizontal Movement")] [ShowIf("$EnableFastTurn")]
+    [Required]
     private FloatReference FastTurnInputDeadZone;
     
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Horizontal Movement")] [ShowIf("$EnableFastTurn")]
+    [Required]
     private FloatReference FastTurnBrakeDeacceleration;
     
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Horizontal Movement")] [ShowIf("$EnableFastTurn")]
+    [Required]
     private FloatReference FastTurnBrakeSpeedThreshold;
     
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Horizontal Movement")] [ShowIf("$EnableFastTurn")]
+    [Required]
     private FloatReference MoveInputRequiredDelta;
     
     /**************************************
         * Vertical Movement *
     **************************************/
 
-    [HideIf("$zoom")] [ShowIf("$EnableVerticalMovement")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Vertical Movement")]
+    [HideIf("$zoom")] [ShowIf("$EnableVerticalMovement")]
+    [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
+    [TabGroup("Vertical Movement")] 
     private FloatReference TimeToJumpApex;
 
-    [HideIf("$zoom")] [ShowIf("$EnableVerticalMovement")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Vertical Movement")]
+    [HideIf("$zoom")] [ShowIf("$EnableVerticalMovement")]
+    [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
+    [TabGroup("Vertical Movement")] 
     private FloatReference MaxJumpHeight;
 
-    [HideIf("$zoom")] [ShowIf("$EnableVerticalMovement")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [HideIf("$zoom")] [ShowIf("$EnableVerticalMovement")]
+    [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
     [TabGroup("Vertical Movement")]
     private FloatReference FallMultiplier;
 
-    [HideIf("$zoom")] [ShowIf("$EnableVerticalMovement")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [HideIf("$zoom")] [ShowIf("$EnableVerticalMovement")]
+    [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
     [TabGroup("Vertical Movement")]
     private FloatReference LowJumpDrag;
 
-    [HideIf("$zoom")] [ShowIf("$EnableVerticalMovement")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [HideIf("$zoom")] [ShowIf("$EnableVerticalMovement")]
+    [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
     [TabGroup("Vertical Movement")]
     private FloatReference MaxFallSpeed;
 
-    [HideIf("$zoom")] [ShowIf("$EnableVerticalMovement")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [HideIf("$zoom")] [ShowIf("$EnableVerticalMovement")]
+    [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
     [TabGroup("Vertical Movement")]
     private BoolReference JumpPressed;
 
-    private Transform cameraTrans;
     private Vector3 moveDirection;
 
     private float newSpeed;
@@ -138,7 +155,6 @@ public class Movement : PlayerStateNode
     public override void Initialize(StateMachineGraph parentGraph)
     {
         base.Initialize(parentGraph);
-        cameraTrans = playerController.GetCameraTrans();
     }
 
     public override void Enter()
@@ -285,19 +301,23 @@ public class Movement : PlayerStateNode
         Quaternion velocityRotation = Quaternion.LookRotation(velocityDirection, Vector3.up);
 
         if (Mathf.Approximately(velocityDirection.magnitude, 0f)) return;
+        if (Mathf.Approximately(MoveInput.Value.magnitude, 0f)) return;
 
         currentRotation = Quaternion.RotateTowards(lookRotation, velocityRotation, RotationDeltaMax.Value);
         
         //If fast turning, instead rotate to desired turn direction
-        Quaternion moveInputRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
-        if (isFastTurning) currentRotation = Quaternion.RotateTowards(lookRotation, moveInputRotation, RotationDeltaMax.Value);
+        if (isFastTurning)
+        {
+            Quaternion moveInputRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
+            currentRotation = Quaternion.RotateTowards(lookRotation, moveInputRotation, RotationDeltaMax.Value);
+        }
         
         NewRotationOut.Value = currentRotation;
     }
     
     private void SetMoveDirection()
     {
-        Vector2 camForward = cameraTrans.forward.xz().normalized;
+        Vector2 camForward = PlayerCameraTransform.Value.forward.xz().normalized;
         Quaternion rotOffset = Quaternion.FromToRotation(Vector2.up, camForward);
         Vector2 rotatedMoveInput = rotOffset * MoveInput.Value;
         moveDirection = new Vector3(rotatedMoveInput.x, 0, rotatedMoveInput.y);

@@ -16,11 +16,6 @@ public interface testInterface
 public class PlayerController : SerializedMonoBehaviour, ICharacterController
 {
     [SerializeField] private KinematicCharacterMotor charMotor;
-    [SerializeField] private PlayerStateMachine stateMachine;
-    [SerializeField] private Animator animator;
-    [SerializeField] private Transform cameraTrans;
-    [SerializeField] private Transform firePoint;
-    [SerializeField] private Transform root;
     [SerializeField] private Transform model;
     [SerializeField] private CapsuleCollider playerCollider;
     [SerializeField] private AudioClip jumpAttackClip;
@@ -55,11 +50,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private Vector3Reference[] modelScales;
     private Vector3 capsuleProportions;
 
-    public Transform GetCameraTrans() => cameraTrans;
-    public Transform GetFirePoint() => firePoint;
-    public Animator GetAnimator() => animator;
-    public Transform GetRoot() => root;
-
     public delegate void _OnStartUpdateVelocity(Vector3 currentVelocity);
     public delegate void _OnStartUpdateRotation(Quaternion currentRotation);
     public event _OnStartUpdateVelocity onStartUpdateVelocity;
@@ -74,6 +64,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     void Awake()
     {
+        this.enabled = true;
         playerMove = InputManager.Instance.GetPlayerMove_Action();
         InputManager.Instance.onJump_Pressed += () => JumpPressed.Value = true;
         InputManager.Instance.onJump_Released += () => JumpPressed.Value = false;

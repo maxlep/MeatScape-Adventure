@@ -1,4 +1,5 @@
 ﻿using MyAssets.Runtime.AnimationJobs;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
@@ -7,6 +8,9 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
 {
     public class StateTransitionMixer : PlayerStateNode
     {
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField, Required]
+        protected AnimatorSceneReference PlayerAnimator;
+            
         public PlayableGraph GetGraph() => playableGraph;
 
         PlayableGraph playableGraph;
@@ -32,7 +36,7 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
         
             // Creates the graph, the mixer and binds them to the Animator.
             playableGraph = PlayableGraph.Create(base.name);
-            playableOutput = AnimationPlayableOutput.Create(playableGraph, $"{base.name}_Output", playerController.GetAnimator());
+            playableOutput = AnimationPlayableOutput.Create(playableGraph, $"{base.name}_Output", PlayerAnimator.Value);
             activePlayable = AnimationScriptPlayable.Create(playableGraph, new NoOpJob());
             playableOutput.SetSourcePlayable(activePlayable);
             playableGraph.Play();

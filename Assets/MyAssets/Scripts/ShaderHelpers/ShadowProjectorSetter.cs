@@ -18,6 +18,8 @@ namespace MyAssets.Scripts.ShaderHelpers
 
         public void UpdateProjector()
         {
+            if (projector == null) return;
+            
             if (projector.orthographic)
             {
                 projector.orthographicSize = blobDiameter.Value;

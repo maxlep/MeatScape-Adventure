@@ -9,6 +9,8 @@ public class DownwardAttack : PlayerStateNode
     [HideIf("$zoom")][LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference throwDelay;
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference downwardForce;
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private BoolReference waitedAttackDelay;
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TransformSceneReference firePoint;
+
 
     private bool clumpThrown;
 
@@ -21,10 +23,9 @@ public class DownwardAttack : PlayerStateNode
     {
         base.Enter();
 
-        Transform firePoint = playerController.GetFirePoint();
-        Quaternion startRotation = Quaternion.LookRotation(firePoint.forward, Vector3.up);
+        Quaternion startRotation = Quaternion.LookRotation(firePoint.Value.forward, Vector3.up);
 
-        GameObject thrownClump = Instantiate(ammo, firePoint.position, startRotation);
+        GameObject thrownClump = Instantiate(ammo, firePoint.Value.position, startRotation);
         Rigidbody clumpRB = thrownClump.GetComponent<Rigidbody>();
         clumpRB.AddForce(Vector3.down * downwardForce.Value);
 

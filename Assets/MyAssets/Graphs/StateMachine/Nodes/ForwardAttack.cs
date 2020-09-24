@@ -11,6 +11,7 @@ public class ForwardAttack : PlayerStateNode
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference forwardForce;
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference upwardForce;
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private BoolReference waitedAttackDelay;
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TransformSceneReference firePoint;
 
     private bool clumpThrown;
 
@@ -23,12 +24,11 @@ public class ForwardAttack : PlayerStateNode
     {
         base.Enter();
 
-        Transform firePoint = playerController.GetFirePoint();
-        Quaternion startRotation = Quaternion.LookRotation(firePoint.forward, Vector3.up);
+        Quaternion startRotation = Quaternion.LookRotation(firePoint.Value.forward, Vector3.up);
 
-        GameObject thrownClump = Instantiate(ammo, firePoint.position, startRotation);
+        GameObject thrownClump = Instantiate(ammo, firePoint.Value.position, startRotation);
         Rigidbody clumpRB = thrownClump.GetComponent<Rigidbody>();
-        clumpRB.AddForce(firePoint.forward * forwardForce.Value + Vector3.up * upwardForce.Value);
+        clumpRB.AddForce(firePoint.Value.forward * forwardForce.Value + Vector3.up * upwardForce.Value);
 
         playerController.CurrentSize -= 1;
     }

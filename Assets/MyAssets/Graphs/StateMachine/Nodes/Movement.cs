@@ -270,17 +270,23 @@ public class Movement : PlayerStateNode
             lastMoveInputDirection = MoveInput.Value.normalized;
         
         /*********************************************
-         * Prevent Flying Up Slopes in Air
+         * Handle Slopes
          *********************************************/
 
         Vector3 newVelocity = newDirection * newSpeed;
 
-        // if (GroundingStatus.FoundAnyGround && EnableVerticalMovement)
-        // {
-        //     slopeRight = Vector3.Cross(Vector3.up, GroundingStatus.GroundNormal);
-        //     slopeOut = Vector3.Cross(slopeRight, Vector3.up);
-        //     newVelocity = Vector3.ProjectOnPlane(newVelocity, slopeOut).Flatten();
-        // }
+        //If on ground that is not stable (slopes)
+        if (!GroundingStatus.IsStableOnGround && GroundingStatus.FoundAnyGround)
+        {
+            //Take move input direction directly and flatten (Dont do turn smoothing for now)
+            float slopeMoveSpeed = 10f;
+            newVelocity = moveDirection.Flatten() * slopeMoveSpeed;
+            
+            //Project velocity sideways along slope
+            slopeRight = Vector3.Cross(Vector3.up, GroundingStatus.GroundNormal);
+            slopeOut = Vector3.Cross(slopeRight, Vector3.up);
+            newVelocity = Vector3.ProjectOnPlane(newVelocity, slopeOut).Flatten();
+        }
 
         return newVelocity;
     }
@@ -290,31 +296,47 @@ public class Movement : PlayerStateNode
         CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
         CharacterTransientGroundingReport LastGroundingStatus = playerController.LastGroundingStatus;
 
-        if (!LastGroundingStatus.FoundAnyGround && GroundingStatus.FoundAnyGround)
-            currentVelocity.y = 0f;
+        Vector3 newVelocity = currentVelocity.y * Vector3.up;
 
         float gravity = -(2 * MaxJumpHeight.Value) / Mathf.Pow(TimeToJumpApex.Value, 2);
 
-        if (currentVelocity.y <= 0 || GroundingStatus.FoundAnyGround)  //Falling
+        if (newVelocity.y <= 0 || GroundingStatus.FoundAnyGround)  //Falling
         {
-            currentVelocity.y += gravity * (FallMultiplier.Value - 1) * Time.deltaTime;
+            newVelocity.y += gravity * (FallMultiplier.Value - 1) * Time.deltaTime;
         }
-        else if (currentVelocity.y > 0 && !JumpPressed.Value)    //Short jump
+        else if (newVelocity.y > 0 && !JumpPressed.Value)    //Short jump
         {
-            currentVelocity.y -= LowJumpDrag.Value * Time.deltaTime;
-            currentVelocity.y += gravity * Time.deltaTime;
+            newVelocity.y -= LowJumpDrag.Value * Time.deltaTime;
+            newVelocity.y += gravity * Time.deltaTime;
         }
         else
         {
-            currentVelocity.y += gravity * Time.deltaTime;
+            newVelocity.y += gravity * Time.deltaTime;
         }
         
-        if (currentVelocity.y < -Mathf.Abs(MaxFallSpeed.Value))   //Cap Speed
+        if (newVelocity.y < -Mathf.Abs(MaxFallSpeed.Value))   //Cap Speed
         {
-            currentVelocity.y = -Mathf.Abs(MaxFallSpeed.Value);
+            newVelocity.y = -Mathf.Abs(MaxFallSpeed.Value);
+        }
+        
+        //TODO: This code lets you move upwards slope if going up but messes up the horizontal movement making it jittery
+        //If just landed on slope this frame, project velocity along slope
+        // if (!LastGroundingStatus.FoundAnyGround &&
+        //     GroundingStatus.FoundAnyGround &&
+        //     !GroundingStatus.IsStableOnGround)
+        // {
+        //     //newVelocity.y = 0f;
+        //     newVelocity = Vector3.ProjectOnPlane(newVelocity, GroundingStatus.GroundNormal);
+        // }
+        
+        //While on ground that is not stable (slope) project vel along slope
+        if (GroundingStatus.FoundAnyGround &&
+            !GroundingStatus.IsStableOnGround)
+        {
+            newVelocity = Vector3.ProjectOnPlane(newVelocity, GroundingStatus.GroundNormal);
         }
 
-        return currentVelocity.y * Vector3.up;
+        return newVelocity;
     }
 
     private void UpdateRotation(Quaternion currentRotation)

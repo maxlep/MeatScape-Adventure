@@ -29,8 +29,8 @@ public class ForwardAttack : PlayerStateNode
         GameObject thrownClump = Instantiate(ammo, firePoint.Value.position, startRotation);
         Rigidbody clumpRB = thrownClump.GetComponent<Rigidbody>();
         clumpRB.AddForce(firePoint.Value.forward * forwardForce.Value + Vector3.up * upwardForce.Value);
-
-        playerController.CurrentSize -= 1;
+    
+        if(!playerController.unlimitedClumps) playerController.CurrentSize -= 1;
     }
 
     public override void Execute()

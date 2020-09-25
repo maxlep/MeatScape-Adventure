@@ -11,7 +11,6 @@ public class DownwardAttack : PlayerStateNode
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private BoolReference waitedAttackDelay;
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TransformSceneReference firePoint;
 
-
     private bool clumpThrown;
 
     public override void Initialize(StateMachineGraph parentGraph)
@@ -29,7 +28,7 @@ public class DownwardAttack : PlayerStateNode
         Rigidbody clumpRB = thrownClump.GetComponent<Rigidbody>();
         clumpRB.AddForce(Vector3.down * downwardForce.Value);
 
-        playerController.CurrentSize -= 1;
+        if(!playerController.unlimitedClumps) playerController.CurrentSize -= 1;
     }
 
     public override void Execute()

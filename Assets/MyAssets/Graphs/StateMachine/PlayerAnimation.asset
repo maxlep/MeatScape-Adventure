@@ -92,7 +92,12 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: 
+  conditionPreview: '- !IsGrounded_Controller
+
+    - 0 Ignore 0 && 0 LessThan -0.1
+    && 0 Ignore 0
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -160,7 +165,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Fall Driver
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   axis: 1
   inputVelocity:
     Source:
@@ -277,7 +282,12 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: 
+  conditionPreview: '- IsGrounded_Controller
+
+    - 0 AbsLessThan 0.001 && 0 Ignore
+    0 && 0 AbsLessThan 0.001
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -633,7 +643,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Idle
   zoom: 0
-  isActiveState: 1
+  isActiveState: 0
   subStates:
   - {fileID: 1784268939710130638}
 --- !u!114 &-4449075156651536019
@@ -688,7 +698,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Fall
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   subStates:
   - {fileID: -7348441339498573471}
   - {fileID: -283094309726956859}
@@ -1059,7 +1069,12 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: 
+  conditionPreview: '- !IsGrounded_Controller
+
+    - 0 Ignore 0 && 0 LessThan -0.1
+    && 0 Ignore 0
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -1209,7 +1224,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Fall
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   boneTransformWeights:
   - transform: {fileID: 0}
     weight: 1
@@ -1637,7 +1652,9 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: 
+  conditionPreview: '- Throw_Time_Anim: 0.15 sec
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -1694,7 +1711,9 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: 
+  conditionPreview: '- JumpTrigger_Anim
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -1910,7 +1929,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Idle
   zoom: 0
-  isActiveState: 1
+  isActiveState: 0
   boneTransformWeights:
   - transform: {fileID: 0}
     weight: 1
@@ -2039,7 +2058,9 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: 
+  conditionPreview: '- 0 AbsGreaterThan 0 && 0 Ignore 0 && 0 AbsGreaterThan 0
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -2529,7 +2550,9 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: 
+  conditionPreview: '- Throw_Time_Anim: 0.15 sec
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -3118,7 +3141,9 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: 
+  conditionPreview: '- JumpTrigger_Anim
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []

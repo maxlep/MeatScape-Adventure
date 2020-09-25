@@ -41,7 +41,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: RegenerateMeat -> No Regenerate
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 920, y: 1544}
@@ -75,7 +75,9 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: 
+  conditionPreview: '- PlayerCurrentSize_Controller EqualTo 2
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -259,7 +261,9 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: 
+  conditionPreview: '- !RegenerateMeatPressed_Controller
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -340,6 +344,11 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   conditionPreview: '- Valid: Ground Movement
+
+    - RegenerateMeatPressed_Controller
+
+    -
+    PlayerCurrentSize_Controller LessThan 2
 
 '
   ValidStartStates:

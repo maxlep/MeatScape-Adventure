@@ -35,6 +35,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable JumpAttackTrigger;
 
     [FoldoutGroup("Size Parameters")] [SerializeField] private PlayerSize startSize;
+    [FoldoutGroup("Size Parameters")] public bool freezeSize;
+    [FoldoutGroup("Size Parameters")] public bool unlimitedClumps;
     [FoldoutGroup("Size Parameters")] [HideReferenceObjectPicker] [SerializeField] [SuffixLabel("ms")]
     private FloatReference changeSizeTime;
     [FoldoutGroup("Size Parameters")] [HideReferenceObjectPicker] [SerializeField] private Vector3Reference smallModelScale;

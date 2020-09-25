@@ -328,7 +328,8 @@ public class Movement : PlayerStateNode
         //     //newVelocity.y = 0f;
         //     newVelocity = Vector3.ProjectOnPlane(newVelocity, GroundingStatus.GroundNormal);
         // }
-        
+
+        //TODO: Seems like the fact that char is grounding is causing the upwards vel to 0 out
         //While on ground that is not stable (slope) project vel along slope
         if (GroundingStatus.FoundAnyGround &&
             !GroundingStatus.IsStableOnGround)

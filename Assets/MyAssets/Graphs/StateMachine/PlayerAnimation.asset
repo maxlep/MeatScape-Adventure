@@ -94,8 +94,8 @@ MonoBehaviour:
       _dynamic: 0
   conditionPreview: '- !IsGrounded_Controller
 
-    - 0 Ignore 0 && 0 LessThan -0.1
-    && 0 Ignore 0
+    - -0.368309 Ignore 0 && -30.00002
+    LessThan -0.1 && 1.055622 Ignore 0
 
 '
   ValidStartStates: []
@@ -165,7 +165,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Fall Driver
   zoom: 0
-  isActiveState: 1
+  isActiveState: 0
   axis: 1
   inputVelocity:
     Source:
@@ -284,8 +284,8 @@ MonoBehaviour:
       _dynamic: 0
   conditionPreview: '- IsGrounded_Controller
 
-    - 0 AbsLessThan 0.001 && 0 Ignore
-    0 && 0 AbsLessThan 0.001
+    - -0.368309 AbsLessThan 0.001 &&
+    -30.00002 Ignore 0 && 1.055622 AbsLessThan 0.001
 
 '
   ValidStartStates: []
@@ -698,7 +698,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Fall
   zoom: 0
-  isActiveState: 1
+  isActiveState: 0
   subStates:
   - {fileID: -7348441339498573471}
   - {fileID: -283094309726956859}
@@ -1071,8 +1071,8 @@ MonoBehaviour:
       _dynamic: 0
   conditionPreview: '- !IsGrounded_Controller
 
-    - 0 Ignore 0 && 0 LessThan -0.1
-    && 0 Ignore 0
+    - -0.368309 Ignore 0 && -30.00002
+    LessThan -0.1 && 1.055622 Ignore 0
 
 '
   ValidStartStates: []
@@ -1224,7 +1224,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Fall
   zoom: 0
-  isActiveState: 1
+  isActiveState: 0
   boneTransformWeights:
   - transform: {fileID: 0}
     weight: 1
@@ -2058,7 +2058,8 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- 0 AbsGreaterThan 0 && 0 Ignore 0 && 0 AbsGreaterThan 0
+  conditionPreview: '- -0.368309 AbsGreaterThan 0 && -30.00002 Ignore 0 && 1.055622
+    AbsGreaterThan 0
 
 '
   ValidStartStates: []
@@ -3198,7 +3199,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Parameter Processor
   zoom: 0
-  isActiveState: 1
+  isActiveState: 0
   subStates:
   - {fileID: 2707482321196679568}
 --- !u!114 &8482668709884365773

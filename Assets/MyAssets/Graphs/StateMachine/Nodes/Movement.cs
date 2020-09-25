@@ -1,5 +1,6 @@
 ﻿using AmplifyShaderEditor;
 using Cinemachine.Utility;
+using KinematicCharacterController;
 using MyAssets.ScriptableObjects.Variables;
 using MyAssets.Scripts.Utils;
 using Shapes;
@@ -151,6 +152,9 @@ public class Movement : PlayerStateNode
     private Vector3 fastTurnStartDir;
     private Vector3 newDirection;
     private Vector3 lastMoveInputDirection = Vector3.zero;
+    private Vector3 slopeRight;
+    private Vector3 slopeOut;
+    
 
     public override void Initialize(StateMachineGraph parentGraph)
     {
@@ -197,11 +201,14 @@ public class Movement : PlayerStateNode
 
     private Vector3 CalculateHorizontalVelocity(Vector3 currentVelocity)
     {
+        CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
+        
         /**************************************
          * Determine if Fast Turning
          **************************************/
         
-        if (EnableFastTurn)
+        //Dont allow fast turn on slopes
+        if (EnableFastTurn && !GroundingStatus.FoundAnyGround)
             CheckForFastTurn(currentVelocity);
         
         float currentTurnSpeed;
@@ -262,14 +269,33 @@ public class Movement : PlayerStateNode
         if (MoveInput.Value.magnitude > FastTurnInputDeadZone.Value)
             lastMoveInputDirection = MoveInput.Value.normalized;
         
-        return newDirection * newSpeed;
+        /*********************************************
+         * Prevent Flying Up Slopes in Air
+         *********************************************/
+
+        Vector3 newVelocity = newDirection * newSpeed;
+
+        // if (GroundingStatus.FoundAnyGround && EnableVerticalMovement)
+        // {
+        //     slopeRight = Vector3.Cross(Vector3.up, GroundingStatus.GroundNormal);
+        //     slopeOut = Vector3.Cross(slopeRight, Vector3.up);
+        //     newVelocity = Vector3.ProjectOnPlane(newVelocity, slopeOut).Flatten();
+        // }
+
+        return newVelocity;
     }
 
     private Vector3 CalculateVerticalVelocity(Vector3 currentVelocity)
     {
+        CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
+        CharacterTransientGroundingReport LastGroundingStatus = playerController.LastGroundingStatus;
+
+        if (!LastGroundingStatus.FoundAnyGround && GroundingStatus.FoundAnyGround)
+            currentVelocity.y = 0f;
+
         float gravity = -(2 * MaxJumpHeight.Value) / Mathf.Pow(TimeToJumpApex.Value, 2);
 
-        if (currentVelocity.y <= 0)  //Falling
+        if (currentVelocity.y <= 0 || GroundingStatus.FoundAnyGround)  //Falling
         {
             currentVelocity.y += gravity * (FallMultiplier.Value - 1) * Time.deltaTime;
         }
@@ -372,13 +398,25 @@ public class Movement : PlayerStateNode
         Vector3 startPos = playerController.transform.position;
         Vector3 endPos = playerController.transform.position + newDirection * (newSpeed / MoveSpeed.Value) * 10f;
         Vector3 endPos2 = playerController.transform.position + moveDirection * 10f;
+        Vector3 endPos3 = playerController.transform.position + cachedVelocity.Value.normalized * (cachedVelocity.Value.magnitude / MoveSpeed.Value) * 10f;
+        Vector3 endPos4 = playerController.transform.position + slopeRight.normalized * 5f;
+        Vector3 endPos5 = playerController.transform.position + slopeOut.normalized * 5f;
 
         Color moveInputColor = isFastTurning ? new Color(1f, 0f, 0f, .35f) : new Color(1f, 1f, 0f, .35f);
         Color actualMoveColor = new Color(0f, 1f, 0f, .35f);
+        Color cachedVelocityColor = new Color(0f, 0f, 1f, .35f);
+        Color slopeRightColor = new Color(.9f, .5f, 1f, .35f);
+        Color slopeUpColor = new Color(.9f, .5f, .1f, .35f);
 
         Draw.Line(startPos, endPos, moveInputColor);
         Draw.Line(startPos, endPos2, actualMoveColor);
-        Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos, .35f, moveInputColor);
-        Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos2, .35f, actualMoveColor);
+        Draw.Line(startPos, endPos3, cachedVelocityColor);
+        Draw.Line(startPos, endPos4, cachedVelocityColor);
+        Draw.Line(startPos, endPos5, cachedVelocityColor);
+        Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos, .25f, moveInputColor);
+        Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos2, .25f, actualMoveColor);
+        Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos3, .25f, cachedVelocityColor);
+        Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos4, .25f, slopeRightColor);
+        Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos5, .25f, slopeUpColor);
     }
 }

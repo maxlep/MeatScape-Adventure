@@ -31,6 +31,66 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   executionOrderIndex: 0
+--- !u!114 &-6808956909573606362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: ' -> '
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 920, y: 1544}
+  ports:
+    keys:
+    - startingState
+    - nextState
+    values:
+    - _fieldName: startingState
+      _node: {fileID: -6808956909573606362}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: -6559227369241306162}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: nextState
+      _node: {fileID: -6808956909573606362}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: 3030014324150665224}
+        reroutePoints:
+        - {x: 1617.141, y: 999.17267}
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+  conditionPreview: 
+  ValidStartStates: []
+  InvalidStartStates: []
+  BoolConditions: []
+  TriggerConditions: []
+  FloatConditions: []
+  IntConditions:
+  - targetParameter:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: cdaba327a8069d04b9e20fa38eeab583, type: 2}
+    comparator: 2
+    value: 2
+  TimerConditions: []
+  Vector2Conditions: []
+  Vector3Conditions: []
 --- !u!114 &-6559227369241306162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,6 +124,10 @@ MonoBehaviour:
       - fieldName: startingState
         node: {fileID: 8584984874332236410}
         reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: -6808956909573606362}
+        reroutePoints:
+        - {x: 577.1696, y: 1088.2548}
       _direction: 1
       _connectionType: 0
       _typeConstraint: 2
@@ -195,9 +259,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- !RegenerateMeatPressed_Controller
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -233,6 +295,7 @@ MonoBehaviour:
   - {fileID: -1482404621607463015}
   - {fileID: -6559227369241306162}
   - {fileID: 8584984874332236410}
+  - {fileID: -6808956909573606362}
 --- !u!114 &1353062080610734855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,11 +340,6 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   conditionPreview: '- Valid: Ground Movement
-
-    - RegenerateMeatPressed_Controller
-
-    -
-    PlayerCurrentSize_Controller LessThan 2
 
 '
   ValidStartStates:
@@ -337,6 +395,9 @@ MonoBehaviour:
         reroutePoints: []
       - fieldName: nextState
         node: {fileID: 8584984874332236410}
+        reroutePoints: []
+      - fieldName: nextState
+        node: {fileID: -6808956909573606362}
         reroutePoints: []
       _direction: 0
       _connectionType: 0

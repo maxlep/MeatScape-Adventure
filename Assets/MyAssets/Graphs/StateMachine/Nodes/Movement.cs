@@ -208,7 +208,7 @@ public class Movement : PlayerStateNode
          **************************************/
         
         //Dont allow fast turn on slopes
-        if (EnableFastTurn && !GroundingStatus.FoundAnyGround)
+        if (EnableFastTurn)
             CheckForFastTurn(currentVelocity);
         
         float currentTurnSpeed;
@@ -275,18 +275,18 @@ public class Movement : PlayerStateNode
 
         Vector3 newVelocity = newDirection * newSpeed;
 
-        //If on ground that is not stable (slopes)
-        if (!GroundingStatus.IsStableOnGround && GroundingStatus.FoundAnyGround)
-        {
-            //Take move input direction directly and flatten (Dont do turn smoothing for now)
-            float slopeMoveSpeed = 10f;
-            newVelocity = moveDirection.Flatten() * slopeMoveSpeed;
-            
-            //Project velocity sideways along slope
-            slopeRight = Vector3.Cross(Vector3.up, GroundingStatus.GroundNormal);
-            slopeOut = Vector3.Cross(slopeRight, Vector3.up);
-            newVelocity = Vector3.ProjectOnPlane(newVelocity, slopeOut).Flatten();
-        }
+         //If on ground that is not stable (slopes)
+         if (!GroundingStatus.IsStableOnGround && GroundingStatus.FoundAnyGround)
+         {
+             //Take move input direction directly and flatten (Dont do turn smoothing for now)
+             float slopeMoveSpeed = 10f;
+             newVelocity = moveDirection.Flatten() * slopeMoveSpeed;
+             
+             //Project velocity sideways along slope
+             slopeRight = Vector3.Cross(Vector3.up, GroundingStatus.GroundNormal);
+             slopeOut = Vector3.Cross(slopeRight, Vector3.up);
+             newVelocity = Vector3.ProjectOnPlane(newVelocity, slopeOut).Flatten();
+         }
 
         return newVelocity;
     }

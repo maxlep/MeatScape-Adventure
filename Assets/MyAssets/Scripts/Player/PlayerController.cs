@@ -49,6 +49,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     private PlayerSize _currentSize;
     public PlayerSize CurrentSize { get => _currentSize; set => SetPlayerSize(value); }
+    public KinematicCharacterMotor CharacterMotor => charMotor;
     public CharacterGroundingReport GroundingStatus => charMotor.GroundingStatus;
     public CharacterTransientGroundingReport LastGroundingStatus => charMotor.LastGroundingStatus;
     private Vector3Reference[] modelScales;

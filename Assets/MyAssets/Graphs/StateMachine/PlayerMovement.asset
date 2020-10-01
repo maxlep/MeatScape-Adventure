@@ -234,11 +234,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- IsGrounded_Controller
-
-    - WaitedJumpGroundDelay_Movement
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -658,9 +654,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- !IsGrounded_Controller
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -721,9 +715,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- IsGrounded_Controller
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -781,9 +773,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- IsGrounded_Controller
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -847,7 +837,11 @@ MonoBehaviour:
   BypassState: 0
   Name: Ground Movement
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
+  MaxSlopeSlideAngle:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: e1f24ff8cb027484d9234a4d22ac3c74, type: 2}
   EnableHorizontalMovement: 1
   EnableFastTurn: 1
   EnableVerticalMovement: 0
@@ -995,6 +989,10 @@ MonoBehaviour:
   Name: Air Movement
   zoom: 0
   isActiveState: 0
+  MaxSlopeSlideAngle:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: e1f24ff8cb027484d9234a4d22ac3c74, type: 2}
   EnableHorizontalMovement: 1
   EnableFastTurn: 1
   EnableVerticalMovement: 1
@@ -1219,9 +1217,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- GroundPoundTrigger_Controller
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -1335,6 +1331,10 @@ MonoBehaviour:
   Name: NoLowJump
   zoom: 0
   isActiveState: 0
+  MaxSlopeSlideAngle:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: e1f24ff8cb027484d9234a4d22ac3c74, type: 2}
   EnableHorizontalMovement: 1
   EnableFastTurn: 1
   EnableVerticalMovement: 1
@@ -1665,9 +1665,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- JumpAttackTrigger_Controller
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -1725,9 +1723,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- JumpTrigger_Controller
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -1782,9 +1778,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- PostPoundDelay_Movement: 0.2 sec
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -2015,9 +2009,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- PoundStall_Movement: 0.3 sec
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []

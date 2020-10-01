@@ -12,6 +12,15 @@ using UnityEngine.UI;
 public class Movement : PlayerStateNode
 {
     /**************************************
+        * Common *
+    **************************************/
+    [HideIf("$zoom")]
+    [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
+    [TabGroup("Common")]
+    private FloatReference MaxSlopeSlideAngle;
+    
+    
+    /**************************************
         * Horizontal Movement *
     **************************************/
     
@@ -50,7 +59,7 @@ public class Movement : PlayerStateNode
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Horizontal Movement")] [Required]
     private FloatReference Deacceleration;
-    
+
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Horizontal Movement")] [Required]
     private Vector2Reference MoveInput;
@@ -72,42 +81,42 @@ public class Movement : PlayerStateNode
     **************************************/
     
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Horizontal Movement")] [ShowIf("$EnableFastTurn")]
+    [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")]
     [Required]
     private FloatReference FastTurnSpeed;
 
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Horizontal Movement")] [ShowIf("$EnableFastTurn")]
+    [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")]
     [Required]
     private FloatReference FastTurnPercentThreshold;
 
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Horizontal Movement")] [ShowIf("$EnableFastTurn")]
+    [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")]
     [Required]
     private FloatReference FastTurnAngleThreshold;
 
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Horizontal Movement")] [ShowIf("$EnableFastTurn")]
+    [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")]
     [Required]
     private FloatReference StopFastTurnDeltaAngle;
 
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Horizontal Movement")] [ShowIf("$EnableFastTurn")]
+    [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")]
     [Required]
     private FloatReference FastTurnInputDeadZone;
     
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Horizontal Movement")] [ShowIf("$EnableFastTurn")]
+    [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")]
     [Required]
     private FloatReference FastTurnBrakeDeacceleration;
     
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Horizontal Movement")] [ShowIf("$EnableFastTurn")]
+    [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")]
     [Required]
     private FloatReference FastTurnBrakeSpeedThreshold;
     
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Horizontal Movement")] [ShowIf("$EnableFastTurn")]
+    [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")]
     [Required]
     private FloatReference MoveInputRequiredDelta;
     
@@ -154,6 +163,7 @@ public class Movement : PlayerStateNode
     private Vector3 lastMoveInputDirection = Vector3.zero;
     private Vector3 slopeRight;
     private Vector3 slopeOut;
+    private KinematicCharacterMotor characterMotor;
     
 
     public override void Initialize(StateMachineGraph parentGraph)
@@ -166,6 +176,7 @@ public class Movement : PlayerStateNode
         base.Enter();
         playerController.onStartUpdateVelocity += UpdateVelocity;
         playerController.onStartUpdateRotation += UpdateRotation;
+        characterMotor = playerController.CharacterMotor;
         SetMoveDirection(); //Call to force update moveDir in case updateRot called b4 updateVel
     }
 
@@ -274,10 +285,14 @@ public class Movement : PlayerStateNode
          *********************************************/
 
         Vector3 newVelocity = newDirection * newSpeed;
-
-         //If on ground that is not stable (slopes)
-         if (!GroundingStatus.IsStableOnGround && GroundingStatus.FoundAnyGround)
-         {
+        float slopeAngle = Vector3.Angle(GroundingStatus.GroundNormal, Vector3.up);
+        
+        //If on ground that is not stable (slopes)
+        if (!GroundingStatus.IsStableOnGround && 
+             GroundingStatus.FoundAnyGround &&
+             slopeAngle > characterMotor.MaxStableSlopeAngle &&
+             slopeAngle < MaxSlopeSlideAngle.Value)
+        {
              //Take move input direction directly and flatten (Dont do turn smoothing for now)
              float slopeMoveSpeed = 10f;
              newVelocity = moveDirection.Flatten() * slopeMoveSpeed;
@@ -286,7 +301,7 @@ public class Movement : PlayerStateNode
              slopeRight = Vector3.Cross(Vector3.up, GroundingStatus.GroundNormal);
              slopeOut = Vector3.Cross(slopeRight, Vector3.up);
              newVelocity = Vector3.ProjectOnPlane(newVelocity, slopeOut).Flatten();
-         }
+        }
 
         return newVelocity;
     }
@@ -331,8 +346,12 @@ public class Movement : PlayerStateNode
 
         //TODO: Seems like the fact that char is grounding is causing the upwards vel to 0 out
         //While on ground that is not stable (slope) project vel along slope
-        if (GroundingStatus.FoundAnyGround &&
-            !GroundingStatus.IsStableOnGround)
+        float slopeAngle = Vector3.Angle(GroundingStatus.GroundNormal, Vector3.up);
+        
+        if (!GroundingStatus.IsStableOnGround && 
+            GroundingStatus.FoundAnyGround &&
+            slopeAngle > characterMotor.MaxStableSlopeAngle &&
+            slopeAngle < MaxSlopeSlideAngle.Value)
         {
             newVelocity = Vector3.ProjectOnPlane(newVelocity, GroundingStatus.GroundNormal);
         }

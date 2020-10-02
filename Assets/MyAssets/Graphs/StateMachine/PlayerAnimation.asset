@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 65e22c5401b34e11b350842c67acb2ad, type: 3}
-  m_Name: Pound Driver <TimerDriver> (PlayerAnimation)
+  m_Name: Pound Driver <TimerDriver> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -648, y: 1144}
@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Jump -> Fall
+  m_Name: ' -> '
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 3256, y: -392}
@@ -92,12 +92,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- !IsGrounded_Controller
-
-    - -0.368309 Ignore 0 && -30.00002
-    LessThan -0.1 && 1.055622 Ignore 0
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -135,7 +130,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5e0958b1d2747a5b2e337bda72ad6b8, type: 3}
-  m_Name: Fall Driver <LinearSpring> (PlayerAnimation)
+  m_Name: Fall Driver <LinearSpring> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 4344, y: -392}
@@ -190,7 +185,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Jump -> Throw Down
+  m_Name: ' -> '
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 4920, y: -1416}
@@ -249,7 +244,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Ground Movement -> Idle
+  m_Name: ' -> '
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1592, y: -648}
@@ -282,12 +277,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- IsGrounded_Controller
-
-    - -0.368309 AbsLessThan 0.001 &&
-    -30.00002 Ignore 0 && 1.055622 AbsLessThan 0.001
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -325,7 +315,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5e0958b1d2747a5b2e337bda72ad6b8, type: 3}
-  m_Name: Jump Driver <LinearSpring> (PlayerAnimation)
+  m_Name: Jump Driver <LinearSpring> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 2680, y: -392}
@@ -442,7 +432,14 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   executionOrderIndex: 1
-  Animatable: {fileID: 0}
+  AnimationLayer:
+    Name: Main
+    defaultPose: {fileID: -2420248955592922456, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+      type: 3}
+    mixerRunner:
+      BoneTransformWeights: []
+      Factor: 0
+  animatable: {fileID: 11400000, guid: 826f96e705376da4a900be48a3018c75, type: 2}
 --- !u!114 &-5460885838084513370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,7 +450,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bde82b2b60b32034ba17ac993ef9ed6f, type: 3}
-  m_Name: Throw Down <SubStateProcessorNode> (PlayerAnimation)
+  m_Name: Throw Down <SubStateProcessorNode> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 3576, y: 888}
@@ -500,7 +497,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dbe66876495740579ccc412ccf28d337, type: 3}
-  m_Name: Jump <NewSequenceBlend> (PlayerAnimation)
+  m_Name: Jump <NewSequenceBlend> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 2680, y: -8}
@@ -531,9 +528,6 @@ MonoBehaviour:
   Name: Jump
   zoom: 0
   isActiveState: 0
-  boneTransformWeights:
-  - transform: {fileID: 0}
-    weight: 1
   transitionTime: 0.15
   transitionCurve:
     serializedVersion: 2
@@ -559,38 +553,23 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  factor:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 93585d830ef2ec747a9353efb9086a7a, type: 2}
-  extrapolateMode: 0
-  sequence:
-  - pose: {fileID: -5126017825441171733, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055, type: 3}
-    transition:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  loopSequence: 0
+  animationJobRunner:
+    BoneTransformWeights: []
+    factor:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: 93585d830ef2ec747a9353efb9086a7a, type: 2}
+    extrapolateMode: 0
+    sequence:
+    - pose: {fileID: -5126017825441171733, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+        type: 3}
+      transition:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    loopSequence: 0
 --- !u!114 &-4801274928944331001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -601,7 +580,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bde82b2b60b32034ba17ac993ef9ed6f, type: 3}
-  m_Name: Idle <SubStateProcessorNode> (PlayerAnimation)
+  m_Name: Idle <SubStateProcessorNode> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -648, y: -648}
@@ -656,7 +635,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bde82b2b60b32034ba17ac993ef9ed6f, type: 3}
-  m_Name: Fall <SubStateProcessorNode> (PlayerAnimation)
+  m_Name: Fall <SubStateProcessorNode> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 4344, y: -648}
@@ -712,7 +691,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dbe66876495740579ccc412ccf28d337, type: 3}
-  m_Name: Walk <NewSequenceBlend> (PlayerAnimation)
+  m_Name: Walk <NewSequenceBlend> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1016, y: -8}
@@ -743,9 +722,6 @@ MonoBehaviour:
   Name: Walk
   zoom: 0
   isActiveState: 0
-  boneTransformWeights:
-  - transform: {fileID: 0}
-    weight: 1
   transitionTime: 0.2
   transitionCurve:
     serializedVersion: 2
@@ -771,113 +747,119 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  factor:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 76376b097f83a50439037a19dbc24d76, type: 2}
-  extrapolateMode: 1
-  sequence:
-  - pose: {fileID: 3878226718378308048, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055, type: 3}
-    transition:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  - pose: {fileID: 1071266914021387317, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055, type: 3}
-    transition:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  - pose: {fileID: 8198422237529859547, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055, type: 3}
-    transition:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  - pose: {fileID: 8194326456566286029, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055, type: 3}
-    transition:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  loopSequence: 1
+  animationJobRunner:
+    BoneTransformWeights: []
+    factor:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: 76376b097f83a50439037a19dbc24d76, type: 2}
+    extrapolateMode: 1
+    sequence:
+    - pose: {fileID: 3878226718378308048, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+        type: 3}
+      transition:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    - pose: {fileID: 1071266914021387317, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+        type: 3}
+      transition:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    - pose: {fileID: 8198422237529859547, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+        type: 3}
+      transition:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    - pose: {fileID: 8194326456566286029, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+        type: 3}
+      transition:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    loopSequence: 1
 --- !u!114 &-2479464383247129141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -888,7 +870,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Fall -> Idle
+  m_Name: ' -> '
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 4920, y: -904}
@@ -947,7 +929,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dbe66876495740579ccc412ccf28d337, type: 3}
-  m_Name: Pound Fall <NewSequenceBlend> (PlayerAnimation)
+  m_Name: Pound Fall <NewSequenceBlend> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 312, y: 888}
@@ -984,9 +966,6 @@ MonoBehaviour:
   Name: Pound Fall
   zoom: 0
   isActiveState: 0
-  boneTransformWeights:
-  - transform: {fileID: 0}
-    weight: 1
   transitionTime: 0.1
   transitionCurve:
     serializedVersion: 2
@@ -1012,20 +991,23 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  factor:
-    UseConstant: 1
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  extrapolateMode: 0
-  sequence:
-  - pose: {fileID: 7311064971203818085, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055, type: 3}
-    transition:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  loopSequence: 0
+  animationJobRunner:
+    BoneTransformWeights: []
+    factor:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: 91392095241e171419b51689da476ba1, type: 2}
+    extrapolateMode: 0
+    sequence:
+    - pose: {fileID: 7311064971203818085, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+        type: 3}
+      transition:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    loopSequence: 0
 --- !u!114 &-1770374977051931108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1036,7 +1018,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Ground Movement -> Fall
+  m_Name: ' -> '
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1592, y: -392}
@@ -1069,12 +1051,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- !IsGrounded_Controller
-
-    - -0.368309 Ignore 0 && -30.00002
-    LessThan -0.1 && 1.055622 Ignore 0
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -1194,7 +1171,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dbe66876495740579ccc412ccf28d337, type: 3}
-  m_Name: Fall <NewSequenceBlend> (PlayerAnimation)
+  m_Name: Fall <NewSequenceBlend> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 4344, y: -8}
@@ -1225,9 +1202,6 @@ MonoBehaviour:
   Name: Fall
   zoom: 0
   isActiveState: 0
-  boneTransformWeights:
-  - transform: {fileID: 0}
-    weight: 1
   transitionTime: 0.2
   transitionCurve:
     serializedVersion: 2
@@ -1253,45 +1227,49 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  factor:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 93585d830ef2ec747a9353efb9086a7a, type: 2}
-  extrapolateMode: 0
-  sequence:
-  - pose: {fileID: -2420248955592922456, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055, type: 3}
-    transition:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  - pose: {fileID: 3210164426173051862, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055, type: 3}
-    transition:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  loopSequence: 0
+  animationJobRunner:
+    BoneTransformWeights: []
+    factor:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: 93585d830ef2ec747a9353efb9086a7a, type: 2}
+    extrapolateMode: 0
+    sequence:
+    - pose: {fileID: -5126017825441171733, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+        type: 3}
+      transition:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 1
+          outSlope: 1
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 1
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    - pose: {fileID: 3210164426173051862, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+        type: 3}
+      transition:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    loopSequence: 0
 --- !u!114 &-53878915453836982
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1302,7 +1280,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 65e22c5401b34e11b350842c67acb2ad, type: 3}
-  m_Name: Throw Down <TimerDriver> (PlayerAnimation)
+  m_Name: Throw Down <TimerDriver> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 3576, y: 1144}
@@ -1457,7 +1435,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Jump -> Pound Stall
+  m_Name: ' -> '
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 4920, y: -1160}
@@ -1516,7 +1494,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bde82b2b60b32034ba17ac993ef9ed6f, type: 3}
-  m_Name: Ground Movement <SubStateProcessorNode> (PlayerAnimation)
+  m_Name: Ground Movement <SubStateProcessorNode> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1016, y: -648}
@@ -1572,7 +1550,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bde82b2b60b32034ba17ac993ef9ed6f, type: 3}
-  m_Name: Throw Forward <SubStateProcessorNode> (PlayerAnimation)
+  m_Name: Throw Forward <SubStateProcessorNode> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1976, y: 888}
@@ -1619,7 +1597,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Throw Forward -> Idle
+  m_Name: ' -> '
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 2488, y: 888}
@@ -1652,9 +1630,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- Throw_Time_Anim: 0.15 sec
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -1678,7 +1654,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Fall -> Jump
+  m_Name: ' -> '
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 4920, y: -648}
@@ -1711,9 +1687,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- JumpTrigger_Anim
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -1735,7 +1709,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dbe66876495740579ccc412ccf28d337, type: 3}
-  m_Name: Throw Forward <NewSequenceBlend> (PlayerAnimation)
+  m_Name: Throw Forward <NewSequenceBlend> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1976, y: 1464}
@@ -1766,9 +1740,6 @@ MonoBehaviour:
   Name: Throw Forward
   zoom: 0
   isActiveState: 0
-  boneTransformWeights:
-  - transform: {fileID: 0}
-    weight: 1
   transitionTime: 0.05
   transitionCurve:
     serializedVersion: 2
@@ -1794,45 +1765,49 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  factor:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 7740619907dc17f49848ad6ced2993fe, type: 2}
-  extrapolateMode: 0
-  sequence:
-  - pose: {fileID: -4839899550964373408, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055, type: 3}
-    transition:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  - pose: {fileID: -8875011833406555780, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055, type: 3}
-    transition:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  loopSequence: 0
+  animationJobRunner:
+    BoneTransformWeights: []
+    factor:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: 7740619907dc17f49848ad6ced2993fe, type: 2}
+    extrapolateMode: 0
+    sequence:
+    - pose: {fileID: -4839899550964373408, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+        type: 3}
+      transition:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 2
+          outSlope: 2
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    - pose: {fileID: -8875011833406555780, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+        type: 3}
+      transition:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    loopSequence: 0
 --- !u!114 &1534717339510978809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1843,7 +1818,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Pound Stall -> Pound Fall
+  m_Name: ' -> '
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -136, y: 888}
@@ -1899,7 +1874,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dbe66876495740579ccc412ccf28d337, type: 3}
-  m_Name: Idle <NewSequenceBlend> (PlayerAnimation)
+  m_Name: Idle <NewSequenceBlend> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -648, y: -392}
@@ -1930,9 +1905,6 @@ MonoBehaviour:
   Name: Idle
   zoom: 0
   isActiveState: 0
-  boneTransformWeights:
-  - transform: {fileID: 0}
-    weight: 1
   transitionTime: 0.5
   transitionCurve:
     serializedVersion: 2
@@ -1958,63 +1930,23 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  factor:
-    UseConstant: 1
-    ConstantValue: 0.1
-    Variable: {fileID: 0}
-  extrapolateMode: 0
-  sequence:
-  - pose: {fileID: -2420248955592922456, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055, type: 3}
-    transition:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  - pose: {fileID: 3210164426173051862, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055, type: 3}
-    transition:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  loopSequence: 0
+  animationJobRunner:
+    BoneTransformWeights: []
+    factor:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    extrapolateMode: 0
+    sequence:
+    - pose: {fileID: -2420248955592922456, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+        type: 3}
+      transition:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    loopSequence: 0
 --- !u!114 &1882534402556617292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2025,7 +1957,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Idle -> Ground Movement
+  m_Name: ' -> '
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -72, y: -392}
@@ -2058,10 +1990,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- -0.368309 AbsGreaterThan 0 && -30.00002 Ignore 0 && 1.055622
-    AbsGreaterThan 0
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -2135,7 +2064,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6440c9a7cc054193b396079ae2209cba, type: 3}
-  m_Name: Player Movement Tracker <MovementTracker> (PlayerAnimation)
+  m_Name: Player Movement Tracker <MovementTracker> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -136, y: -1416}
@@ -2362,7 +2291,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bde82b2b60b32034ba17ac993ef9ed6f, type: 3}
-  m_Name: Jump <SubStateProcessorNode> (PlayerAnimation)
+  m_Name: Jump <SubStateProcessorNode> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 2680, y: -648}
@@ -2459,7 +2388,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Ground Movement -> Throw Forward
+  m_Name: ' -> '
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1592, y: -904}
@@ -2518,7 +2447,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Throw Down -> Jump
+  m_Name: ' -> '
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 4088, y: 888}
@@ -2551,9 +2480,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- Throw_Time_Anim: 0.15 sec
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -2577,7 +2504,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 65e22c5401b34e11b350842c67acb2ad, type: 3}
-  m_Name: Throw Forward <TimerDriver> (PlayerAnimation)
+  m_Name: Throw Forward <TimerDriver> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1976, y: 1144}
@@ -2657,7 +2584,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dbe66876495740579ccc412ccf28d337, type: 3}
-  m_Name: Pound Stall <NewSequenceBlend> (PlayerAnimation)
+  m_Name: Pound Stall <NewSequenceBlend> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -648, y: 1464}
@@ -2688,9 +2615,6 @@ MonoBehaviour:
   Name: Pound Stall
   zoom: 0
   isActiveState: 0
-  boneTransformWeights:
-  - transform: {fileID: 0}
-    weight: 1
   transitionTime: 0.1
   transitionCurve:
     serializedVersion: 2
@@ -2716,45 +2640,48 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  factor:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 91392095241e171419b51689da476ba1, type: 2}
-  extrapolateMode: 0
-  sequence:
-  - pose: {fileID: -2420248955592922456, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055, type: 3}
-    transition:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  - pose: {fileID: 7311064971203818085, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055, type: 3}
-    transition:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  loopSequence: 0
+  animationJobRunner:
+    BoneTransformWeights: []
+    factor:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: 91392095241e171419b51689da476ba1, type: 2}
+    extrapolateMode: 0
+    sequence:
+    - pose: {fileID: 7400000, guid: d556ab52e17604958b19876c5f242758, type: 3}
+      transition:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 2
+          outSlope: 2
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    - pose: {fileID: 7311064971203818085, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+        type: 3}
+      transition:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    loopSequence: 0
 --- !u!114 &5962222503740756651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2765,7 +2692,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bde82b2b60b32034ba17ac993ef9ed6f, type: 3}
-  m_Name: Pound Stall <SubStateProcessorNode> (PlayerAnimation)
+  m_Name: Pound Stall <SubStateProcessorNode> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -648, y: 888}
@@ -2935,7 +2862,7 @@ MonoBehaviour:
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: afdd76c4e6d54d54807c933595e7a19a, type: 3}
-  m_Name: Perambulator <SurveyorWheel> (PlayerAnimation)
+  m_Name: Perambulator <SurveyorWheel> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1016, y: -392}
@@ -2998,7 +2925,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dbe66876495740579ccc412ccf28d337, type: 3}
-  m_Name: Throw Down <NewSequenceBlend> (PlayerAnimation)
+  m_Name: Throw Down <NewSequenceBlend> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 3576, y: 1464}
@@ -3029,9 +2956,6 @@ MonoBehaviour:
   Name: Throw Down
   zoom: 0
   isActiveState: 0
-  boneTransformWeights:
-  - transform: {fileID: 0}
-    weight: 1
   transitionTime: 0.05
   transitionCurve:
     serializedVersion: 2
@@ -3057,45 +2981,49 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  factor:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 7740619907dc17f49848ad6ced2993fe, type: 2}
-  extrapolateMode: 0
-  sequence:
-  - pose: {fileID: -4839899550964373408, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055, type: 3}
-    transition:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  - pose: {fileID: 0}
-    transition:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  loopSequence: 0
+  animationJobRunner:
+    BoneTransformWeights: []
+    factor:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: 7740619907dc17f49848ad6ced2993fe, type: 2}
+    extrapolateMode: 0
+    sequence:
+    - pose: {fileID: -4839899550964373408, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+        type: 3}
+      transition:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 2
+          outSlope: 2
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    - pose: {fileID: -6142331407005879915, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+        type: 3}
+      transition:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    loopSequence: 0
 --- !u!114 &7148953881133016071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3106,7 +3034,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Ground Movement -> Jump
+  m_Name: ' -> '
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1592, y: -1160}
@@ -3142,9 +3070,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- JumpTrigger_Anim
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -3166,7 +3092,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bde82b2b60b32034ba17ac993ef9ed6f, type: 3}
-  m_Name: Parameter Processor <SubStateProcessorNode> (PlayerAnimation)
+  m_Name: Parameter Processor <SubStateProcessorNode> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -648, y: -1416}

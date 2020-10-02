@@ -41,14 +41,18 @@ namespace MyAssets.Scripts.PoseAnimator
             for (var i = 0; i < numTransforms; ++i)
             {
                 boneHandles[i] = animator.BindStreamTransform(AllAnimatorTransforms[i + 1]);
+                boneWeights[i] = 1;
             }
+            bonesLastFrame = new NativeArray<BoneLocation>(numTransforms, Allocator.Persistent, NativeArrayOptions.ClearMemory);
         }
 
         private NativeArray<TransformStreamHandle> boneHandles;
         private NativeArray<float> boneWeights;
+        private NativeArray<BoneLocation> bonesLastFrame;
 
         public NativeArray<TransformStreamHandle> GetBoneHandlesCopy()
         {
+            // return boneHandles;
             var copy = new NativeArray<TransformStreamHandle>(boneWeights.Length, Allocator.Persistent,
                 NativeArrayOptions.UninitializedMemory);
             boneHandles.CopyTo(copy);
@@ -57,9 +61,18 @@ namespace MyAssets.Scripts.PoseAnimator
 
         public NativeArray<float> GetBoneWeightsCopy()
         {
+            // return boneWeights;
             var copy = new NativeArray<float>(boneWeights.Length, Allocator.Persistent,
                 NativeArrayOptions.ClearMemory);
-            // boneWeights.CopyTo(copy);
+            boneWeights.CopyTo(copy);
+            return copy;
+        }
+        
+        public NativeArray<BoneLocation> GetBonesLastFrameCopy()
+        {
+            var copy = new NativeArray<BoneLocation>(bonesLastFrame.Length, Allocator.Persistent,
+                NativeArrayOptions.ClearMemory);
+            bonesLastFrame.CopyTo(copy);
             return copy;
         }
 

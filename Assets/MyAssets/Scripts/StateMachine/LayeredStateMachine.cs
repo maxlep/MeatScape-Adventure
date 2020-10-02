@@ -70,9 +70,9 @@ public class LayeredStateMachine : MonoBehaviour
     public virtual void InitStateMachinesEditor()
     {
         InitStateMachines(false);
+        stateMachines.ForEach(i => i.PopulateNodeLists());
     }
 
-    
     public virtual void InitStateMachines(bool isRuntime)
     {
         stateNodeDict.Clear();

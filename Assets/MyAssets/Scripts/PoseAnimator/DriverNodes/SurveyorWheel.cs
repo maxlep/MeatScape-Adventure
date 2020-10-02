@@ -44,7 +44,7 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
                 var roundedPct = Mathf.Floor(cyclePercent.Value / roundToMultiple) * roundToMultiple;
                 cyclePercent.Value = Mathf.Clamp(roundedPct, 0, 1);
                 distance.Value = cyclePercent.Value * cycleLength;
-                Debug.Log(cyclePercent.Value +" "+ distance.Value);
+                // Debug.Log(cyclePercent.Value +" "+ distance.Value);
             }
         }
 

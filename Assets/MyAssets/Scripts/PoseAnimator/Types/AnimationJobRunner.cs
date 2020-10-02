@@ -10,11 +10,13 @@ using UnityEngine.Playables;
 namespace MyAssets.Scripts.PoseAnimator.Types
 {
     [Serializable]
-    public abstract class AnimationJobOwner
+    public class AnimationJobRunner
     {
-        public BoneTransformWeight[] BoneTransformWeights;
+        [SerializeField]
+        public List<BoneTransformWeight> BoneTransformWeights;// = new List<BoneTransformWeight>();
         private List<List<int>> boneChildrenIndices;
         
+        public string Name { get; private set; }
         public Playable Output => scriptPlayable;
         
         protected SharedAnimationData sharedData;
@@ -26,31 +28,32 @@ namespace MyAssets.Scripts.PoseAnimator.Types
         
         #region Lifecycle methods
         public void Initialize(
-            SharedAnimationData sharedData,
-            BoneTransformWeight[] boneTransformWeights)
+            string name,
+            SharedAnimationData sharedData)
         {
+            Name = name;
             this.sharedData = sharedData;
-            BoneTransformWeights = boneTransformWeights;
 
             boneHandles = sharedData.GetBoneHandlesCopy();
             boneWeights = sharedData.GetBoneWeightsCopy();
 
-            if (boneTransformWeights.Length == 0 || boneTransformWeights[0].transform == null)
+            if (BoneTransformWeights == null || BoneTransformWeights.Count == 0 || BoneTransformWeights[0].transform == null)
             {
                 var defaultBoneWeight = new BoneTransformWeight
                 {
                     // TODO remove this hardcoded default
-                    transform = sharedData.AllAnimatorTransforms.First(i => i.name == "Root"),
+                    transform = sharedData.Animatable.RootTransform,
                     weight = 1f,
                 };
 
-                if (boneTransformWeights.Length == 0) boneTransformWeights.Append(defaultBoneWeight);
-                else boneTransformWeights[0] = defaultBoneWeight;
+                if (BoneTransformWeights == null) BoneTransformWeights = new List<BoneTransformWeight>();
+                else if (BoneTransformWeights.Count == 0) BoneTransformWeights.Add(defaultBoneWeight);
+                else BoneTransformWeights[0] = defaultBoneWeight;
             }
 
             // Set bone weights for selected transforms and their hierarchy.
-            boneChildrenIndices = new List<List<int>>(boneTransformWeights.Length);
-            foreach (var boneTransform in boneTransformWeights)
+            boneChildrenIndices = new List<List<int>>(BoneTransformWeights.Count);
+            foreach (var boneTransform in BoneTransformWeights)
             {
                 var childrenTransforms = boneTransform.transform.GetComponentsInChildren<Transform>();
                 var childrenIndices = new List<int>(childrenTransforms.Length);
@@ -67,7 +70,7 @@ namespace MyAssets.Scripts.PoseAnimator.Types
             scriptPlayable = InitializePlayable();
         }
 
-        public void OnDestroy()
+        public virtual void Dispose()
         {
             boneHandles.Dispose();
             boneWeights.Dispose();
@@ -76,14 +79,23 @@ namespace MyAssets.Scripts.PoseAnimator.Types
         public void Update()
         {
             UpdateWeights();
+            UpdateJob();
         }
         #endregion
 
-        protected abstract AnimationScriptPlayable InitializePlayable();
+        protected virtual AnimationScriptPlayable InitializePlayable()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected virtual void UpdateJob()
+        {
+            throw new NotImplementedException();
+        }
 
         private void UpdateWeights()
         {
-            for (var i = 0; i < BoneTransformWeights.Length; ++i)
+            for (var i = 0; i < BoneTransformWeights.Count; ++i)
             {
                 var boneWeight = BoneTransformWeights[i].weight;
                 var childrenIndices = boneChildrenIndices[i];

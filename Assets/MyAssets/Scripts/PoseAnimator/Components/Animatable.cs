@@ -16,6 +16,9 @@ namespace MyAssets.Scripts.PoseAnimator.Components
         [SerializeField] private Animator animator;
         [SerializeField] private StateMachineGraph animationStateMachine;
 
+        public Transform RootTransform => rootTransform.Value;
+        [SerializeField] private TransformSceneReference rootTransform;
+
         public SharedAnimationData SharedData => sharedData;
         [ShowInInspector] private SharedAnimationData sharedData;
 
@@ -28,42 +31,38 @@ namespace MyAssets.Scripts.PoseAnimator.Components
             
             sharedData = new SharedAnimationData(animator, playableGraph);
 
-            animationStateMachine.AnimationLayerStartNodes.ForEach((i, index) =>
-                i.InjectAnimationLayer(new AnimationLayer(sharedData)));
-
-            var startIndexToLayerIndex = new Dictionary<int, int>();
-            var animationLayers =
-                animationStateMachine
-                    .AnimationLayerStartNodes
-                    .Select((i, index) =>
-                    {
-                        startIndexToLayerIndex[i.ExecutionOrderIndex] = index;
-                        return i.AnimationLayer;
-                    })
-                    .ToList();
+            // var startIndexToLayerIndex = new Dictionary<int, int>();
+            // var animationLayers =
+            //     animationStateMachine
+            //         .AnimationLayerStartNodes
+            //         .Select((i, index) =>
+            //         {
+            //             startIndexToLayerIndex[i.ExecutionOrderIndex] = index;
+            //             return i.AnimationLayer;
+            //         })
+            //         .ToList();
 
             sharedData.Animatable = this;
 
-            sharedData.AnimationLayers = animationLayers;
-            sharedData.StartIndexToLayerIndex = startIndexToLayerIndex;
+            sharedData.AnimationLayers = new List<AnimationLayer>();
+            sharedData.StartIndexToLayerIndex = new Dictionary<int, int>();
 
-            layerMixerPlayable = AnimationLayerMixerPlayable.Create(sharedData.PlayableGraph, animationLayers.Count);
-            Debug.Log("Creating layer mixer");
-            sharedData.AnimationLayers.ForEach((i, index) =>
-            {
-                Debug.Log($"Connect layer {index} {i.Output.IsNull()}");
-                layerMixerPlayable.ConnectInput(index, i.Output, 0);
-            });
-            layerMixerPlayable.SetInputWeight(0, 1f);
+            layerMixerPlayable = AnimationLayerMixerPlayable.Create(sharedData.PlayableGraph);
+            // Debug.Log("Creating layer mixer");
+            // sharedData.AnimationLayers.ForEach((i, index) =>
+            // {
+            //     Debug.Log($"Connect layer {index} {i.Output.IsNull()}");
+            //     layerMixerPlayable.ConnectInput(index, i.Output, 0);
+            // });
             layerMixerPlayable.SetTraversalMode(PlayableTraversalMode.Passthrough);
             
             playableOutput = AnimationPlayableOutput.Create(sharedData.PlayableGraph,
                 $"{sharedData.PlayableGraph.GetEditorName()}_Output", animator);
             playableOutput.SetSourcePlayable(layerMixerPlayable);
 
-            animationStateMachine.InjectAnimatable(this);
+            // animationStateMachine.InjectAnimatable(this);
             
-            playableGraph.SetTimeUpdateMode(DirectorUpdateMode.GameTime);
+            // playableGraph.SetTimeUpdateMode(DirectorUpdateMode.GameTime);
             playableGraph.Play();
         }
 
@@ -75,6 +74,18 @@ namespace MyAssets.Scripts.PoseAnimator.Components
         private void OnDestroy()
         {
             sharedData.Dispose();
+        }
+
+        public void RegisterAnimationLayer(AnimationLayerStartNode animationLayerStartNode)
+        {
+            sharedData.StartIndexToLayerIndex[animationLayerStartNode.ExecutionOrderIndex] =
+                sharedData.AnimationLayers.Count;
+            sharedData.AnimationLayers.Add(animationLayerStartNode.AnimationLayer);
+
+            layerMixerPlayable.AddInput(animationLayerStartNode.AnimationLayer.Output, 0, 1f);
+
+            // Debug.Log(
+            //     $"Registered animation layer {animationLayerStartNode.name} {sharedData.AnimationLayers.Count} {sharedData.StartIndexToLayerIndex.Count}");
         }
     }
 }

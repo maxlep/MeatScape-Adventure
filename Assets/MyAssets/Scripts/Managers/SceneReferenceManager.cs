@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using MyAssets.Scripts.PoseAnimator.Components;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -17,6 +18,9 @@ public class SceneReferenceManager : MonoBehaviour
     
     [SerializeField] [PropertySpace(SpaceBefore = 5, SpaceAfter = 5)]
     private List<AnimatorScenePair> AnimatorSceneList = new List<AnimatorScenePair>();
+    
+    [SerializeField] [PropertySpace(SpaceBefore = 5, SpaceAfter = 5)]
+    private List<AnimatableScenePair> AnimatableSceneList = new List<AnimatableScenePair>();
     
     [SerializeField] [PropertySpace(SpaceBefore = 5, SpaceAfter = 5)]
     private List<CameraScenePair> CameraSceneList = new List<CameraScenePair>();
@@ -42,6 +46,11 @@ public class SceneReferenceManager : MonoBehaviour
         {
             if (animatorScenePair.AreValuesAssigned)
                 animatorScenePair.AssignValueToReference();
+        }
+        foreach (var animatableScenePair in AnimatableSceneList)
+        {
+            if (animatableScenePair.AreValuesAssigned)
+                animatableScenePair.AssignValueToReference();
         }
         foreach (var cameraScenePair in CameraSceneList)
         {
@@ -128,6 +137,26 @@ public class AnimatorScenePair
     public void AssignValueToReference()
     {
         animatorSceneReference.Value = animatorSceneValue;
+    }
+}
+
+[Serializable]
+public class AnimatableScenePair
+{
+    [SerializeField] [LabelText("Reference")] [LabelWidth(125f)]
+    [Required]
+    private AnimatableSceneReference animatableSceneReference;
+
+    [SerializeField] [LabelText("Scene Value")] [LabelWidth(125f)]
+    [Required] [SceneObjectsOnly]
+    private Animatable animatableSceneValue;
+
+    public bool AreValuesAssigned =>
+        (animatableSceneValue != null && animatableSceneReference != null);
+    
+    public void AssignValueToReference()
+    {
+        animatableSceneReference.Value = animatableSceneValue;
     }
 }
 

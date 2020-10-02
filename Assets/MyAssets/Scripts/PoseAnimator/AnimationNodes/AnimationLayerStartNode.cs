@@ -6,18 +6,20 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
 {
     public class AnimationLayerStartNode : StartNode
     {
-        public Animatable Animatable;
-        public AnimationLayer AnimationLayer { get; private set; }
-        public SharedAnimationData SharedData => Animatable.SharedData;
+        [SerializeField] public AnimationLayer AnimationLayer;
+        [SerializeField] private AnimatableSceneReference animatable;
+        public SharedAnimationData SharedData => animatable.Value.SharedData;
 
         public override void RuntimeInitialize()
         {
             base.RuntimeInitialize();
-        }
 
-        public void InjectAnimationLayer(AnimationLayer animationLayer)
-        {
-            AnimationLayer = animationLayer;
+            Debug.Log($"{animatable} {animatable.Value}");
+            AnimationLayer = new AnimationLayer(base.name, SharedData);
+            AnimationLayer.Initialize();
+            animatable.Value.RegisterAnimationLayer(this);
+            // animationStateMachine.AnimationLayerStartNodes.ForEach((i, index) =>
+            //     i.InjectAnimationLayer(new AnimationLayer(name, sharedData)));
         }
 
         protected override void OnValidate()

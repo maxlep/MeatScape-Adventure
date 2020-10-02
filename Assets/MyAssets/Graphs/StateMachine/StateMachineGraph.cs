@@ -157,12 +157,7 @@ public class StateMachineGraph : NodeGraph
         this.parentMachine = parentMachine;
     }
 
-    public void InjectAnimatable(Animatable animatable)
-    {
-        AnimationLayerStartNodes.ForEach(i => i.Animatable = animatable);
-    }
-    
-     public void PopulateNodeLists()
+    public void PopulateNodeLists()
     {
         stateNodes.Clear();
         startNodes.Clear();

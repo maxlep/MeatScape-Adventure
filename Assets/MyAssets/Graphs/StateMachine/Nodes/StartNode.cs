@@ -11,6 +11,8 @@ public class StartNode : Node
     [InfoBox("You connected >1 entry state to this node! Please only connect 1 at most.", InfoMessageType.Error,
         "HasMultipleConnection")] [LabelWidth(135f)]
     [SerializeField] protected int executionOrderIndex = 0;
+
+    protected StateMachineGraph stateMachineGraph;
     
     public int ExecutionOrderIndex
     {
@@ -22,6 +24,11 @@ public class StartNode : Node
             return true;
         
         return false;
+    }
+
+    public virtual void Initialize(StateMachineGraph parentGraph)
+    {
+        stateMachineGraph = parentGraph;
     }
 
     public virtual void RuntimeInitialize()

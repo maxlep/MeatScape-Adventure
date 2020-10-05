@@ -6,6 +6,7 @@ using Sirenix.OdinInspector;
 public class EnemyController : MonoBehaviour, ICharacterController
 {
     [SerializeField] private KinematicCharacterMotor characterMotor;
+    [SerializeField] private LayerMapper layerMapper;
     [SerializeField, SuffixLabel("m/s^2", Overlay = true)] private float Gravity = 10f;
     [SerializeField] private int MaxHealth = 1;
     [SerializeField] private GameObject deathParticles;
@@ -34,7 +35,7 @@ public class EnemyController : MonoBehaviour, ICharacterController
 
     public void OnDiscreteCollisionDetected(Collider hitCollider)
     {
-        if(hitCollider.gameObject.layer == LayerMask.NameToLayer("PlayerProjectile")) {
+        if(hitCollider.gameObject.layer == layerMapper.GetLayer(LayerEnum.PlayerProjectile)) {
             health -= 1;
         }
     }

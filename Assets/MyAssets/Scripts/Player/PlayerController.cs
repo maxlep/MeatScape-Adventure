@@ -16,6 +16,7 @@ public interface testInterface
 public class PlayerController : SerializedMonoBehaviour, ICharacterController
 {
     [SerializeField] private KinematicCharacterMotor charMotor;
+    [SerializeField] private LayerMapper layerMapper;
     [SerializeField] private Transform model;
     [SerializeField] private CapsuleCollider playerCollider;
     [SerializeField] private AudioClip jumpAttackClip;
@@ -207,7 +208,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     private void OnTriggerStay(Collider other) {
         GameObject otherGameObject = other.gameObject;
-        if(otherGameObject.layer == LayerMask.NameToLayer("EnemyJumpTrigger"))
+        if(otherGameObject.layer == layerMapper.GetLayer(LayerEnum.EnemyJumpTrigger))
         {
             AttemptJumpAttack(other, otherGameObject);
         }

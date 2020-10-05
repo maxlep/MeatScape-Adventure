@@ -6,6 +6,7 @@ using UnityEngine.Events;
 
 public class Pickupable : MonoBehaviour
 {
+    [SerializeField] private LayerMapper layerMapper;
     [SerializeField] private AudioClip pickupSound;
     [SerializeField] private GameObject pickupSystem;
     [SerializeField] private float timeToReachPlayer = .1f;
@@ -19,7 +20,7 @@ public class Pickupable : MonoBehaviour
         if (movingTowardsPlayer) return;
         
         GameObject otherObj = other.gameObject;
-        if (otherObj.layer == LayerMask.NameToLayer("Player"))
+        if (otherObj.layer == layerMapper.GetLayer(LayerEnum.Player))
         {
             movingTowardsPlayer = true;
 

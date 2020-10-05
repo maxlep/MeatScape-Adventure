@@ -18,13 +18,13 @@ public class BasicPlatformMover : MonoBehaviour, IMoverController
     [SerializeField] private float OscillationSpeed = 10;
     [SerializeField] [Range(0, 1)] private float RotationTimeOffset = 0;
 
-    private Vector3 _originalPosition;
-    private Quaternion _originalRotation;
+    private Vector3 originalPosition;
+    private Quaternion originalRotation;
         
     private void Start()
     {
-        _originalPosition = Mover.Rigidbody.position;
-        _originalRotation = Mover.Rigidbody.rotation;
+        originalPosition = Mover.Rigidbody.position;
+        originalRotation = Mover.Rigidbody.rotation;
 
         Mover.MoverController = this;
     }
@@ -32,10 +32,10 @@ public class BasicPlatformMover : MonoBehaviour, IMoverController
     public void UpdateMovement(out Vector3 goalPosition, out Quaternion goalRotation, float deltaTime)
     {
         float positionInitialOffset = TranslationTimeOffset * TranslationPeriod;
-        goalPosition = (_originalPosition + (TranslationAxis.normalized * Mathf.Sin(Time.time * TranslationSpeed + positionInitialOffset) * TranslationPeriod));
+        goalPosition = (originalPosition + (TranslationAxis.normalized * Mathf.Sin(Time.time * TranslationSpeed + positionInitialOffset) * TranslationPeriod));
 
         float rotationInitialOffset = RotationTimeOffset * OscillationPeriod;
-        Quaternion targetRotForOscillation = Quaternion.Euler(OscillationAxis.normalized * (Mathf.Sin(Time.time * OscillationSpeed) * OscillationPeriod)) * _originalRotation;
+        Quaternion targetRotForOscillation = Quaternion.Euler(OscillationAxis.normalized * (Mathf.Sin(Time.time * OscillationSpeed) * OscillationPeriod)) * originalRotation;
         goalRotation = Quaternion.Euler(RotationAxis * RotSpeed * (Time.time + rotationInitialOffset)) * targetRotForOscillation;
     }
 }

@@ -30,6 +30,8 @@ public class InputManager : MonoBehaviour
     public delegate void _OnResetTimeScale();
     public delegate void _OnIncreaseTimeScale();
     public delegate void _OnEnableDebug();
+    public delegate void _OnFunction();
+    public delegate void _OnRestartScene();
 
     public event _OnControlsChanged onControlsChanged;
     public event _OnAttack onAttack;
@@ -49,6 +51,19 @@ public class InputManager : MonoBehaviour
     public event _OnResetTimeScale onResetTimeScale;
     public event _OnIncreaseTimeScale onIncreaseTimeScale;
     public event _OnEnableDebug onEnableDebug;
+    public event _OnFunction onFunction1;
+    public event _OnFunction onFunction2;
+    public event _OnFunction onFunction3;
+    public event _OnFunction onFunction4;
+    public event _OnFunction onFunction5;
+    public event _OnFunction onFunction6;
+    public event _OnFunction onFunction7;
+    public event _OnFunction onFunction8;
+    public event _OnFunction onFunction9;
+    public event _OnFunction onFunction10;
+    public event _OnFunction onFunction11;
+    public event _OnFunction onFunction12;
+    public event _OnRestartScene onRestartScene;
 
     private PlayerInput _inputs;
     private InputActionMap playerActions, uiActions;
@@ -222,6 +237,71 @@ public class InputManager : MonoBehaviour
     public void OnEnableDebug()
     {
         if (onEnableDebug != null) onEnableDebug();
+    }
+    
+    public void OnFunction1()
+    {
+        if (onFunction1 != null) onFunction1();
+    }
+    
+    public void OnFunction2()
+    {
+        if (onFunction2 != null) onFunction2();
+    }
+    
+    public void OnFunction3()
+    {
+        if (onFunction3 != null) onFunction3();
+    }
+    
+    public void OnFunction4()
+    {
+        if (onFunction4 != null) onFunction4();
+    }
+    
+    public void OnFunction5()
+    {
+        if (onFunction5 != null) onFunction5();
+    }
+    
+    public void OnFunction6()
+    {
+        if (onFunction6 != null) onFunction6();
+    }
+    
+    public void OnFunction7()
+    {
+        if (onFunction7 != null) onFunction7();
+    }
+    
+    public void OnFunction8()
+    {
+        if (onFunction8 != null) onFunction8();
+    }
+    
+    public void OnFunction9()
+    {
+        if (onFunction9 != null) onFunction9();
+    }
+    
+    public void OnFunction10()
+    {
+        if (onFunction10 != null) onFunction10();
+    }
+    
+    public void OnFunction11()
+    {
+        if (onFunction11 != null) onFunction11();
+    }
+    
+    public void OnFunction12()
+    {
+        if (onFunction12 != null) onFunction12();
+    }
+    
+    public void OnRestartScene()
+    {
+        if (onRestartScene != null) onRestartScene();
     }
 
     #endregion

@@ -231,4 +231,12 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         }
     }
     
+    private void OnGUI() {
+        if (!DebugManager.Instance.EnableDebugGUI) return;
+
+        if (GUI.Button(new Rect(5, 300, 210, 20),
+            "Freeze Size: " + ((freezeSize) ? "<Enabled>" : "<Disabled>"))) freezeSize = !freezeSize;
+        if (GUI.Button(new Rect(5, 323, 210, 20),
+            "Unlimited Clumps: " + ((unlimitedClumps) ? "<Enabled>" : "<Disabled>"))) unlimitedClumps = !unlimitedClumps;
+    }
 }

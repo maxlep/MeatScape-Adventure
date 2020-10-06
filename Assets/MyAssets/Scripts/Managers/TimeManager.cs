@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.Remoting.Messaging;
-using AmplifyShaderEditor;
-using MyAssets.ScriptableObjects.Variables;
-using TMPro;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TimeManager : MonoBehaviour
 {
@@ -14,7 +7,6 @@ public class TimeManager : MonoBehaviour
     [SerializeField] private GameObject pauseText;
     [SerializeField] private GameObject manualUpdateText;
 
-    private bool enableDebugGUI = false;
     private bool isPaused = false;
     private bool manualUpdate = false;
     private bool skipFrame = false;
@@ -31,7 +23,6 @@ public class TimeManager : MonoBehaviour
         InputManager.Instance.onReduceTimeScale += () => ChangeTimeScale(-10f);
         InputManager.Instance.onResetTimeScale += ResetTimeScale;
         InputManager.Instance.onIncreaseTimeScale += () => ChangeTimeScale(10f);
-        InputManager.Instance.onEnableDebug += ToggleDebugMode;
         pauseText.SetActive(false);
     }
 
@@ -102,25 +93,9 @@ public class TimeManager : MonoBehaviour
         }
     }
 
-    private void ToggleDebugMode()
-    {
-        enableDebugGUI = !enableDebugGUI;
-
-        if (enableDebugGUI)
-        {
-            Cursor.lockState = CursorLockMode.Confined;
-            Cursor.visible = true;
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-    }
-
     private void OnGUI()
     {
-        if (!enableDebugGUI) return;
+        if (!DebugManager.Instance.EnableDebugGUI) return;
 
         float pivotX = 10f;
         float pivotY = 10f;

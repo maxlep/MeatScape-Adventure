@@ -48,7 +48,7 @@ namespace MyAssets.Scripts.PoseAnimator.Types
         {
             var job = scriptPlayable.GetJobData<MixerJob>();
 
-            // Debug.Log($"Update mixer job {scriptPlayable.IsValid()}|{job.weight}|{Factor}");
+            Debug.Log($"Update mixer job {scriptPlayable.IsValid()}|{job.weight}|{Factor}");
             job.weight = Factor;
             job.boneWeights = boneWeights;
             job.useBonesLastAsFirst = blendFromLastPosition;
@@ -70,6 +70,7 @@ namespace MyAssets.Scripts.PoseAnimator.Types
 
         public void SetBlendFromLastPosition(bool value)
         {
+            Debug.LogWarning($"Mixer runner set blend transition {value}");
             blendFromLastPosition = value;
             if (!blendFromLastPosition) resetTransitioning = true;
         }

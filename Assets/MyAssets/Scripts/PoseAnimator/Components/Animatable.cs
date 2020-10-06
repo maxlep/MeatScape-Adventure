@@ -66,9 +66,14 @@ namespace MyAssets.Scripts.PoseAnimator.Components
             playableGraph.Play();
         }
 
-        private void Update()
+        // private void Update()
+        // {
+        //     sharedData.AnimationLayers.ForEach(i => i.Update());
+        // }
+
+        private void LateUpdate()
         {
-            sharedData.AnimationLayers.ForEach(i => i.Update());
+            Debug.Log($"Animatable end frame {Time.time}");
         }
 
         private void OnDestroy()

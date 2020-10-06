@@ -51,7 +51,8 @@ namespace MyAssets.Scripts.PoseAnimator.Types
             if (transitioning)
             {
                 transitionTween.callOnCompletes();
-                transitionTween.setOnUpdate((float value) => { }).setOnComplete(() => { });
+                // transitionTween.setOnUpdate((float value) => { }).setOnComplete(() => { });
+                LeanTween.cancel(transitionTween.id);
             }
             
             mixerRunner.Output.DisconnectInput(0);
@@ -62,15 +63,17 @@ namespace MyAssets.Scripts.PoseAnimator.Types
             activeState = nextActiveState;
             nextActiveState = newState;
             
-            // Debug.Log($"Transition from {activeState?.name} to {nextActiveState?.name}, {newState.Output.IsValid()}, {newState.Output.GetInputCount()}");
+            Debug.Log($"Transition from {activeState?.name} to {nextActiveState?.name}, {newState.Output.IsValid()}, {newState.Output.GetInputCount()}");
             
-            if (activeState) mixerRunner.Output.ConnectInput(0, activeState.Output, 0);
+            if (nextActiveState) mixerRunner.Output.ConnectInput(0, nextActiveState.Output, 0);
             else mixerRunner.Output.ConnectInput(0, defaultPlayable, 0);
-            if (nextActiveState) mixerRunner.Output.ConnectInput(1, nextActiveState.Output, 0);
+            
+            // if (nextActiveState) mixerRunner.Output.ConnectInput(1, nextActiveState.Output, 0);
+            
             mixerRunner.Output.SetInputWeight(0, 1f);
-            mixerRunner.Output.SetInputWeight(1, 1f);
+            // mixerRunner.Output.SetInputWeight(1, 1f);
 
-            if (activeState != null)
+            if (nextActiveState != null)
             {
                 transitioning = true;
                 mixerRunner.SetBlendFromLastPosition(true);
@@ -83,16 +86,18 @@ namespace MyAssets.Scripts.PoseAnimator.Types
                         {
                             // transitioning = true;
                             // mixerRunner.SetBlendFromLastPosition(true);
+                            Debug.Log($"Start tween from {activeState?.name} to {nextActiveState?.name}");
                         })
                         .setOnUpdate((float value) =>
                         {
-                            // Debug.Log($"Update tween value {value}");
                             mixerRunner.Factor = value;
+                            Debug.Log($"Update tween value {mixerRunner.Factor}");
                         })
                         .setOnComplete(() =>
                         {
                             transitioning = false;
                             mixerRunner.SetBlendFromLastPosition(false);
+                            Debug.Log($"Complete tween from {activeState?.name} to {nextActiveState?.name}");
                         });
             }
 

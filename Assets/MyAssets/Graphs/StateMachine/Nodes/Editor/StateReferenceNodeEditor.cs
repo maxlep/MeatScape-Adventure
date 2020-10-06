@@ -25,7 +25,7 @@ public class StateReferenceNodeEditor : NodeEditor
         float minFontSize = 30f;
         labelStyle.fontSize = (int) Mathf.Max( (15 * NodeEditorWindow.current.zoom), minFontSize);
         labelStyle.fontStyle = FontStyle.Bold;
-        labelStyle.normal.textColor = new Color(.8f, 1f, .8f);
+        labelStyle.normal.textColor = new Color(.85f, 1f, .85f);
         labelStyle.alignment = TextAnchor.LowerCenter;
         GUI.Label(new Rect(nodeLabelPos, new Vector2(GetWidth(), 50f)),
             nodeAsStateRef.ReferencedState.GetName(),

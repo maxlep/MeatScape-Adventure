@@ -12,15 +12,6 @@ using UnityEngine.UI;
 public class Movement : PlayerStateNode
 {
     /**************************************
-        * Common *
-    **************************************/
-    [HideIf("$zoom")]
-    [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
-    [TabGroup("Common")]
-    private FloatReference MaxSlopeSlideAngle;
-    
-    
-    /**************************************
         * Horizontal Movement *
     **************************************/
     
@@ -280,30 +271,8 @@ public class Movement : PlayerStateNode
         if (MoveInput.Value.magnitude > FastTurnInputDeadZone.Value)
             lastMoveInputDirection = MoveInput.Value.normalized;
         
-        /*********************************************
-         * Handle Slopes
-         *********************************************/
 
-        Vector3 newVelocity = newDirection * newSpeed;
-        float slopeAngle = Vector3.Angle(GroundingStatus.GroundNormal, Vector3.up);
-        
-        //If on ground that is not stable (slopes)
-        if (!GroundingStatus.IsStableOnGround && 
-             GroundingStatus.FoundAnyGround &&
-             slopeAngle > characterMotor.MaxStableSlopeAngle &&
-             slopeAngle < MaxSlopeSlideAngle.Value)
-        {
-             //Take move input direction directly and flatten (Dont do turn smoothing for now)
-             float slopeMoveSpeed = 10f;
-             newVelocity = moveDirection.Flatten() * slopeMoveSpeed;
-             
-             //Project velocity sideways along slope
-             slopeRight = Vector3.Cross(Vector3.up, GroundingStatus.GroundNormal);
-             slopeOut = Vector3.Cross(slopeRight, Vector3.up);
-             newVelocity = Vector3.ProjectOnPlane(newVelocity, slopeOut).Flatten();
-        }
-
-        return newVelocity;
+        return newDirection * newSpeed;;
     }
 
     private Vector3 CalculateVerticalVelocity(Vector3 currentVelocity)
@@ -332,28 +301,6 @@ public class Movement : PlayerStateNode
         if (newVelocity.y < -Mathf.Abs(MaxFallSpeed.Value))   //Cap Speed
         {
             newVelocity.y = -Mathf.Abs(MaxFallSpeed.Value);
-        }
-        
-        //TODO: This code lets you move upwards slope if going up but messes up the horizontal movement making it jittery
-        //If just landed on slope this frame, project velocity along slope
-        // if (!LastGroundingStatus.FoundAnyGround &&
-        //     GroundingStatus.FoundAnyGround &&
-        //     !GroundingStatus.IsStableOnGround)
-        // {
-        //     //newVelocity.y = 0f;
-        //     newVelocity = Vector3.ProjectOnPlane(newVelocity, GroundingStatus.GroundNormal);
-        // }
-
-        //TODO: Seems like the fact that char is grounding is causing the upwards vel to 0 out
-        //While on ground that is not stable (slope) project vel along slope
-        float slopeAngle = Vector3.Angle(GroundingStatus.GroundNormal, Vector3.up);
-        
-        if (!GroundingStatus.IsStableOnGround && 
-            GroundingStatus.FoundAnyGround &&
-            slopeAngle > characterMotor.MaxStableSlopeAngle &&
-            slopeAngle < MaxSlopeSlideAngle.Value)
-        {
-            newVelocity = Vector3.ProjectOnPlane(newVelocity, GroundingStatus.GroundNormal);
         }
 
         return newVelocity;
@@ -441,24 +388,16 @@ public class Movement : PlayerStateNode
         Vector3 endPos = playerController.transform.position + newDirection * (newSpeed / MoveSpeed.Value) * 10f;
         Vector3 endPos2 = playerController.transform.position + moveDirection * 10f;
         Vector3 endPos3 = playerController.transform.position + cachedVelocity.Value.normalized * (cachedVelocity.Value.magnitude / MoveSpeed.Value) * 10f;
-        Vector3 endPos4 = playerController.transform.position + slopeRight.normalized * 5f;
-        Vector3 endPos5 = playerController.transform.position + slopeOut.normalized * 5f;
 
         Color moveInputColor = isFastTurning ? new Color(1f, 0f, 0f, .35f) : new Color(1f, 1f, 0f, .35f);
         Color actualMoveColor = new Color(0f, 1f, 0f, .35f);
         Color cachedVelocityColor = new Color(0f, 0f, 1f, .35f);
-        Color slopeRightColor = new Color(.9f, .5f, 1f, .35f);
-        Color slopeUpColor = new Color(.9f, .5f, .1f, .35f);
 
         Draw.Line(startPos, endPos, moveInputColor);
         Draw.Line(startPos, endPos2, actualMoveColor);
         Draw.Line(startPos, endPos3, cachedVelocityColor);
-        Draw.Line(startPos, endPos4, cachedVelocityColor);
-        Draw.Line(startPos, endPos5, cachedVelocityColor);
         Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos, .25f, moveInputColor);
         Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos2, .25f, actualMoveColor);
         Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos3, .25f, cachedVelocityColor);
-        Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos4, .25f, slopeRightColor);
-        Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos5, .25f, slopeUpColor);
     }
 }

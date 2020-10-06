@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using KinematicCharacterController;
 using MyAssets.ScriptableObjects.Variables;
 using Shapes;
@@ -24,10 +25,12 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private Vector3Reference NewVelocity;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private QuaternionReference NewRotation;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference StoredJumpVelocity;
+    [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference MaxSlopeSlideAngle;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector2Reference MoveInput;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference JumpPressed;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference RegenerateMeatPressed;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference IsGrounded;
+    [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference IsOnSlidebleSlope;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private IntReference PlayerCurrentSize;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable AttackTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable JumpTrigger;
@@ -167,16 +170,25 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     private void UpdateParameters()
     {
-        IsGrounded.Value = MaintainingGround();
+        IsGrounded.Value = charMotor.GroundingStatus.IsStableOnGround;
+        IsOnSlidebleSlope.Value = StandingOnSlidebleSlope();
 
         // animator.SetFloat("HorizontalSpeed", Mathf.Sqrt(Mathf.Pow(NewVelocity.Value.x, 2) + Mathf.Pow(NewVelocity.Value.z, 2)));
         // animator.SetFloat("VerticalVelocity", NewVelocity.Value.y);
         // animator.SetBool("IsGrounded", IsGrounded.Value);
     }
-    
-    public bool MaintainingGround()
+
+    private bool StandingOnSlidebleSlope()
     {
-        return charMotor.GroundingStatus.IsStableOnGround;
+        float slopeAngle = Vector3.Angle(GroundingStatus.GroundNormal, Vector3.up);
+
+        if (!GroundingStatus.IsStableOnGround &&
+            GroundingStatus.FoundAnyGround &&
+            slopeAngle > charMotor.MaxStableSlopeAngle &&
+            slopeAngle < MaxSlopeSlideAngle.Value)
+            return true;
+
+        return false;
     }
 
     private void GetInput()

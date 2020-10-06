@@ -11,10 +11,30 @@ public class StateNodeEditor : NodeEditor
 
     public override void OnBodyGUI()
     {
+
         EditorGUIUtility.labelWidth = 350;
         base.OnBodyGUI();
-    }
+        
+        //End the current GUI Area that is restricted to node's dimensions
+        GUILayout.EndArea();
+        
+        //Show Label Above node
+        Vector2 nodeLabelPos = NodeEditorWindow.current.GridToWindowPositionNoClipped(target.position + 
+                                                                                      new Vector2(0f, -60f));
+        StateNode nodeAsState = target as StateNode;
+        GUIStyle labelStyle = new GUIStyle();
+        labelStyle.fontSize = 40;
+        labelStyle.fontStyle = FontStyle.Bold;
+        labelStyle.normal.textColor = Color.white;
+        labelStyle.alignment = TextAnchor.LowerCenter;
+        GUI.Label(new Rect(nodeLabelPos, new Vector2(GetWidth(), 50f)), nodeAsState.GetName(),
+            labelStyle);
 
+        //Put back the GUI area that is restricted to node's dimensions
+        Vector2 nodePos = NodeEditorWindow.current.GridToWindowPositionNoClipped(target.position);
+        GUILayout.BeginArea(new Rect(nodePos, new Vector2(GetWidth(), 4000)));
+    }
+    
     public override int GetWidth()
     {
         StateNode asStateNode = target as StateNode;

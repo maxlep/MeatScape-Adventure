@@ -14,7 +14,7 @@ public class TransitionNode : Node
     [Input(typeConstraint = TypeConstraint.Strict)] [PropertyOrder(-3)] public StateMachineConnection startingState;
     [Output (connectionType = ConnectionType.Override, typeConstraint = TypeConstraint.Strict)] [PropertyOrder(-2)] public StateMachineConnection nextState;
 
-    [TextArea(3,10)] [HideLabel]
+    [TextArea(3,10)] [HideLabel] [HideIf("$zoom")]
     [SerializeField] private string conditionPreview;
 
     [Tooltip("Transition only valid if ANY 1 or more of these states are active in respective state machine")] 
@@ -218,6 +218,9 @@ public class TransitionNode : Node
             condition.Init(name);
             conditionPreview += $"- {condition}\n";
         }
+        
+        conditionPreview = string.Concat(conditionPreview.Select(x => Char.IsUpper(x) ? " " + x : x.ToString())).TrimStart(' ');
+
     }
 
 

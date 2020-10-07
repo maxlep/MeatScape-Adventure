@@ -15,19 +15,19 @@ public class Movement : PlayerStateNode
         * Horizontal Movement *
     **************************************/
     
-    [HideIf("$zoom")] [LabelWidth(165)] [SerializeField]
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Horizontal Movement")] [Required]
     private bool EnableHorizontalMovement = true;
     
-    [HideIf("$zoom")] [LabelWidth(165)] [SerializeField]
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Horizontal Movement")] [Required]
     private bool EnableFastTurn = true;
     
-    [HideIf("$zoom")] [LabelWidth(165)] [SerializeField] 
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
     [TabGroup("Vertical Movement")] [Required]
     private bool EnableVerticalMovement = false;
     
-    [HideIf("$zoom")] [LabelWidth(165)] [SerializeField] 
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
     [TabGroup("Horizontal Movement")] [Required]
     private TransformSceneReference PlayerCameraTransform;
 

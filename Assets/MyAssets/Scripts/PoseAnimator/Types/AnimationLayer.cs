@@ -68,10 +68,10 @@ namespace MyAssets.Scripts.PoseAnimator.Types
             if (nextActiveState) mixerRunner.Output.ConnectInput(0, nextActiveState.Output, 0);
             else mixerRunner.Output.ConnectInput(0, defaultPlayable, 0);
             
-            // if (nextActiveState) mixerRunner.Output.ConnectInput(1, nextActiveState.Output, 0);
+            if (activeState) mixerRunner.Output.ConnectInput(1, activeState.Output, 0);
             
             mixerRunner.Output.SetInputWeight(0, 1f);
-            // mixerRunner.Output.SetInputWeight(1, 1f);
+            mixerRunner.Output.SetInputWeight(1, 1f);
 
             if (nextActiveState != null)
             {

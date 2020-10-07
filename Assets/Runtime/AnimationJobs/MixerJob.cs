@@ -65,17 +65,15 @@ namespace MyAssets.Runtime.AnimationJobs
                     var rot = Quaternion.Slerp(rotA, rotB, weight * boneWeights[i]);
                     handle.SetLocalRotation(stream, rot);
                     
-                    // Debug.Log($"Transitioning {posA} {posB} {rotA} {rotB}");
                     bonesLastFrame[i] = new BoneLocation(pos, rot);
-                    // bonesLastFrame[i] = new BoneLocation(Vector3.zero, Quaternion.identity);
                 }
-                
-                Debug.Log($"Transitioning");
 
                 return;
             }
+
+            if (!streamA.isValid && !streamB.isValid) return;
             
-            if (stream.inputStreamCount < 5)
+            if (stream.inputStreamCount < 2 || !streamB.isValid)
             {
                 for (var i = 0; i < numHandles; ++i)
                 {
@@ -88,33 +86,27 @@ namespace MyAssets.Runtime.AnimationJobs
                     handle.SetLocalRotation(stream, rotA);
                     
                     bonesLastFrame[i] = new BoneLocation(posA, rotA);
-                    // Debug.Log($"One pose {posA} {rotA}");
-                    // bonesLastFrame[i] = new BoneLocation(Vector3.zero, Quaternion.identity);
                 }
-                
-                Debug.Log($"One pose");
 
                 return;
             }
 
-            // for (var i = 0; i < numHandles; ++i)
-            // {
-            //     var handle = handles[i];
-            //
-            //     var posA = handle.GetLocalPosition(streamA);
-            //     var posB = handle.GetLocalPosition(streamB);
-            //     var pos = Vector3.Lerp(posA, posB, weight * boneWeights[i]);
-            //     handle.SetLocalPosition(stream, pos);
-            //
-            //     var rotA = handle.GetLocalRotation(streamA);
-            //     var rotB = handle.GetLocalRotation(streamB);
-            //     var rot = Quaternion.Slerp(rotA, rotB, weight * boneWeights[i]);
-            //     handle.SetLocalRotation(stream, rot);
-            //     
-            //     // bonesLastFrame[i] = new BoneLocation(pos, rot);
-            //     Debug.Log($"Blending {posA} {posB} {pos} {rotA} {rotB} {rot}");
-            //     // bonesLastFrame[i] = new BoneLocation(Vector3.zero, Quaternion.identity);
-            // }
+            for (var i = 0; i < numHandles; ++i)
+            {
+                var handle = handles[i];
+            
+                var posA = handle.GetLocalPosition(streamB);
+                var posB = handle.GetLocalPosition(streamA);
+                var pos = Vector3.Lerp(posA, posB, weight * boneWeights[i]);
+                handle.SetLocalPosition(stream, pos);
+            
+                var rotA = handle.GetLocalRotation(streamB);
+                var rotB = handle.GetLocalRotation(streamA);
+                var rot = Quaternion.Slerp(rotA, rotB, weight * boneWeights[i]);
+                handle.SetLocalRotation(stream, rot);
+                
+                bonesLastFrame[i] = new BoneLocation(pos, rot);
+            }
         }
     }
 }

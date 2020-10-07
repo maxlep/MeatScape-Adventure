@@ -92,12 +92,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- !IsGrounded_Controller
-
-    - 0 Ignore 0 && 0 LessThan -0.1
-    && 0 Ignore 0
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -282,12 +277,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- IsGrounded_Controller
-
-    - 0 AbsLessThan 0.001 && 0 Ignore
-    0 && 0 AbsLessThan 0.001
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -435,7 +425,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: previousState
-        node: {fileID: -4801274928944331001}
+        node: {fileID: 1784268939710130638}
         reroutePoints: []
       _direction: 1
       _connectionType: 1
@@ -447,7 +437,7 @@ MonoBehaviour:
     defaultPose: {fileID: 0}
     mixerRunner:
       BoneTransformWeights: []
-      Factor: 0.98887813
+      Factor: 1
   animatable: {fileID: 11400000, guid: 826f96e705376da4a900be48a3018c75, type: 2}
 --- !u!114 &-5460885838084513370
 MonoBehaviour:
@@ -562,6 +552,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  isStateOutput: 1
   animationJobRunner:
     BoneTransformWeights:
     - transform: {fileID: 0}
@@ -581,61 +572,6 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     loopSequence: 0
---- !u!114 &-4801274928944331001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bde82b2b60b32034ba17ac993ef9ed6f, type: 3}
-  m_Name: Idle <SubStateProcessorNode> (PlayerAnimation)
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: -648, y: -648}
-  ports:
-    keys:
-    - previousState
-    - transitions
-    values:
-    - _fieldName: previousState
-      _node: {fileID: -4801274928944331001}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: EntryState
-        node: {fileID: -5847418367578593244}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: transitions
-      _node: {fileID: -4801274928944331001}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: startingState
-        node: {fileID: 1882534402556617292}
-        reroutePoints: []
-      - fieldName: startingState
-        node: {fileID: 7148953881133016071}
-        reroutePoints: []
-      - fieldName: startingState
-        node: {fileID: 4879977458698142861}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  BypassState: 0
-  Name: Idle
-  zoom: 0
-  isActiveState: 0
-  subStates:
-  - {fileID: 1784268939710130638}
 --- !u!114 &-4449075156651536019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -702,7 +638,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dbe66876495740579ccc412ccf28d337, type: 3}
-  m_Name: Walk <NewSequenceBlend> (PlayerAnimation)
+  m_Name: Fast Walk <NewSequenceBlend> (PlayerAnimation)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1016, y: -8}
@@ -730,9 +666,9 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   BypassState: 0
-  Name: Walk
+  Name: Fast Walk
   zoom: 0
-  isActiveState: 1
+  isActiveState: 0
   transitionTime: 0.2
   transitionCurve:
     serializedVersion: 2
@@ -758,6 +694,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  isStateOutput: 0
   animationJobRunner:
     BoneTransformWeights:
     - transform: {fileID: 0}
@@ -873,6 +810,92 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
     loopSequence: 1
+--- !u!114 &-2816321112790655770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbe66876495740579ccc412ccf28d337, type: 3}
+  m_Name: Slow Walk <NewSequenceBlend> (PlayerAnimation)
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 440, y: -8}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: -2816321112790655770}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: -2816321112790655770}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  BypassState: 0
+  Name: Slow Walk
+  zoom: 0
+  isActiveState: 0
+  transitionTime: 0.5
+  transitionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  isStateOutput: 0
+  animationJobRunner:
+    BoneTransformWeights:
+    - transform: {fileID: 0}
+      weight: 1
+    factor:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: 76376b097f83a50439037a19dbc24d76, type: 2}
+    extrapolateMode: 0
+    sequence:
+    - pose: {fileID: -2420248955592922456, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+        type: 3}
+      transition:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    loopSequence: 0
 --- !u!114 &-2479464383247129141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -898,7 +921,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: previousState
-        node: {fileID: 2567095372823415316}
+        node: {fileID: 5391073615113036228}
         reroutePoints: []
       _direction: 1
       _connectionType: 1
@@ -1004,6 +1027,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  isStateOutput: 1
   animationJobRunner:
     BoneTransformWeights:
     - transform: {fileID: 0}
@@ -1066,12 +1090,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- !IsGrounded_Controller
-
-    - 0 Ignore 0 && 0 LessThan -0.1
-    && 0 Ignore 0
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -1112,7 +1131,7 @@ MonoBehaviour:
   m_Name: Ground Movement <Reference>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 376, y: -392}
+  position: {x: 312, y: -520}
   ports:
     keys:
     - previousState
@@ -1140,47 +1159,6 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   referencedState: {fileID: 412120333977285081}
---- !u!114 &-360304116171754751
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
-  m_Name: Idle <Reference>
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 1336, y: 888}
-  ports:
-    keys:
-    - previousState
-    - transitions
-    values:
-    - _fieldName: previousState
-      _node: {fileID: -360304116171754751}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: nextState
-        node: {fileID: 3289089301062612516}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: transitions
-      _node: {fileID: -360304116171754751}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  referencedState: {fileID: -4801274928944331001}
 --- !u!114 &-283094309726956859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1247,6 +1225,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  isStateOutput: 1
   animationJobRunner:
     BoneTransformWeights:
     - transform: {fileID: 0}
@@ -1356,7 +1335,6 @@ MonoBehaviour:
   nodes:
   - {fileID: 7148953881133016071}
   - {fileID: -7623122778319895782}
-  - {fileID: 2567095372823415316}
   - {fileID: 412120333977285081}
   - {fileID: 4519367803428870115}
   - {fileID: -2479464383247129141}
@@ -1369,7 +1347,6 @@ MonoBehaviour:
   - {fileID: -6081461329572686580}
   - {fileID: 6613936028350023393}
   - {fileID: 1882534402556617292}
-  - {fileID: -4801274928944331001}
   - {fileID: -7074754986663678180}
   - {fileID: 4467610210530022387}
   - {fileID: 5962222503740756651}
@@ -1377,13 +1354,11 @@ MonoBehaviour:
   - {fileID: 1534717339510978809}
   - {fileID: 221668421234055748}
   - {fileID: 3289089301062612516}
-  - {fileID: -360304116171754751}
   - {fileID: 6374615772352306004}
   - {fileID: 4879977458698142861}
   - {fileID: 690564935122184740}
   - {fileID: 1148976148568861825}
   - {fileID: 8482668709884365773}
-  - {fileID: 6107161500590452376}
   - {fileID: 5448195746069835673}
   - {fileID: -5460885838084513370}
   - {fileID: -53878915453836982}
@@ -1406,6 +1381,11 @@ MonoBehaviour:
   - {fileID: 7134807960064310256}
   - {fileID: 1466093949299883373}
   - {fileID: -3539947134798072523}
+  - {fileID: 5276580774853976909}
+  - {fileID: 5391073615113036228}
+  - {fileID: 2846663699052922448}
+  - {fileID: 8474329339902235374}
+  - {fileID: -2816321112790655770}
 --- !u!114 &95745498933826394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1531,9 +1511,6 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: startingState
-        node: {fileID: -7074754986663678180}
-        reroutePoints: []
-      - fieldName: startingState
         node: {fileID: 4879977458698142861}
         reroutePoints: []
       - fieldName: startingState
@@ -1541,6 +1518,9 @@ MonoBehaviour:
         reroutePoints: []
       - fieldName: startingState
         node: {fileID: -1770374977051931108}
+        reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: -7074754986663678180}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -1558,10 +1538,12 @@ MonoBehaviour:
   BypassState: 0
   Name: Ground Movement
   zoom: 0
-  isActiveState: 1
+  isActiveState: 0
   subStates:
   - {fileID: 6613936028350023393}
+  - {fileID: -2816321112790655770}
   - {fileID: -3539947134798072523}
+  - {fileID: 5276580774853976909}
 --- !u!114 &690564935122184740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1646,15 +1628,13 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: previousState
-        node: {fileID: 6107161500590452376}
+        node: {fileID: 8474329339902235374}
         reroutePoints: []
       _direction: 1
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- Throw_Time_Anim: 0.15 sec
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -1711,9 +1691,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- JumpTrigger_Anim
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -1791,6 +1769,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  isStateOutput: 1
   animationJobRunner:
     BoneTransformWeights:
     - transform: {fileID: 0}
@@ -1905,7 +1884,7 @@ MonoBehaviour:
   m_Name: Idle <NewSequenceBlend> (PlayerAnimation)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -648, y: -392}
+  position: {x: -712, y: -648}
   ports:
     keys:
     - previousState
@@ -1915,7 +1894,10 @@ MonoBehaviour:
       _node: {fileID: 1784268939710130638}
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: EntryState
+        node: {fileID: -5847418367578593244}
+        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 2
@@ -1924,7 +1906,16 @@ MonoBehaviour:
       _node: {fileID: 1784268939710130638}
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: startingState
+        node: {fileID: 1882534402556617292}
+        reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: 7148953881133016071}
+        reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: 4879977458698142861}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 2
@@ -1932,7 +1923,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Idle
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   transitionTime: 0.5
   transitionCurve:
     serializedVersion: 2
@@ -1958,6 +1949,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  isStateOutput: 1
   animationJobRunner:
     BoneTransformWeights:
     - transform: {fileID: 0}
@@ -1965,7 +1957,7 @@ MonoBehaviour:
     factor:
       UseConstant: 1
       ConstantValue: 0
-      Variable: {fileID: 0}
+      Variable: {fileID: 11400000, guid: 76376b097f83a50439037a19dbc24d76, type: 2}
     extrapolateMode: 0
     sequence:
     - pose: {fileID: -2420248955592922456, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
@@ -1990,7 +1982,7 @@ MonoBehaviour:
   m_Name: Idle -> Ground Movement
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -72, y: -392}
+  position: {x: -136, y: -520}
   ports:
     keys:
     - startingState
@@ -2002,7 +1994,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: transitions
-        node: {fileID: -4801274928944331001}
+        node: {fileID: 1784268939710130638}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -2020,9 +2012,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- 0 AbsGreaterThan 0 && 0 Ignore 0 && 0 AbsGreaterThan 0
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -2045,47 +2035,6 @@ MonoBehaviour:
     zCompare:
       comparator: 3
       value: 0
---- !u!114 &2567095372823415316
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
-  m_Name: Idle <Reference>
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 5368, y: -904}
-  ports:
-    keys:
-    - transitions
-    - previousState
-    values:
-    - _fieldName: transitions
-      _node: {fileID: 2567095372823415316}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: previousState
-      _node: {fileID: 2567095372823415316}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: nextState
-        node: {fileID: -2479464383247129141}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  referencedState: {fileID: -4801274928944331001}
 --- !u!114 &2707482321196679568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2131,6 +2080,47 @@ MonoBehaviour:
   numFrames: 10
   outVel: {fileID: 11400000, guid: dd2cd63ae1d9c034096f0b67bb5bcf62, type: 2}
   outAccel: {fileID: 11400000, guid: c10948b397e5e3e4d8134214ba8cd29d, type: 2}
+--- !u!114 &2846663699052922448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: Idle <Reference>
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1336, y: 888}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: 2846663699052922448}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: 3289089301062612516}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: 2846663699052922448}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  referencedState: {fileID: 1784268939710130638}
 --- !u!114 &2923737762509335735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2212,7 +2202,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: previousState
-        node: {fileID: -360304116171754751}
+        node: {fileID: 2846663699052922448}
         reroutePoints: []
       _direction: 1
       _connectionType: 1
@@ -2312,7 +2302,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  referencedState: {fileID: -4801274928944331001}
+  referencedState: {fileID: 1784268939710130638}
 --- !u!114 &4519367803428870115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2438,7 +2428,7 @@ MonoBehaviour:
         node: {fileID: 412120333977285081}
         reroutePoints: []
       - fieldName: transitions
-        node: {fileID: -4801274928944331001}
+        node: {fileID: 1784268939710130638}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -2469,6 +2459,125 @@ MonoBehaviour:
   TimerConditions: []
   Vector2Conditions: []
   Vector3Conditions: []
+--- !u!114 &5276580774853976909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab2c418d896f4db1bdcf1cbed36d519c, type: 3}
+  m_Name: Ground Movement Mixer <MixerNode> (PlayerAnimation)
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 440, y: -392}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: 5276580774853976909}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: 5276580774853976909}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  BypassState: 0
+  Name: Ground Movement Mixer
+  zoom: 0
+  isActiveState: 0
+  transitionTime: 0.2
+  transitionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  isStateOutput: 1
+  state1: {fileID: -2816321112790655770}
+  state2: {fileID: -3539947134798072523}
+  factor:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 1c49ebf7ba1267e44aed5b194c8a3d83, type: 2}
+  mixerRunner:
+    BoneTransformWeights:
+    - transform: {fileID: 0}
+      weight: 1
+    Factor: 0.5
+--- !u!114 &5391073615113036228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: Idle <Reference>
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 5368, y: -904}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: 5391073615113036228}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: -2479464383247129141}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: 5391073615113036228}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  referencedState: {fileID: 1784268939710130638}
 --- !u!114 &5432486050988907800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2674,6 +2783,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  isStateOutput: 1
   animationJobRunner:
     BoneTransformWeights:
     - transform: {fileID: 0}
@@ -2806,47 +2916,6 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   referencedState: {fileID: 4519367803428870115}
---- !u!114 &6107161500590452376
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
-  m_Name: Idle <Reference>
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 2936, y: 888}
-  ports:
-    keys:
-    - previousState
-    - transitions
-    values:
-    - _fieldName: previousState
-      _node: {fileID: 6107161500590452376}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: nextState
-        node: {fileID: 1148976148568861825}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: transitions
-      _node: {fileID: 6107161500590452376}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  referencedState: {fileID: -4801274928944331001}
 --- !u!114 &6374615772352306004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2928,7 +2997,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Perambulator
   zoom: 0
-  isActiveState: 1
+  isActiveState: 0
   moveVelocity:
     Source:
       UseConstant: 0
@@ -2936,10 +3005,23 @@ MonoBehaviour:
       Variable: {fileID: 11400000, guid: dd2cd63ae1d9c034096f0b67bb5bcf62, type: 2}
     ComponentX: 0
     ComponentY: 2
-  strideLength:
+  maxSpeed:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 5c878f8db6decb043a9e07239782f2ef, type: 2}
+  walkSpeedFactor:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 1c49ebf7ba1267e44aed5b194c8a3d83, type: 2}
+  minStrideLengthFactor: 0.5
+  fullStrideLength:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 8474760572e4bcd448a50a56961b385e, type: 2}
+  strideLength:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 3e47a8aaadd6e8841a74b092fd0a083e, type: 2}
   distance:
     UseConstant: 0
     ConstantValue: 0
@@ -3017,6 +3099,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  isStateOutput: 1
   animationJobRunner:
     BoneTransformWeights:
     - transform: {fileID: 0}
@@ -3102,15 +3185,13 @@ MonoBehaviour:
         node: {fileID: 412120333977285081}
         reroutePoints: []
       - fieldName: transitions
-        node: {fileID: -4801274928944331001}
+        node: {fileID: 1784268939710130638}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- JumpTrigger_Anim
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -3168,6 +3249,47 @@ MonoBehaviour:
   isActiveState: 1
   subStates:
   - {fileID: 2707482321196679568}
+--- !u!114 &8474329339902235374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: Idle <Reference>
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 2936, y: 888}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: 8474329339902235374}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: 1148976148568861825}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: 8474329339902235374}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  referencedState: {fileID: 1784268939710130638}
 --- !u!114 &8482668709884365773
 MonoBehaviour:
   m_ObjectHideFlags: 0

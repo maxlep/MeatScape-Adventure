@@ -19,6 +19,9 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
         [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField]
         private AnimationCurve transitionCurve;
 
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField]
+        private bool isStateOutput = true;
+
         public virtual Playable Output => Playable.Null;
         
         protected SharedAnimationData sharedData;
@@ -37,7 +40,7 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
             
             // Debug.Log($"ENTER {base.name}");
             
-            sharedData.GetAnimationLayer(StartNodeIndex).TransitionToState(this, transitionTime, transitionCurve);
+            if (isStateOutput) sharedData.GetAnimationLayer(StartNodeIndex).TransitionToState(this, transitionTime, transitionCurve);
         }
         
         public override void Exit()

@@ -9,6 +9,10 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
     public class SurveyorWheel : PlayerStateNode
     {
         [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private Vector2Vec3Reference moveVelocity;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private FloatReference maxSpeed;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private FloatReference walkSpeedFactor;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private float minStrideLengthFactor = 0.25f;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private FloatReference fullStrideLength;
         [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private FloatReference strideLength;
         [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private FloatReference distance;
         [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private FloatReference cyclePercent;
@@ -24,7 +28,7 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
         {
             base.OnValidate();
 
-            UpdateCachedValues();
+            // UpdateCachedValues();
         }
 
         public override void RuntimeInitialize(int startNodeIndex)
@@ -38,7 +42,7 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
         {
             base.Enter();
             
-            UpdateCachedValues();
+            // UpdateCachedValues();
             if (resetOnStart)
             {
                 var roundedPct = Mathf.Floor(cyclePercent.Value / roundToMultiple) * roundToMultiple;
@@ -48,11 +52,11 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
             }
         }
 
-        private void UpdateCachedValues()
-        {
-            cycleLength = 2 * strideLength.Value;
-            radius = cycleLength / (2 * Mathf.PI);
-        }
+        // private void UpdateCachedValues()
+        // {
+        //     cycleLength = 2 * strideLength.Value;
+        //     radius = cycleLength / (2 * Mathf.PI);
+        // }
 
         public override void Execute()
         {
@@ -65,6 +69,14 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
         {
             var distanceLastFrame = Time.deltaTime * moveVelocity.Value.magnitude;
             distance.Value += distanceLastFrame;
+
+            walkSpeedFactor.Value = moveVelocity.Value.sqrMagnitude / Mathf.Pow(maxSpeed.Value, 2);
+            walkSpeedFactor.Value = 1 - Math.Max(walkSpeedFactor.Value, minStrideLengthFactor);
+            strideLength.Value = walkSpeedFactor.Value * fullStrideLength.Value;
+            cycleLength = 2 * fullStrideLength.Value;
+            radius = cycleLength / (2 * Mathf.PI);
+            
+            // Debug.Log($"{walkSpeedFactor.Value}, {strideLength.Value}, {cycleLength}, {radius}");
 
             if (distance.Value >= cycleLength)
             {

@@ -27,8 +27,17 @@ public class StateReferenceNodeEditor : NodeEditor
         labelStyle.fontStyle = FontStyle.Bold;
         labelStyle.normal.textColor = new Color(.85f, 1f, .85f);
         labelStyle.alignment = TextAnchor.LowerCenter;
+
+        string labelText;
+
+        if (nodeAsStateRef != null && nodeAsStateRef.ReferencedState != null)
+            labelText = nodeAsStateRef.ReferencedState.GetName();
+        else
+            labelText = "<Missing>";
+        
+
         GUI.Label(new Rect(nodeLabelPos, new Vector2(GetWidth(), 50f)),
-            nodeAsStateRef.ReferencedState.GetName(),
+            labelText,
             labelStyle);
 
         //Put back the GUI area that is restricted to node's dimensions

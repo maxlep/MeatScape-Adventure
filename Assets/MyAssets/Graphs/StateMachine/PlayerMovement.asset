@@ -1,5 +1,156 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9110911131338643139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: Pound Fall <Reference>
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -456, y: 2696}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: -9110911131338643139}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: -9110911131338643139}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: startingState
+        node: {fileID: -8310202094074352377}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  referencedState: {fileID: 326285495737826313}
+--- !u!114 &-8567565099613222240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: NoLowJump <Reference>
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1976, y: 2104}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: -8567565099613222240}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: -7613088525531120748}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: -8567565099613222240}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  referencedState: {fileID: 380770011948553577}
+--- !u!114 &-8310202094074352377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: Ground Movement -> SlopeSliding
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 40, y: 2264}
+  ports:
+    keys:
+    - startingState
+    - nextState
+    values:
+    - _fieldName: startingState
+      _node: {fileID: -8310202094074352377}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: -685504157304072445}
+        reroutePoints: []
+      - fieldName: transitions
+        node: {fileID: -2674982920624625626}
+        reroutePoints: []
+      - fieldName: transitions
+        node: {fileID: -3898170439112205107}
+        reroutePoints: []
+      - fieldName: transitions
+        node: {fileID: -9110911131338643139}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: nextState
+      _node: {fileID: -8310202094074352377}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: -1733806752048908885}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+  conditionPreview: '-  Is On Slideable Slope_ Controller
+
+'
+  ValidStartStates: []
+  InvalidStartStates: []
+  BoolConditions:
+  - targetParameter:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: f33f5725b5d107541a82558ed088f818, type: 2}
+    value: 1
+  TriggerConditions: []
+  FloatConditions: []
+  IntConditions: []
+  TimerConditions: []
+  Vector2Conditions: []
+  Vector3Conditions: []
 --- !u!114 &-7918136757166445424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45,7 +196,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: Sit
-  zoom: 0
+  zoom: 1
   isActiveState: 0
 --- !u!114 &-7730010420780783748
 MonoBehaviour:
@@ -88,6 +239,74 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   referencedState: {fileID: 380770011948553577}
+--- !u!114 &-7613088525531120748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: SlopeSliding -> NoLowJump
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1336, y: 2072}
+  ports:
+    keys:
+    - startingState
+    - nextState
+    values:
+    - _fieldName: startingState
+      _node: {fileID: -7613088525531120748}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: -1733806752048908885}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: nextState
+      _node: {fileID: -7613088525531120748}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: -8567565099613222240}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+  conditionPreview: '- ! Is Grounded_ Controller
+
+    - ! Is On Slideable Slope_
+    Controller
+
+'
+  ValidStartStates: []
+  InvalidStartStates: []
+  BoolConditions:
+  - targetParameter:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: 7515e678ba0d82a4b92ee5e8bc9cee52, type: 2}
+    value: 0
+  - targetParameter:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: f33f5725b5d107541a82558ed088f818, type: 2}
+    value: 0
+  TriggerConditions: []
+  FloatConditions: []
+  IntConditions: []
+  TimerConditions: []
+  Vector2Conditions: []
+  Vector3Conditions: []
 --- !u!114 &-7388518117265528419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,9 +435,10 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- IsGrounded_Controller
+  conditionPreview: '-  Is Grounded_ Controller
 
-    - WaitedJumpGroundDelay_Movement
+    -  Waited Jump Ground Delay_
+    Movement
 
 '
   ValidStartStates: []
@@ -288,7 +508,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: AirJump
-  zoom: 0
+  zoom: 1
   isActiveState: 0
   timeToJumpApex:
     UseConstant: 0
@@ -529,7 +749,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: Pound Stall
-  zoom: 0
+  zoom: 1
   isActiveState: 0
   restrictX: 1
   restrictY: 1
@@ -584,7 +804,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- Valid: Downward Throw
+  conditionPreview: '-  Valid:  Downward  Throw
 
 '
   ValidStartStates:
@@ -597,6 +817,47 @@ MonoBehaviour:
   TimerConditions: []
   Vector2Conditions: []
   Vector3Conditions: []
+--- !u!114 &-3898170439112205107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: NoLowJump <Reference>
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -456, y: 2520}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: -3898170439112205107}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: -3898170439112205107}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: startingState
+        node: {fileID: -8310202094074352377}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  referencedState: {fileID: 380770011948553577}
 --- !u!114 &-3641797515424182864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -643,7 +904,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- !IsGrounded_Controller
+  conditionPreview: '- ! Is Grounded_ Controller
 
 '
   ValidStartStates: []
@@ -706,7 +967,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- IsGrounded_Controller
+  conditionPreview: '-  Is Grounded_ Controller
 
 '
   ValidStartStates: []
@@ -723,6 +984,178 @@ MonoBehaviour:
   TimerConditions: []
   Vector2Conditions: []
   Vector3Conditions: []
+--- !u!114 &-2674982920624625626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: Air Movement <Reference>
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -456, y: 2360}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: -2674982920624625626}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: -2674982920624625626}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: startingState
+        node: {fileID: -8310202094074352377}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  referencedState: {fileID: -1088559452340399852}
+--- !u!114 &-2334806701575608527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: SlopeSliding -> Ground Movement
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1320, y: 2728}
+  ports:
+    keys:
+    - startingState
+    - nextState
+    values:
+    - _fieldName: startingState
+      _node: {fileID: -2334806701575608527}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: -1733806752048908885}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: nextState
+      _node: {fileID: -2334806701575608527}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: 1631148699799643548}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+  conditionPreview: '-  Is Grounded_ Controller
+
+    - ! Is On Slideable Slope_ Controller
+
+'
+  ValidStartStates: []
+  InvalidStartStates: []
+  BoolConditions:
+  - targetParameter:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: 7515e678ba0d82a4b92ee5e8bc9cee52, type: 2}
+    value: 1
+  - targetParameter:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: f33f5725b5d107541a82558ed088f818, type: 2}
+    value: 0
+  TriggerConditions: []
+  FloatConditions: []
+  IntConditions: []
+  TimerConditions: []
+  Vector2Conditions: []
+  Vector3Conditions: []
+--- !u!114 &-1733806752048908885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a43f2a613dedf4349bef1fee90f9b116, type: 3}
+  m_Name: SlopeSliding <SlopeSliding> (PlayerMovement)
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 696, y: 2328}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: -1733806752048908885}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: -8310202094074352377}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: -1733806752048908885}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: startingState
+        node: {fileID: -7613088525531120748}
+        reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: -2334806701575608527}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  BypassState: 0
+  Name: SlopeSliding
+  zoom: 1
+  isActiveState: 0
+  NewVelocityOut:
+    UseConstant: 0
+    ConstantValue: {x: 0, y: 0, z: 0}
+    Variable: {fileID: 11400000, guid: 9bb89c095cc264240a1d00bcb25ce309, type: 2}
+  NewRotationOut:
+    UseConstant: 0
+    ConstantValue: {x: 0, y: 0, z: 0, w: 0}
+    Variable: {fileID: 11400000, guid: 642843bee527d554f9408523e1ab11c8, type: 2}
+  PlayerCameraTransform: {fileID: 11400000, guid: d50b3bc5cde09794cb0468cc9e2dba0f,
+    type: 2}
+  MoveInput:
+    UseConstant: 0
+    ConstantValue: {x: 0, y: 0}
+    Variable: {fileID: 11400000, guid: f48af2d5870a315459ef8f032591c5be, type: 2}
 --- !u!114 &-1126308274419738181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -766,7 +1199,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- IsGrounded_Controller
+  conditionPreview: '-  Is Grounded_ Controller
 
 '
   ValidStartStates: []
@@ -831,7 +1264,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: Ground Movement
-  zoom: 0
+  zoom: 1
   isActiveState: 1
   EnableHorizontalMovement: 1
   EnableFastTurn: 1
@@ -943,7 +1376,7 @@ MonoBehaviour:
   m_Name: Air Movement <Movement> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 648, y: 88}
+  position: {x: 744, y: 88}
   ports:
     keys:
     - previousState
@@ -975,7 +1408,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: Air Movement
-  zoom: 0
+  zoom: 1
   isActiveState: 0
   EnableHorizontalMovement: 1
   EnableFastTurn: 1
@@ -1074,6 +1507,47 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: d00e7a08d0775a4429a3a5cfad1382a2, type: 2}
+--- !u!114 &-685504157304072445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: Ground Movement <Reference>
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -440, y: 2168}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: -685504157304072445}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: -685504157304072445}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: startingState
+        node: {fileID: -8310202094074352377}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  referencedState: {fileID: -1108589282178386599}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1112,6 +1586,16 @@ MonoBehaviour:
   - {fileID: -1108589282178386599}
   - {fileID: 380770011948553577}
   - {fileID: -7730010420780783748}
+  - {fileID: -1733806752048908885}
+  - {fileID: -2674982920624625626}
+  - {fileID: -685504157304072445}
+  - {fileID: -9110911131338643139}
+  - {fileID: -3898170439112205107}
+  - {fileID: -8310202094074352377}
+  - {fileID: -2334806701575608527}
+  - {fileID: -7613088525531120748}
+  - {fileID: -8567565099613222240}
+  - {fileID: 1631148699799643548}
 --- !u!114 &276245312325452325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1158,7 +1642,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- GroundPoundTrigger_Controller
+  conditionPreview: '-  Ground Pound Trigger_ Controller
 
 '
   ValidStartStates: []
@@ -1217,7 +1701,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: Pound Fall
-  zoom: 0
+  zoom: 1
   isActiveState: 0
   PoundSpeed:
     UseConstant: 1
@@ -1272,7 +1756,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: NoLowJump
-  zoom: 0
+  zoom: 1
   isActiveState: 0
   EnableHorizontalMovement: 1
   EnableFastTurn: 1
@@ -1402,6 +1886,47 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   executionOrderIndex: 0
+--- !u!114 &1631148699799643548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: Ground Movement <Reference>
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1976, y: 2760}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: 1631148699799643548}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: -2334806701575608527}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: 1631148699799643548}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  referencedState: {fileID: -1108589282178386599}
 --- !u!114 &2880018288348904183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1459,7 +1984,7 @@ MonoBehaviour:
   m_Name: Jump <Jump> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 72, y: 248}
+  position: {x: 136, y: 248}
   ports:
     keys:
     - transitions
@@ -1491,7 +2016,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: Jump
-  zoom: 0
+  zoom: 1
   isActiveState: 0
   timeToJumpApex:
     UseConstant: 0
@@ -1604,7 +2129,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- JumpAttackTrigger_Controller
+  conditionPreview: '-  Jump Attack Trigger_ Controller
 
 '
   ValidStartStates: []
@@ -1631,7 +2156,7 @@ MonoBehaviour:
   m_Name: ' -> '
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -408, y: 136}
+  position: {x: -472, y: 120}
   ports:
     keys:
     - nextState
@@ -1664,7 +2189,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- JumpTrigger_Controller
+  conditionPreview: '-  Jump Trigger_ Controller
 
 '
   ValidStartStates: []
@@ -1721,7 +2246,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- PostPoundDelay_Movement: 0.2 sec
+  conditionPreview: '-  Post Pound Delay_ Movement: 0.2 sec
 
 '
   ValidStartStates: []
@@ -1910,7 +2435,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- PoundStall_Movement: 0.3 sec
+  conditionPreview: '-  Pound Stall_ Movement: 0.3 sec
 
 '
   ValidStartStates: []

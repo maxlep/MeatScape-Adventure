@@ -36,4 +36,12 @@ namespace MyAssets.Scripts.PoseAnimator
             this.rotation = rotation;
         }
     }
+
+    [Serializable]
+    public enum BlendMode
+    {
+        Mix,
+        Add,
+        Multiply,
+    }
 }

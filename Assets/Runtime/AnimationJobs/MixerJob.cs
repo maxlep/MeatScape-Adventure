@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using MyAssets.Scripts.PoseAnimator;
 using Unity.Collections;
 using UnityEngine;
@@ -12,12 +14,24 @@ namespace MyAssets.Runtime.AnimationJobs
 {
     public struct MixerJob : IAnimationJob
     {
+        public BlendMode blendMode;
         public NativeArray<TransformStreamHandle> handles;
         public NativeArray<BoneLocation> bonesLastFrame;
         public NativeArray<BoneLocation> bonesLastState;
         public bool useBonesLastAsFirst, isTransitioning;
         public NativeArray<float> boneWeights;
         public float weight;
+        
+        private static Dictionary<BlendMode, Func<Vector3, Vector3, float, Vector3>> Vector3Blend = new Dictionary<BlendMode, Func<Vector3, Vector3, float, Vector3>>
+        {
+            {BlendMode.Mix, (vec1, vec2, fac) => Vector3.Lerp(vec1, vec2, fac)},
+            {BlendMode.Add, (vec1, vec2, fac) => vec1 + (vec2 * fac)},
+        };
+        private static Dictionary<BlendMode, Func<Quaternion, Quaternion, float, Quaternion>> QuaternionBlend = new Dictionary<BlendMode, Func<Quaternion, Quaternion, float, Quaternion>>
+        {
+            {BlendMode.Mix, (rot1, rot2, fac) => Quaternion.Slerp(rot1, rot2, fac)},
+            {BlendMode.Add, (rot1, rot2, fac) => rot1 * rot2},
+        };
 
         public void ProcessRootMotion(AnimationStream stream)
         {
@@ -57,12 +71,12 @@ namespace MyAssets.Runtime.AnimationJobs
 
                     var posA = bonesLastState[i].position;
                     var posB = handle.GetLocalPosition(streamA);
-                    var pos = Vector3.Lerp(posA, posB, weight * boneWeights[i]);
+                    var pos = Vector3Blend[blendMode](posA, posB, weight * boneWeights[i]);
                     handle.SetLocalPosition(stream, pos);
 
                     var rotA = bonesLastState[i].rotation;
                     var rotB = handle.GetLocalRotation(streamA);
-                    var rot = Quaternion.Slerp(rotA, rotB, weight * boneWeights[i]);
+                    var rot = QuaternionBlend[blendMode](rotA, rotB, weight * boneWeights[i]);
                     handle.SetLocalRotation(stream, rot);
                     
                     bonesLastFrame[i] = new BoneLocation(pos, rot);
@@ -97,12 +111,12 @@ namespace MyAssets.Runtime.AnimationJobs
             
                 var posA = handle.GetLocalPosition(streamB);
                 var posB = handle.GetLocalPosition(streamA);
-                var pos = Vector3.Lerp(posA, posB, weight * boneWeights[i]);
+                var pos = Vector3Blend[blendMode](posA, posB, weight * boneWeights[i]);
                 handle.SetLocalPosition(stream, pos);
             
                 var rotA = handle.GetLocalRotation(streamB);
                 var rotB = handle.GetLocalRotation(streamA);
-                var rot = Quaternion.Slerp(rotA, rotB, weight * boneWeights[i]);
+                var rot = QuaternionBlend[blendMode](rotA, rotB, weight * boneWeights[i]);
                 handle.SetLocalRotation(stream, rot);
                 
                 bonesLastFrame[i] = new BoneLocation(pos, rot);

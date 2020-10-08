@@ -17,6 +17,8 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
     public class MixerNode : AnimationStateNode
     {
         [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField]
+        private BlendMode blendMode = BlendMode.Mix;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField]
         private AnimationStateNode state1;
         [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField]
         private AnimationStateNode state2;
@@ -35,7 +37,8 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
             mixerRunner.Output.ConnectInput(0, state1.Output, 0);
             mixerRunner.Output.ConnectInput(1, state2.Output, 0);
             mixerRunner.Output.SetInputWeight(0, 1f);
-            // mixerRunner.Output.SetInputWeight(1, 1f);
+            mixerRunner.Output.SetInputWeight(1, 1f);
+            mixerRunner.BlendMode = blendMode;
         }
 
         public override void Execute()

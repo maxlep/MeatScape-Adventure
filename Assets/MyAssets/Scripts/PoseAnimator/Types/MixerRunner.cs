@@ -14,21 +14,23 @@ namespace MyAssets.Scripts.PoseAnimator.Types
     public class MixerRunner : AnimationJobRunner
     {
         public float Factor;
-        public NativeArray<BoneLocation> bonesLastFrame;
+        public BlendMode BlendMode;
+        public NativeArray<BoneLocation> BonesLastFrame;
 
         private bool blendFromLastPosition, resetTransitioning;
 
         protected override AnimationScriptPlayable InitializePlayable()
         {
-            bonesLastFrame = sharedData.GetBonesLastFrameCopy();
+            BonesLastFrame = sharedData.GetBonesLastFrameCopy();
             
             // Create job
             var job = new MixerJob()
             {
+                blendMode = BlendMode,
                 handles = boneHandles,
                 boneWeights = boneWeights,
-                bonesLastFrame = bonesLastFrame,
-                bonesLastState = bonesLastFrame,
+                bonesLastFrame = BonesLastFrame,
+                bonesLastState = BonesLastFrame,
                 weight = 0f,
             };
             
@@ -65,7 +67,7 @@ namespace MyAssets.Scripts.PoseAnimator.Types
         {
             base.Dispose();
 
-            bonesLastFrame.Dispose();
+            BonesLastFrame.Dispose();
         }
 
         public void SetBlendFromLastPosition(bool value)

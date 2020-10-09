@@ -12,7 +12,7 @@ public class SubStateProcessorNode : StateNode
         "You added a SubStateProcessorNode to the list! Do you want infinite loop?")]
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
     [ListDrawerSettings(Expanded = true)]
-    private List<StateNode> subStates;
+    private List<StateNode> subStates = new List<StateNode>();
     
     #region LifeCycle Methods
 

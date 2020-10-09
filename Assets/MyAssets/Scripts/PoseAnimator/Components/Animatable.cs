@@ -71,10 +71,6 @@ namespace MyAssets.Scripts.PoseAnimator.Components
         //     sharedData.AnimationLayers.ForEach(i => i.Update());
         // }
 
-        private void LateUpdate()
-        {
-            Debug.Log($"Animatable end frame {Time.time}");
-        }
 
         private void OnDestroy()
         {

@@ -48,10 +48,12 @@ public class StateNodeEditor : NodeEditor
     public override Color GetTint()
     {
         Color tint;
-        bool isActiveNode = (target as StateNode).isActiveState;
+        StateNode nodeAsState = (target as StateNode);
 
-        if (isActiveNode)
+        if (nodeAsState.isActiveState)
             tint = new Color(110f/255f, 110f/255f, 60f/255f, 1f);
+        else if (nodeAsState.GetBypassState())
+            tint = new Color(65f/255f, 80f/255f, 100f/255f, 1f);
         else
             tint = new Color(46f/255f, 50f/255f, 80f/255f, 1f);
         

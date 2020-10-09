@@ -1,13 +1,19 @@
 ﻿using MyAssets.Scripts.PoseAnimator.Components;
 using MyAssets.Scripts.PoseAnimator.Types;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
 {
     public class AnimationLayerStartNode : StartNode
     {
-        [SerializeField] public AnimationLayer AnimationLayer;
-        [SerializeField] private AnimatableSceneReference animatable;
+        [SerializeField] [LabelWidth(165f)] [PropertySpace(0f, 15f)]
+        private AnimatableSceneReference animatable;
+
+        [SerializeField] [LabelWidth(165f)] [PropertySpace(10f, 15f)] 
+        [HideLabel] [BoxGroup("AnimationLayer")]
+        public AnimationLayer AnimationLayer;
+
         public SharedAnimationData SharedData => animatable.Value.SharedData;
 
         public override void RuntimeInitialize()

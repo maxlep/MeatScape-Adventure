@@ -13,9 +13,9 @@ namespace MyAssets.Scripts.PoseAnimator.Types
     [Serializable]
     public class MixerRunner : AnimationJobRunner
     {
-        public float Factor;
-        public BlendMode BlendMode;
-        public NativeArray<BoneLocation> BonesLastFrame;
+        [LabelWidth(165f)] public float Factor;
+        [LabelWidth(165f)] public BlendMode BlendMode;
+        [HideInInspector] public NativeArray<BoneLocation> BonesLastFrame;
 
         private bool blendFromLastPosition, resetTransitioning;
 

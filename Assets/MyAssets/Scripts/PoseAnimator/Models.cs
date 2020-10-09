@@ -1,4 +1,5 @@
 ﻿using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace MyAssets.Scripts.PoseAnimator
@@ -13,10 +14,32 @@ namespace MyAssets.Scripts.PoseAnimator
     }
 
     [Serializable]
-    public struct SequenceUnit
+    public class SequenceUnit
     {
         public AnimationClip pose;
         public AnimationCurve transition;
+        
+        [PropertyRange(0f ,1f)] [OnValueChanged("RoundInput")] [DisableIf("$useMonospacedSequence")]
+        public float timeLinePosition;
+
+        private const float roundInterval = 100f;
+        private bool useMonospacedSequence;
+
+        public void EnableUseMonospacedSequence(float monoTimeLinePos)
+        {
+            useMonospacedSequence = true;
+            timeLinePosition = monoTimeLinePos;
+        }
+        
+        public void DisableUseMonospacedSequence()
+        {
+            useMonospacedSequence = false;
+        }
+        
+        private void RoundInput()
+        {
+            timeLinePosition = Mathf.Round(timeLinePosition * roundInterval) / roundInterval;
+        }
     }
 
     public enum ExtrapolateBehavior

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-[InlineEditor(InlineEditorObjectFieldModes.Foldout)]
 [CreateAssetMenu(fileName = "AnimatorSceneReference", menuName = "SceneReferences/AnimatorSceneReference", order = 0)]
 public class AnimatorSceneReference : SceneReference
 {

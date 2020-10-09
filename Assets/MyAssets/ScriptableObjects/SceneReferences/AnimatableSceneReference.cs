@@ -4,7 +4,6 @@ using MyAssets.Scripts.PoseAnimator.Components;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-[InlineEditor(InlineEditorObjectFieldModes.Foldout)]
 [CreateAssetMenu(fileName = "AnimatableSceneReference", menuName = "SceneReferences/AnimatableSceneReference", order = 0)]
 public class AnimatableSceneReference : SceneReference
 {

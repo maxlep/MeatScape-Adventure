@@ -12,8 +12,8 @@ namespace MyAssets.Scripts.PoseAnimator.Types
     [Serializable]
     public class AnimationJobRunner
     {
-        [SerializeField]
-        public List<BoneTransformWeight> BoneTransformWeights;// = new List<BoneTransformWeight>();
+        [SerializeField] [ListDrawerSettings(Expanded = true)]
+        [LabelWidth(165f)] public List<BoneTransformWeight> BoneTransformWeights;// = new List<BoneTransformWeight>();
         private List<List<int>> boneChildrenIndices;
         
         public string Name { get; private set; }

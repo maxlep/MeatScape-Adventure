@@ -22,9 +22,9 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
         private AnimationStateNode state1;
         [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField]
         private AnimationStateNode state2;
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField]
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), PropertySpace(0f, 10f), SerializeField]
         private FloatReference factor;
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField]
+        [HideIf("$zoom"), HideLabel, BoxGroup("MixerRunner"), SerializeField]
         private MixerRunner mixerRunner;
         
         public override Playable Output => mixerRunner.Output;

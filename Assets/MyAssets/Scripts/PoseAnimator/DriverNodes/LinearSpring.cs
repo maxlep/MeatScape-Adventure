@@ -16,7 +16,6 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
         [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] protected float min, max;
 
         private float startVelocity;
-        [SerializeField] float peakThreshold = 20f;
 
         public override void Initialize(StateMachineGraph parentGraph)
         {

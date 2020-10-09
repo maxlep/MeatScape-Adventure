@@ -16,14 +16,14 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
     {
         [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField]
         private float transitionTime;
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField]
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), PropertySpace(0f, 10f), SerializeField]
         private AnimationCurve transitionCurve;
 
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField]
         private bool isStateOutput = true;
 
         public virtual Playable Output => Playable.Null;
-        
+        public void SetIsStateOutput(bool value) => isStateOutput = value;
+
         protected SharedAnimationData sharedData;
 
         #region Lifecycle methods
@@ -37,10 +37,8 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
         public override void Enter()
         {
             base.Enter();
-            
-            // Debug.Log($"ENTER {base.name}");
-            
             if (isStateOutput) sharedData.GetAnimationLayer(StartNodeIndex).TransitionToState(this, transitionTime, transitionCurve);
+            Debug.Log($"State: {name} | isStateOutput: {isStateOutput}");
         }
         
         public override void Exit()

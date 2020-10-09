@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-[InlineEditor(InlineEditorObjectFieldModes.Foldout)]
 [CreateAssetMenu(fileName = "TransformSceneReference", menuName = "SceneReferences/TransformSceneReference", order = 0)]
 public class TransformSceneReference : SceneReference
 {

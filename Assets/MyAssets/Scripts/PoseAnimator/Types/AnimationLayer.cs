@@ -11,18 +11,26 @@ namespace MyAssets.Scripts.PoseAnimator.Types
     [Serializable]
     public class AnimationLayer
     {
-        public string Name; 
-            public Playable Output => mixerRunner.Output;
+        [LabelWidth(165f)] public string Name; 
+        public Playable Output => mixerRunner.Output;
         
         private SharedAnimationData sharedData;
-        [SerializeField] private AnimationClip defaultPose;
-        [SerializeField] private MixerRunner mixerRunner;
-        [ShowInInspector] private AnimationStateNode activeState, nextActiveState;
+        
+        [SerializeField] [LabelWidth(165f)]
+        private AnimationClip defaultPose;
+
+        [ShowInInspector] [LabelWidth(165f)] [DisableIf("AlwaysTrue")] 
+        private AnimationStateNode activeState, nextActiveState;
+
+        [SerializeField] [InlineProperty] [HideLabel] 
+        [BoxGroup("MixerRunner")] [PropertySpace(10f, 0f)]
+        private MixerRunner mixerRunner;
 
         private AnimationClipPlayable defaultPlayable;
         
         private LTDescr transitionTween;
         private bool transitioning;
+        private bool AlwaysTrue => true;
 
         public AnimationLayer(string name, SharedAnimationData sharedData)
         {
@@ -86,18 +94,18 @@ namespace MyAssets.Scripts.PoseAnimator.Types
                         {
                             // transitioning = true;
                             // mixerRunner.SetBlendFromLastPosition(true);
-                            Debug.Log($"Start tween from {activeState?.name} to {nextActiveState?.name}");
+                            //Debug.Log($"Start tween from {activeState?.name} to {nextActiveState?.name}");
                         })
                         .setOnUpdate((float value) =>
                         {
                             mixerRunner.Factor = value;
-                            Debug.Log($"Update tween value {mixerRunner.Factor}");
+                            //Debug.Log($"Update tween value {mixerRunner.Factor}");
                         })
                         .setOnComplete(() =>
                         {
                             transitioning = false;
                             mixerRunner.SetBlendFromLastPosition(false);
-                            Debug.Log($"Complete tween from {activeState?.name} to {nextActiveState?.name}");
+                            //Debug.Log($"Complete tween from {activeState?.name} to {nextActiveState?.name}");
                         });
             }
 

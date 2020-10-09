@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using MyAssets.Runtime.AnimationJobs;
 using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
@@ -12,10 +13,32 @@ namespace MyAssets.Scripts.PoseAnimator.Types
     [Serializable]
     public class SequenceBlendRunner : AnimationJobRunner
     {
-        [SerializeField] protected FloatReference factor;
-        [SerializeField] protected ExtrapolateBehavior extrapolateMode;
-        [SerializeField] protected SequenceUnit[] sequence;
-        [SerializeField] protected bool loopSequence = true;
+        [SerializeField] [LabelWidth(165f)] [PropertySpace(15f, 0f)] 
+        protected FloatReference factor;
+        
+        [SerializeField] [LabelWidth(165f)]protected ExtrapolateBehavior extrapolateMode;
+
+        [SerializeField][LabelWidth(165f)]  [PropertySpace(15f, 0f)] 
+        protected bool loopSequence = true;
+
+        [SerializeField] [LabelWidth(165f)] [OnValueChanged("SetSequenceSpacing")]
+        protected bool useMonospacedSequence;
+
+        [SerializeField] [LabelWidth(165f)] [ListDrawerSettings(Expanded = true)]
+        protected List<SequenceUnit> sequence = new List<SequenceUnit>();
+
+        private void SetSequenceSpacing()
+        {
+            if (useMonospacedSequence)
+            {
+                var spacing = 1f / (loopSequence ? sequence.Count : Mathf.Max(sequence.Count - 1, 1));
+                sequence.ForEach((s, i) => s.EnableUseMonospacedSequence(i * spacing));
+            }
+            else
+            {
+                sequence.ForEach((s) => s.DisableUseMonospacedSequence());
+            }
+        }
 
         protected override AnimationScriptPlayable InitializePlayable()
         {
@@ -57,7 +80,7 @@ namespace MyAssets.Scripts.PoseAnimator.Types
 
         private (int start, int end, float weight) GetTransitionIndices()
         {
-            var numPoses = sequence.Length;
+            var numPoses = sequence.Count;
 
             var poseSize = 1.0f / (loopSequence ? numPoses : numPoses - 1);
 

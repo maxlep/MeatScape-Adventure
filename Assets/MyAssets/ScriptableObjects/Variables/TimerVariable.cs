@@ -44,7 +44,11 @@ public class TimerReference
     
     [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [ShowIf("UseConstant")]
     [SerializeField] private float ConstantDuration;
-    [ShowInInspector] private float ConstantRemainingTime;
+    
+    [SerializeField] [ShowIf("UseConstant")] [DisableIf("AlwaysTrue")]
+    private float ConstantRemainingTime;
+
+    private bool AlwaysTrue => true;
 
     public float ElapsedTime
     {

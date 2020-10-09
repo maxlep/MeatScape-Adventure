@@ -1,8 +1,8 @@
-﻿using System.Reflection;
+﻿using UnityEngine.InputSystem;
 using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
 using UnityEngine;
-
+using MyAssets.Scripts.Utils;
 
 public class ForwardAttack : PlayerStateNode
 {
@@ -12,6 +12,8 @@ public class ForwardAttack : PlayerStateNode
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference upwardForce;
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private BoolReference waitedAttackDelay;
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TransformSceneReference firePoint;
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TransformSceneReference PlayerCameraTransform;
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private Vector2Reference MoveInput;
 
     private bool clumpThrown;
 
@@ -19,16 +21,28 @@ public class ForwardAttack : PlayerStateNode
     {
         base.Initialize(parentGraph);
     }
+
+    private Vector3 GetMoveDirection()
+    {
+        Vector2 camForward = PlayerCameraTransform.Value.forward.xz().normalized;
+        Quaternion rotOffset = Quaternion.FromToRotation(Vector2.up, camForward);
+        Vector2 rotatedMoveInput = rotOffset * MoveInput.Value;
+        return new Vector3(rotatedMoveInput.x, 0, rotatedMoveInput.y);
+    }
     
     public override void Enter()
     {
         base.Enter();
 
-        Quaternion startRotation = Quaternion.LookRotation(firePoint.Value.forward, Vector3.up);
+        Vector3 fireDirection = GetMoveDirection().normalized;
+        if(Mathf.Approximately(fireDirection.magnitude, 0)) fireDirection = firePoint.Value.forward;
+        
+        Quaternion startRotation = Quaternion.LookRotation(fireDirection, Vector3.up);
 
         GameObject thrownClump = Instantiate(ammo, firePoint.Value.position, startRotation);
         Rigidbody clumpRB = thrownClump.GetComponent<Rigidbody>();
-        clumpRB.AddForce(firePoint.Value.forward * forwardForce.Value + Vector3.up * upwardForce.Value);
+
+        clumpRB.AddForce(fireDirection * forwardForce.Value + Vector3.up * upwardForce.Value);
     
         if(!playerController.unlimitedClumps) playerController.CurrentSize -= 1;
     }

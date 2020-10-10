@@ -47,7 +47,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 if (subStateAsAnimState != null)
                 {
                     subStateAsAnimState.SetIsStateOutput(subStateAsAnimState == outputState);
-                    Debug.Log($"State: {subStateAsAnimState.name} | IsOutput: {subStateAsAnimState == outputState}");
+                    // Debug.Log($"State: {subStateAsAnimState.name} | IsOutput: {subStateAsAnimState == outputState}");
                 }
                 
             }

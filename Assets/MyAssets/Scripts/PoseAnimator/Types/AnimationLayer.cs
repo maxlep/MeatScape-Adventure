@@ -71,7 +71,7 @@ namespace MyAssets.Scripts.PoseAnimator.Types
             activeState = nextActiveState;
             nextActiveState = newState;
             
-            Debug.Log($"Transition from {activeState?.name} to {nextActiveState?.name}, {newState.Output.IsValid()}, {newState.Output.GetInputCount()}");
+            // Debug.Log($"Transition from {activeState?.name} to {nextActiveState?.name}, {newState.Output.IsValid()}, {newState.Output.GetInputCount()}");
             
             if (nextActiveState) mixerRunner.Output.ConnectInput(0, nextActiveState.Output, 0);
             else mixerRunner.Output.ConnectInput(0, defaultPlayable, 0);

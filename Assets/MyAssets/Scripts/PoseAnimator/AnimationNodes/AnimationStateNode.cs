@@ -38,7 +38,7 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
         {
             base.Enter();
             if (isStateOutput) sharedData.GetAnimationLayer(StartNodeIndex).TransitionToState(this, transitionTime, transitionCurve);
-            Debug.Log($"State: {name} | isStateOutput: {isStateOutput}");
+            // Debug.Log($"State: {name} | isStateOutput: {isStateOutput}");
         }
         
         public override void Exit()

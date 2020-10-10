@@ -9,12 +9,25 @@ public class RotateOverTime : MonoBehaviour
     [SerializeField] private Vector3 RotationAxis = Vector3.up;
     [SerializeField] private float RotSpeed = 10;
 
+    private bool enableRotation = true;
+
     private void Update()
     {
+        if (!enableRotation) return;
+        
         if (UseGlobalAxis)
             transform.Rotate(RotationAxis.normalized, RotSpeed * Time.deltaTime, Space.World);
         else
             transform.Rotate(RotationAxis.normalized, RotSpeed * Time.deltaTime, Space.Self);
-            
+    }
+
+    public void StartRotating()
+    {
+        enableRotation = true;
+    }
+
+    public void StopRotating()
+    {
+        enableRotation = false;
     }
 }

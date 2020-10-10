@@ -10,7 +10,7 @@ Material:
   m_Name: Skin
   m_Shader: {fileID: 4800000, guid: 9ff7aaf47977a7e4b839fd409836e1d1, type: 3}
   m_ShaderKeywords: _DETAIL_MULX2 _NORMALMAP _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
-  m_LightmapFlags: 0
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -21,6 +21,10 @@ Material:
     m_TexEnvs:
     - _AO:
         m_Texture: {fileID: 2800000, guid: 1afc7f35b26a85c46a3adb55b55dc36e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _AO2:
+        m_Texture: {fileID: 2800000, guid: 826f80ee0ad07444c8558af826a4df2e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Background:
@@ -89,7 +93,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _AOFactor: 0.3
+    - _AOFactor2: 0.3
     - _AmbientFactor: 31.6
+    - _AmbientFactor2: 27.34496
     - _BackgroundFactor: 1
     - _BackgroundSpeed: 0.1
     - _BumpScale: 1
@@ -97,9 +103,10 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _Float0: 0
-    - _Float1: 2.3
-    - _Float2: 5
-    - _Float3: 0.3
+    - _Float1: 0
+    - _Float2: 2.3
+    - _Float3: 5
+    - _Float4: 0.3
     - _GlossMapScale: 0.339
     - _Glossiness: 0.368
     - _GlossyReflections: 1
@@ -121,17 +128,20 @@ Material:
     - _TextureScale: 1.66
     - _UVSec: 0
     - _ZWrite: 1
-    - __dirty: 1
+    - __dirty: 0
     m_Colors:
     - _Albedo: {r: 0.9056604, g: 0.9056604, b: 0.9056604, a: 0}
     - _BackgroundOffset: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 0.8962264, g: 0.2494215, b: 0.2494215, a: 1}
+    - _BaseColor1: {r: 0.8980393, g: 0.2509804, b: 0.2509804, a: 1}
     - _Color: {r: 0.9811321, g: 0.42114633, b: 0.42114633, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Gridalbedo: {r: 0, g: 0.8584906, b: 0.02163776, a: 0}
     - _MainColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
     - _MinimumAmbient: {r: 0.64304864, g: 0.6273585, b: 1, a: 1}
+    - _MinimumAmbient2: {r: 0.41723806, g: 0.40921423, b: 0.674, a: 1}
     - _RimColor: {r: 0.4627451, g: 0.18694904, b: 0.18694904, a: 1}
+    - _RimColor1: {r: 0.46274513, g: 0.18823531, b: 0.18823531, a: 1}
     - _ShadowColor: {r: 0.3773585, g: 0, b: 0.043878917, a: 1}
     - _SpecularColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
     - _SurfaceColor: {r: 1, g: 0.2862745, b: 0.2862745, a: 1}

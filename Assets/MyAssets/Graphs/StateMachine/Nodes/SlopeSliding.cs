@@ -40,12 +40,12 @@ public class SlopeSliding : PlayerStateNode
         
         //Take move input direction directly and flatten (Dont do turn smoothing for now)
         float slopeMoveSpeed = 10f;
-        newVelocity = moveDirection.Flatten() * slopeMoveSpeed;
+        newVelocity = moveDirection.xoz() * slopeMoveSpeed;
         
         //Project velocity sideways along slope
         Vector3 slopeRight = Vector3.Cross(Vector3.up, GroundingStatus.GroundNormal);
         Vector3 slopeOut = Vector3.Cross(slopeRight, Vector3.up);
-        newVelocity = Vector3.ProjectOnPlane(newVelocity, slopeOut).Flatten();
+        newVelocity = Vector3.ProjectOnPlane(newVelocity, slopeOut).xoz();
         
         //Add velocity down slope
         float slopeFallSpeed = 10f;

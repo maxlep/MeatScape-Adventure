@@ -239,7 +239,7 @@ public class Movement : PlayerStateNode
 
         //Accelerate/DeAccelerate from current Speed to target speed
         float dummySpeed = 0f;
-        float currentSpeed = currentVelocity.Flatten().magnitude;
+        float currentSpeed = currentVelocity.xoz().magnitude;
         float targetSpeed = MoveInput.Value.magnitude * MoveSpeed.Value;
 
         if (targetSpeed > currentSpeed)
@@ -263,7 +263,7 @@ public class Movement : PlayerStateNode
 
             //If finished stopping, turn to face moveDir
             if (newSpeed < FastTurnBrakeSpeedThreshold.Value)
-                newDirection = moveDirection.Flatten().normalized;
+                newDirection = moveDirection.xoz().normalized;
         }
         
         //Cache moveInput value
@@ -359,14 +359,14 @@ public class Movement : PlayerStateNode
             return;
 
         //Angle between flattened current speed and flattened desired move direction
-        float deltaAngle_VelToMoveDir = Vector3.Angle(currentVelocity.Flatten().normalized, moveDirection.normalized);
+        float deltaAngle_VelToMoveDir = Vector3.Angle(currentVelocity.xoz().normalized, moveDirection.normalized);
 
         //Start fast turn if angle > ThreshHold and input magnitude > DeadZone
         if (!isFastTurning && deltaAngle_VelToMoveDir > FastTurnAngleThreshold.Value &&
             MoveInput.Value.magnitude > FastTurnInputDeadZone.Value)
         {
             isFastTurning = true;
-            fastTurnStartDir = currentVelocity.Flatten().normalized;
+            fastTurnStartDir = currentVelocity.xoz().normalized;
         }
         
         //Stop fast turning when close enough to target

@@ -22,7 +22,7 @@ public class DownwardAttack : PlayerStateNode
     {
         base.Enter();
 
-        Quaternion startRotation = Quaternion.LookRotation(firePoint.Value.forward, Vector3.up);
+        Quaternion startRotation = Quaternion.LookRotation(-firePoint.Value.up, firePoint.Value.forward);
 
         GameObject thrownClump = Instantiate(ammo, firePoint.Value.position, startRotation);
         Rigidbody clumpRB = thrownClump.GetComponent<Rigidbody>();

@@ -32,6 +32,8 @@ namespace MyAssets.Scripts.Misc
             isFrozen = true;
             rigidbody.isKinematic = true;
 
+            if (!stickToHitObject) return;
+
             hitObject = other.transform;
             offsetFromObject = transform.position - hitObject.position;
             

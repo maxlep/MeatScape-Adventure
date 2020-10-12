@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using MyAssets.ScriptableObjects.Events;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -22,6 +24,9 @@ namespace MyAssets.Scripts.PoseAnimator
         [PropertyRange(0f ,1f)] [OnValueChanged("RoundInput")] [DisableIf("$useMonospacedSequence")]
         public float timeLinePosition;
 
+        [PropertySpace(5f, 10f)]
+        public List<AnimationEvent> events = new List<AnimationEvent>();
+
         private const float roundInterval = 100f;
         private bool useMonospacedSequence;
 
@@ -39,6 +44,22 @@ namespace MyAssets.Scripts.PoseAnimator
         private void RoundInput()
         {
             timeLinePosition = Mathf.Round(timeLinePosition * roundInterval) / roundInterval;
+        }
+    }
+
+    [Serializable]
+    public class AnimationEvent
+    {
+        public GameEvent animEvent;
+        
+        [PropertyRange(0f ,1f)] [OnValueChanged("RoundInput")]
+        public float relativeOffset;
+        
+        private const float roundInterval = 100f;
+        
+        private void RoundInput()
+        {
+            relativeOffset = Mathf.Round(relativeOffset * roundInterval) / roundInterval;
         }
     }
 

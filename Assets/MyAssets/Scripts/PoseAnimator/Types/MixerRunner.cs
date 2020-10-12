@@ -38,7 +38,7 @@ namespace MyAssets.Scripts.PoseAnimator.Types
 
             var scriptPlayable = AnimationScriptPlayable.Create(sharedData.PlayableGraph, job, 2);
             scriptPlayable.SetProcessInputs(false);
-            // sequence.ForEach(clip =>
+            // sequenceList.ForEach(clip =>
             // {
             //     scriptPlayable.AddInput(AnimationClipPlayable.Create(sharedData.PlayableGraph, clip.pose), 0, 0f);
             // });

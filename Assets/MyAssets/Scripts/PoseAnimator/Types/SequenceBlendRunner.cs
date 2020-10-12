@@ -4,9 +4,11 @@ using MyAssets.Runtime.AnimationJobs;
 using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
+using UnityEngine.Serialization;
 
 namespace MyAssets.Scripts.PoseAnimator.Types
 {
@@ -25,19 +27,27 @@ namespace MyAssets.Scripts.PoseAnimator.Types
         protected bool useMonospacedSequence;
 
         [SerializeField] [LabelWidth(165f)] [ListDrawerSettings(Expanded = true)]
-        protected List<SequenceUnit> sequence = new List<SequenceUnit>();
+        protected List<SequenceUnit> sequenceList = new List<SequenceUnit>();
 
+        private float previousFactor = 0f;
+        
         private void SetSequenceSpacing()
         {
             if (useMonospacedSequence)
             {
-                var spacing = 1f / (loopSequence ? sequence.Count : Mathf.Max(sequence.Count - 1, 1));
-                sequence.ForEach((s, i) => s.EnableUseMonospacedSequence(i * spacing));
+                var spacing = 1f / (loopSequence ? sequenceList.Count : Mathf.Max(sequenceList.Count - 1, 1));
+                sequenceList.ForEach((s, i) => s.EnableUseMonospacedSequence(i * spacing));
             }
             else
             {
-                sequence.ForEach((s) => s.DisableUseMonospacedSequence());
+                sequenceList.ForEach((s) => s.DisableUseMonospacedSequence());
             }
+        }
+
+        public override void Update()
+        {
+            base.Update();
+            HandleEvents();
         }
 
         protected override AnimationScriptPlayable InitializePlayable()
@@ -54,7 +64,7 @@ namespace MyAssets.Scripts.PoseAnimator.Types
 
             var scriptPlayable = AnimationScriptPlayable.Create(sharedData.PlayableGraph, job);
             scriptPlayable.SetProcessInputs(false);
-            sequence.ForEach(clip =>
+            sequenceList.ForEach(clip =>
             {
                 scriptPlayable.AddInput(AnimationClipPlayable.Create(sharedData.PlayableGraph, clip.pose), 0, 0f);
             });
@@ -68,7 +78,7 @@ namespace MyAssets.Scripts.PoseAnimator.Types
 
             var sequenceIndices = GetTransitionIndices();
             
-            // Debug.Log($"Update sequence {Name} {sequenceIndices}");
+            // Debug.Log($"Update sequenceList {Name} {sequenceIndices}");
 
             job.weight = sequenceIndices.weight;
             job.poseAIndex = sequenceIndices.start;
@@ -80,7 +90,7 @@ namespace MyAssets.Scripts.PoseAnimator.Types
 
         private (int start, int end, float weight) GetTransitionIndices()
         {
-            var numPoses = sequence.Count;
+            var numPoses = sequenceList.Count;
 
             var poseSize = 1.0f / (loopSequence ? numPoses : numPoses - 1);
 
@@ -107,9 +117,39 @@ namespace MyAssets.Scripts.PoseAnimator.Types
                     break;
             }
 
-            var interpWeight = sequence[start].transition.Evaluate(transitionWeight);
+            var interpWeight = sequenceList[start].transition.Evaluate(transitionWeight);
 
             return (start, end, interpWeight);
+        }
+
+        private void HandleEvents()
+        {
+            for (int i = 0; i < sequenceList.Count; i++)
+            {
+                foreach (var sequenceEvent in sequenceList[i].events)
+                {
+                    float currrentEventFactor = sequenceList[i].timeLinePosition;
+                    float nextEventFactor = (i < sequenceList.Count - 1) ? sequenceList[i + 1].timeLinePosition : 1f;
+                    float eventTriggerFactor =
+                        Mathf.Lerp(currrentEventFactor, nextEventFactor, sequenceEvent.relativeOffset);
+
+                    //If the event factor was just passed
+                    if (previousFactor <= eventTriggerFactor && factor.Value >= eventTriggerFactor)
+                        sequenceEvent.animEvent.Raise();
+                    //If the event factor is approx 0 so was passed during loop frame
+                    else if (previousFactor > eventTriggerFactor &&
+                             factor.Value > eventTriggerFactor && 
+                             factor.Value < previousFactor)
+                        sequenceEvent.animEvent.Raise();
+                    //If the event factor is approx 1 so was passed during loop frame
+                    else if (previousFactor < eventTriggerFactor &&
+                             factor.Value < eventTriggerFactor &&
+                             factor.Value < previousFactor)
+                        sequenceEvent.animEvent.Raise();
+                }
+            }
+
+            previousFactor = factor.Value;
         }
     }
 }

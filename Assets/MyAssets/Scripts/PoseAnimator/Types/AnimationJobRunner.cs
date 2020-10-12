@@ -76,7 +76,7 @@ namespace MyAssets.Scripts.PoseAnimator.Types
             boneWeights.Dispose();
         }
 
-        public void Update()
+        public virtual void Update()
         {
             UpdateWeights();
             UpdateJob();

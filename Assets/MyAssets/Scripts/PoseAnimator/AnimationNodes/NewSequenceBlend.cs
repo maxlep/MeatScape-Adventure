@@ -9,6 +9,7 @@ using Sirenix.Utilities;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Animations;
+using UnityEngine.Events;
 using UnityEngine.Playables;
 using Debug = UnityEngine.Debug;
 
@@ -16,8 +17,9 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
 {
     public class NewSequenceBlend : AnimationStateNode
     {
+        
         [HideIf("$zoom"), HideLabel, SerializeField, PropertySpace(15f, 0f),
-        BoxGroup("AnimationJobRunner")]
+         BoxGroup("AnimationJobRunner")]
         private SequenceBlendRunner animationJobRunner;
         
         public override Playable Output => animationJobRunner.Output;

@@ -79,12 +79,20 @@ namespace MyAssets.Scripts.PoseAnimator.Components
 
         public void RegisterAnimationLayer(AnimationLayerStartNode animationLayerStartNode)
         {
+            bool isAdditive = animationLayerStartNode.AnimationLayer.isAdditive;
+            float weight = animationLayerStartNode.AnimationLayer.layerWeight;
+            AvatarMask layerMask = animationLayerStartNode.AnimationLayer.layerMask;
+            
             sharedData.StartIndexToLayerIndex[animationLayerStartNode.ExecutionOrderIndex] =
                 sharedData.AnimationLayers.Count;
             sharedData.AnimationLayers.Add(animationLayerStartNode.AnimationLayer);
 
-            layerMixerPlayable.AddInput(animationLayerStartNode.AnimationLayer.Output, 0, 1f);
+            layerMixerPlayable.AddInput(animationLayerStartNode.AnimationLayer.Output, 0, weight);
 
+            uint newIndex = (uint) layerMixerPlayable.GetInputCount() - 1;
+            layerMixerPlayable.SetLayerAdditive(newIndex, isAdditive);
+            if (layerMask != null) layerMixerPlayable.SetLayerMaskFromAvatarMask(newIndex, layerMask);
+            
             // Debug.Log(
             //     $"Registered animation layer {animationLayerStartNode.name} {sharedData.AnimationLayers.Count} {sharedData.StartIndexToLayerIndex.Count}");
         }

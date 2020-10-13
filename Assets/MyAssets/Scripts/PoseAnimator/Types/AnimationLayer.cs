@@ -11,12 +11,20 @@ namespace MyAssets.Scripts.PoseAnimator.Types
     [Serializable]
     public class AnimationLayer
     {
-        [LabelWidth(165f)] public string Name; 
+        [LabelWidth(165f)] [DisableIf("AlwaysTrue")]  public string Name;
+        
+        [LabelWidth(165f)] [DisableIf("AlwaysTrue")]  public bool isAdditive = false;
+
+        [LabelWidth(165f)] [DisableIf("AlwaysTrue")] [PropertyRange(0f, 1f)]
+        public float layerWeight = 1f;
+
+        [LabelWidth(165f)] [DisableIf("AlwaysTrue")]  public AvatarMask layerMask;
+
         public Playable Output => mixerRunner.Output;
         
         private SharedAnimationData sharedData;
         
-        [SerializeField] [LabelWidth(165f)]
+        [SerializeField] [LabelWidth(165f)] [DisableIf("AlwaysTrue")] 
         private AnimationClip defaultPose;
 
         [ShowInInspector] [LabelWidth(165f)] [DisableIf("AlwaysTrue")] 
@@ -32,10 +40,15 @@ namespace MyAssets.Scripts.PoseAnimator.Types
         private bool transitioning;
         private bool AlwaysTrue => true;
 
-        public AnimationLayer(string name, SharedAnimationData sharedData)
+        public AnimationLayer(string name, SharedAnimationData sharedData, AnimationClip defaultPose, bool isAdditive,
+            float layerWeight, AvatarMask layerMask)
         {
             Name = name;
             this.sharedData = sharedData;
+            this.defaultPose = defaultPose;
+            this.isAdditive = isAdditive;
+            this.layerWeight = layerWeight;
+            this.layerMask = layerMask;
 
             // Debug.Log($"Init animation layer, {Name}");
             // mixerPlayable = AnimationMixerPlayable.Create(sharedData.PlayableGraph, 2);

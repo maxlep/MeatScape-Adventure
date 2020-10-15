@@ -8,6 +8,7 @@ using Shapes;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public interface testInterface
 {
@@ -18,7 +19,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 {
     [SerializeField] private KinematicCharacterMotor charMotor;
     [SerializeField] private LayerMapper layerMapper;
-    [SerializeField] private Transform model;
     [SerializeField] private CapsuleCollider playerCollider;
     [SerializeField] private AudioClip jumpAttackClip;
 
@@ -38,6 +38,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable GroundPoundTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable JumpAttackTrigger;
 
+    [FoldoutGroup("Size Parameters")] [SerializeField] private TransformSceneReference sizeChangePivot;
     [FoldoutGroup("Size Parameters")] [SerializeField] private PlayerSize startSize;
     [FoldoutGroup("Size Parameters")] public bool freezeSize;
     [FoldoutGroup("Size Parameters")] public bool unlimitedClumps;
@@ -209,7 +210,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         int intSize = (int)_currentSize;
         PlayerCurrentSize.Value = intSize;
 
-        LeanTween.scale(model.gameObject, modelScales[intSize].Value, changeSizeTime.Value / 1000);
+        LeanTween.scale(sizeChangePivot.Value.gameObject, modelScales[intSize].Value, changeSizeTime.Value / 1000);
         Vector3 capsuleSize = Vector3.Scale(modelScales[intSize].Value, capsuleProportions);
         charMotor.SetCapsuleDimensions(capsuleSize.x, capsuleSize.y, capsuleSize.z);
         

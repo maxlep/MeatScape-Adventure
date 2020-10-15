@@ -17,6 +17,9 @@ public class SlopeSliding : PlayerStateNode
     [HideIf("$zoom")] [LabelWidth(165)] [SerializeField] [Required]
     private TransformSceneReference PlayerCameraTransform;
     
+    [HideIf("$zoom")] [LabelWidth(165)] [SerializeField] [Required]
+    private TransformSceneReference PlayerSlopeSlidingPivot;
+    
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
     private Vector2Reference MoveInput;
     
@@ -29,7 +32,14 @@ public class SlopeSliding : PlayerStateNode
         playerController.onStartUpdateRotation += UpdateRotation;
         SetMoveDirection(); //Call to force update moveDir in case updateRot called b4 updateVel
     }
-    
+
+    public override void Exit()
+    {
+        base.Exit();
+        PlayerSlopeSlidingPivot.Value.localPosition = Vector3.zero;
+        PlayerSlopeSlidingPivot.Value.localRotation = Quaternion.identity;
+    }
+
     private void UpdateVelocity(Vector3 currentVelocity)
     {
         SetMoveDirection();
@@ -51,6 +61,15 @@ public class SlopeSliding : PlayerStateNode
         float slopeFallSpeed = 10f;
         Vector3 fallVelocity = slopeFallSpeed * Vector3.down;
         newVelocity += Vector3.ProjectOnPlane(fallVelocity, GroundingStatus.GroundNormal);
+        
+        //Update slope sliding pivot
+        if (!Mathf.Approximately(newVelocity.magnitude, 0f) &&
+            !Mathf.Approximately(GroundingStatus.GroundNormal.magnitude, 0f) )
+        {
+            PlayerSlopeSlidingPivot.Value.rotation =
+                Quaternion.LookRotation(newVelocity.normalized, GroundingStatus.GroundNormal);
+        }
+        
 
         NewVelocityOut.Value = newVelocity;
     }

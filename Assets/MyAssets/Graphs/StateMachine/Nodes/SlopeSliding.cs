@@ -36,6 +36,8 @@ public class SlopeSliding : PlayerStateNode
     public override void Exit()
     {
         base.Exit();
+        playerController.onStartUpdateVelocity -= UpdateVelocity;
+        playerController.onStartUpdateRotation -= UpdateRotation;
         PlayerSlopeSlidingPivot.Value.localPosition = Vector3.zero;
         PlayerSlopeSlidingPivot.Value.localRotation = Quaternion.identity;
     }

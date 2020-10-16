@@ -12,6 +12,9 @@ GameObject:
   - component: {fileID: 1347907466025638419}
   - component: {fileID: 1347907466025638416}
   - component: {fileID: 5196373470632188137}
+  - component: {fileID: 8083124120096863914}
+  - component: {fileID: 7537005337255702840}
+  - component: {fileID: 6015685415113891940}
   m_Layer: 0
   m_Name: FootStepParticles
   m_TagString: Untagged
@@ -41,7 +44,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1347907466025638417}
   serializedVersion: 6
-  lengthInSec: 5
+  lengthInSec: 2
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -116,8 +119,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.3
-      minScalar: 0.3
+      scalar: 1
+      minScalar: 0.4
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -168,9 +171,9 @@ ParticleSystem:
         m_RotationOrder: 4
     startSpeed:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 0
-      minScalar: 5
+      minMaxState: 3
+      scalar: 2
+      minScalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -660,14 +663,14 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 0
-    angle: 25
+    type: 4
+    angle: 35
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
     donutRadius: 0.2
-    m_Position: {x: 0, y: 0, z: 0}
-    m_Rotation: {x: 0, y: 0, z: 0}
+    m_Position: {x: 0, y: -0.05, z: 0}
+    m_Rotation: {x: 270, y: 0, z: 0}
     m_Scale: {x: 1, y: 1, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
@@ -804,7 +807,7 @@ ParticleSystem:
           m_PostInfinity: 2
           m_RotationOrder: 4
     arc:
-      value: 360
+      value: 180
       mode: 0
       spread: 0
       speed:
@@ -1049,8 +1052,8 @@ ParticleSystem:
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 0.58216006
-          value: 1
+          time: 0.27156046
+          value: 0.9456068
           inSlope: 1.138779
           outSlope: 1.138779
           tangentMode: 0
@@ -2253,7 +2256,7 @@ ParticleSystem:
     enabled: 1
     x:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 0
       minScalar: 0
       maxCurve:
@@ -2306,9 +2309,9 @@ ParticleSystem:
         m_RotationOrder: 4
     y:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 10
-      minScalar: 0
+      minMaxState: 3
+      scalar: 0.5
+      minScalar: 0.75
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2359,7 +2362,7 @@ ParticleSystem:
         m_RotationOrder: 4
     z:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 0
       minScalar: 0
       maxCurve:
@@ -2474,7 +2477,7 @@ ParticleSystem:
       m_Bits: 4294967295
     influenceList: []
   ClampVelocityModule:
-    enabled: 0
+    enabled: 1
     x:
       serializedVersion: 2
       minMaxState: 0
@@ -2695,7 +2698,7 @@ ParticleSystem:
     drag:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 10
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -4892,7 +4895,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f912ad191c9417e94a482c5aaa34397, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Event: {fileID: 0}
+  Event: {fileID: 11400000, guid: 2f7014b96711c054da15c0d11d5b99e7, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8083124120096863914}
+        m_TargetAssemblyTypeName: MyAssets.Scripts.Events.ConditionalEvent, Assembly-CSharp
+        m_MethodName: TryRaise
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &8083124120096863914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1347907466025638417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 023e9cd0a8f31a74e8421cea003064f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FloatConditions:
+  - targetParameter:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: 1c49ebf7ba1267e44aed5b194c8a3d83, type: 2}
+    comparator: 1
+    value: 0.8
+  - targetParameter:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: 3ec0e62e603a6894490cff8904828f72, type: 2}
+    comparator: 1
+    value: 0.95
   Response:
     m_PersistentCalls:
       m_Calls:
@@ -4908,3 +4951,60 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &7537005337255702840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1347907466025638417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 167f43e71a7f42398521d2b0e97eb0f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _particleSystem: {fileID: 1347907466025638419}
+  _startSpeedMultiplier:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 1c49ebf7ba1267e44aed5b194c8a3d83, type: 2}
+  _startLifetimeMultiplier:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 1c49ebf7ba1267e44aed5b194c8a3d83, type: 2}
+--- !u!114 &6015685415113891940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1347907466025638417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3718a7fa08754075b41623c21f2ed2d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _input:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 5c878f8db6decb043a9e07239782f2ef, type: 2}
+  _oldMin:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 07cf6094edc612641adee6eb13f75a11, type: 2}
+  _oldMax:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: bed1c5583490c1646add546ffc59e957, type: 2}
+  _output:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 3ec0e62e603a6894490cff8904828f72, type: 2}
+  _newMin:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  _newMax:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}

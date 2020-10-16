@@ -71,7 +71,7 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
             distance.Value += distanceLastFrame;
 
             walkSpeedFactor.Value = moveVelocity.Value.sqrMagnitude / Mathf.Pow(maxSpeed.Value, 2);
-            walkSpeedFactor.Value = 1 - Math.Max(walkSpeedFactor.Value, minStrideLengthFactor);
+            walkSpeedFactor.Value = Math.Max(walkSpeedFactor.Value, minStrideLengthFactor);
             strideLength.Value = walkSpeedFactor.Value * fullStrideLength.Value;
             cycleLength = 2 * fullStrideLength.Value;
             radius = cycleLength / (2 * Mathf.PI);

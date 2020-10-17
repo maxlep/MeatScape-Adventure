@@ -21,20 +21,32 @@ public class Movement : PlayerStateNode
     
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Horizontal Movement")] [Required]
+    private bool ProjectOnGroundPlane = false;
+
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Horizontal Movement")] [Required]
     private bool EnableFastTurn = true;
     
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
     [TabGroup("Vertical Movement")] [Required]
     private bool EnableVerticalMovement = false;
-    
+
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
     [TabGroup("Horizontal Movement")] [Required]
     private TransformSceneReference PlayerCameraTransform;
 
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Horizontal Movement")] [Required]
-    private FloatReference MoveSpeed;
+    private TimerReference SlopeSlideTimer;
 
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Horizontal Movement")] [Required]
+    private FloatReference MoveSpeed;
+    
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Horizontal Movement")] [Required]
+    private FloatReference SlopeSlowMoveSpeed;
+    
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Horizontal Movement")] [Required]
     private FloatReference TurnSpeed;
@@ -151,8 +163,10 @@ public class Movement : PlayerStateNode
     private bool isFastTurning;
     private Vector3 fastTurnStartDir;
     private Vector3 newDirection;
+    private Vector3 projectedDirection;
     private Vector3 lastMoveInputDirection = Vector3.zero;
     private Vector3 slopeRight;
+    private Vector3 slopeLeft;
     private Vector3 slopeOut;
     private KinematicCharacterMotor characterMotor;
     
@@ -230,17 +244,52 @@ public class Movement : PlayerStateNode
         Vector2 dummyVel = Vector3.zero;
         Vector2 dir = Vector2.SmoothDamp(horizontalVelocity.normalized, moveDirection.xz(),
             ref dummyVel, currentTurnSpeed);
-
+        
         newDirection = new Vector3(dir.x, 0f, dir.y).normalized;
         
+        /********************************************
+         * Get New Move Direction (Project On Slope)
+         ********************************************/
+        if (ProjectOnGroundPlane)
+        {
+
+            //Get the angle between camForward.xz and Vector2.right (For converting to camera-relative space)
+            float cameraForwardAngle = PlayerCameraTransform.Value.forward.xz().AngleOnUnitCircle();
+            
+            slopeRight = Vector3.Cross(Vector3.down, GroundingStatus.GroundNormal).normalized;
+            
+            //Get angle of moveInput on Unit Circle (Degrees from right position)
+            float moveInputAngle = -(MoveInput.Value.AngleOnUnitCircle() + cameraForwardAngle);
+
+            //Rotate the slope right around the slope normal by moveAngle plus camForwardAngle (for cam-relative)
+            projectedDirection = (Quaternion.AngleAxis(moveInputAngle, GroundingStatus.GroundNormal) * slopeRight)
+                .normalized;
+
+            newDirection = projectedDirection;
+        }
+
         /**************************************
          * Get New Move Speed
          **************************************/
 
         //Accelerate/DeAccelerate from current Speed to target speed
         float dummySpeed = 0f;
-        float currentSpeed = currentVelocity.xoz().magnitude;
-        float targetSpeed = MoveInput.Value.magnitude * MoveSpeed.Value;
+        float currentSpeed;
+        float targetSpeed;
+
+        if (ProjectOnGroundPlane)
+        {
+            currentSpeed = currentVelocity.magnitude;
+            targetSpeed = MoveInput.Value.magnitude * Mathf.Lerp(MoveSpeed.Value, SlopeSlowMoveSpeed.Value, 
+                              SlopeSlideTimer.ElapsedTime/SlopeSlideTimer.Duration);
+        }
+        else
+        {
+            currentSpeed = currentVelocity.xoz().magnitude;
+            targetSpeed = MoveInput.Value.magnitude * MoveSpeed.Value;
+        }
+            
+
 
         if (targetSpeed > currentSpeed)
             newSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed,
@@ -387,17 +436,31 @@ public class Movement : PlayerStateNode
         Vector3 startPos = playerController.transform.position;
         Vector3 endPos = playerController.transform.position + newDirection * (newSpeed / MoveSpeed.Value) * 10f;
         Vector3 endPos2 = playerController.transform.position + moveDirection * 10f;
-        Vector3 endPos3 = playerController.transform.position + cachedVelocity.Value.normalized * (cachedVelocity.Value.magnitude / MoveSpeed.Value) * 10f;
+        Vector3 endPos3 = playerController.transform.position + projectedDirection * 10f;
+        Vector3 endPos4 = playerController.transform.position + cachedVelocity.Value.normalized * (cachedVelocity.Value.magnitude / MoveSpeed.Value) * 10f;
+        Vector3 endPos5 = playerController.transform.position + slopeLeft * 10f;
+        Vector3 endPos6 = playerController.transform.position + playerController.GroundingStatus.GroundNormal * 10f;
 
-        Color moveInputColor = isFastTurning ? new Color(1f, 0f, 0f, .35f) : new Color(1f, 1f, 0f, .35f);
-        Color actualMoveColor = new Color(0f, 1f, 0f, .35f);
+        Color actualMoveColor = isFastTurning ? new Color(1f, 0f, 0f, .35f) : new Color(1f, 1f, 0f, .35f);
+        Color moveInputColor = new Color(0f, 1f, 0f, .35f);
+        Color projectedMoveInputColor = new Color(.3f, 1f, .8f, .35f);
         Color cachedVelocityColor = new Color(0f, 0f, 1f, .35f);
+        Color slopeRightColor = Color.magenta;
+        Color groundNormalColor = Color.white;
 
-        Draw.Line(startPos, endPos, moveInputColor);
-        Draw.Line(startPos, endPos2, actualMoveColor);
-        Draw.Line(startPos, endPos3, cachedVelocityColor);
-        Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos, .25f, moveInputColor);
-        Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos2, .25f, actualMoveColor);
-        Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos3, .25f, cachedVelocityColor);
+        Draw.Line(startPos, endPos, actualMoveColor); //Actual move
+        Draw.Line(startPos, endPos2, moveInputColor); //Move Input
+        if (ProjectOnGroundPlane) Draw.Line(startPos, endPos3, projectedMoveInputColor); //Projected Move Input
+        Draw.Line(startPos, endPos4, cachedVelocityColor); //CachedVelocity
+        Draw.Line(startPos, endPos5, slopeRightColor); //Slope Right
+        Draw.Line(startPos, endPos6, groundNormalColor); //Ground Normal
+        
+        
+        Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos, .25f, actualMoveColor);
+        Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos2, .25f, moveInputColor);
+        if (ProjectOnGroundPlane) Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos3, .25f, projectedMoveInputColor);
+        Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos4, .25f, cachedVelocityColor);
+        Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos5, .25f, slopeRightColor);
+        Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos6, .25f, groundNormalColor);
     }
 }

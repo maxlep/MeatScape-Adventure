@@ -11,7 +11,7 @@ public class TimerVariable : ScriptableObject
 {
     [SerializeField] private float duration;
     [ShowInInspector] private float remaingTime;
-    [TextArea] [HideInInlineEditors] public String Description;
+    [TextArea (7, 10)] [HideInInlineEditors] public String Description;
     
     public delegate void OnUpdate_();
     public event OnUpdate_ OnUpdate;
@@ -20,16 +20,26 @@ public class TimerVariable : ScriptableObject
     public float RemainingTime => remaingTime;
     public float ElapsedTime => duration - remaingTime;
 
+    public bool IsStopped => isStopped;
+
     private float startTime = Mathf.NegativeInfinity;
+
+    private bool isStopped = true;
     
     public void StartTimer()
     {
+        isStopped = false;
         startTime = Time.time;
+    }
+
+    public void StopTimer()
+    {
+        isStopped = true;
     }
 
     public void UpdateTime()
     {
-        remaingTime = Mathf.Max(0f, duration - (Time.time - startTime));
+        if (!isStopped) remaingTime = Mathf.Max(0f, duration - (Time.time - startTime));
     }
     
 }
@@ -49,6 +59,7 @@ public class TimerReference
     private float ConstantRemainingTime;
 
     private bool AlwaysTrue => true;
+    private bool isConstantStopped = true;
 
     public float ElapsedTime
     {
@@ -63,6 +74,8 @@ public class TimerReference
             return Mathf.Infinity;
         }
     }
+
+    public bool IsStopped => (UseConstant) ? isConstantStopped : Variable.IsStopped; 
 
     [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [HideIf("UseConstant")] 
     [SerializeField] private TimerVariable Variable;
@@ -116,13 +129,20 @@ public class TimerReference
     public void StartTimer()
     {
         Variable?.StartTimer();
+        isConstantStopped = false;
         startTime = Time.time;
+    }
+
+    public void StopTimer()
+    {
+        Variable?.StopTimer();
+        isConstantStopped = true;
     }
 
     public void UpdateTime()
     {
         Variable?.UpdateTime();
-        ConstantRemainingTime = Mathf.Max(0f, ConstantDuration - (Time.time - startTime));
+        if (!isConstantStopped) ConstantRemainingTime = Mathf.Max(0f, ConstantDuration - (Time.time - startTime));
     }
     
 }

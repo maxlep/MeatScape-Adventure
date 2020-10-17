@@ -55,6 +55,16 @@ namespace MyAssets.Scripts.Utils
                    + Vector3.Project(vec.oyo(), onNormal).Abs()
                    + Vector3.Project(vec.ooz(), onNormal).Abs();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="vec"></param>
+        /// <returns>Return angle in Degrees</returns>
+        public static float AngleOnUnitCircle(this Vector2 vec)
+        {
+            return Mathf.Atan2(vec.y, vec.x) * Mathf.Rad2Deg;
+        }
     }
 
     [Serializable]

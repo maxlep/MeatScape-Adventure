@@ -10,7 +10,7 @@ public class BoolCondition : ITransitionCondition
 {
     [SerializeField] [HideLabel] private BoolReference targetParameter;
     
-    [LabelWidth(40f)] [SerializeField] private bool value;
+    [LabelWidth(40f)] [SerializeField] private bool value = true;
 
     private string parentTransitionName = "";
 

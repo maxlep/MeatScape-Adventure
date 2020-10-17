@@ -29,6 +29,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector2Reference MoveInput;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference JumpPressed;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference RegenerateMeatPressed;
+    [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference IsSlopeSlideValid;
+    [FoldoutGroup("Referenced Outputs")] [SerializeField] private TimerReference SlopeSlideTimer;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference IsGrounded;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference IsOnSlidebleSlope;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private IntReference PlayerCurrentSize;
@@ -172,14 +174,16 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private void UpdateParameters()
     {
         IsGrounded.Value = charMotor.GroundingStatus.IsStableOnGround;
-        IsOnSlidebleSlope.Value = StandingOnSlidebleSlope();
+        IsOnSlidebleSlope.Value = StandingOnSlideableSlope();
+        IsSlopeSlideValid.Value = IsSlopeSlideReady();
+
 
         // animator.SetFloat("HorizontalSpeed", Mathf.Sqrt(Mathf.Pow(NewVelocity.Value.x, 2) + Mathf.Pow(NewVelocity.Value.z, 2)));
         // animator.SetFloat("VerticalVelocity", NewVelocity.Value.y);
         // animator.SetBool("IsGrounded", IsGrounded.Value);
     }
 
-    private bool StandingOnSlidebleSlope()
+    private bool StandingOnSlideableSlope()
     {
         float slopeAngle = Vector3.Angle(GroundingStatus.GroundNormal, Vector3.up);
 
@@ -190,6 +194,24 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
             return true;
 
         return false;
+    }
+
+    private bool IsSlopeSlideReady()
+    {
+        //Stop timer when land on stable ground if not already stopped
+        if (GroundingStatus.IsStableOnGround && !SlopeSlideTimer.IsStopped)
+            SlopeSlideTimer.StopTimer();
+        
+        //Start timer when land on Slope if not already started
+        if (StandingOnSlideableSlope() && SlopeSlideTimer.IsStopped)
+            SlopeSlideTimer.StartTimer();
+        
+        SlopeSlideTimer.UpdateTime();
+
+        if (Mathf.Approximately(SlopeSlideTimer.RemainingTime, 0f))
+            return true;
+        else
+            return false;
     }
 
     private void GetInput()

@@ -19,7 +19,7 @@ namespace MyAssets.Scripts.Events
             foreach (var condition in FloatConditions)
             {
                 var valid = condition.Evaluate(null);
-                Debug.Log(valid);
+                //Debug.Log(valid);
                 if (!valid) return;
             }
 

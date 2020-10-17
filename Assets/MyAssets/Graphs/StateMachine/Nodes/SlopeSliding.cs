@@ -60,7 +60,7 @@ public class SlopeSliding : PlayerStateNode
         newVelocity = Vector3.ProjectOnPlane(newVelocity, slopeOut).xoz();
         
         //Add velocity down slope
-        float slopeFallSpeed = 10f;
+        float slopeFallSpeed = 20f;
         Vector3 fallVelocity = slopeFallSpeed * Vector3.down;
         newVelocity += Vector3.ProjectOnPlane(fallVelocity, GroundingStatus.GroundNormal);
         

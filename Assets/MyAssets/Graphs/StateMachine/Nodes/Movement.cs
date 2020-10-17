@@ -36,7 +36,7 @@ public class Movement : PlayerStateNode
     private TransformSceneReference PlayerCameraTransform;
 
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Horizontal Movement")] [Required]
+    [TabGroup("Horizontal Movement")] [ShowIf("$ProjectOnGroundPlane")] [Required]
     private TimerReference SlopeSlideTimer;
 
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
@@ -44,7 +44,7 @@ public class Movement : PlayerStateNode
     private FloatReference MoveSpeed;
     
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Horizontal Movement")] [Required]
+    [TabGroup("Horizontal Movement")] [ShowIf("$ProjectOnGroundPlane")] [Required]
     private FloatReference SlopeSlowMoveSpeed;
     
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
@@ -213,6 +213,7 @@ public class Movement : PlayerStateNode
         if (EnableVerticalMovement) verticalVelocity = CalculateVerticalVelocity(currentVelocity);
 
         NewVelocityOut.Value = horizontalVelocity + verticalVelocity;
+        
     }
 
     private Vector3 CalculateHorizontalVelocity(Vector3 currentVelocity)
@@ -252,18 +253,22 @@ public class Movement : PlayerStateNode
          ********************************************/
         if (ProjectOnGroundPlane)
         {
-
-            //Get the angle between camForward.xz and Vector2.right (For converting to camera-relative space)
-            float cameraForwardAngle = PlayerCameraTransform.Value.forward.xz().AngleOnUnitCircle();
-            
             slopeRight = Vector3.Cross(Vector3.down, GroundingStatus.GroundNormal).normalized;
             
+            //Signed angle between slope right and camera right (to get camera and slope relative)
+            float slopeRightToCamRight = Vector3.SignedAngle(slopeRight, 
+                PlayerCameraTransform.Value.right.xoz(), Vector3.up);
+            
             //Get angle of moveInput on Unit Circle (Degrees from right position)
-            float moveInputAngle = -(MoveInput.Value.AngleOnUnitCircle() + cameraForwardAngle);
+            float moveInputAngle = MoveInput.Value.AngleOnUnitCircle();
 
-            //Rotate the slope right around the slope normal by moveAngle plus camForwardAngle (for cam-relative)
-            projectedDirection = (Quaternion.AngleAxis(moveInputAngle, GroundingStatus.GroundNormal) * slopeRight)
-                .normalized;
+            //Combine input and slope/relative camera angle
+            float camSlopeRelativeMoveAngle = slopeRightToCamRight - moveInputAngle;
+
+            //Rotate the slope right around the slope normal by camSlopeRelativeMoveAngle
+            //This essentially projects the XZ-bound camSlopeRelativeMoveAngle downwards onto the slope
+            projectedDirection = (Quaternion.AngleAxis(camSlopeRelativeMoveAngle, GroundingStatus.GroundNormal)
+                                  * slopeRight).normalized;
 
             newDirection = projectedDirection;
         }
@@ -452,15 +457,15 @@ public class Movement : PlayerStateNode
         Draw.Line(startPos, endPos2, moveInputColor); //Move Input
         if (ProjectOnGroundPlane) Draw.Line(startPos, endPos3, projectedMoveInputColor); //Projected Move Input
         Draw.Line(startPos, endPos4, cachedVelocityColor); //CachedVelocity
-        Draw.Line(startPos, endPos5, slopeRightColor); //Slope Right
-        Draw.Line(startPos, endPos6, groundNormalColor); //Ground Normal
+        //Draw.Line(startPos, endPos5, slopeRightColor); //Slope Right
+        //Draw.Line(startPos, endPos6, groundNormalColor); //Ground Normal
         
         
         Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos, .25f, actualMoveColor);
         Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos2, .25f, moveInputColor);
         if (ProjectOnGroundPlane) Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos3, .25f, projectedMoveInputColor);
         Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos4, .25f, cachedVelocityColor);
-        Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos5, .25f, slopeRightColor);
-        Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos6, .25f, groundNormalColor);
+        //Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos5, .25f, slopeRightColor);
+        //Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos6, .25f, groundNormalColor);
     }
 }

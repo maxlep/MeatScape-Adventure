@@ -64,16 +64,8 @@ public class SlopeSliding : PlayerStateNode
         Vector3 fallVelocity = slopeFallSpeed * Vector3.down;
         newVelocity += Vector3.ProjectOnPlane(fallVelocity, GroundingStatus.GroundNormal);
         
-        //Update slope sliding pivot
-        if (!Mathf.Approximately(newVelocity.magnitude, 0f) &&
-            !Mathf.Approximately(GroundingStatus.GroundNormal.magnitude, 0f) )
-        {
-            PlayerSlopeSlidingPivot.Value.rotation =
-                Quaternion.LookRotation(newVelocity.normalized, GroundingStatus.GroundNormal);
-        }
-        
-
         NewVelocityOut.Value = newVelocity;
+        UpdateSlopeSlidePivot();
     }
     
     private void UpdateRotation(Quaternion currentRotation)
@@ -87,5 +79,16 @@ public class SlopeSliding : PlayerStateNode
         Quaternion rotOffset = Quaternion.FromToRotation(Vector2.up, camForward);
         Vector2 rotatedMoveInput = rotOffset * MoveInput.Value;
         moveDirection = new Vector3(rotatedMoveInput.x, 0, rotatedMoveInput.y);
+    }
+    
+    private void UpdateSlopeSlidePivot()
+    {
+        if (!Mathf.Approximately(NewVelocityOut.Value.magnitude, 0f) &&
+            !Mathf.Approximately(playerController.GroundingStatus.GroundNormal.magnitude, 0f) )
+        {
+            PlayerSlopeSlidingPivot.Value.rotation =
+                Quaternion.LookRotation(NewVelocityOut.Value.normalized, 
+                    playerController.GroundingStatus.GroundNormal);
+        }
     }
 }

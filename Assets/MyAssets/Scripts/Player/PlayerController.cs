@@ -54,8 +54,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private Vector3 moveDirection;
     private InputAction playerMove;
 
-    private PlayerSize _currentSize;
-    public PlayerSize CurrentSize { get => _currentSize; set => SetPlayerSize(value); }
+    private PlayerSize currentSize;
+    public PlayerSize CurrentSize { get => currentSize; set => SetPlayerSize(value); }
     public KinematicCharacterMotor CharacterMotor => charMotor;
     public CharacterGroundingReport GroundingStatus => charMotor.GroundingStatus;
     public CharacterTransientGroundingReport LastGroundingStatus => charMotor.LastGroundingStatus;
@@ -227,9 +227,9 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     
     private void SetPlayerSize(PlayerSize value) {
         if(value < PlayerSize.Small || value > PlayerSize.Large) return;
-        else _currentSize = value;
+        else currentSize = value;
 
-        int intSize = (int)_currentSize;
+        int intSize = (int)currentSize;
         PlayerCurrentSize.Value = intSize;
 
         LeanTween.scale(sizeChangePivot.Value.gameObject, modelScales[intSize].Value, changeSizeTime.Value / 1000);
@@ -237,7 +237,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         charMotor.SetCapsuleDimensions(capsuleSize.x, capsuleSize.y, capsuleSize.z);
         
         foreach(SizeControlledFloatReference prop in SizeControlledProperties) {
-            prop.UpdateValue(_currentSize);
+            prop.UpdateValue(currentSize);
         }
     }
 

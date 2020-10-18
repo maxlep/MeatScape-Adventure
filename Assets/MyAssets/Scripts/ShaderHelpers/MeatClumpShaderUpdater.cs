@@ -21,14 +21,14 @@ namespace MyAssets.Scripts.ShaderHelpers
             material = renderer.material;
         }
 
-        private void OnCollisionEnter(Collision other)
+        public void StartSplat(RaycastHit hit)
         {
             if (collided) return;
             collided = true;
             
             EffectsManager.Instance.PlayClipAtPoint(splatSound, transform.position);
 
-            material.SetVector("_SplatNormal", other.contacts[0].normal);
+            material.SetVector("_SplatNormal", hit.normal);
 
             LTDescr tween;
             tween = LeanTween.value(0f, 1f, splatTime)

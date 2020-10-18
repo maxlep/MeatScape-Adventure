@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7432549251251677241}
   - component: {fileID: 7432549251251677242}
   - component: {fileID: 7432549251251677243}
-  - component: {fileID: 7432549251251677240}
   - component: {fileID: 7774602094386548014}
   - component: {fileID: 2721376214775091818}
   m_Layer: 10
@@ -30,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 7432549251251677246}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.81586, y: 0.81586, z: 0.81586}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 7432549251703759819}
   m_RootOrder: 0
@@ -84,19 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &7432549251251677240
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7432549251251677246}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.4
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!199 &7774602094386548014
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -4917,9 +4903,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7432549252289664646}
-  - component: {fileID: 7432549252289664647}
   - component: {fileID: 5365356127848418850}
-  - component: {fileID: 7087150075266681460}
+  - component: {fileID: 2487677105210045783}
   - component: {fileID: 2761379462448255299}
   - component: {fileID: 2983765337831966180}
   m_Layer: 10
@@ -4937,29 +4922,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7432549252289664644}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.717, y: 6.96, z: 1.22}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7432549251703759819}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &7432549252289664647
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7432549252289664644}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 1
-  m_Constraints: 0
-  m_CollisionDetection: 2
 --- !u!96 &5365356127848418850
 TrailRenderer:
   serializedVersion: 2
@@ -5067,7 +5036,7 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
---- !u!114 &7087150075266681460
+--- !u!114 &2487677105210045783
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5076,11 +5045,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 7432549252289664644}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e14970e9f2d433e9330efc4385c4a62, type: 3}
+  m_Script: {fileID: 11500000, guid: 95e31fe738e20cf43a894abe0f617ac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stickToHitObject: 1
-  onFreeze:
+  shaderUpdater: {fileID: 2983765337831966180}
+  AbsorbSound: {fileID: 8300000, guid: 7135130fcd7e89144a0124cf71fb516f, type: 3}
+  AbsorbSystem: {fileID: 4914661866783695234, guid: b0593ed99678cfc408cfc27f0afee8ce,
+    type: 3}
+  layerMapper: {fileID: 11400000, guid: 3f0bff594715a77478fbb7703d7b9fc0, type: 2}
+  ClumpReturnSpeed:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 89e98d48232de6a44bd17415994b9dc1, type: 2}
+  ClumpReturnAbsorbDistance:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 527c2c8e7bdb23048953eb3c5932ddf3, type: 2}
+  CollisionRadius:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: e57ead667074734469c85a2b2fadb069, type: 2}
+  CollisionMask:
+    serializedVersion: 2
+    m_Bits: 2049
+  EnemyLayer: 2
+  OnCollideWithStatic:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2761379462448255299}
@@ -5108,7 +5097,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UseGlobalAxis: 0
-  UsePhysics: 1
+  UsePhysics: 0
   RotationAxis: {x: 0, y: 0, z: 1}
   RotSpeed: 100
 --- !u!114 &2983765337831966180

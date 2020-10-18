@@ -35,9 +35,7 @@ public class EnemyController : MonoBehaviour, ICharacterController
 
     public void OnDiscreteCollisionDetected(Collider hitCollider)
     {
-        if(hitCollider.gameObject.layer == layerMapper.GetLayer(LayerEnum.PlayerProjectile)) {
-            DamageEnemy(1);
-        }
+
     }
 
     public void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)

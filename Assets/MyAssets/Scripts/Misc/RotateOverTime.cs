@@ -15,7 +15,11 @@ public class RotateOverTime : MonoBehaviour
 
     private void Awake()
     {
-        if (UsePhysics) rb = GetComponent<Rigidbody>();
+        if (UsePhysics)
+        {
+            rb = GetComponent<Rigidbody>();
+            if (rb == null) Debug.LogError($"Gameobject {gameObject.name} is missing Rigidbody component!");
+        }
     }
 
     private void Update()

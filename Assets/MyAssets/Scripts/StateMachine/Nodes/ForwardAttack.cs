@@ -8,8 +8,7 @@ public class ForwardAttack : PlayerStateNode
 {
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private GameObject ammo;
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference throwDelay;
-    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference forwardForce;
-    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference upwardForce;
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference throwSpeed;
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private BoolReference waitedAttackDelay;
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TransformSceneReference firePoint;
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TransformSceneReference PlayerCameraTransform;
@@ -40,10 +39,9 @@ public class ForwardAttack : PlayerStateNode
         Quaternion startRotation = Quaternion.LookRotation(fireDirection, Vector3.up);
 
         GameObject thrownClump = Instantiate(ammo, firePoint.Value.position, startRotation);
-        Rigidbody clumpRB = thrownClump.GetComponent<Rigidbody>();
-
-        clumpRB.AddForce(fireDirection * forwardForce.Value + Vector3.up * upwardForce.Value);
-    
+        MeatClumpController clumpScript = thrownClump.GetComponent<MeatClumpController>();
+        clumpScript.Initialize(playerController, throwSpeed.Value);
+        
         if(!playerController.unlimitedClumps) playerController.CurrentSize -= 1;
     }
 

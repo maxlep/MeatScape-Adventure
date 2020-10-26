@@ -39,7 +39,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: Pound Driver
-  zoom: 1
+  zoom: 0
   isActiveState: 0
   timer:
     UseConstant: 0
@@ -152,10 +152,10 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- ! Is Grounded_ Controller
+  conditionPreview: '- ! Is Grounded_ Controller_ Player
 
-    - 0  Ignore 0 && 0  Less Than
-    -0.1 && 0  Ignore 0
+    - 0  Ignore 0 && 0 
+    Less Than -0.1 && 0  Ignore 0
 
 '
   ValidStartStates: []
@@ -283,7 +283,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: Fall Driver
-  zoom: 1
+  zoom: 0
   isActiveState: 0
   axis: 1
   inputVelocity:
@@ -400,10 +400,10 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '-  Is Grounded_ Controller
+  conditionPreview: '-  Is Grounded_ Controller_ Player
 
-    - 0  Abs Less Than 0.001 &&
-    0  Ignore 0 && 0  Abs Less Than 0.001
+    - 0  Abs Less Than 0.001
+    && 0  Ignore 0 && 0  Abs Less Than 0.001
 
 '
   ValidStartStates: []
@@ -488,7 +488,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: Fall Sub
-  zoom: 1
+  zoom: 0
   isActiveState: 0
   outputState: {fileID: -283094309726956859}
   subStates:
@@ -574,7 +574,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: Jump Driver
-  zoom: 1
+  zoom: 0
   isActiveState: 0
   axis: 1
   inputVelocity:
@@ -773,7 +773,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: Jump Sequence
-  zoom: 1
+  zoom: 0
   isActiveState: 0
   transitionTime: 0.15
   transitionCurve:
@@ -861,7 +861,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: Fast Walk
-  zoom: 1
+  zoom: 0
   isActiveState: 0
   transitionTime: 0.2
   transitionCurve:
@@ -1055,7 +1055,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: Slow Walk
-  zoom: 1
+  zoom: 0
   isActiveState: 0
   transitionTime: 0.5
   transitionCurve:
@@ -1311,7 +1311,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: Pound Fall
-  zoom: 1
+  zoom: 0
   isActiveState: 0
   transitionTime: 0.1
   transitionCurve:
@@ -1405,10 +1405,10 @@ MonoBehaviour:
       _dynamic: 0
   conditionPreview: '-  Invalid:  Slope  Movement
 
-    - ! Is Grounded_ Controller
+    - ! Is Grounded_ Controller_
+    Player
 
-    -
-    0  Ignore 0 && 0  Less Than -0.1 && 0  Ignore 0
+    - 0  Ignore 0 && 0  Less Than -0.1 && 0  Ignore 0
 
 '
   ValidStartStates: []
@@ -1493,7 +1493,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: Ground Movement Sub
-  zoom: 1
+  zoom: 0
   isActiveState: 0
   outputState: {fileID: 5276580774853976909}
   subStates:
@@ -1581,7 +1581,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: Fall
-  zoom: 1
+  zoom: 0
   isActiveState: 0
   transitionTime: 0.2
   transitionCurve:
@@ -1709,7 +1709,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: Jump
-  zoom: 1
+  zoom: 0
   isActiveState: 0
   outputState: {fileID: -4878098259704040775}
   subStates:
@@ -1754,7 +1754,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: Throw Down Driver
-  zoom: 1
+  zoom: 0
   isActiveState: 0
   timer:
     UseConstant: 0
@@ -2066,7 +2066,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '-  Throw_ Time_ Anim: 0.15 sec
+  conditionPreview: '-  Throw_ Time_ Anim_ Player: 0.15 sec
 
 '
   ValidStartStates: []
@@ -2126,7 +2126,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '-  Jump Trigger_ Anim
+  conditionPreview: '-  Jump Trigger_ Anim_ Player
 
 '
   ValidStartStates: []
@@ -2179,7 +2179,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: Throw Forward
-  zoom: 1
+  zoom: 0
   isActiveState: 0
   transitionTime: 0.05
   transitionCurve:
@@ -2366,7 +2366,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: 'Idle '
-  zoom: 1
+  zoom: 0
   isActiveState: 1
   transitionTime: 0.5
   transitionCurve:
@@ -2523,7 +2523,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: Player Movement Tracker
-  zoom: 1
+  zoom: 0
   isActiveState: 0
   probe: {fileID: 0}
   numFrames: 10
@@ -2571,7 +2571,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: Throw Down Sub
-  zoom: 1
+  zoom: 0
   isActiveState: 0
   outputState: {fileID: 7134807960064310256}
   subStates:
@@ -2760,7 +2760,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: Throw Forward Sub
-  zoom: 1
+  zoom: 0
   isActiveState: 0
   outputState: {fileID: 1466093949299883373}
   subStates:
@@ -2905,7 +2905,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: Ground Movement Mixer
-  zoom: 1
+  zoom: 0
   isActiveState: 0
   transitionTime: 0.2
   transitionCurve:
@@ -3029,7 +3029,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '-  Throw_ Time_ Anim: 0.15 sec
+  conditionPreview: '-  Throw_ Time_ Anim_ Player: 0.15 sec
 
 '
   ValidStartStates: []
@@ -3085,7 +3085,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: Throw Forward Driver
-  zoom: 1
+  zoom: 0
   isActiveState: 0
   timer:
     UseConstant: 0
@@ -3263,7 +3263,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: Pound Stall
-  zoom: 1
+  zoom: 0
   isActiveState: 0
   transitionTime: 0.1
   transitionCurve:
@@ -3501,7 +3501,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: Perambulator
-  zoom: 1
+  zoom: 0
   isActiveState: 0
   moveVelocity:
     Source:
@@ -3618,7 +3618,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: Throw Down
-  zoom: 1
+  zoom: 0
   isActiveState: 0
   transitionTime: 0.05
   transitionCurve:
@@ -3741,7 +3741,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '-  Jump Trigger_ Anim
+  conditionPreview: '-  Jump Trigger_ Anim_ Player
 
 '
   ValidStartStates: []
@@ -3800,7 +3800,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: Slope Sliding
-  zoom: 1
+  zoom: 0
   isActiveState: 0
   transitionTime: 0.15
   transitionCurve:
@@ -3909,7 +3909,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: Pound Stall Sub
-  zoom: 1
+  zoom: 0
   isActiveState: 0
   outputState: {fileID: 5838681636790147171}
   subStates:
@@ -3957,7 +3957,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: Parameter Processor
-  zoom: 1
+  zoom: 0
   isActiveState: 1
   subStates:
   - {fileID: 2707482321196679568}

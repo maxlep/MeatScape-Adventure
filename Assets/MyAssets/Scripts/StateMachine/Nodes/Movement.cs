@@ -246,7 +246,7 @@ public class Movement : PlayerStateNode
         Vector2 dir = Vector2.SmoothDamp(horizontalVelocity.normalized, moveDirection.xz(),
             ref dummyVel, currentTurnSpeed);
         
-        newDirection = new Vector3(dir.x, 0f, dir.y).normalized;
+        newDirection = dir.xoy().normalized;
         
         /********************************************
          * Get New Move Direction (Project On Slope)

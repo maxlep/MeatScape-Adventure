@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using KinematicCharacterController;
 using MyAssets.ScriptableObjects.Variables;
+using MyAssets.Scripts.Player;
 using Shapes;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -21,6 +22,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [SerializeField] private LayerMapper layerMapper;
     [SerializeField] private CapsuleCollider playerCollider;
     [SerializeField] private AudioClip jumpAttackClip;
+    [SerializeField] private AimTargetter aimTargetter;
 
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private Vector3Reference NewVelocity;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private QuaternionReference NewRotation;
@@ -56,6 +58,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     private PlayerSize currentSize;
     public PlayerSize CurrentSize { get => currentSize; set => SetPlayerSize(value); }
+    public Transform AimTarget => aimTargetter.CurrentTarget;
     public KinematicCharacterMotor CharacterMotor => charMotor;
     public CharacterGroundingReport GroundingStatus => charMotor.GroundingStatus;
     public CharacterTransientGroundingReport LastGroundingStatus => charMotor.LastGroundingStatus;

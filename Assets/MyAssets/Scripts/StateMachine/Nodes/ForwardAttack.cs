@@ -3,6 +3,7 @@ using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using MyAssets.Scripts.Utils;
+using Sirenix.Utilities;
 
 public class ForwardAttack : PlayerStateNode
 {
@@ -33,7 +34,11 @@ public class ForwardAttack : PlayerStateNode
     {
         base.Enter();
 
-        Vector3 fireDirection = GetMoveDirection().normalized;
+        var autoAimTarget = playerController.AimTarget;
+        var fireDirection = autoAimTarget.SafeIsUnityNull()
+            ? GetMoveDirection().normalized
+            : (autoAimTarget.position - playerController.transform.position).normalized;
+
         if(Mathf.Approximately(fireDirection.magnitude, 0)) fireDirection = firePoint.Value.forward;
         
         Quaternion startRotation = Quaternion.LookRotation(fireDirection, Vector3.up);

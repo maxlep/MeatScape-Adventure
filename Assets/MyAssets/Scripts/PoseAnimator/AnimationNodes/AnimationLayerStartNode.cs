@@ -31,7 +31,7 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
         {
             base.RuntimeInitialize();
 
-            Debug.Log($"{animatable} {animatable.Value}");
+            // Debug.Log($"{animatable} {animatable.Value}");
             AnimationLayer = new AnimationLayer(base.name, SharedData, defaultPose, isAdditive, layerWeight, layerMask);
             AnimationLayer.Initialize();
             animatable.Value.RegisterAnimationLayer(this);

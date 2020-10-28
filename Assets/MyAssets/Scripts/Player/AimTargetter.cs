@@ -85,7 +85,7 @@ namespace MyAssets.Scripts.Player
             
             // Debug.Log($"{camToTargetRay.sqrMagnitude}|{playerToTargetRay.sqrMagnitude}|{sqrRange}|{distFac}|{target.name}");
 
-            return (camAlignment * distFac) * (1 - distFac) * (playerAlignment * (1 - distFac));
+            return (camAlignment * (1 - distFac)) * (1 - distFac) * (playerAlignment * (1 - distFac));
         }
     }
 }

@@ -1,20 +1,48 @@
-﻿using KinematicCharacterController;
+﻿using System.Collections.Generic;
+using BehaviorDesigner.Runtime;
+using KinematicCharacterController;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using UnityEngine.AI;
 
 [RequireComponent(typeof(KinematicCharacterMotor))]
 public class EnemyController : MonoBehaviour, ICharacterController
 {
+    [SerializeField] private TransformSceneReference playerTransformReference;
     [SerializeField] private KinematicCharacterMotor characterMotor;
+    [SerializeField] private BehaviorTree behaviorTree;
     [SerializeField] private LayerMapper layerMapper;
     [SerializeField, SuffixLabel("m/s^2", Overlay = true)] private float Gravity = 10f;
     [SerializeField] private int MaxHealth = 1;
     [SerializeField] private GameObject deathParticles;
-
+    
+    public Vector3 SetNewVelocity
+    {
+        set => newVelocity = value;
+    } 
+    
+    public Quaternion SetNewRotation
+    {
+        set => newRotation = value;
+    }
+    
     public delegate void OnDeath_();
     public event OnDeath_ OnDeath;
+    public delegate void _OnStartUpdateVelocity(Vector3 currentVelocity);
+    public delegate void _OnStartUpdateRotation(Quaternion currentRotation);
+    public event _OnStartUpdateVelocity onStartUpdateVelocity;
+    public event _OnStartUpdateRotation onStartUpdateRotation;
 
     private int health;
+    private Vector3 newVelocity;
+    private Quaternion newRotation;
+
+    public void Initialize(List<Transform> patrolPoints)
+    {
+        behaviorTree.SetVariableValue("CurrentPath", patrolPoints);
+        behaviorTree.SetVariableValue("PlayerTransform", playerTransformReference.Value);
+        behaviorTree.EnableBehavior();
+    }
 
     #region Unity Methods
 
@@ -40,14 +68,14 @@ public class EnemyController : MonoBehaviour, ICharacterController
 
     public void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
     {
-        //Gravity
-        if (!characterMotor.GroundingStatus.IsStableOnGround)
-            currentVelocity.y = currentVelocity.y - (Gravity * Time.deltaTime);
+        if (onStartUpdateVelocity != null) onStartUpdateVelocity.Invoke(currentVelocity);
+        currentVelocity = newVelocity;
     }
 
     public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
     {
-
+        if (onStartUpdateRotation != null) onStartUpdateRotation.Invoke(currentRotation);
+        currentRotation = newRotation;
     }
 
     public bool IsColliderValidForCollisions(Collider coll)

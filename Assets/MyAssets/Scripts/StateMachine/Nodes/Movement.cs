@@ -202,7 +202,7 @@ public class Movement : PlayerStateNode
         playerController.onStartUpdateRotation -= UpdateRotation;
     }
 
-    private void UpdateVelocity(Vector3 currentVelocity)
+    private void UpdateVelocity(Vector3 currentVelocity, Vector3 addVelocity)
     {
         SetMoveDirection();
 

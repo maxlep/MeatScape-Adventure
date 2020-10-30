@@ -54,7 +54,7 @@ namespace MyAssets.Scripts.Utils
 
         public static Vector3 ProjectComponents(this Vector3 vec, Vector3 onNormal)
         {
-            return Vector3.Project(vec.xoo(), onNormal).Abs()
+            return   Vector3.Project(vec.xoo(), onNormal).Abs()
                    + Vector3.Project(vec.oyo(), onNormal).Abs()
                    + Vector3.Project(vec.ooz(), onNormal).Abs();
         }
@@ -67,6 +67,13 @@ namespace MyAssets.Scripts.Utils
         public static float AngleOnUnitCircle(this Vector2 vec)
         {
             return Mathf.Atan2(vec.y, vec.x) * Mathf.Rad2Deg;
+        }
+
+        public static Vector2 GetRelative(this Vector2 v1, Vector2 v2)
+        {
+            Quaternion rotationOffset = Quaternion.FromToRotation(Vector2.up, v1);
+            Vector2 v2Relative = rotationOffset * v2;
+            return v2Relative;
         }
     }
 

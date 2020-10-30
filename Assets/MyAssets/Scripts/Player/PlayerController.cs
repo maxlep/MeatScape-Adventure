@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using KinematicCharacterController;
 using MyAssets.ScriptableObjects.Variables;
 using MyAssets.Scripts.Player;
+using MyAssets.Scripts.Utils;
 using Shapes;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -41,6 +42,9 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable DownwardAttackTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable GroundPoundTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable JumpAttackTrigger;
+    
+    [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference ClumpThrowKnockbackSpeed;
+    [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference ClumpReturnKnockbackSpeed;
 
     [FoldoutGroup("Size Parameters")] [SerializeField] private TransformSceneReference sizeChangePivot;
     [FoldoutGroup("Size Parameters")] [SerializeField] private PlayerSize startSize;
@@ -65,7 +69,9 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private Vector3Reference[] modelScales;
     private Vector3 capsuleProportions;
 
-    public delegate void _OnStartUpdateVelocity(Vector3 currentVelocity);
+    private Vector3 addVelocity;
+
+    public delegate void _OnStartUpdateVelocity(Vector3 currentVelocity, Vector3 addVelocity);
     public delegate void _OnStartUpdateRotation(Quaternion currentRotation);
     public event _OnStartUpdateVelocity onStartUpdateVelocity;
     public event _OnStartUpdateRotation onStartUpdateRotation;
@@ -121,9 +127,12 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     public void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
     {
-        if (onStartUpdateVelocity != null) onStartUpdateVelocity.Invoke(currentVelocity);
+        if (onStartUpdateVelocity != null) onStartUpdateVelocity.Invoke(currentVelocity, addVelocity);
+        
+        if (addVelocity.RoundNearZero() != Vector3.zero) Debug.Log($"Current: {currentVelocity}, Add: {addVelocity}, New {NewVelocity.Value}");
 
         currentVelocity = NewVelocity.Value;
+        addVelocity = Vector3.zero;
 
         if (!Mathf.Approximately(StoredJumpVelocity.Value, 0f))
         {
@@ -172,6 +181,30 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         // This is called by the motor when it is detecting a collision that did not result from a "movement hit".
     }
 
+    #endregion
+    
+    #region Player Controller Interface
+    public void ReturnClump(Vector3 direction)
+    {
+        if (!unlimitedClumps) CurrentSize += 1;
+        AddVelocity(direction * ClumpReturnKnockbackSpeed.Value);
+    }
+
+    public void SpendClump(Vector3 direction)
+    {
+        if (!unlimitedClumps) CurrentSize -= 1;
+        AddVelocity(-direction * ClumpThrowKnockbackSpeed.Value);
+    }
+
+    public void GiveThrowKnockback(Vector3 direction)
+    {
+        AddVelocity(direction * ClumpThrowKnockbackSpeed.Value);
+    }
+    
+    private void AddVelocity(Vector3 addVelocity)
+    {
+        this.addVelocity = addVelocity;
+    }
     #endregion
 
     private void UpdateParameters()

@@ -42,7 +42,7 @@ public class SlopeSliding : PlayerStateNode
         PlayerSlopeSlidingPivot.Value.localRotation = Quaternion.identity;
     }
 
-    private void UpdateVelocity(Vector3 currentVelocity)
+    private void UpdateVelocity(Vector3 currentVelocity, Vector3 addVelocity)
     {
         SetMoveDirection();
         

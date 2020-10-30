@@ -25,8 +25,6 @@ public class MoveKCC : Action
 		base.OnStart();
 		path = new NavMeshPath();
 		
-		//EnemyController.Value.onStartUpdateVelocity += UpdateVelocity;
-		//EnemyController.Value.onStartUpdateRotation += UpdateRotation;
 	}
 
 	public override TaskStatus OnUpdate()
@@ -34,23 +32,27 @@ public class MoveKCC : Action
 		//TODO: Dont calulcate path every cycle
 		Agent.Value.SetDestination(Target.Value.position);
 		path = Agent.Value.path;
+		if (path.status != NavMeshPathStatus.PathComplete)
+			path = null;
+		else
+		{
+			for (int i = 0; i < path.corners.Length - 1; i++)
+				Debug.DrawLine(path.corners[i], path.corners[i + 1], Color.red);
+		}
 
-		for (int i = 0; i < path.corners.Length - 1; i++)
-			Debug.DrawLine(path.corners[i], path.corners[i + 1], Color.red);
-		
-		UpdateVelocity(Vector3.one);
-		UpdateRotation(Quaternion.identity);
+
+		UpdateVelocity();
+		UpdateRotation();
 		return TaskStatus.Success;
 	}
 
 	public override void OnEnd()
 	{
 		base.OnEnd();
-		//EnemyController.Value.onStartUpdateVelocity -= UpdateVelocity;
-		//EnemyController.Value.onStartUpdateRotation -= UpdateRotation;
+
 	}
 
-	public void UpdateVelocity(Vector3 currentVelocity)
+	public void UpdateVelocity()
 	{
 		Vector3 dirToTarget;
 		if (path != null && path.corners.Length > 1)
@@ -61,7 +63,7 @@ public class MoveKCC : Action
 		NewVelocity.Value = dirToTarget * 3f;
 	}
 
-	public void UpdateRotation(Quaternion currentRotation)
+	public void UpdateRotation()
 	{
 		Vector3 dirToTarget = (Target.Value.position - transform.position).normalized;
 		

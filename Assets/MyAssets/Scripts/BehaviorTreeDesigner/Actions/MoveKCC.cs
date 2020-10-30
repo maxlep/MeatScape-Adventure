@@ -58,7 +58,7 @@ public class MoveKCC : Action
 		else
 			dirToTarget = Vector3.zero;
 
-		NewVelocity.Value = dirToTarget * 3f + Vector3.down * 5f;
+		NewVelocity.Value = dirToTarget * 3f;
 	}
 
 	public void UpdateRotation(Quaternion currentRotation)

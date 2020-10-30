@@ -22,7 +22,7 @@ public class Pound : PlayerStateNode
         playerController.onStartUpdateVelocity -= UpdateVelocity;
     }
     
-    private void UpdateVelocity(Vector3 currentVelocity)
+    private void UpdateVelocity(Vector3 currentVelocity, Vector3 addVelocity)
     {
         currentVelocity = Vector3.down * PoundSpeed.Value;
 

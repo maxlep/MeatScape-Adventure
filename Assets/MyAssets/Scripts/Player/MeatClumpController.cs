@@ -67,8 +67,9 @@ public class MeatClumpController : MonoBehaviour
             }
             else
             {
-                if (shaderUpdater != null) shaderUpdater.StartSplat(hit);
-                OnCollideWithStatic.Invoke();
+                // if (shaderUpdater != null) shaderUpdater.StartSplat(hit);
+                // OnCollideWithStatic.Invoke();
+                returningToPlayer = true;
             }
         }
     }
@@ -84,6 +85,8 @@ public class MeatClumpController : MonoBehaviour
             Vector3 targetPos = playerController.transform.position;
             transform.position = Vector3.MoveTowards(transform.position, targetPos, 
                 ClumpReturnSpeed.Value * Time.deltaTime);
+            
+            transform.rotation = Quaternion.LookRotation(targetPos - transform.position, transform.up);
 
             //Check if close enough for player to absorb
             float distanceSqrToPlayer = (targetPos - transform.position).sqrMagnitude;
@@ -96,7 +99,7 @@ public class MeatClumpController : MonoBehaviour
 
     private void OnAbsorb()
     {
-        playerController.CurrentSize += 1;
+        playerController.ReturnClump(transform.forward);
         
         if (AbsorbSound != null)
             EffectsManager.Instance?.PlayClipAtPoint(AbsorbSound, transform.position, .6f);

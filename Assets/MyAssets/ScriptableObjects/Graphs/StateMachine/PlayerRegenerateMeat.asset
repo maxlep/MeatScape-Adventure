@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Name: RegenerateMeat -> No Regenerate
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 920, y: 1544}
+  position: {x: 904, y: 1560}
   ports:
     keys:
     - startingState
@@ -207,10 +207,13 @@ MonoBehaviour:
       _dynamic: 0
   conditionPreview: '-  Invalid:  Ground  Movement
 
+    -  Invalid:  Roll  Movement
+
 '
   ValidStartStates: []
   InvalidStartStates:
   - {fileID: -1108589282178386599, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  - {fileID: 4966931143862885706, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   BoolConditions: []
   TriggerConditions: []
   FloatConditions: []
@@ -261,9 +264,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- ! Regenerate Meat Pressed_ Controller_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -345,15 +346,12 @@ MonoBehaviour:
       _dynamic: 0
   conditionPreview: '-  Valid:  Ground  Movement
 
-    -  Regenerate Meat Pressed_
-    Controller_ Player
-
-    -  Player Current Size_ Controller_ Player  Less Than
-    2
+    -  Valid:  Roll  Movement
 
 '
   ValidStartStates:
   - {fileID: -1108589282178386599, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  - {fileID: 4966931143862885706, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   InvalidStartStates: []
   BoolConditions:
   - targetParameter:
@@ -483,7 +481,7 @@ MonoBehaviour:
   m_Name: RegenerateMeat -> No Regenerate
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 904, y: 1000}
+  position: {x: 904, y: 984}
   ports:
     keys:
     - nextState

@@ -20,8 +20,7 @@ public class InputManager : MonoBehaviour
     public delegate void _OnLoad();
     public delegate void _OnJump_Pressed();
     public delegate void _OnJump_Released();
-    public delegate void _OnRegenerateMeat_Pressed();
-    public delegate void _OnRegenerateMeat_Released();
+    public delegate void _OnCalllMeatClump();
     public delegate void _OnPauseGame();
     public delegate void _OnBackspace();
     public delegate void _OnFrameForward();
@@ -41,8 +40,7 @@ public class InputManager : MonoBehaviour
     public event _OnLoad onLoad;
     public event _OnJump_Pressed onJump_Pressed;
     public event _OnJump_Released onJump_Released;
-    public event _OnRegenerateMeat_Pressed onRegenerateMeat_Pressed;
-    public event _OnRegenerateMeat_Released onRegenerateMeat_Released;
+    public event _OnCalllMeatClump onCallMeatClump;
     public event _OnPauseGame onPauseGame;
     public event _OnBackspace onBackspace;
     public event _OnFrameForward onFrameForward;
@@ -92,15 +90,11 @@ public class InputManager : MonoBehaviour
         playerMove = playerActions.FindAction("Move");
         playerLook = playerActions.FindAction("Look");
         playerJump = playerActions.FindAction("Jump");
-        playerRegenerateMeat = playerActions.FindAction("RegenerateMeat");
         mousePosition = uiActions.FindAction("MousePosition");
         playerActions.Disable();
         
         playerJump.performed += OnJump_Pressed;
         playerJump.canceled += OnJump_Released;
-
-        playerRegenerateMeat.started += OnRegenerateMeat_Pressed;
-        playerRegenerateMeat.canceled += OnRegenerateMeat_Released;
     }
 
     void Start()
@@ -178,6 +172,11 @@ public class InputManager : MonoBehaviour
     {
         if (onLoad != null) onLoad();
     }
+
+    public void OnCallMeatClump()
+    {
+        if (onCallMeatClump != null) onCallMeatClump();
+    }
     
     public void OnJump_Pressed(InputAction.CallbackContext ctx)
     {
@@ -187,16 +186,6 @@ public class InputManager : MonoBehaviour
     public void OnJump_Released(InputAction.CallbackContext ctx)
     {
         if (onJump_Released != null) onJump_Released();
-    }
-    
-    public void OnRegenerateMeat_Pressed(InputAction.CallbackContext ctx)
-    {
-        if (onRegenerateMeat_Pressed != null) onRegenerateMeat_Pressed();
-    }
-
-    public void OnRegenerateMeat_Released(InputAction.CallbackContext ctx)
-    {
-        if (onRegenerateMeat_Released != null) onRegenerateMeat_Released();
     }
 
     public void OnPauseGame()

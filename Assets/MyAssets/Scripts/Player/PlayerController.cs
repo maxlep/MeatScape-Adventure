@@ -21,9 +21,10 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 {
     [SerializeField] private KinematicCharacterMotor charMotor;
     [SerializeField] private LayerMapper layerMapper;
-    [SerializeField] private CapsuleCollider playerCollider;
+    public CapsuleCollider Collider;
     [SerializeField] private AudioClip jumpAttackClip;
     [SerializeField] private AimTargetter aimTargetter;
+    [SerializeField] private Transform meatClumpContainer;
 
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private Vector3Reference NewVelocity;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private QuaternionReference NewRotation;
@@ -31,7 +32,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference MaxSlopeSlideAngle;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector2Reference MoveInput;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference JumpPressed;
-    [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference RegenerateMeatPressed;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference IsSlopeSlideValid;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private TimerReference SlopeSlideTimer;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference IsGrounded;
@@ -42,7 +42,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable DownwardAttackTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable GroundPoundTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable JumpAttackTrigger;
-    
+    [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable CallMeatClump;
+
     [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference ClumpThrowKnockbackSpeed;
     [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference ClumpReturnKnockbackSpeed;
 
@@ -68,6 +69,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     public CharacterTransientGroundingReport LastGroundingStatus => charMotor.LastGroundingStatus;
     private Vector3Reference[] modelScales;
     private Vector3 capsuleProportions;
+    private MeatClumpController[] meatClumps;
 
     private Vector3 addVelocity;
 
@@ -89,13 +91,17 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         playerMove = InputManager.Instance.GetPlayerMove_Action();
         InputManager.Instance.onJump_Pressed += () => JumpPressed.Value = true;
         InputManager.Instance.onJump_Released += () => JumpPressed.Value = false;
-        InputManager.Instance.onRegenerateMeat_Pressed += () => RegenerateMeatPressed.Value = true;
-        InputManager.Instance.onRegenerateMeat_Released += () => RegenerateMeatPressed.Value = false;
 
         InputManager.Instance.onJump_Pressed += () => JumpTrigger.Activate();
         InputManager.Instance.onAttack += () => AttackTrigger.Activate();
         InputManager.Instance.onDownwardAttack += () => DownwardAttackTrigger.Activate();
         InputManager.Instance.onGroundPound += () => GroundPoundTrigger.Activate();
+        InputManager.Instance.onCallMeatClump += () => CallMeatClump.Activate();
+
+        meatClumps = meatClumpContainer.GetComponentsInChildren<MeatClumpController>(true);
+        foreach(MeatClumpController meatClump in meatClumps) {
+            meatClump.SetPlayerController(this);
+        }
 
         modelScales = new Vector3Reference[] {smallModelScale, mediumModelScale, largeModelScale};
         capsuleProportions = new Vector3(charMotor.Capsule.radius, charMotor.Capsule.height, charMotor.Capsule.center.y);
@@ -277,6 +283,32 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         }
     }
 
+    public MeatClumpController DetachClump() {
+        foreach(MeatClumpController meatClump in meatClumps) {
+            if(meatClump.transform.parent != null) {
+                meatClump.transform.parent = null;
+                meatClump.gameObject.SetActive(true);
+                return meatClump;
+            }
+        }
+        return null;
+    }
+
+    public void RecallClump() {
+        foreach(MeatClumpController meatClump in meatClumps) {
+            if(meatClump.transform.parent == null) {
+                meatClump.SetReturnToPlayer();
+                return;
+            }
+        }
+    }
+
+    public void AbsorbClump(MeatClumpController clump) {
+        clump.transform.parent = meatClumpContainer;
+        clump.gameObject.SetActive(false);
+        this.CurrentSize++;
+    }
+
     private void OnTriggerStay(Collider other) {
         GameObject otherGameObject = other.gameObject;
         if(otherGameObject.layer == layerMapper.GetLayer(LayerEnum.EnemyJumpTrigger))
@@ -290,7 +322,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         EnemyJumpHurtTrigger enemyController = enemyObject.GetComponent<EnemyJumpHurtTrigger>();
         if (enemyController == null) return;
             
-        float playerBottomY = playerCollider.bounds.center.y - playerCollider.bounds.extents.y;
+        float playerBottomY = Collider.bounds.center.y - Collider.bounds.extents.y;
         float enemyTriggerBottomY = enemyCollider.bounds.center.y - enemyCollider.bounds.extents.y;
              
         //Only jump attack if player is above bottom of enemy trigger and falling downwards

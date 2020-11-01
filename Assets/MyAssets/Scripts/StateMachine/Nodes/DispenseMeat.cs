@@ -33,11 +33,15 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 moveDir = FirePoint.Value.forward;
             }
             var fireDir = ((Vector3.down * 0.3f) - moveDir).normalized;
-            var fireRot = Quaternion.LookRotation(fireDir, Vector3.up);
+            // var fireRot = Quaternion.LookRotation(fireDir, Vector3.up);
 
-            GameObject thrown = Instantiate(Ammo, FirePoint.Value.position + Vector3.up, fireRot);
-            MeatClumpController clump = thrown.GetComponent<MeatClumpController>();
-            clump.Initialize(playerController, ThrowSpeed.Value);
+            // GameObject thrown = Instantiate(Ammo, FirePoint.Value.position + Vector3.up, fireRot);
+            // MeatClumpController clump = thrown.GetComponent<MeatClumpController>();
+            // clump.Initialize(playerController, ThrowSpeed.Value);
+
+            MeatClumpController clump = playerController.DetachClump();
+            clump.transform.position = FirePoint.Value.position + Vector3.up;
+            clump.SetMoving(ThrowSpeed.Value, fireDir);
             
             playerController.SpendClump(-moveDir);
         }

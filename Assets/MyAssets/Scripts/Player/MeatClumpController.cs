@@ -23,29 +23,55 @@ public class MeatClumpController : MonoBehaviour
     
     [SerializeField] private LayerMapper layerMapper;
     [SerializeField] private FloatReference ClumpReturnSpeed;
-    [SerializeField] private FloatReference ClumpReturnAbsorbDistance;
     [SerializeField] private FloatReference CollisionRadius;
     [SerializeField] private LayerMask CollisionMask;
-    [SerializeField] private LayerEnum EnemyLayer;
+    [SerializeField] private LayerMask PlayerCollisionMask;
     [SerializeField] private UnityEvent OnCollideWithStatic;
+    [SerializeField] private UnityEvent OnSetMoving;
 
     private PlayerController playerController;
+
     private float speed;
     private bool hasCollided = false;
-    private bool returningToPlayer = false;
-    
-    public void Initialize(PlayerController playerController, float speed)
-    {
+    private Collider target;
+    private LayerMask currentCollisionMask;
+
+    public void SetPlayerController(PlayerController playerController) {
         this.playerController = playerController;
+    }
+
+    private void SetMoving(float speed) {
+        this.hasCollided = false;
         this.speed = speed;
+        this.currentCollisionMask = CollisionMask;
+        if (shaderUpdater != null) shaderUpdater.ReverseSplat();
+        OnSetMoving.Invoke();
+    }
+
+    public void SetMoving(float speed, Vector3 direction) {
+        this.SetMoving(speed);
+        this.transform.forward = direction.normalized;
+        this.target = null;
+    }
+
+    public void SetMoving(float speed, Collider target) {
+        this.SetMoving(speed);
+        this.target = target;
+    }
+
+    public void SetReturnToPlayer() {
+        this.SetMoving(ClumpReturnSpeed.Value, playerController.Collider);
+        this.currentCollisionMask = PlayerCollisionMask;
     }
 
     private void Update()
     {
-        float deltaDistance = speed * Time.deltaTime;
+        float deltaDistance = this.speed * Time.deltaTime;
         
-        if (!hasCollided) HandleCollisions(deltaDistance);
-        Move(deltaDistance);
+        if (!hasCollided) {
+            HandleCollisions(deltaDistance);
+            Move(deltaDistance);
+        }
     }
 
     private void HandleCollisions(float deltaDistance)
@@ -53,60 +79,47 @@ public class MeatClumpController : MonoBehaviour
         //SphereCast from current pos to next pos and check for collisions
         RaycastHit hit;
         if (Physics.SphereCast(transform.position, CollisionRadius.Value, transform.forward,
-            out hit, deltaDistance, CollisionMask))
+            out hit, deltaDistance, currentCollisionMask))
         {
-            hasCollided = true;
+            this.hasCollided = true;
             transform.position += transform.forward * hit.distance;
-            
+
             GameObject hitObj = hit.collider.gameObject;
-            if (hitObj.layer == layerMapper.GetLayer(EnemyLayer))
-            {
+            if(hitObj.layer == layerMapper.GetLayer(LayerEnum.Enemy)) {
                 EnemyController enemyScript = hitObj.GetComponent<EnemyController>();
                 enemyScript.DamageEnemy(1);
-                returningToPlayer = true;
+                this.SetReturnToPlayer();
+                return;
             }
-            else
-            {
-                // if (shaderUpdater != null) shaderUpdater.StartSplat(hit);
-                // OnCollideWithStatic.Invoke();
-                returningToPlayer = true;
+
+            if(hitObj.layer == layerMapper.GetLayer(LayerEnum.Player)) {
+                ReabsorbIntoPlayer();
+                return;
             }
+            
+            //Static object hit
+            if (shaderUpdater != null) shaderUpdater.StartSplat(hit);
+            OnCollideWithStatic.Invoke();
+            
         }
     }
 
     private void Move(float deltaDistance)
     {
-        if (!hasCollided)
-        {
-            transform.position += transform.forward * deltaDistance;
+        if(target != null) {
+            transform.forward = target.bounds.center - transform.position;
         }
-        else if (returningToPlayer)
-        {
-            Vector3 targetPos = playerController.transform.position;
-            transform.position = Vector3.MoveTowards(transform.position, targetPos, 
-                ClumpReturnSpeed.Value * Time.deltaTime);
-            
-            transform.rotation = Quaternion.LookRotation(targetPos - transform.position, transform.up);
-
-            //Check if close enough for player to absorb
-            float distanceSqrToPlayer = (targetPos - transform.position).sqrMagnitude;
-            if (distanceSqrToPlayer < ClumpReturnAbsorbDistance.Value)
-            {
-                OnAbsorb();
-            }
-        }
+        transform.position += transform.forward * deltaDistance;
     }
 
-    private void OnAbsorb()
+    private void ReabsorbIntoPlayer()
     {
-        playerController.ReturnClump(transform.forward);
-        
+        playerController.AbsorbClump(this);
+
         if (AbsorbSound != null)
             EffectsManager.Instance?.PlayClipAtPoint(AbsorbSound, transform.position, .6f);
         
         if (AbsorbSystem != null)
             EffectsManager.Instance?.SpawnParticlesAtPoint(AbsorbSystem, transform.position, Quaternion.identity);
-        
-        Destroy(gameObject);
     }
 }

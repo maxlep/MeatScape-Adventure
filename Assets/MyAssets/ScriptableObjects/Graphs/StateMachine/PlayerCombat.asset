@@ -47,7 +47,6 @@ MonoBehaviour:
   Name: Forward Throw
   zoom: 0
   isActiveState: 0
-  ammo: {fileID: 7432549252289664644, guid: f257932619900ee48a82e1b4e73d5325, type: 3}
   throwDelay:
     UseConstant: 0
     ConstantValue: 0
@@ -357,6 +356,14 @@ MonoBehaviour:
     - 
     Valid:  No Low Jump
 
+    -  Waited Attack Delay_ Combat_ Player
+
+    -  Attack
+    Trigger_ Controller_ Player
+
+    -  Player Current Size_ Controller_ Player 
+    Greater Than 0
+
 '
   ValidStartStates:
   - {fileID: -1108589282178386599, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
@@ -429,6 +436,14 @@ MonoBehaviour:
   conditionPreview: '-  Valid:  Air  Movement
 
     -  Valid:  No Low Jump
+
+    - 
+    Waited Attack Delay_ Combat_ Player
+
+    -  Downward Attack Trigger_ Controller_
+    Player
+
+    -  Player Current Size_ Controller_ Player  Greater Than 0
 
 '
   ValidStartStates:
@@ -554,4 +569,4 @@ MonoBehaviour:
   BypassState: 0
   Name: DoNothing
   zoom: 0
-  isActiveState: 1
+  isActiveState: 0

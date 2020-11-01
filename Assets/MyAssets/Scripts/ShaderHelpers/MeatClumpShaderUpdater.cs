@@ -23,8 +23,8 @@ namespace MyAssets.Scripts.ShaderHelpers
 
         public void StartSplat(RaycastHit hit)
         {
-            if (collided) return;
-            collided = true;
+            // if (collided) return;
+            // collided = true;
             
             EffectsManager.Instance.PlayClipAtPoint(splatSound, transform.position);
 
@@ -36,19 +36,19 @@ namespace MyAssets.Scripts.ShaderHelpers
                 .setOnUpdate((float value) =>
                 {
                     material.SetFloat("_SplatFac", value);
-                })
-                .setOnComplete(() =>
+                });
+        }
+
+        public void ReverseSplat()
+        {
+            // material.SetVector("_SplatNormal", hit.normal);
+
+            LTDescr tween;
+            tween = LeanTween.value(1f, 0f, splatTime)
+                .setEase(LeanTweenType.easeOutElastic)
+                .setOnUpdate((float value) =>
                 {
-                    tween = LeanTween.value(0f, 1f, fadeTime)
-                        .setEase(LeanTweenType.easeInQuad)
-                        .setOnUpdate((float value) =>
-                        {
-                            material.SetFloat("_FadeFac", value);
-                        })
-                        .setOnComplete(() =>
-                        {
-                            Destroy(gameObject);
-                        });
+                    material.SetFloat("_SplatFac", value);
                 });
         }
     }

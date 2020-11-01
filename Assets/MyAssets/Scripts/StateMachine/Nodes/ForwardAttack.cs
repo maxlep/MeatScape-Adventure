@@ -7,7 +7,6 @@ using Sirenix.Utilities;
 
 public class ForwardAttack : PlayerStateNode
 {
-    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private GameObject ammo;
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference throwDelay;
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference throwSpeed;
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private BoolReference waitedAttackDelay;
@@ -40,12 +39,10 @@ public class ForwardAttack : PlayerStateNode
             : (autoAimTarget.position - playerController.transform.position).normalized;
 
         if(Mathf.Approximately(fireDirection.magnitude, 0)) fireDirection = firePoint.Value.forward;
-        
-        Quaternion startRotation = Quaternion.LookRotation(fireDirection, Vector3.up);
 
-        GameObject thrownClump = Instantiate(ammo, firePoint.Value.position, startRotation);
-        MeatClumpController clumpScript = thrownClump.GetComponent<MeatClumpController>();
-        clumpScript.Initialize(playerController, throwSpeed.Value);
+        MeatClumpController clump = playerController.DetachClump();
+        clump.transform.position = firePoint.Value.position;
+        clump.SetMoving(throwSpeed.Value, fireDirection);
         
         if(!playerController.unlimitedClumps) playerController.CurrentSize -= 1;
     }

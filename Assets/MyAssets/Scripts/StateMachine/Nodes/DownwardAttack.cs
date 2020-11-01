@@ -19,13 +19,11 @@ public class DownwardAttack : PlayerStateNode
     public override void Enter()
     {
         base.Enter();
-
-        Quaternion startRotation = Quaternion.LookRotation(-firePoint.Value.up, firePoint.Value.forward);
-
-        GameObject thrownClump = Instantiate(ammo, firePoint.Value.position, startRotation);
-        MeatClumpController clumpScript = thrownClump.GetComponent<MeatClumpController>();
-        clumpScript.Initialize(playerController, throwSpeed.Value);
-
+        
+        MeatClumpController clump = playerController.DetachClump();
+        clump.transform.position = firePoint.Value.position;
+        clump.SetMoving(throwSpeed.Value, -firePoint.Value.up);
+        
         if(!playerController.unlimitedClumps) playerController.CurrentSize -= 1;
     }
 

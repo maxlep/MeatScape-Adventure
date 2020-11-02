@@ -40,7 +40,7 @@ public class ForwardAttack : PlayerStateNode
 
         if(Mathf.Approximately(fireDirection.magnitude, 0)) fireDirection = firePoint.Value.forward;
 
-        MeatClumpController clump = playerController.DetachClump();
+        MeatClumpController clump = playerController.DetachClump(fireDirection);
         clump.transform.position = firePoint.Value.position;
         clump.SetMoving(throwSpeed.Value, fireDirection);
         

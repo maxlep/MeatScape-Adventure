@@ -193,12 +193,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- ! Is Grounded_ Controller_ Player
-
-    - 0  Ignore 0 && 0 
-    Less Than -0.1 && 0  Ignore 0
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -441,12 +436,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '-  Is Grounded_ Controller_ Player
-
-    - 0  Abs Less Than 0.001
-    && 0  Ignore 0 && 0  Abs Less Than 0.001
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -670,7 +660,7 @@ MonoBehaviour:
   BypassState: 1
   Name: Roll Movement
   zoom: 0
-  isActiveState: 1
+  isActiveState: 0
   transitionTime: 0.05
   transitionCurve:
     serializedVersion: 2
@@ -1185,7 +1175,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Roll Perambulator
   zoom: 0
-  isActiveState: 1
+  isActiveState: 0
   moveVelocity:
     Source:
       UseConstant: 0
@@ -1609,11 +1599,6 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   conditionPreview: '-  Invalid:  Slope  Movement
-
-    - ! Is Grounded_ Controller_
-    Player
-
-    - 0  Ignore 0 && 0  Less Than -0.1 && 0  Ignore 0
 
 '
   ValidStartStates: []
@@ -2096,8 +2081,8 @@ MonoBehaviour:
   - {fileID: -287817223703023467}
   - {fileID: -8358914764313829916}
   - {fileID: 7689719205349734681}
-  - {fileID: 290542363192366075}
   - {fileID: -3099988209043395053}
+  - {fileID: 290542363192366075}
 --- !u!114 &221668421234055748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2238,7 +2223,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Roll Rotator
   zoom: 0
-  isActiveState: 1
+  isActiveState: 0
   Pivot: {fileID: 11400000, guid: ba2e09efe07e3a245833dd872f7cce88, type: 2}
   Rotations:
   - LocalAxis: 0
@@ -2376,9 +2361,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '-  Throw_ Time_ Anim_ Player: 0.15 sec
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -2436,9 +2419,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '-  Jump Trigger_ Anim_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -2677,7 +2658,7 @@ MonoBehaviour:
   BypassState: 0
   Name: 'Idle '
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   transitionTime: 0.5
   transitionCurve:
     serializedVersion: 2
@@ -2768,10 +2749,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- 0  Abs Greater Than 0 && 0  Ignore 0 && 0  Abs Greater Than
-    0
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -3309,7 +3287,7 @@ MonoBehaviour:
     BoneTransformWeights:
     - transform: {fileID: 0}
       weight: 1
-    Factor: 0.5899507
+    Factor: 0.5
     BlendMode: 0
 --- !u!114 &5391073615113036228
 MonoBehaviour:
@@ -3395,9 +3373,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '-  Throw_ Time_ Anim_ Player: 0.15 sec
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -3505,7 +3481,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Roll Movement Sub
   zoom: 0
-  isActiveState: 1
+  isActiveState: 0
   subStates:
   - {fileID: -3099988209043395053}
   - {fileID: 290542363192366075}
@@ -4155,9 +4131,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '-  Jump Trigger_ Anim_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -4428,7 +4402,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Parameter Processor
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   subStates:
   - {fileID: 2707482321196679568}
 --- !u!114 &8474329339902235374

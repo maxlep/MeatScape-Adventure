@@ -13,6 +13,9 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         protected FloatReference CoefficientOfRollingFriction;
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Horizontal Movement")] [Required]
         protected FloatReference CoefficientOfTurningFriction;
+        
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Outputs")] [Required]
+        protected FloatReference TurnFactor;
 
         public override void Enter()
         {
@@ -29,6 +32,9 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             var steeringDir = moveInputCameraRelative;
             var steeringAngle = Vector3.Angle(currentDir, steeringDir);
             var steeringFac = steeringAngle / 180;
+            
+            
+            TurnFactor.Value = Vector3.SignedAngle(currentDir, steeringDir, Vector3.up) / 30;
 
             // var aboveBaseSpeed = currentVelocity.magnitude > BaseSpeed.Value;
 

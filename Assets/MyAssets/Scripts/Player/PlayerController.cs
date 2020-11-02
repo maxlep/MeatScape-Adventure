@@ -135,7 +135,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     {
         if (onStartUpdateVelocity != null) onStartUpdateVelocity.Invoke(currentVelocity, addVelocity);
         
-        if (addVelocity.RoundNearZero() != Vector3.zero) Debug.Log($"Current: {currentVelocity}, Add: {addVelocity}, New {NewVelocity.Value}");
+        // if (addVelocity.RoundNearZero() != Vector3.zero) Debug.Log($"Current: {currentVelocity}, Add: {addVelocity}, New {NewVelocity.Value}");
 
         currentVelocity = NewVelocity.Value;
         addVelocity = Vector3.zero;

@@ -63,7 +63,7 @@ MonoBehaviour:
   m_Name: Idle  -> Slope Sliding
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1640, y: -2424}
+  position: {x: 1640, y: -3032}
   ports:
     keys:
     - startingState
@@ -109,6 +109,47 @@ MonoBehaviour:
   TimerConditions: []
   Vector2Conditions: []
   Vector3Conditions: []
+--- !u!114 &-8358914764313829916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: Ground Movement Sub <Reference>
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 2952, y: 2600}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: -8358914764313829916}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: 7689719205349734681}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: -8358914764313829916}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  referencedState: {fileID: -1507888589778504077}
 --- !u!114 &-7623122778319895782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -370,7 +411,7 @@ MonoBehaviour:
   m_Name: 'Ground Movement Sub -> Idle '
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1640, y: -792}
+  position: {x: 1624, y: -1384}
   ports:
     keys:
     - startingState
@@ -589,6 +630,94 @@ MonoBehaviour:
     Variable: {fileID: 11400000, guid: 93585d830ef2ec747a9353efb9086a7a, type: 2}
   min: 0
   max: 20
+--- !u!114 &-5930853172634943403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbe66876495740579ccc412ccf28d337, type: 3}
+  m_Name: Roll Movement <NewSequenceBlend> (PlayerAnimation)
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1080, y: 3000}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: -5930853172634943403}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: -5930853172634943403}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  BypassState: 1
+  Name: Roll Movement
+  zoom: 0
+  isActiveState: 1
+  transitionTime: 0.05
+  transitionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  animationJobRunner:
+    BoneTransformWeights:
+    - transform: {fileID: 0}
+      weight: 1
+    factor:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    extrapolateMode: 0
+    loopSequence: 1
+    useMonospacedSequence: 1
+    sequenceList:
+    - pose: {fileID: -6529250106210307228, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+        type: 3}
+      transition:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      timeLinePosition: 0
+      events: []
 --- !u!114 &-5847418367578593244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -602,7 +731,7 @@ MonoBehaviour:
   m_Name: Animation Start 1
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -1768, y: -616}
+  position: {x: -1784, y: -1208}
   ports:
     keys:
     - EntryState
@@ -706,7 +835,7 @@ MonoBehaviour:
   m_Name: Fall Sub <Reference>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 2200, y: 40}
+  position: {x: 2184, y: -552}
   ports:
     keys:
     - previousState
@@ -835,7 +964,7 @@ MonoBehaviour:
   m_Name: Fast Walk <NewSequenceBlend> (PlayerAnimation)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 792, y: 296}
+  position: {x: 776, y: -296}
   ports:
     keys:
     - previousState
@@ -1016,6 +1145,82 @@ MonoBehaviour:
       events:
       - animEvent: {fileID: 11400000, guid: 2f7014b96711c054da15c0d11d5b99e7, type: 2}
         relativeOffset: 0.15
+--- !u!114 &-3099988209043395053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afdd76c4e6d54d54807c933595e7a19a, type: 3}
+  m_Name: Roll Perambulator <SurveyorWheel> (PlayerAnimation)
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1656, y: 2936}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: -3099988209043395053}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: -3099988209043395053}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  BypassState: 0
+  Name: Roll Perambulator
+  zoom: 0
+  isActiveState: 1
+  moveVelocity:
+    Source:
+      UseConstant: 0
+      ConstantValue: {x: 0, y: 0, z: 0}
+      Variable: {fileID: 11400000, guid: dd2cd63ae1d9c034096f0b67bb5bcf62, type: 2}
+    ComponentX: 0
+    ComponentY: 2
+  maxSpeed:
+    UseConstant: 1
+    ConstantValue: 10
+    Variable: {fileID: 0}
+  walkSpeedFactor:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  minStrideLengthFactor: 0
+  fullStrideLength:
+    UseConstant: 1
+    ConstantValue: 10
+    Variable: {fileID: 0}
+  strideLength:
+    UseConstant: 1
+    ConstantValue: 10
+    Variable: {fileID: 0}
+  distance:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 9ffbf0e88eebaf2468d44a6d522650c0, type: 2}
+  cyclePercent:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 3e76aa99d6c43a342b127253e6aa0fb4, type: 2}
+  resetOnStart: 1
+  roundToMultiple: 1
+  probe: {fileID: 0}
 --- !u!114 &-2816321112790655770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1029,7 +1234,7 @@ MonoBehaviour:
   m_Name: Slow Walk <NewSequenceBlend> (PlayerAnimation)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 104, y: 296}
+  position: {x: 88, y: -296}
   ports:
     keys:
     - previousState
@@ -1373,7 +1578,7 @@ MonoBehaviour:
   m_Name: Ground Movement Sub -> Fall Sub
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1640, y: -56}
+  position: {x: 1624, y: -648}
   ports:
     keys:
     - nextState
@@ -1452,7 +1657,7 @@ MonoBehaviour:
   m_Name: Ground Movement Sub <AnimSubStateProcessorNode> (PlayerAnimation)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 792, y: -632}
+  position: {x: 776, y: -1224}
   ports:
     keys:
     - previousState
@@ -1486,6 +1691,9 @@ MonoBehaviour:
         reroutePoints: []
       - fieldName: startingState
         node: {fileID: -8732738294254801329}
+        reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: 4519189784490352879}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -1542,6 +1750,47 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   referencedState: {fileID: -195501734508375196}
+--- !u!114 &-287817223703023467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: Roll Movement Sub <Reference>
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 2216, y: 120}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: -287817223703023467}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: 4519189784490352879}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: -287817223703023467}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  referencedState: {fileID: 5545277643791292214}
 --- !u!114 &-283094309726956859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1841,6 +2090,14 @@ MonoBehaviour:
   - {fileID: -5428356103097301850}
   - {fileID: -2159164430094105420}
   - {fileID: 5647577140365575950}
+  - {fileID: 4519189784490352879}
+  - {fileID: -5930853172634943403}
+  - {fileID: 5545277643791292214}
+  - {fileID: -287817223703023467}
+  - {fileID: -8358914764313829916}
+  - {fileID: 7689719205349734681}
+  - {fileID: 290542363192366075}
+  - {fileID: -3099988209043395053}
 --- !u!114 &221668421234055748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1913,7 +2170,7 @@ MonoBehaviour:
   m_Name: Ground Movement Sub <Reference>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 152, y: -472}
+  position: {x: 136, y: -1064}
   ports:
     keys:
     - previousState
@@ -1941,6 +2198,59 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   referencedState: {fileID: -1507888589778504077}
+--- !u!114 &290542363192366075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 546d30ccf91d4df8b1a893e8fd34f37e, type: 3}
+  m_Name: Roll Rotator <RotateAroundPivot> (PlayerAnimation)
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1080, y: 2616}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: 290542363192366075}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: 290542363192366075}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  BypassState: 0
+  Name: Roll Rotator
+  zoom: 0
+  isActiveState: 1
+  Pivot: {fileID: 11400000, guid: ba2e09efe07e3a245833dd872f7cce88, type: 2}
+  Rotations:
+  - LocalAxis: 0
+    Factor:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: 3e76aa99d6c43a342b127253e6aa0fb4, type: 2}
+  - LocalAxis: 2
+    Factor:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: 74e1f497eab35784d96f1a8547de303c, type: 2}
 --- !u!114 &698832464362611144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1954,7 +2264,7 @@ MonoBehaviour:
   m_Name: Jump <Reference>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 2216, y: -1784}
+  position: {x: 2216, y: -2456}
   ports:
     keys:
     - previousState
@@ -1995,7 +2305,7 @@ MonoBehaviour:
   m_Name: Throw Forward Sub <Reference>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 2216, y: -1240}
+  position: {x: 2200, y: -1832}
   ports:
     keys:
     - previousState
@@ -2325,7 +2635,7 @@ MonoBehaviour:
   m_Name: Idle  <NewSequenceBlend> (PlayerAnimation)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -1128, y: -616}
+  position: {x: -1144, y: -1208}
   ports:
     keys:
     - previousState
@@ -2428,7 +2738,7 @@ MonoBehaviour:
   m_Name: Idle  -> Ground Movement Sub
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -552, y: -488}
+  position: {x: -568, y: -1080}
   ports:
     keys:
     - startingState
@@ -2497,7 +2807,7 @@ MonoBehaviour:
   m_Name: Player Movement Tracker <MovementTracker> (PlayerAnimation)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -1368, y: -1480}
+  position: {x: -1304, y: -2200}
   ports:
     keys:
     - transitions
@@ -2779,7 +3089,7 @@ MonoBehaviour:
   m_Name: Idle  <Reference>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 2216, y: -696}
+  position: {x: 2200, y: -1288}
   ports:
     keys:
     - previousState
@@ -2807,6 +3117,62 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   referencedState: {fileID: 1784268939710130638}
+--- !u!114 &4519189784490352879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: Ground Movement Sub -> Roll Movement Sub
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1640, y: 120}
+  ports:
+    keys:
+    - startingState
+    - nextState
+    values:
+    - _fieldName: startingState
+      _node: {fileID: 4519189784490352879}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: -1507888589778504077}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: nextState
+      _node: {fileID: 4519189784490352879}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: -287817223703023467}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+  conditionPreview: '-  Valid:  Roll  Movement
+
+'
+  ValidStartStates:
+  - {fileID: 4966931143862885706, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  InvalidStartStates: []
+  BoolConditions: []
+  TriggerConditions: []
+  FloatConditions: []
+  IntConditions: []
+  TimerConditions: []
+  Vector2Conditions: []
+  Vector3Conditions: []
 --- !u!114 &4879977458698142861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2820,7 +3186,7 @@ MonoBehaviour:
   m_Name: Idle  -> Throw Forward Sub
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1640, y: -1320}
+  position: {x: 1624, y: -1912}
   ports:
     keys:
     - startingState
@@ -2879,7 +3245,7 @@ MonoBehaviour:
   m_Name: Ground Movement Mixer <MixerNode> (PlayerAnimation)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 120, y: -216}
+  position: {x: 104, y: -808}
   ports:
     keys:
     - previousState
@@ -2943,7 +3309,7 @@ MonoBehaviour:
     BoneTransformWeights:
     - transform: {fileID: 0}
       weight: 1
-    Factor: 0.5
+    Factor: 0.5899507
     BlendMode: 0
 --- !u!114 &5391073615113036228
 MonoBehaviour:
@@ -3096,6 +3462,54 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 7740619907dc17f49848ad6ced2993fe, type: 2}
+--- !u!114 &5545277643791292214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bde82b2b60b32034ba17ac993ef9ed6f, type: 3}
+  m_Name: Roll Movement Sub <SubStateProcessorNode> (PlayerAnimation)
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1656, y: 2616}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: 5545277643791292214}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: 5545277643791292214}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: startingState
+        node: {fileID: 7689719205349734681}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  BypassState: 0
+  Name: Roll Movement Sub
+  zoom: 0
+  isActiveState: 1
+  subStates:
+  - {fileID: -3099988209043395053}
+  - {fileID: 290542363192366075}
+  - {fileID: -5930853172634943403}
 --- !u!114 &5571115883837937794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3206,7 +3620,7 @@ MonoBehaviour:
   m_Name: Start 0
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -1800, y: -1784}
+  position: {x: -1736, y: -2504}
   ports:
     keys:
     - EntryState
@@ -3434,7 +3848,7 @@ MonoBehaviour:
   m_Name: Slope Sliding <Reference>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 2184, y: -2264}
+  position: {x: 2216, y: -3032}
   ports:
     keys:
     - previousState
@@ -3475,7 +3889,7 @@ MonoBehaviour:
   m_Name: Perambulator <SurveyorWheel> (PlayerAnimation)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 792, y: -216}
+  position: {x: 776, y: -808}
   ports:
     keys:
     - transitions
@@ -3708,7 +4122,7 @@ MonoBehaviour:
   m_Name: Idle  -> Jump
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1640, y: -1880}
+  position: {x: 1640, y: -2456}
   ports:
     keys:
     - nextState
@@ -3915,6 +4329,62 @@ MonoBehaviour:
   subStates:
   - {fileID: -8918823026308548398}
   - {fileID: 5838681636790147171}
+--- !u!114 &7689719205349734681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: Roll Movement Sub -> Ground Movement Sub
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 2376, y: 2600}
+  ports:
+    keys:
+    - startingState
+    - nextState
+    values:
+    - _fieldName: startingState
+      _node: {fileID: 7689719205349734681}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: 5545277643791292214}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: nextState
+      _node: {fileID: 7689719205349734681}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: -8358914764313829916}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+  conditionPreview: '-  Invalid:  Roll  Movement
+
+'
+  ValidStartStates: []
+  InvalidStartStates:
+  - {fileID: 4966931143862885706, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  BoolConditions: []
+  TriggerConditions: []
+  FloatConditions: []
+  IntConditions: []
+  TimerConditions: []
+  Vector2Conditions: []
+  Vector3Conditions: []
 --- !u!114 &8411942365436646107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3928,7 +4398,7 @@ MonoBehaviour:
   m_Name: Parameter Processor <SubStateProcessorNode> (PlayerAnimation)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -1352, y: -1784}
+  position: {x: -1288, y: -2504}
   ports:
     keys:
     - previousState

@@ -8,8 +8,9 @@ using Debug = UnityEngine.Debug;
 
 [TaskCategory("KinematicCharacterController")]
 [TaskDescription("Moves KCC towards a target using NavMesh.")]
-public class MoveKCC : Action
+public class MoveKCCNavMesh : Action
 {
+	public SharedFloatReference MoveSpeed;
 	public SharedVector3 NewVelocity;
 	public SharedQuaternion NewRotation;
 	public SharedTransform ThisTransform;
@@ -60,7 +61,7 @@ public class MoveKCC : Action
 		else
 			dirToTarget = Vector3.zero;
 
-		NewVelocity.Value = dirToTarget * 3f;
+		NewVelocity.Value = dirToTarget * MoveSpeed.Value.Value;
 	}
 
 	public void UpdateRotation()

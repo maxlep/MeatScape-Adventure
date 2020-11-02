@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using BehaviorDesigner.Runtime;
 using KinematicCharacterController;
+using MyAssets.ScriptableObjects.Variables;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using UnityEngine.AI;

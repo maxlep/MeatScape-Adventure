@@ -43,8 +43,6 @@ public class ForwardAttack : PlayerStateNode
         MeatClumpController clump = playerController.DetachClump(fireDirection);
         clump.transform.position = firePoint.Value.position;
         clump.SetMoving(throwSpeed.Value, fireDirection);
-        
-        if(!playerController.unlimitedClumps) playerController.CurrentSize -= 1;
     }
 
     public override void Execute()

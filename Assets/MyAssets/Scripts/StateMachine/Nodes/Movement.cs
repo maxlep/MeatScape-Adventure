@@ -435,8 +435,8 @@ public class Movement : PlayerStateNode
         
         // set up all static parameters. these are used for all following Draw.Line calls
         Draw.LineGeometry = LineGeometry.Volumetric3D;
-        Draw.LineThicknessSpace = ThicknessSpace.Pixels;
-        Draw.LineThickness = 6; // 4px wide
+        Draw.LineThicknessSpace = ThicknessSpace.Meters;
+        Draw.LineThickness = .1f;
 
         Vector3 startPos = playerController.transform.position;
         Vector3 endPos = playerController.transform.position + newDirection * (newSpeed / MoveSpeed.Value) * 10f;

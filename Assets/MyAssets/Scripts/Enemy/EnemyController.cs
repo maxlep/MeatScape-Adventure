@@ -70,7 +70,10 @@ public class EnemyController : MonoBehaviour, ICharacterController
     public void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
     {
         if (onStartUpdateVelocity != null) onStartUpdateVelocity.Invoke(currentVelocity);
-        currentVelocity = newVelocity + Vector3.down * Gravity;
+
+        float currentGravity = (!characterMotor.GroundingStatus.IsStableOnGround) ? Gravity : 0f;
+
+        currentVelocity = newVelocity + Vector3.down * currentGravity;
     }
 
     public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)

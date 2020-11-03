@@ -57,7 +57,7 @@ public class MoveKCCNavMesh : Action
 	{
 		Vector3 dirToTarget;
 		if (path != null && path.corners.Length > 1)
-			dirToTarget = (path.corners[1] - transform.position).normalized;
+			dirToTarget = (path.corners[1] - transform.position).xoz().normalized;
 		else
 			dirToTarget = Vector3.zero;
 

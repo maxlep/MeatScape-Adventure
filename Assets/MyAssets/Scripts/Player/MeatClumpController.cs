@@ -78,22 +78,21 @@ public class MeatClumpController : MonoBehaviour
     private void Update()
     {
         float deltaDistance = this.speed * Time.deltaTime;
+
+        if (!hasCollided) HandleCollisions(deltaDistance);
+        if (!hasCollided) Move(deltaDistance);
         
-        if (!hasCollided) {
-            HandleCollisions(deltaDistance);
-            Move(deltaDistance);
-        }
     }
 
     private void HandleCollisions(float deltaDistance)
     {
         //SphereCast from current pos to next pos and check for collisions
         RaycastHit hit;
-        if (Physics.SphereCast((transform.position - (transform.forward * CollisionRadius.Value)), CollisionRadius.Value, transform.forward,
-            out hit, deltaDistance + CollisionRadius.Value, currentCollisionMask))
+        if (Physics.SphereCast(transform.position, CollisionRadius.Value, transform.forward,
+            out hit, deltaDistance, currentCollisionMask))
         {
             this.hasCollided = true;
-            transform.position += (transform.forward * hit.distance) - (transform.forward * CollisionRadius.Value);
+            transform.position += transform.forward * hit.distance;
 
             GameObject hitObj = hit.collider.gameObject;
             if(hitObj.layer == layerMapper.GetLayer(LayerEnum.Enemy)) {

@@ -98,7 +98,10 @@ public class EnemySpawner : MonoBehaviour
             forward = (endPoint- startPoint).normalized;
             coneOffset = -forward * coneHeight;
             Draw.LineDashed(startPoint, endPoint, lineColor);
-            Draw.Cone(endPoint + coneOffset, Quaternion.LookRotation(forward), coneRadius,
+            Quaternion coneRot = (!Mathf.Approximately(forward.magnitude, 0f))
+                ? Quaternion.LookRotation(forward)
+                : Quaternion.identity;
+            Draw.Cone(endPoint + coneOffset, coneRot, coneRadius,
                 coneHeight, lineColor);
             Draw.Sphere(startPoint, sphereRadius, sphereColor);
             

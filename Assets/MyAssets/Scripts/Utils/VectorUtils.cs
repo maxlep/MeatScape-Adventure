@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Cinemachine.Utility;
 using MyAssets.ScriptableObjects.Variables;
 using UnityEngine;
@@ -20,6 +21,22 @@ namespace MyAssets.Scripts.Utils
     
         public static Vector2 xy(this Vector4 vec) { return new Vector2(vec.x, vec.y); }
         public static Vector2 xz(this Vector4 vec) { return new Vector2(vec.x, vec.z); }
+        
+        #endregion
+
+        #region Vector3Axes Extensions
+
+        private static Dictionary<Vector3Axes, Vector3> _axes = new Dictionary<Vector3Axes, Vector3>
+        {
+            {Vector3Axes.X, Vector3.right},
+            {Vector3Axes.Y, Vector3.up},
+            {Vector3Axes.Z, Vector3.forward},
+        };
+            
+        public static Vector3 GetAxis(this Vector3Axes axis)
+        {
+            return _axes[axis];
+        }
         
         #endregion
 

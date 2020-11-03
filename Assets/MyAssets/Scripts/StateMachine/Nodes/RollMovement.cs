@@ -11,6 +11,11 @@ namespace MyAssets.Graphs.StateMachine.Nodes
     {
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Horizontal Movement")] [Required]
         protected FloatReference CoefficientOfRollingFriction;
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Horizontal Movement")] [Required]
+        protected FloatReference CoefficientOfTurningFriction;
+        
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Outputs")] [Required]
+        protected FloatReference TurnFactor;
 
         public override void Enter()
         {
@@ -27,14 +32,19 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             var steeringDir = moveInputCameraRelative;
             var steeringAngle = Vector3.Angle(currentDir, steeringDir);
             var steeringFac = steeringAngle / 180;
+            
+            
+            TurnFactor.Value = Vector3.SignedAngle(currentDir, steeringDir, Vector3.up) / 30;
 
-            var aboveBaseSpeed = currentVelocity.magnitude > BaseSpeed.Value;
+            // var aboveBaseSpeed = currentVelocity.magnitude > BaseSpeed.Value;
 
-            var friction = PlayerWeight.Value * CoefficientOfRollingFriction.Value * (1 + steeringFac);
+            var rollingFriction = PlayerWeight.Value * CoefficientOfRollingFriction.Value;
+            var turningFriction = (1 + (CoefficientOfTurningFriction.Value * steeringFac));
+            var friction = rollingFriction * turningFriction;
             
             Vector2 dummyVel = Vector3.zero;
             Vector2 dir = Vector2.SmoothDamp(currentDir.normalized, steeringDir,
-                ref dummyVel, TurnSpeed.Value * (1 + steeringFac));
+                ref dummyVel, TurnSpeed.Value);
 
             newSpeed = Mathf.Max(currentVelocity.magnitude - friction, BaseSpeed.Value);
 

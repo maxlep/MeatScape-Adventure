@@ -19,10 +19,11 @@ public class DownwardAttack : PlayerStateNode
     public override void Enter()
     {
         base.Enter();
-        
-        MeatClumpController clump = playerController.DetachClump();
+
+        var throwDir = -firePoint.Value.up;
+        MeatClumpController clump = playerController.DetachClump(throwDir);
         clump.transform.position = firePoint.Value.position;
-        clump.SetMoving(throwSpeed.Value, -firePoint.Value.up);
+        clump.SetMoving(throwSpeed.Value, throwDir);
         
         if(!playerController.unlimitedClumps) playerController.CurrentSize -= 1;
     }

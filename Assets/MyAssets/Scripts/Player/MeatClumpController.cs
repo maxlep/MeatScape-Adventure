@@ -106,7 +106,7 @@ public class MeatClumpController : MonoBehaviour
 
     private void Move(float deltaDistance)
     {
-        if(target != null) {
+        if (target != null) {
             transform.forward = target.bounds.center - transform.position;
         }
         transform.position += transform.forward * deltaDistance;
@@ -114,7 +114,7 @@ public class MeatClumpController : MonoBehaviour
 
     private void ReabsorbIntoPlayer()
     {
-        playerController.AbsorbClump(this);
+        playerController.AbsorbClump(this, transform.forward);
 
         if (AbsorbSound != null)
             EffectsManager.Instance?.PlayClipAtPoint(AbsorbSound, transform.position, .6f);

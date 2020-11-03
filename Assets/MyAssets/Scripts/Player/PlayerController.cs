@@ -135,7 +135,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     {
         if (onStartUpdateVelocity != null) onStartUpdateVelocity.Invoke(currentVelocity, addVelocity);
         
-        if (addVelocity.RoundNearZero() != Vector3.zero) Debug.Log($"Current: {currentVelocity}, Add: {addVelocity}, New {NewVelocity.Value}");
+        // if (addVelocity.RoundNearZero() != Vector3.zero) Debug.Log($"Current: {currentVelocity}, Add: {addVelocity}, New {NewVelocity.Value}");
 
         currentVelocity = NewVelocity.Value;
         addVelocity = Vector3.zero;
@@ -190,16 +190,41 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     #endregion
     
     #region Player Controller Interface
-    public void ReturnClump(Vector3 direction)
-    {
+    public MeatClumpController DetachClump(Vector3 direction) {
+        foreach (MeatClumpController meatClump in meatClumps) {
+            if (meatClump.transform.parent != null) {
+                meatClump.transform.parent = null;
+                meatClump.gameObject.SetActive(true);
+                
+                if (!unlimitedClumps) CurrentSize -= 1;
+                AddVelocity(-direction * ClumpThrowKnockbackSpeed.Value);
+                return meatClump;
+            }
+        }
+        return null;
+    }
+
+    public void RecallClump() {
+        foreach (MeatClumpController meatClump in meatClumps) {
+            if (meatClump.transform.parent == null) {
+                meatClump.SetReturnToPlayer();
+                return;
+            }
+        }
+    }
+
+    public void AbsorbClump(MeatClumpController clump, Vector3 direction) {
+        clump.transform.parent = meatClumpContainer;
+        clump.gameObject.SetActive(false);
+        
         if (!unlimitedClumps) CurrentSize += 1;
         AddVelocity(direction * ClumpReturnKnockbackSpeed.Value);
     }
 
-    public void SpendClump(Vector3 direction)
+    public void ReturnClump(Vector3 direction)
     {
-        if (!unlimitedClumps) CurrentSize -= 1;
-        AddVelocity(-direction * ClumpThrowKnockbackSpeed.Value);
+        if (!unlimitedClumps) CurrentSize += 1;
+        AddVelocity(direction * ClumpReturnKnockbackSpeed.Value);
     }
 
     public void GiveThrowKnockback(Vector3 direction)
@@ -281,32 +306,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         foreach(SizeControlledFloatReference prop in SizeControlledProperties) {
             prop.UpdateValue(currentSize);
         }
-    }
-
-    public MeatClumpController DetachClump() {
-        foreach(MeatClumpController meatClump in meatClumps) {
-            if(meatClump.transform.parent != null) {
-                meatClump.transform.parent = null;
-                meatClump.gameObject.SetActive(true);
-                return meatClump;
-            }
-        }
-        return null;
-    }
-
-    public void RecallClump() {
-        foreach(MeatClumpController meatClump in meatClumps) {
-            if(meatClump.transform.parent == null) {
-                meatClump.SetReturnToPlayer();
-                return;
-            }
-        }
-    }
-
-    public void AbsorbClump(MeatClumpController clump) {
-        clump.transform.parent = meatClumpContainer;
-        clump.gameObject.SetActive(false);
-        this.CurrentSize++;
     }
 
     private void OnTriggerStay(Collider other) {

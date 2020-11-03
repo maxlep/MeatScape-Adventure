@@ -231,7 +231,7 @@ public class LayeredStateMachine : MonoBehaviour
 
     private void DrawDebugParameters()
     {
-        float width = 250f;
+        float width = 400f;
         float pivotX = Screen.width - width - 10f;
         float pivotY = 10f;
         float lineHeight = 20f;

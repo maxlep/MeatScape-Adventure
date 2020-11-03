@@ -74,16 +74,13 @@ public class EnemySpawner : MonoBehaviour
             Vector3 coneOffset;
             float coneRadius = .75f;
             float coneHeight = 2f;
-            float sphereRadius = .75f;
-            float startSphereRadius = 1.5f;
+            float startSphereRadius = 1f;
             Color lineColor = new Color(235f/255f, 201f/255f, 12f/255f, .5f);
-            Color sphereColor = new Color(20f/255f, 20f/255f, 17f/255f, .5f);
             Color startSphereColor = new Color(181f/255f, 14f/255f, 21f/255f, .5f);
 
             if (i == 0)
             {
-                sphereColor = startSphereColor;
-                sphereRadius = startSphereRadius;
+                Draw.Sphere(startPoint, startSphereRadius, startSphereColor);
             }
 
             if (i < patrolPoints.Count - 1)
@@ -103,8 +100,6 @@ public class EnemySpawner : MonoBehaviour
                 : Quaternion.identity;
             Draw.Cone(endPoint + coneOffset, coneRot, coneRadius,
                 coneHeight, lineColor);
-            Draw.Sphere(startPoint, sphereRadius, sphereColor);
-            
         }
     }
 }

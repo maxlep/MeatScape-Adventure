@@ -204,21 +204,21 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         return null;
     }
 
-    public void RecallClump() {
-        foreach (MeatClumpController meatClump in meatClumps) {
-            if (meatClump.transform.parent == null) {
-                meatClump.SetReturnToPlayer();
-                return;
-            }
-        }
-    }
-
     public void AbsorbClump(MeatClumpController clump, Vector3 direction) {
         clump.transform.parent = meatClumpContainer;
         clump.gameObject.SetActive(false);
         
         if (!unlimitedClumps) CurrentSize += 1;
         AddVelocity(direction * ClumpReturnKnockbackSpeed.Value);
+    }
+
+    public void RecallClump() {
+        foreach(MeatClumpController meatClump in meatClumps) {
+            if(meatClump.transform.parent == null && !meatClump.ReturningToPlayer) {
+                meatClump.SetReturnToPlayer();
+                return;
+            }
+        }
     }
 
     public void ReturnClump(Vector3 direction)

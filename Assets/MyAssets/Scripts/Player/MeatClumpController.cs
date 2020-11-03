@@ -23,11 +23,16 @@ public class MeatClumpController : MonoBehaviour
     
     [SerializeField] private LayerMapper layerMapper;
     [SerializeField] private FloatReference ClumpReturnSpeed;
+    [SerializeField] private FloatReference PlayerReturnTime;
+    [SerializeField] private FloatReference PlayerReturnDistanceThreshold;
+    [SerializeField] private FloatReference PlayerReturnMaxSpeed;
     [SerializeField] private FloatReference CollisionRadius;
     [SerializeField] private LayerMask CollisionMask;
     [SerializeField] private LayerMask PlayerCollisionMask;
     [SerializeField] private UnityEvent OnCollideWithStatic;
     [SerializeField] private UnityEvent OnSetMoving;
+
+    public bool ReturningToPlayer {get; private set;}
 
     private PlayerController playerController;
 
@@ -46,6 +51,7 @@ public class MeatClumpController : MonoBehaviour
         this.currentCollisionMask = CollisionMask;
         if (shaderUpdater != null) shaderUpdater.ReverseSplat();
         OnSetMoving.Invoke();
+        this.ReturningToPlayer = false;
     }
 
     public void SetMoving(float speed, Vector3 direction) {
@@ -60,8 +66,13 @@ public class MeatClumpController : MonoBehaviour
     }
 
     public void SetReturnToPlayer() {
-        this.SetMoving(ClumpReturnSpeed.Value, playerController.Collider);
+        if(this.currentCollisionMask.Equals(PlayerCollisionMask)) return;
+        float distance = (playerController.Collider.bounds.center - transform.position).magnitude;
+        float speed = distance / PlayerReturnTime.Value;
+        if(distance >= PlayerReturnDistanceThreshold.Value) speed = Mathf.Min(speed, PlayerReturnMaxSpeed.Value);
+        this.SetMoving(speed, playerController.Collider);
         this.currentCollisionMask = PlayerCollisionMask;
+        this.ReturningToPlayer = true;
     }
 
     private void Update()
@@ -78,8 +89,8 @@ public class MeatClumpController : MonoBehaviour
     {
         //SphereCast from current pos to next pos and check for collisions
         RaycastHit hit;
-        if (Physics.SphereCast(transform.position, CollisionRadius.Value, transform.forward,
-            out hit, deltaDistance, currentCollisionMask))
+        if (Physics.SphereCast((transform.position - (transform.forward * CollisionRadius.Value)), CollisionRadius.Value, transform.forward,
+            out hit, deltaDistance + CollisionRadius.Value, currentCollisionMask))
         {
             this.hasCollided = true;
             transform.position += transform.forward * hit.distance;

@@ -150,10 +150,12 @@ public class EnemySpawner : MonoBehaviour
             Color lineColor = new Color(235f/255f, 201f/255f, 12f/255f, .5f);
             Color coneColor = new Color(235f/255f, 100f/255f, 0f/255f, .5f);
             Color startSphereColor = new Color(181f/255f, 14f/255f, 21f/255f, .5f);
+            Color startConeColor = new Color(150f/255f, 50f/255f, 220f/255f, .5f);
 
             if (i == 0 && PatrolPoints.Count > 1)
             {
                 Draw.Sphere(startPoint, startSphereRadius, startSphereColor);
+                Draw.Cone(transform.position, transform.rotation, coneRadius, coneHeight, startConeColor);
             }
 
             if (i < PatrolPoints.Count - 1)
@@ -164,9 +166,20 @@ public class EnemySpawner : MonoBehaviour
             {
                 endPoint = PatrolPoints[0].position;
             }
+
+            //If only 1 point, point cone forward
+            if (PatrolPoints.Count == 1)
+            {
+                forward = transform.forward;
+                coneOffset = Vector3.zero;
+            }
+            else
+            {
+                forward = (endPoint- startPoint).normalized;
+                coneOffset = -forward * (coneHeight * 1.15f);
+            }
+
             
-            forward = (endPoint- startPoint).normalized;
-            coneOffset = -forward * (coneHeight * 1.15f);
             Draw.LineDashed(startPoint, endPoint, lineColor);
             Quaternion coneRot = (!Mathf.Approximately(forward.magnitude, 0f))
                 ? Quaternion.LookRotation(forward)

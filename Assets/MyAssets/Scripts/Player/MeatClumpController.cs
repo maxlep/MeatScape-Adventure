@@ -26,6 +26,7 @@ public class MeatClumpController : MonoBehaviour
     [SerializeField] private FloatReference PlayerReturnTime;
     [SerializeField] private FloatReference PlayerReturnDistanceThreshold;
     [SerializeField] private FloatReference PlayerReturnMaxSpeed;
+    [SerializeField] private FloatReference PlayerReturnMinSpeed;
     [SerializeField] private FloatReference CollisionRadius;
     [SerializeField] private LayerMask CollisionMask;
     [SerializeField] private LayerMask PlayerCollisionMask;
@@ -70,6 +71,7 @@ public class MeatClumpController : MonoBehaviour
         float distance = (playerController.Collider.bounds.center - transform.position).magnitude;
         float speed = distance / PlayerReturnTime.Value;
         if(distance >= PlayerReturnDistanceThreshold.Value) speed = Mathf.Min(speed, PlayerReturnMaxSpeed.Value);
+        speed = Mathf.Max(speed, PlayerReturnMinSpeed.Value);
         this.SetMoving(speed, playerController.Collider);
         this.currentCollisionMask = PlayerCollisionMask;
         this.ReturningToPlayer = true;
@@ -92,7 +94,7 @@ public class MeatClumpController : MonoBehaviour
             out hit, deltaDistance, currentCollisionMask))
         {
             this.hasCollided = true;
-            transform.position += transform.forward * hit.distance;
+            transform.position += (transform.forward * hit.distance) - (transform.forward * CollisionRadius.Value);
 
             GameObject hitObj = hit.collider.gameObject;
             if(hitObj.layer == layerMapper.GetLayer(LayerEnum.Enemy)) {

@@ -94,7 +94,7 @@ public class MeatClumpController : MonoBehaviour
             out hit, deltaDistance, currentCollisionMask))
         {
             this.hasCollided = true;
-            transform.position += (transform.forward * hit.distance)
+            transform.position += (transform.forward * hit.distance);
 
             GameObject hitObj = hit.collider.gameObject;
             if(hitObj.layer == layerMapper.GetLayer(LayerEnum.Enemy)) {

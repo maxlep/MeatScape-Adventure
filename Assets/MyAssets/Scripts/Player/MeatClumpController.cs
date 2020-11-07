@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using MyAssets.ScriptableObjects.Variables;
 using MyAssets.Scripts.ShaderHelpers;
 using Sirenix.OdinInspector;
@@ -52,7 +53,6 @@ public class MeatClumpController : MonoBehaviour
         this.currentCollisionMask = CollisionMask;
         if (shaderUpdater != null) shaderUpdater.ReverseSplat();
         OnSetMoving.Invoke();
-        this.ReturningToPlayer = false;
     }
 
     public void SetMoving(float speed, Vector3 direction) {
@@ -66,8 +66,8 @@ public class MeatClumpController : MonoBehaviour
         this.target = target;
     }
 
-    public void SetReturnToPlayer() {
-        if(this.currentCollisionMask.Equals(PlayerCollisionMask)) return;
+    public void SetReturnToPlayer()
+    {
         float distance = (playerController.Collider.bounds.center - transform.position).magnitude;
         float speed = distance / PlayerReturnTime.Value;
         if(distance >= PlayerReturnDistanceThreshold.Value) speed = Mathf.Min(speed, PlayerReturnMaxSpeed.Value);
@@ -83,7 +83,7 @@ public class MeatClumpController : MonoBehaviour
 
         if (!hasCollided) HandleCollisions(deltaDistance);
         if (!hasCollided) Move(deltaDistance);
-        
+        if (!hasCollided) PostMoveCollisionCheck();
     }
 
     private void HandleCollisions(float deltaDistance)
@@ -112,7 +112,23 @@ public class MeatClumpController : MonoBehaviour
             //Static object hit
             if (shaderUpdater != null) shaderUpdater.StartSplat(hit);
             OnCollideWithStatic.Invoke();
-            
+        }
+    }
+
+    private void PostMoveCollisionCheck()
+    {
+        //Overlap sphere at final position to check for intersecting colliders
+        Collider[] hitColliders =
+            (Physics.OverlapSphere(transform.position, CollisionRadius.Value, currentCollisionMask));
+        
+        if (hitColliders.Length > 0)
+        {
+            //TODO: Only checking first collider atm, might need to check all?
+            if (hitColliders[0].gameObject.layer == layerMapper.GetLayer(LayerEnum.Player))
+            {
+                this.hasCollided = true;
+                ReabsorbIntoPlayer();
+            }
         }
     }
 
@@ -126,6 +142,7 @@ public class MeatClumpController : MonoBehaviour
 
     private void ReabsorbIntoPlayer()
     {
+        this.ReturningToPlayer = false;
         playerController.AbsorbClump(this, transform.forward);
 
         if (AbsorbSound != null)

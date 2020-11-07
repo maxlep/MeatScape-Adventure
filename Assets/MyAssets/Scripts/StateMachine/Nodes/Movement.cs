@@ -212,7 +212,7 @@ public class Movement : PlayerStateNode
         if (EnableHorizontalMovement) horizontalVelocity = CalculateHorizontalVelocity(currentVelocity);
         if (EnableVerticalMovement) verticalVelocity = CalculateVerticalVelocity(currentVelocity);
 
-        NewVelocityOut.Value = horizontalVelocity + verticalVelocity;
+        NewVelocityOut.Value = horizontalVelocity + verticalVelocity + addVelocity;
         
     }
 
@@ -340,6 +340,7 @@ public class Movement : PlayerStateNode
 
         if (newVelocity.y <= 0 || GroundingStatus.FoundAnyGround)  //Falling
         {
+            //newVelocity.y += gravity * (FallMultiplier.Value - 1) * Time.deltaTime;
             newVelocity.y += gravity * (FallMultiplier.Value - 1) * Time.deltaTime;
         }
         else if (newVelocity.y > 0 && !JumpPressed.Value)    //Short jump

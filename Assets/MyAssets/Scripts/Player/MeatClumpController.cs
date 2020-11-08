@@ -93,10 +93,12 @@ public class MeatClumpController : MonoBehaviour
         if (Physics.SphereCast(transform.position, CollisionRadius.Value, transform.forward,
             out hit, deltaDistance, currentCollisionMask))
         {
+            if (hit.collider.isTrigger) return;
+            
             this.hasCollided = true;
             transform.position += (transform.forward * hit.distance);
-
             GameObject hitObj = hit.collider.gameObject;
+            
             if(hitObj.layer == layerMapper.GetLayer(LayerEnum.Enemy)) {
                 EnemyController enemyScript = hitObj.GetComponent<EnemyController>();
                 enemyScript.DamageEnemy(1);

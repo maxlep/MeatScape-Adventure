@@ -136,7 +136,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         if (onStartUpdateVelocity != null) onStartUpdateVelocity.Invoke(currentVelocity, addVelocity);
         
         // if (addVelocity.RoundNearZero() != Vector3.zero) Debug.Log($"Current: {currentVelocity}, Add: {addVelocity}, New {NewVelocity.Value}");
-
+        
         currentVelocity = NewVelocity.Value;
         addVelocity = Vector3.zero;
 
@@ -169,6 +169,11 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         ref HitStabilityReport hitStabilityReport)
     {
         // This is called when the motor's movement logic detects a hit
+        if (hitCollider.gameObject.layer == layerMapper.GetLayer(LayerEnum.Bounce))
+        {
+            UngroundMotor();
+            AddVelocity(Vector3.up * 30f);
+        }
     }
 
     public void ProcessHitStabilityReport(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint,
@@ -185,6 +190,11 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     public void OnDiscreteCollisionDetected(Collider hitCollider)
     {
         // This is called by the motor when it is detecting a collision that did not result from a "movement hit".
+        if (hitCollider.gameObject.layer == layerMapper.GetLayer(LayerEnum.Bounce))
+        {
+            UngroundMotor();
+            AddVelocity(Vector3.up * 30f);
+        }
     }
 
     #endregion
@@ -232,7 +242,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         AddVelocity(direction * ClumpThrowKnockbackSpeed.Value);
     }
     
-    private void AddVelocity(Vector3 addVelocity)
+    public void AddVelocity(Vector3 addVelocity)
     {
         this.addVelocity = addVelocity;
     }

@@ -212,8 +212,19 @@ public class Movement : PlayerStateNode
         if (EnableHorizontalMovement) horizontalVelocity = CalculateHorizontalVelocity(currentVelocity);
         if (EnableVerticalMovement) verticalVelocity = CalculateVerticalVelocity(currentVelocity);
 
-        NewVelocityOut.Value = horizontalVelocity + verticalVelocity + addVelocity;
-        
+        if (Mathf.Approximately(addVelocity.magnitude, 0f))
+        {
+            NewVelocityOut.Value = horizontalVelocity + verticalVelocity;
+        }
+        else
+        {
+            //Addive in XZ but sets in Y
+            NewVelocityOut.Value = horizontalVelocity + addVelocity;
+        }
+            
+
+
+
     }
 
     private Vector3 CalculateHorizontalVelocity(Vector3 currentVelocity)

@@ -221,10 +221,6 @@ public class Movement : PlayerStateNode
             //Addive in XZ but sets in Y
             NewVelocityOut.Value = horizontalVelocity + addVelocity;
         }
-            
-
-
-
     }
 
     private Vector3 CalculateHorizontalVelocity(Vector3 currentVelocity)
@@ -437,7 +433,6 @@ public class Movement : PlayerStateNode
         //Stop fast turning when close enough to target
         else if (isFastTurning && deltaAngle_VelToMoveDir < StopFastTurnDeltaAngle.Value)
             isFastTurning = false;
-
     }
 
     public override void DrawGizmos()

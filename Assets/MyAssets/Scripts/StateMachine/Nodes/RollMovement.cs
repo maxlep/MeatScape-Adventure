@@ -24,8 +24,11 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             playerController.GiveThrowKnockback(NewVelocityOut.Value.normalized);
         }
 
-        protected override Vector3 CalculateVelocity(Vector3 currentVelocity)
+        protected override Vector3 CalculateVelocity(Vector3 currentVelocity, Vector3 addVelocity)
         {
+            //TODO: Brought this over from base movement class for now
+            currentVelocity += addVelocity;
+            
             CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
 
             var currentDir = currentVelocity.xoz();

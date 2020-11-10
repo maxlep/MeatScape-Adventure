@@ -25,7 +25,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         protected TransformSceneReference PlayerCameraTransform;
         
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Inputs")] [Required]
-        private Vector2Reference MoveInput;
+        protected Vector2Reference MoveInput;
         
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Outputs")] [Required]
         protected Vector3Reference NewVelocityOut;
@@ -100,8 +100,9 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             // verticalVelocity = CalculateVerticalVelocity(currentVelocity);
             //
             // NewVelocityOut.Value = horizontalVelocity + verticalVelocity;
-            
-            NewVelocityOut.Value = CalculateVelocity(currentVelocity + (addVelocity * (1 - ImpulseDampingFactor.Value)));
+
+            var addVelocityDampened = addVelocity * (1 - ImpulseDampingFactor.Value);
+            NewVelocityOut.Value = CalculateVelocity(currentVelocity, addVelocityDampened);
         }
         
         protected virtual void UpdateRotation(Quaternion currentRotation)
@@ -137,7 +138,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             moveInputCameraRelative = camForward.GetRelative(MoveInput.Value).xoy();
         }
 
-        protected virtual Vector3 CalculateVelocity(Vector3 currentVelocity)
+        protected virtual Vector3 CalculateVelocity(Vector3 currentVelocity, Vector3 addVelocity)
         {
             CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
 

@@ -84,7 +84,11 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             verticalVelocity = CalculateVerticalVelocity(currentVelocity);
 
             //Addive in XZ but sets in Y
-            return horizontalVelocity + verticalVelocity + addVelocity;
+            var addVelocityRedirectedDir = Vector3.RotateTowards(addVelocity.normalized,
+                moveInputCameraRelative.normalized, Mathf.Deg2Rad * 30f, 0f);
+            var addVelocityRedirected = addVelocity.magnitude * addVelocityRedirectedDir;
+            
+            return horizontalVelocity + verticalVelocity + addVelocityRedirected;
            
         }
 
@@ -131,7 +135,8 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             
             //return newDirection * newSpeed;
 
-            return currentVelocity.xoz() + moveInputCameraRelative * 20f * Time.deltaTime;
+            //return currentVelocity.xoz() + moveInputCameraRelative * 20f * Time.deltaTime;
+            return currentVelocity.xoz();
         }
         
         private Vector3 CalculateVerticalVelocity(Vector3 currentVelocity)

@@ -211,10 +211,18 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 8366a1a6be6ec6340a06fb3a9bc0854e, type: 2}
+  AccelerationSlow:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 8901d2d599562e44096bd3c0085ebf8d, type: 2}
   Deacceleration:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: f227ea3b4b3fbfd479ed5a5d2a7f044c, type: 2}
+  FaceForwardDeltaDegrees:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 2aecf780774451341b231fd1e534e6e9, type: 2}
   cachedVelocity:
     UseConstant: 0
     ConstantValue: {x: 0, y: 0, z: 0}
@@ -243,6 +251,38 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: d00e7a08d0775a4429a3a5cfad1382a2, type: 2}
+  FastTurnDeltaRot:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: f98ab4c205463cc4fbcc3493e9569e0e, type: 2}
+  FastTurnAcceleration:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: f691cb4541465e64aad17987e6177dcb, type: 2}
+  FastTurnAngleThreshold:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 8e1a47479aba3b641945a0abef7b8785, type: 2}
+  StopFastTurnDeltaAngle:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 3efaf0f38b4a342479a6e71944371e86, type: 2}
+  FastTurnInputDeadZone:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: f20c177f06f5f6c4082d8e727df1710d, type: 2}
+  FastTurnBrakeDeacceleration:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 667b44491ae770343b4dadaf63a53475, type: 2}
+  FastTurnBrakeSpeedThreshold:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 0c39edad5884d3b46b4b2ee4439b1eb1, type: 2}
+  MoveInputRequiredDelta:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 3f32010f7f6ee4d4a9cb4deff8ebf1d8, type: 2}
 --- !u!114 &-7929767128456955958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2874,7 +2914,7 @@ MonoBehaviour:
   m_Name: NoLowJump <AirMovement> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 408, y: -632}
+  position: {x: 456, y: -568}
   ports:
     keys:
     - previousState
@@ -2951,10 +2991,18 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 8366a1a6be6ec6340a06fb3a9bc0854e, type: 2}
+  AccelerationSlow:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 8901d2d599562e44096bd3c0085ebf8d, type: 2}
   Deacceleration:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: f227ea3b4b3fbfd479ed5a5d2a7f044c, type: 2}
+  FaceForwardDeltaDegrees:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: bbe60700273ca2549a705475c1cdd7a1, type: 2}
   cachedVelocity:
     UseConstant: 0
     ConstantValue: {x: 0, y: 0, z: 0}
@@ -2983,3 +3031,35 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: d00e7a08d0775a4429a3a5cfad1382a2, type: 2}
+  FastTurnDeltaRot:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: f98ab4c205463cc4fbcc3493e9569e0e, type: 2}
+  FastTurnAcceleration:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: f691cb4541465e64aad17987e6177dcb, type: 2}
+  FastTurnAngleThreshold:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 8e1a47479aba3b641945a0abef7b8785, type: 2}
+  StopFastTurnDeltaAngle:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 3efaf0f38b4a342479a6e71944371e86, type: 2}
+  FastTurnInputDeadZone:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: f20c177f06f5f6c4082d8e727df1710d, type: 2}
+  FastTurnBrakeDeacceleration:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 667b44491ae770343b4dadaf63a53475, type: 2}
+  FastTurnBrakeSpeedThreshold:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 0c39edad5884d3b46b4b2ee4439b1eb1, type: 2}
+  MoveInputRequiredDelta:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 3f32010f7f6ee4d4a9cb4deff8ebf1d8, type: 2}

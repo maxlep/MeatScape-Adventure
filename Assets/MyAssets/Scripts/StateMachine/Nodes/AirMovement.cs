@@ -14,13 +14,8 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 {
     public class AirMovement : BaseMovement
     {
-        /**************************************
-        * Horizontal Movement *
-        **************************************/
 
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Horizontal Movement")] [Required]
-        private bool EnableFastTurn = true;
+        #region Horizontal Movement
 
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Horizontal Movement")] [Required]
@@ -50,9 +45,9 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [TabGroup("Horizontal Movement")] [Required]
         private Vector3Reference cachedVelocity;
 
-        /**************************************
-            * Vertical Movement *
-        **************************************/
+        #endregion
+
+        #region Vertical Movement
 
         [HideIf("$zoom")]
         [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
@@ -83,11 +78,15 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
         [TabGroup("Vertical Movement")]
         private BoolReference JumpPressed;
+
+        #endregion
+
+        #region Fast Turn
         
-        /**************************************
-             * Fast Turn *
-    **************************************/
-    
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [TabGroup("Fast Turn")] [Required]
+        private bool EnableFastTurn = true;
+
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")]
         [Required]
@@ -137,6 +136,25 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")]
         [Required]
         private FloatReference MoveInputRequiredDelta;
+
+        #endregion
+
+        #region AddVelocity Redirect
+
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Redirect")] [Required]
+        private bool EnableRedirect = true;
+
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [TabGroup("Redirect")] [ShowIf("$EnableRedirect")]
+        [Required]
+        private FloatReference RedirectMaxDegrees;
+        
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [TabGroup("Redirect")] [ShowIf("$EnableRedirect")]
+        [Required]
+        private FloatReference RedirectAngleThreshold;
+
+        #endregion
         
         private bool isFastTurning;
         private bool isFastTurningRotation;
@@ -153,44 +171,43 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
         protected override Vector3 CalculateVelocity(Vector3 currentVelocity, Vector3 addVelocity)
         {
-            Vector3 horizontalVelocity = Vector3.zero;
-            Vector3 verticalVelocity = Vector3.zero;
-            
-            horizontalVelocity = CalculateHorizontalVelocity(currentVelocity);
-            verticalVelocity = CalculateVerticalVelocity(currentVelocity);
-            
-            var maxRedirectDegrees = 45f;
-            var reditectDegrees = 45f * moveInputCameraRelative.magnitude; //Make it range based on move input
-            var addVelocityRedirectedDir = Vector3.RotateTowards(addVelocity.normalized,
-                moveInputCameraRelative.normalized, reditectDegrees * Mathf.Deg2Rad, 0f);
-            var addVelocityRedirected = addVelocity.magnitude * addVelocityRedirectedDir;
-            
-            //Cache moveInput value
-            //Dont cache values in deadzone
+            Vector3 resultingVelocity;
+            Vector3 horizontalVelocity = CalculateHorizontalVelocity(currentVelocity);
+            Vector3 verticalVelocity = CalculateVerticalVelocity(currentVelocity);
+
+            //Redirect Add velocity
+            if (EnableRedirect && CheckRedirectConditions(addVelocity))
+                addVelocity = CalculateRedirectedAddVelocity(addVelocity);
+
+            //Cache moveInput value for fast turn
             if (MoveInput.Value.magnitude > FastTurnInputDeadZone.Value)
                 lastMoveInputDirection = MoveInput.Value.normalized;
 
-            if (Mathf.Approximately(addVelocity.magnitude, 0f))
-            {
-                return horizontalVelocity + verticalVelocity;
-            }
-            else
-            {
-                //Override vertical velocity
-                return horizontalVelocity + addVelocity.oyo() + addVelocityRedirected.xoz();
-            }
             
-           
+            if (Mathf.Approximately(addVelocity.magnitude, 0f))
+                resultingVelocity = horizontalVelocity + verticalVelocity;
+            
+            //If y of addVelocity is 0, dont override current y component
+            else if (Mathf.Approximately(addVelocity.y, 0f))
+                resultingVelocity = horizontalVelocity + verticalVelocity + addVelocity;
+            
+            //Add velocity and override current y component
+            else
+                resultingVelocity = horizontalVelocity + addVelocity;
+
+            return resultingVelocity;
+
         }
 
         private Vector3 CalculateHorizontalVelocity(Vector3 currentVelocity)
         {
             if (EnableFastTurn)
                 CheckForFastTurn(currentVelocity);
-            
-            float deacceleration = (isFastTurning) ? FastTurnBrakeDeacceleration.Value : Deacceleration.Value;
 
-            float dragMagnitude = currentVelocity.xoz().sqrMagnitude * deacceleration * Time.deltaTime;
+            #region Calulcate Drag
+
+            float dragCoefficient = (isFastTurning) ? FastTurnBrakeDeacceleration.Value : Deacceleration.Value;
+            float dragMagnitude = currentVelocity.xoz().sqrMagnitude * dragCoefficient * Time.deltaTime;
             
             //If fast turning, use min drag
             if (isFastTurning) 
@@ -198,7 +215,10 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             
             Vector3 dragVelocity = -currentVelocity.xoz().normalized * dragMagnitude;
 
+            #endregion
 
+            #region Calulcate Acceleration
+            
             float acceleration = Acceleration.Value;
             float forwardToMoveInputDegrees = Vector3.Angle(playerController.transform.forward,
                 moveInputCameraRelative.normalized);
@@ -209,6 +229,9 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             if (isFastTurning)
                 acceleration = FastTurnAcceleration.Value;
             
+            #endregion
+            
+            //If fast turning, move towards the fast turn start move direction
             if (isFastTurning)
                 return currentVelocity.xoz() + fastTurnStartMoveDir * acceleration + dragVelocity;
 
@@ -248,20 +271,11 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         
         protected override void UpdateRotation(Quaternion currentRotation)
         {
-            Vector3 lookDirection = playerController.transform.forward;
-            Quaternion lookRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
-            Quaternion moveInputRotation;
-            Quaternion fastTurnStartDirRotation;
-            
-            //If not move input, set forward as target
-            if (Mathf.Approximately(moveInputCameraRelative.magnitude, 0f)) 
-                moveInputRotation = Quaternion.LookRotation(playerController.transform.forward,
-                Vector3.up);
-            else
-                moveInputRotation = Quaternion.LookRotation(moveInputCameraRelative.normalized,
+            Quaternion newRotation;
+            Quaternion lookRotation = Quaternion.LookRotation(playerController.transform.forward, Vector3.up);
+            Quaternion moveInputRotation = Quaternion.LookRotation(moveInputCameraRelative.normalized,
                     Vector3.up);
-
-
+            
             float deltaRotation = (isFastTurning) ? FastTurnDeltaRot.Value : RotationDeltaMax.Value;
             
             //Start rotation fast turn to flip to target
@@ -270,23 +284,28 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
             if (isFastTurningRotation)
             {
-                fastTurnStartDirRotation = Quaternion.LookRotation(fastTurnStartMoveDir, Vector3.up);
-                currentRotation = Quaternion.RotateTowards(lookRotation, fastTurnStartDirRotation, deltaRotation);
+                Quaternion fastTurnStartDirRotation = Quaternion.LookRotation(fastTurnStartMoveDir, Vector3.up);
+                newRotation = Quaternion.RotateTowards(lookRotation, fastTurnStartDirRotation, deltaRotation);
+            }
+            //If no move input, keep looking forward
+            else if (Mathf.Approximately(moveInputCameraRelative.magnitude, 0f))
+            {
+                newRotation = lookRotation;
             }
             else
             {
-                currentRotation = Quaternion.RotateTowards(lookRotation, moveInputRotation, deltaRotation);
+                newRotation = Quaternion.RotateTowards(lookRotation, moveInputRotation, deltaRotation);
             }
 
             float degreesToFastTurnTarget = Vector3.Angle(playerController.transform.forward, fastTurnStartMoveDir);
             
-            //Handle finishing rot fast turn
+            //Handle finishing Rotation Fast Turn
             if (isFastTurningRotation && degreesToFastTurnTarget < StopFastTurnDeltaAngle.Value)
             {
                 isFastTurningRotation = false;
             }
 
-            NewRotationOut.Value = currentRotation;
+            NewRotationOut.Value = newRotation;
         }
         
         private void CheckForFastTurn(Vector3 currentVelocity)
@@ -302,7 +321,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             float deltaAngle_VelToMoveDir;
             
             //Angle between move input and velocity
-            //Or forward and velocity if move input ~= 0
+            //Or forward and velocity if move input approx. 0
             if (Mathf.Approximately(currentVelocity.xoz().magnitude, 0f))
                 deltaAngle_VelToMoveDir = Vector3.Angle(currentVelocity.xoz().normalized, 
                     moveInputCameraRelative.normalized);
@@ -327,7 +346,32 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 fastTurnStartDir = currentVelocity.xoz().normalized;
                 fastTurnStartMoveDir = moveInputCameraRelative.normalized;
             }
+        }
 
+        private bool CheckRedirectConditions(Vector3 addVelocity)
+        {
+            float addVelocityToMoveInputDegrees =
+                Vector3.Angle(addVelocity.normalized, moveInputCameraRelative.normalized);
+
+            //If angle less than threshhold, redirect is valid
+            if (addVelocityToMoveInputDegrees <= RedirectAngleThreshold.Value && 
+                !Mathf.Approximately(addVelocity.magnitude, 0f) &&
+                !Mathf.Approximately(moveInputCameraRelative.magnitude, 0f))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private Vector3 CalculateRedirectedAddVelocity(Vector3 addVelocity)
+        {
+            //Make it range [0, maxDegrees] based on move input
+            float reditectDegrees = RedirectMaxDegrees.Value * moveInputCameraRelative.magnitude; 
+            Vector3 addVelocityRedirectedDir = Vector3.RotateTowards(addVelocity.normalized,
+                moveInputCameraRelative.normalized, reditectDegrees * Mathf.Deg2Rad, 0f);
+            
+            return addVelocity.magnitude * addVelocityRedirectedDir;
         }
         
 

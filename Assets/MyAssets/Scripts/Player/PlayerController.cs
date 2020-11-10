@@ -207,7 +207,9 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
                 meatClump.gameObject.SetActive(true);
                 
                 if (!unlimitedClumps) CurrentSize -= 1;
-                AddVelocity(-direction * ClumpThrowKnockbackSpeed.Value);
+                
+                //Did not normalize direction so that nearly vertical forward throws move player less horizontally
+                AddVelocity(-direction.xoz() * ClumpThrowKnockbackSpeed.Value);
                 return meatClump;
             }
         }

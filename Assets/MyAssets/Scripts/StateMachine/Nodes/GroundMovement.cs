@@ -12,13 +12,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 {
     public class GroundMovement : BaseMovement
     {
-        /**************************************
-        * Horizontal Movement *
-        **************************************/
-        
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Horizontal Movement")] [Required]
-        private bool EnableFastTurn = true;
+        #region Horizontal Movement
 
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Horizontal Movement")] [Required]
@@ -39,12 +33,15 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Horizontal Movement")] [Required]
         private Vector3Reference cachedVelocity;
+
+        #endregion
+
+        #region Fast Turn
         
-        
-        /**************************************
-                 * Fast Turn *
-        **************************************/
-        
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [TabGroup("Fast Turn")] [Required]
+        private bool EnableFastTurn = true;
+
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")]
         [Required]
@@ -85,6 +82,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [Required]
         private FloatReference MoveInputRequiredDelta;
 
+        #endregion
 
         private bool isFastTurning;
         private Vector3 fastTurnStartDir;
@@ -93,10 +91,8 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
         protected override Vector3 CalculateVelocity(Vector3 currentVelocity, Vector3 addVelocity)
         {
-            Vector3 horizontalVelocity = Vector3.zero;
+            Vector3 horizontalVelocity = CalculateHorizontalVelocity(currentVelocity);
 
-            horizontalVelocity = CalculateHorizontalVelocity(currentVelocity);
-            
             //Addive in XZ but sets in Y
             return horizontalVelocity + addVelocity;
         }
@@ -104,11 +100,9 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         private Vector3 CalculateHorizontalVelocity(Vector3 currentVelocity)
         {
             CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
-            
-            /**************************************
-             * Determine if Fast Turning
-             **************************************/
-            
+
+            #region Determine if Fast Turning
+
             //Dont allow fast turn on slopes
             if (EnableFastTurn)
                 CheckForFastTurn(currentVelocity);
@@ -121,10 +115,10 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 currentTurnSpeed = FastTurnSpeed.Value;
             else
                 currentTurnSpeed = TurnSpeed.Value;
-            
-            /**************************************
-             * Get New Move Direction
-             **************************************/
+
+            #endregion
+
+            #region Get New Move Direction
 
             //Rotate current vel towards target vel to get new direction
             Vector2 dummyVel = Vector3.zero;
@@ -132,11 +126,10 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 ref dummyVel, currentTurnSpeed);
             
             newDirection = dir.xoy().normalized;
-            
 
-            /**************************************
-             * Get New Move Speed
-             **************************************/
+            #endregion
+
+            #region Get New Move Speed
 
             //Accelerate/DeAccelerate from current Speed to target speed
             float dummySpeed = 0f;
@@ -152,10 +145,10 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             else
                 newSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed,
                     ref dummySpeed, Deacceleration.Value);
-            
-            /*********************************************
-             * Override Speed and Direction if Fast Turning
-             *********************************************/
+
+            #endregion
+
+            #region Override Speed and Direction if Fast Turning
 
             //If fast turning, DeAccelerate to 0 to brake
             if (isFastTurning)
@@ -169,6 +162,8 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 if (newSpeed < FastTurnBrakeSpeedThreshold.Value)
                     newDirection = moveInputCameraRelative.xoz().normalized;
             }
+
+            #endregion
             
             //Cache moveInput value
             //Dont cache values in deadzone

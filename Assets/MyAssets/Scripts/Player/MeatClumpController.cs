@@ -125,11 +125,14 @@ public class MeatClumpController : MonoBehaviour
         
         if (hitColliders.Length > 0)
         {
-            //TODO: Only checking first collider atm, might need to check all?
-            if (hitColliders[0].gameObject.layer == layerMapper.GetLayer(LayerEnum.Player))
+            foreach (var collider in hitColliders)
             {
-                this.hasCollided = true;
-                ReabsorbIntoPlayer();
+                if (collider.gameObject.layer == layerMapper.GetLayer(LayerEnum.Player))
+                {
+                    this.hasCollided = true;
+                    ReabsorbIntoPlayer();
+                    return;
+                }
             }
         }
     }

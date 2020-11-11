@@ -176,26 +176,25 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         
         protected override void UpdateRotation(Quaternion currentRotation)
         {
+            Quaternion newRotation;
             Vector3 lookDirection = playerController.transform.forward;
-            Vector3 velocityDirection = new Vector3(cachedVelocity.Value.x, 0f, cachedVelocity.Value.z);
-            if (velocityDirection == Vector3.zero) velocityDirection = Vector3.forward;
+            //Vector3 velocityDirection = cachedVelocity.Value.xoz().normalized;
+            Vector3 velocityDirection = moveInputCameraRelative.normalized;
+            if (Mathf.Approximately(velocityDirection.magnitude, 0f)) velocityDirection = lookDirection;
 
             Quaternion lookRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
             Quaternion velocityRotation = Quaternion.LookRotation(velocityDirection, Vector3.up);
 
-            if (Mathf.Approximately(velocityDirection.magnitude, 0f)) return;
-            if (Mathf.Approximately(MoveInput.Value.magnitude, 0f)) return;
-
-            currentRotation = Quaternion.RotateTowards(lookRotation, velocityRotation, RotationDeltaMax.Value);
+            newRotation = Quaternion.RotateTowards(lookRotation, velocityRotation, RotationDeltaMax.Value);
         
             //If fast turning, instead rotate to desired turn direction
             if (isFastTurning)
             {
                 Quaternion moveInputRotation = Quaternion.LookRotation(moveInputCameraRelative, Vector3.up);
-                currentRotation = Quaternion.RotateTowards(lookRotation, moveInputRotation, RotationDeltaMax.Value);
+                newRotation = Quaternion.RotateTowards(lookRotation, moveInputRotation, RotationDeltaMax.Value);
             }
         
-            NewRotationOut.Value = currentRotation;
+            NewRotationOut.Value = newRotation;
         }
         
         private void CheckForFastTurn(Vector3 currentVelocity)

@@ -24,7 +24,7 @@ public class AirStall : PlayerStateNode
         playerController.onStartUpdateVelocity -= UpdateVelocity;
     }
 
-    private void UpdateVelocity(Vector3 currentVelocity, Vector3 addVelocity)
+    private void UpdateVelocity(Vector3 currentVelocity, Vector3 addImpulse)
     {
         if (restrictX) currentVelocity.x = 0f;
         if (restrictY) currentVelocity.y = 0f;

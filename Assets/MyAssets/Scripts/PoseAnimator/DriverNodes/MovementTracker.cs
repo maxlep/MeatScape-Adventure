@@ -40,7 +40,7 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
             velHist.AddFirst(Vector3.zero);
         }
 
-        public override void ExecuteFixed()
+        public override void Execute()
         {
             base.Execute();
             

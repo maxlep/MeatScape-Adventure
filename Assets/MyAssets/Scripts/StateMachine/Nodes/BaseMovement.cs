@@ -89,12 +89,12 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         #endregion
         
         #region Update methods
-        protected virtual void UpdateVelocity(Vector3 currentVelocity, Vector3 addVelocity)
+        protected virtual void UpdateVelocity(Vector3 currentVelocity, Vector3 addImpulse)
         {
             SetMoveDirection();
 
-            var addVelocityDampened = addVelocity * (1 - ImpulseDampingFactor.Value);
-            NewVelocityOut.Value = CalculateVelocity(currentVelocity, addVelocityDampened);
+            var addImpulseDampened = addImpulse * (1 - ImpulseDampingFactor.Value);
+            NewVelocityOut.Value = CalculateVelocity(currentVelocity, addImpulseDampened);
         }
         
         protected virtual void UpdateRotation(Quaternion currentRotation)
@@ -112,7 +112,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             moveInputCameraRelative = camForward.GetRelative(MoveInput.Value).xoy();
         }
 
-        protected virtual Vector3 CalculateVelocity(Vector3 currentVelocity, Vector3 addVelocity)
+        protected virtual Vector3 CalculateVelocity(Vector3 currentVelocity, Vector3 addImpulse)
         {
             CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
 

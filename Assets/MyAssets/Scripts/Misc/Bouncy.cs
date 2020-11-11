@@ -19,7 +19,7 @@ public class Bouncy : MonoBehaviour
             if (!UseStoredJumpVelocity)
             {
                 playerController.UngroundMotor();
-                playerController.AddVelocity(Vector3.up * BounceVelocity);
+                playerController.AddImpulse(Vector3.up * BounceVelocity);
             }
             else
             {

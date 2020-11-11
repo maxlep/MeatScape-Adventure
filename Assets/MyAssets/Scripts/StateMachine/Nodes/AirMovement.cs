@@ -139,7 +139,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
         #endregion
 
-        #region AddVelocity Redirect
+        #region AddImpulse Redirect
 
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Redirect")] [Required]
         private bool EnableRedirect = true;
@@ -169,31 +169,31 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             isFastTurningRotation = false;
         }
 
-        protected override Vector3 CalculateVelocity(Vector3 currentVelocity, Vector3 addVelocity)
+        protected override Vector3 CalculateVelocity(Vector3 currentVelocity, Vector3 addImpulse)
         {
             Vector3 resultingVelocity;
             Vector3 horizontalVelocity = CalculateHorizontalVelocity(currentVelocity);
             Vector3 verticalVelocity = CalculateVerticalVelocity(currentVelocity);
 
             //Redirect Add velocity
-            if (EnableRedirect && CheckRedirectConditions(addVelocity))
-                addVelocity = CalculateRedirectedAddVelocity(addVelocity);
+            if (EnableRedirect && CheckRedirectConditions(addImpulse))
+                addImpulse = CalculateRedirectedAddImpulse(addImpulse);
 
             //Cache moveInput value for fast turn
             if (MoveInput.Value.magnitude > FastTurnInputDeadZone.Value)
                 lastMoveInputDirection = MoveInput.Value.normalized;
 
             
-            if (Mathf.Approximately(addVelocity.magnitude, 0f))
+            if (Mathf.Approximately(addImpulse.magnitude, 0f))
                 resultingVelocity = horizontalVelocity + verticalVelocity;
             
-            //If y of addVelocity is 0, dont override current y component
-            else if (Mathf.Approximately(addVelocity.y, 0f))
-                resultingVelocity = horizontalVelocity + verticalVelocity + addVelocity;
+            //If y of addImpulse is 0, dont override current y component
+            else if (Mathf.Approximately(addImpulse.y, 0f))
+                resultingVelocity = horizontalVelocity + verticalVelocity + addImpulse;
             
-            //Add velocity and override current y component
+            //Add impulse and override current y component
             else
-                resultingVelocity = horizontalVelocity + addVelocity;
+                resultingVelocity = horizontalVelocity + addImpulse;
 
             return resultingVelocity;
 
@@ -348,14 +348,14 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             }
         }
 
-        private bool CheckRedirectConditions(Vector3 addVelocity)
+        private bool CheckRedirectConditions(Vector3 addImpulse)
         {
-            float addVelocityToMoveInputDegrees =
-                Vector3.Angle(addVelocity.normalized, moveInputCameraRelative.normalized);
+            float addImpulseToMoveInputDegrees =
+                Vector3.Angle(addImpulse.normalized, moveInputCameraRelative.normalized);
 
             //If angle less than threshhold, redirect is valid
-            if (addVelocityToMoveInputDegrees <= RedirectAngleThreshold.Value && 
-                !Mathf.Approximately(addVelocity.magnitude, 0f) &&
+            if (addImpulseToMoveInputDegrees <= RedirectAngleThreshold.Value && 
+                !Mathf.Approximately(addImpulse.magnitude, 0f) &&
                 !Mathf.Approximately(moveInputCameraRelative.magnitude, 0f))
             {
                 return true;
@@ -364,14 +364,14 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             return false;
         }
 
-        private Vector3 CalculateRedirectedAddVelocity(Vector3 addVelocity)
+        private Vector3 CalculateRedirectedAddImpulse(Vector3 addImpulse)
         {
             //Make it range [0, maxDegrees] based on move input
             float reditectDegrees = RedirectMaxDegrees.Value * moveInputCameraRelative.magnitude; 
-            Vector3 addVelocityRedirectedDir = Vector3.RotateTowards(addVelocity.normalized,
+            Vector3 addImpulseRedirectedDir = Vector3.RotateTowards(addImpulse.normalized,
                 moveInputCameraRelative.normalized, reditectDegrees * Mathf.Deg2Rad, 0f);
             
-            return addVelocity.magnitude * addVelocityRedirectedDir;
+            return addImpulse.magnitude * addImpulseRedirectedDir;
         }
         
 

@@ -19,7 +19,7 @@ public class ForceArea : MonoBehaviour
             if (!UseStoredJumpVelocity)
             {
                 playerController.UngroundMotor();
-                playerController.AddVelocity(transform.forward * Force);
+                playerController.AddImpulse(transform.forward * Force);
             }
             else
             {

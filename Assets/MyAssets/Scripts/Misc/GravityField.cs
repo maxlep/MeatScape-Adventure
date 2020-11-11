@@ -20,7 +20,7 @@ public class GravityField : MonoBehaviour
             if (!UseStoredJumpVelocity)
             {
                 playerController.UngroundMotor();
-                playerController.AddVelocity(forceDir * Force);
+                playerController.AddImpulse(forceDir * Force);
             }
             else
             {

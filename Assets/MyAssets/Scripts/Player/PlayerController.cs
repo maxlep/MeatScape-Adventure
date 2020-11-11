@@ -43,7 +43,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable GroundPoundTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable JumpAttackTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable CallMeatClump;
-    [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable AddVelocityTrigger;
+    [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable AddImpulseTrigger;
 
     [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference ClumpThrowKnockbackSpeed;
     [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference ClumpReturnKnockbackSpeed;
@@ -72,9 +72,9 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private Vector3 capsuleProportions;
     private MeatClumpController[] meatClumps;
 
-    private Vector3 addVelocity;
+    private Vector3 impulseVelocity;
 
-    public delegate void _OnStartUpdateVelocity(Vector3 currentVelocity, Vector3 addVelocity);
+    public delegate void _OnStartUpdateVelocity(Vector3 currentVelocity, Vector3 impulseVelocity);
     public delegate void _OnStartUpdateRotation(Quaternion currentRotation);
     public event _OnStartUpdateVelocity onStartUpdateVelocity;
     public event _OnStartUpdateRotation onStartUpdateRotation;
@@ -134,12 +134,12 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     public void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
     {
-        if (onStartUpdateVelocity != null) onStartUpdateVelocity.Invoke(currentVelocity, addVelocity);
+        if (onStartUpdateVelocity != null) onStartUpdateVelocity.Invoke(currentVelocity, impulseVelocity);
         
-        // if (addVelocity.RoundNearZero() != Vector3.zero) Debug.Log($"Current: {currentVelocity}, Add: {addVelocity}, New {NewVelocity.Value}");
+        // if (impulseVelocity.RoundNearZero() != Vector3.zero) Debug.Log($"Current: {currentVelocity}, Add: {impulseVelocity}, New {NewVelocity.Value}");
         
         currentVelocity = NewVelocity.Value;
-        addVelocity = Vector3.zero;
+        impulseVelocity = Vector3.zero;
 
         if (!Mathf.Approximately(StoredJumpVelocity.Value, 0f))
         {
@@ -173,7 +173,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         if (hitCollider.gameObject.layer == layerMapper.GetLayer(LayerEnum.Bounce))
         {
             UngroundMotor();
-            AddVelocity(Vector3.up * 30f);
+            AddImpulse(Vector3.up * 30f);
         }
     }
 
@@ -194,7 +194,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         if (hitCollider.gameObject.layer == layerMapper.GetLayer(LayerEnum.Bounce))
         {
             UngroundMotor();
-            AddVelocity(Vector3.up * 30f);
+            AddImpulse(Vector3.up * 30f);
         }
     }
 
@@ -210,7 +210,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
                 if (!unlimitedClumps) CurrentSize -= 1;
                 
                 //Did not normalize direction so that nearly vertical forward throws move player less horizontally
-                AddVelocity(-direction.xoz() * ClumpThrowKnockbackSpeed.Value);
+                AddImpulse(-direction.xoz() * ClumpThrowKnockbackSpeed.Value);
                 return meatClump;
             }
         }
@@ -222,7 +222,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         clump.gameObject.SetActive(false);
         
         if (!unlimitedClumps) CurrentSize += 1;
-        AddVelocity(direction * ClumpReturnKnockbackSpeed.Value);
+        AddImpulse(direction * ClumpReturnKnockbackSpeed.Value);
     }
 
     public void RecallClump() {
@@ -236,13 +236,13 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     public void GiveThrowKnockback(Vector3 direction)
     {
-        AddVelocity(direction * ClumpThrowKnockbackSpeed.Value);
+        AddImpulse(direction * ClumpThrowKnockbackSpeed.Value);
     }
     
-    public void AddVelocity(Vector3 addVelocity)
+    public void AddImpulse(Vector3 addImpulse)
     {
-        this.addVelocity = addVelocity;
-        AddVelocityTrigger.Activate();
+        this.impulseVelocity = addImpulse;
+        AddImpulseTrigger.Activate();
     }
     #endregion
 

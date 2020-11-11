@@ -89,12 +89,12 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         private Vector3 lastMoveInputDirection = Vector3.zero;
         private Vector3 slopeOut;
 
-        protected override Vector3 CalculateVelocity(Vector3 currentVelocity, Vector3 addVelocity)
+        protected override Vector3 CalculateVelocity(Vector3 currentVelocity, Vector3 addImpulse)
         {
             Vector3 horizontalVelocity = CalculateHorizontalVelocity(currentVelocity);
 
             //Addive in XZ but sets in Y
-            return horizontalVelocity + addVelocity;
+            return horizontalVelocity + addImpulse;
         }
 
         private Vector3 CalculateHorizontalVelocity(Vector3 currentVelocity)

@@ -202,7 +202,7 @@ public class Movement : PlayerStateNode
         playerController.onStartUpdateRotation -= UpdateRotation;
     }
 
-    private void UpdateVelocity(Vector3 currentVelocity, Vector3 addVelocity)
+    private void UpdateVelocity(Vector3 currentVelocity, Vector3 addImpulse)
     {
         SetMoveDirection();
 
@@ -212,14 +212,14 @@ public class Movement : PlayerStateNode
         if (EnableHorizontalMovement) horizontalVelocity = CalculateHorizontalVelocity(currentVelocity);
         if (EnableVerticalMovement) verticalVelocity = CalculateVerticalVelocity(currentVelocity);
 
-        if (Mathf.Approximately(addVelocity.magnitude, 0f))
+        if (Mathf.Approximately(addImpulse.magnitude, 0f))
         {
             NewVelocityOut.Value = horizontalVelocity + verticalVelocity;
         }
         else
         {
             //Addive in XZ but sets in Y
-            NewVelocityOut.Value = horizontalVelocity + addVelocity;
+            NewVelocityOut.Value = horizontalVelocity + addImpulse;
         }
     }
 

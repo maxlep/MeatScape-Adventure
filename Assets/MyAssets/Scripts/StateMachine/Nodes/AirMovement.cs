@@ -370,8 +370,12 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             float reditectDegrees = RedirectMaxDegrees.Value * moveInputCameraRelative.magnitude; 
             Vector3 addImpulseRedirectedDir = Vector3.RotateTowards(addImpulse.normalized,
                 moveInputCameraRelative.normalized, reditectDegrees * Mathf.Deg2Rad, 0f);
+            Vector3 addImpulseRedirected = addImpulse.magnitude * addImpulseRedirectedDir;
             
-            return addImpulse.magnitude * addImpulseRedirectedDir;
+            //Preserve the original y velocity (so still reach same height)
+            addImpulseRedirected.y = addImpulse.y; 
+            
+            return addImpulseRedirected;
         }
         
 

@@ -234,12 +234,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         }
     }
 
-    public void ReturnClump(Vector3 direction)
-    {
-        if (!unlimitedClumps) CurrentSize += 1;
-        AddVelocity(direction * ClumpReturnKnockbackSpeed.Value);
-    }
-
     public void GiveThrowKnockback(Vector3 direction)
     {
         AddVelocity(direction * ClumpThrowKnockbackSpeed.Value);

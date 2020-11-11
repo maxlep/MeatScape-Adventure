@@ -24,6 +24,8 @@ public class MeatClumpController : MonoBehaviour
     
     [SerializeField] private LayerMapper layerMapper;
     [SerializeField] private FloatReference ClumpReturnSpeed;
+    [SerializeField] private FloatReference ClumpFalloffDistance;
+    [SerializeField] private FloatReference ClumpFalloffSpeed;
     [SerializeField] private FloatReference PlayerReturnTime;
     [SerializeField] private FloatReference PlayerReturnDistanceThreshold;
     [SerializeField] private FloatReference PlayerReturnMaxSpeed;
@@ -40,8 +42,10 @@ public class MeatClumpController : MonoBehaviour
 
     private float speed;
     private bool hasCollided = false;
+    private bool shouldFallOff = false;
     private Collider target;
     private LayerMask currentCollisionMask;
+    private Vector3 startMovementPoint;
 
     public void SetPlayerController(PlayerController playerController) {
         this.playerController = playerController;
@@ -49,8 +53,10 @@ public class MeatClumpController : MonoBehaviour
 
     private void SetMoving(float speed) {
         this.hasCollided = false;
+        this.shouldFallOff = false;
         this.speed = speed;
         this.currentCollisionMask = CollisionMask;
+        this.startMovementPoint = transform.position;
         if (shaderUpdater != null) shaderUpdater.ReverseSplat();
         OnSetMoving.Invoke();
     }
@@ -91,10 +97,8 @@ public class MeatClumpController : MonoBehaviour
         //SphereCast from current pos to next pos and check for collisions
         RaycastHit hit;
         if (Physics.SphereCast(transform.position, CollisionRadius.Value, transform.forward,
-            out hit, deltaDistance, currentCollisionMask))
-        {
-            if (hit.collider.isTrigger) return;
-            
+            out hit, deltaDistance, currentCollisionMask, QueryTriggerInteraction.Ignore))
+        {   
             this.hasCollided = true;
             transform.position += (transform.forward * hit.distance);
             GameObject hitObj = hit.collider.gameObject;
@@ -112,7 +116,7 @@ public class MeatClumpController : MonoBehaviour
             }
             
             //Static object hit
-            if (shaderUpdater != null) shaderUpdater.StartSplat(hit);
+            if (shaderUpdater != null) shaderUpdater.StartSplat(hit.normal);
             OnCollideWithStatic.Invoke();
         }
     }
@@ -125,22 +129,30 @@ public class MeatClumpController : MonoBehaviour
         
         if (hitColliders.Length > 0)
         {
+            this.hasCollided = true;
             foreach (var collider in hitColliders)
             {
                 if (collider.gameObject.layer == layerMapper.GetLayer(LayerEnum.Player))
                 {
-                    this.hasCollided = true;
                     ReabsorbIntoPlayer();
                     return;
                 }
             }
+
+            if (shaderUpdater != null) shaderUpdater.StartSplat(-transform.forward);
+            OnCollideWithStatic.Invoke();
         }
     }
 
     private void Move(float deltaDistance)
     {
+        shouldFallOff = Vector3.Distance(transform.position, this.startMovementPoint) >= this.ClumpFalloffDistance.Value;
         if (target != null) {
             transform.forward = target.bounds.center - transform.position;
+        }
+        if(!this.ReturningToPlayer && shouldFallOff) {
+            float newY = transform.forward.y - (this.ClumpFalloffSpeed.Value * Time.deltaTime);
+            transform.forward = new Vector3(transform.forward.x, newY, transform.forward.z);
         }
         transform.position += transform.forward * deltaDistance;
     }

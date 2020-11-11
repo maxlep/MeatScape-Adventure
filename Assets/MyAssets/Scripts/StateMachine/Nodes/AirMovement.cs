@@ -273,8 +273,6 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         {
             Quaternion newRotation;
             Quaternion lookRotation = Quaternion.LookRotation(playerController.transform.forward, Vector3.up);
-            Quaternion moveInputRotation = Quaternion.LookRotation(moveInputCameraRelative.normalized,
-                    Vector3.up);
             
             float deltaRotation = (isFastTurning) ? FastTurnDeltaRot.Value : RotationDeltaMax.Value;
             
@@ -294,6 +292,8 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             }
             else
             {
+                Quaternion moveInputRotation = Quaternion.LookRotation(moveInputCameraRelative.normalized,
+                    Vector3.up);
                 newRotation = Quaternion.RotateTowards(lookRotation, moveInputRotation, deltaRotation);
             }
 

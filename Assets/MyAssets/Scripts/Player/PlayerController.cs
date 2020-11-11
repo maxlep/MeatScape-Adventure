@@ -43,6 +43,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable GroundPoundTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable JumpAttackTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable CallMeatClump;
+    [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable AddVelocityTrigger;
 
     [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference ClumpThrowKnockbackSpeed;
     [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference ClumpReturnKnockbackSpeed;
@@ -247,6 +248,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     public void AddVelocity(Vector3 addVelocity)
     {
         this.addVelocity = addVelocity;
+        AddVelocityTrigger.Activate();
     }
     #endregion
 

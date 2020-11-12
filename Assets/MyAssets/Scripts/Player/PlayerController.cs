@@ -31,6 +31,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference StoredJumpVelocity;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference MaxSlopeSlideAngle;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector2Reference MoveInput;
+    [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector3Reference BaseVelocity;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference JumpPressed;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference IsSlopeSlideValid;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private TimerReference SlopeSlideTimer;
@@ -251,7 +252,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         IsGrounded.Value = charMotor.GroundingStatus.IsStableOnGround;
         IsOnSlidebleSlope.Value = StandingOnSlideableSlope();
         IsSlopeSlideValid.Value = IsSlopeSlideReady();
-
+        BaseVelocity.Value = charMotor.BaseVelocity;
 
         // animator.SetFloat("HorizontalSpeed", Mathf.Sqrt(Mathf.Pow(NewVelocity.Value.x, 2) + Mathf.Pow(NewVelocity.Value.z, 2)));
         // animator.SetFloat("VerticalVelocity", NewVelocity.Value.y);

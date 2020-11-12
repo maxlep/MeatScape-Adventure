@@ -98,7 +98,7 @@ public class MeatClumpController : MonoBehaviour
         RaycastHit hit;
         if (Physics.SphereCast(transform.position, CollisionRadius.Value, transform.forward,
             out hit, deltaDistance, currentCollisionMask, QueryTriggerInteraction.Ignore))
-        {   
+        {
             this.hasCollided = true;
             transform.position += (transform.forward * hit.distance);
             GameObject hitObj = hit.collider.gameObject;
@@ -125,7 +125,7 @@ public class MeatClumpController : MonoBehaviour
     {
         //Overlap sphere at final position to check for intersecting colliders
         Collider[] hitColliders =
-            (Physics.OverlapSphere(transform.position, CollisionRadius.Value, currentCollisionMask));
+            (Physics.OverlapSphere(transform.position, CollisionRadius.Value, currentCollisionMask, QueryTriggerInteraction.Ignore));
         
         if (hitColliders.Length > 0)
         {
@@ -135,6 +135,12 @@ public class MeatClumpController : MonoBehaviour
                 if (collider.gameObject.layer == layerMapper.GetLayer(LayerEnum.Player))
                 {
                     ReabsorbIntoPlayer();
+                    return;
+                }
+                if(collider.gameObject.layer == layerMapper.GetLayer(LayerEnum.Enemy)) {
+                    EnemyController enemyScript = collider.GetComponent<EnemyController>();
+                    enemyScript.DamageEnemy(1);
+                    this.SetReturnToPlayer();
                     return;
                 }
             }

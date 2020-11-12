@@ -304,6 +304,11 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         charMotor.ForceUnground(0.1f);
     }
     
+    public Vector3 GetPlatformVelocity()
+    {
+        return charMotor.Velocity - charMotor.BaseVelocity;
+    }
+    
     private void SetPlayerSize(PlayerSize value) {
         if(value < PlayerSize.Small || value > PlayerSize.Large) return;
         else currentSize = value;

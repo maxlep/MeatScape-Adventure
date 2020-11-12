@@ -14,8 +14,9 @@ public class TransitionNode : Node
     [Input(typeConstraint = TypeConstraint.Strict)] [PropertyOrder(-3)] public StateMachineConnection startingState;
     [Output (connectionType = ConnectionType.Override, typeConstraint = TypeConstraint.Strict)] [PropertyOrder(-2)] public StateMachineConnection nextState;
 
-    [LabelWidth(100)] [MinValue(0)] [HideIf("$zoom")]
+    [LabelWidth(100)] [MinValue(0)] [HideIf("$zoom")] [HorizontalGroup("Left", MarginRight = 650f)]
     [SerializeField] private int transitionPriority;
+    
     [TextArea(3,10)] [HideLabel] [HideIf("$zoom")]
     [SerializeField] private string conditionPreview;
 

@@ -32,7 +32,7 @@ public class Jump : PlayerStateNode
         gravity = -(2 * maxJumpHeight.Value) / Mathf.Pow(timeToJumpApex.Value, 2);
         jumpVelocity = Mathf.Abs(gravity) * timeToJumpApex.Value;
         playerController.UngroundMotor();
-        StoredJumpVelocity.Value = jumpVelocity;
+        StoredJumpVelocity.Value = jumpVelocity + Mathf.Max(playerController.GetPlatformVelocity().y, 0f);
         triggerJumpAnim.Activate();
     }
 

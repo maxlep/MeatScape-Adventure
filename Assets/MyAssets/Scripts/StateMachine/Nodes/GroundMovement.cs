@@ -93,7 +93,6 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         public override void Enter()
         {
             base.Enter();
-            playerController.RecallAttempts = (int)PlayerSize.Large;
         }
         #endregion
 

@@ -66,8 +66,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     private PlayerSize currentSize;
     public PlayerSize CurrentSize { get => currentSize; set => SetPlayerSize(value); }
-    private int recallAttempts;
-    public int RecallAttempts { get => recallAttempts; set => SetRecallAttempts(value); }
+    public int RecallAttempts { get => PlayerRecallAttempts.Value; set => SetRecallAttempts(value); }
     public Transform AimTarget => aimTargetter.CurrentTarget;
     public KinematicCharacterMotor CharacterMotor => charMotor;
     public CharacterGroundingReport GroundingStatus => charMotor.GroundingStatus;
@@ -118,6 +117,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private void Update()
     {
         UpdateParameters();
+        HandleResetRecallAttempts();
     }
 
     #endregion
@@ -256,10 +256,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         IsOnSlidebleSlope.Value = StandingOnSlideableSlope();
         IsSlopeSlideValid.Value = IsSlopeSlideReady();
         BaseVelocity.Value = charMotor.BaseVelocity;
-
-        // animator.SetFloat("HorizontalSpeed", Mathf.Sqrt(Mathf.Pow(NewVelocity.Value.x, 2) + Mathf.Pow(NewVelocity.Value.z, 2)));
-        // animator.SetFloat("VerticalVelocity", NewVelocity.Value.y);
-        // animator.SetBool("IsGrounded", IsGrounded.Value);
     }
 
     private bool StandingOnSlideableSlope()
@@ -327,8 +323,16 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     private void SetRecallAttempts(int value) {
         if(value < (int)PlayerSize.Small || value > (int)PlayerSize.Large) return;
-        this.recallAttempts = value;
-        PlayerRecallAttempts.Value = this.recallAttempts;
+        PlayerRecallAttempts.Value = value;
+    }
+    
+    private void HandleResetRecallAttempts()
+    {
+        if (!LastGroundingStatus.FoundAnyGround &&
+            (GroundingStatus.IsStableOnGround || StandingOnSlideableSlope()))
+        {
+            PlayerRecallAttempts.Reset();
+        }
     }
 
     private void OnTriggerStay(Collider other) {

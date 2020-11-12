@@ -24,7 +24,9 @@ namespace MyAssets.ScriptableObjects.Variables
             }
         }
 
-        private void OnEnable() => runtimeValue = defaultValue;
+        public void Reset() => runtimeValue = defaultValue;
+
+        private void OnEnable() => Reset();
 
     
     }
@@ -40,6 +42,25 @@ namespace MyAssets.ScriptableObjects.Variables
         [SerializeField] private Vector3Variable Variable;
     
         public String Tooltip => Variable != null && !UseConstant ? Variable.Description : "";
+        
+        public void Reset()
+        {
+            if (Variable != null && !UseConstant)
+                Variable.Reset();
+            else
+                Debug.Log($"Trying to reset a SO <{Name}> using a constant value1 Nothing will happen.");
+        } 
+        
+        public String Name
+        {
+            get
+            {
+                if (UseConstant) 
+                    return $"<Const>{ConstantValue}";
+                
+                return (Variable != null) ? Variable.name : "<Missing Int>";
+            }
+        }
 
         public Vector3 Value
         {

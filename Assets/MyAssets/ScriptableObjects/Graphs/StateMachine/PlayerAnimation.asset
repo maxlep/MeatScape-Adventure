@@ -193,12 +193,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- ! Is Grounded_ Controller_ Player
-
-    - 0  Ignore 0 && 0 
-    Less Than -0.1 && 0  Ignore 0
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -441,12 +436,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '-  Is Grounded_ Controller_ Player
-
-    - 0  Abs Less Than 0.001
-    && 0  Ignore 0 && 0  Abs Less Than 0.001
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -1610,11 +1600,6 @@ MonoBehaviour:
       _dynamic: 0
   conditionPreview: '-  Invalid:  Slope  Movement
 
-    - ! Is Grounded_ Controller_
-    Player
-
-    - 0  Ignore 0 && 0  Less Than -0.1 && 0  Ignore 0
-
 '
   ValidStartStates: []
   InvalidStartStates:
@@ -2376,9 +2361,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '-  Throw_ Time_ Anim_ Player: 0.15 sec
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -2436,9 +2419,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '-  Jump Trigger_ Anim_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -2768,10 +2749,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '- 0  Abs Greater Than 0 && 0  Ignore 0 && 0  Abs Greater Than
-    0
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -3395,9 +3373,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '-  Throw_ Time_ Anim_ Player: 0.15 sec
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -4155,15 +4131,17 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  conditionPreview: '-  Jump Trigger_ Anim_ Player
+  conditionPreview: '-  Valid:  Jump
+
+    -  Valid:  Air Jump
 
 '
-  ValidStartStates: []
+  ValidStartStates:
+  - {fileID: 3160719255603912525, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  - {fileID: -5368650478412996812, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   InvalidStartStates: []
   BoolConditions: []
-  TriggerConditions:
-  - targetParameter: {fileID: 11400000, guid: 692eae34b308467428fcb511fd2a56c5, type: 2}
-    KeepTriggerOn: 0
+  TriggerConditions: []
   FloatConditions: []
   IntConditions: []
   TimerConditions: []

@@ -27,7 +27,7 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
             var raw = inputVelocity.Value;
             var divisor = max;
             var pct = raw / divisor;
-            if (raw > 0) pct = 1 - pct;
+            // if (raw > 0) pct = 1 - pct;
         
             // Debug.Log($"{name} {raw}, {divisor}, {pct}");
             outWeight.Value = pct;

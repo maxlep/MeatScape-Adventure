@@ -14,6 +14,8 @@ public class TransitionNode : Node
     [Input(typeConstraint = TypeConstraint.Strict)] [PropertyOrder(-3)] public StateMachineConnection startingState;
     [Output (connectionType = ConnectionType.Override, typeConstraint = TypeConstraint.Strict)] [PropertyOrder(-2)] public StateMachineConnection nextState;
 
+    [LabelWidth(100)] [MinValue(0)] [HideIf("$zoom")]
+    [SerializeField] private int transitionPriority;
     [TextArea(3,10)] [HideLabel] [HideIf("$zoom")]
     [SerializeField] private string conditionPreview;
 
@@ -68,8 +70,8 @@ public class TransitionNode : Node
     private List<ITransitionCondition> allConditions = new List<ITransitionCondition>();
 
     public List<TriggerVariable> TriggerVars => triggerVars;
+    public int TransitionPriority => transitionPriority;
     public string ConditionPreview => conditionPreview;
-
 
     protected bool isInitialized = false;
     private List<VariableContainer> parameterList;

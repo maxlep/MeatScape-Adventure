@@ -171,6 +171,12 @@ public class StateNode : Node
             if (nodeAsStart != null)
                 isEntryState = true;
         });
+
+        nextTransitionNodes.Sort((node1, node2) => {
+            if(node1.TransitionPriority < node2.TransitionPriority) return -1;
+            if(node1.TransitionPriority > node2.TransitionPriority) return 1;
+            return 0;
+        });
     }
 
     private void PopulatePreviousStates()

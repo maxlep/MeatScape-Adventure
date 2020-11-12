@@ -38,6 +38,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference IsGrounded;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference IsOnSlidebleSlope;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private IntReference PlayerCurrentSize;
+    [FoldoutGroup("Transition Parameters")] [SerializeField] private IntReference PlayerRecallAttempts;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable AttackTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable JumpTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable DownwardAttackTrigger;
@@ -65,6 +66,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     private PlayerSize currentSize;
     public PlayerSize CurrentSize { get => currentSize; set => SetPlayerSize(value); }
+    private int recallAttempts;
+    public int RecallAttempts { get => recallAttempts; set => SetRecallAttempts(value); }
     public Transform AimTarget => aimTargetter.CurrentTarget;
     public KinematicCharacterMotor CharacterMotor => charMotor;
     public CharacterGroundingReport GroundingStatus => charMotor.GroundingStatus;
@@ -315,6 +318,12 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         foreach(SizeControlledFloatReference prop in SizeControlledProperties) {
             prop.UpdateValue(currentSize);
         }
+    }
+
+    private void SetRecallAttempts(int value) {
+        if(value < (int)PlayerSize.Small || value > (int)PlayerSize.Large) return;
+        this.recallAttempts = value;
+        PlayerRecallAttempts.Value = this.recallAttempts;
     }
 
     private void OnTriggerStay(Collider other) {

@@ -89,6 +89,14 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         private Vector3 lastMoveInputDirection = Vector3.zero;
         private Vector3 slopeOut;
 
+        #region Lifecycle methods
+        public override void Enter()
+        {
+            base.Enter();
+            playerController.RecallAttempts = (int)PlayerSize.Large;
+        }
+        #endregion
+
         protected override Vector3 CalculateVelocity(Vector3 currentVelocity, Vector3 addImpulse)
         {
             Vector3 horizontalVelocity = CalculateHorizontalVelocity(currentVelocity);

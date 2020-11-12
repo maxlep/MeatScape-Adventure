@@ -227,7 +227,13 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  transitionPriority: 0
   conditionPreview: '-  Valid:  Roll  Movement
+
+    -  Ground Pound Trigger_ Controller_
+    Player
+
+    -  Player Current Size_ Controller_ Player  Greater Than 0
 
 '
   ValidStartStates:
@@ -344,12 +350,21 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  transitionPriority: 0
   conditionPreview: '-  Valid:  Ground Movement
 
     -  Valid:  Air Movement
 
     - 
     Valid:  No Low Jump
+
+    -  Waited Attack Delay_ Combat_ Player
+
+    -  Attack
+    Trigger_ Controller_ Player
+
+    -  Player Current Size_ Controller_ Player 
+    Greater Than 0
 
 '
   ValidStartStates:
@@ -420,9 +435,18 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  transitionPriority: 0
   conditionPreview: '-  Valid:  Air Movement
 
     -  Valid:  No Low Jump
+
+    - 
+    Waited Attack Delay_ Combat_ Player
+
+    -  Downward Attack Trigger_ Controller_
+    Player
+
+    -  Player Current Size_ Controller_ Player  Greater Than 0
 
 '
   ValidStartStates:

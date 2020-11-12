@@ -52,13 +52,15 @@ public class MeatClumpController : MonoBehaviour
     }
 
     private void SetMoving(float speed) {
+        if(this.hasCollided) {
+            if (shaderUpdater != null) shaderUpdater.ReverseSplat();
+            OnSetMoving.Invoke();
+        }
         this.hasCollided = false;
         this.shouldFallOff = false;
         this.speed = speed;
         this.currentCollisionMask = CollisionMask;
         this.startMovementPoint = transform.position;
-        if (shaderUpdater != null) shaderUpdater.ReverseSplat();
-        OnSetMoving.Invoke();
     }
 
     public void SetMoving(float speed, Vector3 direction) {

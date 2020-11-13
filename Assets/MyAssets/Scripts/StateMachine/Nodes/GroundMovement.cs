@@ -96,12 +96,15 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         }
         #endregion
 
-        protected override Vector3 CalculateVelocity(Vector3 currentVelocity, Vector3 addImpulse)
+        protected override Vector3 CalculateVelocity(VelocityInfo velocityInfo)
         {
+            Vector3 currentVelocity = velocityInfo.currentVelocity;
+            Vector3 impulseVelocity = velocityInfo.impulseVelocity;
+            Vector3 impulseVelocityRedirectble = velocityInfo.impulseVelocityRedirectble;
             Vector3 horizontalVelocity = CalculateHorizontalVelocity(currentVelocity);
 
             //Addive in XZ but sets in Y
-            return horizontalVelocity + addImpulse;
+            return horizontalVelocity + impulseVelocity;
         }
 
         private Vector3 CalculateHorizontalVelocity(Vector3 currentVelocity)

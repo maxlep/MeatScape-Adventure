@@ -24,10 +24,14 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             playerController.GiveThrowKnockback(NewVelocityOut.Value.normalized);
         }
 
-        protected override Vector3 CalculateVelocity(Vector3 currentVelocity, Vector3 addImpulse)
+        protected override Vector3 CalculateVelocity(VelocityInfo velocityInfo)
         {
+            Vector3 currentVelocity = velocityInfo.currentVelocity;
+            Vector3 impulseVelocity = velocityInfo.impulseVelocity;
+            Vector3 impulseVelocityRedirectble = velocityInfo.impulseVelocityRedirectble;
+            
             //TODO: Brought this over from base movement class for now
-            currentVelocity += addImpulse;
+            currentVelocity += impulseVelocity;
             
             CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
 

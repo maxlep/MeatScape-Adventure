@@ -169,31 +169,37 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             isFastTurningRotation = false;
         }
 
-        protected override Vector3 CalculateVelocity(Vector3 currentVelocity, Vector3 addImpulse)
+        protected override Vector3 CalculateVelocity(VelocityInfo velocityInfo)
         {
+            Vector3 currentVelocity = velocityInfo.currentVelocity;
+            Vector3 impulseVelocity = velocityInfo.impulseVelocity;
+            Vector3 impulseVelocityRedirectble = velocityInfo.impulseVelocityRedirectble;
+
+            Vector3 totalImpulse = impulseVelocity;
             Vector3 resultingVelocity;
             Vector3 horizontalVelocity = CalculateHorizontalVelocity(currentVelocity);
             Vector3 verticalVelocity = CalculateVerticalVelocity(currentVelocity);
 
-            //Redirect Add velocity
-            if (EnableRedirect && CheckRedirectConditions(addImpulse))
-                addImpulse = CalculateRedirectedAddImpulse(addImpulse);
+            //Redirect impulseVelocityRedirectble if conditions met
+            if (EnableRedirect && CheckRedirectConditions(impulseVelocityRedirectble))
+                totalImpulse += CalculateRedirectedImpulse(impulseVelocityRedirectble);
+            else
+                totalImpulse += impulseVelocityRedirectble;
 
             //Cache moveInput value for fast turn
             if (MoveInput.Value.magnitude > FastTurnInputDeadZone.Value)
                 lastMoveInputDirection = MoveInput.Value.normalized;
-
             
-            if (Mathf.Approximately(addImpulse.magnitude, 0f))
+            if (Mathf.Approximately(totalImpulse.magnitude, 0f))
                 resultingVelocity = horizontalVelocity + verticalVelocity;
             
-            //If y of addImpulse is 0, dont override current y component
-            else if (Mathf.Approximately(addImpulse.y, 0f))
-                resultingVelocity = horizontalVelocity + verticalVelocity + addImpulse;
+            //If y of impulseVelocity is 0, dont override current y component
+            else if (Mathf.Approximately(totalImpulse.y, 0f))
+                resultingVelocity = horizontalVelocity + verticalVelocity + totalImpulse;
             
             //Add impulse and override current y component
             else
-                resultingVelocity = horizontalVelocity + addImpulse;
+                resultingVelocity = horizontalVelocity + totalImpulse;
 
             return resultingVelocity;
 
@@ -348,14 +354,17 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             }
         }
 
-        private bool CheckRedirectConditions(Vector3 addImpulse)
+        private bool CheckRedirectConditions(Vector3 impulseVelocity)
         {
+            if (Mathf.Approximately(impulseVelocity.magnitude, 0f))
+                return false;
+            
             float addImpulseToMoveInputDegrees =
-                Vector3.Angle(addImpulse.normalized, moveInputCameraRelative.normalized);
+                Vector3.Angle(impulseVelocity.normalized, moveInputCameraRelative.normalized);
 
             //If angle less than threshhold, redirect is valid
             if (addImpulseToMoveInputDegrees <= RedirectAngleThreshold.Value && 
-                !Mathf.Approximately(addImpulse.magnitude, 0f) &&
+                !Mathf.Approximately(impulseVelocity.magnitude, 0f) &&
                 !Mathf.Approximately(moveInputCameraRelative.magnitude, 0f))
             {
                 return true;
@@ -364,7 +373,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             return false;
         }
 
-        private Vector3 CalculateRedirectedAddImpulse(Vector3 addImpulse)
+        private Vector3 CalculateRedirectedImpulse(Vector3 addImpulse)
         {
             //Make it range [0, maxDegrees] based on move input
             float reditectDegrees = RedirectMaxDegrees.Value * moveInputCameraRelative.magnitude; 

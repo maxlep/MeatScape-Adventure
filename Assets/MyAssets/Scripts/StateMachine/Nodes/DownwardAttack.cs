@@ -21,7 +21,7 @@ public class DownwardAttack : PlayerStateNode
         base.Enter();
 
         var throwDir = -firePoint.Value.up;
-        MeatClumpController clump = playerController.DetachClump(throwDir);
+        MeatClumpController clump = playerController.DetachClump(throwDir, true);
         clump.transform.position = firePoint.Value.position;
         clump.SetMoving(throwSpeed.Value, throwDir);
     }

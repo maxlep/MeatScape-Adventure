@@ -12,9 +12,11 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
-public interface testInterface
+public struct VelocityInfo
 {
-    int someInt();
+    public Vector3 currentVelocity;
+    public Vector3 impulseVelocity;
+    public Vector3 impulseVelocityRedirectble;
 }
 
 public class PlayerController : SerializedMonoBehaviour, ICharacterController
@@ -76,8 +78,9 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private MeatClumpController[] meatClumps;
 
     private Vector3 impulseVelocity;
+    private Vector3 impulseVelocityRedirectble;
 
-    public delegate void _OnStartUpdateVelocity(Vector3 currentVelocity, Vector3 impulseVelocity);
+    public delegate void _OnStartUpdateVelocity(VelocityInfo velocityInfo);
     public delegate void _OnStartUpdateRotation(Quaternion currentRotation);
     public event _OnStartUpdateVelocity onStartUpdateVelocity;
     public event _OnStartUpdateRotation onStartUpdateRotation;
@@ -138,12 +141,18 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     public void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
     {
-        if (onStartUpdateVelocity != null) onStartUpdateVelocity.Invoke(currentVelocity, impulseVelocity);
+        VelocityInfo velocityInfo = new VelocityInfo()
+        {
+            currentVelocity = currentVelocity,
+            impulseVelocity = impulseVelocity,
+            impulseVelocityRedirectble = impulseVelocityRedirectble
+        };
         
-        // if (impulseVelocity.RoundNearZero() != Vector3.zero) Debug.Log($"Current: {currentVelocity}, Add: {impulseVelocity}, New {NewVelocity.Value}");
+        if (onStartUpdateVelocity != null) onStartUpdateVelocity.Invoke(velocityInfo);
         
         currentVelocity = NewVelocity.Value;
         impulseVelocity = Vector3.zero;
+        impulseVelocityRedirectble = Vector3.zero;
 
         if (!Mathf.Approximately(StoredJumpVelocity.Value, 0f))
         {
@@ -174,11 +183,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         ref HitStabilityReport hitStabilityReport)
     {
         // This is called when the motor's movement logic detects a hit
-        if (hitCollider.gameObject.layer == layerMapper.GetLayer(LayerEnum.Bounce))
-        {
-            UngroundMotor();
-            AddImpulse(Vector3.up * 30f);
-        }
     }
 
     public void ProcessHitStabilityReport(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint,
@@ -195,17 +199,12 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     public void OnDiscreteCollisionDetected(Collider hitCollider)
     {
         // This is called by the motor when it is detecting a collision that did not result from a "movement hit".
-        if (hitCollider.gameObject.layer == layerMapper.GetLayer(LayerEnum.Bounce))
-        {
-            UngroundMotor();
-            AddImpulse(Vector3.up * 30f);
-        }
     }
 
     #endregion
     
     #region Player Controller Interface
-    public MeatClumpController DetachClump(Vector3 direction) {
+    public MeatClumpController DetachClump(Vector3 direction, bool canRedirect = false) {
         foreach (MeatClumpController meatClump in meatClumps) {
             if (meatClump.transform.parent != null) {
                 meatClump.transform.parent = null;
@@ -214,7 +213,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
                 if (!unlimitedClumps) CurrentSize -= 1;
                 
                 //Did not normalize direction so that nearly vertical forward throws move player less horizontally
-                AddImpulse(-direction.xoz() * ClumpThrowKnockbackSpeed.Value);
+                AddImpulse(-direction.xoz() * ClumpThrowKnockbackSpeed.Value, canRedirect);
                 return meatClump;
             }
         }
@@ -226,7 +225,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         clump.gameObject.SetActive(false);
         
         if (!unlimitedClumps) CurrentSize += 1;
-        AddImpulse(direction * ClumpReturnKnockbackSpeed.Value);
+        AddImpulse(direction * ClumpReturnKnockbackSpeed.Value, true);
     }
 
     public void RecallClump() {
@@ -243,9 +242,10 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         AddImpulse(direction * ClumpThrowKnockbackSpeed.Value);
     }
     
-    public void AddImpulse(Vector3 addImpulse)
+    public void AddImpulse(Vector3 addImpulse, bool canRedirect = false)
     {
-        this.impulseVelocity = addImpulse;
+        if (canRedirect) impulseVelocityRedirectble += addImpulse;
+        else impulseVelocity += addImpulse;
         AddImpulseTrigger.Activate();
     }
     #endregion

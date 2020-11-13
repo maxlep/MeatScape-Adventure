@@ -31,7 +31,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             Vector3 impulseVelocityRedirectble = velocityInfo.impulseVelocityRedirectble;
             
             //TODO: Brought this over from base movement class for now
-            currentVelocity += impulseVelocity;
+            currentVelocity += impulseVelocity + impulseVelocityRedirectble;
             
             CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
 

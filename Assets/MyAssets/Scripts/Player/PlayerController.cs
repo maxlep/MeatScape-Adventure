@@ -78,7 +78,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private MeatClumpController[] meatClumps;
 
     private Vector3 impulseVelocity;
-    private Vector3 impulseVelocityRedirectble;
+    private Vector3 impulseVelocityRedirectable;
+    private Vector3 impulseVelocityOverlayed;
 
     public delegate void _OnStartUpdateVelocity(VelocityInfo velocityInfo);
     public delegate void _OnStartUpdateRotation(Quaternion currentRotation);
@@ -145,20 +146,23 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         {
             currentVelocity = currentVelocity,
             impulseVelocity = impulseVelocity,
-            impulseVelocityRedirectble = impulseVelocityRedirectble
+            impulseVelocityRedirectble = impulseVelocityRedirectable
         };
         
         if (onStartUpdateVelocity != null) onStartUpdateVelocity.Invoke(velocityInfo);
         
         currentVelocity = NewVelocity.Value;
-        impulseVelocity = Vector3.zero;
-        impulseVelocityRedirectble = Vector3.zero;
+        currentVelocity += impulseVelocityOverlayed;
 
         if (!Mathf.Approximately(StoredJumpVelocity.Value, 0f))
         {
             currentVelocity.y = StoredJumpVelocity.Value;
         }
         
+        impulseVelocity = Vector3.zero;
+        impulseVelocityRedirectable = Vector3.zero;
+        impulseVelocityOverlayed = Vector3.zero;
+
     }
 
     public void AfterCharacterUpdate(float deltaTime)
@@ -244,8 +248,14 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     
     public void AddImpulse(Vector3 addImpulse, bool canRedirect = false)
     {
-        if (canRedirect) impulseVelocityRedirectble += addImpulse;
+        if (canRedirect) impulseVelocityRedirectable += addImpulse;
         else impulseVelocity += addImpulse;
+        AddImpulseTrigger.Activate();
+    }
+    
+    public void AddImpulseOverlayed(Vector3 addImpulse)
+    {
+        impulseVelocityOverlayed += addImpulse;
         AddImpulseTrigger.Activate();
     }
     #endregion

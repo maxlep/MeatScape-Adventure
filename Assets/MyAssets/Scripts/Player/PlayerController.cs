@@ -268,7 +268,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         BaseVelocity.Value = charMotor.BaseVelocity;
     }
 
-    private bool StandingOnSlideableSlope()
+    public bool StandingOnSlideableSlope()
     {
         float slopeAngle = Vector3.Angle(GroundingStatus.GroundNormal, Vector3.up);
 

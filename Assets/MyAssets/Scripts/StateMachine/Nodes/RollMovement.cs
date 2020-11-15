@@ -9,13 +9,42 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 {
     public class RollMovement : BaseMovement
     {
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Horizontal Movement")] [Required]
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Horizontal Movement")] [Required]
         protected FloatReference CoefficientOfRollingFriction;
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Horizontal Movement")] [Required]
+        
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Horizontal Movement")] [Required]
         protected FloatReference CoefficientOfTurningFriction;
         
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Outputs")] [Required]
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Outputs")] [Required]
         protected FloatReference TurnFactor;
+        
+        #region Vertical Movement
+
+        [HideIf("$zoom")]
+        [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
+        [TabGroup("Vertical Movement")] 
+        private FloatReference TimeToJumpApex;
+
+        [HideIf("$zoom")]
+        [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
+        [TabGroup("Vertical Movement")] 
+        private FloatReference MaxJumpHeight;
+
+        [HideIf("$zoom")]
+        [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
+        [TabGroup("Vertical Movement")]
+        private FloatReference FallMultiplier;
+
+        [HideIf("$zoom")]
+        [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
+        [TabGroup("Vertical Movement")]
+        private FloatReference MaxFallSpeed;
+        
+
+        #endregion
 
         public override void Enter()
         {
@@ -30,12 +59,22 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             Vector3 impulseVelocity = velocityInfo.impulseVelocity;
             Vector3 impulseVelocityRedirectble = velocityInfo.impulseVelocityRedirectble;
             
-            //TODO: Brought this over from base movement class for now
-            currentVelocity += impulseVelocity + impulseVelocityRedirectble;
-            
+            Vector3 totalImpulse = impulseVelocity + impulseVelocityRedirectble;
+            Vector3 resultingVelocity;
+            Vector3 horizontalVelocity = CalculateHorizontalVelocity(currentVelocity);
+            Vector3 verticalVelocity = CalculateVerticalVelocity(currentVelocity);
+
+            resultingVelocity = horizontalVelocity + verticalVelocity;
+            resultingVelocity += totalImpulse;
+
+            return resultingVelocity;
+        }
+
+        private Vector3 CalculateHorizontalVelocity(Vector3 currentVelocity)
+        {
             CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
 
-            var currentDir = currentVelocity.xoz();
+            var currentDir = currentVelocity.xoz().normalized;
             var steeringDir = moveInputCameraRelative;
             var steeringAngle = Vector3.Angle(currentDir, steeringDir);
             var steeringFac = steeringAngle / 180;
@@ -53,11 +92,37 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             Vector2 dir = Vector2.SmoothDamp(currentDir.normalized, steeringDir,
                 ref dummyVel, TurnSpeed.Value);
 
-            newSpeed = Mathf.Max(currentVelocity.magnitude - friction, BaseSpeed.Value);
+            newSpeed = Mathf.Max(currentVelocity.xoz().magnitude - friction, BaseSpeed.Value);
 
             newDirection = moveInputCameraRelative;
 
             return newDirection * newSpeed;
+        }
+
+        private Vector3 CalculateVerticalVelocity(Vector3 currentVelocity)
+        {
+            CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
+            CharacterTransientGroundingReport LastGroundingStatus = playerController.LastGroundingStatus;
+
+            Vector3 newVelocity = currentVelocity.y * Vector3.up;
+
+            float gravity = -(2 * MaxJumpHeight.Value) / Mathf.Pow(TimeToJumpApex.Value, 2);
+
+            if (newVelocity.y <= 0 || GroundingStatus.FoundAnyGround)  //Falling
+            {
+                newVelocity.y += gravity * (FallMultiplier.Value - 1) * Time.deltaTime;
+            }
+            else
+            {
+                newVelocity.y += gravity * Time.deltaTime;
+            }
+        
+            if (newVelocity.y < -Mathf.Abs(MaxFallSpeed.Value))   //Cap Speed
+            {
+                newVelocity.y = -Mathf.Abs(MaxFallSpeed.Value);
+            }
+
+            return newVelocity;
         }
 
         public override void DrawGizmos()

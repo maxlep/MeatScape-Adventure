@@ -50,66 +50,6 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 91392095241e171419b51689da476ba1, type: 2}
---- !u!114 &-8732738294254801329
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Idle  -> Slope Sliding
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 1640, y: -3032}
-  ports:
-    keys:
-    - startingState
-    - nextState
-    values:
-    - _fieldName: startingState
-      _node: {fileID: -8732738294254801329}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: 1784268939710130638}
-        reroutePoints: []
-      - fieldName: transitions
-        node: {fileID: -1507888589778504077}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: nextState
-      _node: {fileID: -8732738294254801329}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: previousState
-        node: {fileID: 6452882889237860764}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 1
-      _typeConstraint: 2
-      _dynamic: 0
-  transitionPriority: 0
-  conditionPreview: '-  Valid:  Slope Sliding
-
-'
-  ValidStartStates:
-  - {fileID: -1733806752048908885, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  InvalidStartStates: []
-  BoolConditions: []
-  TriggerConditions: []
-  FloatConditions: []
-  IntConditions: []
-  TimerConditions: []
-  Vector2Conditions: []
-  Vector3Conditions: []
 --- !u!114 &-8358914764313829916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,66 +168,6 @@ MonoBehaviour:
     zCompare:
       comparator: 0
       value: 0
---- !u!114 &-7518923667571480883
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Slope Sliding -> Fall Sub
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: -232, y: 3224}
-  ports:
-    keys:
-    - startingState
-    - nextState
-    values:
-    - _fieldName: startingState
-      _node: {fileID: -7518923667571480883}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: 7458458885287841656}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: nextState
-      _node: {fileID: -7518923667571480883}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: previousState
-        node: {fileID: -2159164430094105420}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 1
-      _typeConstraint: 2
-      _dynamic: 0
-  transitionPriority: 0
-  conditionPreview: '-  Valid:  Air Jump
-
-    -  Valid:  No Low Jump
-
-'
-  ValidStartStates:
-  - {fileID: -5368650478412996812, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  - {fileID: 8382683336472367375, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  InvalidStartStates: []
-  BoolConditions: []
-  TriggerConditions: []
-  FloatConditions: []
-  IntConditions: []
-  TimerConditions: []
-  Vector2Conditions: []
-  Vector3Conditions: []
 --- !u!114 &-7348441339498573471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -446,7 +326,12 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    - 0  Abs Less Than 0.001
+    && 0  Ignore 0 && 0  Abs Less Than 0.001
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -519,10 +404,6 @@ MonoBehaviour:
       - fieldName: startingState
         node: {fileID: -7147804490525800740}
         reroutePoints: []
-      - fieldName: startingState
-        node: {fileID: -2162542640633224473}
-        reroutePoints:
-        - {x: 4648.77, y: -1935.5441}
       _direction: 1
       _connectionType: 0
       _typeConstraint: 2
@@ -670,7 +551,7 @@ MonoBehaviour:
   BypassState: 1
   Name: Roll Movement
   zoom: 0
-  isActiveState: 1
+  isActiveState: 0
   transitionTime: 0.05
   transitionCurve:
     serializedVersion: 2
@@ -766,63 +647,6 @@ MonoBehaviour:
       BoneTransformWeights: []
       Factor: 1
       BlendMode: 0
---- !u!114 &-5825679299098106465
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Slope Sliding -> Ground Movement Sub
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: -232, y: 2632}
-  ports:
-    keys:
-    - startingState
-    - nextState
-    values:
-    - _fieldName: startingState
-      _node: {fileID: -5825679299098106465}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: 7458458885287841656}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: nextState
-      _node: {fileID: -5825679299098106465}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: previousState
-        node: {fileID: 6240863297084168549}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 1
-      _typeConstraint: 2
-      _dynamic: 0
-  transitionPriority: 0
-  conditionPreview: '-  Valid:  Ground Movement
-
-'
-  ValidStartStates:
-  - {fileID: 1196608421412681666, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  InvalidStartStates: []
-  BoolConditions: []
-  TriggerConditions: []
-  FloatConditions: []
-  IntConditions: []
-  TimerConditions: []
-  Vector2Conditions: []
-  Vector3Conditions: []
 --- !u!114 &-5428356103097301850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1186,7 +1010,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Roll Perambulator
   zoom: 0
-  isActiveState: 1
+  isActiveState: 0
   moveVelocity:
     Source:
       UseConstant: 0
@@ -1373,104 +1197,6 @@ MonoBehaviour:
   TimerConditions: []
   Vector2Conditions: []
   Vector3Conditions: []
---- !u!114 &-2162542640633224473
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Fall Sub -> Slope Sliding
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 5080, y: -2456}
-  ports:
-    keys:
-    - startingState
-    - nextState
-    values:
-    - _fieldName: startingState
-      _node: {fileID: -2162542640633224473}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: -7064006473693035284}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: nextState
-      _node: {fileID: -2162542640633224473}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: previousState
-        node: {fileID: 6028782883021587095}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 1
-      _typeConstraint: 2
-      _dynamic: 0
-  transitionPriority: 0
-  conditionPreview: '-  Valid:  Slope Sliding
-
-'
-  ValidStartStates:
-  - {fileID: -1733806752048908885, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  InvalidStartStates: []
-  BoolConditions: []
-  TriggerConditions: []
-  FloatConditions: []
-  IntConditions: []
-  TimerConditions: []
-  Vector2Conditions: []
-  Vector3Conditions: []
---- !u!114 &-2159164430094105420
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
-  m_Name: Fall Sub <Reference>
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 392, y: 3224}
-  ports:
-    keys:
-    - previousState
-    - transitions
-    values:
-    - _fieldName: previousState
-      _node: {fileID: -2159164430094105420}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: nextState
-        node: {fileID: -7518923667571480883}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: transitions
-      _node: {fileID: -2159164430094105420}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  referencedState: {fileID: -7064006473693035284}
 --- !u!114 &-2104404874649457834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1509,9 +1235,6 @@ MonoBehaviour:
       connections:
       - fieldName: startingState
         node: {fileID: 3289089301062612516}
-        reroutePoints: []
-      - fieldName: startingState
-        node: {fileID: 5571115883837937794}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -1614,6 +1337,11 @@ MonoBehaviour:
   transitionPriority: 0
   conditionPreview: '-  Invalid:  Slope  Movement
 
+    - ! Is Grounded_ Controller_
+    Player
+
+    - 0  Ignore 0 && 0  Less Than -0.1 && 0  Ignore 0
+
 '
   ValidStartStates: []
   InvalidStartStates:
@@ -1687,9 +1415,6 @@ MonoBehaviour:
         reroutePoints: []
       - fieldName: startingState
         node: {fileID: 7148953881133016071}
-        reroutePoints: []
-      - fieldName: startingState
-        node: {fileID: -8732738294254801329}
         reroutePoints: []
       - fieldName: startingState
         node: {fileID: 4519189784490352879}
@@ -2105,17 +1830,8 @@ MonoBehaviour:
   - {fileID: 2846663699052922448}
   - {fileID: 8474329339902235374}
   - {fileID: -2816321112790655770}
-  - {fileID: 7458458885287841656}
-  - {fileID: -5825679299098106465}
-  - {fileID: -7518923667571480883}
-  - {fileID: -8732738294254801329}
-  - {fileID: 6452882889237860764}
-  - {fileID: -2162542640633224473}
-  - {fileID: 6028782883021587095}
   - {fileID: -1507888589778504077}
   - {fileID: 264669591117630602}
-  - {fileID: 6240863297084168549}
-  - {fileID: 5571115883837937794}
   - {fileID: 7592156312224166969}
   - {fileID: 7116856797591748392}
   - {fileID: 3401289501703831313}
@@ -2128,7 +1844,6 @@ MonoBehaviour:
   - {fileID: 2973082149161544887}
   - {fileID: -6504809300319732108}
   - {fileID: -5428356103097301850}
-  - {fileID: -2159164430094105420}
   - {fileID: 5647577140365575950}
   - {fileID: 4519189784490352879}
   - {fileID: -5930853172634943403}
@@ -2281,7 +1996,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Roll Rotator
   zoom: 0
-  isActiveState: 1
+  isActiveState: 0
   Pivot: {fileID: 11400000, guid: ba2e09efe07e3a245833dd872f7cce88, type: 2}
   Rotations:
   - LocalAxis: 0
@@ -2420,7 +2135,9 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Throw_ Time_ Anim_ Player: 0.15 sec
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -2479,7 +2196,9 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Jump Trigger_ Anim_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -2709,9 +2428,6 @@ MonoBehaviour:
       - fieldName: startingState
         node: {fileID: 4879977458698142861}
         reroutePoints: []
-      - fieldName: startingState
-        node: {fileID: -8732738294254801329}
-        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 2
@@ -2811,7 +2527,10 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '- 0  Abs Greater Than 0 && 0  Ignore 0 && 0  Abs Greater Than
+    0
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -2953,9 +2672,6 @@ MonoBehaviour:
       connections:
       - fieldName: nextState
         node: {fileID: 3289089301062612516}
-        reroutePoints: []
-      - fieldName: nextState
-        node: {fileID: 5571115883837937794}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -3352,7 +3068,7 @@ MonoBehaviour:
     BoneTransformWeights:
     - transform: {fileID: 0}
       weight: 1
-    Factor: 1.1704258
+    Factor: 0.72383237
     BlendMode: 0
 --- !u!114 &5391073615113036228
 MonoBehaviour:
@@ -3439,7 +3155,9 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Throw_ Time_ Anim_ Player: 0.15 sec
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -3607,68 +3325,11 @@ MonoBehaviour:
   BypassState: 0
   Name: Roll Movement Sub
   zoom: 0
-  isActiveState: 1
+  isActiveState: 0
   subStates:
   - {fileID: -3099988209043395053}
   - {fileID: 290542363192366075}
   - {fileID: -5930853172634943403}
---- !u!114 &5571115883837937794
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: 'Pound Fall -> Idle '
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 920, y: 1784}
-  ports:
-    keys:
-    - startingState
-    - nextState
-    values:
-    - _fieldName: startingState
-      _node: {fileID: 5571115883837937794}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: -2104404874649457834}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: nextState
-      _node: {fileID: 5571115883837937794}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: previousState
-        node: {fileID: 2846663699052922448}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 1
-      _typeConstraint: 2
-      _dynamic: 0
-  transitionPriority: 0
-  conditionPreview: '-  Valid:  Slope Sliding
-
-'
-  ValidStartStates:
-  - {fileID: -1733806752048908885, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  InvalidStartStates: []
-  BoolConditions: []
-  TriggerConditions: []
-  FloatConditions: []
-  IntConditions: []
-  TimerConditions: []
-  Vector2Conditions: []
-  Vector3Conditions: []
 --- !u!114 &5647577140365575950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3856,129 +3517,6 @@ MonoBehaviour:
         m_RotationOrder: 4
       timeLinePosition: 0
       events: []
---- !u!114 &6028782883021587095
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
-  m_Name: Slope Sliding <Reference>
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 5624, y: -2296}
-  ports:
-    keys:
-    - previousState
-    - transitions
-    values:
-    - _fieldName: previousState
-      _node: {fileID: 6028782883021587095}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: nextState
-        node: {fileID: -2162542640633224473}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: transitions
-      _node: {fileID: 6028782883021587095}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  referencedState: {fileID: 7458458885287841656}
---- !u!114 &6240863297084168549
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
-  m_Name: Ground Movement Sub <Reference>
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 376, y: 2632}
-  ports:
-    keys:
-    - previousState
-    - transitions
-    values:
-    - _fieldName: previousState
-      _node: {fileID: 6240863297084168549}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: nextState
-        node: {fileID: -5825679299098106465}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: transitions
-      _node: {fileID: 6240863297084168549}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  referencedState: {fileID: -1507888589778504077}
---- !u!114 &6452882889237860764
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
-  m_Name: Slope Sliding <Reference>
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 2216, y: -3032}
-  ports:
-    keys:
-    - previousState
-    - transitions
-    values:
-    - _fieldName: previousState
-      _node: {fileID: 6452882889237860764}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: nextState
-        node: {fileID: -8732738294254801329}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: transitions
-      _node: {fileID: 6452882889237860764}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  referencedState: {fileID: 7458458885287841656}
 --- !u!114 &6613936028350023393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4275,118 +3813,6 @@ MonoBehaviour:
   TimerConditions: []
   Vector2Conditions: []
   Vector3Conditions: []
---- !u!114 &7458458885287841656
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbe66876495740579ccc412ccf28d337, type: 3}
-  m_Name: Slope Sliding <NewSequenceBlend> (PlayerAnimation)
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: -840, y: 2632}
-  ports:
-    keys:
-    - previousState
-    - transitions
-    values:
-    - _fieldName: previousState
-      _node: {fileID: 7458458885287841656}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: transitions
-      _node: {fileID: 7458458885287841656}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: startingState
-        node: {fileID: -5825679299098106465}
-        reroutePoints: []
-      - fieldName: startingState
-        node: {fileID: -7518923667571480883}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  BypassState: 0
-  Name: Slope Sliding
-  zoom: 0
-  isActiveState: 0
-  transitionTime: 0.15
-  transitionCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  animationJobRunner:
-    BoneTransformWeights:
-    - transform: {fileID: 0}
-      weight: 1
-    factor:
-      UseConstant: 1
-      ConstantValue: 0
-      Variable: {fileID: 0}
-    extrapolateMode: 0
-    loopSequence: 0
-    useMonospacedSequence: 1
-    sequenceList:
-    - pose: {fileID: -8562722435475410791, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
-        type: 3}
-      transition:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 2
-          outSlope: 2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      timeLinePosition: 0
-      events: []
 --- !u!114 &7592156312224166969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4535,7 +3961,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Parameter Processor
   zoom: 0
-  isActiveState: 1
+  isActiveState: 0
   subStates: []
 --- !u!114 &8474329339902235374
 MonoBehaviour:

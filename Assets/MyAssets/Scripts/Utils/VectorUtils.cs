@@ -18,6 +18,7 @@ namespace MyAssets.Scripts.Utils
         public static Vector3 oyo(this Vector3 vec) { return new Vector3(0, vec.y, 0); }
         public static Vector3 ooz(this Vector3 vec) { return new Vector3(0, 0, vec.z); }
         public static Vector3 xoz(this Vector3 vec) { return new Vector3(vec.x, 0f, vec.z); }
+        public static Vector3 oyz(this Vector3 vec) { return new Vector3(0, vec.y, vec.z); }
     
         public static Vector2 xy(this Vector4 vec) { return new Vector2(vec.x, vec.y); }
         public static Vector2 xz(this Vector4 vec) { return new Vector2(vec.x, vec.z); }

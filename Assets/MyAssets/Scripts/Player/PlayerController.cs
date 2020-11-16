@@ -76,6 +76,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private Vector3Reference[] modelScales;
     private Vector3 capsuleProportions;
     private MeatClumpController[] meatClumps;
+    private List<Interactable> interactablesInRange = new List<Interactable>();
 
     private Vector3 impulseVelocity;
     private Vector3 impulseVelocityRedirectable;
@@ -105,6 +106,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         InputManager.Instance.onDownwardAttack += () => DownwardAttackTrigger.Activate();
         InputManager.Instance.onGroundPound += () => GroundPoundTrigger.Activate();
         InputManager.Instance.onCallMeatClump += () => CallMeatClump.Activate();
+        InputManager.Instance.onInteract += AttemptInteract;
 
         meatClumps = meatClumpContainer.GetComponentsInChildren<MeatClumpController>(true);
         foreach(MeatClumpController meatClump in meatClumps) {
@@ -343,6 +345,33 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         {
             PlayerRecallAttempts.Reset();
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        GameObject otherGameObject = other.gameObject;
+        if (otherGameObject.layer == layerMapper.GetLayer(LayerEnum.InteractableTrigger))
+        {
+            Interactable interactableScript = otherGameObject.GetComponent<Interactable>();
+            if (interactableScript != null) interactablesInRange.Add(interactableScript);
+        }
+    }
+    
+    private void OnTriggerExit(Collider other)
+    {
+        GameObject otherGameObject = other.gameObject;
+        if (otherGameObject.layer == layerMapper.GetLayer(LayerEnum.InteractableTrigger))
+        {
+            Interactable interactableScript = otherGameObject.GetComponent<Interactable>();
+            if (interactableScript != null) interactablesInRange.Remove(interactableScript);
+        }
+    }
+
+    private void AttemptInteract()
+    {
+        if (interactablesInRange.Count < 1) return;
+        
+        interactablesInRange[0].InvokeOnInteract();
     }
 
     private void OnTriggerStay(Collider other) {

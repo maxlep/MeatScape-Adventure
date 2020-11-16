@@ -20,6 +20,7 @@ public class InputManager : MonoBehaviour
     public delegate void _OnLoad();
     public delegate void _OnJump_Pressed();
     public delegate void _OnJump_Released();
+    public delegate void _OnInteract();
     public delegate void _OnCalllMeatClump();
     public delegate void _OnPauseGame();
     public delegate void _OnBackspace();
@@ -40,6 +41,7 @@ public class InputManager : MonoBehaviour
     public event _OnLoad onLoad;
     public event _OnJump_Pressed onJump_Pressed;
     public event _OnJump_Released onJump_Released;
+    public event _OnInteract onInteract;
     public event _OnCalllMeatClump onCallMeatClump;
     public event _OnPauseGame onPauseGame;
     public event _OnBackspace onBackspace;
@@ -186,6 +188,11 @@ public class InputManager : MonoBehaviour
     public void OnJump_Released(InputAction.CallbackContext ctx)
     {
         if (onJump_Released != null) onJump_Released();
+    }
+    
+    public void OnInteract()
+    {
+        if (onInteract != null) onInteract();
     }
 
     public void OnPauseGame()

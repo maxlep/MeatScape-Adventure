@@ -127,7 +127,7 @@ public class MeatClumpController : MonoBehaviour
                     this.ReturningToPlayer = false;
                     if(this.returnAndOrbit){
                         this.OrbitingPlayer = true;
-                        this.orbitDegrees = playerController.ClumpIndex(this) * 180;
+                        this.orbitDegrees = playerController.ClumpIndex(this) * (360 / playerController.ClumpCount());
                     }
                     if(!this.returnAndOrbit) ReabsorbIntoPlayer();
                     return;

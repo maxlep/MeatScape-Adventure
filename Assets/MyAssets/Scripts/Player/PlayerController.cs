@@ -352,6 +352,10 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         }
         return index;
     }
+
+    public int ClumpCount() {
+        return meatClumps.Length;
+    }
     
     private void HandleClumpDeorbit()
     {

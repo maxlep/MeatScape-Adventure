@@ -226,14 +226,16 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     }
 
     public void AbsorbClump(MeatClumpController clump) {
-        this.AddImpulse(clump.transform.forward * ClumpReturnKnockbackSpeed.Value, true);
-        
         clump.transform.parent = meatClumpContainer;
         clump.gameObject.SetActive(false);
         
         if (!unlimitedClumps) CurrentSize += 1;
     }
-    
+
+    public void DoClumpKnockback(MeatClumpController clump) {
+        this.AddImpulse(clump.transform.forward * ClumpReturnKnockbackSpeed.Value, true);
+    }
+
     public void RecallClump() {
         foreach(MeatClumpController meatClump in meatClumps) {
             if(meatClump.transform.parent == null && !meatClump.ReturningToPlayer) {

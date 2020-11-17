@@ -125,6 +125,7 @@ public class MeatClumpController : MonoBehaviour
 
                 if(hitObj.layer == layerMapper.GetLayer(LayerEnum.Player)) {
                     this.ReturningToPlayer = false;
+                    this.playerController.DoClumpKnockback(this);
                     if(this.returnAndOrbit){
                         this.OrbitingPlayer = true;
                         this.orbitDegrees = playerController.ClumpIndex(this) * (360 / playerController.ClumpCount());

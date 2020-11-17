@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class RecallMeatClumpAir : PlayerStateNode
 {
-
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [Required] 
     [SerializeField] private IntReference PlayerRecallAttempts;
 
@@ -12,5 +11,6 @@ public class RecallMeatClumpAir : PlayerStateNode
     {
         base.Enter();
         PlayerRecallAttempts.Value--;
+        playerController.RecallClumpToOrbit();
     }
 }

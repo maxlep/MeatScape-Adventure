@@ -1,88 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8492916255230266096
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: No Recall -> RecallMeatClumpToOrbit
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: -504, y: 1864}
-  ports:
-    keys:
-    - nextState
-    - startingState
-    values:
-    - _fieldName: nextState
-      _node: {fileID: -8492916255230266096}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: previousState
-        node: {fileID: 7966246187797658845}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 1
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: startingState
-      _node: {fileID: -8492916255230266096}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: 3924338823875462729}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  transitionPriority: 0
-  conditionPreview: '-  Valid:  Air Movement
-
-    -  Valid:  No Low Jump
-
-    - 
-    Call Meat Clump Trigger_ Controller_ Player
-
-    -  Player Current Size_ Controller_
-    Player  Less Than 2
-
-    -  Player Recall Attempts_ Controller_ Player  Equal
-    To 0
-
-'
-  ValidStartStates:
-  - {fileID: -8209884016339463683, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  - {fileID: 8382683336472367375, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  InvalidStartStates: []
-  BoolConditions: []
-  TriggerConditions:
-  - targetParameter: {fileID: 11400000, guid: 9424bc5e9304cfb4ebf84bd6c50a9251, type: 2}
-    KeepTriggerOn: 0
-  FloatConditions: []
-  IntConditions:
-  - targetParameter:
-      UseConstant: 0
-      ConstantValue: 0
-      Variable: {fileID: 11400000, guid: cdaba327a8069d04b9e20fa38eeab583, type: 2}
-    comparator: 0
-    value: 2
-  - targetParameter:
-      UseConstant: 0
-      ConstantValue: 0
-      Variable: {fileID: 11400000, guid: 22cbb0a8d8a1625438e88f1710741c5d, type: 2}
-    comparator: 2
-    value: 0
-  TimerConditions: []
-  Vector2Conditions: []
-  Vector3Conditions: []
 --- !u!114 &-7645768300815443484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,9 +70,6 @@ MonoBehaviour:
       - fieldName: nextState
         node: {fileID: 1353062080610734855}
         reroutePoints: []
-      - fieldName: nextState
-        node: {fileID: -2311944539829793578}
-        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 2
@@ -207,19 +121,10 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  transitionPriority: 1
+  transitionPriority: 0
   conditionPreview: '-  Valid:  Air Movement
 
     -  Valid:  No Low Jump
-
-    - 
-    Call Meat Clump Trigger_ Controller_ Player
-
-    -  Player Current Size_ Controller_
-    Player  Less Than 2
-
-    -  Player Recall Attempts_ Controller_ Player  Greater
-    Than 0
 
 '
   ValidStartStates:
@@ -247,61 +152,6 @@ MonoBehaviour:
   TimerConditions: []
   Vector2Conditions: []
   Vector3Conditions: []
---- !u!114 &-2311944539829793578
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: RecallMeatClumpAir -> No Recall
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 680, y: 824}
-  ports:
-    keys:
-    - startingState
-    - nextState
-    values:
-    - _fieldName: startingState
-      _node: {fileID: -2311944539829793578}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: -1528925517028954412}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: nextState
-      _node: {fileID: -2311944539829793578}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: previousState
-        node: {fileID: -6559227369241306162}
-        reroutePoints:
-        - {x: 601.6206, y: 440.49075}
-      _direction: 1
-      _connectionType: 1
-      _typeConstraint: 2
-      _dynamic: 0
-  transitionPriority: 0
-  conditionPreview: 
-  ValidStartStates: []
-  InvalidStartStates: []
-  BoolConditions: []
-  TriggerConditions: []
-  FloatConditions: []
-  IntConditions: []
-  TimerConditions: []
-  Vector2Conditions: []
-  Vector3Conditions: []
 --- !u!114 &-1528925517028954412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,7 +165,7 @@ MonoBehaviour:
   m_Name: RecallMeatClumpAir <RecallMeatClumpAir> (PlayerRecallMeatClump)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 88, y: 856}
+  position: {x: 392, y: 1144}
   ports:
     keys:
     - previousState
@@ -338,8 +188,8 @@ MonoBehaviour:
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
-      - fieldName: startingState
-        node: {fileID: -2311944539829793578}
+      - fieldName: previousState
+        node: {fileID: 3030014324150665224}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -373,9 +223,6 @@ MonoBehaviour:
   - {fileID: -6559227369241306162}
   - {fileID: -6328533896227365417}
   - {fileID: -1528925517028954412}
-  - {fileID: -8492916255230266096}
-  - {fileID: 7966246187797658845}
-  - {fileID: -2311944539829793578}
 --- !u!114 &1353062080610734855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -419,16 +266,8 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  transitionPriority: 2
-  conditionPreview: '-  Call Meat Clump Trigger_ Controller_ Player
-
-    -  Player
-    Current Size_ Controller_ Player  Less Than 2
-
-    -  Player Recall Attempts_
-    Controller_ Player  Greater Than 0
-
-'
+  transitionPriority: 1
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -477,10 +316,10 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: transitions
-        node: {fileID: 7966246187797658845}
+        node: {fileID: -6559227369241306162}
         reroutePoints: []
       - fieldName: transitions
-        node: {fileID: -6559227369241306162}
+        node: {fileID: -1528925517028954412}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -538,11 +377,6 @@ MonoBehaviour:
       - fieldName: startingState
         node: {fileID: -6328533896227365417}
         reroutePoints: []
-      - fieldName: startingState
-        node: {fileID: -8492916255230266096}
-        reroutePoints:
-        - {x: -715.191, y: 705.966}
-        - {x: -668.4218, y: 1465.9657}
       _direction: 1
       _connectionType: 0
       _typeConstraint: 2
@@ -551,52 +385,3 @@ MonoBehaviour:
   Name: No Recall
   zoom: 1
   isActiveState: 1
---- !u!114 &7966246187797658845
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42d1145b1bc4451449760e29720e2f39, type: 3}
-  m_Name: RecallMeatClumpToOrbit <RecallMeatClumpToOrbit> (PlayerRecallMeatClump)
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 296, y: 1896}
-  ports:
-    keys:
-    - previousState
-    - transitions
-    values:
-    - _fieldName: previousState
-      _node: {fileID: 7966246187797658845}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: nextState
-        node: {fileID: -8492916255230266096}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: transitions
-      _node: {fileID: 7966246187797658845}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: previousState
-        node: {fileID: 3030014324150665224}
-        reroutePoints:
-        - {x: 1301.522, y: 1356.5253}
-        - {x: 1398.5278, y: 634.6867}
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  BypassState: 0
-  Name: RecallMeatClumpToOrbit
-  zoom: 0
-  isActiveState: 0

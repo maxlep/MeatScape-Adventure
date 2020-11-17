@@ -31,21 +31,26 @@ public class MeatClumpController : MonoBehaviour
     [SerializeField] private FloatReference PlayerReturnMaxSpeed;
     [SerializeField] private FloatReference PlayerReturnMinSpeed;
     [SerializeField] private FloatReference CollisionRadius;
+    [SerializeField] private FloatReference OrbitRadius;
     [SerializeField] private LayerMask CollisionMask;
     [SerializeField] private LayerMask PlayerCollisionMask;
     [SerializeField] private UnityEvent OnCollideWithStatic;
     [SerializeField] private UnityEvent OnSetMoving;
 
     public bool ReturningToPlayer {get; private set;}
+    public bool OrbitingPlayer {get; private set;}
 
     private PlayerController playerController;
 
     private float speed;
     private bool hasCollided = false;
     private bool shouldFallOff = false;
+    private bool returnAndOrbit = false;
     private Collider target;
     private LayerMask currentCollisionMask;
     private Vector3 startMovementPoint;
+
+    private float orbitDegrees = 0;
 
     public void SetPlayerController(PlayerController playerController) {
         this.playerController = playerController;
@@ -61,6 +66,7 @@ public class MeatClumpController : MonoBehaviour
         this.speed = speed;
         this.currentCollisionMask = CollisionMask;
         this.startMovementPoint = transform.position;
+        this.returnAndOrbit = false;
     }
 
     public void SetMoving(float speed, Vector3 direction) {
@@ -83,43 +89,67 @@ public class MeatClumpController : MonoBehaviour
         this.SetMoving(speed, playerController.Collider);
         this.currentCollisionMask = PlayerCollisionMask;
         this.ReturningToPlayer = true;
+        this.OrbitingPlayer = false;
+    }
+
+    public void SetReturnToPlayerAndOrbit() {
+        this.SetReturnToPlayer();
+        this.returnAndOrbit = true;
     }
 
     private void Update()
     {
         float deltaDistance = this.speed * Time.deltaTime;
 
-        if (!hasCollided) HandleCollisions(deltaDistance);
+        if (!hasCollided) PreMoveCollisionCheck(deltaDistance);
         if (!hasCollided) Move(deltaDistance);
         if (!hasCollided) PostMoveCollisionCheck();
+        if(this.OrbitingPlayer) {
+            this.OrbitPlayer(deltaDistance);
+        }
     }
 
-    private void HandleCollisions(float deltaDistance)
+    private void HandleCollisions(Collider[] colliders, Vector3 normal) {
+        if (colliders.Length > 0)
+        {
+            this.hasCollided = true;
+            foreach (var collider in colliders) {
+                GameObject hitObj = collider.gameObject;
+                
+                if(hitObj.layer == layerMapper.GetLayer(LayerEnum.Enemy)) {
+                    EnemyController enemyScript = hitObj.GetComponent<EnemyController>();
+                    enemyScript.DamageEnemy(1);
+                    this.SetReturnToPlayer();
+                    return;
+                }
+
+                if(hitObj.layer == layerMapper.GetLayer(LayerEnum.Player)) {
+                    this.ReturningToPlayer = false;
+                    if(this.returnAndOrbit){
+                        this.OrbitingPlayer = true;
+                        this.orbitDegrees = playerController.ClumpIndex(this) * 180;
+                    }
+                    if(!this.returnAndOrbit) ReabsorbIntoPlayer();
+                    return;
+                }
+            }
+        
+            //Static object hit
+            if (shaderUpdater != null) shaderUpdater.StartSplat(normal);
+            OnCollideWithStatic.Invoke();
+        }
+    }
+
+    private void PreMoveCollisionCheck(float deltaDistance)
     {
         //SphereCast from current pos to next pos and check for collisions
         RaycastHit hit;
         if (Physics.SphereCast(transform.position, CollisionRadius.Value, transform.forward,
             out hit, deltaDistance, currentCollisionMask, QueryTriggerInteraction.Ignore))
         {
-            this.hasCollided = true;
             transform.position += (transform.forward * hit.distance);
-            GameObject hitObj = hit.collider.gameObject;
             
-            if(hitObj.layer == layerMapper.GetLayer(LayerEnum.Enemy)) {
-                EnemyController enemyScript = hitObj.GetComponent<EnemyController>();
-                enemyScript.DamageEnemy(1);
-                this.SetReturnToPlayer();
-                return;
-            }
-
-            if(hitObj.layer == layerMapper.GetLayer(LayerEnum.Player)) {
-                ReabsorbIntoPlayer();
-                return;
-            }
-            
-            //Static object hit
-            if (shaderUpdater != null) shaderUpdater.StartSplat(hit.normal);
-            OnCollideWithStatic.Invoke();
+            this.HandleCollisions(new Collider[]{hit.collider}, hit.normal);
         }
     }
 
@@ -129,27 +159,7 @@ public class MeatClumpController : MonoBehaviour
         Collider[] hitColliders =
             (Physics.OverlapSphere(transform.position, CollisionRadius.Value, currentCollisionMask, QueryTriggerInteraction.Ignore));
         
-        if (hitColliders.Length > 0)
-        {
-            this.hasCollided = true;
-            foreach (var collider in hitColliders)
-            {
-                if (collider.gameObject.layer == layerMapper.GetLayer(LayerEnum.Player))
-                {
-                    ReabsorbIntoPlayer();
-                    return;
-                }
-                if(collider.gameObject.layer == layerMapper.GetLayer(LayerEnum.Enemy)) {
-                    EnemyController enemyScript = collider.GetComponent<EnemyController>();
-                    enemyScript.DamageEnemy(1);
-                    this.SetReturnToPlayer();
-                    return;
-                }
-            }
-
-            if (shaderUpdater != null) shaderUpdater.StartSplat(-transform.forward);
-            OnCollideWithStatic.Invoke();
-        }
+        this.HandleCollisions(hitColliders, -transform.forward);
     }
 
     private void Move(float deltaDistance)
@@ -165,11 +175,20 @@ public class MeatClumpController : MonoBehaviour
         transform.position += transform.forward * deltaDistance;
     }
 
+    private void OrbitPlayer(float deltaDistance) {
+        orbitDegrees += deltaDistance;
+        if(orbitDegrees > 359) orbitDegrees -= 360;
+        float radians = orbitDegrees * Mathf.Deg2Rad;
+        Vector2 circlePosition = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians)) * OrbitRadius.Value;
+        transform.position = new Vector3(circlePosition.x, 0, circlePosition.y) + playerController.transform.position;
+        Vector2 circleDirection = Vector2.Perpendicular(circlePosition).normalized;
+        transform.forward = new Vector3(circleDirection.x, transform.forward.y, circleDirection.y);
+    }
+
     private void ReabsorbIntoPlayer()
     {
-        this.ReturningToPlayer = false;
-        playerController.AbsorbClump(this, transform.forward);
-
+        playerController.AbsorbClump(this);
+        
         if (AbsorbSound != null)
             EffectsManager.Instance?.PlayClipAtPoint(AbsorbSound, transform.position, .6f);
         

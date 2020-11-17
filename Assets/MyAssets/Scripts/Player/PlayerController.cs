@@ -68,7 +68,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     private PlayerSize currentSize;
     public PlayerSize CurrentSize { get => currentSize; set => SetPlayerSize(value); }
-    public int RecallAttempts { get => PlayerRecallAttempts.Value; set => SetRecallAttempts(value); }
     public Transform AimTarget => aimTargetter.CurrentTarget;
     public KinematicCharacterMotor CharacterMotor => charMotor;
     public CharacterGroundingReport GroundingStatus => charMotor.GroundingStatus;
@@ -123,7 +122,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private void Update()
     {
         UpdateParameters();
-        HandleResetRecallAttempts();
+        HandleClumpDeorbit();
     }
 
     #endregion
@@ -226,18 +225,28 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         return null;
     }
 
-    public void AbsorbClump(MeatClumpController clump, Vector3 direction) {
+    public void AbsorbClump(MeatClumpController clump) {
+        this.AddImpulse(clump.transform.forward * ClumpReturnKnockbackSpeed.Value, true);
+        
         clump.transform.parent = meatClumpContainer;
         clump.gameObject.SetActive(false);
         
         if (!unlimitedClumps) CurrentSize += 1;
-        AddImpulse(direction * ClumpReturnKnockbackSpeed.Value, true);
     }
-
+    
     public void RecallClump() {
         foreach(MeatClumpController meatClump in meatClumps) {
             if(meatClump.transform.parent == null && !meatClump.ReturningToPlayer) {
                 meatClump.SetReturnToPlayer();
+                return;
+            }
+        }
+    }
+
+    public void RecallClumpToOrbit() {
+        foreach(MeatClumpController meatClump in meatClumps) {
+            if(meatClump.transform.parent == null && !meatClump.ReturningToPlayer && !meatClump.OrbitingPlayer) {
+                meatClump.SetReturnToPlayerAndOrbit();
                 return;
             }
         }
@@ -333,16 +342,27 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         }
     }
 
-    private void SetRecallAttempts(int value) {
-        if(value < (int)PlayerSize.Small || value > (int)PlayerSize.Large) return;
-        PlayerRecallAttempts.Value = value;
+    public int ClumpIndex(MeatClumpController clump) {
+        int index = 0;
+        for(int i = 0; i < meatClumps.Length; i++) {
+            if(meatClumps[i].Equals(clump)) {
+                index = i;
+                break;
+            }
+        }
+        return index;
     }
     
-    private void HandleResetRecallAttempts()
+    private void HandleClumpDeorbit()
     {
         if (!LastGroundingStatus.FoundAnyGround &&
             (GroundingStatus.IsStableOnGround || StandingOnSlideableSlope()))
         {
+            foreach(MeatClumpController meatClump in meatClumps) {
+                if(meatClump.transform.parent == null && meatClump.OrbitingPlayer) {
+                    meatClump.SetReturnToPlayer();
+                }
+            }
             PlayerRecallAttempts.Reset();
         }
     }

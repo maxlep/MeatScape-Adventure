@@ -365,7 +365,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
             (GroundingStatus.IsStableOnGround || StandingOnSlideableSlope()))
         {
             foreach(MeatClumpController meatClump in meatClumps) {
-                if(meatClump.transform.parent == null && meatClump.OrbitingPlayer) {
+                if(meatClump.transform.parent == null && (meatClump.OrbitingPlayer || meatClump.ReturningToPlayer)) {
                     meatClump.SetReturnToPlayer();
                 }
             }

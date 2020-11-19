@@ -16,22 +16,16 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Horizontal Movement")] [Required]
         protected FloatReference CoefficientOfTurningFriction;
-        
+
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Horizontal Movement")] [Required]
+        protected FloatReference DragCoefficientHorizontal;
+
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Outputs")] [Required]
         protected FloatReference TurnFactor;
-        
+
         #region Vertical Movement
-
-        [HideIf("$zoom")]
-        [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
-        [TabGroup("Vertical Movement")] 
-        private FloatReference TimeToJumpApex;
-
-        [HideIf("$zoom")]
-        [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
-        [TabGroup("Vertical Movement")] 
-        private FloatReference MaxJumpHeight;
 
         [HideIf("$zoom")]
         [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
@@ -43,8 +37,15 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [TabGroup("Vertical Movement")]
         private FloatReference MaxFallSpeed;
         
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Vertical Movement")] [Required]
+        protected FloatReference DragCoefficientVertical;
+        
 
         #endregion
+
+        private Vector3 velocityAlongSlope;
+        private Vector3 moveInputOnSlope;
 
         public override void Enter()
         {
@@ -63,7 +64,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             Vector3 resultingVelocity;
             Vector3 horizontalVelocity = CalculateHorizontalVelocity(currentVelocity);
             Vector3 verticalVelocity = CalculateVerticalVelocity(currentVelocity);
-
+            
             resultingVelocity = horizontalVelocity + verticalVelocity;
             resultingVelocity += totalImpulse;
 
@@ -73,28 +74,64 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         private Vector3 CalculateHorizontalVelocity(Vector3 currentVelocity)
         {
             CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
+            
+            #region Get New Move Direction
 
-            var currentDir = currentVelocity.xoz().normalized;
+            //Rotate current vel towards target vel to get new direction
+            Vector3 dirOnSlope = Vector3.ProjectOnPlane(currentVelocity.normalized, 
+                GroundingStatus.GroundNormal);
+            moveInputOnSlope = Vector3.ProjectOnPlane(moveInputCameraRelative.normalized, 
+                GroundingStatus.GroundNormal);
+            
+            Vector3 dummyVel = Vector3.zero;
+            
+            Vector3 dir;
+
+            if (GroundingStatus.FoundAnyGround)
+            {
+                dir = Vector3.SmoothDamp(dirOnSlope, moveInputOnSlope,
+                    ref dummyVel, TurnSpeed.Value).normalized;
+            }
+            else
+            {
+                dir = Vector3.SmoothDamp(currentVelocity.xoz().normalized, moveInputCameraRelative.normalized,
+                    ref dummyVel, TurnSpeed.Value).normalized;
+            }
+            
+            
+            
+            newDirection = dir;
+
+            #endregion
+            
+            #region Get New Speed
+
+            Vector3 horizontalDir = dir.xoz().normalized;
             var steeringDir = moveInputCameraRelative;
-            var steeringAngle = Vector3.Angle(currentDir, steeringDir);
+            var steeringAngle = Vector3.Angle(horizontalDir, steeringDir);
             var steeringFac = steeringAngle / 180;
             
             
-            TurnFactor.Value = Vector3.SignedAngle(currentDir, steeringDir, Vector3.up) / 30;
+            TurnFactor.Value = Vector3.SignedAngle(horizontalDir, steeringDir, Vector3.up) / 30;
 
             // var aboveBaseSpeed = currentVelocity.magnitude > BaseSpeed.Value;
 
+            //TODO: Dont apply friction in air?
             var rollingFriction = PlayerWeight.Value * CoefficientOfRollingFriction.Value;
             var turningFriction = (1 + (CoefficientOfTurningFriction.Value * steeringFac));
-            var friction = rollingFriction * turningFriction;
+            var friction = (GroundingStatus.FoundAnyGround) ?
+                rollingFriction * turningFriction * Time.deltaTime : 0f;
             
-            Vector2 dummyVel = Vector3.zero;
-            Vector2 dir = Vector2.SmoothDamp(currentDir.normalized, steeringDir,
-                ref dummyVel, TurnSpeed.Value);
+            
+            velocityAlongSlope = Vector3.ProjectOnPlane(currentVelocity, GroundingStatus.GroundNormal);
+            var currentSpeed = (GroundingStatus.FoundAnyGround) ?
+                velocityAlongSlope.magnitude : currentVelocity.xoz().magnitude;
 
-            newSpeed = Mathf.Max(currentVelocity.xoz().magnitude - friction, BaseSpeed.Value);
+            var drag = currentSpeed * DragCoefficientHorizontal.Value * Time.deltaTime;
 
-            newDirection = moveInputCameraRelative;
+            newSpeed = Mathf.Max(currentSpeed - friction - drag, BaseSpeed.Value);
+            
+            #endregion
 
             return newDirection * newSpeed;
         }
@@ -103,14 +140,21 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         {
             CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
             CharacterTransientGroundingReport LastGroundingStatus = playerController.LastGroundingStatus;
+            
+            //Return if standing on flat ground
+            if (GroundingStatus.FoundAnyGround && GroundingStatus.GroundNormal == Vector3.up)
+                return Vector3.zero;
 
             Vector3 newVelocity = currentVelocity.y * Vector3.up;
-
-            float gravity = -(2 * MaxJumpHeight.Value) / Mathf.Pow(TimeToJumpApex.Value, 2);
-
+            
             if (newVelocity.y <= 0 || GroundingStatus.FoundAnyGround)  //Falling
             {
                 newVelocity.y += gravity * (FallMultiplier.Value - 1) * Time.deltaTime;
+            }
+            else if (newVelocity.y > 0f) //Drag when moving up (Note: Affects going up slopes)
+            {
+                var drag = -(newVelocity.y * newVelocity.y) * DragCoefficientVertical.Value * Time.deltaTime;
+                newVelocity.y += drag + gravity * Time.deltaTime;
             }
             else
             {
@@ -122,7 +166,35 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 newVelocity.y = -Mathf.Abs(MaxFallSpeed.Value);
             }
 
+            var horizontalGravityFactor = .1f;
+
+            //If grounded, project onto ground plane (sloped to some degree)
+            //Less gravity when applied horizontally
+            if (GroundingStatus.FoundAnyGround)
+            {
+                newVelocity = Vector3.ProjectOnPlane(newVelocity, GroundingStatus.GroundNormal);
+                newVelocity *= horizontalGravityFactor;
+            }
+            
             return newVelocity;
+        }
+        
+        protected override void UpdateRotation(Quaternion currentRotation)
+        {
+            Quaternion newRotation;
+            Vector3 lookDirection = playerController.transform.forward;
+            Vector3 velocityDirection = NewVelocityOut.Value.normalized;
+
+            if (Mathf.Approximately(velocityDirection.magnitude, 0f))
+            {
+                newRotation = Quaternion.LookRotation(lookDirection, Vector3.up);;
+            }
+            else
+            {
+                newRotation = Quaternion.LookRotation(velocityDirection, Vector3.up);
+            }
+
+            NewRotationOut.Value = newRotation;
         }
 
         public override void DrawGizmos()
@@ -146,7 +218,9 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 (startPos + moveInputCameraRelative * len,
                     new Color(1f, .3f, 0.3f, alpha)),
                 (startPos + newDirection * newSpeed,
-                    new Color(1f, 0.5f, 0, alpha))
+                    new Color(1f, 0.5f, 0, alpha)),
+                (startPos + moveInputOnSlope,
+                    new Color(.6f, 0.5f, .9f, alpha))
             };
 
             foreach (var line in lines)

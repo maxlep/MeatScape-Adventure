@@ -11,6 +11,8 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 {
     public abstract class BaseMovement : PlayerStateNode
     {
+        #region Horizontal Movement
+        
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Horizontal Movement")] [Required]
         protected FloatReference BaseSpeed;
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Horizontal Movement")] [Required]
@@ -24,6 +26,22 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Horizontal Movement")] [Required]
         protected TransformSceneReference PlayerCameraTransform;
         
+        #endregion
+        
+        #region Vertical Movement
+
+        [HideIf("$zoom")]
+        [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
+        [TabGroup("Vertical Movement")] 
+        protected FloatReference TimeToJumpApex;
+
+        [HideIf("$zoom")]
+        [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
+        [TabGroup("Vertical Movement")] 
+        protected FloatReference MaxJumpHeight;
+        
+        #endregion
+        
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Inputs")] [Required]
         protected Vector2Reference MoveInput;
         
@@ -35,6 +53,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         protected Vector3 moveInputCameraRelative;
         protected Vector3 newDirection;
         protected float newSpeed;
+        protected float gravity;
         protected KinematicCharacterMotor characterMotor;
 
         #region Lifecycle methods
@@ -44,6 +63,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             playerController.onStartUpdateVelocity += UpdateVelocity;
             playerController.onStartUpdateRotation += UpdateRotation;
             characterMotor = playerController.CharacterMotor;
+            gravity = -(2 * MaxJumpHeight.Value) / Mathf.Pow(TimeToJumpApex.Value, 2);
             SetMoveDirection(); //Call to force update moveDir in case updateRot called b4 updateVel
         }
 
@@ -123,6 +143,36 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             var currentDir = currentVelocity.xz();
             
             return Vector3.zero;
+        }
+
+        /// <summary>
+        /// Different than ProjectOnPlane. This method is like looking at the vector from top-down
+        /// view and pushing it directly downwards onto the slope. Useful to get move input on slope that
+        /// feels good.
+        /// </summary>
+        /// <param name="dir"></param>
+        /// <param name="groundNormal"></param>
+        /// <returns></returns>
+        protected virtual Vector3 FlattenDirectionOntoSlope(Vector3 dir, Vector3 groundNormal)
+        {
+            Vector3 slopeRight = Vector3.Cross(Vector3.down, groundNormal).normalized;
+            
+            //Signed angle between slope right and camera right (to get camera and slope relative)
+            float slopeRightToCamRight = Vector3.SignedAngle(slopeRight, 
+                PlayerCameraTransform.Value.right.xoz(), Vector3.up);
+            
+            //Get angle of moveInput on Unit Circle (Degrees from right position)
+            float moveInputAngle = dir.xz().normalized.AngleOnUnitCircle();
+
+            //Combine input and slope/relative camera angle
+            float camSlopeRelativeMoveAngle = slopeRightToCamRight - moveInputAngle;
+
+            //Rotate the slope right around the slope normal by camSlopeRelativeMoveAngle
+            //This essentially projects the XZ-bound camSlopeRelativeMoveAngle downwards onto the slope
+            Vector3 projectedDirection = (Quaternion.AngleAxis(camSlopeRelativeMoveAngle, groundNormal)
+                                  * slopeRight).normalized;
+
+            return projectedDirection;
         }
     }
 }

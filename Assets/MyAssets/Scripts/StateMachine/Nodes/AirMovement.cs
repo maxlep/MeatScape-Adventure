@@ -51,16 +51,6 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
         [HideIf("$zoom")]
         [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
-        [TabGroup("Vertical Movement")] 
-        private FloatReference TimeToJumpApex;
-
-        [HideIf("$zoom")]
-        [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
-        [TabGroup("Vertical Movement")] 
-        private FloatReference MaxJumpHeight;
-
-        [HideIf("$zoom")]
-        [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
         [TabGroup("Vertical Movement")]
         private FloatReference FallMultiplier;
 
@@ -250,9 +240,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             CharacterTransientGroundingReport LastGroundingStatus = playerController.LastGroundingStatus;
 
             Vector3 newVelocity = currentVelocity.y * Vector3.up;
-
-            float gravity = -(2 * MaxJumpHeight.Value) / Mathf.Pow(TimeToJumpApex.Value, 2);
-
+            
             if (newVelocity.y <= 0 || GroundingStatus.FoundAnyGround)  //Falling
             {
                 newVelocity.y += gravity * (FallMultiplier.Value - 1) * Time.deltaTime;

@@ -71,7 +71,7 @@ namespace MyAssets.ScriptableObjects.Variables
                         return ConstantValue;
                     else
                     {
-                        Debug.LogError("Trying to access Int variable but none set in inspector!");
+                        Debug.LogError($"Trying to access Int variable but none set in inspector!");
                         return 0;
                     }
                 }
@@ -79,6 +79,7 @@ namespace MyAssets.ScriptableObjects.Variables
             set
             {
                 if (Variable != null) Variable.Value = value;
+                else if (!UseConstant) Debug.LogError($"Trying to set Int variable that is null!");
             } 
         }
     }

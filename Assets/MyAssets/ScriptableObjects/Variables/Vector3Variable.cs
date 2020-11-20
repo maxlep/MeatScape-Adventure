@@ -82,6 +82,7 @@ namespace MyAssets.ScriptableObjects.Variables
             set
             {
                 if (Variable != null) Variable.Value = value;
+                else if (!UseConstant) Debug.LogError($"Trying to set Vector3 variable that is null!");
             }
         }
     }

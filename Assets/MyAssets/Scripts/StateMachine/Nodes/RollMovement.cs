@@ -44,14 +44,20 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Vertical Movement")] [Required]
         protected FloatReference HorizontalGravityFactor;
+        
+        #endregion
 
-        
-        
+        #region Outputs
+
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Outputs")] [Required]
+        protected FloatReference HorizontalSpeedOut;
+
         #endregion
 
         private Vector3 velocityAlongSlope;
         private Vector3 moveInputOnSlope;
-
+        
         public override void Enter()
         {
             base.Enter();
@@ -64,7 +70,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             Vector3 currentVelocity = velocityInfo.currentVelocity;
             Vector3 impulseVelocity = velocityInfo.impulseVelocity;
             Vector3 impulseVelocityRedirectble = velocityInfo.impulseVelocityRedirectble;
-
+            
             Vector3 totalImpulse = impulseVelocity;
             Vector3 resultingVelocity;
             Vector3 horizontalVelocity = CalculateHorizontalVelocity(currentVelocity);
@@ -86,31 +92,39 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         {
             CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
             
+            velocityAlongSlope = Vector3.ProjectOnPlane(currentVelocity, GroundingStatus.GroundNormal);
+            float currentSpeed = (GroundingStatus.FoundAnyGround)
+                ? velocityAlongSlope.magnitude
+                : currentVelocity.xoz().magnitude;
+
             #region Get New Move Direction
 
             //Rotate current vel towards target vel to get new direction
-            Vector3 dirOnSlope = Vector3.ProjectOnPlane(currentVelocity.normalized, 
-                GroundingStatus.GroundNormal);
-            moveInputOnSlope = Vector3.ProjectOnPlane(moveInputCameraRelative.normalized, 
-                GroundingStatus.GroundNormal);
-            
             Vector3 dummyVel = Vector3.zero;
-            
             Vector3 dir;
 
+            var fastTurnSpeed = .05f;
+            var slowTurnSpeed = .15f;
+            var slowTurnThreshold = 30f;
+
+            var percentToSlowTurnSpeed = Mathf.InverseLerp(0f, slowTurnThreshold, currentSpeed);
+            var currentTurnSpeed = Mathf.Lerp(fastTurnSpeed, slowTurnSpeed, percentToSlowTurnSpeed);
+            
             if (GroundingStatus.FoundAnyGround)
             {
+                Vector3 dirOnSlope = Vector3.ProjectOnPlane(currentVelocity.normalized, 
+                    GroundingStatus.GroundNormal);
+                moveInputOnSlope = Vector3.ProjectOnPlane(moveInputCameraRelative.normalized, 
+                    GroundingStatus.GroundNormal);
                 dir = Vector3.SmoothDamp(dirOnSlope, moveInputOnSlope,
-                    ref dummyVel, TurnSpeed.Value).normalized;
+                    ref dummyVel, currentTurnSpeed).normalized;
             }
             else
             {
                 dir = Vector3.SmoothDamp(currentVelocity.xoz().normalized, moveInputCameraRelative.normalized,
-                    ref dummyVel, TurnSpeed.Value).normalized;
+                    ref dummyVel, currentTurnSpeed).normalized;
             }
-            
-            
-            
+
             newDirection = dir;
 
             #endregion
@@ -121,29 +135,49 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             var steeringDir = moveInputCameraRelative;
             var steeringAngle = Vector3.Angle(horizontalDir, steeringDir);
             var steeringFac = steeringAngle / 180;
-            
-            
-            TurnFactor.Value = Vector3.SignedAngle(horizontalDir, steeringDir, Vector3.up) / 30;
 
-            // var aboveBaseSpeed = currentVelocity.magnitude > BaseSpeed.Value;
-
-            //TODO: Dont apply friction in air?
+            //TurnFactor.Value = Vector3.SignedAngle(horizontalDir, steeringDir, Vector3.up) / 30;
+            
             var rollingFriction = PlayerMass.Value * CoefficientOfRollingFriction.Value;
             var turningFriction = (1 + (CoefficientOfTurningFriction.Value * steeringFac));
-            var friction = (GroundingStatus.FoundAnyGround) ?
+            float friction = (GroundingStatus.FoundAnyGround) ?
                 rollingFriction * turningFriction * Time.deltaTime : 0f;
-            
-            
-            velocityAlongSlope = Vector3.ProjectOnPlane(currentVelocity, GroundingStatus.GroundNormal);
-            var currentSpeed = (GroundingStatus.FoundAnyGround) ?
-                velocityAlongSlope.magnitude : currentVelocity.xoz().magnitude;
 
             var drag = currentSpeed * DragCoefficientHorizontal.Value * Time.deltaTime;
 
-            newSpeed = Mathf.Max(currentSpeed - friction - drag, BaseSpeed.Value);
+            //Project the moveinput to current horizontal direction
+            var moveInputOntoHorizontalDir = Vector3.Project(moveInputCameraRelative, horizontalDir);
+
+            #region Accelerate to target speed
+
+            float targetMagnitude;
+            
+            //If projected move input is in same direction as velocity, set target speed
+            //Otherwise, assume player wants to stop and turn around 
+            if (Vector3.Dot(horizontalDir, moveInputOntoHorizontalDir) > 0f)
+                targetMagnitude = moveInputOntoHorizontalDir.magnitude;
+            else
+                targetMagnitude = 0f;
+            
+            var targetSpeed = BaseSpeed.Value * targetMagnitude;
+            if (newSpeed < targetSpeed && GroundingStatus.FoundAnyGround)
+            {
+                var timeToTargetSpeed = 2f;    //Time to get to target speed from 0
+                newSpeed = currentSpeed + targetSpeed * Time.deltaTime / timeToTargetSpeed;
+                newSpeed -= friction;
+            }
+            else
+            {
+                //Only apply drag if not accelerating to base speed
+                newSpeed = currentSpeed - friction - drag;
+            }
+            
+            
+            #endregion
             
             #endregion
 
+            HorizontalSpeedOut.Value = newSpeed;
             return newDirection * newSpeed;
         }
 
@@ -173,17 +207,16 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             {
                 newVelocity.y += gravity * Time.deltaTime;
             }
-        
+            
             if (newVelocity.y < -Mathf.Abs(MaxFallSpeed.Value))   //Cap Speed
             {
                 newVelocity.y = -Mathf.Abs(MaxFallSpeed.Value);
             }
-
+            
             #endregion
 
             #region Grounded (slope)
-
-
+            
             //If grounded, OVERRIDE and project onto ground plane (sloped to some degree)
             //Less gravity when applied horizontally
             if (GroundingStatus.FoundAnyGround)

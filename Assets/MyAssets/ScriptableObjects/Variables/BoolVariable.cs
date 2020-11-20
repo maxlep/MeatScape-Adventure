@@ -69,7 +69,7 @@ namespace MyAssets.ScriptableObjects.Variables
                         return ConstantValue;
                     else
                     {
-                        Debug.LogError("Trying to access Bool variable but none set in inspector!");
+                        Debug.LogError($"Trying to access Bool variable but none set in inspector!");
                         return false;
                     }
                 }
@@ -77,6 +77,7 @@ namespace MyAssets.ScriptableObjects.Variables
             set
             {
                 if (Variable != null) Variable.Value = value;
+                else if (!UseConstant) Debug.LogError($"Trying to set Bool variable that is null!");
             } 
         }
     }

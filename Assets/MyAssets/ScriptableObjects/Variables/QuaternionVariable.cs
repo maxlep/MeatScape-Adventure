@@ -71,7 +71,7 @@ namespace MyAssets.ScriptableObjects.Variables
                         return ConstantValue;
                     else
                     {
-                        Debug.LogError("Trying to access Quaternion variable but none set in inspector!");
+                        Debug.LogError($"Trying to access Quaternion variable but none set in inspector!");
                         return Quaternion.identity;
                     }
                 }
@@ -79,6 +79,7 @@ namespace MyAssets.ScriptableObjects.Variables
             set
             {
                 if (Variable != null) Variable.Value = value;
+                else if (!UseConstant) Debug.LogError($"Trying to set Quaternion variable that is null!");
             } 
         }
     }

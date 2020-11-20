@@ -41,7 +41,12 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [TabGroup("Vertical Movement")] [Required]
         protected FloatReference DragCoefficientVertical;
         
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Vertical Movement")] [Required]
+        protected FloatReference HorizontalGravityFactor;
 
+        
+        
         #endregion
 
         private Vector3 velocityAlongSlope;
@@ -145,6 +150,8 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             if (GroundingStatus.FoundAnyGround && GroundingStatus.GroundNormal == Vector3.up)
                 return Vector3.zero;
 
+            #region Airborn
+
             Vector3 newVelocity = currentVelocity.y * Vector3.up;
             
             if (newVelocity.y <= 0 || GroundingStatus.FoundAnyGround)  //Falling
@@ -166,16 +173,22 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 newVelocity.y = -Mathf.Abs(MaxFallSpeed.Value);
             }
 
-            var horizontalGravityFactor = .1f;
+            #endregion
 
-            //If grounded, project onto ground plane (sloped to some degree)
+            #region Grounded (slope)
+
+
+            //If grounded, OVERRIDE and project onto ground plane (sloped to some degree)
             //Less gravity when applied horizontally
             if (GroundingStatus.FoundAnyGround)
             {
+                newVelocity.y = gravity * Time.deltaTime;
                 newVelocity = Vector3.ProjectOnPlane(newVelocity, GroundingStatus.GroundNormal);
-                newVelocity *= horizontalGravityFactor;
+                newVelocity *= HorizontalGravityFactor.Value;
             }
-            
+
+            #endregion
+
             return newVelocity;
         }
         

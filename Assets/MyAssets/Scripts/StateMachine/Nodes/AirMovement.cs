@@ -129,23 +129,6 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
         #endregion
 
-        #region AddImpulse Redirect
-
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Redirect")] [Required]
-        private bool EnableRedirect = true;
-
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Redirect")] [ShowIf("$EnableRedirect")]
-        [Required]
-        private FloatReference RedirectMaxDegrees;
-        
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Redirect")] [ShowIf("$EnableRedirect")]
-        [Required]
-        private FloatReference RedirectAngleThreshold;
-
-        #endregion
-        
         private bool isFastTurning;
         private bool isFastTurningRotation;
         private Vector3 fastTurnStartDir;
@@ -342,39 +325,6 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             }
         }
 
-        private bool CheckRedirectConditions(Vector3 impulseVelocity)
-        {
-            if (Mathf.Approximately(impulseVelocity.magnitude, 0f))
-                return false;
-            
-            float addImpulseToMoveInputDegrees =
-                Vector3.Angle(impulseVelocity.normalized, moveInputCameraRelative.normalized);
-
-            //If angle less than threshhold, redirect is valid
-            if (addImpulseToMoveInputDegrees <= RedirectAngleThreshold.Value && 
-                !Mathf.Approximately(impulseVelocity.magnitude, 0f) &&
-                !Mathf.Approximately(moveInputCameraRelative.magnitude, 0f))
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        private Vector3 CalculateRedirectedImpulse(Vector3 addImpulse)
-        {
-            //Make it range [0, maxDegrees] based on move input
-            float reditectDegrees = RedirectMaxDegrees.Value * moveInputCameraRelative.magnitude; 
-            Vector3 addImpulseRedirectedDir = Vector3.RotateTowards(addImpulse.normalized,
-                moveInputCameraRelative.normalized, reditectDegrees * Mathf.Deg2Rad, 0f);
-            Vector3 addImpulseRedirected = addImpulse.magnitude * addImpulseRedirectedDir;
-            
-            //Preserve the original y velocity (so still reach same height)
-            addImpulseRedirected.y = addImpulse.y; 
-            
-            return addImpulseRedirected;
-        }
-        
 
         public override void DrawGizmos()
         {

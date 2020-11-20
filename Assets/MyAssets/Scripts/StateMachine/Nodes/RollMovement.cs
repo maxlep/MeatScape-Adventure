@@ -64,11 +64,17 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             Vector3 currentVelocity = velocityInfo.currentVelocity;
             Vector3 impulseVelocity = velocityInfo.impulseVelocity;
             Vector3 impulseVelocityRedirectble = velocityInfo.impulseVelocityRedirectble;
-            
-            Vector3 totalImpulse = impulseVelocity + impulseVelocityRedirectble;
+
+            Vector3 totalImpulse = impulseVelocity;
             Vector3 resultingVelocity;
             Vector3 horizontalVelocity = CalculateHorizontalVelocity(currentVelocity);
             Vector3 verticalVelocity = CalculateVerticalVelocity(currentVelocity);
+            
+            //Redirect impulseVelocityRedirectble if conditions met
+            if (EnableRedirect && CheckRedirectConditions(impulseVelocityRedirectble))
+                totalImpulse += CalculateRedirectedImpulse(impulseVelocityRedirectble);
+            else
+                totalImpulse += impulseVelocityRedirectble;
             
             resultingVelocity = horizontalVelocity + verticalVelocity;
             resultingVelocity += totalImpulse;
@@ -122,7 +128,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             // var aboveBaseSpeed = currentVelocity.magnitude > BaseSpeed.Value;
 
             //TODO: Dont apply friction in air?
-            var rollingFriction = PlayerWeight.Value * CoefficientOfRollingFriction.Value;
+            var rollingFriction = PlayerMass.Value * CoefficientOfRollingFriction.Value;
             var turningFriction = (1 + (CoefficientOfTurningFriction.Value * steeringFac));
             var friction = (GroundingStatus.FoundAnyGround) ?
                 rollingFriction * turningFriction * Time.deltaTime : 0f;

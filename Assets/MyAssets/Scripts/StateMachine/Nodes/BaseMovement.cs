@@ -21,7 +21,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         protected FloatReference ImpulseDampingFactor;
 
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Horizontal Movement")] [Required]
-        protected FloatReference PlayerWeight;
+        protected FloatReference PlayerMass;
         
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Horizontal Movement")] [Required]
         protected TransformSceneReference PlayerCameraTransform;
@@ -40,6 +40,23 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [TabGroup("Vertical Movement")] 
         protected FloatReference MaxJumpHeight;
         
+        #endregion
+        
+        #region AddImpulse Redirect
+
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Redirect")] [Required]
+        protected bool EnableRedirect;
+
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [TabGroup("Redirect")] [ShowIf("$EnableRedirect")]
+        [Required]
+        protected FloatReference RedirectMaxDegrees;
+        
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [TabGroup("Redirect")] [ShowIf("$EnableRedirect")]
+        [Required]
+        protected FloatReference RedirectAngleThreshold;
+
         #endregion
         
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Inputs")] [Required]
@@ -143,6 +160,39 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             var currentDir = currentVelocity.xz();
             
             return Vector3.zero;
+        }
+
+        protected bool CheckRedirectConditions(Vector3 impulseVelocity)
+        {
+            if (Mathf.Approximately(impulseVelocity.magnitude, 0f))
+                return false;
+            
+            float addImpulseToMoveInputDegrees =
+                Vector3.Angle(impulseVelocity.normalized, moveInputCameraRelative.normalized);
+
+            //If angle less than threshhold, redirect is valid
+            if (addImpulseToMoveInputDegrees <= RedirectAngleThreshold.Value && 
+                !Mathf.Approximately(impulseVelocity.magnitude, 0f) &&
+                !Mathf.Approximately(moveInputCameraRelative.magnitude, 0f))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        protected Vector3 CalculateRedirectedImpulse(Vector3 addImpulse)
+        {
+            //Make it range [0, maxDegrees] based on move input
+            float reditectDegrees = RedirectMaxDegrees.Value * moveInputCameraRelative.magnitude; 
+            Vector3 addImpulseRedirectedDir = Vector3.RotateTowards(addImpulse.normalized,
+                moveInputCameraRelative.normalized, reditectDegrees * Mathf.Deg2Rad, 0f);
+            Vector3 addImpulseRedirected = addImpulse.magnitude * addImpulseRedirectedDir;
+            
+            //Preserve the original y velocity (so still reach same height)
+            addImpulseRedirected.y = addImpulse.y; 
+            
+            return addImpulseRedirected;
         }
 
         /// <summary>

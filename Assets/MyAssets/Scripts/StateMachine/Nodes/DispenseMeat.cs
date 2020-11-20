@@ -32,7 +32,8 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             {
                 moveDir = FirePoint.Value.forward;
             }
-            var fireDir = ((Vector3.down * 0.7f) - moveDir).normalized;
+            // var fireDir = ((Vector3.down * 0.7f) - moveDir).normalized;
+            var fireDir = FirePoint.Value.forward;
 
             MeatClumpController clump = playerController.DetachClump(-moveDir);
             clump.transform.position = FirePoint.Value.position + Vector3.up;

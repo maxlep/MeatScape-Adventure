@@ -137,7 +137,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b30555d41ca14de3a827c1f26b6a30ed, type: 3}
-  m_Name: Roll Throw <DispenseMeat> (PlayerCombat)
+  m_Name: Roll Throw Back <DispenseMeat> (PlayerCombat)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1848, y: 1464}
@@ -171,11 +171,11 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   BypassState: 0
-  Name: Roll Throw
+  Name: Roll Throw Back
   zoom: 0
   isActiveState: 0
   Ammo: {fileID: 7432549252289664644, guid: f257932619900ee48a82e1b4e73d5325, type: 3}
-  FirePoint: {fileID: 11400000, guid: 27642181c01fbae46b19d9ad22d9cdce, type: 2}
+  FirePoint: {fileID: 11400000, guid: b28dd770929952340b4280518e9ae75c, type: 2}
   ThrowSpeed:
     UseConstant: 0
     ConstantValue: 0
@@ -194,7 +194,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: DoNothing -> Roll Throw
+  m_Name: DoNothing -> Roll Throw Back
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1304, y: 1464}
@@ -254,6 +254,76 @@ MonoBehaviour:
   TimerConditions: []
   Vector2Conditions: []
   Vector3Conditions: []
+--- !u!114 &-146436812042486691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: DoNothing -> Roll Throw Front
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1304, y: 2136}
+  ports:
+    keys:
+    - nextState
+    - startingState
+    values:
+    - _fieldName: nextState
+      _node: {fileID: -146436812042486691}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: 6723259330370557546}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: startingState
+      _node: {fileID: -146436812042486691}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: 9174840935225501389}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  transitionPriority: 0
+  conditionPreview: '-  Valid:  Roll  Movement
+
+    -  Attack Trigger_ Controller_
+    Player
+
+    -  Player Current Size_ Controller_ Player  Greater Than 0
+
+'
+  ValidStartStates:
+  - {fileID: 4966931143862885706, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  InvalidStartStates: []
+  BoolConditions: []
+  TriggerConditions:
+  - targetParameter: {fileID: 11400000, guid: 5e15a58a7e2120d4ab58b2aacd49f1ba, type: 2}
+    KeepTriggerOn: 0
+  FloatConditions: []
+  IntConditions:
+  - targetParameter:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: cdaba327a8069d04b9e20fa38eeab583, type: 2}
+    comparator: 1
+    value: 0
+  TimerConditions: []
+  Vector2Conditions: []
+  Vector3Conditions: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,6 +346,8 @@ MonoBehaviour:
   - {fileID: 7574179755061179093}
   - {fileID: -5380948068145273158}
   - {fileID: -6451526786145012349}
+  - {fileID: 6723259330370557546}
+  - {fileID: -146436812042486691}
 --- !u!114 &4601134146122477444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -392,6 +464,63 @@ MonoBehaviour:
   TimerConditions: []
   Vector2Conditions: []
   Vector3Conditions: []
+--- !u!114 &6723259330370557546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b30555d41ca14de3a827c1f26b6a30ed, type: 3}
+  m_Name: Roll Throw Front <DispenseMeat> ()
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1848, y: 2120}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: 6723259330370557546}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: -146436812042486691}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: 6723259330370557546}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: 7574179755061179093}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  BypassState: 0
+  Name: Roll Throw Front
+  zoom: 0
+  isActiveState: 0
+  Ammo: {fileID: 7432549252289664644, guid: f257932619900ee48a82e1b4e73d5325, type: 3}
+  FirePoint: {fileID: 11400000, guid: 5da1c30a924e6c44bac8f7b2d50f5b3f, type: 2}
+  ThrowSpeed:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: bbe60700273ca2549a705475c1cdd7a1, type: 2}
+  CachedVelocity:
+    UseConstant: 0
+    ConstantValue: {x: 0, y: 0, z: 0}
+    Variable: {fileID: 11400000, guid: 9bb89c095cc264240a1d00bcb25ce309, type: 2}
 --- !u!114 &7323983362953568521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -515,6 +644,9 @@ MonoBehaviour:
       - fieldName: transitions
         node: {fileID: -6451526786145012349}
         reroutePoints: []
+      - fieldName: transitions
+        node: {fileID: 6723259330370557546}
+        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 2
@@ -553,6 +685,9 @@ MonoBehaviour:
       - fieldName: startingState
         node: {fileID: -5380948068145273158}
         reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: -146436812042486691}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 2
@@ -572,4 +707,4 @@ MonoBehaviour:
   BypassState: 0
   Name: DoNothing
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1

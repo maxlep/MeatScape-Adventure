@@ -97,7 +97,12 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is On Slideable Slope_ Controller_ Player
+
+    -  Is Slope
+    Slide Valid_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -461,7 +466,7 @@ MonoBehaviour:
   m_Name: NoLowJump <Reference>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -2120, y: 3096}
+  position: {x: -2120, y: 3272}
   ports:
     keys:
     - previousState
@@ -615,7 +620,9 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Jump Trigger_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -674,7 +681,12 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    -  Waited Jump Ground
+    Delay_ Movement_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -850,7 +862,9 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Add Impulse Trigger_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -1350,7 +1364,9 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '- ! Is Grounded_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -1412,7 +1428,9 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -1603,6 +1621,9 @@ MonoBehaviour:
       - fieldName: transitions
         node: {fileID: -7514624377245547196}
         reroutePoints: []
+      - fieldName: transitions
+        node: {fileID: -1333640993000816840}
+        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 2
@@ -1620,7 +1641,12 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is On Slideable Slope_ Controller_ Player
+
+    - ! Is Slope
+    Slide Valid_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -1640,6 +1666,47 @@ MonoBehaviour:
   TimerConditions: []
   Vector2Conditions: []
   Vector3Conditions: []
+--- !u!114 &-1333640993000816840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: GroundMovement <Reference>
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -2120, y: 2872}
+  ports:
+    keys:
+    - transitions
+    - previousState
+    values:
+    - _fieldName: transitions
+      _node: {fileID: -1333640993000816840}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: startingState
+        node: {fileID: -1926937301745925327}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: previousState
+      _node: {fileID: -1333640993000816840}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  referencedState: {fileID: 1196608421412681666}
 --- !u!114 &-1157955999025042632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1766,7 +1833,9 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -1794,7 +1863,7 @@ MonoBehaviour:
   m_Name: AirMovement <Reference>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -2120, y: 2920}
+  position: {x: -2120, y: 3096}
   ports:
     keys:
     - previousState
@@ -1866,7 +1935,9 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Ground Pound Trigger_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -1937,6 +2008,7 @@ MonoBehaviour:
   - {fileID: -2312564762859964353}
   - {fileID: -5024012899602508559}
   - {fileID: 1074045590566597990}
+  - {fileID: -1333640993000816840}
 --- !u!114 &276245312325452325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2749,7 +2821,9 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Jump Trigger_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -2805,7 +2879,9 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Post Pound Delay_ Movement_ Player: 0.2 sec
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -3038,7 +3114,9 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Pound Stall_ Movement_ Player: 0.3 sec
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []

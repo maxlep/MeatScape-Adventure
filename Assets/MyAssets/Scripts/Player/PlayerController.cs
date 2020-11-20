@@ -31,7 +31,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private Vector3Reference NewVelocity;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private QuaternionReference NewRotation;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference StoredJumpVelocity;
-    [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference MaxSlopeSlideAngle;
+    [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference MinSlopeSlideAngle;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector2Reference MoveInput;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector3Reference BaseVelocity;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference JumpPressed;
@@ -285,10 +285,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     {
         float slopeAngle = Vector3.Angle(GroundingStatus.GroundNormal, Vector3.up);
 
-        if (!GroundingStatus.IsStableOnGround &&
-            GroundingStatus.FoundAnyGround &&
-            slopeAngle > charMotor.MaxStableSlopeAngle &&
-            slopeAngle < MaxSlopeSlideAngle.Value)
+        if (slopeAngle > MinSlopeSlideAngle.Value)
             return true;
 
         return false;
@@ -297,7 +294,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private bool IsSlopeSlideReady()
     {
         //Stop timer when land on stable ground if not already stopped
-        if (GroundingStatus.IsStableOnGround && !SlopeSlideTimer.IsStopped)
+        if (GroundingStatus.IsStableOnGround && !StandingOnSlideableSlope() &&
+            !SlopeSlideTimer.IsStopped)
             SlopeSlideTimer.StopTimer();
         
         //Start timer when land on Slope if not already started

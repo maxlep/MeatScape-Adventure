@@ -291,6 +291,9 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     public bool StandingOnSlideableSlope()
     {
+        if (!GroundingStatus.FoundAnyGround)
+            return false;
+        
         float slopeAngle = Vector3.Angle(GroundingStatus.GroundNormal, Vector3.up);
 
         if (slopeAngle > MinSlopeSlideAngle.Value)

@@ -177,6 +177,8 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             
             #endregion
 
+            var turnAngle = 90;
+            TurnFactor.Value = Vector3.Angle(newDirection, moveInputCameraRelative).MapRange(-turnAngle, turnAngle, -0.5f, 0.5f, true);
             HorizontalSpeedOut.Value = newSpeed;
             return newDirection * newSpeed;
         }

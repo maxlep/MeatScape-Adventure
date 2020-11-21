@@ -194,7 +194,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: DoNothing -> Roll Throw
+  m_Name: DoNothing -> Roll Throw Back
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1304, y: 1464}
@@ -230,11 +230,6 @@ MonoBehaviour:
   transitionPriority: 0
   conditionPreview: '-  Valid:  Roll  Movement
 
-    -  Ground Pound Trigger_ Controller_
-    Player
-
-    -  Player Current Size_ Controller_ Player  Greater Than 0
-
 '
   ValidStartStates:
   - {fileID: 4966931143862885706, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
@@ -264,7 +259,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: DoNothing -> Roll Throw Front
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1304, y: 2136}
@@ -425,14 +420,6 @@ MonoBehaviour:
     - 
     Valid:  No Low Jump
 
-    -  Waited Attack Delay_ Combat_ Player
-
-    -  Attack
-    Trigger_ Controller_ Player
-
-    -  Player Current Size_ Controller_ Player 
-    Greater Than 0
-
 '
   ValidStartStates:
   - {fileID: 1196608421412681666, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
@@ -469,7 +456,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b30555d41ca14de3a827c1f26b6a30ed, type: 3}
-  m_Name: Roll Throw Front <DispenseMeat> ()
+  m_Name: Roll Throw Front <DispenseMeat> (PlayerCombat)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1848, y: 2120}
@@ -563,14 +550,6 @@ MonoBehaviour:
   conditionPreview: '-  Valid:  Air Movement
 
     -  Valid:  No Low Jump
-
-    - 
-    Waited Attack Delay_ Combat_ Player
-
-    -  Downward Attack Trigger_ Controller_
-    Player
-
-    -  Player Current Size_ Controller_ Player  Greater Than 0
 
 '
   ValidStartStates:

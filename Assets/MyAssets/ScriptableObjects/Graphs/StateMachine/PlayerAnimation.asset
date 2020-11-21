@@ -1,55 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8918823026308548398
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65e22c5401b34e11b350842c67acb2ad, type: 3}
-  m_Name: Pound Driver <TimerDriver> (PlayerAnimation)
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: -824, y: 1512}
-  ports:
-    keys:
-    - previousState
-    - transitions
-    values:
-    - _fieldName: previousState
-      _node: {fileID: -8918823026308548398}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: transitions
-      _node: {fileID: -8918823026308548398}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  BypassState: 0
-  Name: Pound Driver
-  zoom: 0
-  isActiveState: 0
-  timer:
-    UseConstant: 0
-    ConstantDuration: 0
-    ConstantRemainingTime: 0
-    Variable: {fileID: 11400000, guid: 8eb00a017e6eab542ab970b1e1145189, type: 2}
-  factor:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 91392095241e171419b51689da476ba1, type: 2}
 --- !u!114 &-8358914764313829916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -551,7 +501,7 @@ MonoBehaviour:
   BypassState: 1
   Name: Roll Movement
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   transitionTime: 0.05
   transitionCurve:
     serializedVersion: 2
@@ -1010,7 +960,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Roll Perambulator
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   moveVelocity:
     Source:
       UseConstant: 0
@@ -1197,100 +1147,6 @@ MonoBehaviour:
   TimerConditions: []
   Vector2Conditions: []
   Vector3Conditions: []
---- !u!114 &-2104404874649457834
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbe66876495740579ccc412ccf28d337, type: 3}
-  m_Name: Pound Fall <NewSequenceBlend> (PlayerAnimation)
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 312, y: 1224}
-  ports:
-    keys:
-    - previousState
-    - transitions
-    values:
-    - _fieldName: previousState
-      _node: {fileID: -2104404874649457834}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: nextState
-        node: {fileID: 1534717339510978809}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: transitions
-      _node: {fileID: -2104404874649457834}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: startingState
-        node: {fileID: 3289089301062612516}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  BypassState: 0
-  Name: Pound Fall
-  zoom: 0
-  isActiveState: 0
-  transitionTime: 0.1
-  transitionCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  animationJobRunner:
-    BoneTransformWeights:
-    - transform: {fileID: 0}
-      weight: 1
-    factor:
-      UseConstant: 0
-      ConstantValue: 0
-      Variable: {fileID: 11400000, guid: 91392095241e171419b51689da476ba1, type: 2}
-    extrapolateMode: 0
-    loopSequence: 0
-    useMonospacedSequence: 1
-    sequenceList:
-    - pose: {fileID: 7311064971203818085, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
-        type: 3}
-      transition:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      timeLinePosition: 0
-      events: []
 --- !u!114 &-1770374977051931108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1864,9 +1720,6 @@ MonoBehaviour:
   - {fileID: 1882534402556617292}
   - {fileID: -7074754986663678180}
   - {fileID: 4467610210530022387}
-  - {fileID: -8918823026308548398}
-  - {fileID: 1534717339510978809}
-  - {fileID: 3289089301062612516}
   - {fileID: 4879977458698142861}
   - {fileID: 1148976148568861825}
   - {fileID: 5448195746069835673}
@@ -1879,19 +1732,15 @@ MonoBehaviour:
   - {fileID: -283094309726956859}
   - {fileID: 1784268939710130638}
   - {fileID: -4878098259704040775}
-  - {fileID: -2104404874649457834}
-  - {fileID: 5838681636790147171}
   - {fileID: 7134807960064310256}
   - {fileID: 1466093949299883373}
   - {fileID: -3539947134798072523}
   - {fileID: 5276580774853976909}
   - {fileID: 5391073615113036228}
-  - {fileID: 2846663699052922448}
   - {fileID: 8474329339902235374}
   - {fileID: -2816321112790655770}
   - {fileID: -1507888589778504077}
   - {fileID: 264669591117630602}
-  - {fileID: 7592156312224166969}
   - {fileID: 3401289501703831313}
   - {fileID: 773335224431959980}
   - {fileID: 2759140784823347483}
@@ -1996,7 +1845,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Roll Rotator
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   Pivot: {fileID: 11400000, guid: ba2e09efe07e3a245833dd872f7cce88, type: 2}
   Rotations:
   - LocalAxis: 0
@@ -2326,60 +2175,6 @@ MonoBehaviour:
         m_RotationOrder: 4
       timeLinePosition: 0
       events: []
---- !u!114 &1534717339510978809
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Pound Stall Sub -> Pound Fall
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: -248, y: 1176}
-  ports:
-    keys:
-    - startingState
-    - nextState
-    values:
-    - _fieldName: startingState
-      _node: {fileID: 1534717339510978809}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: 7592156312224166969}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: nextState
-      _node: {fileID: 1534717339510978809}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: previousState
-        node: {fileID: -2104404874649457834}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 1
-      _typeConstraint: 2
-      _dynamic: 0
-  transitionPriority: 0
-  conditionPreview: 
-  ValidStartStates: []
-  InvalidStartStates: []
-  BoolConditions: []
-  TriggerConditions: []
-  FloatConditions: []
-  IntConditions: []
-  TimerConditions: []
-  Vector2Conditions: []
-  Vector3Conditions: []
 --- !u!114 &1784268939710130638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2432,7 +2227,7 @@ MonoBehaviour:
   BypassState: 1
   Name: 'Idle '
   zoom: 0
-  isActiveState: 1
+  isActiveState: 0
   transitionTime: 0.5
   transitionCurve:
     serializedVersion: 2
@@ -2643,44 +2438,6 @@ MonoBehaviour:
   subStates:
   - {fileID: -53878915453836982}
   - {fileID: 7134807960064310256}
---- !u!114 &2846663699052922448
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
-  m_Name: Idle  <Reference>
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 1544, y: 1256}
-  ports:
-    keys:
-    - previousState
-    - transitions
-    values:
-    - _fieldName: previousState
-      _node: {fileID: 2846663699052922448}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: transitions
-      _node: {fileID: 2846663699052922448}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  referencedState: {fileID: 1784268939710130638}
 --- !u!114 &2973082149161544887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2722,60 +2479,6 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   referencedState: {fileID: -195501734508375196}
---- !u!114 &3289089301062612516
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: 'Pound Fall -> Idle '
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 920, y: 1240}
-  ports:
-    keys:
-    - startingState
-    - nextState
-    values:
-    - _fieldName: startingState
-      _node: {fileID: 3289089301062612516}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: -2104404874649457834}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: nextState
-      _node: {fileID: 3289089301062612516}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 1
-      _typeConstraint: 2
-      _dynamic: 0
-  transitionPriority: 0
-  conditionPreview: '-  Valid:  Ground Movement
-
-'
-  ValidStartStates:
-  - {fileID: 1196608421412681666, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  InvalidStartStates: []
-  BoolConditions: []
-  TriggerConditions: []
-  FloatConditions: []
-  IntConditions: []
-  TimerConditions: []
-  Vector2Conditions: []
-  Vector3Conditions: []
 --- !u!114 &3401289501703831313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3059,7 +2762,7 @@ MonoBehaviour:
     BoneTransformWeights:
     - transform: {fileID: 0}
       weight: 1
-    Factor: 0.5
+    Factor: 1.9921123
     BlendMode: 0
 --- !u!114 &5391073615113036228
 MonoBehaviour:
@@ -3316,7 +3019,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Roll Movement Sub
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   subStates:
   - {fileID: -3099988209043395053}
   - {fileID: 290542363192366075}
@@ -3393,121 +3096,6 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   executionOrderIndex: 0
---- !u!114 &5838681636790147171
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbe66876495740579ccc412ccf28d337, type: 3}
-  m_Name: Pound Stall <NewSequenceBlend> (PlayerAnimation)
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: -824, y: 1832}
-  ports:
-    keys:
-    - previousState
-    - transitions
-    values:
-    - _fieldName: previousState
-      _node: {fileID: 5838681636790147171}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: transitions
-      _node: {fileID: 5838681636790147171}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  BypassState: 0
-  Name: Pound Stall
-  zoom: 0
-  isActiveState: 0
-  transitionTime: 0.1
-  transitionCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  animationJobRunner:
-    BoneTransformWeights:
-    - transform: {fileID: 0}
-      weight: 1
-    factor:
-      UseConstant: 0
-      ConstantValue: 0
-      Variable: {fileID: 11400000, guid: 91392095241e171419b51689da476ba1, type: 2}
-    extrapolateMode: 0
-    loopSequence: 0
-    useMonospacedSequence: 1
-    sequenceList:
-    - pose: {fileID: 7400000, guid: d556ab52e17604958b19876c5f242758, type: 3}
-      transition:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 2
-          outSlope: 2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      timeLinePosition: 0
-      events: []
-    - pose: {fileID: 7311064971203818085, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
-        type: 3}
-      transition:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      timeLinePosition: 0
-      events: []
 --- !u!114 &6613936028350023393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3763,54 +3351,6 @@ MonoBehaviour:
   TimerConditions: []
   Vector2Conditions: []
   Vector3Conditions: []
---- !u!114 &7592156312224166969
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f8c1af988234bb6aa4b803ce9925204, type: 3}
-  m_Name: Pound Stall Sub <AnimSubStateProcessorNode> (PlayerAnimation)
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: -824, y: 1160}
-  ports:
-    keys:
-    - previousState
-    - transitions
-    values:
-    - _fieldName: previousState
-      _node: {fileID: 7592156312224166969}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: transitions
-      _node: {fileID: 7592156312224166969}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: startingState
-        node: {fileID: 1534717339510978809}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  BypassState: 0
-  Name: Pound Stall Sub
-  zoom: 0
-  isActiveState: 0
-  outputState: {fileID: 5838681636790147171}
-  subStates:
-  - {fileID: -8918823026308548398}
-  - {fileID: 5838681636790147171}
 --- !u!114 &7689719205349734681
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -45,58 +45,15 @@ public class MeatClumpController : MonoBehaviour
     private float speed;
     private bool hasCollided = false;
     private bool shouldFallOff = false;
+    private float falloffDistanceFactor;
     private bool returnAndOrbit = false;
     private Collider target;
     private LayerMask currentCollisionMask;
     private Vector3 startMovementPoint;
 
     private float orbitDegrees = 0;
-
-    public void SetPlayerController(PlayerController playerController) {
-        this.playerController = playerController;
-    }
-
-    private void SetMoving(float speed) {
-        if(this.hasCollided) {
-            if (shaderUpdater != null) shaderUpdater.ReverseSplat();
-            OnSetMoving.Invoke();
-        }
-        this.hasCollided = false;
-        this.shouldFallOff = false;
-        this.speed = speed;
-        this.currentCollisionMask = CollisionMask;
-        this.startMovementPoint = transform.position;
-        this.returnAndOrbit = false;
-    }
-
-    public void SetMoving(float speed, Vector3 direction) {
-        this.SetMoving(speed);
-        this.transform.forward = direction.normalized;
-        this.target = null;
-    }
-
-    public void SetMoving(float speed, Collider target) {
-        this.SetMoving(speed);
-        this.target = target;
-    }
-
-    public void SetReturnToPlayer()
-    {
-        float distance = (playerController.Collider.bounds.center - transform.position).magnitude;
-        float speed = distance / PlayerReturnTime.Value;
-        if(distance >= PlayerReturnDistanceThreshold.Value) speed = Mathf.Min(speed, PlayerReturnMaxSpeed.Value);
-        speed = Mathf.Max(speed, PlayerReturnMinSpeed.Value);
-        this.SetMoving(speed, playerController.Collider);
-        this.currentCollisionMask = PlayerCollisionMask;
-        this.ReturningToPlayer = true;
-        this.OrbitingPlayer = false;
-    }
-
-    public void SetReturnToPlayerAndOrbit() {
-        this.SetReturnToPlayer();
-        this.returnAndOrbit = true;
-    }
-
+    
+    #region Lifecycle
     private void Update()
     {
         float deltaDistance = this.speed * Time.deltaTime;
@@ -108,7 +65,57 @@ public class MeatClumpController : MonoBehaviour
             this.OrbitPlayer(deltaDistance);
         }
     }
+    #endregion
+    
+    #region Setters
+    public void SetPlayerController(PlayerController playerController) {
+        this.playerController = playerController;
+    }
 
+    private void SetMoving(float speed, float falloffDistanceFactor = 1) {
+        if (this.hasCollided) {
+            if (shaderUpdater != null) shaderUpdater.ReverseSplat();
+            OnSetMoving.Invoke();
+        }
+        this.hasCollided = false;
+        this.shouldFallOff = false;
+        this.falloffDistanceFactor = falloffDistanceFactor;
+        this.speed = speed;
+        this.currentCollisionMask = CollisionMask;
+        this.startMovementPoint = transform.position;
+        this.returnAndOrbit = false;
+    }
+
+    public void SetMoving(float speed, Vector3 direction, float falloffDistanceFactor = 1) {
+        this.SetMoving(speed, falloffDistanceFactor);
+        this.transform.forward = direction.normalized;
+        this.target = null;
+    }
+
+    public void SetMoving(float speed, Collider target, float falloffDistanceFactor = 1) {
+        this.SetMoving(speed, falloffDistanceFactor);
+        this.target = target;
+    }
+
+    public void SetReturnToPlayer()
+    {
+        float distance = (playerController.Collider.bounds.center - transform.position).magnitude;
+        float speed = distance / PlayerReturnTime.Value;
+        if(distance >= PlayerReturnDistanceThreshold.Value) speed = Mathf.Min(speed, PlayerReturnMaxSpeed.Value);
+        speed = Mathf.Max(speed, PlayerReturnMinSpeed.Value);
+        this.SetMoving(speed, playerController.Collider, falloffDistanceFactor);
+        this.currentCollisionMask = PlayerCollisionMask;
+        this.ReturningToPlayer = true;
+        this.OrbitingPlayer = false;
+    }
+
+    public void SetReturnToPlayerAndOrbit() {
+        this.SetReturnToPlayer();
+        this.returnAndOrbit = true;
+    }
+    #endregion
+    
+    #region Collision
     private void HandleCollisions(Collider[] colliders, Vector3 normal) {
         if (colliders.Length > 0)
         {
@@ -162,15 +169,17 @@ public class MeatClumpController : MonoBehaviour
         
         this.HandleCollisions(hitColliders, -transform.forward);
     }
-
+    #endregion
+    
+    #region Movement
     private void Move(float deltaDistance)
     {
-        shouldFallOff = Vector3.Distance(transform.position, this.startMovementPoint) >= this.ClumpFalloffDistance.Value;
+        shouldFallOff = Vector3.Distance(transform.position, this.startMovementPoint) >= ClumpFalloffDistance.Value * falloffDistanceFactor;
         if (target != null) {
             transform.forward = target.bounds.center - transform.position;
         }
         if(!this.ReturningToPlayer && shouldFallOff) {
-            float newY = transform.forward.y - (this.ClumpFalloffSpeed.Value * Time.deltaTime);
+            float newY = transform.forward.y - (this.ClumpFalloffSpeed.Value * Time.deltaTime * (1 / falloffDistanceFactor));
             transform.forward = new Vector3(transform.forward.x, newY, transform.forward.z);
         }
         transform.position += transform.forward * deltaDistance;
@@ -196,4 +205,5 @@ public class MeatClumpController : MonoBehaviour
         if (AbsorbSystem != null)
             EffectsManager.Instance?.SpawnParticlesAtPoint(AbsorbSystem, transform.position, Quaternion.identity);
     }
+    #endregion
 }

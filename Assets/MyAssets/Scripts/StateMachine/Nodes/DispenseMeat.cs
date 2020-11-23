@@ -14,6 +14,8 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         private TransformSceneReference FirePoint;
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Throw")] [Required]
         private FloatReference ThrowSpeed;
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Throw")] [Required]
+        private FloatReference ThrowFalloffFactor;
 
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Input")] [Required]
         private Vector3Reference CachedVelocity;
@@ -37,7 +39,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
             MeatClumpController clump = playerController.DetachClump(-moveDir);
             clump.transform.position = FirePoint.Value.position + Vector3.up;
-            clump.SetMoving(ThrowSpeed.Value, fireDir);
+            clump.SetMoving(ThrowSpeed.Value, fireDir, ThrowFalloffFactor.Value);
         }
     }
 }

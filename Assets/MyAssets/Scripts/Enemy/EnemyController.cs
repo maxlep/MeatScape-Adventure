@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using BehaviorDesigner.Runtime;
 using KinematicCharacterController;
+using MoreMountains.Feedbacks;
 using MyAssets.ScriptableObjects.Variables;
 using UnityEngine;
 using Sirenix.OdinInspector;
@@ -15,7 +17,8 @@ public class EnemyController : MonoBehaviour, ICharacterController
     [SerializeField] private LayerMapper layerMapper;
     [SerializeField, SuffixLabel("m/s^2", Overlay = true)] private float Gravity = 10f;
     [SerializeField] private int MaxHealth = 1;
-    [SerializeField] private GameObject deathParticles;
+    [SerializeField] private MMFeedbacks damageFeedbacks;
+    [SerializeField] private MMFeedbacks deathFeedbacks;
     
     public Vector3 SetNewVelocity
     {
@@ -34,6 +37,7 @@ public class EnemyController : MonoBehaviour, ICharacterController
     public event _OnStartUpdateVelocity onStartUpdateVelocity;
     public event _OnStartUpdateRotation onStartUpdateRotation;
 
+    private bool isAlive;
     private int health;
     private Vector3 newVelocity;
     private Quaternion newRotation;
@@ -50,10 +54,13 @@ public class EnemyController : MonoBehaviour, ICharacterController
     private void Awake() {
         characterMotor.CharacterController = this;
         health = MaxHealth;
+        isAlive = true;
     }
 
     private void LateUpdate() {
-        if(health <= 0) {
+        if (isAlive && health <= 0)
+        {
+            isAlive = false;
             KillEnemy();
         }
     }
@@ -73,7 +80,7 @@ public class EnemyController : MonoBehaviour, ICharacterController
 
         float currentGravity = (!characterMotor.GroundingStatus.IsStableOnGround) ? Gravity : 0f;
 
-        currentVelocity = newVelocity + Vector3.down * currentGravity;
+        currentVelocity = (newVelocity + Vector3.down * currentGravity) * Convert.ToInt32(isAlive);
     }
 
     public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
@@ -122,14 +129,28 @@ public class EnemyController : MonoBehaviour, ICharacterController
     #region Death Methods
 
     private void KillEnemy() {
+        behaviorTree.DisableBehavior(true);
+        if (deathFeedbacks != null)
+        {
+            deathFeedbacks.PlayFeedbacks();
+        }
+        else
+        {
+            FinishKill();
+        }
+    }
+
+    public void FinishKill()
+    {
         OnDeath?.Invoke();
         KinematicCharacterSystem.UnregisterCharacterMotor(characterMotor);
-        EffectsManager.Instance?.SpawnParticlesAtPoint(deathParticles, transform.position, Quaternion.identity);
+        // EffectsManager.Instance?.SpawnParticlesAtPoint(deathParticles, transform.position, Quaternion.identity);
         Destroy(this.gameObject);
     }
 
     public void DamageEnemy(int dmg) {
         health -= dmg;
+        if (deathFeedbacks != null) damageFeedbacks?.PlayFeedbacks();
     }
 
     #endregion

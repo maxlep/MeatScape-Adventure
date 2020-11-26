@@ -69,7 +69,7 @@ public class VariableContainer : ScriptableObject
 
         foreach (var propertyPath in GetAssetRelativePaths(FolderPath))
         {
-            TriggerVariable assetAsTrigger = 
+            TriggerVariable assetAsTrigger =
                 AssetDatabase.LoadAssetAtPath(propertyPath, typeof(TriggerVariable)) as TriggerVariable;
             if (assetAsTrigger != null)
             {

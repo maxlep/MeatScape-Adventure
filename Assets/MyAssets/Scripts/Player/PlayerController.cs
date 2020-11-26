@@ -32,6 +32,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private QuaternionReference NewRotation;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference StoredJumpVelocity;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference MinSlopeSlideAngle;
+    [FoldoutGroup("Referenced Outputs")] [SerializeField] private IntReference PlayerHealth;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector2Reference MoveInput;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector3Reference BaseVelocity;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference JumpPressed;
@@ -51,6 +52,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference ClumpThrowKnockbackSpeed;
     [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference ClumpReturnKnockbackSpeed;
+    [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference InvincibilityTime;
 
     [FoldoutGroup("Size Parameters")] [SerializeField] private TransformSceneReference sizeChangePivot;
     [FoldoutGroup("Size Parameters")] [SerializeField] private PlayerSize startSize;
@@ -80,6 +82,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private Vector3 impulseVelocity;
     private Vector3 impulseVelocityRedirectable;
     private Vector3 impulseVelocityOverlayed;
+
+    private float invincibilityTimer = -Mathf.Infinity;
 
     public delegate void _OnStartUpdateVelocity(VelocityInfo velocityInfo);
     public delegate void _OnStartUpdateRotation(Quaternion currentRotation);
@@ -196,6 +200,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         ref HitStabilityReport hitStabilityReport)
     {
         // This is called when the motor's movement logic detects a hit
+        HandleCharacterControllerCollisions(hitCollider);
     }
 
     public void ProcessHitStabilityReport(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint,
@@ -212,6 +217,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     public void OnDiscreteCollisionDetected(Collider hitCollider)
     {
         // This is called by the motor when it is detecting a collision that did not result from a "movement hit".
+        HandleCharacterControllerCollisions(hitCollider);
     }
 
     #endregion
@@ -379,6 +385,16 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
                 }
             }
             PlayerRecallAttempts.Reset();
+        }
+    }
+
+    private void HandleCharacterControllerCollisions(Collider hitCollider)
+    {
+        if(hitCollider.gameObject.layer == layerMapper.GetLayer(LayerEnum.Enemy)) {
+            if(Time.time > (invincibilityTimer + InvincibilityTime.Value)) {
+                PlayerHealth.Value--;
+                invincibilityTimer = Time.time;
+            }
         }
     }
 

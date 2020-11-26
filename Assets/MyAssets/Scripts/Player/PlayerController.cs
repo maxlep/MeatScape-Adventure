@@ -27,6 +27,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [SerializeField] private AudioClip jumpAttackClip;
     [SerializeField] private AimTargetter aimTargetter;
     [SerializeField] private Transform meatClumpContainer;
+    public bool invincible;
 
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private Vector3Reference NewVelocity;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private QuaternionReference NewRotation;
@@ -391,7 +392,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private void HandleCharacterControllerCollisions(Collider hitCollider)
     {
         if(hitCollider.gameObject.layer == layerMapper.GetLayer(LayerEnum.Enemy)) {
-            if(Time.time > (invincibilityTimer + InvincibilityTime.Value)) {
+            if(Time.time > (invincibilityTimer + InvincibilityTime.Value) && !invincible) {
                 PlayerHealth.Value--;
                 invincibilityTimer = Time.time;
             }

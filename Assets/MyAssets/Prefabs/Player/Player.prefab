@@ -1218,6 +1218,7 @@ MonoBehaviour:
   jumpAttackClip: {fileID: 8300000, guid: 6f91490513735a146a0871aa97cd363c, type: 3}
   aimTargetter: {fileID: 34918825}
   meatClumpContainer: {fileID: 1906515848680227391}
+  invincible: 0
   NewVelocity:
     UseConstant: 0
     ConstantValue: {x: 0, y: 0, z: 0}
@@ -1291,6 +1292,10 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 00dd7dc9a86e1564fb5d98d230b5df18, type: 2}
+  EnemyKnockbackSpeed:
+    UseConstant: 1
+    ConstantValue: 16
+    Variable: {fileID: 0}
   InvincibilityTime:
     UseConstant: 0
     ConstantValue: 0
@@ -1370,7 +1375,7 @@ MonoBehaviour:
   StableGroundLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  DiscreteCollisionEvents: 0
+  DiscreteCollisionEvents: 1
   StepHandling: 1
   MaxStepHeight: 0.5
   AllowSteppingWithoutStableGrounding: 0

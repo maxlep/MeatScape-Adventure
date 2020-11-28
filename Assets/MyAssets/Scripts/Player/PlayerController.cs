@@ -53,6 +53,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference ClumpThrowKnockbackSpeed;
     [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference ClumpReturnKnockbackSpeed;
+    [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference EnemyKnockbackSpeed;
     [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference InvincibilityTime;
 
     [FoldoutGroup("Size Parameters")] [SerializeField] private TransformSceneReference sizeChangePivot;
@@ -394,6 +395,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         if(hitCollider.gameObject.layer == layerMapper.GetLayer(LayerEnum.Enemy)) {
             if(Time.time > (invincibilityTimer + InvincibilityTime.Value) && !invincible) {
                 PlayerHealth.Value--;
+                this.AddImpulse(hitCollider.transform.forward * EnemyKnockbackSpeed.Value);
                 invincibilityTimer = Time.time;
             }
         }

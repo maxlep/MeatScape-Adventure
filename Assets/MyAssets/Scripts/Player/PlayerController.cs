@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using KinematicCharacterController;
+using MoreMountains.Feedbacks;
 using MyAssets.ScriptableObjects.Variables;
 using MyAssets.Scripts.Player;
 using MyAssets.Scripts.Utils;
@@ -55,6 +56,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference ClumpReturnKnockbackSpeed;
     [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference EnemyKnockbackSpeed;
     [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference InvincibilityTime;
+
+    [FoldoutGroup("Feedbacks")] [SerializeField] private MMFeedbacks damageFeedback;
 
     [FoldoutGroup("Size Parameters")] [SerializeField] private TransformSceneReference sizeChangePivot;
     [FoldoutGroup("Size Parameters")] [SerializeField] private PlayerSize startSize;
@@ -287,6 +290,16 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         impulseVelocityOverlayed += addImpulse;
         AddImpulseTrigger.Activate();
     }
+
+    public void Damage(Vector3 knockbackDir, float knockbackSpeed)
+    {
+        if(Time.time > (invincibilityTimer + InvincibilityTime.Value) && !invincible) {
+            PlayerHealth.Value--;
+            damageFeedback.PlayFeedbacks();
+            this.AddImpulse(knockbackDir * knockbackSpeed);
+            invincibilityTimer = Time.time;
+        }
+    }
     #endregion
 
     private void UpdateParameters()
@@ -393,11 +406,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private void HandleCharacterControllerCollisions(Collider hitCollider)
     {
         if(hitCollider.gameObject.layer == layerMapper.GetLayer(LayerEnum.Enemy)) {
-            if(Time.time > (invincibilityTimer + InvincibilityTime.Value) && !invincible) {
-                PlayerHealth.Value--;
-                this.AddImpulse(hitCollider.transform.forward * EnemyKnockbackSpeed.Value);
-                invincibilityTimer = Time.time;
-            }
+            Damage(hitCollider.transform.forward, EnemyKnockbackSpeed.Value);
         }
     }
 

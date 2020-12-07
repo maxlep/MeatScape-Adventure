@@ -38,8 +38,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector2Reference MoveInput;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector3Reference BaseVelocity;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference JumpPressed;
-    [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference IsSlopeSlideValid;
-    [FoldoutGroup("Referenced Outputs")] [SerializeField] private TimerReference SlopeSlideTimer;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference IsGrounded;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference IsOnSlidebleSlope;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private IntReference PlayerCurrentSize;
@@ -306,7 +304,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     {
         IsGrounded.Value = charMotor.GroundingStatus.IsStableOnGround;
         IsOnSlidebleSlope.Value = StandingOnSlideableSlope();
-        IsSlopeSlideValid.Value = IsSlopeSlideReady();
         BaseVelocity.Value = charMotor.BaseVelocity;
     }
 
@@ -321,25 +318,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
             return true;
 
         return false;
-    }
-
-    private bool IsSlopeSlideReady()
-    {
-        //Stop timer when land on stable ground if not already stopped
-        if (GroundingStatus.IsStableOnGround && !StandingOnSlideableSlope() &&
-            !SlopeSlideTimer.IsStopped)
-            SlopeSlideTimer.StopTimer();
-        
-        //Start timer when land on Slope if not already started
-        if (StandingOnSlideableSlope() && SlopeSlideTimer.IsStopped)
-            SlopeSlideTimer.StartTimer();
-        
-        SlopeSlideTimer.UpdateTime();
-
-        if (Mathf.Approximately(SlopeSlideTimer.RemainingTime, 0f))
-            return true;
-        else
-            return false;
     }
 
     private void GetInput()

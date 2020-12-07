@@ -82,91 +82,6 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   referencedState: {fileID: 8382683336472367375}
---- !u!114 &-8310202094074352377
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Slope Movement -> Roll Movement
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: -1608, y: 2664}
-  ports:
-    keys:
-    - startingState
-    - nextState
-    values:
-    - _fieldName: startingState
-      _node: {fileID: -8310202094074352377}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: -1157955999025042632}
-        reroutePoints: []
-      - fieldName: transitions
-        node: {fileID: -7506991073663755629}
-        reroutePoints: []
-      - fieldName: transitions
-        node: {fileID: 4879078656723649851}
-        reroutePoints: []
-      - fieldName: transitions
-        node: {fileID: -7929767128456955958}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: nextState
-      _node: {fileID: -8310202094074352377}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: previousState
-        node: {fileID: 1074045590566597990}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 1
-      _typeConstraint: 2
-      _dynamic: 0
-  transitionPriority: 0
-  conditionPreview: '-  Is On Slideable Slope_ Controller_ Player
-
-    -  Is Slope
-    Slide Valid_ Controller_ Player
-
-    -  Waited Jump Ground Delay_ Movement_ Player
-
-'
-  ValidStartStates: []
-  InvalidStartStates: []
-  BoolConditions:
-  - targetParameter:
-      UseConstant: 0
-      ConstantValue: 0
-      Variable: {fileID: 11400000, guid: f33f5725b5d107541a82558ed088f818, type: 2}
-    value: 1
-  - targetParameter:
-      UseConstant: 0
-      ConstantValue: 0
-      Variable: {fileID: 11400000, guid: a2cc534b677489d4487f781d647fcb2d, type: 2}
-    value: 1
-  - targetParameter:
-      UseConstant: 0
-      ConstantValue: 0
-      Variable: {fileID: 11400000, guid: 358e23c96757a634d87c428b8667b8ee, type: 2}
-    value: 1
-  TriggerConditions: []
-  FloatConditions: []
-  IntConditions: []
-  TimerConditions: []
-  Vector2Conditions: []
-  Vector3Conditions: []
 --- !u!114 &-8209884016339463683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,7 +92,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ab916262de02c341baac7de08907771, type: 3}
-  m_Name: AirMovement <AirMovement> ()
+  m_Name: AirMovement <AirMovement> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 728, y: 312}
@@ -380,7 +295,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: startingState
-        node: {fileID: -8310202094074352377}
+        node: {fileID: 1355536025154225517}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -412,7 +327,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: transitions
-        node: {fileID: -4470276867850917414}
+        node: {fileID: 145714409710213218}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -522,7 +437,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: startingState
-        node: {fileID: -8310202094074352377}
+        node: {fileID: 1355536025154225517}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -809,7 +724,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c9407b3066ed4db1853f20740c0e142f, type: 3}
-  m_Name: AirJump <Jump> ()
+  m_Name: AirJump <Jump> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 2232, y: 1336}
@@ -1158,163 +1073,6 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   referencedState: {fileID: -8209884016339463683}
---- !u!114 &-4470276867850917414
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da111ca52dd64bb6a384ac70a329bbfd, type: 3}
-  m_Name: Slope Movement <Movement> ()
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: -1048, y: 3528}
-  ports:
-    keys:
-    - transitions
-    - previousState
-    values:
-    - _fieldName: transitions
-      _node: {fileID: -4470276867850917414}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: startingState
-        node: {fileID: -2334806701575608527}
-        reroutePoints: []
-      - fieldName: startingState
-        node: {fileID: -7613088525531120748}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: previousState
-      _node: {fileID: -4470276867850917414}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: nextState
-        node: {fileID: -1926937301745925327}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  BypassState: 0
-  Name: Slope Movement
-  zoom: 0
-  isActiveState: 0
-  EnableHorizontalMovement: 1
-  ProjectOnGroundPlane: 1
-  EnableFastTurn: 1
-  EnableVerticalMovement: 0
-  PlayerCameraTransform: {fileID: 11400000, guid: d50b3bc5cde09794cb0468cc9e2dba0f,
-    type: 2}
-  SlopeSlideTimer:
-    UseConstant: 0
-    ConstantDuration: 0
-    ConstantRemainingTime: 0
-    Variable: {fileID: 11400000, guid: 213b2ba962e85df45931ee7af2af4023, type: 2}
-  MoveSpeed:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 5c878f8db6decb043a9e07239782f2ef, type: 2}
-  SlopeSlowMoveSpeed:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 311b330b2cdef9444bf2a222b1b610d0, type: 2}
-  TurnSpeed:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 8c687498c8077504295799ab73fbb4e9, type: 2}
-  RotationDeltaMax:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: a64bfe3334e8d724ba0f651a87de2d4d, type: 2}
-  Acceleration:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 01cf5e817fd7b5949977e10d09bb5ab6, type: 2}
-  Deacceleration:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: c4dbde759be93ec4cad673baf38c882c, type: 2}
-  MoveInput:
-    UseConstant: 0
-    ConstantValue: {x: 0, y: 0}
-    Variable: {fileID: 11400000, guid: f48af2d5870a315459ef8f032591c5be, type: 2}
-  NewVelocityOut:
-    UseConstant: 0
-    ConstantValue: {x: 0, y: 0, z: 0}
-    Variable: {fileID: 11400000, guid: 9bb89c095cc264240a1d00bcb25ce309, type: 2}
-  cachedVelocity:
-    UseConstant: 0
-    ConstantValue: {x: 0, y: 0, z: 0}
-    Variable: {fileID: 11400000, guid: dd2cd63ae1d9c034096f0b67bb5bcf62, type: 2}
-  NewRotationOut:
-    UseConstant: 0
-    ConstantValue: {x: 0, y: 0, z: 0, w: 0}
-    Variable: {fileID: 11400000, guid: 642843bee527d554f9408523e1ab11c8, type: 2}
-  FastTurnSpeed:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 4ccb4cc18591422428494e2d9380d962, type: 2}
-  FastTurnPercentThreshold:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: d230a70f16480e54e9f80c374038300c, type: 2}
-  FastTurnAngleThreshold:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 960dd60c3d76c614aa581a90564c1f0f, type: 2}
-  StopFastTurnDeltaAngle:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 3efaf0f38b4a342479a6e71944371e86, type: 2}
-  FastTurnInputDeadZone:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: f20c177f06f5f6c4082d8e727df1710d, type: 2}
-  FastTurnBrakeDeacceleration:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: b651223cd61c08f4bbd7489c8c03b773, type: 2}
-  FastTurnBrakeSpeedThreshold:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 0c39edad5884d3b46b4b2ee4439b1eb1, type: 2}
-  MoveInputRequiredDelta:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 3f32010f7f6ee4d4a9cb4deff8ebf1d8, type: 2}
-  TimeToJumpApex:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  MaxJumpHeight:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  FallMultiplier:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  LowJumpDrag:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  MaxFallSpeed:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  JumpPressed:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 0}
 --- !u!114 &-3641797515424182864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1509,7 +1267,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: transitions
-        node: {fileID: -4470276867850917414}
+        node: {fileID: 145714409710213218}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -1637,7 +1395,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: previousState
-        node: {fileID: -4470276867850917414}
+        node: {fileID: 145714409710213218}
         reroutePoints: []
       _direction: 1
       _connectionType: 1
@@ -1646,8 +1404,8 @@ MonoBehaviour:
   transitionPriority: 0
   conditionPreview: '-  Is On Slideable Slope_ Controller_ Player
 
-    - ! Is Slope
-    Slide Valid_ Controller_ Player
+    -  Waited
+    Jump Ground Delay_ Movement_ Player
 
 '
   ValidStartStates: []
@@ -1661,8 +1419,8 @@ MonoBehaviour:
   - targetParameter:
       UseConstant: 0
       ConstantValue: 0
-      Variable: {fileID: 11400000, guid: a2cc534b677489d4487f781d647fcb2d, type: 2}
-    value: 0
+      Variable: {fileID: 11400000, guid: 358e23c96757a634d87c428b8667b8ee, type: 2}
+    value: 1
   TriggerConditions: []
   FloatConditions: []
   IntConditions: []
@@ -1744,13 +1502,13 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: startingState
-        node: {fileID: -8310202094074352377}
+        node: {fileID: 1355536025154225517}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  referencedState: {fileID: -4470276867850917414}
+  referencedState: {fileID: 145714409710213218}
 --- !u!114 &-1130211452834299732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1922,11 +1680,9 @@ MonoBehaviour:
   - {fileID: -3193452684244252466}
   - {fileID: -4727255185880807703}
   - {fileID: 5601859753555772258}
-  - {fileID: -8310202094074352377}
   - {fileID: -2334806701575608527}
   - {fileID: -7613088525531120748}
   - {fileID: -1926937301745925327}
-  - {fileID: -4470276867850917414}
   - {fileID: -1157955999025042632}
   - {fileID: 4966931143862885706}
   - {fileID: -616848569264096905}
@@ -1956,6 +1712,113 @@ MonoBehaviour:
   - {fileID: -6059047097540652081}
   - {fileID: -8897653364566926047}
   - {fileID: -5533445536069484476}
+  - {fileID: 145714409710213218}
+  - {fileID: 1355536025154225517}
+--- !u!114 &145714409710213218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad21c6518b9b1474988d19967fd73886, type: 3}
+  m_Name: Slope Movement <SlopeMovement> (PlayerMovement)
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -1016, y: 3528}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: 145714409710213218}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: -1926937301745925327}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: 145714409710213218}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: startingState
+        node: {fileID: -2334806701575608527}
+        reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: -7613088525531120748}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  BypassState: 0
+  Name: Slope Movement
+  zoom: 0
+  isActiveState: 0
+  BaseSpeed:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  TurnSpeed:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 8c687498c8077504295799ab73fbb4e9, type: 2}
+  ImpulseDampingFactor:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  PlayerMass:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: b6d934dfd6eaa554e8e80deaca08b11a, type: 2}
+  PlayerCameraTransform: {fileID: 11400000, guid: d50b3bc5cde09794cb0468cc9e2dba0f,
+    type: 2}
+  TimeToJumpApex:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 1363a9d9ca886e741bf7446fd6169c24, type: 2}
+  MaxJumpHeight:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 0fd3177644ebffb41a70848abe4ba59b, type: 2}
+  EnableRedirect: 0
+  RedirectMaxDegrees:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  RedirectAngleThreshold:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  MoveInput:
+    UseConstant: 0
+    ConstantValue: {x: 0, y: 0}
+    Variable: {fileID: 11400000, guid: f48af2d5870a315459ef8f032591c5be, type: 2}
+  NewVelocityOut:
+    UseConstant: 0
+    ConstantValue: {x: 0, y: 0, z: 0}
+    Variable: {fileID: 11400000, guid: 9bb89c095cc264240a1d00bcb25ce309, type: 2}
+  NewRotationOut:
+    UseConstant: 0
+    ConstantValue: {x: 0, y: 0, z: 0, w: 0}
+    Variable: {fileID: 11400000, guid: 642843bee527d554f9408523e1ab11c8, type: 2}
+  DragCoefficient:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: f0ca142ab12074d4ba433b6954272432, type: 2}
+  HorizontalGravityFactor:
+    UseConstant: 1
+    ConstantValue: 0.5
+    Variable: {fileID: 11400000, guid: 4fefbab5ea91b4d4682cc6ad1f881f02, type: 2}
 --- !u!114 &647826158662486185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2053,7 +1916,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: nextState
-        node: {fileID: -8310202094074352377}
+        node: {fileID: 1355536025154225517}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -2079,7 +1942,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: de55ab52efb558d43b6c4cec5668c510, type: 3}
-  m_Name: GroundMovement <GroundMovement> ()
+  m_Name: GroundMovement <GroundMovement> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -1096, y: -296}
@@ -2118,7 +1981,7 @@ MonoBehaviour:
   BypassState: 0
   Name: GroundMovement
   zoom: 0
-  isActiveState: 1
+  isActiveState: 0
   BaseSpeed:
     UseConstant: 1
     ConstantValue: 0
@@ -2237,6 +2100,100 @@ MonoBehaviour:
     Variable: {fileID: 0}
   FastTurnTriggered: {fileID: 11400000, guid: 8d2de91408bd44e42b8cf36cd4a435e2, type: 2}
   SlideTurnTriggered: {fileID: 11400000, guid: 4dd3aed967556774397f7132ad414a80, type: 2}
+--- !u!114 &1355536025154225517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: GroundMovement -> Roll Movement
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -1688, y: 2712}
+  ports:
+    keys:
+    - startingState
+    - nextState
+    values:
+    - _fieldName: startingState
+      _node: {fileID: 1355536025154225517}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: -7506991073663755629}
+        reroutePoints: []
+      - fieldName: transitions
+        node: {fileID: -1157955999025042632}
+        reroutePoints: []
+      - fieldName: transitions
+        node: {fileID: 4879078656723649851}
+        reroutePoints: []
+      - fieldName: transitions
+        node: {fileID: -7929767128456955958}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: nextState
+      _node: {fileID: 1355536025154225517}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: 1074045590566597990}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+  transitionPriority: 0
+  conditionPreview: '-  Is On Slideable Slope_ Controller_ Player
+
+    -  Waited
+    Jump Ground Delay_ Movement_ Player
+
+    - 0  Ignore 0 && 0  Less Than 0 && 0 
+    Ignore 0
+
+'
+  ValidStartStates: []
+  InvalidStartStates: []
+  BoolConditions:
+  - targetParameter:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: f33f5725b5d107541a82558ed088f818, type: 2}
+    value: 1
+  - targetParameter:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: 358e23c96757a634d87c428b8667b8ee, type: 2}
+    value: 1
+  TriggerConditions: []
+  FloatConditions: []
+  IntConditions: []
+  TimerConditions: []
+  Vector2Conditions: []
+  Vector3Conditions:
+  - targetParameter:
+      UseConstant: 0
+      ConstantValue: {x: 0, y: 0, z: 0}
+      Variable: {fileID: 11400000, guid: dd2cd63ae1d9c034096f0b67bb5bcf62, type: 2}
+    xCompare:
+      comparator: 0
+      value: 0
+    yCompare:
+      comparator: 1
+      value: 0
+    zCompare:
+      comparator: 0
+      value: 0
 --- !u!114 &1596768289511843569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2332,7 +2289,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c9407b3066ed4db1853f20740c0e142f, type: 3}
-  m_Name: Jump <Jump> ()
+  m_Name: Jump <Jump> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 136, y: 248}
@@ -2424,7 +2381,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: startingState
-        node: {fileID: -8310202094074352377}
+        node: {fileID: 1355536025154225517}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -2441,7 +2398,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1f94493beb594ec4b79b731144df997c, type: 3}
-  m_Name: Roll Movement <RollMovement> ()
+  m_Name: Roll Movement <RollMovement> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -1416, y: 1560}
@@ -2477,7 +2434,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Roll Movement
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   BaseSpeed:
     UseConstant: 0
     ConstantValue: 0
@@ -2726,7 +2683,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  referencedState: {fileID: -4470276867850917414}
+  referencedState: {fileID: 145714409710213218}
 --- !u!114 &7248169581288550152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2911,7 +2868,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ab916262de02c341baac7de08907771, type: 3}
-  m_Name: NoLowJump <AirMovement> ()
+  m_Name: NoLowJump <AirMovement> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 456, y: -568}

@@ -177,7 +177,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ab916262de02c341baac7de08907771, type: 3}
-  m_Name: AirMovement <AirMovement> (PlayerMovement)
+  m_Name: AirMovement <AirMovement> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 728, y: 312}
@@ -809,7 +809,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c9407b3066ed4db1853f20740c0e142f, type: 3}
-  m_Name: AirJump <Jump> (PlayerMovement)
+  m_Name: AirJump <Jump> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 2232, y: 1336}
@@ -1168,7 +1168,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: da111ca52dd64bb6a384ac70a329bbfd, type: 3}
-  m_Name: Slope Movement <Movement> (PlayerMovement)
+  m_Name: Slope Movement <Movement> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -1048, y: 3528}
@@ -2079,7 +2079,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: de55ab52efb558d43b6c4cec5668c510, type: 3}
-  m_Name: GroundMovement <GroundMovement> (PlayerMovement)
+  m_Name: GroundMovement <GroundMovement> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -1096, y: -296}
@@ -2211,19 +2211,32 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: b651223cd61c08f4bbd7489c8c03b773, type: 2}
+  SlideTurnBrakeDeacceleration:
+    UseConstant: 1
+    ConstantValue: 0.1
+    Variable: {fileID: 0}
   FastTurnBrakeSpeedThreshold:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 0c39edad5884d3b46b4b2ee4439b1eb1, type: 2}
   MoveInputRequiredDelta:
-    UseConstant: 0
+    UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 3f32010f7f6ee4d4a9cb4deff8ebf1d8, type: 2}
   IsFastTurning:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: eb5b634521122c841bc6be4789c4dc86, type: 2}
+  IsSlideTurning:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 9cbc4d8e7703b724395ff7d8f4a2cfba, type: 2}
+  SlideTurnThresholdSpeed:
+    UseConstant: 1
+    ConstantValue: 5
+    Variable: {fileID: 0}
   FastTurnTriggered: {fileID: 11400000, guid: 8d2de91408bd44e42b8cf36cd4a435e2, type: 2}
+  SlideTurnTriggered: {fileID: 11400000, guid: 4dd3aed967556774397f7132ad414a80, type: 2}
 --- !u!114 &1596768289511843569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2319,7 +2332,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c9407b3066ed4db1853f20740c0e142f, type: 3}
-  m_Name: Jump <Jump> (PlayerMovement)
+  m_Name: Jump <Jump> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 136, y: 248}
@@ -2428,7 +2441,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1f94493beb594ec4b79b731144df997c, type: 3}
-  m_Name: Roll Movement <RollMovement> (PlayerMovement)
+  m_Name: Roll Movement <RollMovement> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -1416, y: 1560}
@@ -2898,7 +2911,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ab916262de02c341baac7de08907771, type: 3}
-  m_Name: NoLowJump <AirMovement> (PlayerMovement)
+  m_Name: NoLowJump <AirMovement> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 456, y: -568}

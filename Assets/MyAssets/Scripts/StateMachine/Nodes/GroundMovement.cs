@@ -75,6 +75,11 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")]
         [Required]
+        private FloatReference SlideTurnBrakeDeacceleration;
+        
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")]
+        [Required]
         private FloatReference FastTurnBrakeSpeedThreshold;
         
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
@@ -88,7 +93,20 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")] [Required]
+        private BoolReference IsSlideTurning;
+        
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")] [Required]
+        private FloatReference SlideTurnThresholdSpeed;
+
+
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")] [Required]
         private TriggerVariable FastTurnTriggered;
+        
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")] [Required]
+        private TriggerVariable SlideTurnTriggered;
 
         #endregion
 
@@ -166,12 +184,25 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             #endregion
 
             #region Override Speed and Direction if Fast Turning
+            
+            dummySpeed = 0f;
 
             //If fast turning, DeAccelerate to 0 to brake
             if (IsFastTurning.Value)
             {
-                newSpeed = Mathf.SmoothDamp(currentSpeed, 0f,
+                newSpeed = Mathf.SmoothDamp(horizontalVelocity.magnitude, 0f,
                     ref dummySpeed, FastTurnBrakeDeacceleration.Value);
+
+                newDirection = fastTurnStartDir;
+
+                //If finished stopping, turn to face moveDir
+                if (newSpeed < FastTurnBrakeSpeedThreshold.Value)
+                    newDirection = moveInputCameraRelative.xoz().normalized;
+            }
+            else if(IsSlideTurning.Value)
+            {
+                newSpeed = Mathf.SmoothDamp(horizontalVelocity.magnitude, 0f,
+                    ref dummySpeed, SlideTurnBrakeDeacceleration.Value);
 
                 newDirection = fastTurnStartDir;
 
@@ -218,10 +249,11 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         {
             //Angle between move input of this frame and previous
             float deltaAngle_MoveInput = Vector3.Angle(MoveInput.Value.normalized, lastMoveInputDirection);
+            bool noTurn = (!IsFastTurning.Value && !IsSlideTurning.Value);
 
             //Dont fast turn if angle change is gradual (meaning they r rotating stick instead of flicking)
             //If already fast turning, dont check this
-            if (!IsFastTurning.Value && deltaAngle_MoveInput < MoveInputRequiredDelta.Value)
+            if (noTurn && deltaAngle_MoveInput < MoveInputRequiredDelta.Value)
                 return;
 
             //If threshold is >=1 then set to infinity and disable threshold
@@ -231,24 +263,37 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             Vector2 horizontalVelocity = currentVelocity.xz();
 
             //Dont start fast turn if moving too fast (instead will probably brake)
-            if (!IsFastTurning.Value && horizontalVelocity.magnitude > FastTurnThreshold)
+            if ((noTurn) && horizontalVelocity.magnitude > FastTurnThreshold)
                 return;
 
             //Angle between flattened current speed and flattened desired move direction
             float deltaAngle_VelToMoveDir = Vector3.Angle(currentVelocity.xoz().normalized, moveInputCameraRelative.normalized);
 
             //Start fast turn if angle > ThreshHold and input magnitude > DeadZone
-            if (!IsFastTurning.Value && deltaAngle_VelToMoveDir > FastTurnAngleThreshold.Value &&
+            if (noTurn && deltaAngle_VelToMoveDir > FastTurnAngleThreshold.Value &&
                 MoveInput.Value.magnitude > FastTurnInputDeadZone.Value)
             {
-                IsFastTurning.Value = true;
+                if (horizontalVelocity.magnitude > SlideTurnThresholdSpeed.Value)
+                {
+                    IsSlideTurning.Value = true;
+                    SlideTurnTriggered.Activate();
+                }
+                else
+                {
+                    IsFastTurning.Value = true;
+                    FastTurnTriggered.Activate();
+                }
+
                 fastTurnStartDir = currentVelocity.xoz().normalized;
-                FastTurnTriggered.Activate();
+                
             }
         
             //Stop fast turning when close enough to target
-            else if (IsFastTurning.Value && deltaAngle_VelToMoveDir < StopFastTurnDeltaAngle.Value)
+            else if ((IsFastTurning.Value || IsSlideTurning.Value) && deltaAngle_VelToMoveDir < StopFastTurnDeltaAngle.Value)
+            {
                 IsFastTurning.Value = false;
+                IsSlideTurning.Value = false;
+            }
         }
 
         public override void DrawGizmos()

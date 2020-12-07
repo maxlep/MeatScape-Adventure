@@ -41,7 +41,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 51ffc788b631c4c4d97dc30a5bd5e85a, type: 3}
-  m_Name: RecallMeatClump <RecallMeatClump> (PlayerRecallMeatClump)
+  m_Name: RecallMeatClump <RecallMeatClump> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 664, y: 280}
@@ -126,6 +126,15 @@ MonoBehaviour:
 
     -  Valid:  No Low Jump
 
+    - 
+    Call Meat Clump Trigger_ Controller_ Player
+
+    -  Player Current Size_ Controller_
+    Player  Less Than 2
+
+    -  Player Recall Attempts_ Controller_ Player  Greater
+    Than 0
+
 '
   ValidStartStates:
   - {fileID: -8209884016339463683, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
@@ -162,7 +171,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 63ce39e7e11abf449a1de04c854183eb, type: 3}
-  m_Name: RecallMeatClumpAir <RecallMeatClumpAir> (PlayerRecallMeatClump)
+  m_Name: RecallMeatClumpAir <RecallMeatClumpAir> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 392, y: 1144}
@@ -267,7 +276,15 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 1
-  conditionPreview: 
+  conditionPreview: '-  Call Meat Clump Trigger_ Controller_ Player
+
+    -  Player
+    Current Size_ Controller_ Player  Less Than 2
+
+    -  Player Recall Attempts_
+    Controller_ Player  Greater Than 0
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -345,7 +362,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96ade182131c6464e90b9ffc95aad257, type: 3}
-  m_Name: No Recall <StateNode> (PlayerRecallMeatClump)
+  m_Name: No Recall <StateNode> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -1112, y: 344}

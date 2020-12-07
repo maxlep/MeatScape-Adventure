@@ -26,9 +26,7 @@ public class MeatClumpController : MonoBehaviour
     [SerializeField] private FloatReference ClumpReturnSpeed;
     [SerializeField] private FloatReference ClumpFalloffDistance;
     [SerializeField] private FloatReference ClumpFalloffSpeed;
-    [SerializeField] private FloatReference PlayerReturnTime;
-    [SerializeField] private FloatReference PlayerReturnDistanceThreshold;
-    [SerializeField] private FloatReference PlayerReturnMaxSpeed;
+    [SerializeField] private FloatReference ClumpReturnTime;
     [SerializeField] private FloatReference PlayerReturnMinSpeed;
     [SerializeField] private FloatReference CollisionRadius;
     [SerializeField] private FloatReference OrbitRadius;
@@ -100,10 +98,9 @@ public class MeatClumpController : MonoBehaviour
     public void SetReturnToPlayer()
     {
         float distance = (playerController.Collider.bounds.center - transform.position).magnitude;
-        float speed = distance / PlayerReturnTime.Value;
-        if(distance >= PlayerReturnDistanceThreshold.Value) speed = Mathf.Min(speed, PlayerReturnMaxSpeed.Value);
-        speed = Mathf.Max(speed, PlayerReturnMinSpeed.Value);
-        this.SetMoving(speed, playerController.Collider, falloffDistanceFactor);
+        float initSpeed = distance / ClumpReturnTime.Value;
+        initSpeed = Mathf.Max(initSpeed, PlayerReturnMinSpeed.Value);
+        this.SetMoving(initSpeed, playerController.Collider, falloffDistanceFactor);
         this.currentCollisionMask = PlayerCollisionMask;
         this.ReturningToPlayer = true;
         this.OrbitingPlayer = false;

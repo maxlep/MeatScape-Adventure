@@ -37,7 +37,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         #endregion
 
         #region Fast Turn
-        
+
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Fast Turn")] [Required]
         private bool EnableFastTurn = true;
@@ -81,10 +81,17 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")]
         [Required]
         private FloatReference MoveInputRequiredDelta;
+        
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")] [Required]
+        private BoolReference IsFastTurning;
+        
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")] [Required]
+        private TriggerVariable FastTurnTriggered;
 
         #endregion
 
-        private bool isFastTurning;
         private Vector3 fastTurnStartDir;
         private Vector3 lastMoveInputDirection = Vector3.zero;
         private Vector3 slopeOut;
@@ -121,7 +128,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             Vector2 horizontalVelocity = currentVelocity.xz();
 
             //Update turn speed based on isFastTurning
-            if (isFastTurning)
+            if (IsFastTurning.Value)
                 currentTurnSpeed = FastTurnSpeed.Value;
             else
                 currentTurnSpeed = TurnSpeed.Value;
@@ -161,7 +168,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             #region Override Speed and Direction if Fast Turning
 
             //If fast turning, DeAccelerate to 0 to brake
-            if (isFastTurning)
+            if (IsFastTurning.Value)
             {
                 newSpeed = Mathf.SmoothDamp(currentSpeed, 0f,
                     ref dummySpeed, FastTurnBrakeDeacceleration.Value);
@@ -198,7 +205,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             newRotation = Quaternion.RotateTowards(lookRotation, velocityRotation, RotationDeltaMax.Value);
         
             //If fast turning, instead rotate to desired turn direction
-            if (isFastTurning)
+            if (IsFastTurning.Value)
             {
                 Quaternion moveInputRotation = Quaternion.LookRotation(moveInputCameraRelative, Vector3.up);
                 newRotation = Quaternion.RotateTowards(lookRotation, moveInputRotation, RotationDeltaMax.Value);
@@ -214,7 +221,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
             //Dont fast turn if angle change is gradual (meaning they r rotating stick instead of flicking)
             //If already fast turning, dont check this
-            if (!isFastTurning && deltaAngle_MoveInput < MoveInputRequiredDelta.Value)
+            if (!IsFastTurning.Value && deltaAngle_MoveInput < MoveInputRequiredDelta.Value)
                 return;
 
             //If threshold is >=1 then set to infinity and disable threshold
@@ -224,23 +231,24 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             Vector2 horizontalVelocity = currentVelocity.xz();
 
             //Dont start fast turn if moving too fast (instead will probably brake)
-            if (!isFastTurning && horizontalVelocity.magnitude > FastTurnThreshold)
+            if (!IsFastTurning.Value && horizontalVelocity.magnitude > FastTurnThreshold)
                 return;
 
             //Angle between flattened current speed and flattened desired move direction
             float deltaAngle_VelToMoveDir = Vector3.Angle(currentVelocity.xoz().normalized, moveInputCameraRelative.normalized);
 
             //Start fast turn if angle > ThreshHold and input magnitude > DeadZone
-            if (!isFastTurning && deltaAngle_VelToMoveDir > FastTurnAngleThreshold.Value &&
+            if (!IsFastTurning.Value && deltaAngle_VelToMoveDir > FastTurnAngleThreshold.Value &&
                 MoveInput.Value.magnitude > FastTurnInputDeadZone.Value)
             {
-                isFastTurning = true;
+                IsFastTurning.Value = true;
                 fastTurnStartDir = currentVelocity.xoz().normalized;
+                FastTurnTriggered.Activate();
             }
         
             //Stop fast turning when close enough to target
-            else if (isFastTurning && deltaAngle_VelToMoveDir < StopFastTurnDeltaAngle.Value)
-                isFastTurning = false;
+            else if (IsFastTurning.Value && deltaAngle_VelToMoveDir < StopFastTurnDeltaAngle.Value)
+                IsFastTurning.Value = false;
         }
 
         public override void DrawGizmos()
@@ -258,7 +266,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             Vector3 endPos4 = playerController.transform.position + cachedVelocity.Value.normalized * (cachedVelocity.Value.magnitude / MoveSpeed.Value) * 10f;
             Vector3 endPos6 = playerController.transform.position + playerController.GroundingStatus.GroundNormal * 10f;
 
-            Color actualMoveColor = isFastTurning ? new Color(1f, 0f, 0f, .35f) : new Color(1f, 1f, 0f, .35f);
+            Color actualMoveColor = IsFastTurning.Value ? new Color(1f, 0f, 0f, .35f) : new Color(1f, 1f, 0f, .35f);
             Color moveInputColor = new Color(0f, 1f, 0f, .35f);
             Color projectedMoveInputColor = new Color(.3f, 1f, .8f, .35f);
             Color cachedVelocityColor = new Color(0f, 0f, 1f, .35f);

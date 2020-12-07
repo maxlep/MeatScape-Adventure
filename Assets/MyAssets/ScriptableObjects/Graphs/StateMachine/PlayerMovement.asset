@@ -92,7 +92,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Pound Fall -> Roll Movement
+  m_Name: Slope Movement -> Roll Movement
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -1608, y: 2664}
@@ -135,7 +135,14 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is On Slideable Slope_ Controller_ Player
+
+    -  Is Slope
+    Slide Valid_ Controller_ Player
+
+    -  Waited Jump Ground Delay_ Movement_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -424,7 +431,12 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '- ! Is Grounded_ Controller_ Player
+
+    - ! Is On Slideable
+    Slope_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -611,7 +623,12 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    -  Jump Trigger_ Controller_
+    Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -675,7 +692,12 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    -  Waited Jump Ground
+    Delay_ Movement_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -892,7 +914,9 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Add Impulse Trigger_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -1338,7 +1362,9 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '- ! Is Grounded_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -1400,7 +1426,9 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -1500,7 +1528,12 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    - ! Is On Slideable
+    Slope_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -1611,7 +1644,12 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is On Slideable Slope_ Controller_ Player
+
+    - ! Is Slope
+    Slide Valid_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -1848,7 +1886,9 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Roll Trigger_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -2179,6 +2219,11 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 3f32010f7f6ee4d4a9cb4deff8ebf1d8, type: 2}
+  IsFastTurning:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: eb5b634521122c841bc6be4789c4dc86, type: 2}
+  FastTurnTriggered: {fileID: 11400000, guid: 8d2de91408bd44e42b8cf36cd4a435e2, type: 2}
 --- !u!114 &1596768289511843569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2553,7 +2598,9 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Jump Attack Trigger_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -2612,7 +2659,9 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Jump Trigger_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []

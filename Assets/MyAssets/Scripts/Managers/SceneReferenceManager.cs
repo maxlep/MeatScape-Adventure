@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using MoreMountains.Feedbacks;
 using MyAssets.Scripts.PoseAnimator.Components;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -15,6 +16,9 @@ public class SceneReferenceManager : MonoBehaviour
     
     [SerializeField] [PropertySpace(SpaceBefore = 5, SpaceAfter = 5)]
     private List<ParticleSystemScenePair> ParticleSystemSceneList = new List<ParticleSystemScenePair>();
+    
+    [SerializeField] [PropertySpace(SpaceBefore = 5, SpaceAfter = 5)]
+    private List<MMFeedbacksScenePair> MMFeedbacksSceneList = new List<MMFeedbacksScenePair>();
     
     [SerializeField] [PropertySpace(SpaceBefore = 5, SpaceAfter = 5)]
     private List<AnimatorScenePair> AnimatorSceneList = new List<AnimatorScenePair>();
@@ -41,6 +45,11 @@ public class SceneReferenceManager : MonoBehaviour
         {
             if (particleSystemScenePair.AreValuesAssigned)
                 particleSystemScenePair.AssignValueToReference();
+        }
+        foreach (var mmFeedbacksScenePair in MMFeedbacksSceneList)
+        {
+            if (mmFeedbacksScenePair.AreValuesAssigned)
+                mmFeedbacksScenePair.AssignValueToReference();
         }
         foreach (var animatorScenePair in AnimatorSceneList)
         {
@@ -117,6 +126,26 @@ public class ParticleSystemScenePair
     public void AssignValueToReference()
     {
         particleSystemSceneReference.Value = particleSystemSceneValue;
+    }
+}
+
+[Serializable]
+public class MMFeedbacksScenePair
+{
+    [SerializeField] [LabelText("Reference")] [LabelWidth(125f)]
+    [Required]
+    private MMFeedbacksSceneReference feedbacksSceneReference;
+
+    [SerializeField] [LabelText("Scene Value")] [LabelWidth(125f)]
+    [Required] [SceneObjectsOnly]
+    private MMFeedbacks feedbacksSceneValue;
+
+    public bool AreValuesAssigned =>
+        (feedbacksSceneValue != null && feedbacksSceneReference != null);
+    
+    public void AssignValueToReference()
+    {
+        feedbacksSceneReference.Value = feedbacksSceneValue;
     }
 }
 

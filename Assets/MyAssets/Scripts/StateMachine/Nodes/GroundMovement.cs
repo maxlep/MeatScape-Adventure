@@ -126,6 +126,15 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             Vector3 currentVelocity = velocityInfo.currentVelocity;
             Vector3 impulseVelocity = velocityInfo.impulseVelocity;
             Vector3 impulseVelocityRedirectble = velocityInfo.impulseVelocityRedirectble;
+            
+            //Kill Y velocity if just get grounded so not to slide
+            if (characterMotor.GroundingStatus.IsStableOnGround && !characterMotor.LastGroundingStatus.IsStableOnGround)
+            {
+                currentVelocity = Vector3.ProjectOnPlane(currentVelocity , characterMotor.CharacterUp);
+                currentVelocity  = characterMotor.GetDirectionTangentToSurface(currentVelocity ,
+                    characterMotor.GroundingStatus.GroundNormal) * currentVelocity .magnitude;
+            }
+            
             Vector3 horizontalVelocity = CalculateHorizontalVelocity(currentVelocity);
 
             //Addive in XZ but sets in Y

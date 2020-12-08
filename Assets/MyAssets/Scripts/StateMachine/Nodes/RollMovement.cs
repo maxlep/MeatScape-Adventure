@@ -1,4 +1,5 @@
-﻿using KinematicCharacterController;
+﻿using EnhancedHierarchy;
+using KinematicCharacterController;
 using MyAssets.ScriptableObjects.Variables;
 using MyAssets.Scripts.Utils;
 using Shapes;
@@ -45,6 +46,14 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [TabGroup("Vertical Movement")] [Required]
         protected FloatReference HorizontalGravityFactor;
         
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Vertical Movement")] [Required]
+        protected FloatReference BounceFactor;
+        
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Vertical Movement")] [Required]
+        protected FloatReference BounceThresholdVelocity;
+        
         #endregion
 
         #region Outputs
@@ -57,7 +66,8 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
         private Vector3 velocityAlongSlope;
         private Vector3 moveInputOnSlope;
-        
+        private Vector3 previousVelocity = Vector3.zero;
+
         public override void Enter()
         {
             base.Enter();
@@ -85,6 +95,8 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             resultingVelocity = horizontalVelocity + verticalVelocity;
             resultingVelocity += totalImpulse;
 
+            previousVelocity = currentVelocity;
+            
             return resultingVelocity;
         }
 
@@ -188,6 +200,14 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
             CharacterTransientGroundingReport LastGroundingStatus = playerController.LastGroundingStatus;
             
+            //Bounce if just became grounded
+            if (!LastGroundingStatus.FoundAnyGround && GroundingStatus.FoundAnyGround &&
+                Mathf.Abs(previousVelocity.y) > BounceThresholdVelocity.Value)
+            {
+                playerController.UngroundMotor();
+                return Mathf.Abs(previousVelocity.y) * BounceFactor.Value * Vector3.up;
+            }
+
             //Return if standing on flat ground
             if (GroundingStatus.FoundAnyGround && GroundingStatus.GroundNormal == Vector3.up)
                 return Vector3.zero;

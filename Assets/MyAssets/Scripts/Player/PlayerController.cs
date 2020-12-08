@@ -150,13 +150,14 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     public void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
     {
+        //NOTE: this was moved to states
         //Kill Y velocity if just get grounded so not to slide
-        if (charMotor.GroundingStatus.IsStableOnGround && !charMotor.LastGroundingStatus.IsStableOnGround)
-        {
-            currentVelocity = Vector3.ProjectOnPlane(currentVelocity , charMotor.CharacterUp);
-            currentVelocity  = charMotor.GetDirectionTangentToSurface(currentVelocity ,
-                charMotor.GroundingStatus.GroundNormal) * currentVelocity .magnitude;
-        }
+        // if (charMotor.GroundingStatus.IsStableOnGround && !charMotor.LastGroundingStatus.IsStableOnGround)
+        // {
+        //     currentVelocity = Vector3.ProjectOnPlane(currentVelocity , charMotor.CharacterUp);
+        //     currentVelocity  = charMotor.GetDirectionTangentToSurface(currentVelocity ,
+        //         charMotor.GroundingStatus.GroundNormal) * currentVelocity .magnitude;
+        // }
         
         VelocityInfo velocityInfo = new VelocityInfo()
         {

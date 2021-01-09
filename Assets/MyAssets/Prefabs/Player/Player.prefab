@@ -397,11 +397,11 @@ MonoBehaviour:
     Quantized: 0
     TargetBPM: 120
   DebugActive: 0
-  PauseDuration: 1
+  PauseDuration: 0.001
   LoopAtLastPause: 1
   LoopAtLastLoopStart: 1
   InfiniteLoop: 0
-  NumberOfLoops: 2
+  NumberOfLoops: 10
   NumberOfLoopsLeft: 1
   InInfiniteLoop: 0
 --- !u!1 &1180283747
@@ -1463,15 +1463,6 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: d00e7a08d0775a4429a3a5cfad1382a2, type: 2}
-  IsSlopeSlideValid:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: a2cc534b677489d4487f781d647fcb2d, type: 2}
-  SlopeSlideTimer:
-    UseConstant: 0
-    ConstantDuration: 0
-    ConstantRemainingTime: 0
-    Variable: {fileID: 11400000, guid: 213b2ba962e85df45931ee7af2af4023, type: 2}
   IsGrounded:
     UseConstant: 0
     ConstantValue: 0
@@ -1596,7 +1587,7 @@ MonoBehaviour:
   LedgeAndDenivelationHandling: 1
   MaxStableDistanceFromLedge: 0
   MaxVelocityForLedgeSnap: 0
-  MaxStableDenivelationAngle: 180
+  MaxStableDenivelationAngle: 1
   InteractiveRigidbodyHandling: 1
   RigidbodyInteractionType: 0
   PreserveAttachedRigidbodyMomentum: 1

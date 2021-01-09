@@ -7,7 +7,6 @@ Shader "Meat Object"
 		[Toggle(UNITY_PASS_FORWARDBASE)] _Keyword0("Keyword 0", Float) = 0
 		_Float1("Float 1", Float) = 100
 		_FogDistance("Fog Depth", Float) = 50
-		_FogColor("Fog Color", Color) = (0.3102527,0.6036025,0.7924528,0)
 		_Smoothness("Smoothness", Range( 0 , 1)) = 0
 		_Color0("Color 0", Color) = (0,0,0,0)
 		_Normal("Normal", 2D) = "bump" {}
@@ -69,7 +68,6 @@ Shader "Meat Object"
 		uniform float _NormalScale;
 		uniform float4 _Color0;
 		uniform float _Smoothness;
-		uniform float4 _FogColor;
 		uniform float _FogDistance;
 		uniform float _Float1;
 
@@ -129,8 +127,9 @@ Shader "Meat Object"
 			float clampResult66_g2 = clamp( fresnelNode65_g2 , 0.0 , 1.0 );
 			float4 lerpResult69_g2 = lerp( ( float4( ( ( max( dotResult52_g2 , 0.0 ) * ( ase_lightAtten * ase_lightColor.rgb ) ) + indirectDiffuse77_g2 ) , 0.0 ) * _Color0 ) , float4( indirectSpecular78_g2 , 0.0 ) , clampResult66_g2);
 			float4 temp_cast_7 = (0.0).xxxx;
+			float4 color72_g2 = IsGammaSpace() ? float4(0.6117647,0.3686275,0.4039216,0) : float4(0.3324516,0.1119325,0.1356334,0);
 			#ifdef UNITY_PASS_FORWARDBASE
-				float4 staticSwitch74_g2 = _FogColor;
+				float4 staticSwitch74_g2 = color72_g2;
 			#else
 				float4 staticSwitch74_g2 = temp_cast_7;
 			#endif
@@ -243,11 +242,11 @@ Shader "Meat Object"
 }
 /*ASEBEGIN
 Version=18400
-161;73;1480;1286;927.1165;2167.751;3.11166;True;True
-Node;AmplifyShaderEditor.RangedFloatNode;27;640.4073,-765.6101;Inherit;False;Property;_NormalScale;Normal Scale;10;0;Create;True;0;0;False;0;False;1;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.ColorNode;24;1025.705,-509.009;Inherit;False;Property;_Color0;Color 0;8;0;Create;True;0;0;False;0;False;0,0,0,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;23;1024.935,-253.8036;Inherit;False;Property;_Smoothness;Smoothness;7;0;Create;True;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;26;1026.29,-766.9152;Inherit;True;Property;_Normal;Normal;9;0;Create;True;0;0;False;0;False;-1;a2fca8d02e7b01e46b82e9cf3ea1ed7c;a2fca8d02e7b01e46b82e9cf3ea1ed7c;True;0;True;bump;Auto;True;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+0;73;1959;902;1672.359;1570.312;3.11166;True;False
+Node;AmplifyShaderEditor.RangedFloatNode;27;640.4073,-765.6101;Inherit;False;Property;_NormalScale;Normal Scale;9;0;Create;True;0;0;False;0;False;1;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.ColorNode;24;1025.705,-509.009;Inherit;False;Property;_Color0;Color 0;7;0;Create;True;0;0;False;0;False;0,0,0,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;23;1024.935,-253.8036;Inherit;False;Property;_Smoothness;Smoothness;6;0;Create;True;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SamplerNode;26;1026.29,-766.9152;Inherit;True;Property;_Normal;Normal;8;0;Create;True;0;0;False;0;False;-1;a2fca8d02e7b01e46b82e9cf3ea1ed7c;a2fca8d02e7b01e46b82e9cf3ea1ed7c;True;0;True;bump;Auto;True;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SamplerNode;21;1453.473,-947.8682;Inherit;True;Property;_TextureSample0;Texture Sample 0;0;0;Create;True;0;0;False;0;False;-1;1afc7f35b26a85c46a3adb55b55dc36e;1afc7f35b26a85c46a3adb55b55dc36e;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.FunctionNode;41;1410.109,-512.0623;Inherit;False;Meat Lighting;1;;2;73b54e17a4cbe7f4eb8f5dc9960b8200;0;4;83;COLOR;1,1,1,0;False;75;COLOR;0,0,0,0;False;79;FLOAT;0;False;80;FLOAT;1;False;1;COLOR;0
 Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;1921.99,-637.9119;Float;False;True;-1;2;ASEMaterialInspector;0;0;CustomLighting;Meat Object;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;Back;0;False;-1;0;False;-1;False;0;False;-1;0;False;-1;False;0;Opaque;0.5;True;True;0;False;Opaque;;Geometry;All;14;all;True;True;True;True;0;False;-1;False;0;False;-1;255;False;-1;255;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;2;15;10;25;False;0.5;True;0;0;False;-1;0;False;-1;0;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;Relative;0;;-1;-1;-1;-1;0;False;0;0;False;-1;-1;0;False;-1;0;0;0;False;0.1;False;-1;0;False;-1;True;15;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;13;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
@@ -257,4 +256,4 @@ WireConnection;41;75;24;0
 WireConnection;41;79;23;0
 WireConnection;0;13;41;0
 ASEEND*/
-//CHKSM=38DDDB5E2F3EE052D74337DA374E818059D5F539
+//CHKSM=09051DE7B0FE02314370DD1E3CBD45F1F283FD20

@@ -16,7 +16,7 @@ namespace MyAssets.Scripts.Effects
             _startSpeedMultiplier?.Subscribe(() =>
             {
                 var particleSystemMain = _particleSystem.main;
-                particleSystemMain.startSpeed = _startSpeedMultiplier.Value;
+                particleSystemMain.startSpeed = new ParticleSystem.MinMaxCurve(_startSpeedMultiplier.Value);
                 particleSystemMain.startLifetimeMultiplier = _startLifetimeMultiplier.Value;
             });
         }

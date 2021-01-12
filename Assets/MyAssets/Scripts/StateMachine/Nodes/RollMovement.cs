@@ -55,6 +55,18 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         protected FloatReference BounceThresholdVelocity;
         
         #endregion
+        
+        #region Grounding
+
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [TabGroup("Grounding")] [Required]
+        private FloatReference GroundStickAngleInput;
+        
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [TabGroup("Grounding")] [Required]
+        private FloatReference GroundStickAngleOutput;
+
+        #endregion
 
         #region Outputs
 
@@ -68,12 +80,18 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         private Vector3 moveInputOnSlope;
         private Vector3 previousVelocity = Vector3.zero;
 
+        
+        #region Lifecycle methods
+
         public override void Enter()
         {
             base.Enter();
-            
+
+            GroundStickAngleOutput.Value = GroundStickAngleInput.Value;
             playerController.GiveThrowKnockback(NewVelocityOut.Value.normalized);
         }
+
+        #endregion
 
         protected override Vector3 CalculateVelocity(VelocityInfo velocityInfo)
         {

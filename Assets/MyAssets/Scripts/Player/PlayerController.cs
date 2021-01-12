@@ -34,6 +34,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private QuaternionReference NewRotation;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference StoredJumpVelocity;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference MinSlopeSlideAngle;
+    [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference MaxStableDenivelationAngle;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private IntReference PlayerHealth;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector2Reference MoveInput;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector3Reference BaseVelocity;
@@ -98,6 +99,10 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private void Start()
     {
         charMotor.CharacterController = this;
+        MaxStableDenivelationAngle.Subscribe(() =>
+        {
+            charMotor.MaxStableDenivelationAngle = MaxStableDenivelationAngle.Value;
+        });
     }
 
     void Awake()

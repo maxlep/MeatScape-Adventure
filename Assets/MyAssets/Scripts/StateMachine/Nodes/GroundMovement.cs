@@ -35,6 +35,18 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         private Vector3Reference cachedVelocity;
 
         #endregion
+        
+        #region Grounding
+
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [TabGroup("Grounding")] [Required]
+        private FloatReference GroundStickAngleInput;
+        
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [TabGroup("Grounding")] [Required]
+        private FloatReference GroundStickAngleOutput;
+
+        #endregion
 
         #region Fast Turn
 
@@ -115,10 +127,14 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         private Vector3 slopeOut;
 
         #region Lifecycle methods
+
         public override void Enter()
         {
             base.Enter();
+
+            GroundStickAngleOutput.Value = GroundStickAngleInput.Value;
         }
+
         #endregion
 
         protected override Vector3 CalculateVelocity(VelocityInfo velocityInfo)

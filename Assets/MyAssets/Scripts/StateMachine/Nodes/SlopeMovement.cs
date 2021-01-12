@@ -24,10 +24,32 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         protected FloatReference HorizontalGravityFactor;
         
         #endregion
+        
+        #region Grounding
+
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [TabGroup("Grounding")] [Required]
+        private FloatReference GroundStickAngleInput;
+        
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [TabGroup("Grounding")] [Required]
+        private FloatReference GroundStickAngleOutput;
+
+        #endregion
 
         private Vector3 velocityAlongSlope;
         private Vector3 moveInputOnSlope;
         
+        #region Lifecycle methods
+
+        public override void Enter()
+        {
+            base.Enter();
+
+            GroundStickAngleOutput.Value = GroundStickAngleInput.Value;
+        }
+
+        #endregion
         
         protected override Vector3 CalculateVelocity(VelocityInfo velocityInfo)
         {

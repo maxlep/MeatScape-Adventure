@@ -31,6 +31,11 @@ namespace MyAssets.ScriptableObjects.Variables
             this.OnUpdate += callback;
         }
 
+        public void Unsubscribe(OnUpdate callback)
+        {
+            this.OnUpdate -= callback;
+        }
+
         public void Reset() => runtimeValue = defaultValue;
 
         private void OnEnable() => Reset();
@@ -58,6 +63,11 @@ namespace MyAssets.ScriptableObjects.Variables
         public void Subscribe(OnUpdate callback)
         {
             Variable?.Subscribe(callback);
+        }
+
+        public void Unsubscribe(OnUpdate callback)
+        {
+            Variable?.Unsubscribe(callback);
         }
         
         public void Reset()

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dbe66876495740579ccc412ccf28d337, type: 3}
-  m_Name: Skid <NewSequenceBlend> (PlayerAnimation)
+  m_Name: Skid <NewSequenceBlend> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -8, y: 1528}
@@ -40,7 +40,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Skid
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   transitionTime: 0.1
   transitionCurve:
     serializedVersion: 2
@@ -842,6 +842,57 @@ MonoBehaviour:
       BoneTransformWeights: []
       Factor: 1
       BlendMode: 0
+--- !u!114 &-5696107100408774927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48dc65d9e5de7984e8438f1338877847, type: 3}
+  m_Name: RollMovement Toggle Grounder IK <SetBool> ()
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1080, y: 3656}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: -5696107100408774927}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: -5696107100408774927}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  BypassState: 0
+  Name: RollMovement Toggle Grounder IK
+  zoom: 0
+  isActiveState: 0
+  SetOnEnter: 1
+  SetOnUpdate: 0
+  Value:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  Target:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 0c1094c8b17a4474b88a5c6c1fbe5e5c, type: 2}
 --- !u!114 &-5428356103097301850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1695,7 +1746,7 @@ MonoBehaviour:
   - {fileID: -2816321112790655770}
   - {fileID: -3539947134798072523}
   - {fileID: 5276580774853976909}
-  - {fileID: -4525352878955941566}
+  - {fileID: 867198671710814798}
 --- !u!114 &-1299375818814413671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2121,8 +2172,8 @@ MonoBehaviour:
   - {fileID: -8887937541648288999}
   - {fileID: 7879105439890628173}
   - {fileID: 6732291781286766248}
-  - {fileID: -8114030634757415925}
-  - {fileID: -4525352878955941566}
+  - {fileID: 867198671710814798}
+  - {fileID: -5696107100408774927}
 --- !u!114 &264669591117630602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2227,7 +2278,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f5aa4ec01d3041b4acb162dce7654ca3, type: 3}
-  m_Name: Skid Movement Input <InputDriver> (PlayerAnimation)
+  m_Name: Skid Movement Input <InputDriver> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -648, y: 1640}
@@ -2257,7 +2308,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Skid Movement Input
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   InputVector:
     UseConstant: 0
     ConstantValue: {x: 0, y: 0}
@@ -2364,6 +2415,57 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   referencedState: {fileID: 3401289501703831313}
+--- !u!114 &867198671710814798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48dc65d9e5de7984e8438f1338877847, type: 3}
+  m_Name: GroundMovement Toggle Grounder IK <SetBool> (PlayerAnimation)
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 104, y: 328}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: 867198671710814798}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: 867198671710814798}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  BypassState: 0
+  Name: GroundMovement Toggle Grounder IK
+  zoom: 0
+  isActiveState: 0
+  SetOnEnter: 1
+  SetOnUpdate: 0
+  Value:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
+  Target:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 0c1094c8b17a4474b88a5c6c1fbe5e5c, type: 2}
 --- !u!114 &972444606679374517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2374,7 +2476,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0f8c1af988234bb6aa4b803ce9925204, type: 3}
-  m_Name: Skid <AnimSubStateProcessorNode> (PlayerAnimation)
+  m_Name: Skid <AnimSubStateProcessorNode> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -8, y: 1144}
@@ -2407,7 +2509,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Skid
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   outputState: {fileID: -8887937541648288999}
   subStates:
   - {fileID: 480359578030214871}
@@ -2543,7 +2645,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dbe66876495740579ccc412ccf28d337, type: 3}
-  m_Name: Throw Forward <NewSequenceBlend> (PlayerAnimation)
+  m_Name: Throw Forward <NewSequenceBlend> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1992, y: 1752}
@@ -2701,7 +2803,7 @@ MonoBehaviour:
   BypassState: 1
   Name: 'Idle '
   zoom: 0
-  isActiveState: 1
+  isActiveState: 0
   transitionTime: 0.5
   transitionCurve:
     serializedVersion: 2
@@ -2829,7 +2931,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6440c9a7cc054193b396079ae2209cba, type: 3}
-  m_Name: Player Movement Tracker <MovementTracker> (PlayerAnimation)
+  m_Name: Player Movement Tracker <MovementTracker> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -1304, y: -2200}
@@ -2963,7 +3065,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0f8c1af988234bb6aa4b803ce9925204, type: 3}
-  m_Name: Throw Forward Sub <AnimSubStateProcessorNode> (PlayerAnimation)
+  m_Name: Throw Forward Sub <AnimSubStateProcessorNode> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1992, y: 1080}
@@ -3011,7 +3113,7 @@ MonoBehaviour:
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: afdd76c4e6d54d54807c933595e7a19a, type: 3}
-  m_Name: Skid Perambulator <SurveyorWheel> (PlayerAnimation)
+  m_Name: Skid Perambulator <SurveyorWheel> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -648, y: 1144}
@@ -3041,7 +3143,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Skid Perambulator
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   moveVelocity:
     Source:
       UseConstant: 0
@@ -3483,7 +3585,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 65e22c5401b34e11b350842c67acb2ad, type: 3}
-  m_Name: Throw Forward Driver <TimerDriver> (PlayerAnimation)
+  m_Name: Throw Forward Driver <TimerDriver> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1992, y: 1432}
@@ -3574,7 +3676,7 @@ MonoBehaviour:
   - {fileID: -3099988209043395053}
   - {fileID: 290542363192366075}
   - {fileID: -5930853172634943403}
-  - {fileID: -8114030634757415925}
+  - {fileID: -5696107100408774927}
 --- !u!114 &5647577140365575950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4196,7 +4298,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b20fc293afba429796ab84c91f919683, type: 3}
-  m_Name: Skid Feedbacks <PlayMMFeedbacks> (PlayerAnimation)
+  m_Name: Skid Feedbacks <PlayMMFeedbacks> ()
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -648, y: 1912}
@@ -4226,7 +4328,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Skid Feedbacks
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   feedbacks: {fileID: 11400000, guid: 5f7846ce03df6ff4dac66178d957d4fb, type: 2}
 --- !u!114 &8411942365436646107
 MonoBehaviour:

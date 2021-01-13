@@ -19,7 +19,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [ValidateInput("ValidateInput",
             "You added a SubStateProcessorNode to the list! Do you want infinite loop?")]
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
-        [ListDrawerSettings(Expanded = true)]
+        [ListDrawerSettings(Expanded = true)] [Required]
         private List<StateNode> subStates = new List<StateNode>();
 
         private bool AlwaysTrue => true;

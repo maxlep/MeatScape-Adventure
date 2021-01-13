@@ -37,6 +37,7 @@ public class SceneViewWindow : EditorWindow
     private void OnEnable()
     {
         EditorSceneManager.sceneOpened += RegisterRecentScene;
+        RegisterRecentScene(EditorSceneManager.GetActiveScene(), OpenSceneMode.Single);
     }
 
     private void OnDisable()

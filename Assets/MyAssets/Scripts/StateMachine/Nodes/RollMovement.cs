@@ -286,7 +286,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 newRotation = Quaternion.LookRotation(velocityDirection, Vector3.up);
             }
 
-            NewRotationOut.Value = newRotation;
+            //NewRotationOut.Value = newRotation;
         }
 
         public override void DrawGizmos()

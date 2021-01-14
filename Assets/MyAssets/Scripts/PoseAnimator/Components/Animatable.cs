@@ -11,6 +11,7 @@ using UnityEngine.Playables;
 
 namespace MyAssets.Scripts.PoseAnimator.Components
 {
+    [ExecuteInEditMode]
     public class Animatable : MonoBehaviour
     {
         [SerializeField] private Animator animator;
@@ -27,6 +28,11 @@ namespace MyAssets.Scripts.PoseAnimator.Components
 
         private void Awake()
         {
+            if (!Application.isPlaying)
+            {
+                return;
+            }
+
             var playableGraph = PlayableGraph.Create(name);
             
             sharedData = new SharedAnimationData(animator, playableGraph);
@@ -72,8 +78,9 @@ namespace MyAssets.Scripts.PoseAnimator.Components
         // }
 
 
-        private void OnDestroy()
+        private void OnApplicationQuit()
         {
+            sharedData.PlayableGraph.Destroy();
             sharedData.Dispose();
         }
 

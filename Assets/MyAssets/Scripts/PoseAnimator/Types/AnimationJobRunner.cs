@@ -10,6 +10,7 @@ using UnityEngine.Playables;
 namespace MyAssets.Scripts.PoseAnimator.Types
 {
     [Serializable]
+    [ExecuteInEditMode]
     public class AnimationJobRunner
     {
         [SerializeField] [ListDrawerSettings(Expanded = true)]
@@ -72,6 +73,7 @@ namespace MyAssets.Scripts.PoseAnimator.Types
 
         public virtual void Dispose()
         {
+            Debug.Log($"Destroy animation job runner");
             boneHandles.Dispose();
             boneWeights.Dispose();
         }

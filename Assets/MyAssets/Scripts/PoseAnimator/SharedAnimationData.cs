@@ -36,7 +36,7 @@ namespace MyAssets.Scripts.PoseAnimator
             var numTransforms = AllAnimatorTransforms.Length - 1;
             
             // Fill native arrays (all the bones have a weight of 0.0).
-            boneHandles = new NativeArray<TransformStreamHandle>(numTransforms, Allocator.Persistent, NativeArrayOptions.UninitializedMemory);
+            boneHandles = new NativeArray<TransformStreamHandle>(numTransforms, Allocator.Persistent, NativeArrayOptions.ClearMemory);
             boneWeights = new NativeArray<float>(numTransforms, Allocator.Persistent, NativeArrayOptions.ClearMemory);
             for (var i = 0; i < numTransforms; ++i)
             {
@@ -53,8 +53,8 @@ namespace MyAssets.Scripts.PoseAnimator
         public NativeArray<TransformStreamHandle> GetBoneHandlesCopy()
         {
             // return boneHandles;
-            var copy = new NativeArray<TransformStreamHandle>(boneWeights.Length, Allocator.Persistent,
-                NativeArrayOptions.UninitializedMemory);
+            var copy = new NativeArray<TransformStreamHandle>(boneHandles.Length, Allocator.Persistent,
+                NativeArrayOptions.ClearMemory);
             boneHandles.CopyTo(copy);
             return copy;
         }
@@ -84,9 +84,9 @@ namespace MyAssets.Scripts.PoseAnimator
 
         public void Dispose()
         {
-            PlayableGraph.Destroy();
             boneHandles.Dispose();
             boneWeights.Dispose();
+            bonesLastFrame.Dispose();
         }
     }
 }

@@ -37,9 +37,10 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
             
             animationJobRunner.Update();
         }
-        
-        private void OnDestroy()
+
+        public override void OnApplictionExit()
         {
+            base.OnApplictionExit();
             animationJobRunner.Dispose();
         }
     }

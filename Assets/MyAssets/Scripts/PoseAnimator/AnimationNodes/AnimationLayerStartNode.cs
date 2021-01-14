@@ -1,4 +1,5 @@
-﻿using MyAssets.Scripts.PoseAnimator.Components;
+﻿using System;
+using MyAssets.Scripts.PoseAnimator.Components;
 using MyAssets.Scripts.PoseAnimator.Types;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -42,6 +43,12 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
         protected override void OnValidate()
         {
             name = $"Animation Start {executionOrderIndex}";
+        }
+
+        public override void OnApplictionExit()
+        {
+            base.OnApplictionExit();
+            AnimationLayer.Dispose();
         }
     }
 }

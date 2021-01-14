@@ -49,9 +49,10 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
             // Debug.Log($"Update walk mixer factor {mixerRunner.Factor}");
             mixerRunner.Update();
         }
-        
-        private void OnDestroy()
+
+        public override void OnApplictionExit()
         {
+            base.OnApplictionExit();
             mixerRunner.Dispose();
         }
     }

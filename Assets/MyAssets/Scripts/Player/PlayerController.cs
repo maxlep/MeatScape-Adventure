@@ -28,7 +28,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     public CapsuleCollider Collider;
     [SerializeField] private AudioClip jumpAttackClip;
     [SerializeField] private AimTargetter aimTargetter;
-    [SerializeField] private Transform meatClumpContainer;
     public bool invincible;
 
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private Vector3Reference NewVelocity;
@@ -43,17 +42,14 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference IsGrounded;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference IsOnSlidebleSlope;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private IntReference PlayerCurrentSize;
-    [FoldoutGroup("Transition Parameters")] [SerializeField] private IntReference PlayerRecallAttempts;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable AttackTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable JumpTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable DownwardAttackTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable GroundPoundTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable JumpAttackTrigger;
-    [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable CallMeatClump;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable AddImpulseTrigger;
 
     [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference ClumpThrowKnockbackSpeed;
-    [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference ClumpReturnKnockbackSpeed;
     [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference EnemyKnockbackSpeed;
     [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference InvincibilityTime;
 
@@ -129,13 +125,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         InputManager.Instance.onAttack += () => AttackTrigger.Activate();
         InputManager.Instance.onDownwardAttack += () => DownwardAttackTrigger.Activate();
         InputManager.Instance.onGroundPound += () => GroundPoundTrigger.Activate();
-        InputManager.Instance.onCallMeatClump += () => CallMeatClump.Activate();
         InputManager.Instance.onInteract += AttemptInteract;
-
-        meatClumps = meatClumpContainer.GetComponentsInChildren<MeatClumpController>(true);
-        foreach(MeatClumpController meatClump in meatClumps) {
-            meatClump.SetPlayerController(this);
-        }
 
         modelScales = new Vector3Reference[] {smallModelScale, mediumModelScale, largeModelScale};
         capsuleProportions = new Vector3(charMotor.Capsule.radius, charMotor.Capsule.height, charMotor.Capsule.center.y);
@@ -148,7 +138,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     {
         UpdateParameters();
         UpdateHunger();
-        HandleClumpDeorbit();
     }
 
     private void LateUpdate()
@@ -251,49 +240,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     #endregion
     
     #region Player Controller Interface
-    public MeatClumpController DetachClump(Vector3 direction, bool canRedirect = false) {
-        foreach (MeatClumpController meatClump in meatClumps) {
-            if (meatClump.transform.parent != null) {
-                meatClump.transform.parent = null;
-                meatClump.gameObject.SetActive(true);
-                
-                if (!unlimitedClumps) CurrentSize -= 1;
-                
-                //Did not normalize direction so that nearly vertical forward throws move player less horizontally
-                AddImpulse(-direction.xoz() * ClumpThrowKnockbackSpeed.Value, canRedirect);
-                return meatClump;
-            }
-        }
-        return null;
-    }
-
-    public void AbsorbClump(MeatClumpController clump) {
-        clump.transform.parent = meatClumpContainer;
-        clump.gameObject.SetActive(false);
-        
-        if (!unlimitedClumps) CurrentSize += 1;
-    }
-
-    public void DoClumpKnockback(MeatClumpController clump) {
-        this.AddImpulse(clump.transform.forward * ClumpReturnKnockbackSpeed.Value, true);
-    }
-
-    public void RecallClump() {
-        foreach(MeatClumpController meatClump in meatClumps) {
-            if(meatClump.transform.parent == null && !meatClump.ReturningToPlayer) {
-                meatClump.SetReturnToPlayer();
-                return;
-            }
-        }
-    }
-
-    public void RecallClumpToOrbit() {
-        foreach(MeatClumpController meatClump in meatClumps) {
-            if(meatClump.transform.parent == null && !meatClump.ReturningToPlayer && !meatClump.OrbitingPlayer) {
-                meatClump.SetReturnToPlayerAndOrbit();
-                return;
-            }
-        }
+    public void OnClumpThrown(Vector3 direction, bool canRedirect = false) {
+        AddImpulse(-direction.xoz() * ClumpThrowKnockbackSpeed.Value, canRedirect);
     }
 
     public void GiveThrowKnockback(Vector3 direction)
@@ -409,35 +357,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         
         foreach(SizeControlledFloatReference prop in SizeControlledProperties) {
             prop.UpdateValue(currentSize);
-        }
-    }
-
-    public int ClumpIndex(MeatClumpController clump) {
-        int index = 0;
-        for(int i = 0; i < meatClumps.Length; i++) {
-            if(meatClumps[i].Equals(clump)) {
-                index = i;
-                break;
-            }
-        }
-        return index;
-    }
-
-    public int ClumpCount() {
-        return meatClumps.Length;
-    }
-    
-    private void HandleClumpDeorbit()
-    {
-        if (!LastGroundingStatus.FoundAnyGround &&
-            (GroundingStatus.IsStableOnGround || StandingOnSlideableSlope()))
-        {
-            foreach(MeatClumpController meatClump in meatClumps) {
-                if(meatClump.transform.parent == null && (meatClump.OrbitingPlayer || meatClump.ReturningToPlayer)) {
-                    meatClump.SetReturnToPlayer();
-                }
-            }
-            PlayerRecallAttempts.Reset();
         }
     }
 

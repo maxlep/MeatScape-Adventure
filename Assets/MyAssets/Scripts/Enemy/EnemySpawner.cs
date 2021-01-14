@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using AmplifyShaderEditor;
-using BehaviorDesigner.Runtime.Tasks.Unity.UnityCharacterController;
-using MyAssets.ScriptableObjects.Variables;
+﻿using System.Collections.Generic;
 using Shapes;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using UnityEditor;
-using UnityEngine.Jobs;
-using UnityEngine.Rendering;
+using MyAssets.Scripts.Utils;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -99,7 +93,7 @@ public class EnemySpawner : MonoBehaviour
         
         enemyScript.Initialize(PatrolPoints);
         enemyScript.OnDeath += () => {
-            LeanTween.value(0f, 1f, SpawnTime).setOnComplete(_ => SpawnEnemy());
+            TimeUtils.SetTimeout(SpawnTime, () => SpawnEnemy());
         };
     }
     

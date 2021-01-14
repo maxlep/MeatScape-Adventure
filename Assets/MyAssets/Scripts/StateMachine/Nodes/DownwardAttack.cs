@@ -1,15 +1,15 @@
 ﻿using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
 using UnityEngine;
-
+using MyAssets.Scripts.Utils;
 
 public class DownwardAttack : PlayerStateNode
 {
-    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private GameObject ammo;
-    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference throwDelay;
-    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference throwSpeed;
-    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private BoolReference waitedAttackDelay;
-    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TransformSceneReference firePoint;
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private MeatClumpController MeatClumpPrefab;
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference ThrowDelay;
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference ThrowSpeed;
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private BoolReference WaitedAttackDelay;
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TransformSceneReference ThrowPoint;
     
     public override void Initialize(StateMachineGraph parentGraph)
     {
@@ -20,10 +20,12 @@ public class DownwardAttack : PlayerStateNode
     {
         base.Enter();
 
-        var throwDir = -firePoint.Value.up;
-        MeatClumpController clump = playerController.DetachClump(throwDir, true);
-        clump.transform.position = firePoint.Value.position;
-        clump.SetMoving(throwSpeed.Value, throwDir);
+        var throwDirection = -ThrowPoint.Value.up;
+        MeatClumpController clump = Instantiate(MeatClumpPrefab);
+        clump.transform.position = ThrowPoint.Value.position;
+        clump.SetMoving(ThrowSpeed.Value, throwDirection);
+
+        playerController.OnClumpThrown(throwDirection, true);
     }
 
     public override void Execute()
@@ -40,12 +42,8 @@ public class DownwardAttack : PlayerStateNode
     {
         base.Exit();
 
-        waitedAttackDelay.Value = false;
-        
-        LeanTween.value(0f, 1f, throwDelay.Value)
-            .setOnComplete(_ =>
-            {
-                waitedAttackDelay.Value = true;
-            });
+        WaitedAttackDelay.Value = false;
+
+        TimeUtils.SetTimeout(ThrowDelay.Value, () => WaitedAttackDelay.Value = true);
     }
 }

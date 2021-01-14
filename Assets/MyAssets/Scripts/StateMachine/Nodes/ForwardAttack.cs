@@ -1,5 +1,4 @@
-﻿using UnityEngine.InputSystem;
-using MyAssets.ScriptableObjects.Variables;
+﻿using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using MyAssets.Scripts.Utils;
@@ -7,10 +6,11 @@ using Sirenix.Utilities;
 
 public class ForwardAttack : PlayerStateNode
 {
-    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference throwDelay;
-    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference throwSpeed;
-    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private BoolReference waitedAttackDelay;
-    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TransformSceneReference firePoint;
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private MeatClumpController MeatClumpPrefab;
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference ThrowDelay;
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference ThrowSpeed;
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private BoolReference WaitedAttackDelay;
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TransformSceneReference ThrowPoint;
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TransformSceneReference PlayerCameraTransform;
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private Vector2Reference MoveInput;
 
@@ -34,15 +34,17 @@ public class ForwardAttack : PlayerStateNode
         base.Enter();
 
         var autoAimTarget = playerController.AimTarget;
-        var fireDirection = autoAimTarget.SafeIsUnityNull()
+        var throwDirection = autoAimTarget.SafeIsUnityNull()
             ? GetMoveDirection().normalized
             : (autoAimTarget.position - playerController.transform.position).normalized;
 
-        if(Mathf.Approximately(fireDirection.magnitude, 0)) fireDirection = firePoint.Value.forward;
+        if(Mathf.Approximately(throwDirection.magnitude, 0)) throwDirection = ThrowPoint.Value.forward;
 
-        MeatClumpController clump = playerController.DetachClump(fireDirection);
-        clump.transform.position = firePoint.Value.position;
-        clump.SetMoving(throwSpeed.Value, fireDirection);
+        MeatClumpController clump = Instantiate(MeatClumpPrefab);
+        clump.transform.position = ThrowPoint.Value.position;
+        clump.SetMoving(ThrowSpeed.Value, throwDirection);
+
+        playerController.OnClumpThrown(throwDirection);
     }
 
     public override void Execute()
@@ -59,12 +61,8 @@ public class ForwardAttack : PlayerStateNode
     {
         base.Exit();
 
-        waitedAttackDelay.Value = false;
+        WaitedAttackDelay.Value = false;
         
-        LeanTween.value(0f, 1f, throwDelay.Value)
-            .setOnComplete(_ =>
-            {
-                waitedAttackDelay.Value = true;
-            });
+        TimeUtils.SetTimeout(ThrowDelay.Value, () => WaitedAttackDelay.Value = true);
     }
 }

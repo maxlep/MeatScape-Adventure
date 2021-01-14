@@ -1,8 +1,7 @@
-﻿using System;
-using MyAssets.ScriptableObjects.Variables;
+﻿using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
 using UnityEngine;
-
+using MyAssets.Scripts.Utils;
 
 public class Jump : PlayerStateNode
 {
@@ -49,12 +48,9 @@ public class Jump : PlayerStateNode
     public override void Exit()
     {
         base.Exit();
+
         hasWaitedJumpDelay.Value = false;
-        
-        LeanTween.value(0f, 1f, jumpGroundDelay.Value)
-            .setOnComplete(_ =>
-            {
-                hasWaitedJumpDelay.Value = true;
-            });
+
+        TimeUtils.SetTimeout(jumpGroundDelay.Value, () => hasWaitedJumpDelay.Value = true);
     }
 }

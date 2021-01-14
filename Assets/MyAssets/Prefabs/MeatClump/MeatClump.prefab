@@ -5053,10 +5053,6 @@ MonoBehaviour:
   AbsorbSystem: {fileID: 4914661866783695234, guid: b0593ed99678cfc408cfc27f0afee8ce,
     type: 3}
   layerMapper: {fileID: 11400000, guid: 3f0bff594715a77478fbb7703d7b9fc0, type: 2}
-  ClumpReturnSpeed:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 89e98d48232de6a44bd17415994b9dc1, type: 2}
   ClumpFalloffDistance:
     UseConstant: 1
     ConstantValue: 20
@@ -5065,49 +5061,23 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0.1
     Variable: {fileID: 0}
-  ClumpReturnTime:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: c37f4ced75a3c2c4b8eb4d4f1b5aa2af, type: 2}
-  PlayerReturnMinSpeed:
+  ClumpFalloffDistanceFactor:
     UseConstant: 1
-    ConstantValue: 50
+    ConstantValue: 1
     Variable: {fileID: 0}
   CollisionRadius:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: e57ead667074734469c85a2b2fadb069, type: 2}
-  OrbitRadius:
-    UseConstant: 1
-    ConstantValue: 3
-    Variable: {fileID: 0}
   CollisionMask:
     serializedVersion: 2
     m_Bits: 2049
-  PlayerCollisionMask:
-    serializedVersion: 2
-    m_Bits: 2560
   OnCollideWithStatic:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2761379462448255299}
         m_TargetAssemblyTypeName: RotateOverTime, Assembly-CSharp
         m_MethodName: StopRotating
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnSetMoving:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2761379462448255299}
-        m_TargetAssemblyTypeName: RotateOverTime, Assembly-CSharp
-        m_MethodName: StartRotating
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

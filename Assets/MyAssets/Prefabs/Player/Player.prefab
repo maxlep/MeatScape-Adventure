@@ -309,7 +309,7 @@ MonoBehaviour:
     Quantized: 0
     TargetBPM: 120
   DebugActive: 0
-  BoundParticleSystem: {fileID: 0}
+  BoundParticleSystem: {fileID: 3712438729137779817}
   MoveToPosition: 0
   RandomParticleSystems: []
 --- !u!114 &845992975
@@ -401,7 +401,7 @@ MonoBehaviour:
   LoopAtLastPause: 1
   LoopAtLastLoopStart: 1
   InfiniteLoop: 0
-  NumberOfLoops: 10
+  NumberOfLoops: 20
   NumberOfLoopsLeft: 1
   InInfiniteLoop: 0
 --- !u!1 &1180283747
@@ -1686,8 +1686,103 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: cd76c65349f46b942bdf4f380c45e805, type: 2}
+  HungerDecayTimer:
+    UseConstant: 0
+    ConstantDuration: 0
+    ConstantRemainingTime: 0
+    Variable: {fileID: 11400000, guid: c7539328649112e47b836885ff816905, type: 2}
+  HungerSoftMax:
+    UseConstant: 1
+    ConstantValue: 10
+    Variable: {fileID: 0}
+  HungerOut:
+    UseConstant: 0
+    ConstantValue: 1
+    Variable: {fileID: 11400000, guid: 00c841287f9a4604aaa90ce8bd4328ba, type: 2}
+  HungerScaleCurve:
+    UseConstant: 1
+    ConstantValue:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0.5
+        inSlope: 2.5
+        outSlope: 2.5
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 3
+        inSlope: 2.5
+        outSlope: 2.5
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    Variable: {fileID: 0}
+  SizeChangePivot: {fileID: 11400000, guid: ee62c18f86673cb4fba2ff12a9f015ad, type: 2}
+  HungerStarveShapeCurve:
+    UseConstant: 1
+    ConstantValue:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 100
+        inSlope: -100
+        outSlope: -100
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: -100
+        outSlope: -100
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    Variable: {fileID: 0}
+  HungerBloatShapeCurve:
+    UseConstant: 1
+    ConstantValue:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0.5635286
+        value: 0.04610198
+        inSlope: 0.2118382
+        outSlope: 0.37020054
+        tangentMode: 1
+        weightedMode: 3
+        inWeight: 0.34487617
+        outWeight: 0.6427224
+      - serializedVersion: 3
+        time: 1
+        value: 30
+        inSlope: 68.6274
+        outSlope: 68.6274
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    Variable: {fileID: 0}
+  SkinnedMesh: {fileID: 8034851805259252138}
   damageFeedback: {fileID: 1045127094}
-  sizeChangePivot: {fileID: 11400000, guid: ee62c18f86673cb4fba2ff12a9f015ad, type: 2}
   startSize: 2
   freezeSize: 0
   unlimitedClumps: 0

@@ -39,7 +39,7 @@ public class TimerVariable : ScriptableObject
 
     public void UpdateTime()
     {
-        if (!isStopped) remaingTime = Mathf.Max(0f, duration - (Time.time - startTime));
+        if (!isStopped && duration > 0) remaingTime = Mathf.Max(0f, duration - (Time.time - startTime));
     }
     
 }
@@ -126,7 +126,7 @@ public class TimerReference
     }
 
 
-    public void StartTimer()
+    public void RestartTimer()
     {
         Variable?.StartTimer();
         isConstantStopped = false;

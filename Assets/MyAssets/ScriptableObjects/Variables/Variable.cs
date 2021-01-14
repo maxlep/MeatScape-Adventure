@@ -136,4 +136,8 @@ namespace MyAssets.ScriptableObjects.Variables
     [Serializable]
     [InlineProperty]
     public class QuaternionReference : Reference<Quaternion, QuaternionVariable> {}
+    
+    [Serializable]
+    [InlineProperty]
+    public class CurveReference : Reference<AnimationCurve, CurveVariable> {}
 }

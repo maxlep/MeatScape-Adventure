@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Data;
 using System.Runtime.CompilerServices;
 using KinematicCharacterController;
 using MoreMountains.Feedbacks;
@@ -56,9 +57,20 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference EnemyKnockbackSpeed;
     [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference InvincibilityTime;
 
+    [Title("Hunger value")]
+    [FoldoutGroup("Hunger Parameters"), SerializeField] private TimerReference HungerDecayTimer;
+    [FoldoutGroup("Hunger Parameters"), SerializeField] private IntReference HungerSoftMax;
+    [FoldoutGroup("Hunger Parameters"), SerializeField] private IntReference HungerOut;
+    [Title("Model scale")]
+    [FoldoutGroup("Hunger Parameters"), SerializeField] private CurveReference HungerScaleCurve;
+    [FoldoutGroup("Hunger Parameters")] [SerializeField] private TransformSceneReference SizeChangePivot;
+    [Title("Blend shapes")]
+    [FoldoutGroup("Hunger Parameters"), SerializeField] private CurveReference HungerStarveShapeCurve;
+    [FoldoutGroup("Hunger Parameters"), SerializeField] private CurveReference HungerBloatShapeCurve;
+    [FoldoutGroup("Hunger Parameters"), SerializeField] private SkinnedMeshRenderer SkinnedMesh;
+
     [FoldoutGroup("Feedbacks")] [SerializeField] private MMFeedbacks damageFeedback;
 
-    [FoldoutGroup("Size Parameters")] [SerializeField] private TransformSceneReference sizeChangePivot;
     [FoldoutGroup("Size Parameters")] [SerializeField] private PlayerSize startSize;
     [FoldoutGroup("Size Parameters")] public bool freezeSize;
     [FoldoutGroup("Size Parameters")] public bool unlimitedClumps;
@@ -103,6 +115,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         {
             charMotor.MaxStableDenivelationAngle = MaxStableDenivelationAngle.Value;
         });
+        HungerDecayTimer?.RestartTimer();
     }
 
     void Awake()
@@ -134,10 +147,16 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private void Update()
     {
         UpdateParameters();
+        UpdateHunger();
         HandleClumpDeorbit();
     }
 
-    #endregion
+    private void LateUpdate()
+    {
+        UpdateHungerAnimations();
+    }
+
+#endregion
 
     #region CharacterController Methods
 
@@ -305,6 +324,41 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         }
     }
     #endregion
+    
+    #region Hunger
+    private void UpdateHunger()
+    {
+        HungerDecayTimer?.UpdateTime();
+        var timerUp = HungerDecayTimer?.RemainingTime <= 0f;
+
+        if (timerUp)
+        {
+            // TODO react when hunger reaches 0
+            damageFeedback.PlayFeedbacks();
+            HungerOut.Value = Mathf.Max(0, HungerOut.Value - 1);
+            HungerDecayTimer.RestartTimer();
+        }
+    }
+
+    private void UpdateHungerAnimations()
+    {
+#warning TODO test if this breaks outside 0..1, may need to clamp but would prefer not to
+        var pct = (float)HungerOut.Value / HungerSoftMax.Value;
+        var scale = HungerScaleCurve.Value.Evaluate(pct);
+        SizeChangePivot.Value.localScale = new Vector3(scale, scale, scale);
+
+        var starvation = HungerStarveShapeCurve.Value.Evaluate(pct);
+        var bloat = HungerBloatShapeCurve.Value.Evaluate(pct);
+        SkinnedMesh.SetBlendShapeWeight(0, starvation);
+        SkinnedMesh.SetBlendShapeWeight(1, bloat);
+    }
+
+    [Button]
+    private void FeedHunger()
+    {
+        HungerOut.Value += 1;
+    }
+    #endregion
 
     private void UpdateParameters()
     {
@@ -349,7 +403,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         int intSize = (int)currentSize;
         PlayerCurrentSize.Value = intSize;
 
-        LeanTween.scale(sizeChangePivot.Value.gameObject, modelScales[intSize].Value, changeSizeTime.Value / 1000);
+        LeanTween.scale(SizeChangePivot.Value.gameObject, modelScales[intSize].Value, changeSizeTime.Value / 1000);
         Vector3 capsuleSize = Vector3.Scale(modelScales[intSize].Value, capsuleProportions);
         charMotor.SetCapsuleDimensions(capsuleSize.x, capsuleSize.y, capsuleSize.z);
         

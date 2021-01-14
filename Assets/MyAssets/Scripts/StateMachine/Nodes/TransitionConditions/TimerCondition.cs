@@ -27,7 +27,7 @@ public class TimerCondition : ITransitionCondition
     
     public void StartTimer()
     {
-        targetParameter?.StartTimer();
+        targetParameter?.RestartTimer();
     }
 
     public void UpdateTime()

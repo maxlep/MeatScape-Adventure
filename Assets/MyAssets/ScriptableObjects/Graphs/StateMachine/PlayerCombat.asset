@@ -234,6 +234,11 @@ MonoBehaviour:
   transitionPriority: 0
   conditionPreview: '-  Valid:  Roll  Movement
 
+    -  Roll Trigger_ Controller_
+    Player
+
+    -  Player Current Size_ Controller_ Player  Greater Than 0
+
 '
   ValidStartStates:
   - {fileID: 4966931143862885706, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
@@ -298,6 +303,11 @@ MonoBehaviour:
       _dynamic: 0
   transitionPriority: 0
   conditionPreview: '-  Valid:  Roll  Movement
+
+    -  Attack Trigger_ Controller_
+    Player
+
+    -  Player Current Size_ Controller_ Player  Greater Than 0
 
 '
   ValidStartStates:
@@ -423,6 +433,14 @@ MonoBehaviour:
 
     - 
     Valid:  No Low Jump
+
+    -  Waited Attack Delay_ Combat_ Player
+
+    -  Attack
+    Trigger_ Controller_ Player
+
+    -  Player Current Size_ Controller_ Player 
+    Greater Than 0
 
 '
   ValidStartStates:
@@ -558,6 +576,14 @@ MonoBehaviour:
   conditionPreview: '-  Valid:  Air Movement
 
     -  Valid:  No Low Jump
+
+    - 
+    Waited Attack Delay_ Combat_ Player
+
+    -  Downward Attack Trigger_ Controller_
+    Player
+
+    -  Player Current Size_ Controller_ Player  Greater Than 0
 
 '
   ValidStartStates:

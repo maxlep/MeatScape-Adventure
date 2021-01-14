@@ -59,6 +59,14 @@ public class LayeredStateMachine : MonoBehaviour
         }
     }
 
+    protected void OnApplicationQuit()
+    {
+        foreach (var stateMachine in stateMachines)
+        {
+            stateMachine.OnApplicationExit();
+        }
+    }
+
     #endregion
 
     #region Init/Dep Injection

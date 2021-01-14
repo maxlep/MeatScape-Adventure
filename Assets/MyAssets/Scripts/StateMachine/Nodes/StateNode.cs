@@ -248,6 +248,10 @@ public class StateNode : Node
     {
         isActiveState = false;
     }
+
+    public virtual void OnApplictionExit()
+    {
+    }
     
     public virtual void DrawGizmos()
     {

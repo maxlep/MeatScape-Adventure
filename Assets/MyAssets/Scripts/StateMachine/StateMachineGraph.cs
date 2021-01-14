@@ -52,6 +52,11 @@ public class StateMachineGraph : NodeGraph
         currentStates.ForEach(s => s.DrawGizmos());
     }
 
+    public void OnApplicationExit()
+    {
+        stateNodes.ForEach(s => s.OnApplictionExit());
+    }
+
     #endregion
 
     #region Init/Dep Injection

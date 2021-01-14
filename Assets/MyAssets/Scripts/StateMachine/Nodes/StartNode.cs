@@ -40,4 +40,8 @@ public class StartNode : Node
     {
         name = $"Start {executionOrderIndex}";
     }
+    
+    public virtual void OnApplictionExit()
+    {
+    }
 }

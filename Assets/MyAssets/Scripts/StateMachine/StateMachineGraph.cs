@@ -55,6 +55,7 @@ public class StateMachineGraph : NodeGraph
     public void OnApplicationExit()
     {
         stateNodes.ForEach(s => s.OnApplictionExit());
+        startNodes.ForEach(s => s.OnApplictionExit());
     }
 
     #endregion

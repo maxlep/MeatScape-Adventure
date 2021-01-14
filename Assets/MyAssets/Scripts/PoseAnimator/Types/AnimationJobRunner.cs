@@ -73,7 +73,6 @@ namespace MyAssets.Scripts.PoseAnimator.Types
 
         public virtual void Dispose()
         {
-            Debug.Log($"Destroy animation job runner");
             boneHandles.Dispose();
             boneWeights.Dispose();
         }

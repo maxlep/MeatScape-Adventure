@@ -4,17 +4,17 @@ using BehaviorDesigner.Runtime;
 using KinematicCharacterController;
 using MoreMountains.Feedbacks;
 using MyAssets.ScriptableObjects.Variables;
+using Pathfinding;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(KinematicCharacterMotor))]
 public class EnemyController : MonoBehaviour, ICharacterController
 {
+    [SerializeField] private AIDestinationSetter destinationSetter;
     [SerializeField] private TransformSceneReference playerTransformReference;
-    [SerializeField] private KinematicCharacterMotor characterMotor;
     [SerializeField] private BehaviorTree behaviorTree;
-    [SerializeField] private LayerMapper layerMapper;
+    [SerializeField] private CharacterController characterController;
     [SerializeField, SuffixLabel("m/s^2", Overlay = true)] private float Gravity = 10f;
     [SerializeField] private int MaxHealth = 1;
     [SerializeField] private MMFeedbacks damageFeedbacks;
@@ -29,6 +29,11 @@ public class EnemyController : MonoBehaviour, ICharacterController
     {
         set => newRotation = value;
     }
+
+    public Transform SetDestination
+    {
+        set => destination = value;
+    }
     
     public delegate void OnDeath_();
     public event OnDeath_ OnDeath;
@@ -40,6 +45,7 @@ public class EnemyController : MonoBehaviour, ICharacterController
     private bool isAlive;
     private int health;
     private Vector3 newVelocity;
+    private Transform destination;
     private Quaternion newRotation;
 
     public void Initialize(List<Transform> patrolPoints)
@@ -52,9 +58,16 @@ public class EnemyController : MonoBehaviour, ICharacterController
     #region Unity Methods
 
     private void Awake() {
-        characterMotor.CharacterController = this;
         health = MaxHealth;
         isAlive = true;
+    }
+
+    private void Update()
+    {
+        if (isAlive)
+        {
+            destinationSetter.target = destination;
+        }
     }
 
     private void LateUpdate() {
@@ -78,7 +91,7 @@ public class EnemyController : MonoBehaviour, ICharacterController
     {
         if (onStartUpdateVelocity != null) onStartUpdateVelocity.Invoke(currentVelocity);
 
-        float currentGravity = (!characterMotor.GroundingStatus.IsStableOnGround) ? Gravity : 0f;
+        float currentGravity = (!characterController.isGrounded) ? Gravity : 0f;
 
         currentVelocity = (newVelocity + Vector3.down * currentGravity) * Convert.ToInt32(isAlive);
     }
@@ -143,7 +156,6 @@ public class EnemyController : MonoBehaviour, ICharacterController
     public void FinishKill()
     {
         OnDeath?.Invoke();
-        KinematicCharacterSystem.UnregisterCharacterMotor(characterMotor);
         // EffectsManager.Instance?.SpawnParticlesAtPoint(deathParticles, transform.position, Quaternion.identity);
         Destroy(this.gameObject);
     }

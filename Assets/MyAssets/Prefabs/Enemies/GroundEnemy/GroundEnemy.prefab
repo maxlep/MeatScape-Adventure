@@ -792,7 +792,7 @@ MonoBehaviour:
     Quantized: 0
     TargetBPM: 120
   DebugActive: 0
-  BoundRenderer: {fileID: 7613166558241075611}
+  BoundRenderer: {fileID: 0}
   Mode: 0
   PropertyName: _Tint
   FlickerDuration: 0.2
@@ -894,12 +894,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9215427160250022262}
-  - component: {fileID: 7691007150361102744}
   - component: {fileID: 5156483105650542776}
-  - component: {fileID: 7691007150361102743}
   - component: {fileID: 4555490344472615283}
   - component: {fileID: 6393142217563229400}
-  - component: {fileID: 2652618811431652460}
+  - component: {fileID: 6996252723585200392}
+  - component: {fileID: 4427621160093682921}
+  - component: {fileID: 6007399632550811313}
+  - component: {fileID: 1103627083034365883}
+  - component: {fileID: 4551952893640058112}
+  - component: {fileID: 8276623102769655285}
   m_Layer: 11
   m_Name: GroundEnemy
   m_TagString: Untagged
@@ -926,20 +929,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &7691007150361102744
-CapsuleCollider:
-  m_ObjectHideFlags: 8
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8838483218795210596}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 1.015
-  m_Height: 2.03
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.97, z: 0}
 --- !u!114 &5156483105650542776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -952,51 +941,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e743de86a47954f4c9ebae63b83a98ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destinationSetter: {fileID: 4551952893640058112}
   playerTransformReference: {fileID: 11400000, guid: ee9dc19f502017e4ba44eef793921408,
     type: 2}
-  characterMotor: {fileID: 7691007150361102743}
   behaviorTree: {fileID: 4555490344472615283}
-  layerMapper: {fileID: 11400000, guid: 3f0bff594715a77478fbb7703d7b9fc0, type: 2}
+  characterController: {fileID: 0}
   Gravity: 10
   MaxHealth: 1
   damageFeedbacks: {fileID: 7320008097317343242}
   deathFeedbacks: {fileID: 850879172149877586}
---- !u!114 &7691007150361102743
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8838483218795210596}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68a4499f5dd18a84fba27fb469430ac0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Capsule: {fileID: 7691007150361102744}
-  CapsuleRadius: 1.015
-  CapsuleHeight: 2.03
-  CapsuleYOffset: 0.97
-  CapsulePhysicsMaterial: {fileID: 0}
-  GroundDetectionExtraDistance: 0
-  MaxStableSlopeAngle: 60
-  StableGroundLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  DiscreteCollisionEvents: 1
-  StepHandling: 1
-  MaxStepHeight: 0.5
-  AllowSteppingWithoutStableGrounding: 0
-  MinRequiredStepDepth: 0
-  LedgeAndDenivelationHandling: 1
-  MaxStableDistanceFromLedge: 0
-  MaxVelocityForLedgeSnap: 0
-  MaxStableDenivelationAngle: 180
-  InteractiveRigidbodyHandling: 1
-  RigidbodyInteractionType: 0
-  PreserveAttachedRigidbodyMomentum: 1
-  HasPlanarConstraint: 0
-  PlanarConstraintAxis: {x: 0, y: 0, z: 1}
 --- !u!114 &4555490344472615283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1009,7 +962,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d7b55c7ecdb49a4a89fa5e6f9022861, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startWhenEnabled: 0
+  startWhenEnabled: 1
   asynchronousLoad: 0
   pauseWhenDisabled: 0
   restartWhenComplete: 0
@@ -1030,16 +983,16 @@ MonoBehaviour:
         To Player"},"ID":6,"Name":"Distance Transforms","Instant":true,"SharedTransformfirstTransform":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"EnemyTransform","IsShared":true,"TransformmValue":0},"SharedTransformsecondTransform":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"PlayerTransform","IsShared":true},"SharedFloatstoreResult":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"DistanceToPlayer","IsShared":true,"SinglemValue":0}},{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(-1.09806442,155.022278)"},"ID":7,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-111.621552,147.296768)"},"ID":8,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.Math.FloatComparison","NodeData":{"Offset":"(-130.000153,167.802887)","Comment":"Dist
         To Player <"},"ID":9,"Name":"Float Comparison","Instant":true,"Operationoperation":"LessThan","SharedFloatfloat1":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"DistanceToPlayer","IsShared":true,"SinglemValue":0},"SharedFloatfloat2":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":25}},{"Type":"MoveKCCNavMesh","NodeData":{"Offset":"(31.6530151,170.271362)","Comment":"Move
         to Player"},"ID":10,"Name":"Move KCC Nav Mesh","Instant":true,"SharedFloatReferenceMoveSpeed":{"Type":"SharedFloatReference","Name":"Move
-        Speed","IsShared":true,"FloatReferencemValue":{"SingleConstantValue":0,"FloatVariableVariable":1,"BooleanUseConstant":false}},"SharedVector3NewVelocity":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"NewVelocity","IsShared":true,"Vector3mValue":"(0,0,0)"},"SharedQuaternionNewRotation":{"Type":"BehaviorDesigner.Runtime.SharedQuaternion","Name":"NewRotation","IsShared":true,"QuaternionmValue":"(0,0,0,0)"},"SharedTransformThisTransform":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"EnemyTransform","IsShared":true,"TransformmValue":2},"SharedTransformTarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"PlayerTransform","IsShared":true},"SharedEnemyControllerEnemyController":{"Type":"SharedEnemyController","Name":"EnemyController","IsShared":true,"EnemyControllermValue":3},"SharedNavMeshAgentAgent":{"Type":"SharedNavMeshAgent","Name":"Agent","IsShared":true,"NavMeshAgentmValue":4}}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(107.046158,153.5135)"},"ID":11,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.Math.FloatComparison","NodeData":{"Offset":"(12.9729824,179.188873)","Comment":"Dist
+        Speed","IsShared":true,"FloatReferencemValue":{"BooleanUseConstant":false,"SingleConstantValue":0,"FloatVariableVariable":1}},"SharedVector3NewVelocity":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"NewVelocity","IsShared":true,"Vector3mValue":"(0,0,0)"},"SharedQuaternionNewRotation":{"Type":"BehaviorDesigner.Runtime.SharedQuaternion","Name":"NewRotation","IsShared":true,"QuaternionmValue":"(0,0,0,0)"},"SharedTransformThisTransform":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"EnemyTransform","IsShared":true,"TransformmValue":2},"SharedTransformTarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"PlayerTransform","IsShared":true},"SharedEnemyControllerEnemyController":{"Type":"SharedEnemyController","Name":"EnemyController","IsShared":true,"EnemyControllermValue":3},"SharedNavMeshAgentAgent":{"Type":"SharedNavMeshAgent","Name":"Agent","IsShared":true}}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(107.046158,153.5135)"},"ID":11,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.Math.FloatComparison","NodeData":{"Offset":"(12.9729824,179.188873)","Comment":"Dist
         To Player >="},"ID":12,"Name":"Float Comparison","Instant":true,"Operationoperation":"GreaterThanOrEqualTo","SharedFloatfloat1":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"DistanceToPlayer","IsShared":true,"SinglemValue":0},"SharedFloatfloat2":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":25}},{"Type":"DistanceTransforms","NodeData":{"Offset":"(190.131592,180)","Comment":"Dist
-        To Next Point"},"ID":13,"Name":"Distance Transforms","Instant":true,"SharedTransformfirstTransform":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"EnemyTransform","IsShared":true,"TransformmValue":5},"SharedTransformsecondTransform":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"NextPathTransform","IsShared":true},"SharedFloatstoreResult":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"DistToNextPoint","IsShared":true,"SinglemValue":0}},{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(381.641571,175)"},"ID":14,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-90.23633,147.610474)"},"ID":15,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.Math.FloatComparison","NodeData":{"Offset":"(-200,160)","Comment":"Dist
+        To Next Point"},"ID":13,"Name":"Distance Transforms","Instant":true,"SharedTransformfirstTransform":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"EnemyTransform","IsShared":true,"TransformmValue":4},"SharedTransformsecondTransform":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"NextPathTransform","IsShared":true},"SharedFloatstoreResult":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"DistToNextPoint","IsShared":true,"SinglemValue":0}},{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(381.641571,175)"},"ID":14,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-90.23633,147.610474)"},"ID":15,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.Math.FloatComparison","NodeData":{"Offset":"(-200,160)","Comment":"Dist
         To Next Point >"},"ID":16,"Name":"Float Comparison","Instant":true,"Operationoperation":"GreaterThan","SharedFloatfloat1":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"DistToNextPoint","IsShared":true,"SinglemValue":0},"SharedFloatfloat2":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}},{"Type":"MoveKCCNavMesh","NodeData":{"Offset":"(-15.4541016,156.818481)","Comment":"Move
         to Next Point"},"ID":17,"Name":"Move KCC Nav Mesh","Instant":true,"SharedFloatReferenceMoveSpeed":{"Type":"SharedFloatReference","Name":"Move
-        Speed","IsShared":true,"FloatReferencemValue":{"SingleConstantValue":0,"FloatVariableVariable":6,"BooleanUseConstant":false}},"SharedVector3NewVelocity":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"NewVelocity","IsShared":true,"Vector3mValue":"(0,0,0)"},"SharedQuaternionNewRotation":{"Type":"BehaviorDesigner.Runtime.SharedQuaternion","Name":"NewRotation","IsShared":true,"QuaternionmValue":"(0,0,0,0)"},"SharedTransformThisTransform":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"EnemyTransform","IsShared":true,"TransformmValue":7},"SharedTransformTarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"NextPathTransform","IsShared":true},"SharedEnemyControllerEnemyController":{"Type":"SharedEnemyController","Name":"EnemyController","IsShared":true,"EnemyControllermValue":8},"SharedNavMeshAgentAgent":{"Type":"SharedNavMeshAgent","Name":"Agent","IsShared":true,"NavMeshAgentmValue":9}}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(88.33545,149.311142)"},"ID":18,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.Math.FloatComparison","NodeData":{"Offset":"(0,160)","Comment":"Dist
+        Speed","IsShared":true,"FloatReferencemValue":{"BooleanUseConstant":false,"SingleConstantValue":0,"FloatVariableVariable":5}},"SharedVector3NewVelocity":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"NewVelocity","IsShared":true,"Vector3mValue":"(0,0,0)"},"SharedQuaternionNewRotation":{"Type":"BehaviorDesigner.Runtime.SharedQuaternion","Name":"NewRotation","IsShared":true,"QuaternionmValue":"(0,0,0,0)"},"SharedTransformThisTransform":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"EnemyTransform","IsShared":true,"TransformmValue":6},"SharedTransformTarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"NextPathTransform","IsShared":true},"SharedEnemyControllerEnemyController":{"Type":"SharedEnemyController","Name":"EnemyController","IsShared":true,"EnemyControllermValue":7},"SharedNavMeshAgentAgent":{"Type":"SharedNavMeshAgent","Name":"Agent","IsShared":true}}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(88.33545,149.311142)"},"ID":18,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.Math.FloatComparison","NodeData":{"Offset":"(0,160)","Comment":"Dist
         To Next Point <="},"ID":19,"Name":"Float Comparison","Instant":true,"Operationoperation":"LessThanOrEqualTo","SharedFloatfloat1":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"DistToNextPoint","IsShared":true,"SinglemValue":0},"SharedFloatfloat2":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}},{"Type":"IterateTransformList","NodeData":{"Offset":"(160,160)","Comment":"Set
         Next Path Point"},"ID":20,"Name":"Iterate Transform List","Instant":true,"SharedTransformListtransformList":{"Type":"BehaviorDesigner.Runtime.SharedTransformList","Name":"CurrentPath","IsShared":true,"List`1mValue":[]},"SharedIntcurrentIndex":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"CurrentPathLIndex","IsShared":true,"Int32mValue":0},"SharedTransformstoreResult":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"NextPathTransform","IsShared":true}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityVector3.SetValue","NodeData":{"Offset":"(320.408447,157.416016)","Comment":"Zero
-        Velocity"},"ID":21,"Name":"Set Value","Instant":true,"SharedVector3vector3Value":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":null,"Vector3mValue":"(0,0,0)"},"SharedVector3vector3Variable":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"NewVelocity","IsShared":true,"Vector3mValue":"(0,0,0)"}}]}]}]}]}]}]}]}]},"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"EnemyTransform","IsShared":true,"TransformmValue":10},{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"PlayerTransform","IsShared":true},{"Type":"SharedEnemyController","Name":"EnemyController","IsShared":true,"EnemyControllermValue":11},{"Type":"BehaviorDesigner.Runtime.SharedTransformList","Name":"CurrentPath","IsShared":true,"List`1mValue":[]},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"HasReachedTarget","IsShared":true,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"DistanceToPlayer","IsShared":true,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"NextPathTransform","IsShared":true},{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"CurrentPathIndex","IsShared":true,"IsDynamic":true,"Int32mValue":0},{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"CurrentPathLIndex","IsShared":true,"Int32mValue":0},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"DistToNextPoint","IsShared":true,"SinglemValue":0},{"Type":"SharedNavMeshAgent","Name":"Agent","IsShared":true,"NavMeshAgentmValue":12},{"Type":"SharedFloatReference","Name":"Move
-        Speed","IsShared":true,"FloatReferencemValue":{"SingleConstantValue":0,"FloatVariableVariable":13,"BooleanUseConstant":false}},{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"NewVelocity","IsShared":true,"Vector3mValue":"(0,0,0)"},{"Type":"BehaviorDesigner.Runtime.SharedQuaternion","Name":"NewRotation","IsShared":true,"QuaternionmValue":"(0,0,0,0)"}]}'
+        Velocity"},"ID":21,"Name":"Set Value","Instant":true,"SharedVector3vector3Value":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":null,"Vector3mValue":"(0,0,0)"},"SharedVector3vector3Variable":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"NewVelocity","IsShared":true,"Vector3mValue":"(0,0,0)"}}]}]}]}]}]}]}]}]},"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"EnemyTransform","IsShared":true,"TransformmValue":8},{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"PlayerTransform","IsShared":true},{"Type":"SharedEnemyController","Name":"EnemyController","IsShared":true,"EnemyControllermValue":9},{"Type":"BehaviorDesigner.Runtime.SharedTransformList","Name":"CurrentPath","IsShared":true,"List`1mValue":[]},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"DistanceToPlayer","IsShared":true,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"CurrentPathIndex","IsShared":true,"IsDynamic":true,"Int32mValue":0},{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"CurrentPathLIndex","IsShared":true,"Int32mValue":0},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"DistToNextPoint","IsShared":true,"SinglemValue":0},{"Type":"SharedFloatReference","Name":"Move
+        Speed","IsShared":true,"FloatReferencemValue":{"BooleanUseConstant":false,"SingleConstantValue":0,"FloatVariableVariable":10}},{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"NewVelocity","IsShared":true,"Vector3mValue":"(0,0,0)"},{"Type":"BehaviorDesigner.Runtime.SharedQuaternion","Name":"NewRotation","IsShared":true,"QuaternionmValue":"(0,0,0,0)"},{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"NextPathPoint","IsShared":true},{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"Destination","IsShared":true},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"RadiusOfSight","IsShared":true,"SinglemValue":50},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"StoppingDistance","IsShared":true,"SinglemValue":1}]}'
       fieldSerializationData:
         typeName: []
         fieldNameHash: 
@@ -1050,21 +1003,18 @@ MonoBehaviour:
         - {fileID: 11400000, guid: b84f9e33b13aa14498c7ce346412e9d9, type: 2}
         - {fileID: 9215427160250022262}
         - {fileID: 5156483105650542776}
-        - {fileID: 2652618811431652460}
         - {fileID: 9215427160250022262}
         - {fileID: 11400000, guid: b84f9e33b13aa14498c7ce346412e9d9, type: 2}
         - {fileID: 9215427160250022262}
         - {fileID: 5156483105650542776}
-        - {fileID: 2652618811431652460}
         - {fileID: 9215427160250022262}
         - {fileID: 5156483105650542776}
-        - {fileID: 2652618811431652460}
         - {fileID: 11400000, guid: b84f9e33b13aa14498c7ce346412e9d9, type: 2}
         byteData: 
         byteDataArray: 
       Version: 1.6.6
-  gizmoViewMode: 0
-  showBehaviorDesignerGizmo: 0
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1
 --- !u!114 &6393142217563229400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1102,28 +1052,164 @@ MonoBehaviour:
     animator: {fileID: 0}
     animatorParameterType: 0
     targetID: 0
---- !u!195 &2652618811431652460
-NavMeshAgent:
+  - synchronizationType: 1
+    setVariable: 0
+    behavior: {fileID: 4555490344472615283}
+    variableName: Destination
+    global: 0
+    targetComponent: {fileID: 5156483105650542776}
+    targetName: SetDestination
+    targetGlobal: 0
+    animator: {fileID: 0}
+    animatorParameterType: 0
+    targetID: 0
+--- !u!114 &6996252723585200392
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8838483218795210596}
   m_Enabled: 1
-  m_AgentTypeID: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 373b52eb9bf8c40f785bb6947a1aee66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  drawGizmos: 1
+  detailedGizmos: 0
+  startEndModifier:
+    addPoints: 0
+    exactStartPoint: 3
+    exactEndPoint: 3
+    useRaycasting: 0
+    mask:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    useGraphRaycasting: 0
+  traversableTags: -1
+  tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  graphMask:
+    value: -1
+--- !u!114 &4427621160093682921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8838483218795210596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6eb1402c17e84a9282a7f0f62eb584f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 4
+  radius: 0.5
+  height: 1
+  canMove: 1
+  maxSpeed: 9
+  gravity: {x: NaN, y: NaN, z: NaN}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  endReachedDistance: 0.05
+  whenCloseToDestination: 0
+  rvoDensityBehavior:
+    enabled: 0
+    densityThreshold: 0.5
+    returnAfterBeingPushedAway: 0
+    progressAverage: 0
+    lastJobDensityResult: 0
+  centerOffsetCompatibility: NaN
+  repathRateCompatibility: 3
+  canSearchCompability: 1
+  orientation: 0
+  enableRotation: 1
+  autoRepath:
+    mode: 1
+    interval: 0.1
+    sensitivity: 10
+    maximumInterval: 2
+    visualizeSensitivity: 0
+  targetCompatibility: {fileID: 0}
+  maxAcceleration: -2.5
+  rotationSpeed: 810
+  slowdownDistance: 3
+  pickNextWaypointDist: 2
+  alwaysDrawGizmos: 0
+  slowWhenNotFacingTarget: 1
+  preventMovingBackwards: 0
+  constrainInsideGraph: 0
+--- !u!143 &6007399632550811313
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8838483218795210596}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 0.2
   m_Radius: 0.5
-  m_Speed: 0
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 0
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.02
+  m_MinMoveDistance: 0
+  m_Center: {x: 0, y: 0.55, z: 0}
+--- !u!114 &1103627083034365883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8838483218795210596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb6a34d769a1e4ac7b0b30e433aa443c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  smoothType: 0
+  subdivisions: 2
+  iterations: 4
+  strength: 0.5
+  uniformLength: 1
+  maxSegmentLength: 1.5
+  bezierTangentLength: 0.4
+  offset: 0.2
+  factor: 0.1
+--- !u!114 &4551952893640058112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8838483218795210596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9679e68a0f1144e79c664d9a11ca121, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  target: {fileID: 0}
+--- !u!114 &8276623102769655285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8838483218795210596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c60a271f887620d459fbc8d292b5394f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTransformSceneReference: {fileID: 11400000, guid: ee9dc19f502017e4ba44eef793921408,
+    type: 2}
+  seeker: {fileID: 6996252723585200392}
+  radiusOfHighRes: 150
 --- !u!1 &8866428820056831974
 GameObject:
   m_ObjectHideFlags: 0
@@ -1468,6 +1554,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SufferingBlob
       objectReference: {fileID: 0}
+    - target: {fileID: 1787428284316052524, guid: 92fefc447f90ea14ba6b56a5ed97d311,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1787428284316052531, guid: 92fefc447f90ea14ba6b56a5ed97d311,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1525,21 +1616,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 92fefc447f90ea14ba6b56a5ed97d311, type: 3}
---- !u!4 &1752441631640346426 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1787428284316052531, guid: 92fefc447f90ea14ba6b56a5ed97d311,
-    type: 3}
-  m_PrefabInstance: {fileID: 44988635193520905}
-  m_PrefabAsset: {fileID: 0}
---- !u!137 &7613166558241075611 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 7582005999757951634, guid: 92fefc447f90ea14ba6b56a5ed97d311,
-    type: 3}
-  m_PrefabInstance: {fileID: 44988635193520905}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &845542826286518565 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 802815375427478060, guid: 92fefc447f90ea14ba6b56a5ed97d311,
+    type: 3}
+  m_PrefabInstance: {fileID: 44988635193520905}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1752441631640346426 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1787428284316052531, guid: 92fefc447f90ea14ba6b56a5ed97d311,
     type: 3}
   m_PrefabInstance: {fileID: 44988635193520905}
   m_PrefabAsset: {fileID: 0}

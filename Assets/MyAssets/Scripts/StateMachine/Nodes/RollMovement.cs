@@ -86,6 +86,11 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Events")] [Required]
         protected GameEvent StopParticlesGameEvent;
+        
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Events")] [Required]
+        protected GameEvent BounceGameEvent;
+
 
         #endregion
         
@@ -250,6 +255,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 Mathf.Abs(previousVelocity.y) > BounceThresholdVelocity.Value)
             {
                 playerController.UngroundMotor();
+                BounceGameEvent.Raise();
                 return Mathf.Abs(previousVelocity.y) * BounceFactor.Value * GroundingStatus.GroundNormal;
             }
 

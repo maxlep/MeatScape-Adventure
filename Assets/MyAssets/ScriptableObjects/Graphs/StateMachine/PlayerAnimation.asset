@@ -248,7 +248,7 @@ MonoBehaviour:
   m_Name: Roll Set Grounder Disabled <SetBool> (PlayerAnimation)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1656.7012, y: 3510.8562}
+  position: {x: 1656, y: 3000}
   ports:
     keys:
     - previousState
@@ -275,7 +275,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Roll Set Grounder Disabled
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   SetOnEnter: 1
   SetOnUpdate: 0
   Value:
@@ -330,12 +330,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '- ! Is Grounded_ Controller_ Player
-
-    - 0  Ignore 0 && 0 
-    Less Than -0.1 && 0  Ignore 0
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -521,12 +516,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '-  Is Grounded_ Controller_ Player
-
-    - 0  Abs Less Than 0.001
-    && 0  Ignore 0 && 0  Abs Less Than 0.001
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -746,7 +736,7 @@ MonoBehaviour:
   BypassState: 1
   Name: Roll Movement
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   transitionTime: 0.05
   transitionCurve:
     serializedVersion: 2
@@ -1311,82 +1301,6 @@ MonoBehaviour:
       events:
       - animEvent: {fileID: 11400000, guid: 2f7014b96711c054da15c0d11d5b99e7, type: 2}
         relativeOffset: 0.15
---- !u!114 &-3099988209043395053
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afdd76c4e6d54d54807c933595e7a19a, type: 3}
-  m_Name: Roll Perambulator <SurveyorWheel> (PlayerAnimation)
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 1656, y: 3000}
-  ports:
-    keys:
-    - previousState
-    - transitions
-    values:
-    - _fieldName: previousState
-      _node: {fileID: -3099988209043395053}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: transitions
-      _node: {fileID: -3099988209043395053}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  BypassState: 0
-  Name: Roll Perambulator
-  zoom: 0
-  isActiveState: 0
-  moveVelocity:
-    Source:
-      UseConstant: 0
-      ConstantValue: {x: 0, y: 0, z: 0}
-      Variable: {fileID: 11400000, guid: dd2cd63ae1d9c034096f0b67bb5bcf62, type: 2}
-    ComponentX: 0
-    ComponentY: 2
-  maxSpeed:
-    UseConstant: 1
-    ConstantValue: 10
-    Variable: {fileID: 0}
-  walkSpeedFactor:
-    UseConstant: 1
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  minStrideLengthFactor: 0
-  fullStrideLength:
-    UseConstant: 1
-    ConstantValue: 10
-    Variable: {fileID: 0}
-  strideLength:
-    UseConstant: 1
-    ConstantValue: 10
-    Variable: {fileID: 0}
-  distance:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 9ffbf0e88eebaf2468d44a6d522650c0, type: 2}
-  cyclePercent:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 3e76aa99d6c43a342b127253e6aa0fb4, type: 2}
-  resetOnStart: 1
-  roundToMultiple: 1
-  probe: {fileID: 0}
 --- !u!114 &-2816321112790655770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1634,11 +1548,6 @@ MonoBehaviour:
       _dynamic: 0
   transitionPriority: 0
   conditionPreview: '-  Invalid:  Slope  Movement
-
-    - ! Is Grounded_ Controller_
-    Player
-
-    - 0  Ignore 0 && 0  Less Than -0.1 && 0  Ignore 0
 
 '
   ValidStartStates: []
@@ -2206,8 +2115,6 @@ MonoBehaviour:
   - {fileID: -287817223703023467}
   - {fileID: -8358914764313829916}
   - {fileID: 7689719205349734681}
-  - {fileID: -3099988209043395053}
-  - {fileID: 290542363192366075}
   - {fileID: 5445976633038325129}
   - {fileID: -53914686640773370}
   - {fileID: -1752575893199912007}
@@ -2225,6 +2132,7 @@ MonoBehaviour:
   - {fileID: -4525352878955941566}
   - {fileID: -8114030634757415925}
   - {fileID: -2673006558526359082}
+  - {fileID: 2917020439752171314}
 --- !u!114 &264669591117630602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2266,59 +2174,6 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   referencedState: {fileID: -1507888589778504077}
---- !u!114 &290542363192366075
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 546d30ccf91d4df8b1a893e8fd34f37e, type: 3}
-  m_Name: Roll Rotator <RotateAroundPivot> (PlayerAnimation)
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 1080, y: 2616}
-  ports:
-    keys:
-    - previousState
-    - transitions
-    values:
-    - _fieldName: previousState
-      _node: {fileID: 290542363192366075}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: transitions
-      _node: {fileID: 290542363192366075}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  BypassState: 0
-  Name: Roll Rotator
-  zoom: 0
-  isActiveState: 0
-  Pivot: {fileID: 11400000, guid: ba2e09efe07e3a245833dd872f7cce88, type: 2}
-  Rotations:
-  - LocalAxis: 0
-    Factor:
-      UseConstant: 0
-      ConstantValue: 0
-      Variable: {fileID: 11400000, guid: 3e76aa99d6c43a342b127253e6aa0fb4, type: 2}
-  - LocalAxis: 2
-    Factor:
-      UseConstant: 0
-      ConstantValue: 0
-      Variable: {fileID: 11400000, guid: 74e1f497eab35784d96f1a8547de303c, type: 2}
 --- !u!114 &480359578030214871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2611,9 +2466,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '-  Throw_ Time_ Anim_ Player: 0.15 sec
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -2672,9 +2525,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '-  Jump Trigger_ Anim_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -2946,10 +2797,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '- 0  Abs Greater Than 0 && 0  Ignore 0 && 0  Abs Greater Than
-    0
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -3020,6 +2868,56 @@ MonoBehaviour:
   subStates:
   - {fileID: -53878915453836982}
   - {fileID: 7134807960064310256}
+--- !u!114 &2917020439752171314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b96c04720be46bc8db6ac9f7bec68c6, type: 3}
+  m_Name: Roller <Roller> (PlayerAnimation)
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1080, y: 2616}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: 2917020439752171314}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: 2917020439752171314}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  BypassState: 0
+  Name: Roller
+  zoom: 0
+  isActiveState: 1
+  MoveVelocity:
+    UseConstant: 0
+    ConstantValue: {x: 0, y: 0, z: 0}
+    Variable: {fileID: 11400000, guid: dd2cd63ae1d9c034096f0b67bb5bcf62, type: 2}
+  Radius:
+    UseConstant: 1
+    ConstantValue: 2
+    Variable: {fileID: 0}
+  Pivot: {fileID: 11400000, guid: ba2e09efe07e3a245833dd872f7cce88, type: 2}
 --- !u!114 &2973082149161544887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3420,7 +3318,7 @@ MonoBehaviour:
     BoneTransformWeights:
     - transform: {fileID: 0}
       weight: 1
-    Factor: 0.5
+    Factor: 1.0003576
     BlendMode: 0
 --- !u!114 &5391073615113036228
 MonoBehaviour:
@@ -3507,9 +3405,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '-  Throw_ Time_ Anim_ Player: 0.15 sec
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -3677,10 +3573,9 @@ MonoBehaviour:
   BypassState: 0
   Name: Roll Movement Sub
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   subStates:
-  - {fileID: -3099988209043395053}
-  - {fileID: 290542363192366075}
+  - {fileID: 2917020439752171314}
   - {fileID: -5930853172634943403}
   - {fileID: -8114030634757415925}
 --- !u!114 &5647577140365575950
@@ -3809,9 +3704,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '-  Fast Turn Triggered_ Movement_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -3974,10 +3867,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '-  Move Speed_ Player_ Resultant_ Anim_ Player  Greater Than
-    3
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -4037,9 +3927,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '-  Slide Turn Triggered_ Movement_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []

@@ -223,7 +223,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 Mathf.Abs(previousVelocity.y) > BounceThresholdVelocity.Value)
             {
                 playerController.UngroundMotor();
-                return Mathf.Abs(previousVelocity.y) * BounceFactor.Value * Vector3.up;
+                return Mathf.Abs(previousVelocity.y) * BounceFactor.Value * GroundingStatus.GroundNormal;
             }
 
             //Return if standing on flat ground

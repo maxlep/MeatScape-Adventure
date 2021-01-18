@@ -10,6 +10,7 @@ using MyAssets.Scripts.Player;
 using MyAssets.Scripts.Utils;
 using Shapes;
 using Sirenix.OdinInspector;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -45,7 +46,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable AttackTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable JumpTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable DownwardAttackTrigger;
-    [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable GroundPoundTrigger;
+    [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable RollTrigger;
+    [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable RollReleaseTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable JumpAttackTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable AddImpulseTrigger;
 
@@ -66,6 +68,10 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Hunger Parameters"), SerializeField] private SkinnedMeshRenderer SkinnedMesh;
 
     [FoldoutGroup("Feedbacks")] [SerializeField] private MMFeedbacks damageFeedback;
+    
+    [FoldoutGroup("Referenced Components")] [SerializeField] private Line slingshotLine;
+    [FoldoutGroup("Referenced Components")] [SerializeField] private GameObject slingshotCone;
+    
 
     [FoldoutGroup("Size Parameters")] [SerializeField] private PlayerSize startSize;
     [FoldoutGroup("Size Parameters")] public bool freezeSize;
@@ -124,7 +130,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         InputManager.Instance.onJump_Pressed += () => JumpTrigger.Activate();
         InputManager.Instance.onAttack += () => AttackTrigger.Activate();
         InputManager.Instance.onDownwardAttack += () => DownwardAttackTrigger.Activate();
-        InputManager.Instance.onGroundPound += () => GroundPoundTrigger.Activate();
+        InputManager.Instance.onRoll_Pressed += () => RollTrigger.Activate();
+        InputManager.Instance.onRoll_Released += () => RollReleaseTrigger.Activate();
         InputManager.Instance.onInteract += AttemptInteract;
 
         modelScales = new Vector3Reference[] {smallModelScale, mediumModelScale, largeModelScale};
@@ -270,6 +277,20 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
             this.AddImpulse(knockbackDir * knockbackSpeed);
             invincibilityTimer = Time.time;
         }
+    }
+
+    public void ToggleArrow(bool enabled)
+    {
+        slingshotLine.enabled = enabled;
+        slingshotCone.SetActive(enabled);
+    }
+
+    public void SetSlingshotArrow(Vector3 arrowVector)
+    {
+        slingshotLine.Start = Vector3.zero;
+        slingshotLine.End = transform.InverseTransformDirection(arrowVector);
+        slingshotCone.transform.position = slingshotLine.transform.position + arrowVector;
+        slingshotCone.transform.rotation = Quaternion.LookRotation(arrowVector);
     }
     #endregion
     

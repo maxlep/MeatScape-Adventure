@@ -14,7 +14,7 @@ public class InputManager : MonoBehaviour
 
     public delegate void _OnControlsChanged(PlayerInput inputs);
     public delegate void _OnAttack();
-    public delegate void _OnGroundPound();
+    public delegate void _OnGRoll();
     public delegate void _OnDownwardAttack();
     public delegate void _OnSave();
     public delegate void _OnLoad();
@@ -34,7 +34,8 @@ public class InputManager : MonoBehaviour
 
     public event _OnControlsChanged onControlsChanged;
     public event _OnAttack onAttack;
-    public event _OnGroundPound onGroundPound;
+    public event _OnGRoll onRoll_Pressed;
+    public event _OnGRoll onRoll_Released;
     public event _OnDownwardAttack onDownwardAttack;
     public event _OnSave onSave;
     public event _OnLoad onLoad;
@@ -65,7 +66,7 @@ public class InputManager : MonoBehaviour
 
     private PlayerInput _inputs;
     private InputActionMap playerActions, uiActions;
-    private InputAction playerMove, playerLook, playerJump, playerRegenerateMeat, mousePosition;
+    private InputAction playerMove, playerLook, playerJump, playerRegenerateMeat, mousePosition, playerRoll;
 
     public static bool PlatformInvertsScroll()
     {
@@ -90,11 +91,15 @@ public class InputManager : MonoBehaviour
         playerMove = playerActions.FindAction("Move");
         playerLook = playerActions.FindAction("Look");
         playerJump = playerActions.FindAction("Jump");
+        playerRoll = playerActions.FindAction("Roll");
         mousePosition = uiActions.FindAction("MousePosition");
         playerActions.Disable();
         
         playerJump.performed += OnJump_Pressed;
         playerJump.canceled += OnJump_Released;
+        
+        playerRoll.performed += OnRoll_Pressed;
+        playerRoll.canceled += OnRoll_Released;
     }
 
     void Start()
@@ -153,10 +158,16 @@ public class InputManager : MonoBehaviour
         if (onAttack != null) onAttack();
     }
     
-    public void OnGroundPound()
+    public void OnRoll_Pressed(InputAction.CallbackContext ctx)
     {
-        if (onGroundPound != null) onGroundPound();
+        if (onRoll_Pressed != null) onRoll_Pressed();
     }
+    
+    public void OnRoll_Released(InputAction.CallbackContext ctx)
+    {
+        if (onRoll_Released != null) onRoll_Released();
+    }
+
     
     public void OnDownwardAttack()
     {

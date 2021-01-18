@@ -11,6 +11,8 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 {
     public class RollMovement : BaseMovement
     {
+        #region Horizontal Movement
+
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Horizontal")] [Required]
         protected FloatReference CoefficientOfRollingFriction;
@@ -23,9 +25,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [TabGroup("Horizontal")] [Required]
         protected FloatReference DragCoefficientHorizontal;
 
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
-        [TabGroup("Outputs")] [Required]
-        protected FloatReference TurnFactor;
+        #endregion
 
         #region Vertical Movement
 
@@ -74,6 +74,10 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Outputs")] [Required]
         protected FloatReference HorizontalSpeedOut;
+        
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Outputs")] [Required]
+        protected FloatReference TurnFactor;
 
         #endregion
 
@@ -90,6 +94,10 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Events")] [Required]
         protected GameEvent BounceGameEvent;
+        
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Events")] [Required]
+        protected GameEvent RollSoundGameEvent;
 
 
         #endregion
@@ -99,13 +107,16 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         private Vector3 moveInputOnSlope;
         private Vector3 previousVelocity = Vector3.zero;
 
-        
+        private float lastRollSoundTime;
+
+
         #region Lifecycle methods
 
         public override void Enter()
         {
             base.Enter();
 
+            lastRollSoundTime = Mathf.NegativeInfinity;
             GroundStickAngleOutput.Value = GroundStickAngleInput.Value;
             playerController.GiveThrowKnockback(NewVelocityOut.Value.normalized);
             InitRollParticles();
@@ -121,6 +132,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         {
             base.Execute();
             HandleUpdateParticles();
+            HandleRollSound();
         }
 
         #endregion
@@ -328,7 +340,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
             CharacterTransientGroundingReport LastGroundingStatus = playerController.LastGroundingStatus;
             
-            if (GroundingStatus.IsStableOnGround)
+            if (GroundingStatus.FoundAnyGround)
                 PlayParticlesGameEvent.Raise();
             else
                 StopParticlesGameEvent.Raise();
@@ -342,11 +354,26 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             CharacterTransientGroundingReport LastGroundingStatus = playerController.LastGroundingStatus;
             
             //If became grounded
-            if (GroundingStatus.IsStableOnGround && !LastGroundingStatus.IsStableOnGround)
+            if (GroundingStatus.FoundAnyGround && !LastGroundingStatus.FoundAnyGround)
                 PlayParticlesGameEvent.Raise();
             //If became airborn
-            else if (!GroundingStatus.IsStableOnGround && LastGroundingStatus.IsStableOnGround)
+            else if (!GroundingStatus.FoundAnyGround && LastGroundingStatus.FoundAnyGround)
                 StopParticlesGameEvent.Raise();
+        }
+
+        private void HandleRollSound()
+        {
+            if (!playerController.GroundingStatus.FoundAnyGround)
+                return;
+
+            float distBetweenSounds = 7f;
+            float soundDelay = distBetweenSounds/velocityAlongSlope.magnitude;
+            
+            if (lastRollSoundTime + soundDelay < Time.time)
+            {
+                RollSoundGameEvent.Raise();
+                lastRollSoundTime = Time.time;
+            }
         }
 
         public override void DrawGizmos()

@@ -18,31 +18,31 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         #region Horizontal Movement
 
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Horizontal Movement")] [Required]
+        [TabGroup("Horizontal")] [Required]
         private FloatReference MoveSpeed;
 
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Horizontal Movement")] [Required]
+        [TabGroup("Horizontal")] [Required]
         private FloatReference RotationDeltaMax;
 
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Horizontal Movement")] [Required]
+        [TabGroup("Horizontal")] [Required]
         private FloatReference Acceleration;
         
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Horizontal Movement")] [Required]
+        [TabGroup("Horizontal")] [Required]
         private FloatReference AccelerationSlow;
 
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Horizontal Movement")] [Required]
+        [TabGroup("Horizontal")] [Required]
         private FloatReference Deacceleration;
         
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Horizontal Movement")] [Required]
+        [TabGroup("Horizontal")] [Required]
         private FloatReference FaceForwardDeltaDegrees;
 
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Horizontal Movement")] [Required]
+        [TabGroup("Horizontal")] [Required]
         private Vector3Reference cachedVelocity;
 
         #endregion
@@ -51,22 +51,22 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
         [HideIf("$zoom")]
         [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
-        [TabGroup("Vertical Movement")]
+        [TabGroup("Vertical")]
         private FloatReference FallMultiplier;
 
         [HideIf("$zoom")]
         [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
-        [TabGroup("Vertical Movement")]
+        [TabGroup("Vertical")]
         private FloatReference LowJumpDrag;
 
         [HideIf("$zoom")]
         [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
-        [TabGroup("Vertical Movement")]
+        [TabGroup("Vertical")]
         private FloatReference MaxFallSpeed;
 
         [HideIf("$zoom")]
         [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
-        [TabGroup("Vertical Movement")]
+        [TabGroup("Vertical")]
         private BoolReference JumpPressed;
 
         #endregion

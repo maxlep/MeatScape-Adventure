@@ -1,5 +1,6 @@
 ﻿using EnhancedHierarchy;
 using KinematicCharacterController;
+using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
 using MyAssets.Scripts.Utils;
 using Shapes;
@@ -11,15 +12,15 @@ namespace MyAssets.Graphs.StateMachine.Nodes
     public class RollMovement : BaseMovement
     {
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
-        [TabGroup("Horizontal Movement")] [Required]
+        [TabGroup("Horizontal")] [Required]
         protected FloatReference CoefficientOfRollingFriction;
         
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
-        [TabGroup("Horizontal Movement")] [Required]
+        [TabGroup("Horizontal")] [Required]
         protected FloatReference CoefficientOfTurningFriction;
 
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
-        [TabGroup("Horizontal Movement")] [Required]
+        [TabGroup("Horizontal")] [Required]
         protected FloatReference DragCoefficientHorizontal;
 
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
@@ -30,28 +31,28 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
         [HideIf("$zoom")]
         [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
-        [TabGroup("Vertical Movement")]
+        [TabGroup("Vertical")]
         private FloatReference FallMultiplier;
 
         [HideIf("$zoom")]
         [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
-        [TabGroup("Vertical Movement")]
+        [TabGroup("Vertical")]
         private FloatReference MaxFallSpeed;
         
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
-        [TabGroup("Vertical Movement")] [Required]
+        [TabGroup("Vertical")] [Required]
         protected FloatReference DragCoefficientVertical;
         
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
-        [TabGroup("Vertical Movement")] [Required]
+        [TabGroup("Vertical")] [Required]
         protected FloatReference HorizontalGravityFactor;
         
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
-        [TabGroup("Vertical Movement")] [Required]
+        [TabGroup("Vertical")] [Required]
         protected FloatReference BounceFactor;
         
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
-        [TabGroup("Vertical Movement")] [Required]
+        [TabGroup("Vertical")] [Required]
         protected FloatReference BounceThresholdVelocity;
         
         #endregion
@@ -76,6 +77,19 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
         #endregion
 
+        #region GameEvents
+
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Events")] [Required]
+        protected GameEvent PlayParticlesGameEvent;
+        
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Events")] [Required]
+        protected GameEvent StopParticlesGameEvent;
+
+        #endregion
+        
+        
         private Vector3 velocityAlongSlope;
         private Vector3 moveInputOnSlope;
         private Vector3 previousVelocity = Vector3.zero;
@@ -89,6 +103,19 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
             GroundStickAngleOutput.Value = GroundStickAngleInput.Value;
             playerController.GiveThrowKnockback(NewVelocityOut.Value.normalized);
+            InitRollParticles();
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+            StopParticlesGameEvent.Raise();
+        }
+
+        public override void Execute()
+        {
+            base.Execute();
+            HandleUpdateParticles();
         }
 
         #endregion
@@ -287,6 +314,33 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             }
 
             //NewRotationOut.Value = newRotation;
+        }
+
+        private void InitRollParticles()
+        {
+            //Init particles based on grounded or not
+            CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
+            CharacterTransientGroundingReport LastGroundingStatus = playerController.LastGroundingStatus;
+            
+            if (GroundingStatus.IsStableOnGround)
+                PlayParticlesGameEvent.Raise();
+            else
+                StopParticlesGameEvent.Raise();
+            
+        }
+
+        private void HandleUpdateParticles()
+        {
+            //Update particles when grounding status changes
+            CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
+            CharacterTransientGroundingReport LastGroundingStatus = playerController.LastGroundingStatus;
+            
+            //If became grounded
+            if (GroundingStatus.IsStableOnGround && !LastGroundingStatus.IsStableOnGround)
+                PlayParticlesGameEvent.Raise();
+            //If became airborn
+            else if (!GroundingStatus.IsStableOnGround && LastGroundingStatus.IsStableOnGround)
+                StopParticlesGameEvent.Raise();
         }
 
         public override void DrawGizmos()

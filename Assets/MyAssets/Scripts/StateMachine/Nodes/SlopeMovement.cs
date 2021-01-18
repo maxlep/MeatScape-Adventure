@@ -12,7 +12,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         #region Horizontal Movement
         
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
-        [TabGroup("Horizontal Movement")] [Required]
+        [TabGroup("Horizontal")] [Required]
         protected FloatReference DragCoefficient;
 
         #endregion
@@ -20,7 +20,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         #region Vertical Movement
         
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
-        [TabGroup("Vertical Movement")] [Required]
+        [TabGroup("Vertical")] [Required]
         protected FloatReference HorizontalGravityFactor;
         
         #endregion

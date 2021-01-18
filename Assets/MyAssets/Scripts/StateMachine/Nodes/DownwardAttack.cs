@@ -1,4 +1,5 @@
-﻿using MyAssets.ScriptableObjects.Variables;
+﻿using MyAssets.ScriptableObjects.Events;
+using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using MyAssets.Scripts.Utils;
@@ -10,6 +11,7 @@ public class DownwardAttack : PlayerStateNode
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference ThrowSpeed;
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private BoolReference WaitedAttackDelay;
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TransformSceneReference ThrowPoint;
+
     
     public override void Initialize(StateMachineGraph parentGraph)
     {

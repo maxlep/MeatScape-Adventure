@@ -5,6 +5,7 @@ using System.Data;
 using System.Runtime.CompilerServices;
 using KinematicCharacterController;
 using MoreMountains.Feedbacks;
+using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
 using MyAssets.Scripts.Player;
 using MyAssets.Scripts.Utils;
@@ -72,7 +73,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Referenced Components")] [SerializeField] private Line slingshotLine;
     [FoldoutGroup("Referenced Components")] [SerializeField] private GameObject slingshotCone;
     
-
+    [FoldoutGroup("GameEvents")] [SerializeField] private GameEvent throwClumpEvent;
+    
     [FoldoutGroup("Size Parameters")] [SerializeField] private PlayerSize startSize;
     [FoldoutGroup("Size Parameters")] public bool freezeSize;
     [FoldoutGroup("Size Parameters")] public bool unlimitedClumps;
@@ -249,6 +251,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     #region Player Controller Interface
     public void OnClumpThrown(Vector3 direction, bool canRedirect = false) {
         AddImpulse(-direction.xoz() * ClumpThrowKnockbackSpeed.Value, canRedirect);
+        throwClumpEvent.Raise();
     }
 
     public void GiveThrowKnockback(Vector3 direction)

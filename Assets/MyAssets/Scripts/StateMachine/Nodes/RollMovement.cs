@@ -212,7 +212,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
             //TurnFactor.Value = Vector3.SignedAngle(horizontalDir, steeringDir, Vector3.up) / 30;
             
-            var rollingFriction = PlayerMass.Value * CoefficientOfRollingFriction.Value;
+            var rollingFriction = 6 * CoefficientOfRollingFriction.Value;//TODO: 6 was for medium size before
             var turningFriction = (1 + (CoefficientOfTurningFriction.Value * steeringFac));
             float friction = (GroundingStatus.FoundAnyGround) ?
                 rollingFriction * turningFriction * Time.deltaTime : 0f;

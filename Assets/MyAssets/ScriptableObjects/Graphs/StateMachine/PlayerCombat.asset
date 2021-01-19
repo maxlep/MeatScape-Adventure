@@ -155,7 +155,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: nextState
-        node: {fileID: -5380948068145273158}
+        node: {fileID: 0}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -189,7 +189,7 @@ MonoBehaviour:
   <nextStates>k__BackingField:
   - {fileID: 9174840935225501389}
   <previousTransitionNodes>k__BackingField:
-  - {fileID: -5380948068145273158}
+  - {fileID: 0}
   <nextTransitionNodes>k__BackingField: []
   <nextNoTransitionState>k__BackingField: {fileID: 9174840935225501389}
   <previousNoTransitionStates>k__BackingField: []
@@ -210,140 +210,6 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: {x: 0, y: 0, z: 0}
     Variable: {fileID: 11400000, guid: 9bb89c095cc264240a1d00bcb25ce309, type: 2}
---- !u!114 &-5380948068145273158
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 1304, y: 1464}
-  ports:
-    keys:
-    - nextState
-    - startingState
-    values:
-    - _fieldName: nextState
-      _node: {fileID: -5380948068145273158}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 1
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: startingState
-      _node: {fileID: -5380948068145273158}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: 9174840935225501389}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  transitionPriority: 0
-  conditionPreview: '-  Valid:  Roll  Movement
-
-    -  Roll Pressed Trigger_ Controller_
-    Player
-
-    -  Player Current Size_ Controller_ Player  Greater Than 0
-
-'
-  ValidStartStates:
-  - {fileID: 4966931143862885706, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  InvalidStartStates: []
-  BoolConditions: []
-  TriggerConditions:
-  - targetParameter: {fileID: 11400000, guid: e68ad060bf5f14a4fbc04729ff1c7732, type: 2}
-    KeepTriggerOn: 0
-  FloatConditions: []
-  IntConditions:
-  - targetParameter:
-      UseConstant: 0
-      ConstantValue: 0
-      Variable: {fileID: 11400000, guid: cdaba327a8069d04b9e20fa38eeab583, type: 2}
-    comparator: 1
-    value: 0
-  TimerConditions: []
-  Vector2Conditions: []
-  Vector3Conditions: []
---- !u!114 &-146436812042486691
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 1304, y: 2136}
-  ports:
-    keys:
-    - nextState
-    - startingState
-    values:
-    - _fieldName: nextState
-      _node: {fileID: -146436812042486691}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 1
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: startingState
-      _node: {fileID: -146436812042486691}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: 9174840935225501389}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  transitionPriority: 0
-  conditionPreview: '-  Valid:  Roll  Movement
-
-    -  Attack Trigger_ Controller_
-    Player
-
-    -  Player Current Size_ Controller_ Player  Greater Than 0
-
-'
-  ValidStartStates:
-  - {fileID: 4966931143862885706, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  InvalidStartStates: []
-  BoolConditions: []
-  TriggerConditions:
-  - targetParameter: {fileID: 11400000, guid: 5e15a58a7e2120d4ab58b2aacd49f1ba, type: 2}
-    KeepTriggerOn: 0
-  FloatConditions: []
-  IntConditions:
-  - targetParameter:
-      UseConstant: 0
-      ConstantValue: 0
-      Variable: {fileID: 11400000, guid: cdaba327a8069d04b9e20fa38eeab583, type: 2}
-    comparator: 1
-    value: 0
-  TimerConditions: []
-  Vector2Conditions: []
-  Vector3Conditions: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,8 +230,6 @@ MonoBehaviour:
   - {fileID: -8354906802381047596}
   - {fileID: -6583862081062639760}
   - {fileID: 7574179755061179093}
-  - {fileID: -5380948068145273158}
-  - {fileID: -146436812042486691}
 --- !u!114 &4601134146122477444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -448,14 +312,6 @@ MonoBehaviour:
     - 
     Valid:  No Low Jump
 
-    -  Waited Attack Delay_ Combat_ Player
-
-    -  Attack
-    Trigger_ Controller_ Player
-
-    -  Player Current Size_ Controller_ Player 
-    Greater Than 0
-
 '
   ValidStartStates:
   - {fileID: 1196608421412681666, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
@@ -472,13 +328,7 @@ MonoBehaviour:
   - targetParameter: {fileID: 11400000, guid: 5e15a58a7e2120d4ab58b2aacd49f1ba, type: 2}
     KeepTriggerOn: 0
   FloatConditions: []
-  IntConditions:
-  - targetParameter:
-      UseConstant: 0
-      ConstantValue: 0
-      Variable: {fileID: 11400000, guid: cdaba327a8069d04b9e20fa38eeab583, type: 2}
-    comparator: 1
-    value: 0
+  IntConditions: []
   TimerConditions: []
   Vector2Conditions: []
   Vector3Conditions: []
@@ -507,7 +357,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: nextState
-        node: {fileID: -146436812042486691}
+        node: {fileID: 0}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -541,7 +391,7 @@ MonoBehaviour:
   <nextStates>k__BackingField:
   - {fileID: 9174840935225501389}
   <previousTransitionNodes>k__BackingField:
-  - {fileID: -146436812042486691}
+  - {fileID: 0}
   <nextTransitionNodes>k__BackingField: []
   <nextNoTransitionState>k__BackingField: {fileID: 9174840935225501389}
   <previousNoTransitionStates>k__BackingField: []
@@ -610,14 +460,6 @@ MonoBehaviour:
 
     -  Valid:  No Low Jump
 
-    - 
-    Waited Attack Delay_ Combat_ Player
-
-    -  Downward Attack Trigger_ Controller_
-    Player
-
-    -  Player Current Size_ Controller_ Player  Greater Than 0
-
 '
   ValidStartStates:
   - {fileID: -8209884016339463683, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
@@ -633,13 +475,7 @@ MonoBehaviour:
   - targetParameter: {fileID: 11400000, guid: 822517391a151a64b895a16b5e8b04c1, type: 2}
     KeepTriggerOn: 0
   FloatConditions: []
-  IntConditions:
-  - targetParameter:
-      UseConstant: 0
-      ConstantValue: 0
-      Variable: {fileID: 11400000, guid: cdaba327a8069d04b9e20fa38eeab583, type: 2}
-    comparator: 1
-    value: 0
+  IntConditions: []
   TimerConditions: []
   Vector2Conditions: []
   Vector3Conditions: []
@@ -716,12 +552,6 @@ MonoBehaviour:
         reroutePoints: []
       - fieldName: startingState
         node: {fileID: 5736769057387298889}
-        reroutePoints: []
-      - fieldName: startingState
-        node: {fileID: -5380948068145273158}
-        reroutePoints: []
-      - fieldName: startingState
-        node: {fileID: -146436812042486691}
         reroutePoints: []
       _direction: 1
       _connectionType: 0

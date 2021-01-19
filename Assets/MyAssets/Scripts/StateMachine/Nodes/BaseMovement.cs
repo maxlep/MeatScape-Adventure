@@ -19,9 +19,6 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         protected FloatReference TurnSpeed;
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Horizontal")] [Required]
         protected FloatReference ImpulseDampingFactor;
-
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Horizontal")] [Required]
-        protected FloatReference PlayerMass;
         
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Horizontal")] [Required]
         protected TransformSceneReference PlayerCameraTransform;

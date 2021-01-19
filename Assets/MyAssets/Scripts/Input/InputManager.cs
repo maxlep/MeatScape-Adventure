@@ -14,7 +14,7 @@ public class InputManager : MonoBehaviour
 
     public delegate void _OnControlsChanged(PlayerInput inputs);
     public delegate void _OnAttack();
-    public delegate void _OnGRoll();
+    public delegate void _OnRoll();
     public delegate void _OnDownwardAttack();
     public delegate void _OnSave();
     public delegate void _OnLoad();
@@ -34,8 +34,8 @@ public class InputManager : MonoBehaviour
 
     public event _OnControlsChanged onControlsChanged;
     public event _OnAttack onAttack;
-    public event _OnGRoll onRoll_Pressed;
-    public event _OnGRoll onRoll_Released;
+    public event _OnRoll onRoll_Pressed;
+    public event _OnRoll onRoll_Released;
     public event _OnDownwardAttack onDownwardAttack;
     public event _OnSave onSave;
     public event _OnLoad onLoad;

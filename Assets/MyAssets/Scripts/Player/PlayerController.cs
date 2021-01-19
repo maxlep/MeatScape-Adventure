@@ -27,9 +27,9 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 {
     [SerializeField] private KinematicCharacterMotor charMotor;
     [SerializeField] private LayerMapper layerMapper;
-    public CapsuleCollider Collider;
     [SerializeField] private AudioClip jumpAttackClip;
     [SerializeField] private AimTargetter aimTargetter;
+    [SerializeField] private Collider collider;
     public bool invincible;
 
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private Vector3Reference NewVelocity;
@@ -43,7 +43,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference JumpPressed;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference IsGrounded;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference IsOnSlidebleSlope;
-    [FoldoutGroup("Transition Parameters")] [SerializeField] private IntReference PlayerCurrentSize;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable AttackTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable JumpTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable DownwardAttackTrigger;
@@ -61,11 +60,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Hunger Parameters"), SerializeField] private IntReference HungerSoftMax;
     [FoldoutGroup("Hunger Parameters"), SerializeField] private IntReference HungerOut;
     [Title("Model scale")]
-    [FoldoutGroup("Hunger Parameters"), SerializeField] private CurveReference HungerScaleCurve;
-    [FoldoutGroup("Hunger Parameters")] [SerializeField] private TransformSceneReference SizeChangePivot;
+    [FoldoutGroup("Hunger Parameters"), SerializeField] private TransformSceneReference SizeChangePivot;
     [Title("Blend shapes")]
-    [FoldoutGroup("Hunger Parameters"), SerializeField] private CurveReference HungerStarveShapeCurve;
-    [FoldoutGroup("Hunger Parameters"), SerializeField] private CurveReference HungerBloatShapeCurve;
     [FoldoutGroup("Hunger Parameters"), SerializeField] private SkinnedMeshRenderer SkinnedMesh;
 
     [FoldoutGroup("Feedbacks")] [SerializeField] private MMFeedbacks damageFeedback;
@@ -74,29 +70,14 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Referenced Components")] [SerializeField] private GameObject slingshotCone;
     
     [FoldoutGroup("GameEvents")] [SerializeField] private GameEvent throwClumpEvent;
-    
-    [FoldoutGroup("Size Parameters")] [SerializeField] private PlayerSize startSize;
-    [FoldoutGroup("Size Parameters")] public bool freezeSize;
-    [FoldoutGroup("Size Parameters")] public bool unlimitedClumps;
-    [FoldoutGroup("Size Parameters")] [HideReferenceObjectPicker] [SerializeField] [SuffixLabel("ms")]
-    private FloatReference changeSizeTime;
-    [FoldoutGroup("Size Parameters")] [HideReferenceObjectPicker] [SerializeField] private Vector3Reference smallModelScale;
-    [FoldoutGroup("Size Parameters")] [HideReferenceObjectPicker] [SerializeField] private Vector3Reference mediumModelScale;
-    [FoldoutGroup("Size Parameters")] [HideReferenceObjectPicker] [SerializeField] private Vector3Reference largeModelScale;
-    [SerializeField] private List<SizeControlledFloatReference> SizeControlledProperties;
 
     private Vector3 moveDirection;
     private InputAction playerMove;
 
-    private PlayerSize currentSize;
-    public PlayerSize CurrentSize { get => currentSize; set => SetPlayerSize(value); }
     public Transform AimTarget => aimTargetter.CurrentTarget;
     public KinematicCharacterMotor CharacterMotor => charMotor;
     public CharacterGroundingReport GroundingStatus => charMotor.GroundingStatus;
     public CharacterTransientGroundingReport LastGroundingStatus => charMotor.LastGroundingStatus;
-    private Vector3Reference[] modelScales;
-    private Vector3 capsuleProportions;
-    private MeatClumpController[] meatClumps;
     private List<Interactable> interactablesInRange = new List<Interactable>();
 
     private Vector3 impulseVelocity;
@@ -135,11 +116,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         InputManager.Instance.onRoll_Pressed += () => RollTrigger.Activate();
         InputManager.Instance.onRoll_Released += () => RollReleaseTrigger.Activate();
         InputManager.Instance.onInteract += AttemptInteract;
-
-        modelScales = new Vector3Reference[] {smallModelScale, mediumModelScale, largeModelScale};
-        capsuleProportions = new Vector3(charMotor.Capsule.radius, charMotor.Capsule.height, charMotor.Capsule.center.y);
-
-        CurrentSize = startSize;
     }
 
     // Update is called once per frame
@@ -147,11 +123,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     {
         UpdateParameters();
         UpdateHunger();
-    }
-
-    private void LateUpdate()
-    {
-        UpdateHungerAnimations();
     }
 
 #endregion
@@ -312,17 +283,16 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         }
     }
 
-    private void UpdateHungerAnimations()
-    {
-#warning TODO test if this breaks outside 0..1, may need to clamp but would prefer not to
-        var pct = (float)HungerOut.Value / HungerSoftMax.Value;
-        var scale = HungerScaleCurve.Value.Evaluate(pct);
-        SizeChangePivot.Value.localScale = new Vector3(scale, scale, scale);
+    public void UpdateScale(float value) {
+        SizeChangePivot.Value.localScale = new Vector3(value, value, value);
+    }
 
-        var starvation = HungerStarveShapeCurve.Value.Evaluate(pct);
-        var bloat = HungerBloatShapeCurve.Value.Evaluate(pct);
-        SkinnedMesh.SetBlendShapeWeight(0, starvation);
-        SkinnedMesh.SetBlendShapeWeight(1, bloat);
+    public void UpdateStarvation(float value) {
+        SkinnedMesh.SetBlendShapeWeight(0, value);
+    }
+
+    public void UpdateBloat(float value) {
+        SkinnedMesh.SetBlendShapeWeight(1, value);
     }
 
     [Button]
@@ -366,22 +336,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     public Vector3 GetPlatformVelocity()
     {
         return charMotor.Velocity - charMotor.BaseVelocity;
-    }
-    
-    private void SetPlayerSize(PlayerSize value) {
-        if(value < PlayerSize.Small || value > PlayerSize.Large) return;
-        else currentSize = value;
-
-        int intSize = (int)currentSize;
-        PlayerCurrentSize.Value = intSize;
-
-        LeanTween.scale(SizeChangePivot.Value.gameObject, modelScales[intSize].Value, changeSizeTime.Value / 1000);
-        Vector3 capsuleSize = Vector3.Scale(modelScales[intSize].Value, capsuleProportions);
-        charMotor.SetCapsuleDimensions(capsuleSize.x, capsuleSize.y, capsuleSize.z);
-        
-        foreach(SizeControlledFloatReference prop in SizeControlledProperties) {
-            prop.UpdateValue(currentSize);
-        }
     }
 
     private void HandleCharacterControllerCollisions(Collider hitCollider)
@@ -431,7 +385,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         EnemyJumpHurtTrigger enemyController = enemyObject.GetComponent<EnemyJumpHurtTrigger>();
         if (enemyController == null) return;
             
-        float playerBottomY = Collider.bounds.center.y - Collider.bounds.extents.y;
+        float playerBottomY = collider.bounds.center.y - collider.bounds.extents.y;
         float enemyTriggerBottomY = enemyCollider.bounds.center.y - enemyCollider.bounds.extents.y;
              
         //Only jump attack if player is above bottom of enemy trigger and falling downwards
@@ -441,14 +395,5 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
             CameraShakeManager.Instance.ShakeCamera(1.75f, .3f, .3f);
             EffectsManager.Instance?.PlayClipAtPoint(jumpAttackClip, transform.position, .4f);
         }
-    }
-    
-    private void OnGUI() {
-        if (!DebugManager.Instance.EnableDebugGUI) return;
-
-        if (GUI.Button(new Rect(5, 300, 210, 20),
-            "Freeze Size: " + ((freezeSize) ? "<Enabled>" : "<Disabled>"))) freezeSize = !freezeSize;
-        if (GUI.Button(new Rect(5, 323, 210, 20),
-            "Unlimited Clumps: " + ((unlimitedClumps) ? "<Enabled>" : "<Disabled>"))) unlimitedClumps = !unlimitedClumps;
     }
 }

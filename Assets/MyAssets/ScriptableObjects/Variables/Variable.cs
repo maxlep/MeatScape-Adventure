@@ -53,13 +53,14 @@ namespace MyAssets.ScriptableObjects.Variables
         public String LabelText => UseConstant ? "" : "?";
 
         [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [ShowIf("UseConstant")]
-        [SerializeField] private T ConstantValue;
+        [SerializeField] protected T ConstantValue;
     
         [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [HideIf("UseConstant")] 
-        [SerializeField] private VT Variable;
+        [SerializeField] protected VT Variable;
     
         public String Tooltip => Variable != null && !UseConstant ? Variable.Description : "";
 
+        //WARNING: will update subscribers synchronously within whatever time cycle the var is updated (Awake, LateUpdate, etc.)
         public void Subscribe(OnUpdate callback)
         {
             Variable?.Subscribe(callback);
@@ -139,5 +140,27 @@ namespace MyAssets.ScriptableObjects.Variables
     
     [Serializable]
     [InlineProperty]
-    public class CurveReference : Reference<AnimationCurve, CurveVariable> {}
+    public class CurveReference : Reference<AnimationCurve, CurveVariable> {
+
+        private float maxValue = float.MinValue;
+        private float minValue = float.MaxValue;
+
+        public CurveReference() : base() {
+            if (Variable != null) {
+                var curve = UseConstant ? ConstantValue : Variable.Value;
+                foreach(var key in curve.keys) {
+                    if(key.value < minValue) minValue = key.value;
+                    if(key.value > maxValue) maxValue = key.value;
+                }
+            }
+        }
+
+        public float GetMaxValue() {
+            return maxValue;
+        }
+
+        public float GetMinValue() {
+            return minValue;
+        }
+    }
 }

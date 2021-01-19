@@ -92,9 +92,14 @@ public class EnemySpawner : MonoBehaviour
         EnemyController enemyScript = enemy.GetComponent<EnemyController>();
         
         enemyScript.Initialize(PatrolPoints);
-        enemyScript.OnDeath += () => {
-            TimeUtils.SetTimeout(SpawnTime, () => SpawnEnemy());
-        };
+
+        //Only respawn on death if spawnTime != 0f
+        if (!Mathf.Approximately(SpawnTime, 0f))
+        {
+            enemyScript.OnDeath += () => {
+                TimeUtils.SetTimeout(SpawnTime, () => SpawnEnemy());
+            };
+        }
     }
     
     private void OnValidate()

@@ -66,8 +66,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [Title("Frenzy value")]
     [FoldoutGroup("Frenzy Parameters"), SerializeField] private TimerReference FrenzyDecayTimer;
     [FoldoutGroup("Frenzy Parameters"), SerializeField] private IntReference FrenzyOut;
-    [Title("Feedbacks")]
-    [FoldoutGroup("Frenzy Parameters"), SerializeField] private MMFeedbacks FrenzyFeedbacks;
 
     [FoldoutGroup("Feedbacks")] [SerializeField] private MMFeedbacks damageFeedback;
     

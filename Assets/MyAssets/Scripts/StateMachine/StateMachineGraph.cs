@@ -35,6 +35,10 @@ public class StateMachineGraph : NodeGraph
     private TriggerVariable receivedTrigger;
     private bool debugOnStateChange = false;
 
+    public delegate void OnChangeState(StateNode exitingState, StateNode enteringState);
+
+    public event OnChangeState onChangeState;
+
     #region LifeCycle Methods
 
     public void ExecuteUpdates()
@@ -50,6 +54,11 @@ public class StateMachineGraph : NodeGraph
     public void DrawGizmos()
     {
         currentStates.ForEach(s => s.DrawGizmos());
+    }
+
+    private void OnDisable()
+    {
+        onChangeState = null;
     }
 
     public void OnApplicationExit()
@@ -285,6 +294,7 @@ public class StateMachineGraph : NodeGraph
         currentStates.Remove(exitingState);
         nextState.Enter();
         
+        onChangeState?.Invoke(exitingState, nextState);
         if (debugOnStateChange) Debug.LogError($"{name}: {exitingState.name} -> {nextState.name}");
     }
 

@@ -10,25 +10,30 @@ using UnityEngine;
 public class TimerVariable : ScriptableObject
 {
     [SerializeField] private float duration;
-    [ShowInInspector] private float remaingTime;
+    [ShowInInspector, NonSerialized] private float? remainingTime = null;
+    [ShowInInspector, NonSerialized] private bool isFinished = false;
     [TextArea (7, 10)] [HideInInlineEditors] public String Description;
     
     public delegate void OnUpdate_();
     public event OnUpdate_ OnUpdate;
 
     public float Duration => duration;
-    public float RemainingTime => remaingTime;
-    public float ElapsedTime => duration - remaingTime;
+    public float? RemainingTime => remainingTime;
+    public float ElapsedTime => duration - (remainingTime ?? duration);
+    public bool IsFinished => isFinished;
 
     public bool IsStopped => isStopped;
 
+    [NonSerialized]
     private float startTime = Mathf.NegativeInfinity;
 
+    [NonSerialized]
     private bool isStopped = true;
     
     public void StartTimer()
     {
         isStopped = false;
+        isFinished = false;
         startTime = Time.time;
     }
 
@@ -39,7 +44,15 @@ public class TimerVariable : ScriptableObject
 
     public void UpdateTime()
     {
-        if (!isStopped && duration > 0) remaingTime = Mathf.Max(0f, duration - (Time.time - startTime));
+        if (!isStopped && !isFinished)
+        {
+            remainingTime = Mathf.Max(0f, duration - (Time.time - startTime));
+            if (remainingTime == 0)
+            {
+                isFinished = true;
+            }
+        }
+        
     }
     
 }
@@ -56,17 +69,18 @@ public class TimerReference
     [SerializeField] private float ConstantDuration;
     
     [SerializeField] [ShowIf("UseConstant")] [DisableIf("AlwaysTrue")]
-    private float ConstantRemainingTime;
+    private float? ConstantRemainingTime = null;
 
     private bool AlwaysTrue => true;
     private bool isConstantStopped = true;
+    private bool isConstantFinished = false;
 
     public float ElapsedTime
     {
         get
         {
             if (UseConstant)
-                return ConstantDuration - ConstantRemainingTime;
+                return ConstantDuration - (ConstantRemainingTime ?? ConstantDuration);
             if (Variable != null)
                 return Variable.ElapsedTime;
             
@@ -99,7 +113,7 @@ public class TimerReference
         }
     }
 
-    public float RemainingTime
+    public float? RemainingTime
     {
         get
         {
@@ -112,6 +126,20 @@ public class TimerReference
             return Mathf.Infinity;
         }
     }
+    
+    public bool IsFinished
+    {
+        get
+        {
+            if (UseConstant)
+                return isConstantFinished;
+            if (Variable != null)
+                return Variable.IsFinished;
+            
+            Debug.LogError("Trying to access IsFinished for timer variable that is not set!");
+            return false;
+        }
+    } 
 
 
     public String Name
@@ -130,6 +158,7 @@ public class TimerReference
     {
         Variable?.StartTimer();
         isConstantStopped = false;
+        isConstantFinished = false;
         startTime = Time.time;
     }
 
@@ -142,7 +171,14 @@ public class TimerReference
     public void UpdateTime()
     {
         Variable?.UpdateTime();
-        if (!isConstantStopped) ConstantRemainingTime = Mathf.Max(0f, ConstantDuration - (Time.time - startTime));
+        if (!isConstantStopped && !isConstantFinished)
+        {
+            ConstantRemainingTime = Mathf.Max(0f, ConstantDuration - (Time.time - startTime));
+            if (ConstantRemainingTime == 0)
+            {
+                isConstantFinished = true;
+            }
+        }
     }
     
 }

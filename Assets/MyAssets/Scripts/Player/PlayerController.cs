@@ -57,12 +57,17 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     [Title("Hunger value")]
     [FoldoutGroup("Hunger Parameters"), SerializeField] private TimerReference HungerDecayTimer;
-    [FoldoutGroup("Hunger Parameters"), SerializeField] private IntReference HungerSoftMax;
     [FoldoutGroup("Hunger Parameters"), SerializeField] private IntReference HungerOut;
     [Title("Model scale")]
     [FoldoutGroup("Hunger Parameters"), SerializeField] private TransformSceneReference SizeChangePivot;
     [Title("Blend shapes")]
     [FoldoutGroup("Hunger Parameters"), SerializeField] private SkinnedMeshRenderer SkinnedMesh;
+    
+    [Title("Frenzy value")]
+    [FoldoutGroup("Frenzy Parameters"), SerializeField] private TimerReference FrenzyDecayTimer;
+    [FoldoutGroup("Frenzy Parameters"), SerializeField] private IntReference FrenzyOut;
+    [Title("Feedbacks")]
+    [FoldoutGroup("Frenzy Parameters"), SerializeField] private MMFeedbacks FrenzyFeedbacks;
 
     [FoldoutGroup("Feedbacks")] [SerializeField] private MMFeedbacks damageFeedback;
     
@@ -101,6 +106,13 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
             charMotor.MaxStableDenivelationAngle = MaxStableDenivelationAngle.Value;
         });
         HungerDecayTimer?.RestartTimer();
+        FrenzyOut.Subscribe(() =>
+        {
+            if (FrenzyOut.Value > 0)
+            {
+                FrenzyDecayTimer.RestartTimer();
+            }
+        });
     }
 
     void Awake()
@@ -123,6 +135,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     {
         UpdateParameters();
         UpdateHunger();
+        UpdateFrenzy();
     }
 
 #endregion
@@ -272,9 +285,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private void UpdateHunger()
     {
         HungerDecayTimer?.UpdateTime();
-        var timerUp = HungerDecayTimer?.RemainingTime <= 0f;
-
-        if (timerUp)
+        if (HungerDecayTimer.IsFinished)
         {
             // TODO react when hunger reaches 0
             damageFeedback.PlayFeedbacks();
@@ -301,6 +312,25 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         HungerOut.Value += 1;
     }
     #endregion
+    
+#region Frenzy
+    private void UpdateFrenzy()
+    {
+        FrenzyDecayTimer?.UpdateTime();
+        if (FrenzyDecayTimer.IsFinished)
+        {
+            FrenzyOut.Value = 0;
+            FrenzyDecayTimer.StopTimer();
+        }
+    }
+
+    [Button]
+    private void AddFrenzy()
+    {
+        FrenzyDecayTimer.RestartTimer();
+        FrenzyOut.Value += 1;
+    }
+#endregion
 
     private void UpdateParameters()
     {

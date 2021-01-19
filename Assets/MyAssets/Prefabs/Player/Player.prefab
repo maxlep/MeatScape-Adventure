@@ -2146,18 +2146,22 @@ MonoBehaviour:
   HungerDecayTimer:
     UseConstant: 0
     ConstantDuration: 0
-    ConstantRemainingTime: 0
-    Variable: {fileID: 11400000, guid: c7539328649112e47b836885ff816905, type: 2}
-  HungerSoftMax:
-    UseConstant: 0
-    ConstantValue: 10
-    Variable: {fileID: 11400000, guid: 6977fced7b41ec445a185285bf648483, type: 2}
+    Variable: {fileID: 11400000, guid: 799fb77634843bf448cdd7df3c7fe836, type: 2}
   HungerOut:
     UseConstant: 0
     ConstantValue: 1
     Variable: {fileID: 11400000, guid: 00c841287f9a4604aaa90ce8bd4328ba, type: 2}
   SizeChangePivot: {fileID: 11400000, guid: ee62c18f86673cb4fba2ff12a9f015ad, type: 2}
   SkinnedMesh: {fileID: 8034851805259252138}
+  FrenzyDecayTimer:
+    UseConstant: 0
+    ConstantDuration: 0
+    Variable: {fileID: 11400000, guid: c7539328649112e47b836885ff816905, type: 2}
+  FrenzyOut:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: da8182cb862f8c54484eee2a551bb8a0, type: 2}
+  FrenzyFeedbacks: {fileID: 0}
   damageFeedback: {fileID: 1045127094}
   slingshotLine: {fileID: 6329064106366824159}
   slingshotCone: {fileID: 7205612809966881110}
@@ -2185,6 +2189,9 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
+    - {fileID: 11400000, guid: f203a76e709fa864992f1d271a54b522, type: 2}
+    - {fileID: 11400000, guid: da8182cb862f8c54484eee2a551bb8a0, type: 2}
+    - {fileID: 11400000, guid: c015210317b373445811b7ae7329312a, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -2196,7 +2203,7 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 7
       Data: 1|ControlledProperties, Assembly-CSharp
@@ -2924,6 +2931,178 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 8
+      Data: 
+    - Name: ControlledFixedUpdateProperties
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 37|ControlledProperties, Assembly-CSharp
+    - Name: ControlMax
+      Entry: 7
+      Data: 38|MyAssets.ScriptableObjects.Variables.IntReference, Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: false
+    - Name: ConstantValue
+      Entry: 3
+      Data: 0
+    - Name: Variable
+      Entry: 10
+      Data: 7
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ControlCurrent
+      Entry: 7
+      Data: 39|MyAssets.ScriptableObjects.Variables.IntReference, Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: false
+    - Name: ConstantValue
+      Entry: 3
+      Data: 0
+    - Name: Variable
+      Entry: 10
+      Data: 8
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ControlledUpdateProperties
+      Entry: 7
+      Data: 40|System.Collections.Generic.List`1[[ControlledProperty, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 41|ControlledProperty, Assembly-CSharp
+    - Name: useCustomUpdate
+      Entry: 5
+      Data: false
+    - Name: ControlledVariable
+      Entry: 10
+      Data: 2
+    - Name: CustomUpdate
+      Entry: 6
+      Data: 
+    - Name: ControlCurve
+      Entry: 7
+      Data: 42|MyAssets.ScriptableObjects.Variables.CurveReference, Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: true
+    - Name: ConstantValue
+      Entry: 7
+      Data: 43|UnityEngine.AnimationCurve, UnityEngine.CoreModule
+    - Name: 
+      Entry: 7
+      Data: 44|UnityEngine.Keyframe[], UnityEngine.CoreModule
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Keyframe, UnityEngine.CoreModule
+    - Name: ver
+      Entry: 3
+      Data: 1
+    - Name: m_Time
+      Entry: 4
+      Data: 0
+    - Name: m_Value
+      Entry: 4
+      Data: 24
+    - Name: m_InTangent
+      Entry: 4
+      Data: -12
+    - Name: m_OutTangent
+      Entry: 4
+      Data: -12
+    - Name: m_TangentMode
+      Entry: 3
+      Data: 34
+    - Name: m_WeightedMode
+      Entry: 3
+      Data: 0
+    - Name: m_InWeight
+      Entry: 4
+      Data: 0
+    - Name: m_OutWeight
+      Entry: 4
+      Data: 0.333333343
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Keyframe, UnityEngine.CoreModule
+    - Name: ver
+      Entry: 3
+      Data: 1
+    - Name: m_Time
+      Entry: 4
+      Data: 1
+    - Name: m_Value
+      Entry: 4
+      Data: 12
+    - Name: m_InTangent
+      Entry: 4
+      Data: -12
+    - Name: m_OutTangent
+      Entry: 4
+      Data: -12
+    - Name: m_TangentMode
+      Entry: 3
+      Data: 34
+    - Name: m_WeightedMode
+      Entry: 3
+      Data: 0
+    - Name: m_InWeight
+      Entry: 4
+      Data: 0.333333343
+    - Name: m_OutWeight
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 3
+      Data: 8
+    - Name: 
+      Entry: 3
+      Data: 8
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Variable
+      Entry: 10
+      Data: 9
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ControlledLateUpdateProperties
+      Entry: 6
       Data: 
     - Name: ControlledFixedUpdateProperties
       Entry: 6
@@ -4822,6 +5001,10 @@ PrefabInstance:
     - target: {fileID: 428660, guid: a00a9e170e16dfc49bfffa79c47b0716, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19970706, guid: a00a9e170e16dfc49bfffa79c47b0716, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a00a9e170e16dfc49bfffa79c47b0716, type: 3}

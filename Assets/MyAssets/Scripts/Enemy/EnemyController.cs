@@ -8,6 +8,7 @@ using Pathfinding;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 public class EnemyController : MonoBehaviour, ICharacterController
 {
@@ -19,6 +20,8 @@ public class EnemyController : MonoBehaviour, ICharacterController
     [SerializeField] private int MaxHealth = 1;
     [SerializeField] private MMFeedbacks damageFeedbacks;
     [SerializeField] private MMFeedbacks deathFeedbacks;
+
+    [SerializeField] private UnityEvent OnDeathEvent;
     
     public Vector3 SetNewVelocity
     {
@@ -156,6 +159,7 @@ public class EnemyController : MonoBehaviour, ICharacterController
     public void FinishKill()
     {
         OnDeath?.Invoke();
+        OnDeathEvent?.Invoke();
         // EffectsManager.Instance?.SpawnParticlesAtPoint(deathParticles, transform.position, Quaternion.identity);
         Destroy(this.gameObject);
     }

@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 615757095752724573}
   - component: {fileID: 3823502319557435178}
   - component: {fileID: 6238523250367150444}
+  - component: {fileID: -2358250053547650716}
   m_Layer: 11
   m_Name: ForsakenCrawler
   m_TagString: Untagged
@@ -66,6 +67,21 @@ MonoBehaviour:
   MaxHealth: 1
   damageFeedbacks: {fileID: 2288399911780175266}
   deathFeedbacks: {fileID: 8185588185575819002}
+  OnDeathEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -2358250053547650716}
+        m_TargetAssemblyTypeName: IncrementInteger, Assembly-CSharp
+        m_MethodName: Increment
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5003421505823376603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,8 +145,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.6.6
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
+  gizmoViewMode: 0
+  showBehaviorDesignerGizmo: 0
 --- !u!114 &2517199886379438448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -367,6 +383,19 @@ MonoBehaviour:
   charController: {fileID: 2957019079676054297}
   parameterName: IsWalking
   moveThreshold: 1
+--- !u!114 &-2358250053547650716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 71910965963012812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b36b2e630da8910458e78bc48edebb71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  intVariable: {fileID: 11400000, guid: da8182cb862f8c54484eee2a551bb8a0, type: 2}
 --- !u!1 &300472540286296109
 GameObject:
   m_ObjectHideFlags: 0

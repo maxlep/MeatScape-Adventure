@@ -330,7 +330,12 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '- ! Is Grounded_ Controller_ Player
+
+    - 0  Ignore 0 && 0 
+    Less Than -0.1 && 0  Ignore 0
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -516,7 +521,12 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    - 0  Abs Less Than 0.001
+    && 0  Ignore 0 && 0  Abs Less Than 0.001
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -1096,7 +1106,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Ground Movement Set Grounder Enabled
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   SetOnEnter: 1
   SetOnUpdate: 0
   Value:
@@ -1147,7 +1157,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Fast Walk
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   transitionTime: 0.2
   transitionCurve:
     serializedVersion: 2
@@ -1341,7 +1351,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Slow Walk
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   transitionTime: 0.5
   transitionCurve:
     serializedVersion: 2
@@ -1549,6 +1559,11 @@ MonoBehaviour:
   transitionPriority: 0
   conditionPreview: '-  Invalid:  Slope  Movement
 
+    - ! Is Grounded_ Controller_
+    Player
+
+    - 0  Ignore 0 && 0  Less Than -0.1 && 0  Ignore 0
+
 '
   ValidStartStates: []
   InvalidStartStates:
@@ -1702,7 +1717,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Ground Movement Sub
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   outputState: {fileID: 5276580774853976909}
   subStates:
   - {fileID: 6613936028350023393}
@@ -2053,7 +2068,6 @@ MonoBehaviour:
   timer:
     UseConstant: 0
     ConstantDuration: 1
-    ConstantRemainingTime: 0
     Variable: {fileID: 11400000, guid: 2586ea3250397f44b9a3d11e0cf49858, type: 2}
   factor:
     UseConstant: 0
@@ -2473,7 +2487,9 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Throw_ Time_ Anim_ Player: 0.15 sec
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -2484,7 +2500,6 @@ MonoBehaviour:
   - targetParameter:
       UseConstant: 0
       ConstantDuration: 0
-      ConstantRemainingTime: 0
       Variable: {fileID: 11400000, guid: 2586ea3250397f44b9a3d11e0cf49858, type: 2}
   Vector2Conditions: []
   Vector3Conditions: []
@@ -2532,7 +2547,9 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Jump Trigger_ Anim_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -2712,7 +2729,7 @@ MonoBehaviour:
   BypassState: 1
   Name: 'Idle '
   zoom: 0
-  isActiveState: 1
+  isActiveState: 0
   transitionTime: 0.5
   transitionCurve:
     serializedVersion: 2
@@ -2804,7 +2821,10 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '- 0  Abs Greater Than 0 && 0  Ignore 0 && 0  Abs Greater Than
+    0
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -3345,7 +3365,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Ground Movement Mixer
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   transitionTime: 0.2
   transitionCurve:
     serializedVersion: 2
@@ -3469,7 +3489,9 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Throw_ Time_ Anim_ Player: 0.15 sec
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -3480,7 +3502,6 @@ MonoBehaviour:
   - targetParameter:
       UseConstant: 0
       ConstantDuration: 0
-      ConstantRemainingTime: 0
       Variable: {fileID: 11400000, guid: 2586ea3250397f44b9a3d11e0cf49858, type: 2}
   Vector2Conditions: []
   Vector3Conditions: []
@@ -3585,7 +3606,6 @@ MonoBehaviour:
   timer:
     UseConstant: 0
     ConstantDuration: 1
-    ConstantRemainingTime: 0
     Variable: {fileID: 11400000, guid: 2586ea3250397f44b9a3d11e0cf49858, type: 2}
   factor:
     UseConstant: 0
@@ -3768,7 +3788,9 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Fast Turn Triggered_ Movement_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -3851,7 +3873,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Perambulator
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   moveVelocity:
     Source:
       UseConstant: 0
@@ -3931,7 +3953,10 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Move Speed_ Player_ Resultant_ Anim_ Player  Greater Than
+    3
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -3991,7 +4016,9 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Slide Turn Triggered_ Movement_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []

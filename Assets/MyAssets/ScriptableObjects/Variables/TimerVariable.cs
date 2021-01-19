@@ -41,12 +41,23 @@ public class TimerVariable : ScriptableObject
     {
         isStopped = true;
     }
+    
+    public void Subscribe(OnUpdate_ callback)
+    {
+        this.OnUpdate += callback;
+    }
+
+    public void Unsubscribe(OnUpdate_ callback)
+    {
+        this.OnUpdate -= callback;
+    }
 
     public void UpdateTime()
     {
         if (!isStopped && !isFinished)
         {
             remainingTime = Mathf.Max(0f, duration - (Time.time - startTime));
+            OnUpdate?.Invoke();
             if (remainingTime == 0)
             {
                 isFinished = true;

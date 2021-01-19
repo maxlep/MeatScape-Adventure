@@ -12,6 +12,16 @@ namespace MyAssets.ScriptableObjects.Variables
 
         public event OnUpdate OnUpdate;
         
+        public void Subscribe(OnUpdate callback)
+        {
+            this.OnUpdate += callback;
+        }
+
+        public void Unsubscribe(OnUpdate callback)
+        {
+            this.OnUpdate -= callback;
+        }
+        
         public void Activate()
         {
             OnUpdate?.Invoke();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using BehaviorDesigner.Runtime;
 using KinematicCharacterController;
 using MoreMountains.Feedbacks;
+using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
 using Pathfinding;
 using UnityEngine;
@@ -20,6 +21,7 @@ public class EnemyController : MonoBehaviour, ICharacterController
     [SerializeField] private int MaxHealth = 1;
     [SerializeField] private MMFeedbacks damageFeedbacks;
     [SerializeField] private MMFeedbacks deathFeedbacks;
+    [SerializeField] private GameObject dropOnDeath;
 
     [SerializeField] private UnityEvent OnDeathEvent;
     
@@ -159,6 +161,7 @@ public class EnemyController : MonoBehaviour, ICharacterController
     public void FinishKill()
     {
         OnDeath?.Invoke();
+        GameObject.Instantiate(dropOnDeath, transform.position + Vector3.up * 3f, Quaternion.identity);
         OnDeathEvent?.Invoke();
         // EffectsManager.Instance?.SpawnParticlesAtPoint(deathParticles, transform.position, Quaternion.identity);
         Destroy(this.gameObject);

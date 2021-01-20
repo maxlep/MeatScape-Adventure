@@ -45,7 +45,10 @@ public class FreeLookAddOn : MonoBehaviour
         Rect screenRect = new Rect(0,0, Screen.width, Screen.height);
         if (!screenRect.Contains(mousePos))
             return;
-        
+
+        if (Cursor.visible)
+            return;
+
         
         //Normalize the vector to have an uniform vector in whichever form it came from (I.E Gamepad, mouse, etc)
         Vector2 lookMovement = lookInput.ReadValue<Vector2>();

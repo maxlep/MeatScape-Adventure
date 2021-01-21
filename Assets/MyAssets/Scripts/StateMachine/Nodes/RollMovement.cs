@@ -12,6 +12,18 @@ namespace MyAssets.Graphs.StateMachine.Nodes
     public class RollMovement : BaseMovement
     {
         #region Horizontal Movement
+        
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Horizontal")] [Required]
+        protected FloatReference TurnSpeedAir;
+        
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Horizontal")] [Required]
+        protected FloatReference SlowTurnThreshold;
+        
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Horizontal")] [Required]
+        protected FloatReference SlowTurnFactor;
 
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Horizontal")] [Required]
@@ -24,6 +36,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Horizontal")] [Required]
         protected FloatReference DragCoefficientHorizontal;
+        
 
         #endregion
 
@@ -177,15 +190,16 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             Vector3 dummyVel = Vector3.zero;
             Vector3 dir;
 
-            var fastTurnSpeed = .05f;
-            var slowTurnSpeed = .15f;
-            var slowTurnThreshold = 30f;
-
+            var slowTurnSpeed = TurnSpeed.Value * SlowTurnFactor.Value;
+            var slowTurnThreshold = SlowTurnThreshold.Value;
             var percentToSlowTurnSpeed = Mathf.InverseLerp(0f, slowTurnThreshold, currentSpeed);
-            var currentTurnSpeed = Mathf.Lerp(fastTurnSpeed, slowTurnSpeed, percentToSlowTurnSpeed);
-            
+
+            float currentTurnSpeed;
+
+            //If grounded, lerp from turn speed to slow turn speed based on current velocity
             if (GroundingStatus.FoundAnyGround)
             {
+                currentTurnSpeed = Mathf.Lerp(TurnSpeed.Value, slowTurnSpeed, percentToSlowTurnSpeed);
                 Vector3 dirOnSlope = Vector3.ProjectOnPlane(currentVelocity.normalized, 
                     GroundingStatus.GroundNormal);
                 moveInputOnSlope = Vector3.ProjectOnPlane(moveInputCameraRelative.normalized, 
@@ -195,6 +209,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             }
             else
             {
+                currentTurnSpeed = TurnSpeedAir.Value;
                 dir = Vector3.SmoothDamp(currentVelocity.xoz().normalized, moveInputCameraRelative.normalized,
                     ref dummyVel, currentTurnSpeed).normalized;
             }

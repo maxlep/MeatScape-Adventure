@@ -7,7 +7,7 @@ namespace MyAssets.Scripts.Player
 {
     public class AimTargetter : MonoBehaviour
     {
-        [SerializeField] private Camera camera;
+        [SerializeField] private CameraSceneReference camera;
         [SerializeField] private Transform player;
         [SerializeField] private Image targettingReticle;
         [SerializeField] private LayerMask layerMask;
@@ -53,7 +53,7 @@ namespace MyAssets.Scripts.Player
 
             if (!currentTarget.SafeIsUnityNull())
             {
-                var currentScreenSpacePosition = camera.WorldToScreenPoint(currentTarget.position);
+                var currentScreenSpacePosition = camera.Value.WorldToScreenPoint(currentTarget.position);
                 targettingReticle.enabled = true;
                 targettingReticle.rectTransform.position = currentScreenSpacePosition;
 
@@ -77,7 +77,7 @@ namespace MyAssets.Scripts.Player
             var sqrRange = Mathf.Pow(maxRange, 2);
             var distFac = playerToTargetRay.sqrMagnitude / sqrRange;
             
-            var camTransform = camera.transform;
+            var camTransform = camera.Value.transform;
             var camToTargetRay = targetPos - camTransform.position;
             var camAlignment = Vector3.Dot(camTransform.forward, camToTargetRay);
 

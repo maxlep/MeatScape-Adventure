@@ -38,6 +38,8 @@ namespace MyAssets.Scripts.PoseAnimator.Types
         
         private LTDescr transitionTween;
         private bool transitioning;
+        private object transitioningLock = new object();
+
         private bool AlwaysTrue => true;
 
         public AnimationLayer(string name, SharedAnimationData sharedData, AnimationClip defaultPose, bool isAdditive,
@@ -69,11 +71,14 @@ namespace MyAssets.Scripts.PoseAnimator.Types
         
         public void TransitionToState(AnimationStateNode newState, float transitionTime, AnimationCurve transitionCurve)
         {
-            if (transitioning)
+            lock (transitioningLock)
             {
-                transitionTween.callOnCompletes();
-                // transitionTween.setOnUpdate((float value) => { }).setOnComplete(() => { });
-                LeanTween.cancel(transitionTween.id);
+                if (transitioning)
+                {
+                    transitionTween.callOnCompletes();
+                    // transitionTween.setOnUpdate((float value) => { }).setOnComplete(() => { });
+                    LeanTween.cancel(transitionTween.id);
+                }
             }
             
             mixerRunner.Output.DisconnectInput(0);
@@ -116,7 +121,10 @@ namespace MyAssets.Scripts.PoseAnimator.Types
                         })
                         .setOnComplete(() =>
                         {
-                            transitioning = false;
+                            lock (transitioningLock)
+                            {
+                                transitioning = false;
+                            }
                             mixerRunner.SetBlendFromLastPosition(false);
                             //Debug.Log($"Complete tween from {activeState?.name} to {nextActiveState?.name}");
                         });

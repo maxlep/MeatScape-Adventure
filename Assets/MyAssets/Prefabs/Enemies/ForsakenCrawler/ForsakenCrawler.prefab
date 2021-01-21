@@ -357,19 +357,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5d29b64590b2e245ac59851043dfab3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSceneTransform: {fileID: 11400000, guid: ee9dc19f502017e4ba44eef793921408,
-    type: 2}
-  sqrDistUpdateRateInSeconds: 1
   behaviorTree: {fileID: 5003421505823376603}
-  behaviorUpdateTime: 0
-  behaviorUpdateTimeReduced: 0.5
-  behaviorReduceUpdateDistance: 300
-  behaviorCullDistance: 500
+  BehaviorUpdateInterval: 0
   aStarAIPath: {fileID: 5126770864297546049}
-  aStarUpdateTime: 0.4
-  aStarUpdateTimeReduced: 3
-  aStarReduceUpdateDistance: 300
-  aStarCullDistance: 500
 --- !u!114 &6238523250367150444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -418,8 +408,8 @@ MonoBehaviour:
   _editor_DrawLODLevelsSetup: 1
   _editor_DrawExtra: 0
   _editor_horizontal: 1
-  _editor_category: 3
-  Editor_InIsolatedScene: 0
+  _editor_category: 0
+  Editor_InIsolatedScene: 1
   Editor_JustCreated: 0
   UseDOTS: 1
   DOTSObstacleType: 2
@@ -484,7 +474,7 @@ MonoBehaviour:
     Version: 0
     lockFirstLOD: 1
     editorHeader: Optim
-    drawProperties: 1
+    drawProperties: 0
     LODs_Particle: []
     LODs_Light: []
     LODs_Mono:
@@ -733,7 +723,7 @@ MonoBehaviour:
   - constructed: 1
     ToOptimizeIndex: 1
     optimizer: {fileID: 2722333285385989063}
-    Component: {fileID: 8432776931042628115}
+    Component: {fileID: 3823502319557435178}
     Version: 0
     lockFirstLOD: 1
     editorHeader: Optim
@@ -742,55 +732,235 @@ MonoBehaviour:
     LODs_Light: []
     LODs_Mono:
     - SetDisabled: 0
-      ver: 1
+      ver: 0
       _Locked: 0
-      cmp: {fileID: 8432776931042628115}
+      cmp: {fileID: 3823502319557435178}
       BaseLOD: 0
       Event:
         m_PersistentCalls:
           m_Calls: []
-      Parameters: []
-      NotSupported: []
+      Parameters:
+      - Change: 1
+        ParamID: -754737160
+        TypeID: 613657440
+        ParamName: BehaviorUpdateInterval
+        ParamType: float
+        Supported: 1
+        Int: 0
+        Float: 0
+        Vec2: {x: 0, y: 0}
+        Vec3: {x: 0, y: 0, z: 0}
+        Color: {r: 0, g: 0, b: 0, a: 0}
+        Bool: 0
+      NotSupported:
+      - Change: 0
+        ParamID: -901135032
+        TypeID: -1712904808
+        ParamName: behaviorTree
+        ParamType: PPtr<$BehaviorTree>
+        Supported: 0
+        Int: 0
+        Float: 0
+        Vec2: {x: 0, y: 0}
+        Vec3: {x: 0, y: 0, z: 0}
+        Color: {r: 0, g: 0, b: 0, a: 0}
+        Bool: 0
+      - Change: 0
+        ParamID: -746639428
+        TypeID: 574515989
+        ParamName: aStarAIPath
+        ParamType: PPtr<$AIPath>
+        Supported: 0
+        Int: 0
+        Float: 0
+        Vec2: {x: 0, y: 0}
+        Vec3: {x: 0, y: 0, z: 0}
+        Color: {r: 0, g: 0, b: 0, a: 0}
+        Bool: 0
     - SetDisabled: 0
-      ver: 1
+      ver: 0
       _Locked: 0
-      cmp: {fileID: 8432776931042628115}
+      cmp: {fileID: 3823502319557435178}
       BaseLOD: 0
       Event:
         m_PersistentCalls:
           m_Calls: []
-      Parameters: []
-      NotSupported: []
+      Parameters:
+      - Change: 1
+        ParamID: -754737160
+        TypeID: 613657440
+        ParamName: BehaviorUpdateInterval
+        ParamType: float
+        Supported: 1
+        Int: 0
+        Float: 0.5
+        Vec2: {x: 0, y: 0}
+        Vec3: {x: 0, y: 0, z: 0}
+        Color: {r: 0, g: 0, b: 0, a: 0}
+        Bool: 0
+      NotSupported:
+      - Change: 0
+        ParamID: -901135032
+        TypeID: -1712904808
+        ParamName: behaviorTree
+        ParamType: PPtr<$BehaviorTree>
+        Supported: 0
+        Int: 0
+        Float: 0
+        Vec2: {x: 0, y: 0}
+        Vec3: {x: 0, y: 0, z: 0}
+        Color: {r: 0, g: 0, b: 0, a: 0}
+        Bool: 0
+      - Change: 0
+        ParamID: -746639428
+        TypeID: 574515989
+        ParamName: aStarAIPath
+        ParamType: PPtr<$AIPath>
+        Supported: 0
+        Int: 0
+        Float: 0
+        Vec2: {x: 0, y: 0}
+        Vec3: {x: 0, y: 0, z: 0}
+        Color: {r: 0, g: 0, b: 0, a: 0}
+        Bool: 0
     - SetDisabled: 0
-      ver: 1
+      ver: 0
       _Locked: 0
-      cmp: {fileID: 8432776931042628115}
+      cmp: {fileID: 3823502319557435178}
       BaseLOD: 0
       Event:
         m_PersistentCalls:
           m_Calls: []
-      Parameters: []
-      NotSupported: []
+      Parameters:
+      - Change: 1
+        ParamID: -754737160
+        TypeID: 613657440
+        ParamName: BehaviorUpdateInterval
+        ParamType: float
+        Supported: 1
+        Int: 0
+        Float: 1
+        Vec2: {x: 0, y: 0}
+        Vec3: {x: 0, y: 0, z: 0}
+        Color: {r: 0, g: 0, b: 0, a: 0}
+        Bool: 0
+      NotSupported:
+      - Change: 0
+        ParamID: -901135032
+        TypeID: -1712904808
+        ParamName: behaviorTree
+        ParamType: PPtr<$BehaviorTree>
+        Supported: 0
+        Int: 0
+        Float: 0
+        Vec2: {x: 0, y: 0}
+        Vec3: {x: 0, y: 0, z: 0}
+        Color: {r: 0, g: 0, b: 0, a: 0}
+        Bool: 0
+      - Change: 0
+        ParamID: -746639428
+        TypeID: 574515989
+        ParamName: aStarAIPath
+        ParamType: PPtr<$AIPath>
+        Supported: 0
+        Int: 0
+        Float: 0
+        Vec2: {x: 0, y: 0}
+        Vec3: {x: 0, y: 0, z: 0}
+        Color: {r: 0, g: 0, b: 0, a: 0}
+        Bool: 0
     - SetDisabled: 1
-      ver: 1
+      ver: 0
       _Locked: 0
-      cmp: {fileID: 8432776931042628115}
+      cmp: {fileID: 3823502319557435178}
       BaseLOD: 0
       Event:
         m_PersistentCalls:
           m_Calls: []
-      Parameters: []
-      NotSupported: []
+      Parameters:
+      - Change: 1
+        ParamID: -754737160
+        TypeID: 613657440
+        ParamName: BehaviorUpdateInterval
+        ParamType: float
+        Supported: 1
+        Int: 0
+        Float: 0
+        Vec2: {x: 0, y: 0}
+        Vec3: {x: 0, y: 0, z: 0}
+        Color: {r: 0, g: 0, b: 0, a: 0}
+        Bool: 0
+      NotSupported:
+      - Change: 0
+        ParamID: -901135032
+        TypeID: -1712904808
+        ParamName: behaviorTree
+        ParamType: PPtr<$BehaviorTree>
+        Supported: 0
+        Int: 0
+        Float: 0
+        Vec2: {x: 0, y: 0}
+        Vec3: {x: 0, y: 0, z: 0}
+        Color: {r: 0, g: 0, b: 0, a: 0}
+        Bool: 0
+      - Change: 0
+        ParamID: -746639428
+        TypeID: 574515989
+        ParamName: aStarAIPath
+        ParamType: PPtr<$AIPath>
+        Supported: 0
+        Int: 0
+        Float: 0
+        Vec2: {x: 0, y: 0}
+        Vec3: {x: 0, y: 0, z: 0}
+        Color: {r: 0, g: 0, b: 0, a: 0}
+        Bool: 0
     - SetDisabled: 1
-      ver: 1
+      ver: 0
       _Locked: 0
-      cmp: {fileID: 8432776931042628115}
+      cmp: {fileID: 3823502319557435178}
       BaseLOD: 0
       Event:
         m_PersistentCalls:
           m_Calls: []
-      Parameters: []
-      NotSupported: []
+      Parameters:
+      - Change: 0
+        ParamID: -754737160
+        TypeID: 613657440
+        ParamName: BehaviorUpdateInterval
+        ParamType: float
+        Supported: 1
+        Int: 0
+        Float: 0
+        Vec2: {x: 0, y: 0}
+        Vec3: {x: 0, y: 0, z: 0}
+        Color: {r: 0, g: 0, b: 0, a: 0}
+        Bool: 0
+      NotSupported:
+      - Change: 0
+        ParamID: -901135032
+        TypeID: -1712904808
+        ParamName: behaviorTree
+        ParamType: PPtr<$BehaviorTree>
+        Supported: 0
+        Int: 0
+        Float: 0
+        Vec2: {x: 0, y: 0}
+        Vec3: {x: 0, y: 0, z: 0}
+        Color: {r: 0, g: 0, b: 0, a: 0}
+        Bool: 0
+      - Change: 0
+        ParamID: -746639428
+        TypeID: 574515989
+        ParamName: aStarAIPath
+        ParamType: PPtr<$AIPath>
+        Supported: 0
+        Int: 0
+        Float: 0
+        Vec2: {x: 0, y: 0}
+        Vec3: {x: 0, y: 0, z: 0}
+        Color: {r: 0, g: 0, b: 0, a: 0}
+        Bool: 0
     LODs_Renderer: []
     LODs_NavMesh: []
     LODs_Audio: []
@@ -938,468 +1108,10 @@ MonoBehaviour:
   - constructed: 1
     ToOptimizeIndex: 2
     optimizer: {fileID: 2722333285385989063}
-    Component: {fileID: 3823502319557435178}
-    Version: 0
-    lockFirstLOD: 1
-    editorHeader: Optim
-    drawProperties: 0
-    LODs_Particle: []
-    LODs_Light: []
-    LODs_Mono:
-    - SetDisabled: 0
-      ver: 1
-      _Locked: 0
-      cmp: {fileID: 3823502319557435178}
-      BaseLOD: 0
-      Event:
-        m_PersistentCalls:
-          m_Calls: []
-      Parameters: []
-      NotSupported: []
-    - SetDisabled: 0
-      ver: 1
-      _Locked: 0
-      cmp: {fileID: 3823502319557435178}
-      BaseLOD: 0
-      Event:
-        m_PersistentCalls:
-          m_Calls: []
-      Parameters: []
-      NotSupported: []
-    - SetDisabled: 0
-      ver: 1
-      _Locked: 0
-      cmp: {fileID: 3823502319557435178}
-      BaseLOD: 0
-      Event:
-        m_PersistentCalls:
-          m_Calls: []
-      Parameters: []
-      NotSupported: []
-    - SetDisabled: 1
-      ver: 1
-      _Locked: 0
-      cmp: {fileID: 3823502319557435178}
-      BaseLOD: 0
-      Event:
-        m_PersistentCalls:
-          m_Calls: []
-      Parameters: []
-      NotSupported: []
-    - SetDisabled: 1
-      ver: 1
-      _Locked: 0
-      cmp: {fileID: 3823502319557435178}
-      BaseLOD: 0
-      Event:
-        m_PersistentCalls:
-          m_Calls: []
-      Parameters: []
-      NotSupported: []
-    LODs_Renderer: []
-    LODs_NavMesh: []
-    LODs_Audio: []
-    LODs_Rigidbody: []
-    LODs_LODGroup: []
-    Ini_Particle:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      EmmissionAmount: 1
-      BurstsAmount: 1
-      ParticleSizeMul: 1
-      MaxParticlAmount: 1
-      OverDistanceMul: 1
-      LifetimeAlpha: 1
-      ColorOverLifetime:
-        m_Mode: 0
-        m_GradientMin:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_GradientMax:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
-    Ini_Light:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      IntensityMul: 1
-      RangeMul: 1
-      ShadowsMode: 2
-      ShadowsStrength: 1
-      RenderMode: 0
-      ChangeIntensity: 1
-    Ini_Mono:
-      SetDisabled: 0
-      ver: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      BaseLOD: 0
-      Event:
-        m_PersistentCalls:
-          m_Calls: []
-      Parameters: []
-      NotSupported: []
-    Ini_Rend:
-      SetDisabled: 0
-      _version: 1
-      _Locked: 0
-      cmp: {fileID: 0}
-      UseShadows: 1
-      MotionVectors: 1
-      SkinnedQuality: 0
-      shaderParam: _Transparency
-      ColorParameter: 0
-      targetParamValue: 1
-    Ini_Nav:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      Priority: 1
-      Quality: 4
-    Ini_Audio:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      PriorityFactor: 1
-      Volume: 1
-    Ini_Rigidbody:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      DetectCollisions: 0
-      IsKinematic: 0
-      Interpolation: 0
-      CollisionMode: 0
-      TryTriggerSleep: 0
-      TriggerWakeup: 0
-    Ini_LODGroup:
-      SetDisabled: 0
-      _version: 1
-      _Locked: 0
-      cmp: {fileID: 0}
-      UnityLODLevel: 0
-      shaderParam: _Transparency
-      ColorParameter: 0
-      shaderVisibleValue: 1
-      shaderInvisibleValue: 0
-      crossfadeHelper: 0
-    eOptimizer: {fileID: 2722333285385989063}
-    ControlerType: 3
-  - constructed: 1
-    ToOptimizeIndex: 3
-    optimizer: {fileID: 2722333285385989063}
     Component: {fileID: 5003421505823376603}
     Version: 0
     lockFirstLOD: 1
     editorHeader: Optim
-    drawProperties: 1
-    LODs_Particle: []
-    LODs_Light: []
-    LODs_Mono:
-    - SetDisabled: 0
-      ver: 1
-      _Locked: 0
-      cmp: {fileID: 5003421505823376603}
-      BaseLOD: 0
-      Event:
-        m_PersistentCalls:
-          m_Calls:
-          - m_Target: {fileID: 3823502319557435178}
-            m_TargetAssemblyTypeName: AITickRateController, Assembly-CSharp
-            m_MethodName: SetBehaviourUpdateInterval
-            m_Mode: 4
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 0
-              m_StringArgument: 
-              m_BoolArgument: 0
-            m_CallState: 2
-      Parameters: []
-      NotSupported: []
-    - SetDisabled: 0
-      ver: 1
-      _Locked: 0
-      cmp: {fileID: 5003421505823376603}
-      BaseLOD: 0
-      Event:
-        m_PersistentCalls:
-          m_Calls:
-          - m_Target: {fileID: 3823502319557435178}
-            m_TargetAssemblyTypeName: AITickRateController, Assembly-CSharp
-            m_MethodName: SetBehaviourUpdateInterval
-            m_Mode: 4
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 0.5
-              m_StringArgument: 
-              m_BoolArgument: 0
-            m_CallState: 2
-      Parameters: []
-      NotSupported: []
-    - SetDisabled: 1
-      ver: 1
-      _Locked: 0
-      cmp: {fileID: 5003421505823376603}
-      BaseLOD: 0
-      Event:
-        m_PersistentCalls:
-          m_Calls:
-          - m_Target: {fileID: 3823502319557435178}
-            m_TargetAssemblyTypeName: AITickRateController, Assembly-CSharp
-            m_MethodName: SetBehaviourUpdateInterval
-            m_Mode: 4
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 1
-              m_StringArgument: 
-              m_BoolArgument: 0
-            m_CallState: 2
-      Parameters: []
-      NotSupported: []
-    - SetDisabled: 1
-      ver: 1
-      _Locked: 0
-      cmp: {fileID: 5003421505823376603}
-      BaseLOD: 0
-      Event:
-        m_PersistentCalls:
-          m_Calls:
-          - m_Target: {fileID: 3823502319557435178}
-            m_TargetAssemblyTypeName: AITickRateController, Assembly-CSharp
-            m_MethodName: SetBehaviourUpdateInterval
-            m_Mode: 4
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 0
-              m_StringArgument: 
-              m_BoolArgument: 0
-            m_CallState: 2
-      Parameters: []
-      NotSupported: []
-    - SetDisabled: 1
-      ver: 1
-      _Locked: 0
-      cmp: {fileID: 5003421505823376603}
-      BaseLOD: 0
-      Event:
-        m_PersistentCalls:
-          m_Calls: []
-      Parameters: []
-      NotSupported: []
-    LODs_Renderer: []
-    LODs_NavMesh: []
-    LODs_Audio: []
-    LODs_Rigidbody: []
-    LODs_LODGroup: []
-    Ini_Particle:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      EmmissionAmount: 1
-      BurstsAmount: 1
-      ParticleSizeMul: 1
-      MaxParticlAmount: 1
-      OverDistanceMul: 1
-      LifetimeAlpha: 1
-      ColorOverLifetime:
-        m_Mode: 0
-        m_GradientMin:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_GradientMax:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
-    Ini_Light:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      IntensityMul: 1
-      RangeMul: 1
-      ShadowsMode: 2
-      ShadowsStrength: 1
-      RenderMode: 0
-      ChangeIntensity: 1
-    Ini_Mono:
-      SetDisabled: 0
-      ver: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      BaseLOD: 0
-      Event:
-        m_PersistentCalls:
-          m_Calls: []
-      Parameters: []
-      NotSupported: []
-    Ini_Rend:
-      SetDisabled: 0
-      _version: 1
-      _Locked: 0
-      cmp: {fileID: 0}
-      UseShadows: 1
-      MotionVectors: 1
-      SkinnedQuality: 0
-      shaderParam: _Transparency
-      ColorParameter: 0
-      targetParamValue: 1
-    Ini_Nav:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      Priority: 1
-      Quality: 4
-    Ini_Audio:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      PriorityFactor: 1
-      Volume: 1
-    Ini_Rigidbody:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      DetectCollisions: 0
-      IsKinematic: 0
-      Interpolation: 0
-      CollisionMode: 0
-      TryTriggerSleep: 0
-      TriggerWakeup: 0
-    Ini_LODGroup:
-      SetDisabled: 0
-      _version: 1
-      _Locked: 0
-      cmp: {fileID: 0}
-      UnityLODLevel: 0
-      shaderParam: _Transparency
-      ColorParameter: 0
-      shaderVisibleValue: 1
-      shaderInvisibleValue: 0
-      crossfadeHelper: 0
-    eOptimizer: {fileID: 2722333285385989063}
-    ControlerType: 3
-  - constructed: 1
-    ToOptimizeIndex: 4
-    optimizer: {fileID: 2722333285385989063}
-    Component: {fileID: 5006923093799483560}
-    Version: 0
-    lockFirstLOD: 1
-    editorHeader: Optim
     drawProperties: 0
     LODs_Particle: []
     LODs_Light: []
@@ -1407,7 +1119,7 @@ MonoBehaviour:
     - SetDisabled: 0
       ver: 1
       _Locked: 0
-      cmp: {fileID: 5006923093799483560}
+      cmp: {fileID: 5003421505823376603}
       BaseLOD: 0
       Event:
         m_PersistentCalls:
@@ -1417,17 +1129,7 @@ MonoBehaviour:
     - SetDisabled: 0
       ver: 1
       _Locked: 0
-      cmp: {fileID: 5006923093799483560}
-      BaseLOD: 0
-      Event:
-        m_PersistentCalls:
-          m_Calls: []
-      Parameters: []
-      NotSupported: []
-    - SetDisabled: 0
-      ver: 1
-      _Locked: 0
-      cmp: {fileID: 5006923093799483560}
+      cmp: {fileID: 5003421505823376603}
       BaseLOD: 0
       Event:
         m_PersistentCalls:
@@ -1437,7 +1139,7 @@ MonoBehaviour:
     - SetDisabled: 1
       ver: 1
       _Locked: 0
-      cmp: {fileID: 5006923093799483560}
+      cmp: {fileID: 5003421505823376603}
       BaseLOD: 0
       Event:
         m_PersistentCalls:
@@ -1447,7 +1149,17 @@ MonoBehaviour:
     - SetDisabled: 1
       ver: 1
       _Locked: 0
-      cmp: {fileID: 5006923093799483560}
+      cmp: {fileID: 5003421505823376603}
+      BaseLOD: 0
+      Event:
+        m_PersistentCalls:
+          m_Calls: []
+      Parameters: []
+      NotSupported: []
+    - SetDisabled: 1
+      ver: 1
+      _Locked: 0
+      cmp: {fileID: 5003421505823376603}
       BaseLOD: 0
       Event:
         m_PersistentCalls:

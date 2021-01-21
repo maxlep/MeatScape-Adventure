@@ -5,21 +5,41 @@ using BehaviorDesigner.Runtime;
 using Pathfinding;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class AITickRateController : MonoBehaviour
 {
     [SerializeField] private BehaviorTree behaviorTree;
+    public float BehaviorUpdateInterval;
+    private float lastBehaviorUpdateTime;
+
     [SerializeField] private AIPath aStarAIPath;
 
-    public void SetBehaviourUpdateInterval(float seconds)
+    private float updateId;
+    
+    private void Start()
     {
-        Debug.Log($"SetBehaviourUpdateInterval {seconds}");
-        BehaviorManager.instance.UpdateIntervalSeconds = seconds;
+        updateId = Random.value;
+        lastBehaviorUpdateTime = updateId;
+        BehaviorManager.instance.Tick(behaviorTree);
+    }
+
+    private void Update()
+    {
+        if (Time.time >= lastBehaviorUpdateTime + BehaviorUpdateInterval)
+        {
+            ManualBehaviorUpdate();
+        }
+    }
+
+    private void ManualBehaviorUpdate()
+    {
+        lastBehaviorUpdateTime = Time.time;
+        BehaviorManager.instance.Tick(behaviorTree);
     }
 
     public void SetAStarUpdateInterval(float seconds)
     {
-        Debug.Log($"SetAStarUpdateInterval {seconds}");
         aStarAIPath.repathRate = seconds;
     }
 }

@@ -70,141 +70,42 @@ public class SceneReferenceManager : MonoBehaviour
 }
 
 [Serializable]
-public class TransformScenePair
+public class ScenePair<T, RT> where RT: SceneReference<T>
 {
     [SerializeField] [LabelText("Reference")] [LabelWidth(125f)]
     [Required]
-    private TransformSceneReference transformSceneReference;
+    private RT sceneReference;
 
     [SerializeField] [LabelText("Scene Value")] [LabelWidth(125f)]
     [Required] [SceneObjectsOnly]
-    private Transform transformSceneValue;
+    private T sceneValue;
 
     public bool AreValuesAssigned =>
-        (transformSceneValue != null && transformSceneReference != null);
+        (sceneValue != null && sceneReference != null);
     
     public void AssignValueToReference()
     {
-        transformSceneReference.Value = transformSceneValue;
+        sceneReference.Value = sceneValue;
     }
 }
 
 [Serializable]
-public class GameObjectScenePair
-{
-    [SerializeField] [LabelText("Reference")] [LabelWidth(125f)]
-    [Required]
-    private TransformSceneReference gameObjectSceneReference;
-
-    [SerializeField] [LabelText("Scene Value")] [LabelWidth(125f)]
-    [Required] [SceneObjectsOnly]
-    private Transform gameObjectSceneValue;
-
-    public bool AreValuesAssigned =>
-        (gameObjectSceneValue != null && gameObjectSceneReference != null);
-    
-    public void AssignValueToReference()
-    {
-        gameObjectSceneReference.Value = gameObjectSceneValue;
-    }
-}
+public class TransformScenePair : ScenePair<Transform, TransformSceneReference> {}
 
 [Serializable]
-public class ParticleSystemScenePair
-{
-    [SerializeField] [LabelText("Reference")] [LabelWidth(125f)]
-    [Required]
-    private TransformSceneReference particleSystemSceneReference;
-
-    [SerializeField] [LabelText("Scene Value")] [LabelWidth(125f)]
-    [Required] [SceneObjectsOnly]
-    private Transform particleSystemSceneValue;
-
-    public bool AreValuesAssigned =>
-        (particleSystemSceneValue != null && particleSystemSceneReference != null);
-    
-    public void AssignValueToReference()
-    {
-        particleSystemSceneReference.Value = particleSystemSceneValue;
-    }
-}
+public class GameObjectScenePair : ScenePair<GameObject, GameObjectSceneReference> {}
 
 [Serializable]
-public class MMFeedbacksScenePair
-{
-    [SerializeField] [LabelText("Reference")] [LabelWidth(125f)]
-    [Required]
-    private MMFeedbacksSceneReference feedbacksSceneReference;
-
-    [SerializeField] [LabelText("Scene Value")] [LabelWidth(125f)]
-    [Required] [SceneObjectsOnly]
-    private MMFeedbacks feedbacksSceneValue;
-
-    public bool AreValuesAssigned =>
-        (feedbacksSceneValue != null && feedbacksSceneReference != null);
-    
-    public void AssignValueToReference()
-    {
-        feedbacksSceneReference.Value = feedbacksSceneValue;
-    }
-}
+public class ParticleSystemScenePair : ScenePair<ParticleSystem, ParticleSystemSceneReference> {}
 
 [Serializable]
-public class AnimatorScenePair
-{
-    [SerializeField] [LabelText("Reference")] [LabelWidth(125f)]
-    [Required]
-    private AnimatorSceneReference animatorSceneReference;
-
-    [SerializeField] [LabelText("Scene Value")] [LabelWidth(125f)]
-    [Required] [SceneObjectsOnly]
-    private Animator animatorSceneValue;
-
-    public bool AreValuesAssigned =>
-        (animatorSceneValue != null && animatorSceneReference != null);
-    
-    public void AssignValueToReference()
-    {
-        animatorSceneReference.Value = animatorSceneValue;
-    }
-}
+public class MMFeedbacksScenePair : ScenePair<MMFeedbacks, MMFeedbacksSceneReference> {}
 
 [Serializable]
-public class AnimatableScenePair
-{
-    [SerializeField] [LabelText("Reference")] [LabelWidth(125f)]
-    [Required]
-    private AnimatableSceneReference animatableSceneReference;
-
-    [SerializeField] [LabelText("Scene Value")] [LabelWidth(125f)]
-    [Required] [SceneObjectsOnly]
-    private Animatable animatableSceneValue;
-
-    public bool AreValuesAssigned =>
-        (animatableSceneValue != null && animatableSceneReference != null);
-    
-    public void AssignValueToReference()
-    {
-        animatableSceneReference.Value = animatableSceneValue;
-    }
-}
+public class AnimatorScenePair : ScenePair<Animator, AnimatorSceneReference> {}
 
 [Serializable]
-public class CameraScenePair
-{
-    [SerializeField] [LabelText("Reference")] [LabelWidth(125f)]
-    [Required]
-    private CameraSceneReference cameraSceneReference;
+public class AnimatableScenePair : ScenePair<Animatable, AnimatableSceneReference> {}
 
-    [SerializeField] [LabelText("Scene Value")] [LabelWidth(125f)]
-    [Required] [SceneObjectsOnly]
-    private Camera cameraSceneValue;
-
-    public bool AreValuesAssigned =>
-        (cameraSceneValue != null && cameraSceneReference != null);
-    
-    public void AssignValueToReference()
-    {
-        cameraSceneReference.Value = cameraSceneValue;
-    }
-}
+[Serializable]
+public class CameraScenePair : ScenePair<Camera, CameraSceneReference> {}

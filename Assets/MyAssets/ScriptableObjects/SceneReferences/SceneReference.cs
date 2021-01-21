@@ -1,9 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Sirenix.OdinInspector;
+﻿using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class SceneReference : ScriptableObject
+public class SceneReference<T> : ScriptableObject
 {
     [TextArea (7, 10)] [HideInInlineEditors] public string Description;
+    [SerializeField] private T reference;
+    
+    public T Value
+    {
+        get => reference;
+        set => reference = value;
+    }
 }

@@ -5,13 +5,4 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "AnimatableSceneReference", menuName = "SceneReferences/AnimatableSceneReference", order = 0)]
-public class AnimatableSceneReference : SceneReference
-{
-    [SerializeField] private Animatable animatableReference;
-    
-    public Animatable Value
-    {
-        get => animatableReference;
-        set => animatableReference = value;
-    }
-}
+public class AnimatableSceneReference : SceneReference<Animatable> {}

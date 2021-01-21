@@ -462,7 +462,7 @@ MonoBehaviour:
   m_Name: NoLowJump <Reference>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 2840, y: 1368}
+  position: {x: 2888, y: 1400}
   ports:
     keys:
     - previousState
@@ -475,6 +475,9 @@ MonoBehaviour:
       connections:
       - fieldName: transitions
         node: {fileID: -5368650478412996812}
+        reroutePoints: []
+      - fieldName: nextState
+        node: {fileID: 1110923358367202431}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -682,7 +685,7 @@ MonoBehaviour:
   m_Name: Roll Movement <Reference>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1000, y: 1880}
+  position: {x: 1016, y: 1896}
   ports:
     keys:
     - previousState
@@ -754,9 +757,6 @@ MonoBehaviour:
         reroutePoints: []
       - fieldName: nextState
         node: {fileID: 5601859753555772258}
-        reroutePoints: []
-      - fieldName: nextState
-        node: {fileID: 1110923358367202431}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -1294,13 +1294,13 @@ MonoBehaviour:
     ConstantValue: {x: 0, y: 0, z: 0, w: 0}
     Variable: {fileID: 11400000, guid: 642843bee527d554f9408523e1ab11c8, type: 2}
   MaxForce:
-    UseConstant: 1
+    UseConstant: 0
     ConstantValue: 200
-    Variable: {fileID: 0}
+    Variable: {fileID: 11400000, guid: fabe1427f81ec5641af6f9899cbb5504, type: 2}
   TimeToMaxCharge:
-    UseConstant: 1
+    UseConstant: 0
     ConstantValue: 3
-    Variable: {fileID: 0}
+    Variable: {fileID: 11400000, guid: 9cb576d457272ee4fafdb2d47808c0d0, type: 2}
 --- !u!114 &-2581850360246734902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2105,10 +2105,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Roll Movement -> AirJump
+  m_Name: Roll Movement -> NoLowJump
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1608, y: 1976}
+  position: {x: 1608, y: 1960}
   ports:
     keys:
     - nextState
@@ -2120,8 +2120,9 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: previousState
-        node: {fileID: -5368650478412996812}
-        reroutePoints: []
+        node: {fileID: -7240631049424516675}
+        reroutePoints:
+        - {x: 2773.114, y: 1725.2585}
       _direction: 1
       _connectionType: 1
       _typeConstraint: 2

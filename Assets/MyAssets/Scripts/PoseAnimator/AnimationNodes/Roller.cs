@@ -15,11 +15,14 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
         private Vector3Reference MoveVelocity;
         [TabGroup("Input"), HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField, Required]
         private FloatReference Radius;
+        [TabGroup("Input"), HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField, Required]
+        private BoolReference IsGrounded;
         
         [TabGroup("Output"), HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField, Required]
         private TransformSceneReference Pivot;
 
         private Quaternion startRotation;
+        private float lastAngularDistance;
 
         public override void Enter()
         {
@@ -46,14 +49,16 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
         {
             var axis = Vector3.Cross(MoveVelocity.Value.xoz(), Vector3.up);
             // Should really use the ground normal in place of Vector3.up, but this assumption may be fine for flat-ish terrain
-            
-            var distance = MoveVelocity.Value.magnitude * Time.smoothDeltaTime;
-            // Remember to change delta time if this is moved to fixed update
 
-            var circumference = Mathf.PI * Radius.Value * 2;
-            var angularDistance = distance / circumference * 360 * -1;
+            if (IsGrounded.Value)
+            {
+                var distance = MoveVelocity.Value.magnitude * Time.smoothDeltaTime;
+                // Remember to change delta time if this is moved to fixed update
 
-            var rotationChange = Quaternion.AngleAxis(angularDistance, axis);
+                var circumference = Mathf.PI * Radius.Value * 2;
+                lastAngularDistance = distance / circumference * 360 * -1;
+            }
+            var rotationChange = Quaternion.AngleAxis(lastAngularDistance, axis);
             var newRotation = rotationChange * Pivot.Value.rotation;
             Pivot.Value.rotation = newRotation;
 

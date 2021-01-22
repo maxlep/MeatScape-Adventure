@@ -164,8 +164,32 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             
             resultingVelocity = horizontalVelocity + verticalVelocity;
             resultingVelocity += totalImpulse;
+            
+            CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
+            CharacterTransientGroundingReport LastGroundingStatus = playerController.LastGroundingStatus;
+            
+            //Bounce if just became grounded
+            if (!LastGroundingStatus.FoundAnyGround && GroundingStatus.FoundAnyGround &&
+                previousVelocity.y <= -BounceThresholdVelocity.Value)
+            {
+                playerController.UngroundMotor();
+                BounceGameEvent.Raise();
 
-            previousVelocity = currentVelocity;
+                //Negative dot of velocity and ground normal
+                //Negative to get in range of 0 -> 1 where 1 means directly into ground
+                float bounceFactorNormalMultiplier = -Vector3.Dot(previousVelocity.normalized, GroundingStatus.GroundNormal);
+                
+                //Lerp from normal bounce to half based on ground normal velocity dot
+                float normalBounceFactorMultiplier = Mathf.Lerp(BounceFactor.Value, BounceFactor.Value * 2f, bounceFactorNormalMultiplier);
+                
+                //Reflect velocity perfectly then dampen the y based on dot with normal
+                Vector3 reflectedVelocity = Vector3.Reflect(previousVelocity, GroundingStatus.GroundNormal);
+                reflectedVelocity.y *= normalBounceFactorMultiplier;
+                
+                resultingVelocity = normalBounceFactorMultiplier * reflectedVelocity;
+            }
+
+            previousVelocity = resultingVelocity;
             
             return resultingVelocity;
         }
@@ -196,7 +220,6 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             if (GroundingStatus.FoundAnyGround)
             {
                 currentTurnSpeed = Mathf.Lerp(TurnSpeed.Value, slowTurnSpeed, percentToSlowTurnSpeed);
-                Debug.Log(currentTurnSpeed);
                 Vector3 dirOnSlope = Vector3.ProjectOnPlane(currentVelocity.normalized, 
                     GroundingStatus.GroundNormal);
                 moveInputOnSlope = Vector3.ProjectOnPlane(moveInputCameraRelative.normalized, 
@@ -271,15 +294,6 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         {
             CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
             CharacterTransientGroundingReport LastGroundingStatus = playerController.LastGroundingStatus;
-            
-            //Bounce if just became grounded
-            if (!LastGroundingStatus.FoundAnyGround && GroundingStatus.FoundAnyGround &&
-                Mathf.Abs(previousVelocity.y) > BounceThresholdVelocity.Value)
-            {
-                playerController.UngroundMotor();
-                BounceGameEvent.Raise();
-                return Mathf.Abs(previousVelocity.y) * BounceFactor.Value * GroundingStatus.GroundNormal;
-            }
 
             //Return if standing on flat ground
             if (GroundingStatus.FoundAnyGround && GroundingStatus.GroundNormal == Vector3.up)

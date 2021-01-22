@@ -87,10 +87,6 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Outputs")] [Required]
         protected FloatReference HorizontalSpeedOut;
-        
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
-        [TabGroup("Outputs")] [Required]
-        protected FloatReference TurnFactor;
 
         #endregion
 
@@ -193,12 +189,14 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             var slowTurnThreshold = SlowTurnThreshold.Value;
             var percentToSlowTurnSpeed = Mathf.InverseLerp(0f, slowTurnThreshold, currentSpeed);
 
+
             float currentTurnSpeed;
 
             //If grounded, lerp from turn speed to slow turn speed based on current velocity
             if (GroundingStatus.FoundAnyGround)
             {
                 currentTurnSpeed = Mathf.Lerp(TurnSpeed.Value, slowTurnSpeed, percentToSlowTurnSpeed);
+                Debug.Log(currentTurnSpeed);
                 Vector3 dirOnSlope = Vector3.ProjectOnPlane(currentVelocity.normalized, 
                     GroundingStatus.GroundNormal);
                 moveInputOnSlope = Vector3.ProjectOnPlane(moveInputCameraRelative.normalized, 
@@ -264,9 +262,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             #endregion
             
             #endregion
-
-            var turnAngle = 90;
-            TurnFactor.Value = Vector3.Angle(newDirection, moveInputCameraRelative).MapRange(-turnAngle, turnAngle, -0.5f, 0.5f, true);
+            
             HorizontalSpeedOut.Value = newSpeed;
             return newDirection * newSpeed;
         }

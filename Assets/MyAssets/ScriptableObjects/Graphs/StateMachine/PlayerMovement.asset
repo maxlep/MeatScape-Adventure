@@ -501,7 +501,7 @@ MonoBehaviour:
   m_Name: Roll Movement -> Jump
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -840, y: 1560}
+  position: {x: -744, y: 1544}
   ports:
     keys:
     - startingState
@@ -596,7 +596,12 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    -  Waited Jump Ground
+    Delay_ Movement_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -1236,7 +1241,7 @@ MonoBehaviour:
   m_Name: Slingshot <Slingshot> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -2504, y: 328}
+  position: {x: -2616, y: 776}
   ports:
     keys:
     - previousState
@@ -1278,13 +1283,13 @@ MonoBehaviour:
     ConstantValue: 0
     Variable: {fileID: 0}
   TurnSpeed:
-    UseConstant: 1
+    UseConstant: 0
     ConstantValue: 0
-    Variable: {fileID: 0}
+    Variable: {fileID: 11400000, guid: 779cdd9261daa3a44ba26b41baf8cc9a, type: 2}
   ImpulseDampingFactor:
     UseConstant: 1
     ConstantValue: 0
-    Variable: {fileID: 0}
+    Variable: {fileID: 11400000, guid: 7eecb6be98e60d94781277f0f7475b92, type: 2}
   PlayerCameraTransform: {fileID: 11400000, guid: d50b3bc5cde09794cb0468cc9e2dba0f,
     type: 2}
   TimeToJumpApex:
@@ -1339,7 +1344,7 @@ MonoBehaviour:
   DragCoefficientHorizontal:
     UseConstant: 0
     ConstantValue: 0
-    Variable: {fileID: 11400000, guid: f50ee3a37033c6a4f9fafc168f86dce2, type: 2}
+    Variable: {fileID: 11400000, guid: 8b85c1c264474a743b7221e97f59d7b7, type: 2}
   FallMultiplier:
     UseConstant: 0
     ConstantValue: 0
@@ -1351,7 +1356,7 @@ MonoBehaviour:
   DragCoefficientVertical:
     UseConstant: 0
     ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 82daf07a835c3034abdb39e5afa37042, type: 2}
+    Variable: {fileID: 11400000, guid: f3ef233a00f327e498753d0c770ad624, type: 2}
   HorizontalGravityFactor:
     UseConstant: 0
     ConstantValue: 0
@@ -1376,10 +1381,6 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 344c7bc56a05c55448d1b101c5b8b230, type: 2}
-  TurnFactor:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 76577d76b46b4c1499c49bcf2ebc4800, type: 2}
   PlayParticlesGameEvent: {fileID: 11400000, guid: 5e06355b74bc69a46b553cc398c14ab0,
     type: 2}
   StopParticlesGameEvent: {fileID: 11400000, guid: 4d1fdf9f0dfaa0e47a3db72a2d18b71a,
@@ -1665,7 +1666,12 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is On Slideable Slope_ Controller_ Player
+
+    -  Waited
+    Jump Ground Delay_ Movement_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -2303,7 +2309,7 @@ MonoBehaviour:
   BypassState: 0
   Name: GroundMovement
   zoom: 0
-  isActiveState: 1
+  isActiveState: 0
   BaseSpeed:
     UseConstant: 1
     ConstantValue: 0
@@ -2783,7 +2789,7 @@ MonoBehaviour:
   m_Name: Roll Movement <RollMovement> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -1848, y: 456}
+  position: {x: -1336, y: 1464}
   ports:
     keys:
     - previousState
@@ -2819,7 +2825,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Roll Movement
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   BaseSpeed:
     UseConstant: 0
     ConstantValue: 0
@@ -2923,10 +2929,6 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 344c7bc56a05c55448d1b101c5b8b230, type: 2}
-  TurnFactor:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 74e1f497eab35784d96f1a8547de303c, type: 2}
   PlayParticlesGameEvent: {fileID: 11400000, guid: 5e06355b74bc69a46b553cc398c14ab0,
     type: 2}
   StopParticlesGameEvent: {fileID: 11400000, guid: 4d1fdf9f0dfaa0e47a3db72a2d18b71a,
@@ -3489,7 +3491,9 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Roll Released Trigger_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []

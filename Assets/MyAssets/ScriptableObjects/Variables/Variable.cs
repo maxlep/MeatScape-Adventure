@@ -23,6 +23,10 @@ namespace MyAssets.ScriptableObjects.Variables
             {
                 runtimeValue = value;
                 this.OnUpdate?.Invoke();
+                if (name == "SlowTurnFactor_Roll_Player")
+                {
+                    Debug.LogError((new System.Diagnostics.StackTrace()).GetFrame(1).GetMethod().Name.ToString());
+                }
             }
         }
 

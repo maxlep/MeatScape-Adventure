@@ -4,14 +4,14 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using System;
 
-[InlineEditor]
+[InlineEditor] [HideReferenceObjectPicker]
 public class ControlledProperties
 {
-    [SerializeField] private IntReference ControlMax;
-    [SerializeField] private IntReference ControlCurrent;
-    [ListDrawerSettings(DraggableItems=false)][SerializeField] private List<ControlledProperty> ControlledUpdateProperties;
-    [ListDrawerSettings(DraggableItems=false)][SerializeField] private List<ControlledProperty> ControlledLateUpdateProperties;
-    [ListDrawerSettings(DraggableItems=false)][SerializeField] private List<ControlledProperty> ControlledFixedUpdateProperties;
+    [SerializeField] [HideReferenceObjectPicker] private IntReference ControlMax;
+    [SerializeField] [HideReferenceObjectPicker] private IntReference ControlCurrent;
+    [ListDrawerSettings(DraggableItems=false)][SerializeField] [HideReferenceObjectPicker] private List<ControlledProperty> ControlledUpdateProperties;
+    [ListDrawerSettings(DraggableItems=false)][SerializeField] [HideReferenceObjectPicker] private List<ControlledProperty> ControlledLateUpdateProperties;
+    [ListDrawerSettings(DraggableItems=false)][SerializeField] [HideReferenceObjectPicker] private List<ControlledProperty> ControlledFixedUpdateProperties;
 
     private List<Action> ControlledUpdatePropertiesCallbacks;
     private List<Action> ControlledLateUpdatePropertiesCallbacks;

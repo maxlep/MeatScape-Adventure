@@ -7,11 +7,23 @@ using System;
 [InlineEditor] [HideReferenceObjectPicker]
 public class ControlledProperties
 {
-    [SerializeField] [HideReferenceObjectPicker] private IntReference ControlMax;
-    [SerializeField] [HideReferenceObjectPicker] private IntReference ControlCurrent;
-    [ListDrawerSettings(DraggableItems=false)][SerializeField] [HideReferenceObjectPicker] private List<ControlledProperty> ControlledUpdateProperties;
-    [ListDrawerSettings(DraggableItems=false)][SerializeField] [HideReferenceObjectPicker] private List<ControlledProperty> ControlledLateUpdateProperties;
-    [ListDrawerSettings(DraggableItems=false)][SerializeField] [HideReferenceObjectPicker] private List<ControlledProperty> ControlledFixedUpdateProperties;
+    [SerializeField] [HideReferenceObjectPicker] [Required]
+    private IntReference ControlMax;
+    
+    [SerializeField] [HideReferenceObjectPicker] [Required] [PropertySpace(0f, 10f)]
+    private IntReference ControlCurrent;
+    
+    [ListDrawerSettings(DraggableItems=false)][SerializeField] [TabGroup("Update")] [GUIColor(.9f, .95f, 1f)] 
+    [HideReferenceObjectPicker] [Required] [PropertySpace(5f, 0f)] [LabelText("Controlled Props - Update")]
+    private List<ControlledProperty> ControlledUpdateProperties;
+    
+    [ListDrawerSettings(DraggableItems=false)][SerializeField] [TabGroup("LateUpdate")]  [GUIColor(.9f, .95f, 1f)]
+    [HideReferenceObjectPicker] [Required] [LabelText("Controlled Props - LateUpdate")]
+    private List<ControlledProperty> ControlledLateUpdateProperties;
+    
+    [ListDrawerSettings(DraggableItems=false)][SerializeField] [TabGroup("FixedUpdate")]  [GUIColor(.9f, .95f, 1f)] 
+    [HideReferenceObjectPicker] [Required] [LabelText("Controlled Props - FixedUpdate")]
+    private List<ControlledProperty> ControlledFixedUpdateProperties;
 
     private List<Action> ControlledUpdatePropertiesCallbacks;
     private List<Action> ControlledLateUpdatePropertiesCallbacks;

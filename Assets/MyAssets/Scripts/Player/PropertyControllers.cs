@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PropertyControllers : SerializedMonoBehaviour {
 
-    [ListDrawerSettings(DraggableItems=false)][SerializeField] List<ControlledProperties> Controllers;
+    [ListDrawerSettings(DraggableItems=false)][SerializeField] [Required] 
+    List<ControlledProperties> Controllers;
 
     void Awake() {
         Controllers.ForEach((controller) => {

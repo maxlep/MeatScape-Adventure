@@ -299,12 +299,15 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         SizeChangePivot.Value.localScale = new Vector3(value, value, value);
     }
 
-    public void UpdateStarvation(float value) {
-        SkinnedMesh.SetBlendShapeWeight(0, value);
+    public void UpdateStarvation(float value)
+    {
+        var clamped = Mathf.Clamp(value, 0, 100);
+        SkinnedMesh.SetBlendShapeWeight(0, clamped);
     }
 
     public void UpdateBloat(float value) {
-        SkinnedMesh.SetBlendShapeWeight(1, value);
+        var clamped = Mathf.Clamp(value, 0, 100);
+        SkinnedMesh.SetBlendShapeWeight(1, clamped);
     }
 
     [Button]

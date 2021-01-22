@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GroundMovement <Reference>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -3688, y: 920}
+  position: {x: -3736, y: 920}
   ports:
     keys:
     - transitions
@@ -672,6 +672,47 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   referencedState: {fileID: -8209884016339463683}
+--- !u!114 &-6025022824260275533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: Roll Movement <Reference>
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -3736, y: 344}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: -6025022824260275533}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: -6025022824260275533}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: startingState
+        node: {fileID: 1907789837880406339}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  referencedState: {fileID: 4966931143862885706}
 --- !u!114 &-5533445536069484476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1230,6 +1271,9 @@ MonoBehaviour:
       - fieldName: nextState
         node: {fileID: -2507466663391072636}
         reroutePoints: []
+      - fieldName: nextState
+        node: {fileID: 1907789837880406339}
+        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 2
@@ -1301,6 +1345,22 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 3
     Variable: {fileID: 11400000, guid: 9cb576d457272ee4fafdb2d47808c0d0, type: 2}
+  OptimalChargeTime:
+    UseConstant: 0
+    ConstantValue: 0.75
+    Variable: {fileID: 11400000, guid: 1d5b58b3a3127a4458fc349cc47b00be, type: 2}
+  OptimalChargeErrorThreshold:
+    UseConstant: 0
+    ConstantValue: 0.125
+    Variable: {fileID: 11400000, guid: 009b00b075d1c724fade2b4ff3b585cd, type: 2}
+  OptimalChargeMultiplier:
+    UseConstant: 0
+    ConstantValue: 1.25
+    Variable: {fileID: 11400000, guid: eb75fef5850afd24e979f00f809b036c, type: 2}
+  SlingshotOptimalChargeEvent: {fileID: 11400000, guid: f00f25b99d8931b4e8dcb055da22ca20,
+    type: 2}
+  SlingshotOptimalChargeExecuteEvent: {fileID: 11400000, guid: 6d343224491fdc14eb6e572830fb21e8,
+    type: 2}
 --- !u!114 &-2581850360246734902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1355,7 +1415,7 @@ MonoBehaviour:
   m_Name: GroundMovement -> Slingshot
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -3224, y: 936}
+  position: {x: -3272, y: 936}
   ports:
     keys:
     - startingState
@@ -1873,6 +1933,8 @@ MonoBehaviour:
   - {fileID: -2916305283311469656}
   - {fileID: -2507466663391072636}
   - {fileID: 9201189763644822038}
+  - {fileID: -6025022824260275533}
+  - {fileID: 1907789837880406339}
 --- !u!114 &145714409710213218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2472,6 +2534,75 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   referencedState: {fileID: 1196608421412681666}
+--- !u!114 &1907789837880406339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: Roll Movement -> Slingshot
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -3288, y: 312}
+  ports:
+    keys:
+    - startingState
+    - nextState
+    values:
+    - _fieldName: startingState
+      _node: {fileID: 1907789837880406339}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: -6025022824260275533}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: nextState
+      _node: {fileID: 1907789837880406339}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: -2916305283311469656}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+  transitionPriority: 0
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    -  Roll Pressed_ Controller_
+    Player
+
+'
+  ValidStartStates: []
+  InvalidStartStates: []
+  BoolConditions:
+  - targetParameter:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: 7515e678ba0d82a4b92ee5e8bc9cee52, type: 2}
+    value: 1
+  - targetParameter:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: 688b2f12f8c42c547b744abf5d7c14d9, type: 2}
+    value: 1
+  TriggerConditions: []
+  FloatConditions: []
+  IntConditions: []
+  TimerConditions: []
+  Vector2Conditions: []
+  Vector3Conditions: []
 --- !u!114 &2073304123495497544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2923,7 +3054,7 @@ MonoBehaviour:
   m_Name: Slope Movement <Reference>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -3688, y: 1112}
+  position: {x: -3736, y: 1112}
   ports:
     keys:
     - previousState

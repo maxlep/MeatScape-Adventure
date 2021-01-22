@@ -41,6 +41,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector2Reference MoveInput;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector3Reference BaseVelocity;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference JumpPressed;
+    [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference RollPressed;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference IsGrounded;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference IsOnSlidebleSlope;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable AttackTrigger;
@@ -119,6 +120,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         playerMove = InputManager.Instance.GetPlayerMove_Action();
         InputManager.Instance.onJump_Pressed += () => JumpPressed.Value = true;
         InputManager.Instance.onJump_Released += () => JumpPressed.Value = false;
+        InputManager.Instance.onRoll_Pressed += () => RollPressed.Value = true;
+        InputManager.Instance.onRoll_Released += () => RollPressed.Value = false;
 
         InputManager.Instance.onJump_Pressed += () => JumpTrigger.Activate();
         InputManager.Instance.onAttack += () => AttackTrigger.Activate();

@@ -114,8 +114,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
 
         #endregion
-        
-        
+
         private Vector3 velocityAlongSlope;
         private Vector3 moveInputOnSlope;
         private Vector3 previousVelocity = Vector3.zero;

@@ -6,7 +6,7 @@ using UnityEngine;
 namespace MyAssets.Graphs.StateMachine.Nodes
 {
     
-    public class Slingshot : BaseMovement
+    public class Slingshot : RollMovement
     {
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [Required]
@@ -88,11 +88,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         
         protected override Vector3 CalculateVelocity(VelocityInfo velocityInfo)
         {
-            Vector3 currentVelocity = velocityInfo.currentVelocity;
-            Vector3 impulseVelocity = velocityInfo.impulseVelocity;
-            Vector3 impulseVelocityRedirectble = velocityInfo.impulseVelocityRedirectble;
-            
-            return Vector3.zero;
+            return base.CalculateVelocity(velocityInfo);
         }
 
         private void AccumulateSlingForce()

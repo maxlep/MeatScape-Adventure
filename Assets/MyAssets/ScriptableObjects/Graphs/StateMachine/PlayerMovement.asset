@@ -342,12 +342,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '- ! Is Grounded_ Controller_ Player
-
-    - ! Is On Slideable
-    Slope_ Controller_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -537,12 +532,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '-  Is Grounded_ Controller_ Player
-
-    -  Jump Trigger_ Controller_
-    Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -606,12 +596,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '-  Is Grounded_ Controller_ Player
-
-    -  Waited Jump Ground
-    Delay_ Movement_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -872,9 +857,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '-  Add Impulse Trigger_ Controller_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -1163,9 +1146,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '- ! Is Grounded_ Controller_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -1227,9 +1208,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '-  Is Grounded_ Controller_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -1257,7 +1236,7 @@ MonoBehaviour:
   m_Name: Slingshot <Slingshot> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -2648, y: 968}
+  position: {x: -2504, y: 328}
   ports:
     keys:
     - previousState
@@ -1309,13 +1288,13 @@ MonoBehaviour:
   PlayerCameraTransform: {fileID: 11400000, guid: d50b3bc5cde09794cb0468cc9e2dba0f,
     type: 2}
   TimeToJumpApex:
-    UseConstant: 1
+    UseConstant: 0
     ConstantValue: 0
-    Variable: {fileID: 0}
+    Variable: {fileID: 11400000, guid: 1363a9d9ca886e741bf7446fd6169c24, type: 2}
   MaxJumpHeight:
-    UseConstant: 1
+    UseConstant: 0
     ConstantValue: 0
-    Variable: {fileID: 0}
+    Variable: {fileID: 11400000, guid: 661512a7e6190754c859389501b85860, type: 2}
   EnableRedirect: 0
   RedirectMaxDegrees:
     UseConstant: 0
@@ -1337,6 +1316,76 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: {x: 0, y: 0, z: 0, w: 0}
     Variable: {fileID: 11400000, guid: 642843bee527d554f9408523e1ab11c8, type: 2}
+  TurnSpeedAir:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: d9e739ce623881742b90c3c6fb0a9836, type: 2}
+  SlowTurnThreshold:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: fe0e8810cd015ff4bb4f086475ccd4f1, type: 2}
+  SlowTurnFactor:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 76577d76b46b4c1499c49bcf2ebc4800, type: 2}
+  CoefficientOfRollingFriction:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: b8e3341dd40276a46bfdc3c5309d9bb2, type: 2}
+  CoefficientOfTurningFriction:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 731aa6c3058ad944db017741368144de, type: 2}
+  DragCoefficientHorizontal:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: f50ee3a37033c6a4f9fafc168f86dce2, type: 2}
+  FallMultiplier:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: add848a2a4596d842bf11239290fbb71, type: 2}
+  MaxFallSpeed:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 7ce844f15ac152946bbf9df2bd27b40f, type: 2}
+  DragCoefficientVertical:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 82daf07a835c3034abdb39e5afa37042, type: 2}
+  HorizontalGravityFactor:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 4fefbab5ea91b4d4682cc6ad1f881f02, type: 2}
+  BounceFactor:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: b255d62a584a16f478ba9594664c3cec, type: 2}
+  BounceThresholdVelocity:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: dd039a78e5da5104a9a10fecbb37ff3a, type: 2}
+  GroundStickAngleInput:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 11400000, guid: 21ab8b14c3952f84bb29af6e6a4d4953, type: 2}
+  GroundStickAngleOutput:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 21ab8b14c3952f84bb29af6e6a4d4953, type: 2}
+  HorizontalSpeedOut:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 344c7bc56a05c55448d1b101c5b8b230, type: 2}
+  TurnFactor:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 76577d76b46b4c1499c49bcf2ebc4800, type: 2}
+  PlayParticlesGameEvent: {fileID: 11400000, guid: 5e06355b74bc69a46b553cc398c14ab0,
+    type: 2}
+  StopParticlesGameEvent: {fileID: 11400000, guid: 4d1fdf9f0dfaa0e47a3db72a2d18b71a,
+    type: 2}
+  BounceGameEvent: {fileID: 11400000, guid: 24255205a0786a14982c850f31d81a16, type: 2}
+  RollSoundGameEvent: {fileID: 11400000, guid: 04a2bf2cf5e65934895dd6c42f6df3b0, type: 2}
   MaxForce:
     UseConstant: 0
     ConstantValue: 200
@@ -1449,9 +1498,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '-  Roll Pressed Trigger_ Controller_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -1507,12 +1554,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '-  Is Grounded_ Controller_ Player
-
-    - ! Is On Slideable
-    Slope_ Controller_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -1623,12 +1665,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '-  Is On Slideable Slope_ Controller_ Player
-
-    -  Waited
-    Jump Ground Delay_ Movement_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -1859,9 +1896,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '-  Roll Pressed Trigger_ Controller_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -2202,12 +2237,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '- ! Is Grounded_ Controller_ Player
-
-    -  Jump Trigger_ Controller_
-    Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -2449,15 +2479,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '-  Is On Slideable Slope_ Controller_ Player
-
-    -  Waited
-    Jump Ground Delay_ Movement_ Player
-
-    - 0  Ignore 0 && 0  Less Than 0 && 0 
-    Ignore 0
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -2578,12 +2600,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '-  Is Grounded_ Controller_ Player
-
-    -  Roll Pressed_ Controller_
-    Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -2766,7 +2783,7 @@ MonoBehaviour:
   m_Name: Roll Movement <RollMovement> (PlayerMovement)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -1416, y: 1560}
+  position: {x: -1848, y: 456}
   ports:
     keys:
     - previousState
@@ -2966,9 +2983,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '-  Jump Attack Trigger_ Controller_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -3027,9 +3042,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '-  Jump Trigger_ Controller_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -3476,9 +3489,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '-  Roll Released Trigger_ Controller_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []

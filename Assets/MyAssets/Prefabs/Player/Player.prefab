@@ -945,6 +945,7 @@ Transform:
   - {fileID: 3703148741311757274}
   - {fileID: 4921972203940412686}
   - {fileID: 5890961548361868954}
+  - {fileID: 8729129078339073124}
   m_Father: {fileID: 5169072630561972269}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1210,6 +1211,7 @@ GameObject:
   - component: {fileID: 1040144463992738515}
   - component: {fileID: 5356989374005001043}
   - component: {fileID: 7668482987495331224}
+  - component: {fileID: 6635142108085765443}
   m_Layer: 9
   m_Name: ReleaseFeedback
   m_TagString: Untagged
@@ -1277,6 +1279,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Feedbacks:
   - {fileID: 7668482987495331224}
+  - {fileID: 6635142108085765443}
   InitializationMode: 2
   SafeMode: 3
   AutoPlayOnStart: 0
@@ -1319,6 +1322,36 @@ MonoBehaviour:
   MinPitch: 1
   MaxPitch: 1
   SfxAudioMixerGroup: {fileID: 0}
+--- !u!114 &6635142108085765443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2437714429344938547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c27131831afa28b499cb120fc9059997, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Active: 1
+  Label: Particles Play
+  Chance: 100
+  Timing:
+    TimescaleMode: 0
+    InitialDelay: 0
+    CooldownDuration: 0
+    NumberOfRepeats: 0
+    RepeatForever: 0
+    DelayBetweenRepeats: 1
+    Sequence: {fileID: 0}
+    TrackID: 0
+    Quantized: 0
+    TargetBPM: 120
+  DebugActive: 0
+  BoundParticleSystem: {fileID: 8729129078339073131}
+  MoveToPosition: 0
+  RandomParticleSystems: []
 --- !u!1 &2451092613558643893
 GameObject:
   m_ObjectHideFlags: 0
@@ -2359,17 +2392,17 @@ MonoBehaviour:
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: 6977fced7b41ec445a185285bf648483, type: 2}
     - {fileID: 11400000, guid: 00c841287f9a4604aaa90ce8bd4328ba, type: 2}
-    - {fileID: 11400000, guid: 73675efd882942c44bd5492deec7cacf, type: 2}
     - {fileID: 11400000, guid: c015210317b373445811b7ae7329312a, type: 2}
-    - {fileID: 11400000, guid: d6b63d3e51d04c147ab1233d029338f9, type: 2}
+    - {fileID: 11400000, guid: 73675efd882942c44bd5492deec7cacf, type: 2}
     - {fileID: 11400000, guid: fa2bf073515191c4ca6f8279b9b2f6ea, type: 2}
-    - {fileID: 7107814362353387316}
-    - {fileID: 0}
+    - {fileID: 11400000, guid: d6b63d3e51d04c147ab1233d029338f9, type: 2}
     - {fileID: 11400000, guid: 38650eb01df7254418d3af9e7f9ac727, type: 2}
+    - {fileID: 7107814362353387316}
     - {fileID: 0}
     - {fileID: 11400000, guid: 0e61780189445c84299e039139176f64, type: 2}
     - {fileID: 0}
     - {fileID: 11400000, guid: 415a65e2a91825b44bc6a9a98417f723, type: 2}
+    - {fileID: 0}
     - {fileID: 11400000, guid: f203a76e709fa864992f1d271a54b522, type: 2}
     - {fileID: 11400000, guid: da8182cb862f8c54484eee2a551bb8a0, type: 2}
     SerializedBytesString: 
@@ -2430,12 +2463,6 @@ MonoBehaviour:
     - Name: useCustomUpdate
       Entry: 5
       Data: false
-    - Name: ControlledVariable
-      Entry: 10
-      Data: 2
-    - Name: CustomUpdate
-      Entry: 6
-      Data: 
     - Name: ControlCurve
       Entry: 7
       Data: 6|MyAssets.ScriptableObjects.Variables.CurveReference, Assembly-CSharp
@@ -2534,9 +2561,15 @@ MonoBehaviour:
       Data: 
     - Name: Variable
       Entry: 10
-      Data: 3
+      Data: 2
     - Name: 
       Entry: 8
+      Data: 
+    - Name: ControlledVariable
+      Entry: 10
+      Data: 3
+    - Name: CustomUpdate
+      Entry: 6
       Data: 
     - Name: 
       Entry: 8
@@ -2547,12 +2580,6 @@ MonoBehaviour:
     - Name: useCustomUpdate
       Entry: 5
       Data: false
-    - Name: ControlledVariable
-      Entry: 10
-      Data: 4
-    - Name: CustomUpdate
-      Entry: 6
-      Data: 
     - Name: ControlCurve
       Entry: 7
       Data: 10|MyAssets.ScriptableObjects.Variables.CurveReference, Assembly-CSharp
@@ -2651,9 +2678,15 @@ MonoBehaviour:
       Data: 
     - Name: Variable
       Entry: 10
-      Data: 5
+      Data: 4
     - Name: 
       Entry: 8
+      Data: 
+    - Name: ControlledVariable
+      Entry: 10
+      Data: 5
+    - Name: CustomUpdate
+      Entry: 6
       Data: 
     - Name: 
       Entry: 8
@@ -2677,91 +2710,18 @@ MonoBehaviour:
     - Name: useCustomUpdate
       Entry: 5
       Data: true
-    - Name: ControlledVariable
-      Entry: 6
-      Data: 
-    - Name: CustomUpdate
-      Entry: 7
-      Data: 15|UnityEngine.Events.UnityEvent`1[[System.Single, mscorlib]], UnityEngine.CoreModule
-    - Name: m_PersistentCalls
-      Entry: 7
-      Data: 16|UnityEngine.Events.PersistentCallGroup, UnityEngine.CoreModule
-    - Name: m_Calls
-      Entry: 7
-      Data: 17|System.Collections.Generic.List`1[[UnityEngine.Events.PersistentCall,
-        UnityEngine.CoreModule]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 18|UnityEngine.Events.PersistentCall, UnityEngine.CoreModule
-    - Name: m_Target
-      Entry: 10
-      Data: 6
-    - Name: m_TargetAssemblyTypeName
-      Entry: 1
-      Data: PlayerController, Assembly-CSharp
-    - Name: m_MethodName
-      Entry: 1
-      Data: UpdateScale
-    - Name: m_Mode
-      Entry: 3
-      Data: 0
-    - Name: m_Arguments
-      Entry: 7
-      Data: 19|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
-    - Name: m_ObjectArgument
-      Entry: 10
-      Data: 7
-    - Name: m_ObjectArgumentAssemblyTypeName
-      Entry: 1
-      Data: UnityEngine.Object, UnityEngine
-    - Name: m_IntArgument
-      Entry: 3
-      Data: 0
-    - Name: m_FloatArgument
-      Entry: 4
-      Data: 0
-    - Name: m_StringArgument
-      Entry: 1
-      Data: 
-    - Name: m_BoolArgument
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: m_CallState
-      Entry: 3
-      Data: 2
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
     - Name: ControlCurve
       Entry: 7
-      Data: 20|MyAssets.ScriptableObjects.Variables.CurveReference, Assembly-CSharp
+      Data: 15|MyAssets.ScriptableObjects.Variables.CurveReference, Assembly-CSharp
     - Name: UseConstant
       Entry: 5
       Data: false
     - Name: ConstantValue
       Entry: 7
-      Data: 21|UnityEngine.AnimationCurve, UnityEngine.CoreModule
+      Data: 16|UnityEngine.AnimationCurve, UnityEngine.CoreModule
     - Name: 
       Entry: 7
-      Data: 22|UnityEngine.Keyframe[], UnityEngine.CoreModule
+      Data: 17|UnityEngine.Keyframe[], UnityEngine.CoreModule
     - Name: 
       Entry: 12
       Data: 2
@@ -2848,56 +2808,47 @@ MonoBehaviour:
       Data: 
     - Name: Variable
       Entry: 10
-      Data: 8
+      Data: 6
     - Name: 
       Entry: 8
       Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 23|ControlledProperty, Assembly-CSharp
-    - Name: useCustomUpdate
-      Entry: 5
-      Data: true
     - Name: ControlledVariable
       Entry: 6
       Data: 
     - Name: CustomUpdate
       Entry: 7
-      Data: 24|UnityEngine.Events.UnityEvent`1[[System.Single, mscorlib]], UnityEngine.CoreModule
+      Data: 18|UnityEngine.Events.UnityEvent`1[[System.Single, mscorlib]], UnityEngine.CoreModule
     - Name: m_PersistentCalls
       Entry: 7
-      Data: 25|UnityEngine.Events.PersistentCallGroup, UnityEngine.CoreModule
+      Data: 19|UnityEngine.Events.PersistentCallGroup, UnityEngine.CoreModule
     - Name: m_Calls
       Entry: 7
-      Data: 26|System.Collections.Generic.List`1[[UnityEngine.Events.PersistentCall,
+      Data: 20|System.Collections.Generic.List`1[[UnityEngine.Events.PersistentCall,
         UnityEngine.CoreModule]], mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 27|UnityEngine.Events.PersistentCall, UnityEngine.CoreModule
+      Data: 21|UnityEngine.Events.PersistentCall, UnityEngine.CoreModule
     - Name: m_Target
       Entry: 10
-      Data: 6
+      Data: 7
     - Name: m_TargetAssemblyTypeName
       Entry: 1
       Data: PlayerController, Assembly-CSharp
     - Name: m_MethodName
       Entry: 1
-      Data: UpdateStarvation
+      Data: UpdateScale
     - Name: m_Mode
       Entry: 3
       Data: 0
     - Name: m_Arguments
       Entry: 7
-      Data: 28|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
+      Data: 22|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
     - Name: m_ObjectArgument
       Entry: 10
-      Data: 9
+      Data: 8
     - Name: m_ObjectArgumentAssemblyTypeName
       Entry: 1
       Data: UnityEngine.Object, UnityEngine
@@ -2934,18 +2885,27 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 23|ControlledProperty, Assembly-CSharp
+    - Name: useCustomUpdate
+      Entry: 5
+      Data: true
     - Name: ControlCurve
       Entry: 7
-      Data: 29|MyAssets.ScriptableObjects.Variables.CurveReference, Assembly-CSharp
+      Data: 24|MyAssets.ScriptableObjects.Variables.CurveReference, Assembly-CSharp
     - Name: UseConstant
       Entry: 5
       Data: false
     - Name: ConstantValue
       Entry: 7
-      Data: 30|UnityEngine.AnimationCurve, UnityEngine.CoreModule
+      Data: 25|UnityEngine.AnimationCurve, UnityEngine.CoreModule
     - Name: 
       Entry: 7
-      Data: 31|UnityEngine.Keyframe[], UnityEngine.CoreModule
+      Data: 26|UnityEngine.Keyframe[], UnityEngine.CoreModule
     - Name: 
       Entry: 12
       Data: 2
@@ -3032,56 +2992,47 @@ MonoBehaviour:
       Data: 
     - Name: Variable
       Entry: 10
-      Data: 10
+      Data: 9
     - Name: 
       Entry: 8
       Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 32|ControlledProperty, Assembly-CSharp
-    - Name: useCustomUpdate
-      Entry: 5
-      Data: true
     - Name: ControlledVariable
       Entry: 6
       Data: 
     - Name: CustomUpdate
       Entry: 7
-      Data: 33|UnityEngine.Events.UnityEvent`1[[System.Single, mscorlib]], UnityEngine.CoreModule
+      Data: 27|UnityEngine.Events.UnityEvent`1[[System.Single, mscorlib]], UnityEngine.CoreModule
     - Name: m_PersistentCalls
       Entry: 7
-      Data: 34|UnityEngine.Events.PersistentCallGroup, UnityEngine.CoreModule
+      Data: 28|UnityEngine.Events.PersistentCallGroup, UnityEngine.CoreModule
     - Name: m_Calls
       Entry: 7
-      Data: 35|System.Collections.Generic.List`1[[UnityEngine.Events.PersistentCall,
+      Data: 29|System.Collections.Generic.List`1[[UnityEngine.Events.PersistentCall,
         UnityEngine.CoreModule]], mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 36|UnityEngine.Events.PersistentCall, UnityEngine.CoreModule
+      Data: 30|UnityEngine.Events.PersistentCall, UnityEngine.CoreModule
     - Name: m_Target
       Entry: 10
-      Data: 6
+      Data: 7
     - Name: m_TargetAssemblyTypeName
       Entry: 1
       Data: PlayerController, Assembly-CSharp
     - Name: m_MethodName
       Entry: 1
-      Data: UpdateBloat
+      Data: UpdateStarvation
     - Name: m_Mode
       Entry: 3
       Data: 0
     - Name: m_Arguments
       Entry: 7
-      Data: 37|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
+      Data: 31|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
     - Name: m_ObjectArgument
       Entry: 10
-      Data: 11
+      Data: 10
     - Name: m_ObjectArgumentAssemblyTypeName
       Entry: 1
       Data: UnityEngine.Object, UnityEngine
@@ -3118,18 +3069,27 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 32|ControlledProperty, Assembly-CSharp
+    - Name: useCustomUpdate
+      Entry: 5
+      Data: true
     - Name: ControlCurve
       Entry: 7
-      Data: 38|MyAssets.ScriptableObjects.Variables.CurveReference, Assembly-CSharp
+      Data: 33|MyAssets.ScriptableObjects.Variables.CurveReference, Assembly-CSharp
     - Name: UseConstant
       Entry: 5
       Data: false
     - Name: ConstantValue
       Entry: 7
-      Data: 39|UnityEngine.AnimationCurve, UnityEngine.CoreModule
+      Data: 34|UnityEngine.AnimationCurve, UnityEngine.CoreModule
     - Name: 
       Entry: 7
-      Data: 40|UnityEngine.Keyframe[], UnityEngine.CoreModule
+      Data: 35|UnityEngine.Keyframe[], UnityEngine.CoreModule
     - Name: 
       Entry: 12
       Data: 2
@@ -3216,7 +3176,80 @@ MonoBehaviour:
       Data: 
     - Name: Variable
       Entry: 10
+      Data: 11
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ControlledVariable
+      Entry: 6
+      Data: 
+    - Name: CustomUpdate
+      Entry: 7
+      Data: 36|UnityEngine.Events.UnityEvent`1[[System.Single, mscorlib]], UnityEngine.CoreModule
+    - Name: m_PersistentCalls
+      Entry: 7
+      Data: 37|UnityEngine.Events.PersistentCallGroup, UnityEngine.CoreModule
+    - Name: m_Calls
+      Entry: 7
+      Data: 38|System.Collections.Generic.List`1[[UnityEngine.Events.PersistentCall,
+        UnityEngine.CoreModule]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 39|UnityEngine.Events.PersistentCall, UnityEngine.CoreModule
+    - Name: m_Target
+      Entry: 10
+      Data: 7
+    - Name: m_TargetAssemblyTypeName
+      Entry: 1
+      Data: PlayerController, Assembly-CSharp
+    - Name: m_MethodName
+      Entry: 1
+      Data: UpdateBloat
+    - Name: m_Mode
+      Entry: 3
+      Data: 0
+    - Name: m_Arguments
+      Entry: 7
+      Data: 40|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
+    - Name: m_ObjectArgument
+      Entry: 10
       Data: 12
+    - Name: m_ObjectArgumentAssemblyTypeName
+      Entry: 1
+      Data: UnityEngine.Object, UnityEngine
+    - Name: m_IntArgument
+      Entry: 3
+      Data: 0
+    - Name: m_FloatArgument
+      Entry: 4
+      Data: 0
+    - Name: m_StringArgument
+      Entry: 1
+      Data: 
+    - Name: m_BoolArgument
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_CallState
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 8
       Data: 
@@ -3281,12 +3314,6 @@ MonoBehaviour:
     - Name: useCustomUpdate
       Entry: 5
       Data: false
-    - Name: ControlledVariable
-      Entry: 10
-      Data: 2
-    - Name: CustomUpdate
-      Entry: 6
-      Data: 
     - Name: ControlCurve
       Entry: 7
       Data: 46|MyAssets.ScriptableObjects.Variables.CurveReference, Assembly-CSharp
@@ -3385,9 +3412,15 @@ MonoBehaviour:
       Data: 
     - Name: Variable
       Entry: 10
-      Data: 3
+      Data: 2
     - Name: 
       Entry: 8
+      Data: 
+    - Name: ControlledVariable
+      Entry: 10
+      Data: 3
+    - Name: CustomUpdate
+      Entry: 6
       Data: 
     - Name: 
       Entry: 8
@@ -4419,6 +4452,87 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05249249de9d1744bb33c5e449711b32, type: 3}
+--- !u!1001 &1414094687942428109
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 7869734425786457132}
+    m_Modifications:
+    - target: {fileID: 7690959616066040228, guid: 3c35abaea0b073a429076d5d47cf05c7,
+        type: 3}
+      propertyPath: m_Name
+      value: SlingshotReleaseParticles
+      objectReference: {fileID: 0}
+    - target: {fileID: 7690959616066040233, guid: 3c35abaea0b073a429076d5d47cf05c7,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7690959616066040233, guid: 3c35abaea0b073a429076d5d47cf05c7,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.846
+      objectReference: {fileID: 0}
+    - target: {fileID: 7690959616066040233, guid: 3c35abaea0b073a429076d5d47cf05c7,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7690959616066040233, guid: 3c35abaea0b073a429076d5d47cf05c7,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7690959616066040233, guid: 3c35abaea0b073a429076d5d47cf05c7,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7690959616066040233, guid: 3c35abaea0b073a429076d5d47cf05c7,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7690959616066040233, guid: 3c35abaea0b073a429076d5d47cf05c7,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.70710677
+      objectReference: {fileID: 0}
+    - target: {fileID: 7690959616066040233, guid: 3c35abaea0b073a429076d5d47cf05c7,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7690959616066040233, guid: 3c35abaea0b073a429076d5d47cf05c7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90.00001
+      objectReference: {fileID: 0}
+    - target: {fileID: 7690959616066040233, guid: 3c35abaea0b073a429076d5d47cf05c7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7690959616066040233, guid: 3c35abaea0b073a429076d5d47cf05c7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3c35abaea0b073a429076d5d47cf05c7, type: 3}
+--- !u!198 &8729129078339073131 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7690959616066040230, guid: 3c35abaea0b073a429076d5d47cf05c7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1414094687942428109}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8729129078339073124 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7690959616066040233, guid: 3c35abaea0b073a429076d5d47cf05c7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1414094687942428109}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1451734507604200379
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4818,24 +4932,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055, type: 3}
---- !u!4 &1580564444276193668 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 129146622337430079, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
-    type: 3}
-  m_PrefabInstance: {fileID: 1451734507604200379}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &5261972125699056272 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -2511918893444863701, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
-    type: 3}
-  m_PrefabInstance: {fileID: 1451734507604200379}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &8085889328932539019 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7211179270969327920, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
-    type: 3}
-  m_PrefabInstance: {fileID: 1451734507604200379}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1418389424614517840 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
@@ -4848,75 +4944,21 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1451734507604200379}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &8085889328932539019 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7211179270969327920, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+    type: 3}
+  m_PrefabInstance: {fileID: 1451734507604200379}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3878322715316939656 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2447434963246096435, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
     type: 3}
   m_PrefabInstance: {fileID: 1451734507604200379}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &515834420020909001 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1372758391397079154, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
-    type: 3}
-  m_PrefabInstance: {fileID: 1451734507604200379}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2578666046473991945 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4029837438219041970, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
-    type: 3}
-  m_PrefabInstance: {fileID: 1451734507604200379}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &220117049951869908 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -7553772848241733521, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
-    type: 3}
-  m_PrefabInstance: {fileID: 1451734507604200379}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2644570033274675591 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3501265830196685372, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
-    type: 3}
-  m_PrefabInstance: {fileID: 1451734507604200379}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &4860111173999017463 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -2929858141678799284, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
-    type: 3}
-  m_PrefabInstance: {fileID: 1451734507604200379}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &5326312087626873925 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6759696643751327742, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
-    type: 3}
-  m_PrefabInstance: {fileID: 1451734507604200379}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &7818954542360434010 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -529426474751566111, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
-    type: 3}
-  m_PrefabInstance: {fileID: 1451734507604200379}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &7560018115565806974 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8993420983284903621, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
-    type: 3}
-  m_PrefabInstance: {fileID: 1451734507604200379}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3792207903946248190 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2343340929672922181, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
-    type: 3}
-  m_PrefabInstance: {fileID: 1451734507604200379}
-  m_PrefabAsset: {fileID: 0}
---- !u!137 &8034851805259252138 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -314090946905077231, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
-    type: 3}
-  m_PrefabInstance: {fileID: 1451734507604200379}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &127766577354281662 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -7646984823093700347, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
     type: 3}
   m_PrefabInstance: {fileID: 1451734507604200379}
   m_PrefabAsset: {fileID: 0}
@@ -4929,6 +4971,78 @@ GameObject:
 --- !u!4 &2496787583837387773 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3928202944219410502, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+    type: 3}
+  m_PrefabInstance: {fileID: 1451734507604200379}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5261972125699056272 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -2511918893444863701, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+    type: 3}
+  m_PrefabInstance: {fileID: 1451734507604200379}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1580564444276193668 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 129146622337430079, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+    type: 3}
+  m_PrefabInstance: {fileID: 1451734507604200379}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &8034851805259252138 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -314090946905077231, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+    type: 3}
+  m_PrefabInstance: {fileID: 1451734507604200379}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7560018115565806974 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8993420983284903621, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+    type: 3}
+  m_PrefabInstance: {fileID: 1451734507604200379}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7818954542360434010 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -529426474751566111, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+    type: 3}
+  m_PrefabInstance: {fileID: 1451734507604200379}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5326312087626873925 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6759696643751327742, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+    type: 3}
+  m_PrefabInstance: {fileID: 1451734507604200379}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4860111173999017463 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -2929858141678799284, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+    type: 3}
+  m_PrefabInstance: {fileID: 1451734507604200379}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2644570033274675591 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3501265830196685372, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+    type: 3}
+  m_PrefabInstance: {fileID: 1451734507604200379}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &220117049951869908 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -7553772848241733521, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+    type: 3}
+  m_PrefabInstance: {fileID: 1451734507604200379}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &127766577354281662 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -7646984823093700347, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+    type: 3}
+  m_PrefabInstance: {fileID: 1451734507604200379}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &515834420020909001 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1372758391397079154, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
+    type: 3}
+  m_PrefabInstance: {fileID: 1451734507604200379}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2578666046473991945 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4029837438219041970, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
     type: 3}
   m_PrefabInstance: {fileID: 1451734507604200379}
   m_PrefabAsset: {fileID: 0}
@@ -5212,15 +5326,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa60de3167e9bea4c8154ef1a1c5f5c2, type: 3}
---- !u!198 &1791016601052743988 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 19852826, guid: aa60de3167e9bea4c8154ef1a1c5f5c2,
-    type: 3}
-  m_PrefabInstance: {fileID: 1791016601072265006}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1791016601072109984 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 421518, guid: aa60de3167e9bea4c8154ef1a1c5f5c2,
+    type: 3}
+  m_PrefabInstance: {fileID: 1791016601072265006}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &1791016601052743988 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 19852826, guid: aa60de3167e9bea4c8154ef1a1c5f5c2,
     type: 3}
   m_PrefabInstance: {fileID: 1791016601072265006}
   m_PrefabAsset: {fileID: 0}
@@ -5293,15 +5407,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 587f6fc4cbd67ff4a92737009d72e07d, type: 3}
---- !u!4 &5890961548361868954 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8163684771574148750, guid: 587f6fc4cbd67ff4a92737009d72e07d,
-    type: 3}
-  m_PrefabInstance: {fileID: 2345208115226036244}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &5890961548361868949 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 8163684771574148737, guid: 587f6fc4cbd67ff4a92737009d72e07d,
+    type: 3}
+  m_PrefabInstance: {fileID: 2345208115226036244}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5890961548361868954 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8163684771574148750, guid: 587f6fc4cbd67ff4a92737009d72e07d,
     type: 3}
   m_PrefabInstance: {fileID: 2345208115226036244}
   m_PrefabAsset: {fileID: 0}
@@ -5441,15 +5555,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a00a9e170e16dfc49bfffa79c47b0716, type: 3}
---- !u!198 &3703148741331157042 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 19820956, guid: a00a9e170e16dfc49bfffa79c47b0716,
-    type: 3}
-  m_PrefabInstance: {fileID: 3703148741311918510}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3703148741311757274 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 428660, guid: a00a9e170e16dfc49bfffa79c47b0716,
+    type: 3}
+  m_PrefabInstance: {fileID: 3703148741311918510}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &3703148741331157042 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 19820956, guid: a00a9e170e16dfc49bfffa79c47b0716,
     type: 3}
   m_PrefabInstance: {fileID: 3703148741311918510}
   m_PrefabAsset: {fileID: 0}

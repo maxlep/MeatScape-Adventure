@@ -167,10 +167,14 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             
             CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
             CharacterTransientGroundingReport LastGroundingStatus = playerController.LastGroundingStatus;
-            
+
+            #region Bounce
+
             //Bounce if just became grounded
+            Vector3 velocityIntoGround = Vector3.Project(previousVelocity, -GroundingStatus.GroundNormal);
+            
             if (!LastGroundingStatus.FoundAnyGround && GroundingStatus.FoundAnyGround &&
-                previousVelocity.y <= -BounceThresholdVelocity.Value)
+                velocityIntoGround.magnitude >= BounceThresholdVelocity.Value)
             {
                 playerController.UngroundMotor();
                 BounceGameEvent.Raise();
@@ -195,6 +199,8 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
                 resultingVelocity = normalBounceFactorMultiplier * reflectedVelocity;
             }
+
+            #endregion
 
             previousVelocity = resultingVelocity;
             

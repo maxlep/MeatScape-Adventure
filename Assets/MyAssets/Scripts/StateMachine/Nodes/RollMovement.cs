@@ -186,6 +186,13 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 Vector3 reflectedVelocity = Vector3.Reflect(previousVelocity, GroundingStatus.GroundNormal);
                 reflectedVelocity.y *= normalBounceFactorMultiplier;
                 
+                //Redirect bounce if conditions met
+                if (EnableRedirect && CheckRedirectConditions(reflectedVelocity))
+                {
+                    reflectedVelocity = CalculateRedirectedImpulse(reflectedVelocity);
+                }
+                    
+
                 resultingVelocity = normalBounceFactorMultiplier * reflectedVelocity;
             }
 

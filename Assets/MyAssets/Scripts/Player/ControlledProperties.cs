@@ -34,6 +34,7 @@ public class ControlledProperties
                 
             });
         });
+        ControlCurrent.Value = ControlCurrent.Value;
     }
 
     private void UpdateProperties(List<Action> UpdatePropertiesCallbacks) {

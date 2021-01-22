@@ -5,11 +5,18 @@ using UnityEngine.Events;
 
 [HideReferenceObjectPicker]
 public class ControlledProperty {
+    
+    [Title("")]
     [SerializeField] bool useCustomUpdate = false;
-    [HideIf("useCustomUpdate")][Required][SerializeField] [HideReferenceObjectPicker] private FloatVariable ControlledVariable;
-    [ShowIf("useCustomUpdate")][Required][SerializeField] [HideReferenceObjectPicker] UnityEvent<float> CustomUpdate;
-    [Space]
+    
     [Required][HideReferenceObjectPicker][SerializeField] private CurveReference ControlCurve;
+
+    [HideIf("useCustomUpdate")][Required][SerializeField] [HideReferenceObjectPicker] 
+    private FloatVariable ControlledVariable;
+
+    [ShowIf("useCustomUpdate")][Required][SerializeField] [HideReferenceObjectPicker] 
+    [PropertySpace(5f, 0f)]
+    UnityEvent<float> CustomUpdate;
 
     public void Update(float percent) {
         if(useCustomUpdate) {

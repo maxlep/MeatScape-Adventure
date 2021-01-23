@@ -1,4 +1,5 @@
-﻿using MyAssets.ScriptableObjects.Events;
+﻿using KinematicCharacterController;
+using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -93,7 +94,10 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
         private void AccumulateSlingForce()
         {
-            Vector3 slingDirection = moveInputCameraRelative.normalized;
+            CharacterGroundingReport groundingStatus = playerController.GroundingStatus;
+            
+            Vector3 slingDirection =
+                Vector3.ProjectOnPlane(moveInputCameraRelative.normalized, groundingStatus.GroundNormal);
 
             float timePassed = Time.time - enterTime;
             float percentToMax = Mathf.Clamp01(timePassed/TimeToMaxCharge.Value);

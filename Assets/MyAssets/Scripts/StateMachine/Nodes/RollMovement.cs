@@ -58,7 +58,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Vertical")] [Required]
-        protected FloatReference HorizontalGravityFactor;
+        protected FloatReference GravityFactor;
         
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Vertical")] [Required]
@@ -67,6 +67,11 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Vertical")] [Required]
         protected FloatReference BounceThresholdVelocity;
+        
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Vertical")] [Required]
+        protected FloatReference BounceGroundDotThreshold;
+        
         
         #endregion
         
@@ -128,6 +133,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             GroundStickAngleOutput.Value = GroundStickAngleInput.Value;
             playerController.GiveThrowKnockback(NewVelocityOut.Value.normalized);
             InitRollParticles();
+            gravity *= GravityFactor.Value;
         }
 
         public override void Exit()
@@ -173,15 +179,18 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             //Bounce if just became grounded
             Vector3 velocityIntoGround = Vector3.Project(previousVelocity, -GroundingStatus.GroundNormal);
             
+            float velocityGroundDot = Vector3.Dot(previousVelocity.normalized, GroundingStatus.GroundNormal);
+
             if (!LastGroundingStatus.FoundAnyGround && GroundingStatus.FoundAnyGround &&
-                velocityIntoGround.magnitude >= BounceThresholdVelocity.Value)
+                velocityIntoGround.magnitude >= BounceThresholdVelocity.Value &&
+                -velocityGroundDot > BounceGroundDotThreshold.Value)
             {
                 playerController.UngroundMotor();
                 BounceGameEvent.Raise();
 
                 //Negative dot of velocity and ground normal
                 //Negative to get in range of 0 -> 1 where 1 means directly into ground
-                float bounceFactorNormalMultiplier = -Vector3.Dot(previousVelocity.normalized, GroundingStatus.GroundNormal);
+                float bounceFactorNormalMultiplier = -velocityGroundDot;
                 
                 //Lerp from normal bounce to half based on ground normal velocity dot
                 float normalBounceFactorMultiplier = Mathf.Lerp(BounceFactor.Value, BounceFactor.Value * 2f, bounceFactorNormalMultiplier);
@@ -315,37 +324,44 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             #region Airborn
 
             Vector3 newVelocity = currentVelocity.y * Vector3.up;
+
+            if (!GroundingStatus.FoundAnyGround)
+            {
+                if (newVelocity.y <= 0)  //Falling
+                {
+                    newVelocity.y += gravity * (FallMultiplier.Value - 1) * Time.deltaTime;
+                }
+                else if (newVelocity.y > 0f) //Drag when moving up (Note: Affects going up slopes)
+                {
+                    var drag = -(newVelocity.y * newVelocity.y) * DragCoefficientVertical.Value * Time.deltaTime;
+                    newVelocity.y += drag + gravity * Time.deltaTime;
+                }
+                else
+                {
+                    newVelocity.y += gravity * Time.deltaTime;
+                }
             
-            if (newVelocity.y <= 0 || GroundingStatus.FoundAnyGround)  //Falling
-            {
-                newVelocity.y += gravity * (FallMultiplier.Value - 1) * Time.deltaTime;
-            }
-            else if (newVelocity.y > 0f) //Drag when moving up (Note: Affects going up slopes)
-            {
-                var drag = -(newVelocity.y * newVelocity.y) * DragCoefficientVertical.Value * Time.deltaTime;
-                newVelocity.y += drag + gravity * Time.deltaTime;
-            }
-            else
-            {
-                newVelocity.y += gravity * Time.deltaTime;
-            }
-            
-            if (newVelocity.y < -Mathf.Abs(MaxFallSpeed.Value))   //Cap Speed
-            {
-                newVelocity.y = -Mathf.Abs(MaxFallSpeed.Value);
+                if (newVelocity.y < -Mathf.Abs(MaxFallSpeed.Value))   //Cap Speed
+                {
+                    newVelocity.y = -Mathf.Abs(MaxFallSpeed.Value);
+                }
             }
             
             #endregion
 
             #region Grounded (slope)
+
+            //If just became grounded, keep velocity going (stops from slowing down when fall down slopes and ungrounding)
+            if (GroundingStatus.FoundAnyGround && !LastGroundingStatus.FoundAnyGround)
+            {
+                newVelocity = Vector3.ProjectOnPlane(newVelocity, GroundingStatus.GroundNormal);
+            }
             
-            //If grounded, OVERRIDE and project onto ground plane (sloped to some degree)
-            //Less gravity when applied horizontally
-            if (GroundingStatus.FoundAnyGround)
+            //Each frame, add gravity to velocity on slope
+            else if (GroundingStatus.FoundAnyGround)
             {
                 newVelocity.y = gravity * Time.deltaTime;
                 newVelocity = Vector3.ProjectOnPlane(newVelocity, GroundingStatus.GroundNormal);
-                newVelocity *= HorizontalGravityFactor.Value;
             }
 
             #endregion

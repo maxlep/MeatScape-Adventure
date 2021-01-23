@@ -342,12 +342,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '- ! Is Grounded_ Controller_ Player
-
-    - ! Is On Slideable
-    Slope_ Controller_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -537,12 +532,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '-  Is Grounded_ Controller_ Player
-
-    -  Jump Trigger_ Controller_
-    Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -606,12 +596,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '-  Is Grounded_ Controller_ Player
-
-    -  Waited Jump Ground
-    Delay_ Movement_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -872,9 +857,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '-  Add Impulse Trigger_ Controller_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -1163,9 +1146,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '- ! Is Grounded_ Controller_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -1227,9 +1208,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '-  Is Grounded_ Controller_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -1364,7 +1343,7 @@ MonoBehaviour:
   FallMultiplier:
     UseConstant: 0
     ConstantValue: 0
-    Variable: {fileID: 11400000, guid: add848a2a4596d842bf11239290fbb71, type: 2}
+    Variable: {fileID: 11400000, guid: 4d11961e025bc3d4b8b0158e12fc0b37, type: 2}
   MaxFallSpeed:
     UseConstant: 0
     ConstantValue: 0
@@ -1373,10 +1352,10 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: f3ef233a00f327e498753d0c770ad624, type: 2}
-  HorizontalGravityFactor:
+  GravityFactor:
     UseConstant: 0
     ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 4fefbab5ea91b4d4682cc6ad1f881f02, type: 2}
+    Variable: {fileID: 11400000, guid: 783f2468a05364043be711de8bd02039, type: 2}
   BounceFactor:
     UseConstant: 0
     ConstantValue: 0
@@ -1385,6 +1364,10 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: dd039a78e5da5104a9a10fecbb37ff3a, type: 2}
+  BounceGroundDotThreshold:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 97f1ef4b3c97d45498042b6339d35d63, type: 2}
   GroundStickAngleInput:
     UseConstant: 1
     ConstantValue: 1
@@ -1515,9 +1498,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '-  Roll Pressed Trigger_ Controller_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -1573,12 +1554,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '-  Is Grounded_ Controller_ Player
-
-    - ! Is On Slideable
-    Slope_ Controller_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -1689,12 +1665,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '-  Is On Slideable Slope_ Controller_ Player
-
-    -  Waited
-    Jump Ground Delay_ Movement_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -1925,9 +1896,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '-  Roll Pressed Trigger_ Controller_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -2268,12 +2237,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '- ! Is Grounded_ Controller_ Player
-
-    -  Jump Trigger_ Controller_
-    Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -2339,7 +2303,7 @@ MonoBehaviour:
   BypassState: 0
   Name: GroundMovement
   zoom: 0
-  isActiveState: 1
+  isActiveState: 0
   BaseSpeed:
     UseConstant: 1
     ConstantValue: 0
@@ -2515,15 +2479,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '-  Is On Slideable Slope_ Controller_ Player
-
-    -  Waited
-    Jump Ground Delay_ Movement_ Player
-
-    - 0  Ignore 0 && 0  Less Than 0 && 0 
-    Ignore 0
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -2644,12 +2600,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '-  Is Grounded_ Controller_ Player
-
-    -  Roll Pressed_ Controller_
-    Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -2868,7 +2819,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Roll Movement
   zoom: 0
-  isActiveState: 0
+  isActiveState: 1
   BaseSpeed:
     UseConstant: 0
     ConstantValue: 0
@@ -2939,7 +2890,7 @@ MonoBehaviour:
   FallMultiplier:
     UseConstant: 0
     ConstantValue: 0
-    Variable: {fileID: 11400000, guid: add848a2a4596d842bf11239290fbb71, type: 2}
+    Variable: {fileID: 11400000, guid: 4d11961e025bc3d4b8b0158e12fc0b37, type: 2}
   MaxFallSpeed:
     UseConstant: 0
     ConstantValue: 0
@@ -2948,10 +2899,10 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 82daf07a835c3034abdb39e5afa37042, type: 2}
-  HorizontalGravityFactor:
+  GravityFactor:
     UseConstant: 0
-    ConstantValue: 5
-    Variable: {fileID: 11400000, guid: 4fefbab5ea91b4d4682cc6ad1f881f02, type: 2}
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 783f2468a05364043be711de8bd02039, type: 2}
   BounceFactor:
     UseConstant: 0
     ConstantValue: 0
@@ -2960,6 +2911,10 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: dd039a78e5da5104a9a10fecbb37ff3a, type: 2}
+  BounceGroundDotThreshold:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 97f1ef4b3c97d45498042b6339d35d63, type: 2}
   GroundStickAngleInput:
     UseConstant: 1
     ConstantValue: 1
@@ -3028,9 +2983,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '-  Jump Attack Trigger_ Controller_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -3089,9 +3042,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '-  Jump Trigger_ Controller_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -3538,9 +3489,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   transitionPriority: 0
-  conditionPreview: '-  Roll Released Trigger_ Controller_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []

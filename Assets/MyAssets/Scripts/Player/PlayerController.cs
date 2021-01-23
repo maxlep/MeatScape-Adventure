@@ -36,8 +36,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private QuaternionReference NewRotation;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference StoredJumpVelocity;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference MinSlopeSlideAngle;
-    [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference MaxStableDenivelationAngle;
-    [FoldoutGroup("Referenced Outputs")] [SerializeField] private IntReference PlayerHealth;
+    [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference MaxStableDenivelationAngle; 
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector2Reference MoveInput;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector3Reference BaseVelocity;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference JumpPressed;
@@ -260,7 +259,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     public void Damage(Vector3 knockbackDir, float knockbackSpeed)
     {
         if(Time.time > (invincibilityTimer + InvincibilityTime.Value) && !invincible) {
-            PlayerHealth.Value--;
             damageFeedback.PlayFeedbacks();
             this.AddImpulse(knockbackDir * knockbackSpeed);
             invincibilityTimer = Time.time;

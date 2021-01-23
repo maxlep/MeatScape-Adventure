@@ -72,6 +72,9 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [TabGroup("Vertical")] [Required]
         protected FloatReference BounceGroundDotThreshold;
         
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Vertical")] [Required]
+        protected FloatReference SlopeVerticalGravityFactor;
         
         #endregion
         
@@ -351,8 +354,9 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
             #region Grounded (slope)
 
-            //If just became grounded, keep velocity going (stops from slowing down when fall down slopes and ungrounding)
-            if (GroundingStatus.FoundAnyGround && !LastGroundingStatus.FoundAnyGround)
+            //If just became grounded, and moving downard, keep velocity going (stops from slowing down when fall down slopes and ungrounding)
+            //Only doing this if going down to prevent gaing speed up slopes
+            if (GroundingStatus.FoundAnyGround && !LastGroundingStatus.FoundAnyGround && previousVelocity.y < 0f)
             {
                 newVelocity = Vector3.ProjectOnPlane(newVelocity, GroundingStatus.GroundNormal);
             }
@@ -360,7 +364,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             //Each frame, add gravity to velocity on slope
             else if (GroundingStatus.FoundAnyGround)
             {
-                newVelocity.y = gravity * Time.deltaTime;
+                newVelocity.y = gravity * SlopeVerticalGravityFactor.Value * Time.deltaTime;
                 newVelocity = Vector3.ProjectOnPlane(newVelocity, GroundingStatus.GroundNormal);
             }
 

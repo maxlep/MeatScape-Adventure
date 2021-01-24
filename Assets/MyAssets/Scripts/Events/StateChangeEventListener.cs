@@ -7,7 +7,7 @@ using UnityEngine.Events;
 
 public class StateChangeEventListener : MonoBehaviour
 {
-    [SerializeField] private StateMachineGraph StateMachine;
+    [SerializeField] [Required] private StateMachineGraph StateMachine;
 
     [Required("No value set for ExitState, ExitState check will be ignored", InfoMessageType.Warning)]
     [SerializeField] private StateNode ExitState;

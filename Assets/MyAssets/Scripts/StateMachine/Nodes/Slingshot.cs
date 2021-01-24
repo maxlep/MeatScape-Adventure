@@ -19,6 +19,10 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [Required]
+        private FloatReference MinChargeTime;
+        
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [Required]
         private FloatReference OptimalChargeTime;
         
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
@@ -37,7 +41,11 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [Required]
-        private GameEvent SlingshotOptimalChargeExecuteEvent;
+        private GameEvent SlingShotReleaseEvent;
+        
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [Required]
+        private GameEvent SlingShotOptimalReleaseEvent;
         
         #endregion
 
@@ -51,9 +59,9 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         public override void Enter()
         {
             base.Enter();
+            accumulatedForce = Vector3.zero;
             enterTime = Time.time;
             activatedParticles = false;
-            playerController.ToggleArrow(true);
         }
 
         public override void Exit()
@@ -64,7 +72,11 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             if (timeToOptimalCharge < OptimalChargeErrorThreshold.Value)
             {
                 accumulatedForce = MaxForce.Value * OptimalChargeMultiplier.Value * accumulatedForce.normalized;
-                SlingshotOptimalChargeExecuteEvent.Raise();
+                SlingShotOptimalReleaseEvent.Raise();
+            }
+            else if (accumulatedForce != Vector3.zero)
+            {
+                SlingShotReleaseEvent.Raise();
             }
             
             playerController.AddImpulse(accumulatedForce);
@@ -75,7 +87,13 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         {
             base.Execute();
 
-            AccumulateSlingForce();
+            //Only charge if past the min time
+            if (enterTime + MinChargeTime.Value < Time.time)
+            {
+                playerController.ToggleArrow(true);
+                AccumulateSlingForce();
+            }
+                
 
             if (!activatedParticles && enterTime + OptimalChargeTime.Value - OptimalChargeErrorThreshold.Value < Time.time)
             {

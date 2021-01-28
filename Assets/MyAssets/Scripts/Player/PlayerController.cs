@@ -28,7 +28,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [SerializeField] private KinematicCharacterMotor charMotor;
     [SerializeField] private LayerMapper layerMapper;
     [SerializeField] private AudioClip jumpAttackClip;
-    [SerializeField] private AimTargetter aimTargetter;
+    [SerializeField] private AimTargeter aimTargeter;
     [SerializeField] private Collider collider;
     public bool invincible;
 
@@ -77,7 +77,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private Vector3 moveDirection;
     private InputAction playerMove;
 
-    public Transform AimTarget => aimTargetter.CurrentTarget;
+    public Transform AimTarget => aimTargeter.CurrentTarget;
     public KinematicCharacterMotor CharacterMotor => charMotor;
     public CharacterGroundingReport GroundingStatus => charMotor.GroundingStatus;
     public CharacterTransientGroundingReport LastGroundingStatus => charMotor.LastGroundingStatus;

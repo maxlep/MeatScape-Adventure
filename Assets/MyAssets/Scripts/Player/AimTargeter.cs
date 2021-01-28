@@ -5,11 +5,10 @@ using UnityEngine.UI;
 
 namespace MyAssets.Scripts.Player
 {
-    public class AimTargetter : MonoBehaviour
+    public class AimTargeter : MonoBehaviour
     {
         [SerializeField] private CameraSceneReference camera;
-        [SerializeField] private Transform player;
-        [SerializeField] private Image targettingReticle;
+        [SerializeField] private TransformSceneReference targetingReticle;
         [SerializeField] private LayerMask layerMask;
         [SerializeField] private float maxRange;
         [SerializeField] private int colliderLimit = 64;
@@ -37,7 +36,7 @@ namespace MyAssets.Scripts.Player
                 currentWeight = 0;
             }
             
-            int numColliders = Physics.OverlapSphereNonAlloc(player.position, maxRange, targetableColliders, layerMask);
+            int numColliders = Physics.OverlapSphereNonAlloc(transform.position, maxRange, targetableColliders, layerMask);
             
             for (int i = 0; i < numColliders; i++)
             {
@@ -54,14 +53,14 @@ namespace MyAssets.Scripts.Player
             if (!currentTarget.SafeIsUnityNull())
             {
                 var currentScreenSpacePosition = camera.Value.WorldToScreenPoint(currentTarget.position);
-                targettingReticle.enabled = true;
-                targettingReticle.rectTransform.position = currentScreenSpacePosition;
+                targetingReticle.Value.position = currentScreenSpacePosition;
+                targetingReticle.Value.gameObject.SetActive(true);
 
                 // Debug.Log($"Curr weight: {currentWeight}, Curr name: {currentTarget?.name}, Num colls: {numColliders}, Screen position: {currentScreenSpacePosition}");
             }
             else
             {
-                targettingReticle.enabled = false;
+                targetingReticle.Value.gameObject.SetActive(false);
             }
         }
 
@@ -71,8 +70,8 @@ namespace MyAssets.Scripts.Player
 
             var targetPos = target.position;
 
-            var playerToTargetRay = targetPos - player.position;
-            var playerAlignment = Vector3.Dot(player.forward, playerToTargetRay);
+            var playerToTargetRay = targetPos - transform.position;
+            var playerAlignment = Vector3.Dot(transform.forward, playerToTargetRay);
 
             var sqrRange = Mathf.Pow(maxRange, 2);
             var distFac = playerToTargetRay.sqrMagnitude / sqrRange;

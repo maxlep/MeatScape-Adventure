@@ -75,17 +75,6 @@ public class StateReferenceNodeEditor : NodeEditor
                 string assetPath = AssetDatabase.GetAssetPath(MonoScript.FromScriptableObject(target));
                 AssetDatabase.OpenAsset(AssetDatabase.LoadAssetAtPath<MonoScript>(assetPath));
             });
-            menu.AddItem(new GUIContent("Inspect"), false, () =>
-            {
-                StateNode referencedState = (target as StateReferenceNode).ReferencedState;
-                if (referencedState != null)
-                {
-                    InspectNode addedNode = referencedState.GetParentGraph().AddNode(typeof(InspectNode)) as InspectNode;
-                    addedNode.position = node.position;
-                    addedNode.Initialize(referencedState);
-                }
-                
-            });
             menu.AddItem(new GUIContent("Move To Top"), false, () => NodeEditorWindow.current.MoveNodeToTop(node));
             menu.AddItem(new GUIContent("Rename"), false, NodeEditorWindow.current.RenameSelectedNode);
 

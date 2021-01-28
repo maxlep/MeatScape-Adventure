@@ -15,7 +15,6 @@ public class StateMachineGraphEditor : NodeGraphEditor
     {
         menu.AddItem(new GUIContent("Init State Machines"), false,
             () => (target as StateMachineGraph).parentMachine.InitStateMachines(false));
-        menu.AddItem(new GUIContent("Remove All Inspect Nodes"), false, RemoveAllInspectNodes);
         menu.AddSeparator("");
         menu.AddItem(new GUIContent("Expand All"), false, () => (target as StateMachineGraph).ToggleExpandAll(false));
         menu.AddItem(new GUIContent("Collapse All"), false, () => (target as StateMachineGraph).ToggleExpandAll(true));
@@ -50,21 +49,6 @@ public class StateMachineGraphEditor : NodeGraphEditor
         menu.AddItem(new GUIContent("Preferences"), false, () => NodeEditorReflection.OpenPreferences());
         menu.AddCustomContextMenuItems(target);
     }
-
-    private void RemoveAllInspectNodes()
-    {
-        List<InspectNode> nodesToRemove = new List<InspectNode>();
-        foreach (var node in target.nodes)
-        {
-            InspectNode nodeAsInspect = node as InspectNode;
-            if (nodeAsInspect != null)
-                nodesToRemove.Add(nodeAsInspect);
-        }
-
-        foreach (var nodeToRemove in nodesToRemove)
-        {
-            RemoveNode(nodeToRemove);
-        }
-    }
+    
 
 }

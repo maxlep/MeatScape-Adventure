@@ -1,5 +1,4 @@
-﻿using EnhancedHierarchy;
-using KinematicCharacterController;
+﻿using KinematicCharacterController;
 using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
 using MyAssets.Scripts.Utils;

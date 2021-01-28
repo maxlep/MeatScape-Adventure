@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Security.Claims;
-using AmplifyShaderEditor;
 using UnityEngine;
 
 public class EffectsManager : MonoBehaviour

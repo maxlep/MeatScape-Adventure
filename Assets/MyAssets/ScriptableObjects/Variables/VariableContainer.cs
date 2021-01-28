@@ -9,6 +9,8 @@ using Sirenix.Utilities;
 using UnityEditor;
 using UnityEngine;
 
+
+
 [Required]
 [CreateAssetMenu(fileName = "VariableContainer", menuName = "VariableContainer", order = 0)]
 public class VariableContainer : ScriptableObject
@@ -53,6 +55,7 @@ public class VariableContainer : ScriptableObject
     public List<QuaternionVariable> GetQuaternionVariables() => QuaternionVariables;
     public List<TimerVariable> GetTimerVariables() => TimerVariables;
 
+#if UNITY_EDITOR
 
     [GUIColor(0, 1, 0)]
     [Button(ButtonSizes.Large)]
@@ -176,4 +179,7 @@ public class VariableContainer : ScriptableObject
         FolderPath = fullPath.Substring(0, fullPath.LastIndexOf('/'));
     } 
     
+#endif
+    
 }
+

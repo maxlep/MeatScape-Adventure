@@ -9,6 +9,10 @@ using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
 
+#if UNITY_EDITOR
+using AssetUsageDetectorNamespace;
+#endif
+
 namespace MyAssets.Scripts.PoseAnimator.Components
 {
     [ExecuteInEditMode]
@@ -61,9 +65,17 @@ namespace MyAssets.Scripts.PoseAnimator.Components
             //     layerMixerPlayable.ConnectInput(index, i.Output, 0);
             // });
             layerMixerPlayable.SetTraversalMode(PlayableTraversalMode.Passthrough);
+
+            string playableName;
             
+#if UNITY_EDITOR
+            playableName = sharedData.PlayableGraph.Hash();
+#else
+            playableName = System.Guid.NewGuid().ToString();
+#endif
             playableOutput = AnimationPlayableOutput.Create(sharedData.PlayableGraph,
-                $"{sharedData.PlayableGraph.GetEditorName()}_Output", animator);
+                $"{playableName}_Output", animator);
+            
             playableOutput.SetSourcePlayable(layerMixerPlayable);
 
             // animationStateMachine.InjectAnimatable(this);

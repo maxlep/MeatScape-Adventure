@@ -73,11 +73,14 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
+#if UNITY_EDITOR
     private void RemovePatrolPoint(Transform pointTransform)
     {
         //DestroyImmediate(pointTransform.gameObject);
         Undo.DestroyObjectImmediate(pointTransform.gameObject);
     }
+    
+#endif
 
     #endregion
     

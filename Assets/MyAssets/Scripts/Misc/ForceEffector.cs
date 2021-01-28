@@ -5,7 +5,6 @@ using BehaviorDesigner.Runtime.Tasks;
 using MyAssets.ScriptableObjects.Variables;
 using Shapes;
 using Sirenix.OdinInspector;
-using Sirenix.OdinInspector.Editor.Validation;
 using UnityEditor;
 using UnityEngine;
 

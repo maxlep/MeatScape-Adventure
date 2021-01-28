@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEditor.Animations;
 using UnityEngine;
 using System.Linq;
-using System.Net.Configuration;
-using System.Runtime.ConstrainedExecution;
 using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;

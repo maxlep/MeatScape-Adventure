@@ -8,7 +8,6 @@ using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.Rendering;
-using XNodeEditor;
 
 public class EntityWaypoint : MonoBehaviour
 {

@@ -5,6 +5,8 @@ using BehaviorDesigner.Runtime.Tasks;
 using Pathfinding;
 using UnityEngine;
 
+[TaskCategory("AStarPro")]
+[TaskDescription("Moves AStar Seeker towards a target and completes when within stopping distance.")]
 public class AStarSeek : Action
 {
     public SharedTransform Seeker;

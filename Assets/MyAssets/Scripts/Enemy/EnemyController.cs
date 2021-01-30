@@ -22,7 +22,6 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private GameObject dropOnDeath;
 
     [SerializeField] private UnityEvent OnDeathEvent;
-    
 
     public delegate void OnDeath_();
     public event OnDeath_ OnDeath;
@@ -36,8 +35,6 @@ public class EnemyController : MonoBehaviour
     public void Initialize(List<Transform> patrolPoints)
     {
         behaviorTree.SetVariableValue("CurrentPath", patrolPoints);
-        behaviorTree.SetVariableValue("PlayerTransform", playerTransformReference.Value);
-        behaviorTree.EnableBehavior();
     }
 
     #region Unity Methods
@@ -45,6 +42,8 @@ public class EnemyController : MonoBehaviour
     private void Awake() {
         health = MaxHealth;
         isAlive = true;
+        behaviorTree.SetVariableValue("PlayerTransform", playerTransformReference.Value);
+        behaviorTree.EnableBehavior();
     }
 
     private void LateUpdate() {

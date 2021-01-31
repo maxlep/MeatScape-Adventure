@@ -9,6 +9,7 @@ using UnityEngine;
 [TaskDescription("Moves AStar Seeker towards a target and completes when within stopping distance.")]
 public class AStarSeek : Action
 {
+    public SharedGameObject aiScriptObj;
     public SharedTransform Seeker;
     public SharedTransform Target;
     public SharedFloat StoppingDistance;
@@ -17,7 +18,10 @@ public class AStarSeek : Action
 
     public override void OnAwake()
     {
-        destinationSetter = GetComponent<AIDestinationSetter>();
+        if (aiScriptObj.Value != null)
+            destinationSetter = aiScriptObj.Value.GetComponent<AIDestinationSetter>();
+        else
+            destinationSetter = GetComponent<AIDestinationSetter>();
     }
 
     public override TaskStatus OnUpdate()

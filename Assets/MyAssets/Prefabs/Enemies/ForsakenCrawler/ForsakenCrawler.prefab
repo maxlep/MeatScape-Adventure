@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 410994293823792350}
-  - component: {fileID: 4456418607504463120}
+  - component: {fileID: 201465653883318067}
   - component: {fileID: 5003421505823376603}
   - component: {fileID: 2517199886379438448}
   - component: {fileID: 1963654943621754016}
@@ -47,7 +47,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4456418607504463120
+--- !u!114 &201465653883318067
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -56,7 +56,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 71910965963012812}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e743de86a47954f4c9ebae63b83a98ce, type: 3}
+  m_Script: {fileID: 11500000, guid: a755c8ebb29015c438ab288f2bf10f19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerTransformReference: {fileID: 11400000, guid: ee9dc19f502017e4ba44eef793921408,
@@ -83,6 +83,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  damage: 1
+  playerMask:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!114 &5003421505823376603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,17 +120,18 @@ MonoBehaviour:
         Lunge Attack"},"ID":5,"Name":"Sequence","Instant":true,"AbortTypeabortType":"Both","Children":[{"Type":"TransformDistanceCheck","NodeData":{"Offset":"(-106.170486,159.3617)","Comment":"Player
         in Lunge Range"},"ID":6,"Name":"Transform Distance Check","Instant":true,"Operationoperation":"LessThan","SharedTransformtransform1":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"PlayerTransform","IsShared":true},"SharedTransformtransform2":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"EnemyTransform","IsShared":true,"TransformmValue":0},"SharedFloatdistToCheck":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"LungeRadius","IsShared":true,"Tooltip":"Radius
         of Lunge attack","SinglemValue":20}},{"Type":"LungeAttack","NodeData":{"Offset":"(79.09119,160.805)"},"ID":7,"Name":"Lunge
-        Attack","Instant":true,"SharedTransformTarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"PlayerTransform","IsShared":true},"SharedGameObjectAnimTarget":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedFloatChargeTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"LungeChargeTime","IsShared":true,"SinglemValue":1},"SharedFloatGroundCheckDelay":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0},"SharedFloatForwardLungeVelocity":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0},"SharedFloatUpwardLungeVelocity":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0},"SharedFloatGravity":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0}}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-94.74353,160)","Comment":"Handle
+        Attack","Instant":true,"SharedTransformTarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"PlayerTransform","IsShared":true},"SharedGameObjectAnimTarget":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedFloatChargeTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"LungeChargeTime","IsShared":true,"SinglemValue":1},"SharedFloatGroundCheckDelay":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0},"SharedFloatForwardLungeVelocity":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0},"SharedFloatUpwardLungeVelocity":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0},"SharedFloatGravity":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0},"SharedBoolIsLunging":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false}}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-94.74353,160)","Comment":"Handle
         Move To Player"},"ID":8,"Name":"Sequence","Instant":true,"AbortTypeabortType":"Both","Children":[{"Type":"TransformDistanceCheck","NodeData":{"Offset":"(-104.811546,156.017151)","Comment":"Player
         in Sight"},"ID":9,"Name":"Transform Distance Check","Instant":true,"Operationoperation":"LessThan","SharedTransformtransform1":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"PlayerTransform","IsShared":true},"SharedTransformtransform2":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"EnemyTransform","IsShared":true,"TransformmValue":1},"SharedFloatdistToCheck":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"RadiusOfSight","IsShared":true,"SinglemValue":60}},{"Type":"AStarSeek","NodeData":{"Offset":"(87.116066,156.591614)","Comment":"Seek
-        Player"},"ID":10,"Name":"A Star Seek","Instant":true,"SharedTransformSeeker":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"EnemyTransform","IsShared":true,"TransformmValue":2},"SharedTransformTarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"PlayerTransform","IsShared":true},"SharedFloatStoppingDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"StoppingDistance","IsShared":true,"SinglemValue":1}}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(441.410217,160)","Comment":"Reached
+        Player"},"ID":10,"Name":"A Star Seek","Instant":true,"SharedGameObjectaiScriptObj":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedTransformSeeker":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"EnemyTransform","IsShared":true,"TransformmValue":2},"SharedTransformTarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"PlayerTransform","IsShared":true},"SharedFloatStoppingDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"StoppingDistance","IsShared":true,"SinglemValue":1}}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(441.410217,160)","Comment":"Reached
         Patrol Point"},"ID":11,"Name":"Sequence","Instant":true,"AbortTypeabortType":"Both","Children":[{"Type":"TransformDistanceCheck","NodeData":{"Offset":"(-203.2854,160.544861)","Comment":"Reached
         Next Point"},"ID":12,"Name":"Transform Distance Check","Instant":true,"Operationoperation":"LessThanOrEqualTo","SharedTransformtransform1":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"EnemyTransform","IsShared":true,"TransformmValue":3},"SharedTransformtransform2":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"NextPathPoint","IsShared":true},"SharedFloatdistToCheck":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"StoppingDistance","IsShared":true,"SinglemValue":1}},{"Type":"IterateTransformList","NodeData":{"Offset":"(-1.0618515,162.222229)","Comment":"Set
         Next Path Point"},"ID":13,"Name":"Iterate Transform List","Instant":true,"SharedTransformListtransformList":{"Type":"BehaviorDesigner.Runtime.SharedTransformList","Name":"CurrentPath","IsShared":true,"List`1mValue":[]},"SharedIntcurrentIndex":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"CurrentPathLIndex","IsShared":true,"Int32mValue":0},"SharedTransformstoreResult":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"NextPathPoint","IsShared":true}},{"Type":"BehaviorDesigner.Runtime.Tasks.Idle","NodeData":{"Offset":"(156.205139,164.394714)"},"ID":14,"Name":"Idle","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(959.463135,160)","Comment":"Move
         To Next Point"},"ID":15,"Name":"Sequence","Instant":true,"AbortTypeabortType":"Both","Children":[{"Type":"TransformDistanceCheck","NodeData":{"Offset":"(-125.83374,164.166992)","Comment":"NOT
         Reached Next Point"},"ID":16,"Name":"Transform Distance Check","Instant":true,"Operationoperation":"GreaterThan","SharedTransformtransform1":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"EnemyTransform","IsShared":true,"TransformmValue":4},"SharedTransformtransform2":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"NextPathPoint","IsShared":true},"SharedFloatdistToCheck":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"StoppingDistance","IsShared":true,"SinglemValue":1}},{"Type":"AStarSeek","NodeData":{"Offset":"(113.408463,163.1819)","Comment":"Seek
-        Next Point"},"ID":17,"Name":"A Star Seek","Instant":true,"SharedTransformSeeker":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"EnemyTransform","IsShared":true,"TransformmValue":5},"SharedTransformTarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"NextPathPoint","IsShared":true},"SharedFloatStoppingDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"StoppingDistance","IsShared":true,"SinglemValue":1}}]}]}]},"DetachedTasks":[{"Type":"MoveKCC","NodeData":{"Offset":"(658.24,543.358154)"},"ID":18,"Name":"Move
-        KCC","Instant":true,"SharedFloatReferenceMoveSpeed":{"Type":"SharedFloatReference","Name":null},"SharedVector3NewVelocity":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":null,"Vector3mValue":"(0,0,0)"},"SharedQuaternionNewRotation":{"Type":"BehaviorDesigner.Runtime.SharedQuaternion","Name":null,"QuaternionmValue":"(0,0,0,0)"},"SharedTransformThisTransform":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null},"SharedTransformTarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null},"SharedEnemyControllerEnemyController":{"Type":"SharedEnemyController","Name":null}}],"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"EnemyTransform","IsShared":true,"TransformmValue":6},{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"PlayerTransform","IsShared":true},{"Type":"SharedEnemyController","Name":"EnemyController","IsShared":true,"EnemyControllermValue":7},{"Type":"BehaviorDesigner.Runtime.SharedTransformList","Name":"CurrentPath","IsShared":true,"List`1mValue":[]},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"DistanceToPlayer","IsShared":true,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"CurrentPathIndex","IsShared":true,"Int32mValue":0},{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"CurrentPathLIndex","IsShared":true,"Int32mValue":0},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"DistToNextPoint","IsShared":true,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"NextPathPoint","IsShared":true},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"RadiusOfSight","IsShared":true,"SinglemValue":60},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"StoppingDistance","IsShared":true,"SinglemValue":1},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"GroundCheckDelay","IsShared":true,"SinglemValue":0.25},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"LungeAttackRadius","IsShared":true,"SinglemValue":20},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"LungeChargeTime","IsShared":true,"SinglemValue":1},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"AnimTarget","IsShared":true,"GameObjectmValue":8},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"ForwardLungeVelocity","IsShared":true,"SinglemValue":30},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"UpwardLungeVelocity","IsShared":true,"SinglemValue":5},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"Gravity","IsShared":true,"SinglemValue":9.8}]}'
+        Next Point"},"ID":17,"Name":"A Star Seek","Instant":true,"SharedGameObjectaiScriptObj":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedTransformSeeker":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"EnemyTransform","IsShared":true,"TransformmValue":5},"SharedTransformTarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"NextPathPoint","IsShared":true},"SharedFloatStoppingDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"StoppingDistance","IsShared":true,"SinglemValue":1}}]}]}]},"DetachedTasks":[{"Type":"MoveKCC","NodeData":{"Offset":"(658.24,543.358154)"},"ID":18,"Name":"Move
+        KCC","Instant":true,"SharedFloatReferenceMoveSpeed":{"Type":"SharedFloatReference","Name":null},"SharedVector3NewVelocity":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":null,"Vector3mValue":"(0,0,0)"},"SharedQuaternionNewRotation":{"Type":"BehaviorDesigner.Runtime.SharedQuaternion","Name":null,"QuaternionmValue":"(0,0,0,0)"},"SharedTransformThisTransform":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null},"SharedTransformTarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null},"SharedEnemyControllerEnemyController":{"Type":"SharedEnemyController","Name":null}}],"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"EnemyTransform","IsShared":true,"TransformmValue":6},{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"PlayerTransform","IsShared":true},{"Type":"SharedEnemyController","Name":"EnemyController","IsShared":true,"EnemyControllermValue":7},{"Type":"BehaviorDesigner.Runtime.SharedTransformList","Name":"CurrentPath","IsShared":true,"List`1mValue":[]},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"DistanceToPlayer","IsShared":true,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"CurrentPathIndex","IsShared":true,"Int32mValue":0},{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"CurrentPathLIndex","IsShared":true,"Int32mValue":0},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"DistToNextPoint","IsShared":true,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"NextPathPoint","IsShared":true},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"RadiusOfSight","IsShared":true,"SinglemValue":60},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"StoppingDistance","IsShared":true,"SinglemValue":1},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"GroundCheckDelay","IsShared":true,"SinglemValue":0.25},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"LungeAttackRadius","IsShared":true,"SinglemValue":20},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"LungeChargeTime","IsShared":true,"SinglemValue":1},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"AnimTarget","IsShared":true,"GameObjectmValue":8},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"ForwardLungeVelocity","IsShared":true,"SinglemValue":30},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"UpwardLungeVelocity","IsShared":true,"SinglemValue":5},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"Gravity","IsShared":true,"SinglemValue":9.8},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"IsLunging","IsShared":true,"Tooltip":"For
+        syncing with ForsakenCrawlerController","PropertyMapping":"ForsakenCrawlerController/IsLunging","PropertyMappingOwner":9,"BooleanmValue":false}]}'
       fieldSerializationData:
         typeName: []
         fieldNameHash: 
@@ -140,8 +145,9 @@ MonoBehaviour:
         - {fileID: 410994293823792350}
         - {fileID: 410994293823792350}
         - {fileID: 410994293823792350}
-        - {fileID: 4456418607504463120}
+        - {fileID: 201465653883318067}
         - {fileID: 3917261114191990352}
+        - {fileID: 71910965963012812}
         byteData: 
         byteDataArray: 
       Version: 1.6.6
@@ -373,7 +379,7 @@ MonoBehaviour:
   _editor_DrawExtra: 0
   _editor_horizontal: 1
   _editor_category: 3
-  Editor_InIsolatedScene: 1
+  Editor_InIsolatedScene: 0
   Editor_JustCreated: 0
   UseDOTS: 1
   DOTSObstacleType: 2
@@ -1358,7 +1364,7 @@ MonoBehaviour:
   PlayEvents:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4456418607504463120}
+      - m_Target: {fileID: 201465653883318067}
         m_TargetAssemblyTypeName: EnemyController, Assembly-CSharp
         m_MethodName: FinishKill
         m_Mode: 1
@@ -1487,7 +1493,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdff269aa2c210e4faf315df1869cf41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyController: {fileID: 4456418607504463120}
+  enemyController: {fileID: 201465653883318067}
 --- !u!135 &2693634701301024425
 SphereCollider:
   m_ObjectHideFlags: 0

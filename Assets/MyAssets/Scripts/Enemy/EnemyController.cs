@@ -13,40 +13,39 @@ using UnityEngine.Events;
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] private TransformSceneReference playerTransformReference;
-    [SerializeField] private BehaviorTree behaviorTree;
-    [SerializeField, SuffixLabel("m/s^2", Overlay = true)] private float Gravity = 10f;
-    [SerializeField] private int MaxHealth = 1;
-    [SerializeField] private MMFeedbacks damageFeedbacks;
-    [SerializeField] private MMFeedbacks deathFeedbacks;
-    [SerializeField] private GameObject dropOnDeath;
+    [SerializeField] protected TransformSceneReference playerTransformReference;
+    [SerializeField] protected BehaviorTree behaviorTree;
+    [SerializeField, SuffixLabel("m/s^2", Overlay = true)] protected float Gravity = 10f;
+    [SerializeField] protected int MaxHealth = 1;
+    [SerializeField] protected MMFeedbacks damageFeedbacks;
+    [SerializeField] protected MMFeedbacks deathFeedbacks;
+    [SerializeField] protected GameObject dropOnDeath;
 
-    [SerializeField] private UnityEvent OnDeathEvent;
+    [SerializeField] protected UnityEvent OnDeathEvent;
 
     public delegate void OnDeath_();
     public event OnDeath_ OnDeath;
+    
+    protected bool isAlive;
+    protected int health;
+    protected Vector3 newVelocity;
+    protected Quaternion newRotation;
 
-
-    private bool isAlive;
-    private int health;
-    private Vector3 newVelocity;
-    private Quaternion newRotation;
-
-    public void Initialize(List<Transform> patrolPoints)
+    public virtual void Initialize(List<Transform> patrolPoints)
     {
         behaviorTree.SetVariableValue("CurrentPath", patrolPoints);
     }
 
     #region Unity Methods
 
-    private void Awake() {
+    protected virtual void Awake() {
         health = MaxHealth;
         isAlive = true;
         behaviorTree.SetVariableValue("PlayerTransform", playerTransformReference.Value);
         behaviorTree.EnableBehavior();
     }
 
-    private void LateUpdate() {
+    protected virtual void LateUpdate() {
         if (isAlive && health <= 0)
         {
             isAlive = false;
@@ -59,7 +58,7 @@ public class EnemyController : MonoBehaviour
 
     #region Death Methods
 
-    private void KillEnemy() {
+    protected virtual void KillEnemy() {
         behaviorTree.DisableBehavior(true);
         if (deathFeedbacks != null)
         {
@@ -71,7 +70,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    public void FinishKill()
+    public virtual void FinishKill()
     {
         behaviorTree.DisableBehavior();
         OnDeath?.Invoke();
@@ -81,7 +80,7 @@ public class EnemyController : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    public void DamageEnemy(int dmg) {
+    public virtual void DamageEnemy(int dmg) {
         health -= dmg;
         if (deathFeedbacks != null) damageFeedbacks?.PlayFeedbacks();
     }

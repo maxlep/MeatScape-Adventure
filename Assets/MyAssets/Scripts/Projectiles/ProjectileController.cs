@@ -13,6 +13,9 @@ public class ProjectileController : MonoBehaviour
     [SerializeField] private GameObject impactParticles;
     [SerializeField] private GameObject muzzleParticles;
     [SerializeField] private LayerMask impactMask;
+    [SerializeField] private LayerMask playerMask;
+    [SerializeField] private int damage = 1;
+    [SerializeField] private float damageRadius = 10f;
 
     private void Awake()
     {
@@ -32,10 +35,23 @@ public class ProjectileController : MonoBehaviour
                 EffectsManager.Instance.PlayClipAtPoint(PickRandomClip(impactSounds), transform.position, .3f);
             if (impactParticles != null)
                 EffectsManager.Instance.SpawnParticlesAtPoint(impactParticles, transform.position, quaternion.identity);
-            
+
+            ExplosiveDamage();
             Destroy(gameObject);
         }
         
+    }
+
+    private void ExplosiveDamage()
+    {
+        Collider[] HitColliders = Physics.OverlapSphere(transform.position, damageRadius, playerMask);
+
+        foreach (var collider in HitColliders)
+        {
+            PlayerController playerScript = collider.GetComponent<PlayerController>();
+            if (playerScript != null)
+                playerScript.Damage(damage, Vector3.zero, 0f);
+        }
     }
 
 

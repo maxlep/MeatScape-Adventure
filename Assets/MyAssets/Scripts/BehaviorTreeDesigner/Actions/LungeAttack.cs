@@ -18,6 +18,7 @@ public class LungeAttack : Action
     public SharedFloat ForwardLungeVelocity;
     public SharedFloat UpwardLungeVelocity;
     public SharedFloat Gravity;
+    public SharedBool IsLunging;
 
     private CharacterController charController;
     private AIDestinationSetter destinationSetter;
@@ -26,7 +27,6 @@ public class LungeAttack : Action
     private GameObject prevGameObject;
     private float chargeStartTime;
     private float lungeStartTime;
-    private bool isLunging;
     
     public override void OnAwake()
     {
@@ -50,7 +50,7 @@ public class LungeAttack : Action
         
         destinationSetter.target = transform;
         aiPath.enabled = false;
-        isLunging = false;
+        IsLunging.Value = false;
         chargeStartTime = Time.time;
         lungeStartTime = Mathf.NegativeInfinity;
     }
@@ -66,7 +66,7 @@ public class LungeAttack : Action
         if (chargeStartTime + ChargeTime.Value > Time.time)
             return TaskStatus.Running;
 
-        if (!isLunging)
+        if (!IsLunging.Value)
             StartLungeAttack();
 
         if (LungeAttacking())
@@ -80,14 +80,14 @@ public class LungeAttack : Action
         Target.Value = null;
         charController = null;
         destinationSetter = null;
-        isLunging = false;
+        IsLunging.Value = false;
         chargeStartTime = Mathf.NegativeInfinity;
         lungeStartTime = Mathf.NegativeInfinity;
     }
 
     private void StartLungeAttack()
     {
-        isLunging = true;
+        IsLunging.Value = true;
         lungeStartTime = Time.time;
         Vector3 dirToTarget = (Target.Value.position - transform.position).normalized;
 
@@ -113,7 +113,7 @@ public class LungeAttack : Action
         if (lungeStartTime + GroundCheckDelay.Value < Time.time &&
             charController.isGrounded)
         {
-            isLunging = false;
+            IsLunging.Value = false;
             if (animator != null) animator.SetTrigger("FinishLunge");
             return false;
         }

@@ -210,7 +210,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         ref HitStabilityReport hitStabilityReport)
     {
         // This is called when the motor's movement logic detects a hit
-        HandleCharacterControllerCollisions(hitCollider);
     }
 
     public void ProcessHitStabilityReport(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint,
@@ -227,7 +226,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     public void OnDiscreteCollisionDetected(Collider hitCollider)
     {
         // This is called by the motor when it is detecting a collision that did not result from a "movement hit".
-        HandleCharacterControllerCollisions(hitCollider);
     }
 
     #endregion
@@ -256,12 +254,13 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         AddImpulseTrigger.Activate();
     }
 
-    public void Damage(Vector3 knockbackDir, float knockbackSpeed)
+    public void Damage(int damage, Vector3 knockbackDir, float knockbackSpeed)
     {
         if(Time.time > (invincibilityTimer + InvincibilityTime.Value) && !invincible) {
             damageFeedback.PlayFeedbacks();
             this.AddImpulse(knockbackDir * knockbackSpeed);
             invincibilityTimer = Time.time;
+            HungerOut.Value = Mathf.Max(0, HungerOut.Value - damage);
         }
     }
 
@@ -368,13 +367,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     public Vector3 GetPlatformVelocity()
     {
         return charMotor.Velocity - charMotor.BaseVelocity;
-    }
-
-    private void HandleCharacterControllerCollisions(Collider hitCollider)
-    {
-        if(hitCollider.gameObject.layer == layerMapper.GetLayer(LayerEnum.Enemy)) {
-            Damage(hitCollider.transform.forward, EnemyKnockbackSpeed.Value);
-        }
     }
 
     private void OnTriggerEnter(Collider other)

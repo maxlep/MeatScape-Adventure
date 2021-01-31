@@ -92,7 +92,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemy() {
         GameObject enemy = Instantiate(EnemyPrefab, transform.position, transform.rotation, transform);
-        EnemyController enemyScript = enemy.GetComponent<EnemyController>();
+        EnemyController enemyScript = enemy.GetComponentInChildren<EnemyController>();
         
         enemyScript.Initialize(PatrolPoints);
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using MyAssets.ScriptableObjects.Variables;
+using MyAssets.ScriptableObjects.Variables.ValueReferences;
 using MyAssets.Scripts.Utils;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -9,7 +10,7 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
     public class SurveyorWheel : PlayerStateNode
     {
         [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private Vector2Vec3Reference moveVelocity;
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private FloatReference maxSpeed;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private FloatValueReference maxSpeed;
         [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private FloatReference walkSpeedFactor;
         [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private float minStrideLengthFactor = 0.25f;
         [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private FloatReference fullStrideLength;

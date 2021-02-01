@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using KinematicCharacterController;
 using MyAssets.Graphs.StateMachine.Nodes;
 using MyAssets.ScriptableObjects.Variables;
+using MyAssets.ScriptableObjects.Variables.ValueReferences;
 using MyAssets.Scripts.Utils;
 using Shapes;
 using Sirenix.OdinInspector;
@@ -16,7 +17,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Horizontal")] [Required]
-        private FloatReference MoveSpeed;
+        private FloatValueReference MoveSpeed;
 
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Horizontal")] [Required]

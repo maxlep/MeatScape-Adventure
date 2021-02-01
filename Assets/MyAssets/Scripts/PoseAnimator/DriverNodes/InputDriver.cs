@@ -1,4 +1,5 @@
 ﻿using MyAssets.ScriptableObjects.Variables;
+using MyAssets.ScriptableObjects.Variables.ValueReferences;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -20,7 +21,7 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
         
         [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField]
         [TabGroup("Input"), Required]
-        private FloatReference MoveSpeed;
+        private FloatValueReference MoveSpeed;
         
         [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField]
         [TabGroup("Output"), Required]

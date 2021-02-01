@@ -6,6 +6,7 @@ namespace MyAssets.ScriptableObjects.Variables.ValueReferences
 {
     [LabelWidth(100)]
     [InlineProperty]
+    [SynchronizedHeader]
     [HideReferenceObjectPicker]
     public class ValueReference<I, T> where I : IValue<T>
     {

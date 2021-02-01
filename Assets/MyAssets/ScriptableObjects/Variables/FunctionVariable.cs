@@ -1,101 +1,132 @@
-﻿using UnityEngine;
-using Sirenix.OdinInspector;
+﻿using System;
 using System.Collections.Generic;
-using MyAssets.ScriptableObjects.Variables;
-using System;
+using System.Linq;
 using MyAssets.ScriptableObjects.Variables.ValueReferences;
+using Sirenix.OdinInspector;
+using UnityEngine;
 
-[Required]
-[CreateAssetMenu(fileName = "FunctionVariable", menuName = "Variables/FunctionVariable", order = 0)]
-public class FunctionVariable : ScriptableObject, IFloatValue
+namespace MyAssets.ScriptableObjects.Variables
 {
-    #region Inspector
-    
-    [Title("$Equation")]
-    [LabelText("Operations")]
-    [HideReferenceObjectPicker]
-    [SerializeField]
-    private List<VariableOperatorPair> VarOpPairs;
-
-    [TextArea (7, 10)]
-    [HideInInlineEditors]
-    public string Description;
-    
-    #endregion
-
-    #region Interface
-
-    public float Value { get; private set; }
-
-    public string GetName() => name;
-    public string GetDescription() => Description;
-    public float GetValue(Type type) => Value;
-    public float GetFloat() => Value;
-
-    public void Subscribe(OnUpdate callback)
+    // [Serializable]
+    public class ValueOperatorPair
     {
-        this.OnUpdate += callback;
-    }
-
-    public void Unsubscribe(OnUpdate callback)
-    {
-        this.OnUpdate -= callback;
-    }
-
-    #endregion
-    
-    protected event OnUpdate OnUpdate;
-
-    void Awake() {
-        this.Recalculate();
-        VarOpPairs.ForEach((varOp) => {
-            varOp.variable.Subscribe(this.Recalculate);
-        });
-    }
-
-    private void Recalculate() {
-        float value = VarOpPairs[0].variable.Value;
-        FunctionVariableOperators op = VarOpPairs[0].op;
-        foreach(var varOpPair in VarOpPairs.GetRange(1, VarOpPairs.Count - 1)) {
-            if(op == FunctionVariableOperators.Add) value += varOpPair.variable.Value;
-            if(op == FunctionVariableOperators.Multiply) value *= varOpPair.variable.Value;
-            if(op == FunctionVariableOperators.Divide) value /= varOpPair.variable.Value;
-            if(op == FunctionVariableOperators.Subtract) value -= varOpPair.variable.Value;
-            op = varOpPair.op;
-        }
-        this.Value = value;
-        OnUpdate?.Invoke();
-    }
-
-    private string Equation {
-        get {
-            if(VarOpPairs.Count == 0) return "Equation:";
-            var eq = "Equation: v0 ";
-            for(int i = 0; i < VarOpPairs.Count; i++) {
-                if(i == VarOpPairs.Count - 1) break;
-                if(VarOpPairs[i].op == FunctionVariableOperators.Add) eq += $"+ v{i+1} ";
-                if(VarOpPairs[i].op == FunctionVariableOperators.Multiply) eq += $"* v{i+1} ";
-                if(VarOpPairs[i].op == FunctionVariableOperators.Divide) eq += $"/ v{i+1} ";
-                if(VarOpPairs[i].op == FunctionVariableOperators.Subtract) eq += $"- v{i+1} ";
+        [HideLabel]
+        public FunctionVariableOperators op;
+        
+        [HideLabel]
+        public FloatValueReference value;
+        
+        internal static float Operate(float previousValue, ValueOperatorPair op)
+        {
+            switch (op.op)
+            {
+                case FunctionVariableOperators.Add:
+                    return previousValue + op.value.Value;
+                case FunctionVariableOperators.Subtract:
+                    return previousValue - op.value.Value;
+                case FunctionVariableOperators.Multiply:
+                    return previousValue * op.value.Value;
+                case FunctionVariableOperators.Divide:
+                    return previousValue / op.value.Value;
+                default:
+                    throw new NotImplementedException();
             }
-            return eq;
         }
     }
-}
 
-[Serializable]
-public class VariableOperatorPair
-{
-    [HideLabel]
-    public FloatReference variable;
+    public enum FunctionVariableOperators {
+        Add,
+        Subtract,
+        Multiply,
+        Divide,
+    }
+
+    internal static class FunctionVariableOperatorsExtensions
+    {
+        internal static Dictionary<FunctionVariableOperators, string> OperatorToString = new Dictionary<FunctionVariableOperators, string>
+        {
+            {FunctionVariableOperators.Add, "+"},
+            {FunctionVariableOperators.Subtract, "-"},
+            {FunctionVariableOperators.Multiply, "*"},
+            {FunctionVariableOperators.Divide, "/"},
+        };
+    }
     
-    [HideLabel]
-    public FunctionVariableOperators op;
-}
+    [Required]
+    [CreateAssetMenu(fileName = "FunctionVariable", menuName = "Variables/FunctionVariable", order = 0)]
+    public class FunctionVariable : SerializedScriptableObject, IFloatValue
+    {
+#region Inspector
+        
+        [TextArea (7, 10)]
+        [HideInInlineEditors]
+        public string Description;
+        
+        [Title("$Equation")]
+        [LabelText("Operations")]
+        [HideReferenceObjectPicker]
+        [SerializeField]
+        private List<ValueOperatorPair> Operations;
+        
+        [ShowInInspector]
+        [ReadOnly]
+        private float _result;
+        
+#endregion
 
-public enum FunctionVariableOperators {
-    Add,
-    Multiply,
-    Divide,
-    Subtract
+#region Interface
+
+        public float Value => _result;
+
+        public string GetName() => name;
+        public string GetDescription() => Description;
+        public float GetValue(Type type) => Value;
+        public float GetFloat() => Value;
+
+        public void Subscribe(OnUpdate callback)
+        {
+            this.OnUpdate += callback;
+        }
+
+        public void Unsubscribe(OnUpdate callback)
+        {
+            this.OnUpdate -= callback;
+        }
+
+#endregion
+    
+        protected event OnUpdate OnUpdate;
+
+        private void OnEnable()
+        {
+            Recalculate();
+            Operations.ForEach((o) => o.value.Subscribe(Recalculate));
+        }
+
+        private void Recalculate()
+        {
+            _result = Operations.Aggregate(0f, ValueOperatorPair.Operate);
+            OnUpdate?.Invoke();
+        }
+
+        private string Equation
+        {
+            get
+            {
+                string equationStr = "Equation: ";
+                if (Operations == null || Operations.Count == 0)
+                {
+                    return equationStr;
+                }
+                equationStr += "v0";
+                for (int i = 1; i < Operations.Count; i++)
+                {
+                    var op = Operations[i];
+                    string opStr = FunctionVariableOperatorsExtensions.OperatorToString[op.op];
+                    equationStr += $" {opStr} v{i + 1}";
+                }
+                return equationStr;
+            }
+        }
+    }
 }

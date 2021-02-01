@@ -4,7 +4,8 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using System;
 
-[InlineEditor] [HideReferenceObjectPicker]
+[InlineEditor]
+[HideReferenceObjectPicker]
 public class ControlledProperties
 {
     [SerializeField] [HideReferenceObjectPicker] [Required]
@@ -17,11 +18,11 @@ public class ControlledProperties
     [HideReferenceObjectPicker] [Required] [PropertySpace(5f, 0f)] [LabelText("Controlled Props - Update")]
     private List<ControlledProperty> ControlledUpdateProperties;
     
-    [ListDrawerSettings(DraggableItems=false)][SerializeField] [TabGroup("LateUpdate")]  [GUIColor(.9f, .95f, 1f)]
+    [ListDrawerSettings(DraggableItems=false)][SerializeField] [TabGroup("LateUpdate")] [GUIColor(.9f, .95f, 1f)]
     [HideReferenceObjectPicker] [Required] [LabelText("Controlled Props - LateUpdate")]
     private List<ControlledProperty> ControlledLateUpdateProperties;
     
-    [ListDrawerSettings(DraggableItems=false)][SerializeField] [TabGroup("FixedUpdate")]  [GUIColor(.9f, .95f, 1f)] 
+    [ListDrawerSettings(DraggableItems=false)][SerializeField] [TabGroup("FixedUpdate")] [GUIColor(.9f, .95f, 1f)] 
     [HideReferenceObjectPicker] [Required] [LabelText("Controlled Props - FixedUpdate")]
     private List<ControlledProperty> ControlledFixedUpdateProperties;
 

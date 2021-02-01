@@ -243,131 +243,76 @@ public class LayeredStateMachine : MonoBehaviour
         float betweenTypeMargin = 15f;
         
         float previousHeights = 0f;
-
-        //Bools
-        GUI.TextField(new Rect(pivotX, pivotY + previousHeights, width, lineHeight),
-            $"Bool Variables: \n");
-        previousHeights += lineHeight;
         
-        string boolString = "";
-        foreach (var boolVariable in debugParameters.GetBoolVariables())
+        void DrawDebugList(string title, List<string> listItems)
         {
-            boolString += $"- {boolVariable.name}: {boolVariable.Value} \n";
-        }
-
-        float boolSize = (lineHeight) * debugParameters.GetBoolVariables().Count;
-        
-        GUI.TextField(new Rect(pivotX, pivotY + previousHeights, width, boolSize),
-            boolString);
-        previousHeights += boolSize + betweenTypeMargin;
-        
-        //Ints
-        GUI.TextField(new Rect(pivotX, pivotY + previousHeights, width, lineHeight),
-            $"Int Variables: \n");
-        previousHeights += lineHeight;
-        
-        string intString = "";
-        foreach (var intVariable in debugParameters.GetIntVariables())
-        {
-            intString += $"- {intVariable.name}: {intVariable.Value} \n";
+            GUI.TextField(new Rect(pivotX, pivotY + previousHeights, width, lineHeight),
+                $"{title}: \n");
+            previousHeights += lineHeight;
+            
+            string listContent = string.Join("\n", listItems.Select(i => $"- {i}"));
+            float listSize = (lineHeight) * listItems.Count();
+            
+            GUI.TextField(new Rect(pivotX, pivotY + previousHeights, width, listSize),
+                listContent);
+            previousHeights += listSize + betweenTypeMargin;
         }
         
-        float intSize = (lineHeight) * debugParameters.GetIntVariables().Count;
-
-
-        GUI.TextField(new Rect(pivotX, pivotY + previousHeights, width, intSize),
-            intString);
-        previousHeights += intSize + betweenTypeMargin;
+        DrawDebugList(
+            "Bool Variables",
+            debugParameters.GetBoolVariables()
+                .Select(v => $"{v.name}: {v.Value}")
+                .ToList()
+        );
         
-        //Floats
-        GUI.TextField(new Rect(pivotX, pivotY + previousHeights, width, lineHeight),
-            $"Float Variables: \n");
-        previousHeights += lineHeight;
+        DrawDebugList(
+            "Int Variables",
+            debugParameters.GetIntVariables()
+                .Select(v => $"{v.name}: {v.Value}")
+                .ToList()
+        );
         
-        string floatString = "";
-        foreach (var floatVariable in debugParameters.GetFloatVariables())
-        {
-            floatString += $"- {floatVariable.name}: {floatVariable.Value} \n";
-        }
+        DrawDebugList(
+            "Float Variables",
+            debugParameters.GetFloatVariables()
+                .Select(v => $"{v.name}: {v.Value}")
+                .ToList()
+        );
         
-        float floatSize = (lineHeight) * debugParameters.GetFloatVariables().Count;
-
-
-        GUI.TextField(new Rect(pivotX, pivotY + previousHeights, width, floatSize),
-            floatString);
-        previousHeights += floatSize + betweenTypeMargin;
+        DrawDebugList(
+            "Vector2 Variables",
+            debugParameters.GetVector2Variables()
+                .Select(v => $"{v.name}: {v.Value}")
+                .ToList()
+        );
         
-        //Vector2
-        GUI.TextField(new Rect(pivotX, pivotY + previousHeights, width, lineHeight),
-            $"Vector2 Variables: \n");
-        previousHeights += lineHeight;
+        DrawDebugList(
+            "Vector3 Variables",
+            debugParameters.GetVector3Variables()
+                .Select(v => $"{v.name}: {v.Value}")
+                .ToList()
+        );
         
-        string vector2String = "";
-        foreach (var vector2Variable in debugParameters.GetVector2Variables())
-        {
-            vector2String += $"- {vector2Variable.name}: {vector2Variable.Value} \n";
-        }
+        DrawDebugList(
+            "Quaternion Variables",
+            debugParameters.GetQuaternionVariables()
+                .Select(v => $"{v.name}: {v.Value}")
+                .ToList()
+        );
         
-        float vector2Size = (lineHeight) * debugParameters.GetVector2Variables().Count;
-
-
-        GUI.TextField(new Rect(pivotX, pivotY + previousHeights, width, vector2Size),
-            vector2String);
-        previousHeights += vector2Size + betweenTypeMargin;
+        DrawDebugList(
+            "Timer Variables",
+            debugParameters.GetTimerVariables()
+                .Select(v => $"{v.name}: {v.RemainingTime}")
+                .ToList()
+        );
         
-        //Vector3
-        GUI.TextField(new Rect(pivotX, pivotY + previousHeights, width, lineHeight),
-            $"Vector3 Variables: \n");
-        previousHeights += lineHeight;
-        
-        string vector3String = "";
-        foreach (var vector3Variable in debugParameters.GetVector3Variables())
-        {
-            vector3String += $"- {vector3Variable.name}: {vector3Variable.Value} \n";
-        }
-        
-        float vector3Size = (lineHeight) * debugParameters.GetVector3Variables().Count;
-
-
-        GUI.TextField(new Rect(pivotX, pivotY + previousHeights, width, vector3Size),
-            vector3String);
-        previousHeights += vector3Size + betweenTypeMargin;
-        
-        //Quaternion
-        GUI.TextField(new Rect(pivotX, pivotY + previousHeights, width, lineHeight),
-            $"Quaternion Variables: \n");
-        previousHeights += lineHeight;
-        
-        string quaternionString = "";
-        foreach (var quaternionVariable in debugParameters.GetQuaternionVariables())
-        {
-            quaternionString += $"- {quaternionVariable.name}: {quaternionVariable.Value} \n";
-        }
-        
-        float quaternionSize = (lineHeight) * debugParameters.GetQuaternionVariables().Count;
-
-
-        GUI.TextField(new Rect(pivotX, pivotY + previousHeights, width, quaternionSize),
-            quaternionString);
-        previousHeights += quaternionSize + betweenTypeMargin;
-        
-        //Timer
-        GUI.TextField(new Rect(pivotX, pivotY + previousHeights, width, lineHeight),
-            $"Timer Variables: \n");
-        previousHeights += lineHeight;
-        
-        string timerString = "";
-        foreach (var timerVariable in debugParameters.GetTimerVariables())
-        {
-            timerString += $"- {timerVariable.name}: {timerVariable.RemainingTime} \n";
-        }
-        
-        float timerSize = (lineHeight) * debugParameters.GetTimerVariables().Count;
-
-
-        GUI.TextField(new Rect(pivotX, pivotY + previousHeights, width, timerSize),
-            timerString);
-        previousHeights += timerSize + betweenTypeMargin;
+        DrawDebugList(
+            "Function Variables",
+            debugParameters.GetFunctionVariables()
+                .Select(v => $"{v.name}: {v.Value}")
+                .ToList()
+        );
     }
     
 

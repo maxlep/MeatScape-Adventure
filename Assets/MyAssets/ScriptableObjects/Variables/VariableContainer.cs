@@ -43,7 +43,10 @@ public class VariableContainer : ScriptableObject
     
     [Required] [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [ListDrawerSettings(ShowPaging = false)]
     [SerializeField] private List<TimerVariable> TimerVariables = new List<TimerVariable>();
-    
+
+    [Required] [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [ListDrawerSettings(ShowPaging = false)]
+    [SerializeField] private List<FunctionVariable> FunctionVariables = new List<FunctionVariable>();
+
     private const string ASSET_EXTENSION = ".asset";
 
     public List<TriggerVariable> GetTriggerVariables() => TriggerVariables;
@@ -54,6 +57,7 @@ public class VariableContainer : ScriptableObject
     public List<Vector3Variable> GetVector3Variables() => Vector3Variables;
     public List<QuaternionVariable> GetQuaternionVariables() => QuaternionVariables;
     public List<TimerVariable> GetTimerVariables() => TimerVariables;
+    public List<FunctionVariable> GetFunctionVariables() => FunctionVariables;
 
 #if UNITY_EDITOR
 
@@ -135,6 +139,14 @@ public class VariableContainer : ScriptableObject
                 TimerVariables.Add(assetAsTimer);
                 continue;
             }
+            
+            FunctionVariable assetAsFunction = 
+                AssetDatabase.LoadAssetAtPath(propertyPath, typeof(TimerVariable)) as FunctionVariable;
+            if (assetAsFunction != null)
+            {
+                FunctionVariables.Add(assetAsFunction);
+                continue;
+            }
         }
         Debug.Log($"{TriggerVariables.Count} Triggers" +
         $" | {BoolVariables.Count} Bools" +
@@ -143,7 +155,8 @@ public class VariableContainer : ScriptableObject
         $" | {Vector2Variables.Count} Vector2s" +
         $" | {Vector3Variables.Count} Vector3s" +
         $" | {QuaternionVariables.Count} Quaternions" +
-        $" | {TimerVariables.Count} Timers");
+        $" | {TimerVariables.Count} Timers" +
+        $" | {FunctionVariables.Count} Functions");
     }
 
     private List<string> GetAssetRelativePaths(string path)

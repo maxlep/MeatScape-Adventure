@@ -5,6 +5,7 @@ using UnityEngine;
 namespace MyAssets.ScriptableObjects.Variables
 {
     [Required]
+    [SynchronizedHeader]
     [CreateAssetMenu(fileName = "TriggerVariable", menuName = "Variables/TriggerVariable", order = 0)]
     public class TriggerVariable : ScriptableObject
     {

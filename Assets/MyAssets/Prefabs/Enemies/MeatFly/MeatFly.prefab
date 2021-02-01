@@ -44,6 +44,8 @@ GameObject:
   - component: {fileID: 6128286548476829499}
   - component: {fileID: 8635157016785154267}
   - component: {fileID: 1285994771526371585}
+  - component: {fileID: 1911897791877214778}
+  - component: {fileID: 7460249903885931107}
   m_Layer: 11
   m_Name: DamageFeedbacks
   m_TagString: Untagged
@@ -82,6 +84,8 @@ MonoBehaviour:
   - {fileID: 6128286548476829499}
   - {fileID: 8635157016785154267}
   - {fileID: 1285994771526371585}
+  - {fileID: 1911897791877214778}
+  - {fileID: 7460249903885931107}
   InitializationMode: 2
   SafeMode: 3
   AutoPlayOnStart: 0
@@ -250,12 +254,12 @@ MonoBehaviour:
     Quantized: 0
     TargetBPM: 120
   DebugActive: 0
-  BoundRenderer: {fileID: 0}
+  BoundRenderer: {fileID: 1323101653943798848}
   Mode: 0
   PropertyName: _Tint
   FlickerDuration: 0.2
   FlickerOctave: 0.04
-  FlickerColor: {r: 1, g: 0.078431375, b: 0.078431375, a: 1}
+  FlickerColor: {r: 1, g: 0.6008581, b: 0.07843137, a: 1}
 --- !u!114 &8635157016785154267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,12 +287,12 @@ MonoBehaviour:
     Quantized: 0
     TargetBPM: 120
   DebugActive: 0
-  BoundRenderer: {fileID: 0}
+  BoundRenderer: {fileID: 968088166020673377}
   Mode: 0
   PropertyName: _Tint
   FlickerDuration: 0.2
   FlickerOctave: 0.04
-  FlickerColor: {r: 1, g: 0.078431375, b: 0.078431375, a: 1}
+  FlickerColor: {r: 1, g: 0.6, b: 0.078431375, a: 1}
 --- !u!114 &1285994771526371585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,12 +320,78 @@ MonoBehaviour:
     Quantized: 0
     TargetBPM: 120
   DebugActive: 0
-  BoundRenderer: {fileID: 0}
+  BoundRenderer: {fileID: 7715048435475243732}
   Mode: 0
   PropertyName: _Tint
   FlickerDuration: 0.2
   FlickerOctave: 0.04
-  FlickerColor: {r: 1, g: 0.078431375, b: 0.078431375, a: 1}
+  FlickerColor: {r: 1, g: 0.6, b: 0.078431375, a: 1}
+--- !u!114 &1911897791877214778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2568228261975604048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d83ae645c92af634f89036dd5302f84a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Active: 1
+  Label: Flicker
+  Chance: 100
+  Timing:
+    TimescaleMode: 0
+    InitialDelay: 0
+    CooldownDuration: 0
+    NumberOfRepeats: 0
+    RepeatForever: 0
+    DelayBetweenRepeats: 1
+    Sequence: {fileID: 0}
+    TrackID: 0
+    Quantized: 0
+    TargetBPM: 120
+  DebugActive: 0
+  BoundRenderer: {fileID: 7852431434810518987}
+  Mode: 0
+  PropertyName: _Tint
+  FlickerDuration: 0.2
+  FlickerOctave: 0.04
+  FlickerColor: {r: 1, g: 0.6, b: 0.078431375, a: 1}
+--- !u!114 &7460249903885931107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2568228261975604048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d83ae645c92af634f89036dd5302f84a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Active: 1
+  Label: Flicker
+  Chance: 100
+  Timing:
+    TimescaleMode: 0
+    InitialDelay: 0
+    CooldownDuration: 0
+    NumberOfRepeats: 0
+    RepeatForever: 0
+    DelayBetweenRepeats: 1
+    Sequence: {fileID: 0}
+    TrackID: 0
+    Quantized: 0
+    TargetBPM: 120
+  DebugActive: 0
+  BoundRenderer: {fileID: 5095192569552477998}
+  Mode: 0
+  PropertyName: _Tint
+  FlickerDuration: 0.2
+  FlickerOctave: 0.04
+  FlickerColor: {r: 1, g: 0.6, b: 0.078431375, a: 1}
 --- !u!1 &2747612945711986634
 GameObject:
   m_ObjectHideFlags: 0
@@ -393,6 +463,7 @@ GameObject:
   - component: {fileID: 1030535076955015478}
   - component: {fileID: 6549290263944059353}
   - component: {fileID: 3600038343810329670}
+  - component: {fileID: 403885144304967251}
   m_Layer: 11
   m_Name: DeathFeedbacks
   m_TagString: Untagged
@@ -428,6 +499,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Feedbacks:
   - {fileID: 6549290263944059353}
+  - {fileID: 403885144304967251}
   - {fileID: 3600038343810329670}
   - {fileID: 1030535076955015478}
   InitializationMode: 2
@@ -549,6 +621,143 @@ MonoBehaviour:
     TargetBPM: 120
   DebugActive: 0
   PauseDuration: 0.3
+--- !u!114 &403885144304967251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2951275942704825085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d958a52145b19904aa2a5bcb3849eafb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Active: 1
+  Label: Scale
+  Chance: 100
+  Timing:
+    TimescaleMode: 0
+    InitialDelay: 0
+    CooldownDuration: 0
+    NumberOfRepeats: 0
+    RepeatForever: 0
+    DelayBetweenRepeats: 1
+    Sequence: {fileID: 0}
+    TrackID: 0
+    Quantized: 0
+    TargetBPM: 120
+  DebugActive: 0
+  Mode: 0
+  TimeScale: 0
+  AnimateScaleTarget: {fileID: 0}
+  AnimateScaleDuration: 0.3
+  RemapCurveZero: 1
+  RemapCurveOne: 2
+  Offset: 0
+  AnimateX: 1
+  AnimateScaleX:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.3
+      value: 1.1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0.25
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  AnimateY: 1
+  AnimateScaleY:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.2
+      value: -0.8
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: -0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  AnimateZ: 1
+  AnimateScaleZ:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.3
+      value: 1.1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0.25
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  DestinationScale: {x: 0.5, y: 0.5, z: 0.5}
 --- !u!1 &3179837517301798940
 GameObject:
   m_ObjectHideFlags: 0
@@ -1553,9 +1762,10 @@ MonoBehaviour:
     type: 2}
   behaviorTree: {fileID: 4937023745241896721}
   Gravity: 10
-  MaxHealth: 1
+  MaxHealth: 3
   damageFeedbacks: {fileID: 3682942169110589298}
   deathFeedbacks: {fileID: 6721476132794033194}
+  destroyOnDeathObj: {fileID: 3179837517301798940}
   dropOnDeath: {fileID: 3791119812253180241, guid: 2495a54ad21f870449e44182263d9ea1,
     type: 3}
   OnDeathEvent:
@@ -1794,9 +2004,39 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ff2cc390158f5a4b8956339561a9175, type: 3}
+--- !u!23 &968088166020673377 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6448678818323749754, guid: 2ff2cc390158f5a4b8956339561a9175,
+    type: 3}
+  m_PrefabInstance: {fileID: 6057649607724119067}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1323101653943798848 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -4157524182732408741, guid: 2ff2cc390158f5a4b8956339561a9175,
+    type: 3}
+  m_PrefabInstance: {fileID: 6057649607724119067}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &5095192569552477998 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7879933081483957451, guid: 2ff2cc390158f5a4b8956339561a9175,
+    type: 3}
+  m_PrefabInstance: {fileID: 6057649607724119067}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &7852431434810518987 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -5122729196051506736, guid: 2ff2cc390158f5a4b8956339561a9175,
+    type: 3}
+  m_PrefabInstance: {fileID: 6057649607724119067}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6024586241252742128 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2ff2cc390158f5a4b8956339561a9175,
+    type: 3}
+  m_PrefabInstance: {fileID: 6057649607724119067}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &7715048435475243732 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -4683669308469848369, guid: 2ff2cc390158f5a4b8956339561a9175,
     type: 3}
   m_PrefabInstance: {fileID: 6057649607724119067}
   m_PrefabAsset: {fileID: 0}

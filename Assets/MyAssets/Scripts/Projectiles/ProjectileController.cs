@@ -32,7 +32,7 @@ public class ProjectileController : MonoBehaviour
         if (otherObj.IsInLayerMask(impactMask))
         {
             if (!impactSounds.IsNullOrEmpty())
-                EffectsManager.Instance.PlayClipAtPoint(PickRandomClip(impactSounds), transform.position, .3f);
+                EffectsManager.Instance.PlayClipAtPoint(PickRandomClip(impactSounds), transform.position, .15f);
             if (impactParticles != null)
                 EffectsManager.Instance.SpawnParticlesAtPoint(impactParticles, transform.position, quaternion.identity);
 

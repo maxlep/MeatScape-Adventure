@@ -19,6 +19,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] protected int MaxHealth = 1;
     [SerializeField] protected MMFeedbacks damageFeedbacks;
     [SerializeField] protected MMFeedbacks deathFeedbacks;
+    [SerializeField] protected GameObject destroyOnDeathObj;
     [SerializeField] protected GameObject dropOnDeath;
 
     [SerializeField] protected UnityEvent OnDeathEvent;
@@ -77,12 +78,15 @@ public class EnemyController : MonoBehaviour
         GameObject.Instantiate(dropOnDeath, transform.position + Vector3.up * 3f, Quaternion.identity);
         OnDeathEvent?.Invoke();
         // EffectsManager.Instance?.SpawnParticlesAtPoint(deathParticles, transform.position, Quaternion.identity);
-        Destroy(this.gameObject);
+        if (destroyOnDeathObj != null)
+            Destroy(destroyOnDeathObj);
+        else
+            Destroy(this.gameObject);
     }
 
     public virtual void DamageEnemy(int dmg) {
         health -= dmg;
-        if (deathFeedbacks != null) damageFeedbacks?.PlayFeedbacks();
+        if (damageFeedbacks != null) damageFeedbacks?.PlayFeedbacks();
     }
 
     #endregion

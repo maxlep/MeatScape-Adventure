@@ -1,5 +1,63 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8355637963256714917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: Forward Throw 3 -> DoNothing
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 4744, y: 40}
+  ports:
+    keys:
+    - nextState
+    - startingState
+    values:
+    - _fieldName: nextState
+      _node: {fileID: -8355637963256714917}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: 509438275094468515}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: startingState
+      _node: {fileID: -8355637963256714917}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: -6926500366338806423}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  transitionPriority: 0
+  conditionPreview: 
+  ValidStartStates: []
+  InvalidStartStates: []
+  BoolConditions: []
+  TriggerConditions: []
+  FloatConditions: []
+  IntConditions: []
+  TimerConditions:
+  - targetParameter:
+      UseConstant: 0
+      ConstantDuration: 0
+      Variable: {fileID: 11400000, guid: a701ba794602b294087ffec4c024d55e, type: 2}
+  Vector2Conditions: []
+  Vector3Conditions: []
 --- !u!114 &-8354906802381047596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10,10 +68,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a5b13c47b83130d4b8b43bf8c05f286e, type: 3}
-  m_Name: Forward Throw <ForwardAttack> (PlayerCombat)
+  m_Name: Forward Throw 1 <ForwardAttack> (PlayerCombat)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1864, y: 136}
+  position: {x: 1864, y: 104}
   ports:
     keys:
     - transitions
@@ -24,9 +82,13 @@ MonoBehaviour:
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
-      - fieldName: previousState
-        node: {fileID: 7574179755061179093}
+      - fieldName: startingState
+        node: {fileID: -3557754941773718037}
         reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: 6081311161080663211}
+        reroutePoints:
+        - {x: 2300.3438, y: -185.29092}
       _direction: 1
       _connectionType: 0
       _typeConstraint: 2
@@ -44,7 +106,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   BypassState: 0
-  Name: Forward Throw
+  Name: Forward Throw 1
   zoom: 0
   isActiveState: 0
   MeatClumpPrefab: {fileID: 2487677105210045783, guid: f257932619900ee48a82e1b4e73d5325,
@@ -68,6 +130,134 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: {x: 0, y: 0}
     Variable: {fileID: 11400000, guid: f48af2d5870a315459ef8f032591c5be, type: 2}
+  comboTimer:
+    UseConstant: 0
+    ConstantDuration: 0
+    Variable: {fileID: 11400000, guid: 5a207bcd7f9967540ab6a89d4fd721e3, type: 2}
+  comboFinishTimer:
+    UseConstant: 0
+    ConstantDuration: 0
+    Variable: {fileID: 11400000, guid: a701ba794602b294087ffec4c024d55e, type: 2}
+--- !u!114 &-7056521487864695197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: DoNothing <Reference>
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 4152, y: -920}
+  ports:
+    keys:
+    - transitions
+    - previousState
+    values:
+    - _fieldName: transitions
+      _node: {fileID: -7056521487864695197}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: previousState
+      _node: {fileID: -7056521487864695197}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: -4935851696750448494}
+        reroutePoints: []
+      - fieldName: nextState
+        node: {fileID: 6081311161080663211}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  referencedState: {fileID: 9174840935225501389}
+--- !u!114 &-6926500366338806423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5b13c47b83130d4b8b43bf8c05f286e, type: 3}
+  m_Name: Forward Throw 3 <ForwardAttack> (PlayerCombat)
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 4168, y: 120}
+  ports:
+    keys:
+    - transitions
+    - previousState
+    values:
+    - _fieldName: transitions
+      _node: {fileID: -6926500366338806423}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: startingState
+        node: {fileID: -8355637963256714917}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: previousState
+      _node: {fileID: -6926500366338806423}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: -3630650883385373099}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  BypassState: 0
+  Name: Forward Throw 3
+  zoom: 0
+  isActiveState: 0
+  MeatClumpPrefab: {fileID: 2487677105210045783, guid: f257932619900ee48a82e1b4e73d5325,
+    type: 3}
+  ThrowDelay:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 78868f588c19dee488b854e3b3d104e4, type: 2}
+  ThrowSpeed:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: bbe60700273ca2549a705475c1cdd7a1, type: 2}
+  WaitedAttackDelay:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 253f68b1cd3945c488bcb8015d51137c, type: 2}
+  ThrowPoint: {fileID: 11400000, guid: 27642181c01fbae46b19d9ad22d9cdce, type: 2}
+  PlayerCameraTransform: {fileID: 11400000, guid: d50b3bc5cde09794cb0468cc9e2dba0f,
+    type: 2}
+  MoveInput:
+    UseConstant: 0
+    ConstantValue: {x: 0, y: 0}
+    Variable: {fileID: 11400000, guid: f48af2d5870a315459ef8f032591c5be, type: 2}
+  comboTimer:
+    UseConstant: 0
+    ConstantDuration: 0
+    Variable: {fileID: 11400000, guid: 5a207bcd7f9967540ab6a89d4fd721e3, type: 2}
+  comboFinishTimer:
+    UseConstant: 0
+    ConstantDuration: 0
+    Variable: {fileID: 11400000, guid: a701ba794602b294087ffec4c024d55e, type: 2}
 --- !u!114 &-6583862081062639760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,7 +271,7 @@ MonoBehaviour:
   m_Name: Downward Throw <DownwardAttack> (PlayerCombat)
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1880, y: 600}
+  position: {x: 2008, y: 792}
   ports:
     keys:
     - transitions
@@ -210,6 +400,276 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: {x: 0, y: 0, z: 0}
     Variable: {fileID: 11400000, guid: 9bb89c095cc264240a1d00bcb25ce309, type: 2}
+--- !u!114 &-4935851696750448494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: Forward Throw 2 -> DoNothing
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 3608, y: -696}
+  ports:
+    keys:
+    - nextState
+    - startingState
+    values:
+    - _fieldName: nextState
+      _node: {fileID: -4935851696750448494}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: -7056521487864695197}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: startingState
+      _node: {fileID: -4935851696750448494}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: -2659756497756101328}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  transitionPriority: 0
+  conditionPreview: 
+  ValidStartStates: []
+  InvalidStartStates: []
+  BoolConditions: []
+  TriggerConditions: []
+  FloatConditions: []
+  IntConditions: []
+  TimerConditions:
+  - targetParameter:
+      UseConstant: 0
+      ConstantDuration: 0
+      Variable: {fileID: 11400000, guid: 5a207bcd7f9967540ab6a89d4fd721e3, type: 2}
+  Vector2Conditions: []
+  Vector3Conditions: []
+--- !u!114 &-3630650883385373099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: Forward Throw 2 -> Forward Throw 3
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 3592, y: -24}
+  ports:
+    keys:
+    - nextState
+    - startingState
+    values:
+    - _fieldName: nextState
+      _node: {fileID: -3630650883385373099}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: -6926500366338806423}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: startingState
+      _node: {fileID: -3630650883385373099}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: -2659756497756101328}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  transitionPriority: 0
+  conditionPreview: '-  Valid:  Ground Movement
+
+    -  Valid:  Air Movement
+
+    - 
+    Valid:  No Low Jump
+
+'
+  ValidStartStates:
+  - {fileID: 1196608421412681666, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  - {fileID: -8209884016339463683, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  - {fileID: 8382683336472367375, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  InvalidStartStates: []
+  BoolConditions: []
+  TriggerConditions:
+  - targetParameter: {fileID: 11400000, guid: 5e15a58a7e2120d4ab58b2aacd49f1ba, type: 2}
+    KeepTriggerOn: 0
+  FloatConditions: []
+  IntConditions: []
+  TimerConditions: []
+  Vector2Conditions: []
+  Vector3Conditions: []
+--- !u!114 &-3557754941773718037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: Forward Throw 1 -> Forward Throw 2
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 2456, y: -56}
+  ports:
+    keys:
+    - nextState
+    - startingState
+    values:
+    - _fieldName: nextState
+      _node: {fileID: -3557754941773718037}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: -2659756497756101328}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: startingState
+      _node: {fileID: -3557754941773718037}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: -8354906802381047596}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  transitionPriority: 0
+  conditionPreview: '-  Valid:  Ground Movement
+
+    -  Valid:  Air Movement
+
+    - 
+    Valid:  No Low Jump
+
+'
+  ValidStartStates:
+  - {fileID: 1196608421412681666, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  - {fileID: -8209884016339463683, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  - {fileID: 8382683336472367375, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  InvalidStartStates: []
+  BoolConditions: []
+  TriggerConditions:
+  - targetParameter: {fileID: 11400000, guid: 5e15a58a7e2120d4ab58b2aacd49f1ba, type: 2}
+    KeepTriggerOn: 0
+  FloatConditions: []
+  IntConditions: []
+  TimerConditions: []
+  Vector2Conditions: []
+  Vector3Conditions: []
+--- !u!114 &-2659756497756101328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5b13c47b83130d4b8b43bf8c05f286e, type: 3}
+  m_Name: Forward Throw 2 <ForwardAttack> (PlayerCombat)
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 3032, y: 120}
+  ports:
+    keys:
+    - transitions
+    - previousState
+    values:
+    - _fieldName: transitions
+      _node: {fileID: -2659756497756101328}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: startingState
+        node: {fileID: -3630650883385373099}
+        reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: -4935851696750448494}
+        reroutePoints:
+        - {x: 3467.9739, y: -222.6386}
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: previousState
+      _node: {fileID: -2659756497756101328}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: -3557754941773718037}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  BypassState: 0
+  Name: Forward Throw 2
+  zoom: 0
+  isActiveState: 0
+  MeatClumpPrefab: {fileID: 2487677105210045783, guid: f257932619900ee48a82e1b4e73d5325,
+    type: 3}
+  ThrowDelay:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 78868f588c19dee488b854e3b3d104e4, type: 2}
+  ThrowSpeed:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: bbe60700273ca2549a705475c1cdd7a1, type: 2}
+  WaitedAttackDelay:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 253f68b1cd3945c488bcb8015d51137c, type: 2}
+  ThrowPoint: {fileID: 11400000, guid: 27642181c01fbae46b19d9ad22d9cdce, type: 2}
+  PlayerCameraTransform: {fileID: 11400000, guid: d50b3bc5cde09794cb0468cc9e2dba0f,
+    type: 2}
+  MoveInput:
+    UseConstant: 0
+    ConstantValue: {x: 0, y: 0}
+    Variable: {fileID: 11400000, guid: f48af2d5870a315459ef8f032591c5be, type: 2}
+  comboTimer:
+    UseConstant: 0
+    ConstantDuration: 0
+    Variable: {fileID: 11400000, guid: 5a207bcd7f9967540ab6a89d4fd721e3, type: 2}
+  comboFinishTimer:
+    UseConstant: 0
+    ConstantDuration: 0
+    Variable: {fileID: 11400000, guid: a701ba794602b294087ffec4c024d55e, type: 2}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,6 +690,56 @@ MonoBehaviour:
   - {fileID: -8354906802381047596}
   - {fileID: -6583862081062639760}
   - {fileID: 7574179755061179093}
+  - {fileID: -2659756497756101328}
+  - {fileID: -6926500366338806423}
+  - {fileID: -3557754941773718037}
+  - {fileID: -3630650883385373099}
+  - {fileID: 509438275094468515}
+  - {fileID: -8355637963256714917}
+  - {fileID: 6081311161080663211}
+  - {fileID: -4935851696750448494}
+  - {fileID: -7056521487864695197}
+--- !u!114 &509438275094468515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: DoNothing <Reference>
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 5352, y: 184}
+  ports:
+    keys:
+    - transitions
+    - previousState
+    values:
+    - _fieldName: transitions
+      _node: {fileID: 509438275094468515}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: previousState
+      _node: {fileID: 509438275094468515}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: -8355637963256714917}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  referencedState: {fileID: 9174840935225501389}
 --- !u!114 &4601134146122477444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,7 +781,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: DoNothing -> Forward Throw
+  m_Name: DoNothing -> Forward Throw 1
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 1304, y: -56}
@@ -318,18 +828,71 @@ MonoBehaviour:
   - {fileID: -8209884016339463683, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   - {fileID: 8382683336472367375, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   InvalidStartStates: []
-  BoolConditions:
-  - targetParameter:
-      UseConstant: 0
-      ConstantValue: 0
-      Variable: {fileID: 11400000, guid: 253f68b1cd3945c488bcb8015d51137c, type: 2}
-    value: 1
+  BoolConditions: []
   TriggerConditions:
   - targetParameter: {fileID: 11400000, guid: 5e15a58a7e2120d4ab58b2aacd49f1ba, type: 2}
     KeepTriggerOn: 0
   FloatConditions: []
   IntConditions: []
   TimerConditions: []
+  Vector2Conditions: []
+  Vector3Conditions: []
+--- !u!114 &6081311161080663211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: Forward Throw 1 -> DoNothing
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 2472, y: -696}
+  ports:
+    keys:
+    - nextState
+    - startingState
+    values:
+    - _fieldName: nextState
+      _node: {fileID: 6081311161080663211}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: -7056521487864695197}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: startingState
+      _node: {fileID: 6081311161080663211}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: -8354906802381047596}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  transitionPriority: 0
+  conditionPreview: 
+  ValidStartStates: []
+  InvalidStartStates: []
+  BoolConditions: []
+  TriggerConditions: []
+  FloatConditions: []
+  IntConditions: []
+  TimerConditions:
+  - targetParameter:
+      UseConstant: 0
+      ConstantDuration: 0
+      Variable: {fileID: 11400000, guid: 5a207bcd7f9967540ab6a89d4fd721e3, type: 2}
   Vector2Conditions: []
   Vector3Conditions: []
 --- !u!114 &6723259330370557546
@@ -492,7 +1055,7 @@ MonoBehaviour:
   m_Name: DoNothing <Reference>
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 2440, y: 296}
+  position: {x: 2888, y: 840}
   ports:
     keys:
     - transitions
@@ -514,9 +1077,6 @@ MonoBehaviour:
       connections:
       - fieldName: transitions
         node: {fileID: -6583862081062639760}
-        reroutePoints: []
-      - fieldName: transitions
-        node: {fileID: -8354906802381047596}
         reroutePoints: []
       _direction: 0
       _connectionType: 0

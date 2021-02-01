@@ -14,6 +14,8 @@ public class ForwardAttack : PlayerStateNode
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TransformSceneReference ThrowPoint;
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TransformSceneReference PlayerCameraTransform;
     [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private Vector2Reference MoveInput;
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TimerReference comboTimer;
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TimerReference comboFinishTimer;
 
     private bool clumpThrown;
 
@@ -33,6 +35,9 @@ public class ForwardAttack : PlayerStateNode
     public override void Enter()
     {
         base.Enter();
+        
+        comboTimer.RestartTimer();
+        comboFinishTimer.RestartTimer();
 
         var autoAimTarget = playerController.AimTarget;
         var throwDirection = autoAimTarget.SafeIsUnityNull()

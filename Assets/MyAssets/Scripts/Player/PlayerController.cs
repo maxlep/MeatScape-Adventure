@@ -123,7 +123,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         InputManager.Instance.onRoll_Released += () => RollPressed.Value = false;
 
         InputManager.Instance.onJump_Pressed += () => JumpTrigger.Activate();
-        InputManager.Instance.onAttack += () => AttackTrigger.Activate();
+        InputManager.Instance.onAttack_Released += () => AttackTrigger.Activate();
         InputManager.Instance.onDownwardAttack += () => DownwardAttackTrigger.Activate();
         InputManager.Instance.onRoll_Pressed += () => RollTrigger.Activate();
         InputManager.Instance.onRoll_Released += () => RollReleaseTrigger.Activate();

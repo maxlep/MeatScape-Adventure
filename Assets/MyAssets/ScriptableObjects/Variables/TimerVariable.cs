@@ -70,6 +70,7 @@ public class TimerVariable : ScriptableObject
 
 [Serializable]
 [InlineProperty]
+[SynchronizedHeader]
 public class TimerReference
 {
     [HorizontalGroup("Split", LabelWidth = .01f)] [PropertyTooltip("$Tooltip")]

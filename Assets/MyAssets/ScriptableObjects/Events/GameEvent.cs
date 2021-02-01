@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace MyAssets.ScriptableObjects.Events
 {
+    [SynchronizedHeader]
     [CreateAssetMenu(fileName = "GameEvent", menuName = "GameEvent", order = 0)]
     public class GameEvent : ScriptableObject
     {

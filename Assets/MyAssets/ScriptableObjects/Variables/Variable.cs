@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using Sirenix.OdinInspector;
+using Sirenix.OdinInspector.Editor;
+using UnityEditor;
 using UnityEngine;
 
 namespace MyAssets.ScriptableObjects.Variables
@@ -44,6 +46,7 @@ namespace MyAssets.ScriptableObjects.Variables
 
     [Serializable]
     [InlineProperty]
+    [SynchronizedHeader]
     public class Reference<T, VT> where VT: Variable<T>
     {
         [HorizontalGroup("Split", LabelWidth = .01f)] [PropertyTooltip("$Tooltip")]
@@ -54,11 +57,11 @@ namespace MyAssets.ScriptableObjects.Variables
 
         [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [ShowIf("UseConstant")]
         [SerializeField] protected T ConstantValue;
-    
+        
         [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [HideIf("UseConstant")] 
         [SerializeField] protected VT Variable;
     
-        public String Tooltip => Variable != null && !UseConstant ? Variable.Description : "";
+        public String Tooltip => Variable != null && !UseConstant ? $"{Variable.name}:\n{Variable.Description}" : "";
 
         //WARNING: will update subscribers synchronously within whatever time cycle the var is updated (Awake, LateUpdate, etc.)
         public void Subscribe(OnUpdate callback)

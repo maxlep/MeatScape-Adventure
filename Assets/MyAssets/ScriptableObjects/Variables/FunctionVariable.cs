@@ -3,15 +3,48 @@ using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using MyAssets.ScriptableObjects.Variables;
 using System;
+using MyAssets.ScriptableObjects.Variables.ValueReferences;
 
 [Required]
 [CreateAssetMenu(fileName = "FunctionVariable", menuName = "Variables/FunctionVariable", order = 0)]
-public class FunctionVariable : ScriptableObject
+public class FunctionVariable : ScriptableObject, IFloatValue
 {
+    #region Inspector
+    
     [Title("$Equation")]
-    [HideReferenceObjectPicker][SerializeField] private List<VariableOperatorPair> VarOpPairs;
+    [LabelText("Operations")]
+    [HideReferenceObjectPicker]
+    [SerializeField]
+    private List<VariableOperatorPair> VarOpPairs;
 
-    public float Value {get; private set;}
+    [TextArea (7, 10)]
+    [HideInInlineEditors]
+    public string Description;
+    
+    #endregion
+
+    #region Interface
+
+    public float Value { get; private set; }
+
+    public string GetName() => name;
+    public string GetDescription() => Description;
+    public float GetValue(Type type) => Value;
+    public float GetFloat() => Value;
+
+    public void Subscribe(OnUpdate callback)
+    {
+        this.OnUpdate += callback;
+    }
+
+    public void Unsubscribe(OnUpdate callback)
+    {
+        this.OnUpdate -= callback;
+    }
+
+    #endregion
+    
+    protected event OnUpdate OnUpdate;
 
     void Awake() {
         this.Recalculate();
@@ -31,6 +64,7 @@ public class FunctionVariable : ScriptableObject
             op = varOpPair.op;
         }
         this.Value = value;
+        OnUpdate?.Invoke();
     }
 
     private string Equation {
@@ -50,8 +84,12 @@ public class FunctionVariable : ScriptableObject
 }
 
 [Serializable]
-public class VariableOperatorPair {
+public class VariableOperatorPair
+{
+    [HideLabel]
     public FloatReference variable;
+    
+    [HideLabel]
     public FunctionVariableOperators op;
 }
 

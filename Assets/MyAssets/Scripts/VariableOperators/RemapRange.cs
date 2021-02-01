@@ -1,22 +1,34 @@
-﻿using MyAssets.ScriptableObjects.Variables;
+﻿using System;
+using MyAssets.ScriptableObjects.Variables;
+using MyAssets.ScriptableObjects.Variables.ValueReferences;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
 namespace MyAssets.Scripts.VariableOperators
 {
-    public class RemapRange : MonoBehaviour
+    public class RemapRange : SerializedMonoBehaviour
     {
-        [SerializeField] private FloatReference _input;
+        [SerializeField] private FloatValueReference _input;
         [SerializeField] private bool useCurve = true;
         [ShowIf("useCurve")][SerializeField] private CurveReference _curve;
-        [HideIf("useCurve")][SerializeField] private FloatReference _oldMin;
-        [HideIf("useCurve")][SerializeField] private FloatReference _oldMax;
+        [HideIf("useCurve")][SerializeField] private FloatValueReference _oldMin;
+        [HideIf("useCurve")][SerializeField] private FloatValueReference _oldMax;
 
-        [SerializeField] private FloatReference _output;
-        [SerializeField] private FloatReference _newMin;
-        [SerializeField] private FloatReference _newMax;
+        [SerializeField] private FloatVariable _output;
+        [SerializeField] private FloatValueReference _newMin;
+        [SerializeField] private FloatValueReference _newMax;
 
-        private void Update()
+        private void Awake()
+        {
+            _input.Subscribe(Recalculate);
+            _curve.Subscribe(Recalculate);
+            _oldMin.Subscribe(Recalculate);
+            _oldMax.Subscribe(Recalculate);
+            _newMin.Subscribe(Recalculate);
+            _newMax.Subscribe(Recalculate);
+        }
+
+        private void Recalculate()
         {
             var oldMin = useCurve ? _curve.GetMinValue() : _oldMin.Value;
             var oldMax = useCurve ? _curve.GetMaxValue() : _oldMax.Value;

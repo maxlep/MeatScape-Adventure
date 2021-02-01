@@ -46,9 +46,7 @@ public class VariableContainer : ScriptableObject
 
     [Required] [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [ListDrawerSettings(ShowPaging = false)]
     [SerializeField] private List<FunctionVariable> FunctionVariables = new List<FunctionVariable>();
-
-    private const string ASSET_EXTENSION = ".asset";
-
+    
     public List<TriggerVariable> GetTriggerVariables() => TriggerVariables;
     public List<BoolVariable> GetBoolVariables() => BoolVariables;
     public List<IntVariable> GetIntVariables() => IntVariables;
@@ -74,7 +72,7 @@ public class VariableContainer : ScriptableObject
         QuaternionVariables.Clear();
         TimerVariables.Clear();
 
-        foreach (var propertyPath in GetAssetRelativePaths(FolderPath))
+        foreach (var propertyPath in AssetDatabaseUtils.GetAssetRelativePaths(FolderPath, IncludeSubdirectories))
         {
             TriggerVariable assetAsTrigger =
                 AssetDatabase.LoadAssetAtPath(propertyPath, typeof(TriggerVariable)) as TriggerVariable;
@@ -158,32 +156,7 @@ public class VariableContainer : ScriptableObject
         $" | {TimerVariables.Count} Timers" +
         $" | {FunctionVariables.Count} Functions");
     }
-
-    private List<string> GetAssetRelativePaths(string path)
-    {
-        List<string> assetRelativePaths = new List<string>();
-        var info = new DirectoryInfo(path);
-        var fileInfo = info.GetFiles();
-        foreach (var file in fileInfo)
-        {
-            if (file.Extension.Equals(ASSET_EXTENSION))
-            {
-                assetRelativePaths.Add($"{path}/{file.Name}");
-            }
-        }
-
-        if (IncludeSubdirectories)
-        {
-            string[] subdirectoryNames = AssetDatabase.GetSubFolders(path);
-            subdirectoryNames.ForEach(d => Debug.Log(d)); 
-            foreach (var subDir in subdirectoryNames)
-            {
-                assetRelativePaths = assetRelativePaths.Union(GetAssetRelativePaths(subDir).ToList()).ToList();
-            }
-        }
-
-        return assetRelativePaths;
-    }
+    
 
     [Button(ButtonSizes.Small), PropertyOrder(-1)]
     public void SetThisFolder()

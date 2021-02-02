@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using MyAssets.ScriptableObjects.Variables.ValueReferences;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -15,23 +16,6 @@ namespace MyAssets.ScriptableObjects.Variables
         
         [HideLabel]
         public FloatValueReference value;
-        
-        internal static float Operate(float previousValue, ValueOperatorPair op)
-        {
-            switch (op.op)
-            {
-                case FunctionVariableOperators.Add:
-                    return previousValue + op.value.Value;
-                case FunctionVariableOperators.Subtract:
-                    return previousValue - op.value.Value;
-                case FunctionVariableOperators.Multiply:
-                    return previousValue * op.value.Value;
-                case FunctionVariableOperators.Divide:
-                    return previousValue / op.value.Value;
-                default:
-                    throw new NotImplementedException();
-            }
-        }
     }
 
     public enum FunctionVariableOperators {
@@ -43,7 +27,25 @@ namespace MyAssets.ScriptableObjects.Variables
 
     internal static class FunctionVariableOperatorsExtensions
     {
-        internal static Dictionary<FunctionVariableOperators, string> OperatorToString = new Dictionary<FunctionVariableOperators, string>
+        public delegate float Operator(float value1, float value2);
+        
+        public static Operator ToFunction(this FunctionVariableOperators op) => OperatorToFunction[op];
+        public static string ToString(this FunctionVariableOperators op) => OperatorToString[op];
+        
+        private static float Add(float a, float b) => a + b;
+        private static float Subtract(float a, float b) => a - b;
+        private static float Multiply(float a, float b) => a * b;
+        private static float Divide(float a, float b) => a / b;
+        
+        private static Dictionary<FunctionVariableOperators, Operator> OperatorToFunction = new Dictionary<FunctionVariableOperators,Operator>
+        {
+            {FunctionVariableOperators.Add, Add},
+            {FunctionVariableOperators.Subtract, Subtract},
+            {FunctionVariableOperators.Multiply, Multiply},
+            {FunctionVariableOperators.Divide, Divide},
+        };
+        
+        private static Dictionary<FunctionVariableOperators, string> OperatorToString = new Dictionary<FunctionVariableOperators, string>
         {
             {FunctionVariableOperators.Add, "+"},
             {FunctionVariableOperators.Subtract, "-"},
@@ -105,7 +107,11 @@ namespace MyAssets.ScriptableObjects.Variables
 
         private void Recalculate()
         {
-            _result = Operations.Aggregate(0f, ValueOperatorPair.Operate);
+            _result = Operations.Aggregate(0f, (accumulator, op) =>
+            {
+                var operation = op.op.ToFunction();
+                return operation(accumulator, op.value.Value);
+            });
             OnUpdate?.Invoke();
         }
 
@@ -113,19 +119,18 @@ namespace MyAssets.ScriptableObjects.Variables
         {
             get
             {
-                string equationStr = "Equation: ";
+                string equationStr = "Equation:";
                 if (Operations == null || Operations.Count == 0)
                 {
                     return equationStr;
                 }
-                equationStr += "v0";
+                var equation = new StringBuilder(equationStr);
+                equation.Append(" v0");
                 for (int i = 1; i < Operations.Count; i++)
                 {
-                    var op = Operations[i];
-                    string opStr = FunctionVariableOperatorsExtensions.OperatorToString[op.op];
-                    equationStr += $" {opStr} v{i + 1}";
+                    equation.Append($" {Operations[i].op.ToString()} v{i + 1}");
                 }
-                return equationStr;
+                return equation.ToString();
             }
         }
     }

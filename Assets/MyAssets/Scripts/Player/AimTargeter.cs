@@ -10,15 +10,18 @@ namespace MyAssets.Scripts.Player
     {
         [SerializeField] private CameraSceneReference camera;
         [SerializeField] private TransformSceneReference targetingReticle;
-        [SerializeField] private LayerMask layerMask;
+        [SerializeField] private TransformSceneReference firePoint;
+        [SerializeField] private LayerMapper layerMapper;
+        [SerializeField] private LayerMask enemyLayerMask;
+        [SerializeField] private LayerMask obstructionLayerMask;
         [SerializeField] private float maxRange;
         [SerializeField] private int colliderLimit = 64;
 
-        public Transform CurrentTarget => currentTarget;
+        public Transform CurrentTarget => currentTarget?.transform;
 
         private Collider[] targetableColliders;
 
-        private Transform currentTarget;
+        private Collider currentTarget;
         private float currentWeight;
 
         private void Awake()
@@ -37,39 +40,42 @@ namespace MyAssets.Scripts.Player
                 currentWeight = 0;
             }
             
-            int numColliders = Physics.OverlapSphereNonAlloc(transform.position, maxRange, targetableColliders, layerMask);
+            int numColliders = Physics.OverlapSphereNonAlloc(transform.position, maxRange, targetableColliders, enemyLayerMask);
             
             for (int i = 0; i < numColliders; i++)
             {
                 var current = targetableColliders[i];
-                float weight = GetTargetWeight(current.transform);
+                float weight = GetTargetWeight(current);
 
                 if (weight > currentWeight)
                 {
-                    currentTarget = current.transform;
+                    currentTarget = current;
                     currentWeight = weight;
                 }
             }
 
             if (!currentTarget.SafeIsUnityNull())
             {
-                var currentScreenSpacePosition = camera.Value.WorldToScreenPoint(currentTarget.position);
-                targetingReticle.Value.position = currentScreenSpacePosition;
-                targetingReticle.Value.gameObject.SetActive(true);
-
+                RaycastHit hit = default(RaycastHit);
+                bool hitObstruction = Physics.Raycast(firePoint.Value.position, (currentTarget.bounds.center - firePoint.Value.position).normalized,
+                    out hit, maxRange, obstructionLayerMask);
+                if(!hitObstruction || hit.transform.gameObject.layer == layerMapper.GetLayer(LayerEnum.Enemy)) {
+                    var currentScreenSpacePosition = camera.Value.WorldToScreenPoint(currentTarget.bounds.center);
+                    targetingReticle.Value.position = currentScreenSpacePosition;
+                    targetingReticle.Value.gameObject.SetActive(true);
+                    return;
+                }
                 // Debug.Log($"Curr weight: {currentWeight}, Curr name: {currentTarget?.name}, Num colls: {numColliders}, Screen position: {currentScreenSpacePosition}");
             }
-            else
-            {
-                targetingReticle.Value.gameObject.SetActive(false);
-            }
+            
+            targetingReticle.Value.gameObject.SetActive(false);
         }
 
-        private float GetTargetWeight(Transform target)
+        private float GetTargetWeight(Collider target)
         {
             if (target.SafeIsUnityNull()) return 0;
 
-            var targetPos = target.position;
+            var targetPos = target.bounds.center;
 
             var playerToTargetRay = targetPos - transform.position;
             var playerAlignment = Vector3.Dot(transform.forward, playerToTargetRay);

@@ -128,7 +128,7 @@ namespace MyAssets.ScriptableObjects.Variables
                 equation.Append(" v0");
                 for (int i = 1; i < Operations.Count; i++)
                 {
-                    equation.Append($" {Operations[i].op.AsString()} v{i + 1}");
+                    equation.Append($" {Operations[i].op.AsString()} v{i}");
                 }
                 return equation.ToString();
             }

@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace MyAssets.ScriptableObjects.Variables.ValueReferences
 {
-    [LabelWidth(100)]
     [InlineProperty]
     [SynchronizedHeader]
     [HideReferenceObjectPicker]

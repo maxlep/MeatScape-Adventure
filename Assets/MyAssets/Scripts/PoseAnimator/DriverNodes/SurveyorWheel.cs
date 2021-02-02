@@ -13,7 +13,7 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
         [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private FloatValueReference maxSpeed;
         [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private FloatReference walkSpeedFactor;
         [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private float minStrideLengthFactor = 0.25f;
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private FloatReference fullStrideLength;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private FloatValueReference fullStrideLength;
         [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private FloatReference strideLength;
         [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private FloatReference distance;
         [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private FloatReference cyclePercent;
@@ -73,8 +73,12 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
 
             walkSpeedFactor.Value = moveVelocity.Value.sqrMagnitude / Mathf.Pow(maxSpeed.Value, 2);
             walkSpeedFactor.Value = Math.Max(walkSpeedFactor.Value, minStrideLengthFactor);
-            strideLength.Value = walkSpeedFactor.Value * fullStrideLength.Value;
-            cycleLength = 2 * fullStrideLength.Value;
+            if (fullStrideLength != null)
+            {
+                strideLength.Value = walkSpeedFactor.Value * fullStrideLength.Value;
+                cycleLength = 2 * fullStrideLength.Value;
+            }
+
             radius = cycleLength / (2 * Mathf.PI);
             
             // Debug.Log($"{walkSpeedFactor.Value}, {strideLength.Value}, {cycleLength}, {radius}");

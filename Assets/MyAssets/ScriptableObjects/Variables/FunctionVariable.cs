@@ -9,7 +9,7 @@ using UnityEngine;
 namespace MyAssets.ScriptableObjects.Variables
 {
     // [Serializable]
-    public class ValueOperatorPair
+    internal class ValueOperatorPair
     {
         [HideLabel]
         public FunctionVariableOperators op;
@@ -18,7 +18,7 @@ namespace MyAssets.ScriptableObjects.Variables
         public FloatValueReference value;
     }
 
-    public enum FunctionVariableOperators {
+    internal enum FunctionVariableOperators {
         Add,
         Subtract,
         Multiply,
@@ -29,9 +29,9 @@ namespace MyAssets.ScriptableObjects.Variables
     {
         public delegate float Operator(float value1, float value2);
         
-        public static Operator ToFunction(this FunctionVariableOperators op) => OperatorToFunction[op];
-        public static string ToString(this FunctionVariableOperators op) => OperatorToString[op];
-        
+        public static Operator AsFunction(this FunctionVariableOperators op) => OperatorToFunction[op];
+        public static string AsString(this FunctionVariableOperators op) => OperatorToString[op];
+
         private static float Add(float a, float b) => a + b;
         private static float Subtract(float a, float b) => a - b;
         private static float Multiply(float a, float b) => a * b;
@@ -109,7 +109,7 @@ namespace MyAssets.ScriptableObjects.Variables
         {
             _result = Operations.Aggregate(0f, (accumulator, op) =>
             {
-                var operation = op.op.ToFunction();
+                var operation = op.op.AsFunction();
                 return operation(accumulator, op.value.Value);
             });
             OnUpdate?.Invoke();
@@ -128,7 +128,7 @@ namespace MyAssets.ScriptableObjects.Variables
                 equation.Append(" v0");
                 for (int i = 1; i < Operations.Count; i++)
                 {
-                    equation.Append($" {Operations[i].op.ToString()} v{i + 1}");
+                    equation.Append($" {Operations[i].op.AsString()} v{i + 1}");
                 }
                 return equation.ToString();
             }

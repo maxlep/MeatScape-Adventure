@@ -14,11 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Profile:
     name: ScriptableObjectsScan
-    description: Scans Scriptable Objects in MyAssets/ScriptableObjects
+    description: Scans Scriptable Objects in MyAssets/ScriptableObjects but NOT state
+      machine graphs
     SearchFilters:
     - t:ScriptableObject
     AssetPaths:
-    - MyAssets/ScriptableObjects
+    - Assets/MyAssets/ScriptableObjects
     AssetReferences: []
-    ExcludeAssetPaths: []
+    ExcludeAssetPaths:
+    - Assets/MyAssets/ScriptableObjects/Graphs
     ExcludeAssetReferences: []

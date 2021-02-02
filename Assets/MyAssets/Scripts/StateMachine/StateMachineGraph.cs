@@ -19,7 +19,7 @@ public class StateMachineConnection
 
 [CreateAssetMenu(fileName = "StateMachineGraph", menuName = "Graphs/StateMachineGraph", order = 0)]
 public class StateMachineGraph : NodeGraph
-{
+{//
     public List<StateNode> stateNodes { get; private set; } = new List<StateNode>();
     public List<TransitionNode> transitionNodes { get; private set; } = new List<TransitionNode>();
     public List<TransitionNode> globalTransitions { get; private set; } = new List<TransitionNode>();
@@ -99,6 +99,15 @@ public class StateMachineGraph : NodeGraph
         foreach (var stateNode in stateNodes)
         {
             stateNode.Initialize(this);
+
+            //Init stateNodes within subStateProcessor
+            if (stateNode is SubStateProcessorNode nodeAsSubState)
+            {
+                foreach (var subState in nodeAsSubState.SubStates)
+                {
+                    subState.Initialize(this);
+                }
+            }
         }
         foreach (var transitionNode in transitionNodes)
         {
@@ -114,12 +123,21 @@ public class StateMachineGraph : NodeGraph
     private void InitNodesRecursively(Node nextNode, int startNodeIndex)
     {
         //Init nodes, return if already initialized
-        StateNode nodeAsState = nextNode as StateNode;
-        if (nodeAsState != null)
+        if (nextNode is StateNode nodeAsState)
         {
             if (nodeAsState.IsInitialized) return;
             nodeAsState.Initialize(this);
             nodeAsState.RuntimeInitialize(startNodeIndex);
+            
+            //Init stateNodes within subStateProcessor
+            if (nodeAsState is SubStateProcessorNode nodeAsSubState)
+            {
+                foreach (var subState in nodeAsSubState.SubStates)
+                {
+                    subState.Initialize(this);
+                    subState.RuntimeInitialize(startNodeIndex);
+                }
+            }
         }
 
         TransitionNode nodeAsTransition = nextNode as TransitionNode;

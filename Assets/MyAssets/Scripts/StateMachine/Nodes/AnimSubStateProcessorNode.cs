@@ -9,35 +9,15 @@ using UnityEngine;
 
 namespace MyAssets.Graphs.StateMachine.Nodes
 {
-    public class AnimSubStateProcessorNode : StateNode
+    public class AnimSubStateProcessorNode : SubStateProcessorNode
     {
         [ValidateInput("ValidateOutputState", 
             "Output state must be an animation state node present in subState List!")]
-        [PropertySpace(0f, 10f)] [SerializeField]
+        [PropertySpace(0f, 10f)] [SerializeField] [Required]
         private StateNode outputState;
         
-        [ValidateInput("ValidateInput",
-            "You added a SubStateProcessorNode to the list! Do you want infinite loop?")]
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
-        [ListDrawerSettings(Expanded = true)] [Required]
-        private List<StateNode> subStates = new List<StateNode>();
-
-        private bool AlwaysTrue => true;
-        
         #region LifeCycle Methods
-        
-        public override void Initialize(StateMachineGraph parentGraph)
-        {
-            base.Initialize(parentGraph);
-            subStates.ForEach(s => s.Initialize(parentGraph));
-        }
-    
-        public override void RuntimeInitialize(int startNodeIndex)
-        {
-            base.RuntimeInitialize(startNodeIndex);
-            subStates.ForEach(s => s.RuntimeInitialize(startNodeIndex));
-        }
-    
+
         public override void Enter()
         {
             //Check if its anim state node, if so, set is output state
@@ -52,47 +32,10 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 
             }
             base.Enter();
-            subStates.ForEach(s => s.Enter());
         }
-    
-        public override void Execute()
-        {
-            base.Execute();
-            subStates.ForEach(s => s.Execute());
-        }
-    
-        public override void ExecuteFixed()
-        {
-            base.ExecuteFixed();
-            subStates.ForEach(s => s.ExecuteFixed());
-        }
-    
-        public override void Exit()
-        {
-            base.Exit();
-            subStates.ForEach(s => s.Exit());
-        }
-        
-        public override void DrawGizmos()
-        {
-            base.DrawGizmos();
-            subStates.ForEach(s => s.DrawGizmos());
-        }
-        
+
         #endregion
-            
-        private bool ValidateInput(List<StateNode> stateList)
-        {
-            //Dont allow adding SubStateProcessorNode to the list
-            foreach (var state in stateList)
-            {
-                SubStateProcessorNode stateAsSubstateProcessor = state as SubStateProcessorNode;
-                if (stateAsSubstateProcessor != null)
-                    return false;
-            }
         
-            return true;
-        }
         
         private bool ValidateOutputState(StateNode outState)
         {

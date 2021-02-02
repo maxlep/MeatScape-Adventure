@@ -4,15 +4,21 @@ using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
+using Unity.Collections;
 using UnityEngine;
 
 public class SubStateProcessorNode : StateNode
 {
+    [HideIf("$zoom")] [SerializeField] [Required]
+    protected SubStateGraph subGraph;
+    
     [ValidateInput("ValidateInput",
         "You added a SubStateProcessorNode to the list! Do you want infinite loop?")]
-    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
-    [ListDrawerSettings(Expanded = true)]
-    private List<StateNode> subStates = new List<StateNode>();
+    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [PropertyOrder(1)]
+    [ListDrawerSettings(Expanded = true, IsReadOnly = true)] [Sirenix.OdinInspector.ReadOnly]
+    protected List<StateNode> subStates = new List<StateNode>();
+
+    public List<StateNode> SubStates => subStates;
     
     #region LifeCycle Methods
 
@@ -57,8 +63,30 @@ public class SubStateProcessorNode : StateNode
         base.DrawGizmos();
         subStates.ForEach(s => s.DrawGizmos());
     }
-    
+
+    protected override void OnValidate()
+    {
+        PopulateSubStates();
+    }
+
     #endregion
+
+    private void PopulateSubStates()
+    {
+        if (subGraph == null)
+            return;
+        
+        subStates.Clear();
+
+        foreach (var node in subGraph.nodes)
+        {
+            if (node is StateNode)
+            {
+                StateNode nodeAsState = (StateNode) node;
+                subStates.Add(nodeAsState);
+            }
+        }
+    }
 
     private bool ValidateInput(List<StateNode> stateList)
     {

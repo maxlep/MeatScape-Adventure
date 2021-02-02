@@ -14,10 +14,21 @@ public class PlayerStateMachine : LayeredStateMachine
         
         foreach (var stateNode in stateMachine.stateNodes)
         {
-            var playerState = stateNode as PlayerStateNode;
-            if (playerState != null)
+            if (stateNode is PlayerStateNode playerState)
             {
                 playerState.SetDependencies(playerController);
+            }
+            
+            //Init playerStateNodes within subStateProcessor
+            if (stateNode is SubStateProcessorNode nodeAsSubState)
+            {
+                foreach (var subState in nodeAsSubState.SubStates)
+                {
+                    if (subState is PlayerStateNode playerSubState)
+                    {
+                        playerSubState.SetDependencies(playerController);
+                    }
+                }
             }
         }
     }

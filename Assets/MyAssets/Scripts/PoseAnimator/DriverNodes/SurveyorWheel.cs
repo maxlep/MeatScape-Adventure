@@ -9,17 +9,17 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
 {
     public class SurveyorWheel : PlayerStateNode
     {
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private Vector2Vec3Reference moveVelocity;
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private FloatValueReference maxSpeed;
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private FloatReference walkSpeedFactor;
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private float minStrideLengthFactor = 0.25f;
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private FloatValueReference fullStrideLength;
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private FloatReference strideLength;
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private FloatReference distance;
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private FloatReference cyclePercent;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), Required, SerializeField] private Vector2Vec3Reference moveVelocity;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), Required, SerializeField] private FloatValueReference maxSpeed;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), Required, SerializeField] private FloatReference walkSpeedFactor;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), Required, SerializeField] private float minStrideLengthFactor = 0.25f;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), Required, SerializeField] private FloatValueReference fullStrideLength;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), Required, SerializeField] private FloatReference strideLength;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), Required, SerializeField] private FloatReference distance;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), Required, SerializeField] private FloatReference cyclePercent;
 
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private bool resetOnStart = true;
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField, ShowIf("resetOnStart")] private float roundToMultiple = 1;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), Required, SerializeField] private bool resetOnStart = true;
+        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), Required, SerializeField, ShowIf("resetOnStart")] private float roundToMultiple = 1;
         [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField, Sirenix.OdinInspector.ReadOnly] private Transform probe;
 
         private float cycleLength;
@@ -70,11 +70,11 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
         {
             var distanceLastFrame = Time.deltaTime * moveVelocity.Value.magnitude;
             distance.Value += distanceLastFrame;
-
-            walkSpeedFactor.Value = moveVelocity.Value.sqrMagnitude / Mathf.Pow(maxSpeed.Value, 2);
-            walkSpeedFactor.Value = Math.Max(walkSpeedFactor.Value, minStrideLengthFactor);
-            if (fullStrideLength != null)
+            
+            if (fullStrideLength != null && maxSpeed != null)
             {
+                walkSpeedFactor.Value = moveVelocity.Value.sqrMagnitude / Mathf.Pow(maxSpeed.Value, 2);
+                walkSpeedFactor.Value = Math.Max(walkSpeedFactor.Value, minStrideLengthFactor);
                 strideLength.Value = walkSpeedFactor.Value * fullStrideLength.Value;
                 cycleLength = 2 * fullStrideLength.Value;
             }

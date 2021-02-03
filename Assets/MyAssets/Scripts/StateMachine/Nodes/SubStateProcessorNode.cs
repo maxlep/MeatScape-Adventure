@@ -64,6 +64,12 @@ public class SubStateProcessorNode : StateNode
         subStates.ForEach(s => s.DrawGizmos());
     }
 
+    public override void OnApplictionExit()
+    {
+        base.OnApplictionExit();
+        subStates.ForEach(s => s.OnApplictionExit());
+    }
+
     protected override void OnValidate()
     {
         PopulateSubStates();

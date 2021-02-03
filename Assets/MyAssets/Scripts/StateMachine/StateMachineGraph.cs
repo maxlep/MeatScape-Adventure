@@ -99,15 +99,6 @@ public class StateMachineGraph : NodeGraph
         foreach (var stateNode in stateNodes)
         {
             stateNode.Initialize(this);
-
-            //Init stateNodes within subStateProcessor
-            if (stateNode is SubStateProcessorNode nodeAsSubState)
-            {
-                foreach (var subState in nodeAsSubState.SubStates)
-                {
-                    subState.Initialize(this);
-                }
-            }
         }
         foreach (var transitionNode in transitionNodes)
         {
@@ -128,16 +119,6 @@ public class StateMachineGraph : NodeGraph
             if (nodeAsState.IsInitialized) return;
             nodeAsState.Initialize(this);
             nodeAsState.RuntimeInitialize(startNodeIndex);
-            
-            //Init stateNodes within subStateProcessor
-            if (nodeAsState is SubStateProcessorNode nodeAsSubState)
-            {
-                foreach (var subState in nodeAsSubState.SubStates)
-                {
-                    subState.Initialize(this);
-                    subState.RuntimeInitialize(startNodeIndex);
-                }
-            }
         }
 
         TransitionNode nodeAsTransition = nextNode as TransitionNode;

@@ -1,16 +1,14 @@
-﻿using System;
+﻿
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Sirenix.OdinInspector.Editor;
-using UnityEditor;
 using UnityEngine;
 
-public class SynchronizedHeader : Attribute
-{
-    
-}
-
 #if UNITY_EDITOR
+
+using Sirenix.OdinInspector.Editor;
+using UnityEditor;
 
 public class SynchronizedHeaderAttributeDrawer : OdinAttributeDrawer<SynchronizedHeader>
 {
@@ -23,3 +21,8 @@ public class SynchronizedHeaderAttributeDrawer : OdinAttributeDrawer<Synchronize
 }
 
 #endif
+
+public class SynchronizedHeader : Attribute
+{
+    
+}

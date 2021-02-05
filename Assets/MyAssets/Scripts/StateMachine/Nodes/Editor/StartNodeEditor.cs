@@ -18,14 +18,8 @@ public class StartNodeEditor : NodeEditor
         //Show Label Above node
         Vector2 nodeLabelPos = NodeEditorWindow.current.GridToWindowPositionNoClipped(target.position + 
                                                                                       new Vector2(0f, -60f));
-        GUIStyle labelStyle = new GUIStyle();
-        float minFontSize = 10f;
-        float maxFontSize = 100f;
-        float maxZoom = 5f;
-        labelStyle.fontSize = Mathf.CeilToInt(Mathf.Lerp(minFontSize, maxFontSize, NodeEditorWindow.current.zoom / maxZoom));
-        labelStyle.fontStyle = FontStyle.Bold;
-        labelStyle.normal.textColor = new Color(255f/255f, 197f/255f, 156f/255f, 1f);
-        labelStyle.alignment = TextAnchor.LowerCenter;
+        GUIStyle labelStyle = XNodeUtils.ZoomBasedStyle(10f, 85f,
+            new Color(255f/255f, 197f/255f, 156f/255f, 1f), FontStyle.Bold, TextAnchor.LowerCenter, false);
         GUI.Label(new Rect(nodeLabelPos, new Vector2(GetWidth(), 50f)), target.name,
             labelStyle);
     

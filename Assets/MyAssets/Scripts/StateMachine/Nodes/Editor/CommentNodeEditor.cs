@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Sirenix.Utilities;
@@ -117,7 +118,7 @@ public class CommentNodeEditor : NodeEditor
 			dragRect.height = cornerDragSize;
 
 			Color dragRectColor = (target as CommentNode).Color;
-			dragRectColor.a = .4f;
+			dragRectColor.a = .2f;
 			
 			EditorGUI.DrawRect(dragRect, dragRectColor);
 
@@ -126,15 +127,8 @@ public class CommentNodeEditor : NodeEditor
 
 		void DrawNodeDescription(Rect thisNodeRect)
 		{
-			GUIStyle descriptionStyle = new GUIStyle();
-			float minFontSize = 20f;
-			float maxFontSize = 70f;
-			float maxZoom = 5f;
-			descriptionStyle.fontSize = Mathf.CeilToInt(Mathf.Lerp(minFontSize, maxFontSize, NodeEditorWindow.current.zoom / maxZoom));
-			descriptionStyle.fontStyle = FontStyle.Bold;
-			descriptionStyle.normal.textColor = (target as CommentNode).TextColor;
-			descriptionStyle.alignment = TextAnchor.UpperLeft;
-			descriptionStyle.wordWrap = true;
+			Color descriptionColor = (target as CommentNode).TextColor;
+			GUIStyle descriptionStyle = XNodeUtils.ZoomBasedStyle(20f, 70f, descriptionColor);
 
 			Rect descriptionRect = thisNodeRect;
 			descriptionRect.y += 20f;
@@ -148,7 +142,7 @@ public class CommentNodeEditor : NodeEditor
 				EditorGUI.TextField(descriptionRect, descriptionText, descriptionStyle);
 			
 			Color descriptionRectColor = (target as CommentNode).Color;
-			descriptionRectColor.a = .2f;
+			descriptionRectColor.a = .1f;
 			
 			EditorGUI.DrawRect(descriptionRect, descriptionRectColor);
 		}

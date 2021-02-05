@@ -38,18 +38,9 @@ public class TransitionNodeEditor : NodeEditor
             
             //Condition Preview
             TransitionNode nodeAsTransition = target as TransitionNode;
-            GUIStyle labelStyle = new GUIStyle();
-            
-            float minFontSize = 20f;
-            float maxFontSize = 45f;
-            float maxZoom = 5f;
-            labelStyle.fontSize = Mathf.CeilToInt(Mathf.Lerp(minFontSize, maxFontSize, NodeEditorWindow.current.zoom / maxZoom));
-            labelStyle.fontStyle = FontStyle.Bold;
-            labelStyle.normal.textColor = new Color(1f, .85f, .85f);
-            labelStyle.alignment = TextAnchor.UpperLeft;
-            labelStyle.wordWrap = true;
-            
-            
+            GUIStyle labelStyle = XNodeUtils.ZoomBasedStyle(20f, 45f, 
+                new Color(1f, .85f, .85f));
+
             GUI.Label(new Rect(nodeLabelPos, new Vector2(GetWidth() - 25f, 50f)), nodeAsTransition.ConditionPreview,
                 labelStyle);
         }

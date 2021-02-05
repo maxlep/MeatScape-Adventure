@@ -22,14 +22,9 @@ public class StateNodeEditor : NodeEditor
         Vector2 nodeLabelPos = NodeEditorWindow.current.GridToWindowPositionNoClipped(target.position + 
                                                                                       new Vector2(0f, -60f));
         StateNode nodeAsState = target as StateNode;
-        GUIStyle labelStyle = new GUIStyle();
-        float minFontSize = 10f;
-        float maxFontSize = 100f;
-        float maxZoom = 5f;
-        labelStyle.fontSize = Mathf.CeilToInt(Mathf.Lerp(minFontSize, maxFontSize, NodeEditorWindow.current.zoom / maxZoom));
-        labelStyle.fontStyle = FontStyle.Bold;
-        labelStyle.normal.textColor = new Color(.85f, .85f, 1f);
-        labelStyle.alignment = TextAnchor.LowerCenter;
+
+        GUIStyle labelStyle = XNodeUtils.ZoomBasedStyle(10f, 85f, 
+            new Color(.85f, .85f, 1f), FontStyle.Bold, TextAnchor.LowerCenter, false);
         GUI.Label(new Rect(nodeLabelPos, new Vector2(GetWidth(), 50f)), nodeAsState.GetName(),
             labelStyle);
 
@@ -86,7 +81,7 @@ public class StateNodeEditor : NodeEditor
         if (canRemove) menu.AddItem(new GUIContent("Remove"), false, NodeEditorWindow.current.RemoveSelectedNodes);
         else menu.AddItem(new GUIContent("Remove"), false, null);
 
-        // Custom sctions if only one node is selected
+        // Custom sections if only one node is selected
         if (Selection.objects.Length == 1 && Selection.activeObject is XNode.Node) {
             XNode.Node node = Selection.activeObject as XNode.Node;
             menu.AddCustomContextMenuItems(node);

@@ -21,14 +21,9 @@ public class StateReferenceNodeEditor : NodeEditor
         Vector2 nodeLabelPos = NodeEditorWindow.current.GridToWindowPositionNoClipped(target.position + 
                                                                                       new Vector2(0f, -60f));
         StateReferenceNode nodeAsStateRef = target as StateReferenceNode;
-        GUIStyle labelStyle = new GUIStyle();
-        float minFontSize = 10f;
-        float maxFontSize = 100f;
-        float maxZoom = 5f;
-        labelStyle.fontSize = Mathf.CeilToInt(Mathf.Lerp(minFontSize, maxFontSize, NodeEditorWindow.current.zoom / maxZoom));
-        labelStyle.fontStyle = FontStyle.Bold;
-        labelStyle.normal.textColor = new Color(.85f, 1f, .85f);
-        labelStyle.alignment = TextAnchor.LowerCenter;
+        
+        GUIStyle labelStyle = XNodeUtils.ZoomBasedStyle(10f, 85f, 
+            new Color(.85f, 1f, .85f), FontStyle.Bold, TextAnchor.LowerCenter, false);
 
         string labelText;
 

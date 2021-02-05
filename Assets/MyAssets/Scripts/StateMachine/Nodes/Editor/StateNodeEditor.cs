@@ -23,8 +23,10 @@ public class StateNodeEditor : NodeEditor
                                                                                       new Vector2(0f, -60f));
         StateNode nodeAsState = target as StateNode;
         GUIStyle labelStyle = new GUIStyle();
-        float minFontSize = 30f;
-        labelStyle.fontSize = (int) Mathf.Max( (15 * NodeEditorWindow.current.zoom), minFontSize);
+        float minFontSize = 10f;
+        float maxFontSize = 100f;
+        float maxZoom = 5f;
+        labelStyle.fontSize = Mathf.CeilToInt(Mathf.Lerp(minFontSize, maxFontSize, NodeEditorWindow.current.zoom / maxZoom));
         labelStyle.fontStyle = FontStyle.Bold;
         labelStyle.normal.textColor = new Color(.85f, .85f, 1f);
         labelStyle.alignment = TextAnchor.LowerCenter;

@@ -19,8 +19,10 @@ public class StartNodeEditor : NodeEditor
         Vector2 nodeLabelPos = NodeEditorWindow.current.GridToWindowPositionNoClipped(target.position + 
                                                                                       new Vector2(0f, -60f));
         GUIStyle labelStyle = new GUIStyle();
-        float minFontSize = 30f;
-        labelStyle.fontSize = (int) Mathf.Max( (15 * NodeEditorWindow.current.zoom), minFontSize);
+        float minFontSize = 10f;
+        float maxFontSize = 100f;
+        float maxZoom = 5f;
+        labelStyle.fontSize = Mathf.CeilToInt(Mathf.Lerp(minFontSize, maxFontSize, NodeEditorWindow.current.zoom / maxZoom));
         labelStyle.fontStyle = FontStyle.Bold;
         labelStyle.normal.textColor = new Color(255f/255f, 197f/255f, 156f/255f, 1f);
         labelStyle.alignment = TextAnchor.LowerCenter;

@@ -11,7 +11,7 @@ public class CommentNode : Node
     
     public Vector2 Dimensions => new Vector2(Width, Height);
 
-    public Color Color = new Color(1f, 1f, 1f, 0.25f);
+    public Color Color = new Color(1f, 1f, 1f, 0.18f);
     public Color TextColor = new Color(1f, 1f, 1f, 1f);
 
     [Multiline] public string Description = "Description";

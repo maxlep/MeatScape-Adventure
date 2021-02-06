@@ -38,8 +38,12 @@ public class TransitionNodeEditor : NodeEditor
             
             //Condition Preview
             TransitionNode nodeAsTransition = target as TransitionNode;
-            GUIStyle labelStyle = XNodeUtils.ZoomBasedStyle(20f, 45f, 
-                new Color(1f, .85f, .85f));
+            
+            NodeEditorPreferences.Settings prefs = NodeEditorPreferences.GetSettings();
+            GUIStyle labelStyle = XNodeUtils.ZoomBasedStyle(20f, 55f, NodeEditorWindow.current.zoom,
+                prefs.minZoom, prefs.maxZoom,   new Color(1f, .85f, .85f));
+            GUI.Label(new Rect(nodeLabelPos, new Vector2(GetWidth(), 50f)), target.name,
+                labelStyle);
 
             GUI.Label(new Rect(nodeLabelPos, new Vector2(GetWidth() - 25f, 50f)), nodeAsTransition.ConditionPreview,
                 labelStyle);

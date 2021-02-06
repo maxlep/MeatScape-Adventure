@@ -23,8 +23,9 @@ public class StateNodeEditor : NodeEditor
                                                                                       new Vector2(0f, -60f));
         StateNode nodeAsState = target as StateNode;
 
-        GUIStyle labelStyle = XNodeUtils.ZoomBasedStyle(10f, 85f, 
-            new Color(.85f, .85f, 1f), FontStyle.Bold, TextAnchor.LowerCenter, false);
+        NodeEditorPreferences.Settings prefs = NodeEditorPreferences.GetSettings();
+        GUIStyle labelStyle = XNodeUtils.ZoomBasedStyle(35f, 85f, NodeEditorWindow.current.zoom,
+            prefs.minZoom, prefs.maxZoom,   new Color(.85f, .85f, 1f), FontStyle.Bold, TextAnchor.LowerCenter, false);
         GUI.Label(new Rect(nodeLabelPos, new Vector2(GetWidth(), 50f)), nodeAsState.GetName(),
             labelStyle);
 

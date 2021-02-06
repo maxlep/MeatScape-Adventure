@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Sirenix.Utilities;
 using UnityEditor;
+using UnityEditor.Graphs;
 using UnityEngine;
 using XNode;
 using XNodeEditor;
@@ -128,10 +129,11 @@ public class CommentNodeEditor : NodeEditor
 		void DrawNodeDescription(Rect thisNodeRect)
 		{
 			Color descriptionColor = (target as CommentNode).TextColor;
-			GUIStyle descriptionStyle = XNodeUtils.ZoomBasedStyle(20f, 70f, descriptionColor);
+			NodeEditorPreferences.Settings prefs = NodeEditorPreferences.GetSettings();
+			GUIStyle descriptionStyle = XNodeUtils.ZoomBasedStyle(30f, 80f, NodeEditorWindow.current.zoom, prefs.minZoom, prefs.maxZoom,  descriptionColor);
 
 			Rect descriptionRect = thisNodeRect;
-			descriptionRect.y += 20f;
+			descriptionRect.y += 40f;
 			descriptionRect.height = Mathf.Min(100f, descriptionRect.height / 3f);
 			
 			string descriptionText = !(target as CommentNode).Description.IsNullOrWhitespace()
@@ -145,6 +147,10 @@ public class CommentNodeEditor : NodeEditor
 			descriptionRectColor.a = .1f;
 			
 			EditorGUI.DrawRect(descriptionRect, descriptionRectColor);
+
+			Color borderColor = (target as CommentNode).Color;
+			borderColor.a = .5f;
+			XNodeUtils.DrawBorderAroundRect(descriptionRect, 10f, borderColor);
 		}
 
 		void SelectNodesInside()

@@ -7,7 +7,7 @@ using XNodeEditor;
 [NodeEditor.CustomNodeEditorAttribute(typeof(StateNode))]
 public class StateNodeEditor : NodeEditor
 {
-    private bool zoomed = false;
+    private bool zoomed = true;
 
     public override void OnBodyGUI()
     {

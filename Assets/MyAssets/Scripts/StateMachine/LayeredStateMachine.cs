@@ -48,6 +48,14 @@ public class LayeredStateMachine : MonoBehaviour
         }
     }
 
+    private void OnValidate()
+    {
+        foreach (var stateMachine in stateMachines)
+        {
+            stateMachine.InjectDependencies(this);
+        }
+    }
+
     protected void OnDrawGizmos()
     {
         foreach (var stateMachine in stateMachines)

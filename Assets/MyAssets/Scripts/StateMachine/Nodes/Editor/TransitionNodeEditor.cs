@@ -7,7 +7,7 @@ using XNodeEditor;
 [NodeEditor.CustomNodeEditorAttribute(typeof(TransitionNode))]
 public class TransitionNodeEditor : NodeEditor
 {
-    private bool zoomed = false;
+    private bool zoomed = true;
     
     public override void OnBodyGUI()
     {
@@ -33,19 +33,18 @@ public class TransitionNodeEditor : NodeEditor
                 new Color(80f/255f, 46f/255f, 50f/255f, 1f));
             
             //Text Area
-            EditorGUI.DrawRect(new Rect(topLeftPos + new Vector2(12f, 0f), new Vector2(GetWidth() - 25, 290f)),
-                new Color(0, 0, 0, .9f));
+            Rect textAreaRect = new Rect(topLeftPos + new Vector2(12f, 0f), new Vector2(GetWidth() - 25, 290f));
+            EditorGUI.DrawRect(textAreaRect, new Color(0, 0, 0, .9f));
             
             //Condition Preview
             TransitionNode nodeAsTransition = target as TransitionNode;
             
             NodeEditorPreferences.Settings prefs = NodeEditorPreferences.GetSettings();
-            GUIStyle labelStyle = XNodeUtils.ZoomBasedStyle(20f, 55f, NodeEditorWindow.current.zoom,
-                prefs.minZoom, prefs.maxZoom,   new Color(1f, .85f, .85f));
-            GUI.Label(new Rect(nodeLabelPos, new Vector2(GetWidth(), 50f)), target.name,
-                labelStyle);
+            GUIStyle labelStyle = XNodeUtils.ZoomBasedStyle(18f, 45f, NodeEditorWindow.current.zoom,
+                prefs.minZoom, prefs.maxZoom,   new Color(1f, .85f, .85f), FontStyle.Normal);
+            labelStyle.clipping = TextClipping.Clip;
 
-            GUI.Label(new Rect(nodeLabelPos, new Vector2(GetWidth() - 25f, 50f)), nodeAsTransition.ConditionPreview,
+            GUI.Label(textAreaRect, nodeAsTransition.ConditionPreview,
                 labelStyle);
         }
 

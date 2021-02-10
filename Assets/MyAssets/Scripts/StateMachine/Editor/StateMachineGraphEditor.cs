@@ -50,5 +50,4 @@ public class StateMachineGraphEditor : NodeGraphEditor
         menu.AddCustomContextMenuItems(target);
     }
     
-
 }

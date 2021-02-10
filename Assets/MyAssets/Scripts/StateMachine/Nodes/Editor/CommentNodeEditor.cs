@@ -24,7 +24,7 @@ public class CommentNodeEditor : NodeEditor
 
     public override void OnBodyGUI()
 		{
-			if (Selection.objects.Length == 1 && Selection.objects[0] is XNode.Node && Selection.objects[0] == target)
+			if (Selection.objects.Length == 1 && Selection.Contains(target))
 				NodeEditorWindow.current.Repaint();
 
 			if ((target as CommentNode).Minimized)
@@ -117,7 +117,7 @@ public class CommentNodeEditor : NodeEditor
 		{
 			target.graph.nodes.Remove(this.target);
 			target.graph.nodes.Insert(0, this.target);
-			NodeEditorWindow.current.Repaint();
+			//NodeEditorWindow.current.Repaint();
 		}
 
 		void DrawNodeHeaderRect(Rect thisNodeRect)

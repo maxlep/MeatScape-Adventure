@@ -15,6 +15,10 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [Required]
+        private FloatReference MinForce;
+        
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [Required]
         private FloatReference TimeToMaxCharge;
         
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
@@ -32,6 +36,10 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [Required]
         private FloatReference OptimalChargeMultiplier;
+        
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [Required]
+        private TimerVariable DelayTimer;
         
         #region GameEvents
         
@@ -53,7 +61,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         private Vector3 accumulatedForce;
         private float enterTime = Mathf.NegativeInfinity;
         private bool activatedParticles;
-        
+
         #region Lifecycle methods
 
         public override void Enter()
@@ -81,6 +89,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             
             playerController.AddImpulse(accumulatedForce);
             playerController.ToggleArrow(false);
+            DelayTimer.StartTimer();
         }
 
         public override void Execute()
@@ -119,7 +128,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
             float timePassed = Time.time - enterTime;
             float percentToMax = Mathf.Clamp01(timePassed/TimeToMaxCharge.Value);
-            float accumulatedForceMagnitude = Mathf.Lerp(0f, MaxForce.Value, percentToMax);
+            float accumulatedForceMagnitude = Mathf.Lerp(MinForce.Value, MaxForce.Value, percentToMax);
             accumulatedForce = slingDirection * accumulatedForceMagnitude;
 
             float maxArowLine = 15f;

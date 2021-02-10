@@ -171,7 +171,7 @@ MonoBehaviour:
       _dynamic: 0
   BypassState: 0
   Name: AirMovement
-  zoom: 1
+  zoom: 0
   isActiveState: 0
   BaseSpeed:
     UseConstant: 1
@@ -1066,132 +1066,6 @@ MonoBehaviour:
   TimerConditions: []
   Vector2Conditions: []
   Vector3Conditions: []
---- !u!114 &-4990919157884066038
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3025855eed90dd4f81a5b42e0e18392, type: 3}
-  m_Name: AirMovement <AirMovement> (PlayerMovement)
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 584, y: 264}
-  ports:
-    keys:
-    - transitions
-    - previousState
-    values:
-    - _fieldName: transitions
-      _node: {fileID: -4990919157884066038}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: previousState
-      _node: {fileID: -4990919157884066038}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  linkedNodes:
-  - {fileID: 0}
-  - {fileID: 0}
-  previousState: {}
-  transitions: {}
-  BypassState: 0
-  Name: AirMovement
-  stateMachineGraph: {fileID: 11400000}
-  parameterList: []
-  referenceNodes:
-  - {fileID: 0}
-  - {fileID: 0}
-  isInitialized: 1
-  zoom: 0
-  isActiveState: 0
-  <previousStates>k__BackingField:
-  - {fileID: 3160719255603912525}
-  <nextStates>k__BackingField:
-  - {fileID: 0}
-  - {fileID: -5368650478412996812}
-  - {fileID: 0}
-  - {fileID: -5368650478412996812}
-  <previousTransitionNodes>k__BackingField: []
-  <nextTransitionNodes>k__BackingField:
-  - {fileID: -6884243189497224942}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: -4727255185880807703}
-  <nextNoTransitionState>k__BackingField: {fileID: 0}
-  <previousNoTransitionStates>k__BackingField:
-  - {fileID: 3160719255603912525}
-  <isEntryState>k__BackingField: 0
-  playerController: {fileID: 0}
-  MoveSpeed:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 5c878f8db6decb043a9e07239782f2ef, type: 2}
-  Acceleration:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 01cf5e817fd7b5949977e10d09bb5ab6, type: 2}
-  Deacceleration:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: c4dbde759be93ec4cad673baf38c882c, type: 2}
-  TimeToJumpApex:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 1363a9d9ca886e741bf7446fd6169c24, type: 2}
-  MaxJumpHeight:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 0fd3177644ebffb41a70848abe4ba59b, type: 2}
-  FallMultiplier:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: add848a2a4596d842bf11239290fbb71, type: 2}
-  LowJumpDrag:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 40a7b4d889cf2e84b935f6621086aafa, type: 2}
-  MaxFallSpeed:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 7ce844f15ac152946bbf9df2bd27b40f, type: 2}
-  JumpPressed:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: d00e7a08d0775a4429a3a5cfad1382a2, type: 2}
-  MoveInput:
-    UseConstant: 0
-    ConstantValue: {x: 0, y: 0}
-    Variable: {fileID: 11400000, guid: f48af2d5870a315459ef8f032591c5be, type: 2}
-  NewVelocityOut:
-    UseConstant: 0
-    ConstantValue: {x: 0, y: 0, z: 0}
-    Variable: {fileID: 11400000, guid: 9bb89c095cc264240a1d00bcb25ce309, type: 2}
-  cachedVelocity:
-    UseConstant: 0
-    ConstantValue: {x: 0, y: 0, z: 0}
-    Variable: {fileID: 11400000, guid: dd2cd63ae1d9c034096f0b67bb5bcf62, type: 2}
-  NewRotationOut:
-    UseConstant: 0
-    ConstantValue: {x: 0, y: 0, z: 0, w: 0}
-    Variable: {fileID: 11400000, guid: 642843bee527d554f9408523e1ab11c8, type: 2}
-  gravity: -22.222221
-  releaseJumpTime: 0
-  cameraTrans: {fileID: 0}
-  moveDirection: {x: -0.9809982, y: 0, z: -0.19401738}
 --- !u!114 &-4907166979001360596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2358,10 +2232,11 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   nodes:
-  - {fileID: 1274938765607699821}
-  - {fileID: -4907166979001360596}
-  - {fileID: -5751758519617973417}
   - {fileID: 5989774036663823448}
+  - {fileID: -5751758519617973417}
+  - {fileID: -4907166979001360596}
+  - {fileID: 1274938765607699821}
+  - {fileID: -4301823939344745958}
   - {fileID: 647826158662486185}
   - {fileID: 6332291481083292061}
   - {fileID: 3160719255603912525}
@@ -2411,7 +2286,6 @@ MonoBehaviour:
   - {fileID: 9201189763644822038}
   - {fileID: -6025022824260275533}
   - {fileID: 1907789837880406339}
-  - {fileID: -4301823939344745958}
 --- !u!114 &145714409710213218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2821,7 +2695,7 @@ MonoBehaviour:
   BypassState: 0
   Name: GroundMovement
   zoom: 1
-  isActiveState: 0
+  isActiveState: 1
   BaseSpeed:
     UseConstant: 1
     ConstantValue: 0
@@ -3039,8 +2913,8 @@ MonoBehaviour:
     -  Waited
     Jump Ground Delay_ Movement_ Player
 
-    - 38.20039  Ignore 0 && -1.180642  Less
-    Than 0 && 11.22264  Ignore 0
+    - 0  Ignore 0 && 0  Less Than 0 && 0 
+    Ignore 0
 
 '
   ValidStartStates: []
@@ -3678,7 +3552,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: GroundMovement -> Jump
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -3713,9 +3587,6 @@ MonoBehaviour:
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
-      - fieldName: transitions
-        node: {fileID: 0}
-        reroutePoints: []
       - fieldName: transitions
         node: {fileID: 1196608421412681666}
         reroutePoints: []
@@ -3788,136 +3659,6 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   referencedState: {fileID: 145714409710213218}
---- !u!114 &7248169581288550152
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3025855eed90dd4f81a5b42e0e18392, type: 3}
-  m_Name: NoLowJump <AirMovement> (PlayerMovement)
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 2104, y: 216}
-  ports:
-    keys:
-    - transitions
-    - previousState
-    values:
-    - _fieldName: transitions
-      _node: {fileID: 7248169581288550152}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: previousState
-      _node: {fileID: 7248169581288550152}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  linkedNodes:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  previousState: {}
-  transitions: {}
-  BypassState: 0
-  Name: NoLowJump
-  stateMachineGraph: {fileID: 11400000}
-  parameterList: []
-  referenceNodes:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  isInitialized: 1
-  zoom: 0
-  isActiveState: 0
-  <previousStates>k__BackingField:
-  - {fileID: -5368650478412996812}
-  - {fileID: 0}
-  <nextStates>k__BackingField:
-  - {fileID: 0}
-  - {fileID: -5368650478412996812}
-  - {fileID: 0}
-  - {fileID: -5368650478412996812}
-  <previousTransitionNodes>k__BackingField:
-  - {fileID: -3641797515424182864}
-  <nextTransitionNodes>k__BackingField:
-  - {fileID: -3193452684244252466}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: -4727255185880807703}
-  <nextNoTransitionState>k__BackingField: {fileID: 0}
-  <previousNoTransitionStates>k__BackingField:
-  - {fileID: -5368650478412996812}
-  <isEntryState>k__BackingField: 0
-  playerController: {fileID: 0}
-  MoveSpeed:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 5c878f8db6decb043a9e07239782f2ef, type: 2}
-  Acceleration:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 01cf5e817fd7b5949977e10d09bb5ab6, type: 2}
-  Deacceleration:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: c4dbde759be93ec4cad673baf38c882c, type: 2}
-  TimeToJumpApex:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 1363a9d9ca886e741bf7446fd6169c24, type: 2}
-  MaxJumpHeight:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 0fd3177644ebffb41a70848abe4ba59b, type: 2}
-  FallMultiplier:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: add848a2a4596d842bf11239290fbb71, type: 2}
-  LowJumpDrag:
-    UseConstant: 1
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 40a7b4d889cf2e84b935f6621086aafa, type: 2}
-  MaxFallSpeed:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 7ce844f15ac152946bbf9df2bd27b40f, type: 2}
-  JumpPressed:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: d00e7a08d0775a4429a3a5cfad1382a2, type: 2}
-  MoveInput:
-    UseConstant: 0
-    ConstantValue: {x: 0, y: 0}
-    Variable: {fileID: 11400000, guid: f48af2d5870a315459ef8f032591c5be, type: 2}
-  NewVelocityOut:
-    UseConstant: 0
-    ConstantValue: {x: 0, y: 0, z: 0}
-    Variable: {fileID: 11400000, guid: 9bb89c095cc264240a1d00bcb25ce309, type: 2}
-  cachedVelocity:
-    UseConstant: 0
-    ConstantValue: {x: 0, y: 0, z: 0}
-    Variable: {fileID: 11400000, guid: dd2cd63ae1d9c034096f0b67bb5bcf62, type: 2}
-  NewRotationOut:
-    UseConstant: 0
-    ConstantValue: {x: 0, y: 0, z: 0, w: 0}
-    Variable: {fileID: 11400000, guid: 642843bee527d554f9408523e1ab11c8, type: 2}
-  gravity: -24.999998
-  releaseJumpTime: 0
-  cameraTrans: {fileID: 0}
-  moveDirection: {x: 0.99389607, y: 0, z: -0.11032107}
 --- !u!114 &8078871354772024384
 MonoBehaviour:
   m_ObjectHideFlags: 0

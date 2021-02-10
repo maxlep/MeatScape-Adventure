@@ -14,9 +14,9 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
 {
     public abstract class AnimationStateNode : StateNode
     {
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField]
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), SerializeField]
         private float transitionTime;
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), PropertySpace(0f, 10f), SerializeField]
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), PropertySpace(0f, 10f), SerializeField]
         private AnimationCurve transitionCurve;
 
         private bool isStateOutput = true;

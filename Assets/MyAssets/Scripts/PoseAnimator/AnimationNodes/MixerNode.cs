@@ -16,15 +16,15 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
 {
     public class MixerNode : AnimationStateNode
     {
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField]
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), SerializeField]
         private BlendMode blendMode = BlendMode.Mix;
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField]
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), SerializeField]
         private AnimationStateNode state1;
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField]
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), SerializeField]
         private AnimationStateNode state2;
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), PropertySpace(0f, 10f), SerializeField]
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), PropertySpace(0f, 10f), SerializeField]
         private FloatReference factor;
-        [HideIf("$zoom"), HideLabel, BoxGroup("MixerRunner"), SerializeField]
+        [HideIf("$collapsed"), HideLabel, BoxGroup("MixerRunner"), SerializeField]
         private MixerRunner mixerRunner;
         
         public override Playable Output => mixerRunner.Output;

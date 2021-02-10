@@ -8,7 +8,7 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
 {
     public class StateTransitionMixer : PlayerStateNode
     {
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField, Required]
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), SerializeField, Required]
         protected AnimatorSceneReference PlayerAnimator;
             
         public PlayableGraph GetGraph() => playableGraph;

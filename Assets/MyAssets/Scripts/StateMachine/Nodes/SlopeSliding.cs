@@ -8,19 +8,19 @@ using UnityEngine;
 
 public class SlopeSliding : PlayerStateNode
 {
-    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
     private Vector3Reference NewVelocityOut;
     
-    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
     private QuaternionReference NewRotationOut;
     
-    [HideIf("$zoom")] [LabelWidth(165)] [SerializeField] [Required]
+    [HideIf("$collapsed")] [LabelWidth(165)] [SerializeField] [Required]
     private TransformSceneReference PlayerCameraTransform;
     
-    [HideIf("$zoom")] [LabelWidth(165)] [SerializeField] [Required]
+    [HideIf("$collapsed")] [LabelWidth(165)] [SerializeField] [Required]
     private TransformSceneReference PlayerSlopeSlidingPivot;
     
-    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
     private Vector2Reference MoveInput;
     
     private Vector3 moveDirection;

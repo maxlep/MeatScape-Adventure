@@ -7,15 +7,15 @@ using Sirenix.Utilities;
 
 public class ForwardAttack : PlayerStateNode
 {
-    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private MeatClumpController MeatClumpPrefab;
-    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference ThrowDelay;
-    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference ThrowSpeed;
-    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private BoolReference WaitedAttackDelay;
-    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TransformSceneReference ThrowPoint;
-    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TransformSceneReference PlayerCameraTransform;
-    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private Vector2Reference MoveInput;
-    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TimerReference comboTimer;
-    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TimerReference comboFinishTimer;
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private MeatClumpController MeatClumpPrefab;
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference ThrowDelay;
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference ThrowSpeed;
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private BoolReference WaitedAttackDelay;
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TransformSceneReference ThrowPoint;
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TransformSceneReference PlayerCameraTransform;
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private Vector2Reference MoveInput;
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TimerReference comboTimer;
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TimerReference comboFinishTimer;
 
     private bool clumpThrown;
 

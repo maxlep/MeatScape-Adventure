@@ -9,64 +9,63 @@ using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using XNode;
 
-public class TransitionNode : Node
+public class TransitionNode : CollapsableNode
 {
     [Input(typeConstraint = TypeConstraint.Strict)] [PropertyOrder(-3)] public StateMachineConnection startingState;
     [Output (connectionType = ConnectionType.Override, typeConstraint = TypeConstraint.Strict)] [PropertyOrder(-2)] public StateMachineConnection nextState;
 
-    [LabelWidth(100)] [MinValue(0)] [HideIf("$zoom")] [HorizontalGroup("Left", MarginRight = 650f)]
+    [LabelWidth(100)] [MinValue(0)] [HideIf("$collapsed")] [HorizontalGroup("Left", MarginRight = 650f)]
     [SerializeField] private int transitionPriority;
     
-    [TextArea(3,10)] [HideLabel] [HideIf("$zoom")]
+    [TextArea(3,10)] [HideLabel] [HideIf("$collapsed")]
     [SerializeField] private string conditionPreview;
 
     [Tooltip("Transition only valid if ANY 1 or more of these states are active in respective state machine")] 
     [ListDrawerSettings(Expanded = true, DraggableItems = false)] [Required]
-    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.88f, 1f, .95f)]  [HideIf("$zoom")]
+    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.88f, 1f, .95f)]  [HideIf("$collapsed")]
     [SerializeField] private List<StateNode> ValidStartStates = new List<StateNode>();
     
     [Tooltip("Transition only valid if NONE of these states are active in respective state machine")] 
     [ListDrawerSettings(Expanded = true, DraggableItems = false)] [Required]
-    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.88f, 1f, .95f)]  [HideIf("$zoom")]
+    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.88f, 1f, .95f)]  [HideIf("$collapsed")]
     [SerializeField] private List<StateNode> InvalidStartStates = new List<StateNode>();
 
     [Tooltip("Transition only valid if ALL of these Bool condition are met")] [ListDrawerSettings(Expanded = true, DraggableItems = false)]
-    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
+    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$collapsed")]
     [OnValueChanged("InitConditions")] [Required]
     [SerializeField] private List<BoolCondition> BoolConditions = new List<BoolCondition>();
 
     [Tooltip("Transition only valid if ALL of these Trigger condition are met")] [ListDrawerSettings(Expanded = true, DraggableItems = false)]
-    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
+    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$collapsed")]
     [OnValueChanged("InitConditions")] [Required]
     [SerializeField] private List<TriggerCondition> TriggerConditions = new List<TriggerCondition>();
 
     [Tooltip("Transition only valid if ALL of these Float condition are met")] [ListDrawerSettings(Expanded = true, DraggableItems = false)]
-    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
+    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$collapsed")]
     [OnValueChanged("InitConditions")] [Required]
     [SerializeField] private List<FloatCondition> FloatConditions = new List<FloatCondition>();
 
     [Tooltip("Transition only valid if ALL of these Int condition are met")] [ListDrawerSettings(Expanded = true, DraggableItems = false)]
-    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
+    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$collapsed")]
     [OnValueChanged("InitConditions")] [Required]
     [SerializeField] private List<IntCondition> IntConditions = new List<IntCondition>();
     
     [Tooltip("Transition only valid if ALL of these Int condition are met")] [ListDrawerSettings(Expanded = true, DraggableItems = false)]
-    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
+    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$collapsed")]
     [OnValueChanged("InitConditions")] [Required]
     [SerializeField] private List<TimerCondition> TimerConditions = new List<TimerCondition>();
     
     [Tooltip("Transition only valid if ALL of these Vector2 condition are met")] [ListDrawerSettings(Expanded = true, DraggableItems = false)]
-    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
+    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$collapsed")]
     [OnValueChanged("InitConditions")] [Required]
     [SerializeField] private List<Vector2Condition> Vector2Conditions = new List<Vector2Condition>();
     
     [Tooltip("Transition only valid if ALL of these Vector3 condition are met")] [ListDrawerSettings(Expanded = true, DraggableItems = false)]
-    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$zoom")]
+    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$collapsed")]
     [OnValueChanged("InitConditions")] [Required]
     [SerializeField] private List<Vector3Condition> Vector3Conditions = new List<Vector3Condition>();
 
 
-    private bool zoom = false;
     private List<TriggerVariable> triggerVars = new List<TriggerVariable>();
     private List<ITransitionCondition> allConditions = new List<ITransitionCondition>();
 
@@ -80,12 +79,6 @@ public class TransitionNode : Node
     private string startingStateName;
     private string nextStateName;
 
-    public bool Zoom
-    {
-        get => zoom;
-        set => zoom = value;
-    }
-    
     public bool IsInitialized
     {
         get => isInitialized;
@@ -268,18 +261,5 @@ public class TransitionNode : Node
         }
 
         return result;
-    }
-    
-
-    [HorizontalGroup("split", 30f)] [PropertyOrder(-1)]
-    [Button(ButtonSizes.Medium, ButtonStyle.CompactBox, Name = "$GetZoomButtonName")]
-    public void ToggleZoom()
-    {
-        zoom = !zoom;
-    }
-
-    private string GetZoomButtonName()
-    {
-        return zoom ? "+" : "-";
     }
 }

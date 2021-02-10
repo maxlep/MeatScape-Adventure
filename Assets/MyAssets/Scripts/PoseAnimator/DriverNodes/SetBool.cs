@@ -7,11 +7,11 @@ namespace MyAssets.Scripts.PoseAnimator.DriverNodes
     public class SetBool : StateNode
     {
         
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private bool SetOnEnter;
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private bool SetOnUpdate;
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), SerializeField] private bool SetOnEnter;
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), SerializeField] private bool SetOnUpdate;
         
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private BoolReference Value;
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private BoolReference Target;
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), SerializeField] private BoolReference Value;
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), SerializeField] private BoolReference Target;
 
         private void UpdateValue()
         {

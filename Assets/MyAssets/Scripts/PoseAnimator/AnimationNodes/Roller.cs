@@ -11,14 +11,14 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
 {
     public class Roller : StateNode
     {
-        [TabGroup("Input"), HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField, Required]
+        [TabGroup("Input"), HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), SerializeField, Required]
         private Vector3Reference MoveVelocity;
-        [TabGroup("Input"), HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField, Required]
+        [TabGroup("Input"), HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), SerializeField, Required]
         private FloatReference Radius;
-        [TabGroup("Input"), HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField, Required]
+        [TabGroup("Input"), HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), SerializeField, Required]
         private BoolReference IsGrounded;
         
-        [TabGroup("Output"), HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField, Required]
+        [TabGroup("Output"), HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), SerializeField, Required]
         private TransformSceneReference Pivot;
 
         private Quaternion startRotation;

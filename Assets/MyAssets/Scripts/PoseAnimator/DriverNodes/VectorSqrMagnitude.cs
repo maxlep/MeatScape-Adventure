@@ -6,11 +6,11 @@ namespace MyAssets.Scripts.PoseAnimator.DriverNodes
 {
     public class VectorSqrMagnitude : StateNode
     {
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private bool SetOnEnter;
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private bool SetOnUpdate;
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), SerializeField] private bool SetOnEnter;
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), SerializeField] private bool SetOnUpdate;
         
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private Vector3Reference Vector;
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private FloatReference MagnitudeOut;
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), SerializeField] private Vector3Reference Vector;
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), SerializeField] private FloatReference MagnitudeOut;
 
         private void UpdateValue()
         {

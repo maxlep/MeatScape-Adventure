@@ -7,7 +7,7 @@ using XNodeEditor;
 [NodeEditor.CustomNodeEditorAttribute(typeof(TransitionNode))]
 public class TransitionNodeEditor : NodeEditor
 {
-    private bool zoomed = true;
+    private bool collapsed = true;
     
     public override void OnBodyGUI()
     {
@@ -20,7 +20,7 @@ public class TransitionNodeEditor : NodeEditor
         Vector2 nodePos = NodeEditorWindow.current.GridToWindowPositionNoClipped(target.position);
         
         //Show Condition Preview below if collapsed
-        if (zoomed)
+        if (collapsed)
         {
             
             Vector2 nodeLabelPos = NodeEditorWindow.current.GridToWindowPositionNoClipped(target.position + 
@@ -58,9 +58,9 @@ public class TransitionNodeEditor : NodeEditor
         
         TransitionNode asTransitionNode = target as TransitionNode;
         if (asTransitionNode != null)
-            zoomed = asTransitionNode.Zoom;
+            collapsed = asTransitionNode.Collapsed;
         
-        return zoomed ? 500 : 500;
+        return collapsed ? 500 : 500;
     }
     
     public override Color GetTint()

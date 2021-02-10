@@ -17,31 +17,31 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
         #region Horizontal Movement
 
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Horizontal")] [Required]
         private FloatValueReference MoveSpeed;
 
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Horizontal")] [Required]
         private FloatReference RotationDeltaMax;
 
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Horizontal")] [Required]
         private FloatReference Acceleration;
         
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Horizontal")] [Required]
         private FloatReference AccelerationSlow;
 
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Horizontal")] [Required]
         private FloatReference Deacceleration;
         
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Horizontal")] [Required]
         private FloatReference FaceForwardDeltaDegrees;
 
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Horizontal")] [Required]
         private Vector3Reference cachedVelocity;
 
@@ -49,22 +49,22 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
         #region Vertical Movement
 
-        [HideIf("$zoom")]
+        [HideIf("$collapsed")]
         [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
         [TabGroup("Vertical")]
         private FloatReference FallMultiplier;
 
-        [HideIf("$zoom")]
+        [HideIf("$collapsed")]
         [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
         [TabGroup("Vertical")]
         private FloatReference LowJumpDrag;
 
-        [HideIf("$zoom")]
+        [HideIf("$collapsed")]
         [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
         [TabGroup("Vertical")]
         private FloatReference MaxFallSpeed;
 
-        [HideIf("$zoom")]
+        [HideIf("$collapsed")]
         [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
         [TabGroup("Vertical")]
         private BoolReference JumpPressed;
@@ -73,56 +73,56 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
         #region Fast Turn
         
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Fast Turn")] [Required]
         private bool EnableFastTurn = true;
 
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")]
         [Required]
         private FloatReference FastTurnDeltaRot;
 
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")]
         [Required]
         private FloatReference FastTurnAcceleration;
 
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")]
         [Required]
         private FloatReference FastTurnAngleThreshold;
 
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")]
         [Required]
         private FloatReference StopFastTurnDeltaAngle;
 
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")]
         [Required]
         private FloatReference FastTurnInputDeadZone;
     
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")]
         [Required]
         private FloatReference FastTurnBrakeDeacceleration;
         
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")]
         [Required]
         private FloatReference FastTurnMinBrakeDrag;
         
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")]
         [Required]
         private FloatReference FastTurnMinBrakeSpeed;
     
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")]
         [Required]
         private FloatReference FastTurnBrakeSpeedThreshold;
     
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")]
         [Required]
         private FloatReference MoveInputRequiredDelta;

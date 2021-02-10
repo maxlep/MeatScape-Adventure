@@ -11,7 +11,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
     {
         #region Horizontal Movement
         
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Horizontal")] [Required]
         protected FloatReference DragCoefficient;
 
@@ -19,7 +19,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         
         #region Vertical Movement
         
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Vertical")] [Required]
         protected FloatReference HorizontalGravityFactor;
         
@@ -27,11 +27,11 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         
         #region Grounding
 
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Grounding")] [Required]
         private FloatReference GroundStickAngleInput;
         
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Grounding")] [Required]
         private FloatReference GroundStickAngleOutput;
 

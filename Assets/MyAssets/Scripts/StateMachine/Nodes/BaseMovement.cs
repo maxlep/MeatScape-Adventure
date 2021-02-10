@@ -13,26 +13,26 @@ namespace MyAssets.Graphs.StateMachine.Nodes
     {
         #region Horizontal Movement
         
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Horizontal")] [Required]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Horizontal")] [Required]
         protected FloatReference BaseSpeed;
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Horizontal")] [Required]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Horizontal")] [Required]
         protected FloatReference TurnSpeed;
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Horizontal")] [Required]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Horizontal")] [Required]
         protected FloatReference ImpulseDampingFactor;
         
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Horizontal")] [Required]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Horizontal")] [Required]
         protected TransformSceneReference PlayerCameraTransform;
         
         #endregion
         
         #region Vertical Movement
 
-        [HideIf("$zoom")]
+        [HideIf("$collapsed")]
         [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
         [TabGroup("Vertical")] 
         protected FloatReference TimeToJumpApex;
 
-        [HideIf("$zoom")]
+        [HideIf("$collapsed")]
         [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
         [TabGroup("Vertical")] 
         protected FloatReference MaxJumpHeight;
@@ -41,27 +41,27 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         
         #region AddImpulse Redirect
 
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Redirect")] [Required]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Redirect")] [Required]
         protected bool EnableRedirect;
 
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Redirect")] [ShowIf("$EnableRedirect")]
         [Required]
         protected FloatReference RedirectMaxDegrees;
         
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Redirect")] [ShowIf("$EnableRedirect")]
         [Required]
         protected FloatReference RedirectAngleThreshold;
 
         #endregion
         
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Inputs")] [Required]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Inputs")] [Required]
         protected Vector2Reference MoveInput;
         
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Outputs")] [Required]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Outputs")] [Required]
         protected Vector3Reference NewVelocityOut;
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Outputs")] [Required]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Outputs")] [Required]
         protected QuaternionReference NewRotationOut;
 
         protected Vector3 moveInputCameraRelative;

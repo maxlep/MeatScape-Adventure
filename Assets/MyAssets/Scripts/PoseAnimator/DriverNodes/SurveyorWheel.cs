@@ -9,18 +9,18 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
 {
     public class SurveyorWheel : PlayerStateNode
     {
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), Required, SerializeField] private Vector2Vec3Reference moveVelocity;
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), Required, SerializeField] private FloatValueReference maxSpeed;
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), Required, SerializeField] private FloatReference walkSpeedFactor;
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), Required, SerializeField] private float minStrideLengthFactor = 0.25f;
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), Required, SerializeField] private FloatValueReference fullStrideLength;
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), Required, SerializeField] private FloatReference strideLength;
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), Required, SerializeField] private FloatReference distance;
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), Required, SerializeField] private FloatReference cyclePercent;
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required, SerializeField] private Vector2Vec3Reference moveVelocity;
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required, SerializeField] private FloatValueReference maxSpeed;
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required, SerializeField] private FloatReference walkSpeedFactor;
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required, SerializeField] private float minStrideLengthFactor = 0.25f;
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required, SerializeField] private FloatValueReference fullStrideLength;
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required, SerializeField] private FloatReference strideLength;
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required, SerializeField] private FloatReference distance;
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required, SerializeField] private FloatReference cyclePercent;
 
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), Required, SerializeField] private bool resetOnStart = true;
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), Required, SerializeField, ShowIf("resetOnStart")] private float roundToMultiple = 1;
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField, Sirenix.OdinInspector.ReadOnly] private Transform probe;
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required, SerializeField] private bool resetOnStart = true;
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required, SerializeField, ShowIf("resetOnStart")] private float roundToMultiple = 1;
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), SerializeField, Sirenix.OdinInspector.ReadOnly] private Transform probe;
 
         private float cycleLength;
         private float radius;

@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class Pound : PlayerStateNode
 {
-    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference PoundSpeed;
-    [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private Vector3Reference NewVelocityOut;
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference PoundSpeed;
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private Vector3Reference NewVelocityOut;
 
 
     public override void Enter()

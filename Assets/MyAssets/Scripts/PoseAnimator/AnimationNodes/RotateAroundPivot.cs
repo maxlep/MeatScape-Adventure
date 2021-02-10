@@ -9,10 +9,10 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
 {
     public class RotateAroundPivot : StateNode
     {
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
         private TransformSceneReference Pivot;
 
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
         private List<RotationAxis> Rotations;
 
         [Serializable]

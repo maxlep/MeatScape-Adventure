@@ -10,7 +10,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using XNode;
 
-public class StateNode : Node
+public class StateNode : CollapsableNode
 {
     [Input(typeConstraint = TypeConstraint.Strict)]  [PropertyOrder(-3)]  public StateMachineConnection previousState;
     [Output(typeConstraint = TypeConstraint.Strict)] [PropertyOrder(-2)]  public StateMachineConnection transitions;
@@ -27,7 +27,7 @@ public class StateNode : Node
     protected List<StateReferenceNode> referenceNodes = new List<StateReferenceNode>();
     protected bool isInitialized = false;
 
-    [SerializeField] [HideInInspector] protected bool zoom = false;
+    
     [HideInInspector] public bool isActiveState = false;
 
     public List<StateNode> previousStates { get; private set; } = new List<StateNode>();
@@ -42,12 +42,6 @@ public class StateNode : Node
     public string GetName() => Name;
     public bool GetBypassState() => BypassState;
     public StateMachineGraph GetParentGraph() => stateMachineGraph;
-
-    public bool Zoom
-    {
-        get => zoom;
-        set => zoom = value;
-    }
 
     public bool IsInitialized
     {
@@ -285,19 +279,7 @@ public class StateNode : Node
 
         return null;
     }
-    
-    [HorizontalGroup("split", 30f)] [PropertyOrder(-1)]
-    [Button(ButtonSizes.Medium, ButtonStyle.CompactBox, Name = "$GetZoomButtonName")]
-    public void ToggleZoom()
-    {
-        zoom = !zoom;
-    }
 
-    private string GetZoomButtonName()
-    {
-        return zoom ? "+" : "-";
-    }
-    
     public override string ToString()
     {
         return this.name;

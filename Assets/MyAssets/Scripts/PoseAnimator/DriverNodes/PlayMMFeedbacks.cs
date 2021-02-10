@@ -7,7 +7,7 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
 {
     public class PlayMMFeedbacks : StateNode
     {
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private MMFeedbacksSceneReference feedbacks;
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), SerializeField] private MMFeedbacksSceneReference feedbacks;
 
         public override void Enter()
         {

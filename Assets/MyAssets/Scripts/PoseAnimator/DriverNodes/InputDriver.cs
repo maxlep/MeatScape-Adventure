@@ -7,27 +7,27 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
 {
     public class InputDriver : StateNode
     {
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField]
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), SerializeField]
         [TabGroup("Input"), Required]
         private Vector2Reference InputVector;
         
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField]
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), SerializeField]
         [TabGroup("Input"), Required]
         private Vector2Reference InputMin;
         
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField]
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), SerializeField]
         [TabGroup("Input"), Required]
         private Vector2Reference InputMax;
         
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField]
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), SerializeField]
         [TabGroup("Input"), Required]
         private FloatValueReference MoveSpeed;
         
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField]
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), SerializeField]
         [TabGroup("Output"), Required]
         private Vector3Reference InputVelocity;
         
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField]
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), SerializeField]
         [TabGroup("Output"), Required]
         private FloatReference InputSpeed;
 

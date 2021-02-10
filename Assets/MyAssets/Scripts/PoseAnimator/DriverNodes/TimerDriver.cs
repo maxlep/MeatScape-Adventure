@@ -6,9 +6,9 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
 {
     public class TimerDriver : StateNode
     {
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private TimerReference timer;
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), SerializeField] private TimerReference timer;
 
-        [HideIf("$zoom"), LabelWidth(LABEL_WIDTH), SerializeField] private FloatReference factor;
+        [HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), SerializeField] private FloatReference factor;
 
         public override void Execute()
         {

@@ -13,7 +13,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
     {
         [ValidateInput("ValidateOutputState", 
             "Output state must be an animation state node present in subState List!")]
-        [PropertySpace(0f, 10f)] [SerializeField] [Required] [HideIf("$zoom")]
+        [PropertySpace(0f, 10f)] [SerializeField] [Required] [HideIf("$collapsed")]
         private StateNode outputState;
         
         #region LifeCycle Methods

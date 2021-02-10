@@ -7,8 +7,6 @@ using XNodeEditor;
 [NodeEditor.CustomNodeEditorAttribute(typeof(StateReferenceNode))]
 public class StateReferenceNodeEditor : NodeEditor
 {
-    private bool zoomed = true;
-
     public override void OnBodyGUI()
     {
         EditorGUIUtility.labelWidth = 350;

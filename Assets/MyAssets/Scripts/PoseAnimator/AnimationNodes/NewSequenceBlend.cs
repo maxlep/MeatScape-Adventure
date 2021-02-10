@@ -18,7 +18,7 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
     public class NewSequenceBlend : AnimationStateNode
     {
         
-        [HideIf("$zoom"), HideLabel, SerializeField, PropertySpace(15f, 0f),
+        [HideIf("$collapsed"), HideLabel, SerializeField, PropertySpace(15f, 0f),
          BoxGroup("AnimationJobRunner")]
         private SequenceBlendRunner animationJobRunner;
         

@@ -7,7 +7,7 @@ using XNodeEditor;
 [NodeEditor.CustomNodeEditorAttribute(typeof(StateNode))]
 public class StateNodeEditor : NodeEditor
 {
-    private bool zoomed = true;
+    private bool collapsed = true;
 
     public override void OnBodyGUI()
     {
@@ -38,9 +38,9 @@ public class StateNodeEditor : NodeEditor
     {
         StateNode asStateNode = target as StateNode;
         if (asStateNode != null)
-            zoomed = asStateNode.Zoom;
+            collapsed = asStateNode.Collapsed;
 
-        return zoomed ? 500 : 500;
+        return collapsed ? 500 : 500;
     }
     
     public override Color GetTint()

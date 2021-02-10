@@ -328,11 +328,11 @@ public class StateMachineGraph : NodeGraph
     {
         foreach (var transitionNode in transitionNodes)
         {
-            transitionNode.Zoom = expanded;
+            transitionNode.Collapsed = expanded;
         }
         foreach (var stateNode in stateNodes)
         {
-            stateNode.Zoom = expanded;
+            stateNode.Collapsed = expanded;
         }
     }
 

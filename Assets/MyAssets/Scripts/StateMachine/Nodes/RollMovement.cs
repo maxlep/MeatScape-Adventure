@@ -12,31 +12,31 @@ namespace MyAssets.Graphs.StateMachine.Nodes
     {
         #region Horizontal Movement
         
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Horizontal")] [Required]
         protected FloatReference TurnSpeedAir;
         
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Horizontal")] [Required]
         protected FloatReference SlowTurnThreshold;
         
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Horizontal")] [Required]
         protected FloatReference SlowTurnFactor;
 
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Horizontal")] [Required]
         protected FloatReference CoefficientOfRollingFriction;
         
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Horizontal")] [Required]
         protected FloatReference CoefficientOfTurningFriction;
 
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Horizontal")] [Required]
         protected FloatReference DragCoefficientHorizontal;
         
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Horizontal")] [Required]
         protected FloatReference AirForwardForce;
 
@@ -44,37 +44,37 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
         #region Vertical Movement
 
-        [HideIf("$zoom")]
+        [HideIf("$collapsed")]
         [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
         [TabGroup("Vertical")]
         private FloatReference FallMultiplier;
 
-        [HideIf("$zoom")]
+        [HideIf("$collapsed")]
         [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
         [TabGroup("Vertical")]
         private FloatReference MaxFallSpeed;
         
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Vertical")] [Required]
         protected FloatReference DragCoefficientVertical;
         
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Vertical")] [Required]
         protected FloatReference GravityFactor;
         
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Vertical")] [Required]
         protected FloatReference BounceFactor;
         
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Vertical")] [Required]
         protected FloatReference BounceThresholdVelocity;
         
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Vertical")] [Required]
         protected FloatReference BounceGroundDotThreshold;
         
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Vertical")] [Required]
         protected FloatReference SlopeVerticalGravityFactor;
         
@@ -82,11 +82,11 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         
         #region Grounding
 
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Grounding")] [Required]
         private FloatReference GroundStickAngleInput;
         
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Grounding")] [Required]
         private FloatReference GroundStickAngleOutput;
 
@@ -94,7 +94,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
         #region Outputs
 
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Outputs")] [Required]
         protected FloatReference HorizontalSpeedOut;
 
@@ -102,19 +102,19 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
         #region GameEvents
 
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Events")] [Required]
         protected GameEvent PlayParticlesGameEvent;
         
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Events")] [Required]
         protected GameEvent StopParticlesGameEvent;
         
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Events")] [Required]
         protected GameEvent BounceGameEvent;
         
-        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Events")] [Required]
         protected GameEvent RollSoundGameEvent;
 

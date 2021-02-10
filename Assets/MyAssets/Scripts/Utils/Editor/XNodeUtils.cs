@@ -42,4 +42,34 @@ public static class XNodeUtils
         Handles.DrawAAPolyLine(thickness, rectCorners);
         Handles.color = originalColor;
     }
+    
+    //Make sure rect doesnt extend past other
+    public static Rect ClampToRect(Rect rectToClamp, Rect other)
+    {
+        //If Xpos outside left
+        if (rectToClamp.position.x < other.position.x)
+            rectToClamp.position = new Vector2(other.position.x, rectToClamp.position.y);
+            
+        //If Ypos outside above
+        if (rectToClamp.position.y < other.position.y)
+            rectToClamp.position = new Vector2(rectToClamp.position.x, other.position.y);
+
+        //Offsets from other rect
+        float offsetX = rectToClamp.position.x - other.position.x;
+        float offsetY = rectToClamp.position.y - other.position.y;
+
+        //If extends past width
+        if (rectToClamp.size.x + offsetX > other.size.x)
+        {
+            rectToClamp.size = new Vector2(other.size.x - offsetX, rectToClamp.size.y);
+        }
+            
+        //If extends past height
+        if (rectToClamp.size.y + offsetY > other.size.y)
+        {
+            rectToClamp.size = new Vector2(rectToClamp.size.x, other.size.y - offsetY);
+        }
+
+        return rectToClamp;
+    }
 }

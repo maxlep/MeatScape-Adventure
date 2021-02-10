@@ -36,6 +36,9 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [TabGroup("Horizontal")] [Required]
         protected FloatReference DragCoefficientHorizontal;
         
+        [HideIf("$zoom")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Horizontal")] [Required]
+        protected FloatReference AirForwardForce;
 
         #endregion
 
@@ -130,10 +133,17 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         public override void Enter()
         {
             base.Enter();
+            
+            //If airborn, give forward boost
+            if (!playerController.GroundingStatus.FoundAnyGround)
+            {
+                Vector3 impulseDir = (playerController.transform.forward + playerController.transform.up).normalized;
+                playerController.AddImpulse(impulseDir * AirForwardForce.Value);
+            }
+                
 
             lastRollSoundTime = Mathf.NegativeInfinity;
             GroundStickAngleOutput.Value = GroundStickAngleInput.Value;
-            playerController.GiveThrowKnockback(NewVelocityOut.Value.normalized);
             InitRollParticles();
             gravity *= GravityFactor.Value;
         }

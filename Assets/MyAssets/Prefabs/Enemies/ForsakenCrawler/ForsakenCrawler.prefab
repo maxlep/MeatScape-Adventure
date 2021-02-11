@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 3823502319557435178}
   - component: {fileID: 6238523250367150444}
   - component: {fileID: -2358250053547650716}
+  - component: {fileID: 4946136178666992788}
   - component: {fileID: 2722333285385989063}
   m_Layer: 11
   m_Name: ForsakenCrawler
@@ -66,6 +67,7 @@ MonoBehaviour:
   MaxHealth: 3
   damageFeedbacks: {fileID: 2288399911780175266}
   deathFeedbacks: {fileID: 8185588185575819002}
+  destroyOnDeathObj: {fileID: 0}
   dropOnDeath: {fileID: 3791119812253180241, guid: 2495a54ad21f870449e44182263d9ea1,
     type: 3}
   OnDeathEvent:
@@ -119,19 +121,18 @@ MonoBehaviour:
         First Path Point"},"ID":3,"Name":"Iterate Transform List","Instant":true,"SharedTransformListtransformList":{"Type":"BehaviorDesigner.Runtime.SharedTransformList","Name":"CurrentPath","IsShared":true,"List`1mValue":[]},"SharedIntcurrentIndex":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"CurrentPathLIndex","IsShared":true,"Int32mValue":0},"SharedTransformstoreResult":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"NextPathPoint","IsShared":true}}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(310,350)"},"ID":4,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-512.015137,155.294128)","Comment":"Handle
         Lunge Attack"},"ID":5,"Name":"Sequence","Instant":true,"AbortTypeabortType":"Both","Children":[{"Type":"TransformDistanceCheck","NodeData":{"Offset":"(-106.170486,159.3617)","Comment":"Player
         in Lunge Range"},"ID":6,"Name":"Transform Distance Check","Instant":true,"Operationoperation":"LessThan","SharedTransformtransform1":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"PlayerTransform","IsShared":true},"SharedTransformtransform2":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"EnemyTransform","IsShared":true,"TransformmValue":0},"SharedFloatdistToCheck":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"LungeRadius","IsShared":true,"Tooltip":"Radius
-        of Lunge attack","SinglemValue":20}},{"Type":"LungeAttack","NodeData":{"Offset":"(79.09119,160.805)"},"ID":7,"Name":"Lunge
+        of Lunge attack","SinglemValue":20},"SharedBoolIgnoreYValue":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false}},{"Type":"LungeAttack","NodeData":{"Offset":"(79.09119,160.805)"},"ID":7,"Name":"Lunge
         Attack","Instant":true,"SharedTransformTarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"PlayerTransform","IsShared":true},"SharedGameObjectAnimTarget":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedFloatChargeTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"LungeChargeTime","IsShared":true,"SinglemValue":1},"SharedFloatGroundCheckDelay":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0},"SharedFloatForwardLungeVelocity":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0},"SharedFloatUpwardLungeVelocity":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0},"SharedFloatGravity":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0},"SharedBoolIsLunging":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false}}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-94.74353,160)","Comment":"Handle
         Move To Player"},"ID":8,"Name":"Sequence","Instant":true,"AbortTypeabortType":"Both","Children":[{"Type":"TransformDistanceCheck","NodeData":{"Offset":"(-104.811546,156.017151)","Comment":"Player
-        in Sight"},"ID":9,"Name":"Transform Distance Check","Instant":true,"Operationoperation":"LessThan","SharedTransformtransform1":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"PlayerTransform","IsShared":true},"SharedTransformtransform2":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"EnemyTransform","IsShared":true,"TransformmValue":1},"SharedFloatdistToCheck":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"RadiusOfSight","IsShared":true,"SinglemValue":60}},{"Type":"AStarSeek","NodeData":{"Offset":"(87.116066,156.591614)","Comment":"Seek
-        Player"},"ID":10,"Name":"A Star Seek","Instant":true,"SharedGameObjectaiScriptObj":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedTransformSeeker":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"EnemyTransform","IsShared":true,"TransformmValue":2},"SharedTransformTarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"PlayerTransform","IsShared":true},"SharedFloatStoppingDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"StoppingDistance","IsShared":true,"SinglemValue":1}}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(441.410217,160)","Comment":"Reached
+        in Sight"},"ID":9,"Name":"Transform Distance Check","Instant":true,"Operationoperation":"LessThan","SharedTransformtransform1":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"PlayerTransform","IsShared":true},"SharedTransformtransform2":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"EnemyTransform","IsShared":true,"TransformmValue":1},"SharedFloatdistToCheck":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"RadiusOfSight","IsShared":true,"SinglemValue":60},"SharedBoolIgnoreYValue":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false}},{"Type":"AStarSeek","NodeData":{"Offset":"(87.116066,156.591614)","Comment":"Seek
+        Player"},"ID":10,"Name":"A Star Seek","Instant":true,"SharedGameObjectaiScriptObj":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedTransformSeeker":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"EnemyTransform","IsShared":true,"TransformmValue":2},"SharedTransformTarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"PlayerTransform","IsShared":true},"SharedFloatStoppingDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"StoppingDistance","IsShared":true,"SinglemValue":1},"SharedBoolIgnoreYValue":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false}}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(441.410217,160)","Comment":"Reached
         Patrol Point"},"ID":11,"Name":"Sequence","Instant":true,"AbortTypeabortType":"Both","Children":[{"Type":"TransformDistanceCheck","NodeData":{"Offset":"(-203.2854,160.544861)","Comment":"Reached
-        Next Point"},"ID":12,"Name":"Transform Distance Check","Instant":true,"Operationoperation":"LessThanOrEqualTo","SharedTransformtransform1":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"EnemyTransform","IsShared":true,"TransformmValue":3},"SharedTransformtransform2":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"NextPathPoint","IsShared":true},"SharedFloatdistToCheck":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"StoppingDistance","IsShared":true,"SinglemValue":1}},{"Type":"IterateTransformList","NodeData":{"Offset":"(-1.0618515,162.222229)","Comment":"Set
+        Next Point"},"ID":12,"Name":"Transform Distance Check","Instant":true,"Operationoperation":"LessThanOrEqualTo","SharedTransformtransform1":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"EnemyTransform","IsShared":true,"TransformmValue":3},"SharedTransformtransform2":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"NextPathPoint","IsShared":true},"SharedFloatdistToCheck":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"StoppingDistance","IsShared":true,"SinglemValue":1},"SharedBoolIgnoreYValue":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false}},{"Type":"IterateTransformList","NodeData":{"Offset":"(-1.0618515,162.222229)","Comment":"Set
         Next Path Point"},"ID":13,"Name":"Iterate Transform List","Instant":true,"SharedTransformListtransformList":{"Type":"BehaviorDesigner.Runtime.SharedTransformList","Name":"CurrentPath","IsShared":true,"List`1mValue":[]},"SharedIntcurrentIndex":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"CurrentPathLIndex","IsShared":true,"Int32mValue":0},"SharedTransformstoreResult":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"NextPathPoint","IsShared":true}},{"Type":"BehaviorDesigner.Runtime.Tasks.Idle","NodeData":{"Offset":"(156.205139,164.394714)"},"ID":14,"Name":"Idle","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(959.463135,160)","Comment":"Move
         To Next Point"},"ID":15,"Name":"Sequence","Instant":true,"AbortTypeabortType":"Both","Children":[{"Type":"TransformDistanceCheck","NodeData":{"Offset":"(-125.83374,164.166992)","Comment":"NOT
-        Reached Next Point"},"ID":16,"Name":"Transform Distance Check","Instant":true,"Operationoperation":"GreaterThan","SharedTransformtransform1":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"EnemyTransform","IsShared":true,"TransformmValue":4},"SharedTransformtransform2":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"NextPathPoint","IsShared":true},"SharedFloatdistToCheck":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"StoppingDistance","IsShared":true,"SinglemValue":1}},{"Type":"AStarSeek","NodeData":{"Offset":"(113.408463,163.1819)","Comment":"Seek
-        Next Point"},"ID":17,"Name":"A Star Seek","Instant":true,"SharedGameObjectaiScriptObj":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedTransformSeeker":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"EnemyTransform","IsShared":true,"TransformmValue":5},"SharedTransformTarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"NextPathPoint","IsShared":true},"SharedFloatStoppingDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"StoppingDistance","IsShared":true,"SinglemValue":1}}]}]}]},"DetachedTasks":[{"Type":"MoveKCC","NodeData":{"Offset":"(658.24,543.358154)"},"ID":18,"Name":"Move
-        KCC","Instant":true,"SharedFloatReferenceMoveSpeed":{"Type":"SharedFloatReference","Name":null},"SharedVector3NewVelocity":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":null,"Vector3mValue":"(0,0,0)"},"SharedQuaternionNewRotation":{"Type":"BehaviorDesigner.Runtime.SharedQuaternion","Name":null,"QuaternionmValue":"(0,0,0,0)"},"SharedTransformThisTransform":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null},"SharedTransformTarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null},"SharedEnemyControllerEnemyController":{"Type":"SharedEnemyController","Name":null}}],"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"EnemyTransform","IsShared":true,"TransformmValue":6},{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"PlayerTransform","IsShared":true},{"Type":"SharedEnemyController","Name":"EnemyController","IsShared":true,"EnemyControllermValue":7},{"Type":"BehaviorDesigner.Runtime.SharedTransformList","Name":"CurrentPath","IsShared":true,"List`1mValue":[]},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"DistanceToPlayer","IsShared":true,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"CurrentPathIndex","IsShared":true,"Int32mValue":0},{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"CurrentPathLIndex","IsShared":true,"Int32mValue":0},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"DistToNextPoint","IsShared":true,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"NextPathPoint","IsShared":true},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"RadiusOfSight","IsShared":true,"SinglemValue":60},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"StoppingDistance","IsShared":true,"SinglemValue":1},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"GroundCheckDelay","IsShared":true,"SinglemValue":0.25},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"LungeAttackRadius","IsShared":true,"SinglemValue":20},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"LungeChargeTime","IsShared":true,"SinglemValue":1},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"AnimTarget","IsShared":true,"GameObjectmValue":8},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"ForwardLungeVelocity","IsShared":true,"SinglemValue":30},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"UpwardLungeVelocity","IsShared":true,"SinglemValue":5},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"Gravity","IsShared":true,"SinglemValue":9.8},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"IsLunging","IsShared":true,"Tooltip":"For
-        syncing with ForsakenCrawlerController","PropertyMapping":"ForsakenCrawlerController/IsLunging","PropertyMappingOwner":9,"BooleanmValue":false}]}'
+        Reached Next Point"},"ID":16,"Name":"Transform Distance Check","Instant":true,"Operationoperation":"GreaterThan","SharedTransformtransform1":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"EnemyTransform","IsShared":true,"TransformmValue":4},"SharedTransformtransform2":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"NextPathPoint","IsShared":true},"SharedFloatdistToCheck":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"StoppingDistance","IsShared":true,"SinglemValue":1},"SharedBoolIgnoreYValue":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false}},{"Type":"AStarSeek","NodeData":{"Offset":"(113.408463,163.1819)","Comment":"Seek
+        Next Point"},"ID":17,"Name":"A Star Seek","Instant":true,"SharedGameObjectaiScriptObj":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedTransformSeeker":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"EnemyTransform","IsShared":true,"TransformmValue":5},"SharedTransformTarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"NextPathPoint","IsShared":true},"SharedFloatStoppingDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"StoppingDistance","IsShared":true,"SinglemValue":1},"SharedBoolIgnoreYValue":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false}}]}]}]},"DetachedTasks":[{"Type":"MoveKCC","NodeData":{"Offset":"(658.24,543.358154)"},"ID":18,"Name":"Move
+        KCC","Instant":true,"SharedFloatReferenceMoveSpeed":{"Type":"SharedFloatReference","Name":null},"SharedVector3NewVelocity":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":null,"Vector3mValue":"(0,0,0)"},"SharedQuaternionNewRotation":{"Type":"BehaviorDesigner.Runtime.SharedQuaternion","Name":null,"QuaternionmValue":"(0,0,0,0)"},"SharedTransformThisTransform":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null},"SharedTransformTarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null},"SharedEnemyControllerEnemyController":{"Type":"SharedEnemyController","Name":null}}],"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"EnemyTransform","IsShared":true,"TransformmValue":6},{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"PlayerTransform","IsShared":true},{"Type":"SharedEnemyController","Name":"EnemyController","IsShared":true,"EnemyControllermValue":7},{"Type":"BehaviorDesigner.Runtime.SharedTransformList","Name":"CurrentPath","IsShared":true,"List`1mValue":[]},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"DistanceToPlayer","IsShared":true,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"CurrentPathIndex","IsShared":true,"Int32mValue":0},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"DistToNextPoint","IsShared":true,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"NextPathPoint","IsShared":true},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"RadiusOfSight","IsShared":true,"SinglemValue":60},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"StoppingDistance","IsShared":true,"SinglemValue":1},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"GroundCheckDelay","IsShared":true,"SinglemValue":0.25},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"LungeAttackRadius","IsShared":true,"SinglemValue":20},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"LungeChargeTime","IsShared":true,"SinglemValue":1},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"AnimTarget","IsShared":true,"GameObjectmValue":8},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"ForwardLungeVelocity","IsShared":true,"SinglemValue":20},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"UpwardLungeVelocity","IsShared":true,"SinglemValue":5},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"Gravity","IsShared":true,"SinglemValue":9.8},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"IsLunging","IsShared":true,"BooleanmValue":false}]}'
       fieldSerializationData:
         typeName: []
         fieldNameHash: 
@@ -147,7 +148,6 @@ MonoBehaviour:
         - {fileID: 410994293823792350}
         - {fileID: 201465653883318067}
         - {fileID: 3917261114191990352}
-        - {fileID: 71910965963012812}
         byteData: 
         byteDataArray: 
       Version: 1.6.6
@@ -359,6 +359,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   intVariable: {fileID: 11400000, guid: da8182cb862f8c54484eee2a551bb8a0, type: 2}
+--- !u!114 &4946136178666992788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 71910965963012812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54c8ee4af657dac43940044a60064baa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patrolPointPrefab: {fileID: 7100900935148034627, guid: 9854eb1fa3afbbe40b355fc5ba84bd0b,
+    type: 3}
+  patrolPointSiblingTransform: {fileID: 410994293823792350}
+  createPointsAtRuntime: 1
+  patrolPointCount: 6
+  patrolRadius: 70
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 1
+  patrolPoints: []
 --- !u!114 &2722333285385989063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -492,7 +514,7 @@ MonoBehaviour:
             m_CallState: 2
       Parameters: []
       NotSupported: []
-    - SetDisabled: 1
+    - SetDisabled: 0
       ver: 1
       _Locked: 0
       cmp: {fileID: 5126770864297546049}
@@ -1106,7 +1128,7 @@ MonoBehaviour:
           m_Calls: []
       Parameters: []
       NotSupported: []
-    - SetDisabled: 1
+    - SetDisabled: 0
       ver: 1
       _Locked: 0
       cmp: {fileID: 5003421505823376603}
@@ -1839,6 +1861,26 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 0678196875dceac43933918e63431c6f,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0678196875dceac43933918e63431c6f,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.3579562
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0678196875dceac43933918e63431c6f,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.3579562
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0678196875dceac43933918e63431c6f,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.3579562
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0678196875dceac43933918e63431c6f,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -1851,6 +1893,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0678196875dceac43933918e63431c6f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0678196875dceac43933918e63431c6f,
         type: 3}
@@ -1869,16 +1916,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0678196875dceac43933918e63431c6f,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0678196875dceac43933918e63431c6f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0678196875dceac43933918e63431c6f,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -1891,21 +1928,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0678196875dceac43933918e63431c6f,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.3579562
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0678196875dceac43933918e63431c6f,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.3579562
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0678196875dceac43933918e63431c6f,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.3579562
       objectReference: {fileID: 0}
     - target: {fileID: 901288004993901558, guid: 0678196875dceac43933918e63431c6f,
         type: 3}
@@ -1924,14 +1946,14 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: e370193980c515e49a569457854aa627, type: 2}
     - target: {fileID: 4599008510767164522, guid: 0678196875dceac43933918e63431c6f,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: e370193980c515e49a569457854aa627, type: 2}
-    - target: {fileID: 4599008510767164522, guid: 0678196875dceac43933918e63431c6f,
-        type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4599008510767164522, guid: 0678196875dceac43933918e63431c6f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e370193980c515e49a569457854aa627, type: 2}
     - target: {fileID: 5866666021909216657, guid: 0678196875dceac43933918e63431c6f,
         type: 3}
       propertyPath: m_Controller
@@ -1968,12 +1990,6 @@ MeshRenderer:
     type: 3}
   m_PrefabInstance: {fileID: 4223674873870840577}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &3917261114191990352 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 0678196875dceac43933918e63431c6f,
-    type: 3}
-  m_PrefabInstance: {fileID: 4223674873870840577}
-  m_PrefabAsset: {fileID: 0}
 --- !u!23 &1224254278471210235 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 3053701324095301626, guid: 0678196875dceac43933918e63431c6f,
@@ -1983,6 +1999,12 @@ MeshRenderer:
 --- !u!137 &382652263469293419 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 4599008510767164522, guid: 0678196875dceac43933918e63431c6f,
+    type: 3}
+  m_PrefabInstance: {fileID: 4223674873870840577}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3917261114191990352 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 0678196875dceac43933918e63431c6f,
     type: 3}
   m_PrefabInstance: {fileID: 4223674873870840577}
   m_PrefabAsset: {fileID: 0}

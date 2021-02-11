@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
+using MyAssets.Scripts.Utils;
 using Pathfinding;
 using UnityEngine;
 
@@ -13,6 +14,9 @@ public class AStarSeek : Action
     public SharedTransform Seeker;
     public SharedTransform Target;
     public SharedFloat StoppingDistance;
+    
+    [BehaviorDesigner.Runtime.Tasks.Tooltip("Only compare X and Z when checking if reached destination")]
+    public SharedBool IgnoreYValue;
     
     private AIDestinationSetter destinationSetter;
 
@@ -30,12 +34,16 @@ public class AStarSeek : Action
         destinationSetter.target = Target.Value;
 
         //Complete when stopping distance away
-        float sqrDistance = (Seeker.Value.position - Target.Value.position).sqrMagnitude;
+        float sqrDistance;
+        if (IgnoreYValue.Value)
+            sqrDistance = (Seeker.Value.position.xoz() - Target.Value.position.xoz()).sqrMagnitude;
+        else
+            sqrDistance = (Seeker.Value.position - Target.Value.position).sqrMagnitude;
+        
         float distToCheckSqr = Mathf.Pow(StoppingDistance.Value, 2f);
 
         if (sqrDistance > distToCheckSqr)
             return TaskStatus.Running;
-        
         
         return TaskStatus.Success;
     }

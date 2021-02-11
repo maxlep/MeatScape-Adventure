@@ -29,8 +29,7 @@ public class EnemyController : MonoBehaviour
     
     protected bool isAlive;
     protected int health;
-    protected Vector3 newVelocity;
-    protected Quaternion newRotation;
+    protected PatrolPointHelper patrolPointHelper;
 
     public virtual void Initialize(List<Transform> patrolPoints)
     {
@@ -44,6 +43,12 @@ public class EnemyController : MonoBehaviour
         isAlive = true;
         behaviorTree.SetVariableValue("PlayerTransform", playerTransformReference.Value);
         behaviorTree.EnableBehavior();
+        
+        //Check for patrol point helper
+        patrolPointHelper = GetComponent<PatrolPointHelper>();
+        if (patrolPointHelper != null)
+            behaviorTree.SetVariableValue("CurrentPath", patrolPointHelper.PatrolPoints);
+
     }
 
     protected virtual void LateUpdate() {

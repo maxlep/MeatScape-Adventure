@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
+using MyAssets.Scripts.Utils;
 using UnityEngine;
 
 [TaskCategory("Unity/Transform")]
@@ -26,10 +27,17 @@ public class TransformDistanceCheck : Conditional
     public SharedTransform transform2;
     [BehaviorDesigner.Runtime.Tasks.Tooltip("The float to compare distance against")]
     public SharedFloat distToCheck;
+    [BehaviorDesigner.Runtime.Tasks.Tooltip("Only compare X and Z when checking distance")]
+    public SharedBool IgnoreYValue;
 
     public override TaskStatus OnUpdate()
     {
-        float sqrDistance = (transform1.Value.position - transform2.Value.position).sqrMagnitude;
+        float sqrDistance;
+        if (IgnoreYValue.Value)
+            sqrDistance = (transform1.Value.position.xoz() - transform2.Value.position.xoz()).sqrMagnitude;
+        else
+            sqrDistance = (transform1.Value.position - transform2.Value.position).sqrMagnitude;
+        
         float distToCheckSqr = Mathf.Pow(distToCheck.Value, 2f);
         
         switch (operation) {

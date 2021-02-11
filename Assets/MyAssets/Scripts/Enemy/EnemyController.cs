@@ -88,10 +88,23 @@ public class EnemyController : MonoBehaviour
         else
             Destroy(this.gameObject);
     }
-
-    public virtual void DamageEnemy(int dmg) {
+    
+    //Deal damage but no knockback
+    public virtual void DamageEnemy(int dmg)
+    {
+        DamageEnemy(dmg, Vector3.zero, false);
+    }
+    
+    public virtual void DamageEnemy(int dmg, Vector3 knockBackDirection, bool applyKnockBack = true) {
         health -= dmg;
         if (damageFeedbacks != null) damageFeedbacks?.PlayFeedbacks();
+
+        if (applyKnockBack)
+        {
+            SharedVariable KnockBackDirVar = behaviorTree.GetVariable("KnockBackDirection");
+            if (KnockBackDirVar != null) KnockBackDirVar.SetValue(knockBackDirection);
+            behaviorTree.SendEvent("TookDamage");
+        }
     }
 
     #endregion

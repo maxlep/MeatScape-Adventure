@@ -12,6 +12,7 @@ using UnityEngine;
 public class LungeAttack : Action
 {
     public SharedTransform Target;
+    public SharedTransform AgentTransform;
     public SharedGameObject AnimTarget;
     public SharedFloat ChargeTime;
     public SharedFloat GroundCheckDelay;
@@ -32,7 +33,7 @@ public class LungeAttack : Action
     {
         charController = GetComponent<CharacterController>();
         destinationSetter = GetComponent<AIDestinationSetter>();
-        aiPath = GetComponent<AIPath>();
+        aiPath = AgentTransform.Value.GetComponent<AIPath>();
         chargeStartTime = Mathf.NegativeInfinity;
         lungeStartTime = Mathf.NegativeInfinity;
     }

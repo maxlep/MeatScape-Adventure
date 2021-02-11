@@ -59,7 +59,8 @@ public class MeatClumpController : MonoBehaviour
                 
                 if(hitObj.layer == layerMapper.GetLayer(LayerEnum.Enemy)) {
                     EnemyController enemyScript = hitObj.GetComponent<EnemyController>();
-                    enemyScript.DamageEnemy(1);
+                    Vector3 knockBackDir = (enemyScript.transform.position - transform.position).normalized;
+                    enemyScript.DamageEnemy(1, knockBackDir);
                     Destroy(this.gameObject);
                     return;
                 }

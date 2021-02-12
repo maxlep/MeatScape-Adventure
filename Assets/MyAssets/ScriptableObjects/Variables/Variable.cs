@@ -7,6 +7,7 @@ using UnityEngine;
 namespace MyAssets.ScriptableObjects.Variables
 {
     public delegate void OnUpdate();
+    public delegate void OnUpdate<T>(T previousValue, T currentValue);
 
     [Serializable]
     [InlineEditor(InlineEditorObjectFieldModes.Foldout)]
@@ -16,12 +17,14 @@ namespace MyAssets.ScriptableObjects.Variables
         [SerializeField] private T runtimeValue;
 
         protected event OnUpdate OnUpdate;
+        protected event OnUpdate<T> OnUpdateDelta;
     
         public T Value
         {
             get => runtimeValue;
             set
             {
+                this.OnUpdateDelta?.Invoke(runtimeValue, value);
                 runtimeValue = value;
                 this.OnUpdate?.Invoke();
             }
@@ -31,10 +34,20 @@ namespace MyAssets.ScriptableObjects.Variables
         {
             this.OnUpdate += callback;
         }
+        
+        public void Subscribe(OnUpdate<T> callback)
+        {
+            this.OnUpdateDelta += callback;
+        }
 
         public void Unsubscribe(OnUpdate callback)
         {
             this.OnUpdate -= callback;
+        }
+        
+        public void Unsubscribe(OnUpdate<T> callback)
+        {
+            this.OnUpdateDelta -= callback;
         }
 
         public void Reset() => runtimeValue = defaultValue;
@@ -69,6 +82,16 @@ namespace MyAssets.ScriptableObjects.Variables
         }
 
         public void Unsubscribe(OnUpdate callback)
+        {
+            Variable?.Unsubscribe(callback);
+        }
+        
+        public void Subscribe(OnUpdate<T> callback)
+        {
+            Variable?.Subscribe(callback);
+        }
+
+        public void Unsubscribe(OnUpdate<T> callback)
         {
             Variable?.Unsubscribe(callback);
         }

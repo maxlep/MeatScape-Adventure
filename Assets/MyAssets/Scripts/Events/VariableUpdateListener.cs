@@ -18,7 +18,6 @@ public class VariableUpdateListener : MonoBehaviour
 
     public UnityEvent OnUpdate;
     
-    // Start is called before the first frame update
     void Start()
     {
         foreach (var boolVariable in BoolVariables)
@@ -53,7 +52,7 @@ public class VariableUpdateListener : MonoBehaviour
 
     private void InvokeUpdate()
     {
-        OnUpdate.Invoke();
+        OnUpdate?.Invoke();
     }
 
 }

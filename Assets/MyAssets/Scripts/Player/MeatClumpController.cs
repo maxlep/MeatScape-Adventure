@@ -28,11 +28,9 @@ public class MeatClumpController : MonoBehaviour
     private bool shouldFallOff = false;
     
     private Vector3 startMovementPoint;
-
-    private float orbitDegrees = 0;
     
     #region Lifecycle
-    private void Update()
+    private void FixedUpdate()
     {
         float deltaDistance = this.speed * Time.deltaTime;
 

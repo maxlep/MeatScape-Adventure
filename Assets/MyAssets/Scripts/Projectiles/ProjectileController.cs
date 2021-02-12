@@ -17,6 +17,10 @@ public class ProjectileController : MonoBehaviour
     [SerializeField] private int damage = 1;
     [SerializeField] private float damageRadius = 10f;
 
+    private Vector3 currVelocity;
+    private Vector3 prevVelocity;
+    
+    #region Lifecycle
     private void Awake()
     {
         Quaternion rot = Quaternion.LookRotation(transform.forward);
@@ -25,22 +29,73 @@ public class ProjectileController : MonoBehaviour
             EffectsManager.Instance.SpawnParticlesAtPoint(muzzleParticles, transform.position, rot);
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void FixedUpdate()
     {
-        GameObject otherObj = other.gameObject;
-
-        if (otherObj.IsInLayerMask(impactMask))
-        {
-            if (!impactSounds.IsNullOrEmpty())
-                EffectsManager.Instance.PlayClipAtPoint(PickRandomClip(impactSounds), transform.position, .15f);
-            if (impactParticles != null)
-                EffectsManager.Instance.SpawnParticlesAtPoint(impactParticles, transform.position, quaternion.identity);
-
-            ExplosiveDamage();
-            Destroy(gameObject);
-        }
-        
+        PreMoveCollisionCheck();
+        Move();
+        PostMoveCollisionCheck();
     }
+    #endregion
+    
+    #region Setters
+    public void SetMoving(float speed, Vector3 direction) {
+        this.currVelocity = speed * direction.normalized;
+    }
+    #endregion
+    
+    #region Collision
+    private void HandleCollisions(Collider[] colliders, Vector3 normal) {
+        if (colliders.Length > 0)
+        {
+            foreach (var collider in colliders) {
+                GameObject otherObj = collider.gameObject;
+
+                if (otherObj.IsInLayerMask(impactMask))
+                {
+                    if (!impactSounds.IsNullOrEmpty())
+                        EffectsManager.Instance.PlayClipAtPoint(PickRandomClip(impactSounds), transform.position, .15f);
+                    if (impactParticles != null)
+                        EffectsManager.Instance.SpawnParticlesAtPoint(impactParticles, transform.position, quaternion.identity);
+
+                    ExplosiveDamage();
+                    Destroy(gameObject);
+                    return;
+                }
+            }
+        }
+    }
+
+    private void PreMoveCollisionCheck()
+    {
+        //SphereCast from current pos to next pos and check for collisions
+        RaycastHit hit;
+        if (Physics.SphereCast(transform.position, 0.5f, transform.forward,
+            out hit, (currVelocity * Time.deltaTime).magnitude, impactMask, QueryTriggerInteraction.Ignore))
+        {
+            transform.position += (transform.forward * hit.distance);
+            
+            this.HandleCollisions(new Collider[]{hit.collider}, hit.normal);
+        }
+    }
+
+    private void PostMoveCollisionCheck()
+    {
+        //Overlap sphere at final position to check for intersecting colliders
+        Collider[] hitColliders =
+            (Physics.OverlapSphere(transform.position, 0.5f, impactMask, QueryTriggerInteraction.Ignore));
+        
+        this.HandleCollisions(hitColliders, -transform.forward);
+    }
+    #endregion
+    
+    #region Movement
+    private void Move()
+    {
+        currVelocity += Physics.gravity * Time.deltaTime;
+        transform.position += currVelocity * Time.deltaTime;
+        prevVelocity = currVelocity;
+    }
+    #endregion
 
     private void ExplosiveDamage()
     {

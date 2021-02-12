@@ -12,16 +12,23 @@ public class FireProjectile : Action
     public SharedTransform FirePoint;
     public SharedGameObject Projectile;
     public SharedGameObject AnimTarget;
-    public SharedFloat FireForce;
+    public SharedFloat FireSpeed;
     public SharedFloat ShootDelay;
 
     private float lastShootTime;
+    private Collider targetCollider;
+    private Rigidbody targetRigidbody;
 
     public override void OnAwake()
     {
         lastShootTime = Mathf.NegativeInfinity;
     }
     
+    public override void OnStart()
+    {
+        targetCollider = Target.Value.GetComponent<Collider>();
+        targetRigidbody = Target.Value.GetComponent<Rigidbody>();
+    }
 
     public override TaskStatus OnUpdate()
     {
@@ -40,9 +47,11 @@ public class FireProjectile : Action
         FirePoint.Value = null;
         AnimTarget.Value = null;
         Projectile.Value = null;
-        FireForce.Value = 0f;
+        FireSpeed.Value = 0f;
         ShootDelay.Value = 0f;
         lastShootTime = Mathf.NegativeInfinity;
+        targetCollider = null;
+        targetRigidbody = null;
     }
 
     private void Fire()
@@ -51,13 +60,24 @@ public class FireProjectile : Action
         
         //Fire from firepoint
         Vector3 firePos = FirePoint.Value.position;
-        Vector3 dirToPlayer = (Target.Value.position - firePos).normalized;
-        Quaternion fireRot = Quaternion.LookRotation(dirToPlayer);
+        
+        Vector3 targetPos = targetCollider.bounds.center;
+        Vector3 dirToTarget = (targetPos - firePos);
+
+        
+        Vector3 targetVelocity = targetRigidbody.velocity;
+        targetVelocity.y = 0;
+        float timeToTarget = FireSpeed.Value / dirToTarget.magnitude;
+        targetPos += timeToTarget * 2 * targetVelocity;
+        
+        Vector3 projectileDrop = Physics.gravity * (dirToTarget.y / (Physics.gravity.y + (FireSpeed.Value * (targetPos - firePos).normalized.y)));
+        
+        Vector3 dirToFire = ((targetPos + -projectileDrop) - firePos).normalized;
+        
+        Quaternion fireRot = Quaternion.LookRotation(dirToFire);
         
         var projectile = GameObject.Instantiate(Projectile.Value, firePos, fireRot);
-        Rigidbody projectileRb = projectile.GetComponent<Rigidbody>();
-        projectileRb.AddForce(dirToPlayer * FireForce.Value);
+        ProjectileController projectileController = projectile.GetComponent<ProjectileController>();
+        projectileController.SetMoving(FireSpeed.Value, dirToFire);
     }
-
-    
 }

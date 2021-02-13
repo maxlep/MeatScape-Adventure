@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using MyAssets.Scripts.Utils;
 using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 using UnityEngine;
@@ -64,11 +64,8 @@ public class FireProjectile : Action
         Vector3 targetPos = targetCollider.bounds.center;
         Vector3 dirToTarget = (targetPos - firePos);
 
-        
-        Vector3 targetVelocity = targetRigidbody.velocity;
-        targetVelocity.y = 0;
         float timeToTarget = FireSpeed.Value / dirToTarget.magnitude;
-        targetPos += timeToTarget * 2 * targetVelocity;
+        targetPos += timeToTarget * targetRigidbody.velocity.xoz();
         
         Vector3 projectileDrop = Physics.gravity * (dirToTarget.y / (Physics.gravity.y + (FireSpeed.Value * (targetPos - firePos).normalized.y)));
         

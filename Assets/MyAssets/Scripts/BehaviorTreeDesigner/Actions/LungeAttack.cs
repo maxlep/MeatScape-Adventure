@@ -28,6 +28,9 @@ public class LungeAttack : Action
     private GameObject prevGameObject;
     private float chargeStartTime;
     private float lungeStartTime;
+
+    private Collider targetCollider;
+    private Rigidbody targetRigidbody;
     
     public override void OnAwake()
     {
@@ -54,6 +57,8 @@ public class LungeAttack : Action
         IsLunging.Value = false;
         chargeStartTime = Time.time;
         lungeStartTime = Mathf.NegativeInfinity;
+        targetCollider = Target.Value.GetComponent<Collider>();
+        targetRigidbody = Target.Value.GetComponent<Rigidbody>();
     }
 
     public override void OnEnd()
@@ -84,13 +89,17 @@ public class LungeAttack : Action
         IsLunging.Value = false;
         chargeStartTime = Mathf.NegativeInfinity;
         lungeStartTime = Mathf.NegativeInfinity;
+        targetCollider = null;
+        targetRigidbody = null;
     }
 
     private void StartLungeAttack()
     {
         IsLunging.Value = true;
         lungeStartTime = Time.time;
-        Vector3 dirToTarget = (Target.Value.position - transform.position).normalized;
+        float distToTarget = (targetCollider.bounds.center - transform.position).magnitude;
+        float lungeTimeToTarget = (ForwardLungeVelocity.Value + UpwardLungeVelocity.Value) / distToTarget;
+        Vector3 dirToTarget = ((targetCollider.bounds.center + (targetRigidbody.velocity * lungeTimeToTarget)) - transform.position).normalized;
 
         Vector3 forwardForce = ForwardLungeVelocity.Value * dirToTarget.xoz();
         Vector3 upwardForce = UpwardLungeVelocity.Value * Vector3.up;

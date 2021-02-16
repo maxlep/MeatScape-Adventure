@@ -7,7 +7,7 @@ namespace MyAssets.Scripts.ShaderHelpers
 {
     public class MaterialVectorSetter : MonoBehaviour
     {
-        [SerializeField] private Camera mainCamera;
+        [SerializeField] private UnityEngine.Camera mainCamera;
         [SerializeField] private Renderer renderer;
         [SerializeField] private int materialIndex;
         [SerializeField] private string propertyName;

@@ -41,6 +41,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector3Reference BaseVelocity;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference JumpPressed;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference RollPressed;
+    [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector3Reference PreviousVelocity;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference IsGrounded;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference IsOnSlidebleSlope;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable AttackTrigger;
@@ -188,10 +189,11 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     }
 
-    public void AfterCharacterUpdate(float deltaTime)
+    public void AfterCharacterUpdate(float deltaTime, Vector3 previousVelocity)
     {
         // This is called after the motor has finished everything in its update
         StoredJumpVelocity.Value = 0f;
+        PreviousVelocity.Value = previousVelocity;
     }
 
     public bool IsColliderValidForCollisions(Collider coll)

@@ -39,6 +39,10 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Horizontal")] [Required]
         protected FloatReference AirForwardForce;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Horizontal")] [Required]
+        protected Vector3Reference PreviousVelocity;
 
         #endregion
 
@@ -123,7 +127,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
         private Vector3 velocityAlongSlope;
         private Vector3 moveInputOnSlope;
-        private Vector3 previousVelocity = Vector3.zero;
+        //private Vector3 previousVelocity = Vector3.zero;
 
         private float lastRollSoundTime;
 
@@ -189,9 +193,9 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             #region Bounce
 
             //Bounce if just became grounded
-            Vector3 velocityIntoGround = Vector3.Project(previousVelocity, -GroundingStatus.GroundNormal);
+            Vector3 velocityIntoGround = Vector3.Project(PreviousVelocity.Value, -GroundingStatus.GroundNormal);
             
-            float velocityGroundDot = Vector3.Dot(previousVelocity.normalized, GroundingStatus.GroundNormal);
+            float velocityGroundDot = Vector3.Dot(PreviousVelocity.Value.normalized, GroundingStatus.GroundNormal);
 
             if (!LastGroundingStatus.FoundAnyGround && GroundingStatus.FoundAnyGround &&
                 velocityIntoGround.magnitude >= BounceThresholdVelocity.Value &&
@@ -208,7 +212,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 float normalBounceFactorMultiplier = Mathf.Lerp(BounceFactor.Value, BounceFactor.Value * 2f, bounceFactorNormalMultiplier);
                 
                 //Reflect velocity perfectly then dampen the y based on dot with normal
-                Vector3 reflectedVelocity = Vector3.Reflect(previousVelocity, GroundingStatus.GroundNormal);
+                Vector3 reflectedVelocity = Vector3.Reflect(PreviousVelocity.Value, GroundingStatus.GroundNormal);
                 reflectedVelocity.y *= normalBounceFactorMultiplier;
                 
                 //Redirect bounce if conditions met
@@ -223,7 +227,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
             #endregion
 
-            previousVelocity = resultingVelocity;
+            //previousVelocity = resultingVelocity;
             
             return resultingVelocity;
         }
@@ -365,7 +369,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
             //If just became grounded, and moving downard, keep velocity going (stops from slowing down when fall down slopes and ungrounding)
             //Only doing this if going down to prevent gaing speed up slopes
-            if (GroundingStatus.FoundAnyGround && !LastGroundingStatus.FoundAnyGround && previousVelocity.y < 0f)
+            if (GroundingStatus.FoundAnyGround && !LastGroundingStatus.FoundAnyGround && PreviousVelocity.Value.y < 0f)
             {
                 newVelocity = Vector3.ProjectOnPlane(newVelocity, GroundingStatus.GroundNormal);
             }

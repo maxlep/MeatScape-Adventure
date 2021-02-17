@@ -280,7 +280,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             
             #region Get New Speed
 
-            Vector3 horizontalDir = currentVelocity.xoz().normalized;
+            Vector3 horizontalDir = dir;
             var steeringDir = moveInputCameraRelative;
             var steeringAngle = Vector3.Angle(horizontalDir, steeringDir);
             var steeringFac = steeringAngle / 180;

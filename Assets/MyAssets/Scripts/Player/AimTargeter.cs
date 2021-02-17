@@ -9,7 +9,7 @@ namespace MyAssets.Scripts.Player
     public class AimTargeter : MonoBehaviour
     {
         [SerializeField] private CameraSceneReference camera;
-        [SerializeField] private TransformSceneReference targetingReticle;
+        [SerializeField] private GameObject targetingReticlePrefab;
         [SerializeField] private TransformSceneReference firePoint;
         [SerializeField] private LayerMapper layerMapper;
         [SerializeField] private LayerMask enemyLayerMask;
@@ -24,11 +24,15 @@ namespace MyAssets.Scripts.Player
         private Collider currentTarget;
         private float currentWeight;
 
+        private GameObject targetingReticle;
+
         private void Awake()
         {
             targetableColliders = new Collider[colliderLimit];
             currentTarget = null;
             currentWeight = 0;
+            targetingReticle = Instantiate<GameObject>(targetingReticlePrefab);
+            targetingReticle.SetActive(false);
         }
 
         private void Update()
@@ -60,15 +64,16 @@ namespace MyAssets.Scripts.Player
                 bool hitObstruction = Physics.Raycast(firePoint.Value.position, (currentTarget.bounds.center - firePoint.Value.position).normalized,
                     out hit, maxRange, obstructionLayerMask);
                 if(!hitObstruction || hit.transform.gameObject.layer == layerMapper.GetLayer(LayerEnum.Enemy)) {
-                    var currentScreenSpacePosition = camera.Value.WorldToScreenPoint(currentTarget.bounds.center);
-                    targetingReticle.Value.position = currentScreenSpacePosition;
-                    targetingReticle.Value.gameObject.SetActive(true);
+                    Vector3 enemyPos = currentTarget.bounds.center;
+                    enemyPos.y += (currentTarget.bounds.extents.y * 2) + targetingReticle.transform.localScale.y;
+                    targetingReticle.transform.position = enemyPos;
+                    targetingReticle.SetActive(true);
                     return;
                 }
                 // Debug.Log($"Curr weight: {currentWeight}, Curr name: {currentTarget?.name}, Num colls: {numColliders}, Screen position: {currentScreenSpacePosition}");
             }
             
-            targetingReticle.Value.gameObject.SetActive(false);
+            targetingReticle.SetActive(false);
         }
 
         private float GetTargetWeight(Collider target)

@@ -337,7 +337,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     private void UpdateParameters()
     {
-        IsGrounded.Value = charMotor.GroundingStatus.IsStableOnGround;
+        IsGrounded.Value = charMotor.GroundingStatus.FoundAnyGround;
         IsOnSlidebleSlope.Value = StandingOnSlideableSlope();
         BaseVelocity.Value = charMotor.BaseVelocity;
     }

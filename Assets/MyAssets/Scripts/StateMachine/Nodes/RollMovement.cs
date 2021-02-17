@@ -190,6 +190,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
             CharacterTransientGroundingReport LastGroundingStatus = playerController.LastGroundingStatus;
 
+            
             #region Bounce
 
             //Bounce if just became grounded
@@ -226,6 +227,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             }
 
             #endregion
+            
 
             //previousVelocity = resultingVelocity;
             
@@ -261,7 +263,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 Vector3 dirOnSlope = Vector3.ProjectOnPlane(currentVelocity.normalized, 
                     GroundingStatus.GroundNormal);
                 moveInputOnSlope = Vector3.ProjectOnPlane(moveInputCameraRelative.normalized, 
-                    GroundingStatus.GroundNormal);
+                    GroundingStatus.GroundNormal).normalized;
                 dir = Vector3.SmoothDamp(dirOnSlope, moveInputOnSlope,
                     ref dummyVel, currentTurnSpeed).normalized;
             }
@@ -278,7 +280,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             
             #region Get New Speed
 
-            Vector3 horizontalDir = dir.xoz().normalized;
+            Vector3 horizontalDir = currentVelocity.xoz().normalized;
             var steeringDir = moveInputCameraRelative;
             var steeringAngle = Vector3.Angle(horizontalDir, steeringDir);
             var steeringFac = steeringAngle / 180;
@@ -368,7 +370,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             #region Grounded (slope)
 
             //If just became grounded, and moving downard, keep velocity going (stops from slowing down when fall down slopes and ungrounding)
-            //Only doing this if going down to prevent gaing speed up slopes
+            //Only doing this if going down to prevent gaining speed up slopes
             if (GroundingStatus.FoundAnyGround && !LastGroundingStatus.FoundAnyGround && PreviousVelocity.Value.y < 0f)
             {
                 newVelocity = Vector3.ProjectOnPlane(newVelocity, GroundingStatus.GroundNormal);

@@ -22,7 +22,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: 2888, y: 2568}
+  position: {x: 2904, y: 2440}
   ports:
     keys:
     - previousState
@@ -50,6 +50,56 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   referencedState: {fileID: 1784268939710130638}
+--- !u!114 &-7997026950748155984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: Slingshot Sub <Reference>
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 2232, y: 56}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: -7997026950748155984}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: 3278844574328769954}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: -7997026950748155984}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  referencedState: {fileID: 2806755892372756541}
 --- !u!114 &-7623122778319895782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,13 +152,9 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   transitionPriority: 0
-  conditionPreview: '- ! Is Grounded_ Controller_ Player
-
-    - 0  Ignore 0 && 0 
-    Less Than -0.1 && 0  Ignore 0
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -136,6 +182,73 @@ MonoBehaviour:
     zCompare:
       comparator: 0
       value: 0
+--- !u!114 &-7620165047746000628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: Roll Movement Sub -> Slingshot Sub
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 2200, y: 2920}
+  ports:
+    keys:
+    - startingState
+    - nextState
+    values:
+    - _fieldName: startingState
+      _node: {fileID: -7620165047746000628}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: 5545277643791292214}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: nextState
+      _node: {fileID: -7620165047746000628}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: 4417886828750252798}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+  collapsed: 1
+  transitionPriority: 0
+  conditionPreview: '-  Valid:  Slingshot
+
+'
+  ValidStartStates:
+  - {fileID: -2916305283311469656, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  InvalidStartStates: []
+  BoolConditions: []
+  TriggerConditions: []
+  FloatConditions: []
+  IntConditions: []
+  TimerConditions: []
+  Vector2Conditions: []
+  Vector3Conditions: []
 --- !u!114 &-7147804490525800740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,6 +304,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   transitionPriority: 0
   conditionPreview: '-  Valid:  Downward  Throw
 
@@ -257,11 +371,12 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   transitionPriority: 0
   conditionPreview: '-  Is Grounded_ Controller_ Player
 
-    - 0  Abs Less Than 0.001
-    && 0  Ignore 0 && 0  Abs Less Than 0.001
+    - 0.03677369  Abs Less
+    Than 0.001 && 0  Ignore 0 && -0.0453494  Abs Less Than 0.001
 
 '
   ValidStartStates: []
@@ -349,9 +464,9 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   BypassState: 0
   Name: Fall Sub
-  zoom: 1
   isActiveState: 0
   subGraph: {fileID: 11400000, guid: 6075a994fe194194bac94a5fe8cf8b3c, type: 2}
   subStates:
@@ -409,6 +524,56 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   referencedState: {fileID: -7064006473693035284}
+--- !u!114 &-5965403836213115131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: Roll Movement Sub <Reference>
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 632, y: 2520}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: -5965403836213115131}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: -4700833219633082269}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: -5965403836213115131}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  referencedState: {fileID: 5545277643791292214}
 --- !u!114 &-5847418367578593244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -620,6 +785,73 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   referencedState: {fileID: 972444606679374517}
+--- !u!114 &-4700833219633082269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: Slingshot Sub -> Roll Movement Sub
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: -88, y: 2600}
+  ports:
+    keys:
+    - startingState
+    - nextState
+    values:
+    - _fieldName: startingState
+      _node: {fileID: -4700833219633082269}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: 2806755892372756541}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: nextState
+      _node: {fileID: -4700833219633082269}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: -5965403836213115131}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+  collapsed: 1
+  transitionPriority: 0
+  conditionPreview: '-  Valid:  Roll  Movement
+
+'
+  ValidStartStates:
+  - {fileID: 4966931143862885706, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  InvalidStartStates: []
+  BoolConditions: []
+  TriggerConditions: []
+  FloatConditions: []
+  IntConditions: []
+  TimerConditions: []
+  Vector2Conditions: []
+  Vector3Conditions: []
 --- !u!114 &-2479464383247129141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -675,6 +907,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   transitionPriority: 0
   conditionPreview: '-  Valid:  Ground Movement
 
@@ -744,13 +977,15 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   transitionPriority: 0
   conditionPreview: '-  Invalid:  Slope  Movement
 
     - ! Is Grounded_ Controller_
     Player
 
-    - 0  Ignore 0 && 0  Less Than -0.1 && 0  Ignore 0
+    - 0.03677369  Ignore 0 && 0  Less Than -0.1 && -0.0453494  Ignore
+    0
 
 '
   ValidStartStates: []
@@ -836,6 +1071,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   transitionPriority: 0
   conditionPreview: '-  Valid:  Roll  Movement
 
@@ -920,9 +1156,9 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   BypassState: 0
   Name: Ground Movement Sub
-  zoom: 1
   isActiveState: 0
   subGraph: {fileID: 11400000, guid: 4f0b2461e75d7144a8c84ccdd4a54214, type: 2}
   subStates:
@@ -1019,9 +1255,6 @@ MonoBehaviour:
       - fieldName: nextState
         node: {fileID: 4519189784490352879}
         reroutePoints: []
-      - fieldName: nextState
-        node: {fileID: 3278844574328769954}
-        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 2
@@ -1094,9 +1327,9 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   BypassState: 0
   Name: Jump
-  zoom: 1
   isActiveState: 0
   subGraph: {fileID: 11400000, guid: 548ebc86f27baf647808ddf5298e1393, type: 2}
   subStates:
@@ -1126,7 +1359,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: 2888, y: 1992}
+  position: {x: 2904, y: 1864}
   ports:
     keys:
     - previousState
@@ -1223,6 +1456,14 @@ MonoBehaviour:
   - {fileID: 5667508110147557554}
   - {fileID: 6732291781286766248}
   - {fileID: 3278844574328769954}
+  - {fileID: 2806755892372756541}
+  - {fileID: -7620165047746000628}
+  - {fileID: 4417886828750252798}
+  - {fileID: 4912042959675383250}
+  - {fileID: 4658752448673991798}
+  - {fileID: -4700833219633082269}
+  - {fileID: -5965403836213115131}
+  - {fileID: -7997026950748155984}
 --- !u!114 &264669591117630602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1434,7 +1675,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0f8c1af988234bb6aa4b803ce9925204, type: 3}
-  m_Name: Skid <AnimSubStateProcessorNode> (PlayerAnimation)
+  m_Name: Skid Sub <AnimSubStateProcessorNode> (PlayerAnimation)
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -1473,9 +1714,9 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   BypassState: 0
   Name: Skid Sub
-  zoom: 1
   isActiveState: 0
   subGraph: {fileID: 11400000, guid: ef101302f44e6224b81c1837c9c87999, type: 2}
   subStates:
@@ -1537,10 +1778,9 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Throw_ Time_ Anim_ Player: 0.15 sec
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -1606,10 +1846,9 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Jump Trigger_ Anim_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -1675,13 +1914,16 @@ MonoBehaviour:
       - fieldName: startingState
         node: {fileID: 4879977458698142861}
         reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: 3278844574328769954}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   BypassState: 1
   Name: 'Idle '
-  zoom: 1
   isActiveState: 0
   transitionTime: 0.5
   transitionCurve:
@@ -1782,9 +2024,10 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   transitionPriority: 0
-  conditionPreview: '- 0  Abs Greater Than 0 && 0  Ignore 0 && 0  Abs Greater Than
-    0
+  conditionPreview: '- 0.03677369  Abs Greater Than 0 && 0  Ignore 0 && -0.0453494 
+    Abs Greater Than 0
 
 '
   ValidStartStates: []
@@ -1858,9 +2101,9 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   BypassState: 0
   Name: Throw Down Sub
-  zoom: 1
   isActiveState: 0
   subGraph: {fileID: 11400000, guid: 36c6c98d00e13ac498d5883101d4fc72, type: 2}
   subStates:
@@ -1868,6 +2111,67 @@ MonoBehaviour:
   - {fileID: -3486420991676930310, guid: 36c6c98d00e13ac498d5883101d4fc72, type: 2}
   outputState: {fileID: -3486420991676930310, guid: 36c6c98d00e13ac498d5883101d4fc72,
     type: 2}
+--- !u!114 &2806755892372756541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bde82b2b60b32034ba17ac993ef9ed6f, type: 3}
+  m_Name: Slingshot Sub <SubStateProcessorNode> (PlayerAnimation)
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: -792, y: 2072}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: 2806755892372756541}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: 2806755892372756541}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: startingState
+        node: {fileID: 4658752448673991798}
+        reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: -4700833219633082269}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  collapsed: 1
+  BypassState: 0
+  Name: Slingshot Sub
+  isActiveState: 0
+  subGraph: {fileID: 11400000, guid: e00d6629551ec534db58ed32da033fa3, type: 2}
+  subStates:
+  - {fileID: 5911201602438103485, guid: e00d6629551ec534db58ed32da033fa3, type: 2}
+  - {fileID: -8260115285714750974, guid: e00d6629551ec534db58ed32da033fa3, type: 2}
+  - {fileID: -9197636157759497649, guid: e00d6629551ec534db58ed32da033fa3, type: 2}
 --- !u!114 &2973082149161544887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1928,7 +2232,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Ground Movement Sub -> Roll Movement Sub
+  m_Name: Ground Movement Sub -> Slingshot Sub
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -1954,6 +2258,9 @@ MonoBehaviour:
       - fieldName: transitions
         node: {fileID: -1507888589778504077}
         reroutePoints: []
+      - fieldName: transitions
+        node: {fileID: 1784268939710130638}
+        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 2
@@ -1964,12 +2271,13 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: previousState
-        node: {fileID: -287817223703023467}
+        node: {fileID: -7997026950748155984}
         reroutePoints: []
       _direction: 1
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   transitionPriority: 0
   conditionPreview: '-  Valid:  Slingshot
 
@@ -2033,9 +2341,9 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   BypassState: 0
   Name: Throw Forward Sub
-  zoom: 1
   isActiveState: 0
   subGraph: {fileID: 11400000, guid: 2f72113c2a3b8ed429aa6de3d2e0499e, type: 2}
   subStates:
@@ -2043,6 +2351,56 @@ MonoBehaviour:
   - {fileID: 7653063524973100785, guid: 2f72113c2a3b8ed429aa6de3d2e0499e, type: 2}
   outputState: {fileID: 7653063524973100785, guid: 2f72113c2a3b8ed429aa6de3d2e0499e,
     type: 2}
+--- !u!114 &4417886828750252798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: Slingshot Sub <Reference>
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 2917.8713, y: 2850.754}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: 4417886828750252798}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: -7620165047746000628}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: 4417886828750252798}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  referencedState: {fileID: 2806755892372756541}
 --- !u!114 &4467610210530022387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2145,6 +2503,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   transitionPriority: 0
   conditionPreview: '-  Valid:  Roll  Movement
 
@@ -2152,6 +2511,76 @@ MonoBehaviour:
   ValidStartStates:
   - {fileID: 4966931143862885706, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   InvalidStartStates: []
+  BoolConditions: []
+  TriggerConditions: []
+  FloatConditions: []
+  IntConditions: []
+  TimerConditions: []
+  Vector2Conditions: []
+  Vector3Conditions: []
+--- !u!114 &4658752448673991798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: 'Slingshot Sub -> Idle '
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: -88, y: 2072}
+  ports:
+    keys:
+    - startingState
+    - nextState
+    values:
+    - _fieldName: startingState
+      _node: {fileID: 4658752448673991798}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: 2806755892372756541}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: nextState
+      _node: {fileID: 4658752448673991798}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: 4912042959675383250}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+  collapsed: 1
+  transitionPriority: 1
+  conditionPreview: '-  Invalid:  Roll  Movement
+
+    -  Invalid:  Slingshot
+
+'
+  ValidStartStates: []
+  InvalidStartStates:
+  - {fileID: 4966931143862885706, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  - {fileID: -2916305283311469656, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   BoolConditions: []
   TriggerConditions: []
   FloatConditions: []
@@ -2214,6 +2643,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   transitionPriority: 0
   conditionPreview: '-  Valid:  Forward  Throw 1
 
@@ -2228,6 +2658,56 @@ MonoBehaviour:
   TimerConditions: []
   Vector2Conditions: []
   Vector3Conditions: []
+--- !u!114 &4912042959675383250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: Idle  <Reference>
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 664, y: 2120}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: 4912042959675383250}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: 4658752448673991798}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: 4912042959675383250}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  referencedState: {fileID: 1784268939710130638}
 --- !u!114 &5391073615113036228
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2330,10 +2810,9 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Throw_ Time_ Anim_ Player: 0.15 sec
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -2369,7 +2848,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: 2184, y: 1992}
+  position: {x: 2216, y: 1848}
   ports:
     keys:
     - startingState
@@ -2399,6 +2878,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   transitionPriority: 0
   conditionPreview: '-  Valid:  Jump
 
@@ -2435,7 +2915,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: 1544, y: 1992}
+  position: {x: 1448, y: 2376}
   ports:
     keys:
     - previousState
@@ -2461,14 +2941,17 @@ MonoBehaviour:
       - fieldName: startingState
         node: {fileID: 7689719205349734681}
         reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: -7620165047746000628}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   BypassState: 0
   Name: Roll Movement Sub
-  zoom: 1
-  isActiveState: 1
+  isActiveState: 0
   subGraph: {fileID: 11400000, guid: a421f02d0f8b3f841a53dfc6e3691563, type: 2}
   subStates:
   - {fileID: 5911201602438103485, guid: a421f02d0f8b3f841a53dfc6e3691563, type: 2}
@@ -2626,6 +3109,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   transitionPriority: 0
   conditionPreview: '-  Fast Turn Triggered_ Movement_ Player
 
@@ -2733,11 +3217,9 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Move Speed_ Player_ Resultant_ Anim_ Player  Greater Than
-    3
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -2805,6 +3287,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   transitionPriority: 0
   conditionPreview: '-  Slide Turn Triggered_ Movement_ Player
 
@@ -2875,6 +3358,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   transitionPriority: 0
   conditionPreview: '-  Valid:  Jump
 
@@ -2914,7 +3398,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: 2184, y: 2568}
+  position: {x: 2216, y: 2392}
   ports:
     keys:
     - startingState
@@ -2944,6 +3428,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   transitionPriority: 1
   conditionPreview: '-  Invalid:  Roll  Movement
 
@@ -3010,10 +3495,10 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   BypassState: 0
   Name: Parameter Processor
-  zoom: 1
-  isActiveState: 1
+  isActiveState: 0
   subGraph: {fileID: 11400000, guid: 3833a745fc2f8524cb9f2b661e39a5ed, type: 2}
   subStates:
   - {fileID: 3068116513090988214, guid: 3833a745fc2f8524cb9f2b661e39a5ed, type: 2}

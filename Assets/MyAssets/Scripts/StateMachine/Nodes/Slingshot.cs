@@ -2,6 +2,7 @@
 using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace MyAssets.Graphs.StateMachine.Nodes
@@ -116,7 +117,17 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         
         protected override Vector3 CalculateVelocity(VelocityInfo velocityInfo)
         {
-            return base.CalculateVelocity(velocityInfo);
+            //return base.CalculateVelocity(velocityInfo);
+
+            return Vector3.zero;
+        }
+
+        protected override void UpdateRotation(Quaternion currentRotation)
+        {
+            var GroundingStatus = playerController.GroundingStatus;
+            var moveInputOnSlope = Vector3.ProjectOnPlane(moveInputCameraRelative.normalized, 
+                GroundingStatus.GroundNormal).normalized;
+            NewRotationOut.Value = Quaternion.LookRotation(moveInputOnSlope, GroundingStatus.GroundNormal);
         }
 
         private void AccumulateSlingForce()

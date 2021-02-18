@@ -368,16 +368,9 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             #endregion
 
             #region Grounded (slope)
-
-            //If just became grounded, and moving downard, keep velocity going (stops from slowing down when fall down slopes and ungrounding)
-            //Only doing this if going down to prevent gaining speed up slopes
-            if (GroundingStatus.FoundAnyGround && !LastGroundingStatus.FoundAnyGround && PreviousVelocity.Value.y < 0f)
-            {
-                newVelocity = Vector3.ProjectOnPlane(newVelocity, GroundingStatus.GroundNormal);
-            }
             
             //Each frame, add gravity to velocity on slope
-            else if (GroundingStatus.FoundAnyGround)
+            if (GroundingStatus.FoundAnyGround)
             {
                 newVelocity.y = gravity * SlopeVerticalGravityFactor.Value * Time.deltaTime;
                 newVelocity = Vector3.ProjectOnPlane(newVelocity, GroundingStatus.GroundNormal);

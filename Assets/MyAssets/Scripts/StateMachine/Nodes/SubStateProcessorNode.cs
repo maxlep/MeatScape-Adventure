@@ -72,6 +72,7 @@ public class SubStateProcessorNode : StateNode
 
     protected override void OnValidate()
     {
+        base.OnValidate();
         PopulateSubStates();
     }
 

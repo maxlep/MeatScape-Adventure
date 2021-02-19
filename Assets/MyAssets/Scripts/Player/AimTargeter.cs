@@ -91,12 +91,10 @@ namespace MyAssets.Scripts.Player
                 {
                     if (!GameObject.ReferenceEquals(currentTarget, lastTarget))
                     {
-                        Debug.Log("Change target");
                         ChangeTarget();
                     }
                     else
                     {
-                        // Debug.Log("Follow target");
                         FollowTarget();
                     }
                     

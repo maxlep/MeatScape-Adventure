@@ -5,6 +5,7 @@ using System.Data;
 using System.Runtime.CompilerServices;
 using KinematicCharacterController;
 using MoreMountains.Feedbacks;
+using MoreMountains.Tools;
 using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
 using MyAssets.Scripts.Player;
@@ -27,6 +28,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 {
     [SerializeField] private KinematicCharacterMotor charMotor;
     [SerializeField] private LayerMapper layerMapper;
+    [SerializeField] private LayerMask groundMask;
     [SerializeField] private AudioClip jumpAttackClip;
     [SerializeField] private AimTargeter aimTargeter;
     [SerializeField] private Collider collider;
@@ -363,7 +365,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     public void UngroundMotor()
     {
         IsGrounded.Value = false;
-        charMotor.ForceUnground(0.1f);
+        charMotor.ForceUnground(0.2f);
     }
     
     public Vector3 GetPlatformVelocity()
@@ -421,5 +423,15 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
             CameraShakeManager.Instance.ShakeCamera(1.75f, .3f, .3f);
             EffectsManager.Instance?.PlayClipAtPoint(jumpAttackClip, transform.position, .4f);
         }
+    }
+
+    public bool CastColliderDown(out RaycastHit hit)
+    {
+        if (Physics.SphereCast(collider.bounds.center, collider.bounds.size.z * 1.5f, Vector3.down, out hit, Mathf.Infinity, groundMask))
+        {
+            return true;
+        }
+
+        return false;
     }
 }

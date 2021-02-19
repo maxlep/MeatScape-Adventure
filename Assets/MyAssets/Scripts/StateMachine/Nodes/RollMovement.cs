@@ -1,4 +1,5 @@
-﻿using KinematicCharacterController;
+﻿using Den.Tools;
+using KinematicCharacterController;
 using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
 using MyAssets.Scripts.Utils;
@@ -196,9 +197,9 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             #region Bounce
 
             //Bounce if just became grounded
-            Vector3 velocityIntoGround = Vector3.Project(PreviousVelocity.Value, -GroundingStatus.GroundNormal);
+            Vector3 velocityIntoGround = Vector3.Project(previousVelocityOutput, -GroundingStatus.GroundNormal);
             
-            float velocityGroundDot = Vector3.Dot(PreviousVelocity.Value.normalized, GroundingStatus.GroundNormal);
+            float velocityGroundDot = Vector3.Dot(previousVelocityOutput.normalized, GroundingStatus.GroundNormal);
 
             if (!LastGroundingStatus.FoundAnyGround && GroundingStatus.FoundAnyGround &&
                 velocityIntoGround.magnitude >= BounceThresholdVelocity.Value &&
@@ -215,7 +216,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 float normalBounceFactorMultiplier = Mathf.Lerp(BounceFactor.Value, BounceFactor.Value * 2f, bounceFactorNormalMultiplier);
                 
                 //Reflect velocity perfectly then dampen the y based on dot with normal
-                Vector3 reflectedVelocity = Vector3.Reflect(PreviousVelocity.Value, GroundingStatus.GroundNormal);
+                Vector3 reflectedVelocity = Vector3.Reflect(previousVelocityOutput, GroundingStatus.GroundNormal);
                 reflectedVelocity.y *= normalBounceFactorMultiplier;
                 
                 //Redirect bounce if conditions met
@@ -395,11 +396,25 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         {
             Quaternion newRotation;
             Vector3 lookDirection = playerController.transform.forward;
-            Vector3 velocityDirection = NewVelocityOut.Value.normalized;
+            Vector3 velocityDirection = dirOnSlopeGizmo;
 
-            //This rotation will keep the collider up along round normal
-            newRotation = quaternion.LookRotation(velocityDirection, playerController.GroundingStatus.GroundNormal);
+            RaycastHit groundHit;
+            bool foundGroundBelow = playerController.CastColliderDown(out groundHit);
 
+            if (!playerController.GroundingStatus.FoundAnyGround && foundGroundBelow)
+            {
+                //This rotation will keep the collider up along round normal
+                Vector3 groundNormal = groundHit.normal;
+                Vector3.OrthoNormalize(ref groundNormal, ref velocityDirection);
+                newRotation = Quaternion.LookRotation(velocityDirection, groundHit.normal);
+                
+            }
+            else
+            {
+                //This rotation will keep the collider up along round normal
+                newRotation = Quaternion.LookRotation(velocityDirection, playerController.GroundingStatus.GroundNormal);
+            }
+            
             NewRotationOut.Value = newRotation;
         }
 

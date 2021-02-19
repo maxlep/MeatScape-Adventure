@@ -399,7 +399,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             Vector3 velocityDirection = dirOnSlopeGizmo;
 
             RaycastHit groundHit;
-            bool foundGroundBelow = playerController.CastColliderDown(out groundHit);
+            bool foundGroundBelow = playerController.CastColliderDown(out groundHit, 30f);
 
             if (!playerController.GroundingStatus.FoundAnyGround && foundGroundBelow)
             {

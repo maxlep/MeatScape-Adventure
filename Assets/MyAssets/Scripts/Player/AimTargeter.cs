@@ -1,11 +1,5 @@
-﻿using System;
-using BehaviorDesigner.Runtime;
-using Den.Tools;
-using EnhancedHierarchy;
-using MyAssets.ScriptableObjects.Variables;
-using Sirenix.Utilities;
+﻿using Sirenix.Utilities;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace MyAssets.Scripts.Player
 {

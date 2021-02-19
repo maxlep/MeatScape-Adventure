@@ -195,12 +195,12 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         /// <summary>
         /// Different than ProjectOnPlane. This method is like looking at the vector from top-down
         /// view and pushing it directly downwards onto the slope. Useful to get move input on slope that
-        /// feels good.
+        /// feels better than Vector3.ProjectOnPlane. Dont pass in CamRelativeMoveInput, just raw MoveInput.
         /// </summary>
-        /// <param name="dir"></param>
+        /// <param name="moveInput"></param>
         /// <param name="groundNormal"></param>
         /// <returns></returns>
-        protected virtual Vector3 FlattenDirectionOntoSlope(Vector3 dir, Vector3 groundNormal)
+        protected virtual Vector3 FlattenMoveInputOntoSlope(Vector2 moveInput, Vector3 groundNormal)
         {
             Vector3 slopeRight = Vector3.Cross(Vector3.down, groundNormal).normalized;
             
@@ -209,7 +209,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 PlayerCameraTransform.Value.right.xoz(), Vector3.up);
             
             //Get angle of moveInput on Unit Circle (Degrees from right position)
-            float moveInputAngle = dir.xz().normalized.AngleOnUnitCircle();
+            float moveInputAngle = moveInput.normalized.AngleOnUnitCircle();
 
             //Combine input and slope/relative camera angle
             float camSlopeRelativeMoveAngle = slopeRightToCamRight - moveInputAngle;
@@ -221,5 +221,29 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
             return projectedDirection;
         }
+        
+        
+        protected virtual Vector3 FlattenDirectionOntoSlope(Vector3 dir, Vector3 groundNormal)
+        {
+            Vector3 slopeRight = Vector3.Cross(Vector3.down, groundNormal).normalized;
+            
+            //Signed angle between slope right and world right (angle offset of slope from world axis)
+            float slopeRightToWorldRight = Vector3.SignedAngle(slopeRight, 
+                Vector3.right, Vector3.up);
+            
+            //Get angle of dir on Unit Circle (Degrees from right position)
+            float dirAngle = dir.xz().normalized.AngleOnUnitCircle();
+
+            //Combine input and slope/relative camera angle
+            float camSlopeRelativeAngle = slopeRightToWorldRight - dirAngle;
+
+            //Rotate the slope right around the slope normal by camSlopeRelativeAngle
+            //This essentially projects the XZ-bound camSlopeRelativeAngle downwards onto the slope
+            Vector3 projectedDirection = (Quaternion.AngleAxis(camSlopeRelativeAngle, groundNormal)
+                                          * slopeRight).normalized;
+
+            return projectedDirection;
+        }
+        
     }
 }

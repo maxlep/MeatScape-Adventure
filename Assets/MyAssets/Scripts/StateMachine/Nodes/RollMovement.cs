@@ -4,6 +4,8 @@ using MyAssets.ScriptableObjects.Variables;
 using MyAssets.Scripts.Utils;
 using Shapes;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities.Editor;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace MyAssets.Graphs.StateMachine.Nodes
@@ -127,7 +129,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
         private Vector3 velocityAlongSlope;
         private Vector3 moveInputOnSlope;
-        //private Vector3 previousVelocity = Vector3.zero;
+        private Vector3 previousVelocityOutput = Vector3.zero;
 
         private float lastRollSoundTime;
 
@@ -228,11 +230,12 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
             #endregion
             
-
-            //previousVelocity = resultingVelocity;
+            previousVelocityOutput = resultingVelocity;
             
             return resultingVelocity;
         }
+
+        private Vector3 dirOnSlopeGizmo;
 
         private Vector3 CalculateHorizontalVelocity(Vector3 currentVelocity)
         {
@@ -244,6 +247,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 : currentVelocity.xoz().magnitude;
 
             #region Get New Move Direction
+
 
             //Rotate current vel towards target vel to get new direction
             Vector3 dummyVel = Vector3.zero;
@@ -260,12 +264,22 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             if (GroundingStatus.FoundAnyGround)
             {
                 currentTurnSpeed = Mathf.Lerp(TurnSpeed.Value, slowTurnSpeed, percentToSlowTurnSpeed);
-                Vector3 dirOnSlope = Vector3.ProjectOnPlane(currentVelocity.normalized, 
-                    GroundingStatus.GroundNormal);
-                moveInputOnSlope = Vector3.ProjectOnPlane(moveInputCameraRelative.normalized, 
-                    GroundingStatus.GroundNormal).normalized;
+                
+                Vector3 dirOnSlope = Vector3.ProjectOnPlane(currentVelocity.normalized,
+                        GroundingStatus.GroundNormal).normalized;
+
+                //If ground is flat, just take flattened move input
+                if (GroundingStatus.GroundNormal == Vector3.up)
+                    moveInputOnSlope = moveInputCameraRelative.xoz().normalized;
+                else if (Mathf.Approximately(MoveInput.Value.magnitude, 0f))
+                    moveInputOnSlope = Vector3.zero;
+                else
+                    moveInputOnSlope = FlattenMoveInputOntoSlope(MoveInput.Value, GroundingStatus.GroundNormal);
+                
                 dir = Vector3.SmoothDamp(dirOnSlope, moveInputOnSlope,
                     ref dummyVel, currentTurnSpeed).normalized;
+
+                dirOnSlopeGizmo = dirOnSlope;
             }
             else
             {
@@ -280,9 +294,8 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             
             #region Get New Speed
 
-            Vector3 horizontalDir = dir;
             var steeringDir = moveInputCameraRelative;
-            var steeringAngle = Vector3.Angle(horizontalDir, steeringDir);
+            var steeringAngle = Vector3.Angle(dir, steeringDir);
             var steeringFac = steeringAngle / 180;
 
             //TurnFactor.Value = Vector3.SignedAngle(horizontalDir, steeringDir, Vector3.up) / 30;
@@ -294,17 +307,14 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
             var drag = currentSpeed * DragCoefficientHorizontal.Value * Time.deltaTime;
 
-            //Project the moveinput to current horizontal direction
-            var moveInputOntoHorizontalDir = Vector3.Project(moveInputCameraRelative, horizontalDir);
-
             #region Accelerate to target speed
 
             float targetMagnitude;
             
             //If projected move input is in same direction as velocity, set target speed
             //Otherwise, assume player wants to stop and turn around 
-            if (Vector3.Dot(horizontalDir, moveInputOntoHorizontalDir) > 0f)
-                targetMagnitude = moveInputOntoHorizontalDir.magnitude;
+            if (Vector3.Dot(dir, moveInputOnSlope) > 0f)
+                targetMagnitude = moveInputOnSlope.magnitude;
             else
                 targetMagnitude = 0f;
             
@@ -387,16 +397,10 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             Vector3 lookDirection = playerController.transform.forward;
             Vector3 velocityDirection = NewVelocityOut.Value.normalized;
 
-            if (Mathf.Approximately(velocityDirection.magnitude, 0f))
-            {
-                newRotation = Quaternion.LookRotation(lookDirection, Vector3.up);;
-            }
-            else
-            {
-                newRotation = Quaternion.LookRotation(velocityDirection, Vector3.up);
-            }
+            //This rotation will keep the collider up along round normal
+            newRotation = quaternion.LookRotation(velocityDirection, playerController.GroundingStatus.GroundNormal);
 
-            //NewRotationOut.Value = newRotation;
+            NewRotationOut.Value = newRotation;
         }
 
         private void InitRollParticles()
@@ -452,19 +456,21 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
             float len = 10f;
             float radius = 0.25f;
-            float alpha = 0.35f;
+            float alpha = .65f;
             Vector3 startPos = playerController.transform.position;
 
             var lines = new (Vector3 endPos, Color color)[]
             {
                 (startPos + moveInputCameraRelative * (newSpeed / BaseSpeed.Value) * len,
                     false ? new Color(1f, 0f, 0f, .35f) : new Color(1f, 1f, 0f, alpha)),
-                (startPos + moveInputCameraRelative * len,
-                    new Color(1f, .3f, 0.3f, alpha)),
-                (startPos + newDirection * newSpeed,
-                    new Color(1f, 0.5f, 0, alpha)),
-                (startPos + moveInputOnSlope,
-                    new Color(.6f, 0.5f, .9f, alpha))
+                //(startPos + moveInputCameraRelative * len,
+                //    new Color(1f, .3f, 0.3f, alpha)),
+                //(startPos + newDirection * newSpeed,
+                //    new Color(1f, 0.5f, 0, alpha)),
+                (startPos + moveInputOnSlope * len,
+                    new Color(1f, 0f, 1, alpha)),
+                (startPos + dirOnSlopeGizmo * len,
+                    new Color(.5f, .5f, 1f, alpha))
             };
 
             foreach (var line in lines)

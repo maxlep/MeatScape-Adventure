@@ -12,6 +12,9 @@ using Random = UnityEngine.Random;
 public class PatrolPointHelper : MonoBehaviour
 {
     [SerializeField] [PropertySpace(5f, 5f)]
+    private bool enableGizmos;
+    
+    [SerializeField] [PropertySpace(5f, 5f)]
     private GameObject patrolPointPrefab;
     
     [SerializeField] [UnityEngine.Tooltip("Patrol points will share parent with this object")]
@@ -146,6 +149,8 @@ public class PatrolPointHelper : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        if (!enableGizmos) return;
+        
         Draw.LineGeometry = LineGeometry.Volumetric3D;
         Draw.LineThicknessSpace = ThicknessSpace.Meters;
         Draw.LineThickness = .2f;

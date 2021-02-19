@@ -1,6 +1,7 @@
 ﻿using KinematicCharacterController;
 using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
+using MyAssets.Scripts.Utils;
 using Sirenix.OdinInspector;
 using Unity.Mathematics;
 using UnityEngine;
@@ -125,8 +126,15 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         protected override void UpdateRotation(Quaternion currentRotation)
         {
             var GroundingStatus = playerController.GroundingStatus;
-            var moveInputOnSlope = Vector3.ProjectOnPlane(moveInputCameraRelative.normalized, 
-                GroundingStatus.GroundNormal).normalized;
+
+            Vector3 moveInputOnSlope;
+                
+            //If ground is flat, just take flattened move input
+            if (GroundingStatus.FoundAnyGround && GroundingStatus.GroundNormal == Vector3.up)
+                moveInputOnSlope = moveInputCameraRelative.xoz().normalized;
+            else
+                moveInputOnSlope = FlattenMoveInputOntoSlope(MoveInput.Value, GroundingStatus.GroundNormal);
+            
             NewRotationOut.Value = Quaternion.LookRotation(moveInputOnSlope, GroundingStatus.GroundNormal);
         }
 

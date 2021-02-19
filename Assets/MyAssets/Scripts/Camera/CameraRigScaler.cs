@@ -1,6 +1,5 @@
 ﻿using System;
 using Cinemachine;
-using EnhancedHierarchy;
 using MyAssets.ScriptableObjects.Variables;
 using MyAssets.ScriptableObjects.Variables.ValueReferences;
 using Sirenix.OdinInspector;

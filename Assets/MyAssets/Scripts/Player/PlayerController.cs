@@ -427,7 +427,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     public bool CastColliderDown(out RaycastHit hit, float dist)
     {
-        if (Physics.SphereCast(collider.bounds.center, collider.bounds.size.z * 1.5f, Vector3.down, out hit, dist, groundMask))
+        if (Physics.SphereCast(collider.bounds.center, collider.bounds.size.z, Vector3.down, out hit, dist, groundMask))
         {
             return true;
         }

@@ -41,6 +41,11 @@ public class StateMachineGraph : NodeGraph
 
     #region LifeCycle Methods
 
+    public void Awaken()
+    {
+        currentStates.ForEach(s => s.Awaken());
+    }
+
     public void ExecuteUpdates()
     {
         currentStates.ForEach(s => s.Execute());

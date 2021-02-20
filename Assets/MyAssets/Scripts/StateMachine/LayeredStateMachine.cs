@@ -19,6 +19,7 @@ public class LayeredStateMachine : MonoBehaviour
     protected virtual void Awake()
     {
         InitStateMachines(true);
+        stateMachines.ForEach(s => s.Awaken());
     }
 
     protected virtual void Update()
@@ -34,42 +35,27 @@ public class LayeredStateMachine : MonoBehaviour
     
     protected virtual void ExecuteUpdates()
     {
-        foreach (var stateMachine in stateMachines)
-        {
-            stateMachine.ExecuteUpdates();
-        }
+        stateMachines.ForEach(s => s.ExecuteUpdates());
     }
     
     protected virtual void ExecuteFixedUpdates()
     {
-        foreach (var stateMachine in stateMachines)
-        {
-            stateMachine.ExecuteFixedUpdates();
-        }
+        stateMachines.ForEach(s => s.ExecuteFixedUpdates());
     }
 
     private void OnValidate()
     {
-        foreach (var stateMachine in stateMachines)
-        {
-            stateMachine.InjectDependencies(this);
-        }
+        stateMachines.ForEach(s => s.InjectDependencies(this));
     }
 
     protected void OnDrawGizmos()
     {
-        foreach (var stateMachine in stateMachines)
-        {
-            stateMachine.DrawGizmos();
-        }
+        stateMachines.ForEach(s => s.DrawGizmos());
     }
 
     protected void OnApplicationQuit()
     {
-        foreach (var stateMachine in stateMachines)
-        {
-            stateMachine.OnApplicationExit();
-        }
+        stateMachines.ForEach(s => s.OnApplicationExit());
     }
 
     #endregion

@@ -220,6 +220,11 @@ public class StateNode : CollapsableNode
     
     #region LifeCycle Methods
 
+    public virtual void Awaken()
+    {
+        
+    }
+
     public virtual void Enter()
     {
         isActiveState = true;

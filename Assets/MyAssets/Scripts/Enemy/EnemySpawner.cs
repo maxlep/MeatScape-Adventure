@@ -66,7 +66,7 @@ public class EnemySpawner : MonoBehaviour
 
     #region Gizmos
     
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         DrawEnemyMeshGizmo();
     }

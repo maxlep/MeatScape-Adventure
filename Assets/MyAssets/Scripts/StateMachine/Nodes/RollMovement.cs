@@ -213,7 +213,9 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 float bounceFactorNormalMultiplier = -velocityGroundDot;
                 
                 //Lerp from normal bounce to half based on ground normal velocity dot
-                float normalBounceFactorMultiplier = Mathf.Lerp(BounceFactor.Value, BounceFactor.Value * 2f, bounceFactorNormalMultiplier);
+                //-------NO LONGER DOING THIS FOR A MORE CONSISTENT ROLL BOUNCE HEIGHT----------
+                //float normalBounceFactorMultiplier = Mathf.Lerp(BounceFactor.Value, BounceFactor.Value * 2f, bounceFactorNormalMultiplier);
+                float normalBounceFactorMultiplier = BounceFactor.Value;
                 
                 //Reflect velocity perfectly then dampen the y based on dot with normal
                 Vector3 reflectedVelocity = Vector3.Reflect(previousVelocityOutput, GroundingStatus.GroundNormal);

@@ -6,17 +6,18 @@ using UnityEngine;
 
 public class GroundSlam : PlayerStateNode
 {
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private bool AddOverlayed;
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference SlamForce;
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference SlamVelocity;
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference StoredJumpVelocity;
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference BounceThresholdVelocity;
 
     
     public override void Enter()
     {
         base.Enter();
         
-        if (AddOverlayed)
-            playerController.AddImpulse(Vector3.down * SlamForce.Value);
-        else
-            playerController.AddImpulseOverlayed(Vector3.down * SlamForce.Value);
+        
+        //Set Velocity at least enough to bounce
+        StoredJumpVelocity.Value = Mathf.Min(-Mathf.Abs(SlamVelocity.Value), -BounceThresholdVelocity.Value);
+        //playerController.AddImpulse(Vector3.down * SlamForce.Value);
     }
 }

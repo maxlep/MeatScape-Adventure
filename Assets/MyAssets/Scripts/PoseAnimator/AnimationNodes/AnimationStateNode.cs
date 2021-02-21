@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using MyAssets.Runtime.AnimationJobs;
+using MyAssets.Scripts.PoseAnimator.Components;
 using MyAssets.Scripts.PoseAnimator.Types;
 using Sirenix.OdinInspector;
 using Unity.Collections;
@@ -25,18 +26,22 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
         public void SetIsStateOutput(bool value) => isStateOutput = value;
 
         protected SharedAnimationData sharedData;
+        protected Animatable _animatable;
 
         #region Lifecycle methods
         public override void RuntimeInitialize(int startNodeIndex)
         {
             base.RuntimeInitialize(startNodeIndex);
-            
+
+            _animatable = stateMachineGraph.AnimationLayerStartNodes.FirstOrDefault().Animatable;
+            // return;
             sharedData = stateMachineGraph.AnimationLayerStartNodes.FirstOrDefault().SharedData;
         }
 
         public override void Enter()
         {
             base.Enter();
+            // return;
             if (isStateOutput) sharedData.GetAnimationLayer(StartNodeIndex).TransitionToState(this, transitionTime, transitionCurve);
             // Debug.Log($"State: {name} | isStateOutput: {isStateOutput}");
         }

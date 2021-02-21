@@ -1,4 +1,5 @@
 ﻿using System;
+using MyAssets.ScriptableObjects.Variables.ValueReferences;
 using MyAssets.Scripts.PoseAnimator.Components;
 using MyAssets.Scripts.PoseAnimator.Types;
 using Sirenix.OdinInspector;
@@ -26,12 +27,12 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
         public AnimationLayer AnimationLayer;
 
         public SharedAnimationData SharedData => animatable.Value.SharedData;
-        
+        public Animatable Animatable => animatable.Value;
 
         public override void RuntimeInitialize()
         {
             base.RuntimeInitialize();
-
+            // return;
             // Debug.Log($"{animatable} {animatable.Value}");
             AnimationLayer = new AnimationLayer(base.name, SharedData, defaultPose, isAdditive, layerWeight, layerMask);
             AnimationLayer.Initialize();
@@ -48,6 +49,7 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
         public override void OnApplictionExit()
         {
             base.OnApplictionExit();
+            // return;
             AnimationLayer.Dispose();
         }
     }

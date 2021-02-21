@@ -8,6 +8,7 @@ using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
+using Animancer;
 
 #if UNITY_EDITOR
 using AssetUsageDetectorNamespace;
@@ -18,6 +19,9 @@ namespace MyAssets.Scripts.PoseAnimator.Components
     [ExecuteInEditMode]
     public class Animatable : MonoBehaviour
     {
+        [SerializeField] private AnimancerComponent _animancerComponent;
+        public AnimancerComponent Animancer => _animancerComponent;
+        
         [SerializeField] private Animator animator;
         [SerializeField] private StateMachineGraph animationStateMachine;
 
@@ -32,6 +36,7 @@ namespace MyAssets.Scripts.PoseAnimator.Components
 
         private void Awake()
         {
+            // return;
             if (!Application.isPlaying)
             {
                 return;
@@ -92,6 +97,7 @@ namespace MyAssets.Scripts.PoseAnimator.Components
 
         private void OnApplicationQuit()
         {
+            // return;
             sharedData.PlayableGraph.Destroy();
             sharedData.Dispose();
         }

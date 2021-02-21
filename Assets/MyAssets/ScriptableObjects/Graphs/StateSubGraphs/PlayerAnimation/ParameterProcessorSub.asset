@@ -22,8 +22,8 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   nodes:
-  - {fileID: 3068116513090988214}
---- !u!114 &3068116513090988214
+  - {fileID: 5592738946215276755}
+--- !u!114 &5592738946215276755
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -32,8 +32,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83de8c424f4a424296a5081c0a36879c, type: 3}
-  m_Name: Update Player Speed <VectorSqrMagnitude> (ParameterProcessorSub)
+  m_Script: {fileID: 11500000, guid: 4faced10d16d46eb8261dbbc8e0e5e0a, type: 3}
+  m_Name: Player Velocity Monitor <VectorMonitor> (ParameterProcessorSub)
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -43,16 +43,32 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: _framesOfHistory
+      Entry: 7
+      Data: 0|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
+        Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: true
+    - Name: ConstantValue
+      Entry: 4
+      Data: 10
+    - Name: ReferenceValue
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   graph: {fileID: 11400000}
-  position: {x: -264, y: -104}
+  position: {x: -856, y: -248}
   ports:
     keys:
     - previousState
     - transitions
     values:
     - _fieldName: previousState
-      _node: {fileID: 3068116513090988214}
+      _node: {fileID: 5592738946215276755}
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections: []
@@ -61,7 +77,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
     - _fieldName: transitions
-      _node: {fileID: 3068116513090988214}
+      _node: {fileID: 5592738946215276755}
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections: []
@@ -69,17 +85,21 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 1
+  collapsed: 0
   BypassState: 0
-  Name: Update Player Speed
+  Name: Player Velocity Monitor
   isActiveState: 1
   SetOnEnter: 0
   SetOnUpdate: 1
-  Vector:
+  _vector:
     UseConstant: 0
     ConstantValue: {x: 0, y: 0, z: 0}
     Variable: {fileID: 11400000, guid: dd2cd63ae1d9c034096f0b67bb5bcf62, type: 2}
-  MagnitudeOut:
+  _magnitudeOut:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 9aa6ee787af3af643b04360f1aa7bc2d, type: 2}
+  _averageDelta:
+    UseConstant: 0
+    ConstantValue: {x: 0, y: 0, z: 0}
+    Variable: {fileID: 11400000, guid: c10948b397e5e3e4d8134214ba8cd29d, type: 2}

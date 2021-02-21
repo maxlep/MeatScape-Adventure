@@ -19,6 +19,10 @@ public class StateNode : CollapsableNode
     [SerializeField] private bool BypassState = false;
 
     [SerializeField] private string Name;
+    
+    [SerializeField] [TextArea(3, 3)] [PropertySpace(0f, 10f)] 
+    [FoldoutGroup("Description", false)] [HideLabel]
+    private string Description;
 
     protected const int LABEL_WIDTH = 175;
         

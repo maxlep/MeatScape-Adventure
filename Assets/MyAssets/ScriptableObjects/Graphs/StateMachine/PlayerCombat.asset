@@ -52,10 +52,9 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Attack Post Combo Timer_ Combat_ Player: 1 sec
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -125,9 +124,9 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   BypassState: 0
   Name: Forward Throw 1
-  zoom: 1
   isActiveState: 0
   MeatClumpPrefab: {fileID: 2487677105210045783, guid: f257932619900ee48a82e1b4e73d5325,
     type: 3}
@@ -263,9 +262,9 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   BypassState: 0
   Name: Forward Throw 3
-  zoom: 1
   isActiveState: 0
   MeatClumpPrefab: {fileID: 2487677105210045783, guid: f257932619900ee48a82e1b4e73d5325,
     type: 3}
@@ -348,9 +347,9 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   BypassState: 0
   Name: Downward Throw
-  zoom: 1
   isActiveState: 0
   MeatClumpPrefab: {fileID: 2487677105210045783, guid: f257932619900ee48a82e1b4e73d5325,
     type: 3}
@@ -499,10 +498,9 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Attack Combo Timer_ Combat_ Player: 0.5 sec
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -568,6 +566,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   transitionPriority: 0
   conditionPreview: '-  Valid:  Ground Movement
 
@@ -575,8 +574,6 @@ MonoBehaviour:
 
     - 
     Valid:  No Low Jump
-
-    -  Attack Trigger_ Controller_ Player
 
 '
   ValidStartStates:
@@ -645,6 +642,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   transitionPriority: 0
   conditionPreview: '-  Valid:  Ground Movement
 
@@ -652,8 +650,6 @@ MonoBehaviour:
 
     - 
     Valid:  No Low Jump
-
-    -  Attack Trigger_ Controller_ Player
 
 '
   ValidStartStates:
@@ -726,9 +722,9 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   BypassState: 0
   Name: Forward Throw 2
-  zoom: 1
   isActiveState: 0
   MeatClumpPrefab: {fileID: 2487677105210045783, guid: f257932619900ee48a82e1b4e73d5325,
     type: 3}
@@ -939,6 +935,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   transitionPriority: 0
   conditionPreview: '-  Valid:  Ground Movement
 
@@ -947,13 +944,17 @@ MonoBehaviour:
     - 
     Valid:  No Low Jump
 
-    -  Attack Trigger_ Controller_ Player
+    -  Valid:  Roll  Movement
+
+    -  Valid:  Slingshot
 
 '
   ValidStartStates:
   - {fileID: 1196608421412681666, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   - {fileID: -8209884016339463683, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   - {fileID: 8382683336472367375, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  - {fileID: 4966931143862885706, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  - {fileID: -2916305283311469656, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   InvalidStartStates: []
   BoolConditions: []
   TriggerConditions:
@@ -1016,10 +1017,9 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Attack Combo Timer_ Combat_ Player: 0.5 sec
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -1157,24 +1157,16 @@ MonoBehaviour:
       _node: {fileID: 7323983362953568521}
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: 9174840935225501389}
-        reroutePoints: []
+      connections: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   transitionPriority: 0
   conditionPreview: '-  Valid:  Air Movement
 
     -  Valid:  No Low Jump
-
-    - 
-    Waited Attack Delay_ Combat_ Player
-
-    -  Downward Attack Trigger_ Controller_
-    Player
 
 '
   ValidStartStates:
@@ -1279,9 +1271,6 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: startingState
-        node: {fileID: 7323983362953568521}
-        reroutePoints: []
-      - fieldName: startingState
         node: {fileID: 5736769057387298889}
         reroutePoints: []
       _direction: 1
@@ -1300,7 +1289,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
+  collapsed: 1
   BypassState: 0
   Name: DoNothing
-  zoom: 1
   isActiveState: 1

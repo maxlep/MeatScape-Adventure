@@ -397,16 +397,18 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             Quaternion newRotation;
             Vector3 lookDirection = playerController.transform.forward;
             Vector3 velocityDirection = dirOnSlopeGizmo;
+            
+            GroundingInfo groundInfo = playerController.GroundInfo;
 
-            RaycastHit groundHit;
-            bool foundGroundBelow = playerController.CastColliderDown(out groundHit, 30f);
-
-            if (!playerController.GroundingStatus.FoundAnyGround && foundGroundBelow)
+            //If found ground below and its close enough, orient collider to normal
+            if (!playerController.GroundingStatus.FoundAnyGround && 
+                groundInfo.foundGround &&
+                groundInfo.distance < 50f)
             {
                 //This rotation will keep the collider up along round normal
-                Vector3 groundNormal = groundHit.normal;
+                Vector3 groundNormal = groundInfo.normal;
                 Vector3.OrthoNormalize(ref groundNormal, ref velocityDirection);
-                newRotation = Quaternion.LookRotation(velocityDirection, groundHit.normal);
+                newRotation = Quaternion.LookRotation(velocityDirection, groundInfo.normal);
                 
             }
             else

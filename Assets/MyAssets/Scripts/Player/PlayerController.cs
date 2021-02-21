@@ -24,6 +24,13 @@ public struct VelocityInfo
     public Vector3 impulseVelocityRedirectble;
 }
 
+public struct GroundingInfo
+{
+    public bool foundGround;
+    public float distance;
+    public Vector3 normal;
+}
+
 public class PlayerController : SerializedMonoBehaviour, ICharacterController
 {
     [SerializeField] private KinematicCharacterMotor charMotor;
@@ -38,12 +45,13 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private QuaternionReference NewRotation;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference StoredJumpVelocity;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference MinSlopeSlideAngle;
-    [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference MaxStableDenivelationAngle; 
+    [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference MaxStableDenivelationAngle;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector2Reference MoveInput;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector3Reference BaseVelocity;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference JumpPressed;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference RollPressed;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector3Reference PreviousVelocity;
+    [FoldoutGroup("Referenced Outputs")] [SerializeField] private FloatReference DistanceToGround;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference IsGrounded;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference IsOnSlidebleSlope;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable AttackTrigger;
@@ -79,11 +87,15 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     private Vector3 moveDirection;
     private InputAction playerMove;
+    private GroundingInfo groundInfo;
 
     public Transform AimTarget => aimTargeter.CurrentTarget;
     public KinematicCharacterMotor CharacterMotor => charMotor;
     public CharacterGroundingReport GroundingStatus => charMotor.GroundingStatus;
     public CharacterTransientGroundingReport LastGroundingStatus => charMotor.LastGroundingStatus;
+
+    public GroundingInfo GroundInfo => groundInfo;
+    
     private List<Interactable> interactablesInRange = new List<Interactable>();
 
     private Vector3 impulseVelocity;
@@ -342,6 +354,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         IsGrounded.Value = charMotor.GroundingStatus.FoundAnyGround;
         IsOnSlidebleSlope.Value = StandingOnSlideableSlope();
         BaseVelocity.Value = charMotor.BaseVelocity;
+        groundInfo = GetGroundInfo();
+        DistanceToGround.Value = groundInfo.distance;
     }
 
     public bool StandingOnSlideableSlope()
@@ -425,7 +439,29 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         }
     }
 
-    public bool CastColliderDown(out RaycastHit hit, float dist)
+    //Cast downward from collider to get info about ground below
+    private GroundingInfo GetGroundInfo()
+    {
+        GroundingInfo info = new GroundingInfo();
+        RaycastHit hit;
+        bool foundGroundBelow = CastColliderDown(out hit, Mathf.Infinity);
+        if (foundGroundBelow)
+        {
+            info.foundGround = true;
+            info.normal = hit.normal;
+            info.distance = hit.distance;
+        }
+        else
+        {
+            info.foundGround = false;
+            info.normal = Vector3.zero;
+            info.distance = Mathf.Infinity;
+        }
+
+        return info;
+    }
+
+    private bool CastColliderDown(out RaycastHit hit, float dist)
     {
         if (Physics.SphereCast(collider.bounds.center, collider.bounds.size.z, Vector3.down, out hit, dist, groundMask))
         {

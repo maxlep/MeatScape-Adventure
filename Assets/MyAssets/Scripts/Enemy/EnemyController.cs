@@ -45,9 +45,9 @@ public class EnemyController : MonoBehaviour
         behaviorTree.EnableBehavior();
         
         //Check for patrol point helper
-        patrolPointHelper = GetComponent<PatrolPointHelper>();
-        if (patrolPointHelper != null)
-            behaviorTree.SetVariableValue("CurrentPath", patrolPointHelper.PatrolPoints);
+        // patrolPointHelper = GetComponent<PatrolPointHelper>();
+        // if (patrolPointHelper != null)
+            // behaviorTree.SetVariableValue("CurrentPath", patrolPointHelper.PatrolPoints);
 
     }
 

@@ -33,10 +33,10 @@ public class EnemySpawner : MonoBehaviour
     
     private void Awake()
     {
-        SpawnEnemy();
-
         if (patrolPointHelper == null)
             patrolPointHelper = GetComponent<PatrolPointHelper>();
+
+        SpawnEnemy();
     }
 
     private void SpawnEnemy() {

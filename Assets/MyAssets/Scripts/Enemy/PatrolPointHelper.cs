@@ -1,7 +1,5 @@
-using System;
-using System.Collections;
+using Sirenix.Utilities;
 using System.Collections.Generic;
-using BehaviorDesigner.Runtime.Tasks;
 using MyAssets.Scripts.Utils;
 using Shapes;
 using Sirenix.OdinInspector;
@@ -17,11 +15,17 @@ public class PatrolPointHelper : MonoBehaviour
     [SerializeField] [PropertySpace(5f, 5f)]
     private GameObject patrolPointPrefab;
     
-    [SerializeField] [UnityEngine.Tooltip("Patrol points will share parent with this object")]
+    [SerializeField] [UnityEngine.Tooltip("Patrol points will share parent with this object or the object this script is on if left blank")]
     private Transform patrolPointSiblingTransform;
 
     [SerializeField] 
     private bool createPointsAtRuntime;
+
+    [SerializeField] [ShowIf("$createPointsAtRuntime")]
+    private bool useOtherCenterPoint;
+    
+    [SerializeField] [ShowIf("$createPointsAtRuntime")] [ShowIf("$useOtherCenterPoint")] 
+    private Transform otherCenterPoint;
     
     [SerializeField] [ShowIf("$createPointsAtRuntime")] 
     private int patrolPointCount = 6;
@@ -77,11 +81,12 @@ public class PatrolPointHelper : MonoBehaviour
     {
         patrolPoints.Clear();
         Vector3 verticalOffset = 1000f * Vector3.up;
+        Vector3 centerPoint = useOtherCenterPoint ? otherCenterPoint.position : transform.position;
         
         for (int i = 0; i < patrolPointCount; i++)
         {
             Vector2 randomOffset = Random.insideUnitCircle * patrolRadius;
-            Vector3 raycastOrigin = transform.position + randomOffset.xoy() + verticalOffset;
+            Vector3 raycastOrigin = centerPoint + randomOffset.xoy() + verticalOffset;
             AddPatrolPoint(RaycastGround(raycastOrigin));
         }
     }
@@ -114,8 +119,9 @@ public class PatrolPointHelper : MonoBehaviour
     
     private void AddPatrolPoint(Vector3 newPointPosition)
     {
+        var patrolPointParent = patrolPointSiblingTransform.SafeIsUnityNull() ? transform : patrolPointSiblingTransform?.parent;
         var newPoint = GameObject.Instantiate(patrolPointPrefab, newPointPosition, 
-            Quaternion.identity, patrolPointSiblingTransform.parent);
+            Quaternion.identity, patrolPointParent);
 
         newPoint.tag = patrolPointTag;
         newPoint.name = $"{patrolPointPrefix}{patrolPoints.Count + 1}";

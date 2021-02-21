@@ -16,6 +16,7 @@ public class MeatClumpController : MonoBehaviour
     private GameObject AbsorbSystem;
     
     [SerializeField] private LayerMapper layerMapper;
+    [SerializeField] private FloatReference ClumpScalingFactor;
     [SerializeField] private FloatReference ClumpFalloffDistance;
     [SerializeField] private FloatReference ClumpFalloffSpeed;
     [SerializeField] private FloatReference ClumpFalloffDistanceFactor;
@@ -30,6 +31,10 @@ public class MeatClumpController : MonoBehaviour
     private Vector3 startMovementPoint;
     
     #region Lifecycle
+    private void Awake() {
+        transform.localScale *= ClumpScalingFactor.Value;
+    }
+
     private void FixedUpdate()
     {
         float deltaDistance = this.speed * Time.deltaTime;

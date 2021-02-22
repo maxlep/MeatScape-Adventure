@@ -17,6 +17,7 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
 {
     public class LocomotionNode : AnimationStateNode
     {
+        [TabGroup("Base","Animation"),SerializeField] private AvatarMask _locomotionMask;
         [TabGroup("Base","Animation"),SerializeField] private MixerState.Transition2D _move;
         [TabGroup("Base","Animation"), SerializeField] private float _leanFactor;
         
@@ -36,6 +37,7 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
         
         [TitleGroup("Base/Inputs/Bob"),SerializeField] private Vector3Reference _bobAxis;
         [TitleGroup("Base/Inputs/Bob"),SerializeField] private FloatValueReference _bobAmplitude;
+        [TitleGroup("Base/Inputs/Bob"), SerializeField] private FloatValueReference _bobCompressionPercent;
         [TitleGroup("Base/Inputs/Bob"),SerializeField] private TransformSceneReference[] _bobBones;
         
         [TabGroup("Base","Debug"),ShowInInspector] private float _walkCycleLength;
@@ -47,6 +49,9 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
         private SpecificLean _leanSide;
         private TranslateRoot _bob;
         
+        private const int BaseLayer = 0;
+        private const int ActionLayer = 1;
+        
         public override void Enter()
         {
             base.Enter();
@@ -56,6 +61,7 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
             _walkCyclePercent = 0;
             _walkSpeedFactor = 0;
             
+            _animatable.Animancer.Layers[ActionLayer].SetMask(_locomotionMask);
             _animatable.Animancer.States.GetOrCreate(_move);
             _animatable.Animancer.Play(_move, 0.5f, FadeMode.FixedDuration);
 
@@ -132,7 +138,7 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
                 
                 var stridePercent = (_walkCyclePercent * 2f) % 1;
                 var bobPercent = DilaterShapingFunction(stridePercent, 3);
-                bobPercent = bobPercent * 1.5f - .5f;
+                bobPercent = bobPercent * (1 + _bobCompressionPercent.Value) - _bobCompressionPercent.Value;
                 _bob.Distance = Mathf.Clamp(bobPercent * _bobAmplitude.Value / _walkSpeedFactor, -_bobAmplitude.Value, _bobAmplitude.Value);
             }
             else

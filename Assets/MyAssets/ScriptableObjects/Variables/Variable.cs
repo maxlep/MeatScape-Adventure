@@ -171,11 +171,12 @@ namespace MyAssets.ScriptableObjects.Variables
         private float minValue = float.MaxValue;
 
         public CurveReference() : base() {
-            if (Variable != null) {
+            if (Variable != null || UseConstant) {
                 var curve = UseConstant ? ConstantValue : Variable.Value;
-                foreach(var key in curve.keys) {
-                    if(key.value < minValue) minValue = key.value;
-                    if(key.value > maxValue) maxValue = key.value;
+                foreach (var key in curve.keys)
+                {
+                    if (key.value < minValue) minValue = key.value;
+                    if (key.value > maxValue) maxValue = key.value;
                 }
             }
         }
@@ -186,6 +187,13 @@ namespace MyAssets.ScriptableObjects.Variables
 
         public float GetMinValue() {
             return minValue;
+        }
+        
+        public float EvaluateFactor(float time)
+        {
+            var value = Value.Evaluate(time);
+            var factor = (value - minValue) / (maxValue - minValue);
+            return factor;
         }
     }
 }

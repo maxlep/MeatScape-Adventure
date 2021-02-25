@@ -40,6 +40,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [SerializeField] private AimTargeter aimTargeter;
     [SerializeField] private Collider collider;
     public bool invincible;
+    [SerializeField] private bool ignoreInput;
+    [ShowIf("ignoreInput"), SerializeField] private Vector2Reference fakeMoveInput;
 
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private Vector3Reference NewVelocity;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private QuaternionReference NewRotation;
@@ -131,6 +133,9 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     void Awake()
     {
         this.enabled = true;
+        #if UNITY_EDITOR
+                if (ignoreInput) return;
+        #endif
         playerMove = InputManager.Instance.GetPlayerMove_Action();
         InputManager.Instance.onJump_Pressed += () => JumpPressed.Value = true;
         InputManager.Instance.onJump_Released += () => JumpPressed.Value = false;
@@ -330,7 +335,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     }
     #endregion
     
-#region Frenzy
+    #region Frenzy
     private void UpdateFrenzy()
     {
         FrenzyDecayTimer?.UpdateTime();
@@ -347,7 +352,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         FrenzyDecayTimer.RestartTimer();
         FrenzyOut.Value += 1;
     }
-#endregion
+    #endregion
 
     private void UpdateParameters()
     {
@@ -373,6 +378,13 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     private void GetInput()
     {
+        #if UNITY_EDITOR
+        if (ignoreInput)
+        {
+            MoveInput.Value = fakeMoveInput.Value;
+            return;
+        }
+        #endif
         MoveInput.Value = playerMove.ReadValue<Vector2>();
     }
 

@@ -19,10 +19,13 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
     {
         [TabGroup("Base","Animation"),SerializeField] private AvatarMask _locomotionMask;
         [TabGroup("Base","Animation"),SerializeField] private MixerState.Transition2D _move;
-        [TabGroup("Base","Animation"), SerializeField] private float _leanFactor;
+        [TabGroup("Base","Animation"),SerializeField] private float _leanFactor;
         
         [TabGroup("Base", "Inputs")]
         
+        [TitleGroup("Base/Inputs/Locomotion"),SerializeField] private FloatValueReference _bakedStrideLength;
+        [TitleGroup("Base/Inputs/Locomotion"), SerializeField] private FloatValueReference _targetStrideLength;
+
         [TitleGroup("Base/Inputs/Locomotion"),SerializeField] private FloatValueReference _strideLength;
         [TitleGroup("Base/Inputs/Locomotion"),SerializeField] private Vector3Reference _velocity;
         [TitleGroup("Base/Inputs/Locomotion"),SerializeField] private FloatValueReference _maxSpeed;
@@ -39,6 +42,7 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
         [TitleGroup("Base/Inputs/Bob"),SerializeField] private FloatValueReference _bobAmplitude;
         [TitleGroup("Base/Inputs/Bob"), SerializeField] private FloatValueReference _bobCompressionPercent;
         [TitleGroup("Base/Inputs/Bob"),SerializeField] private TransformSceneReference[] _bobBones;
+
         
         [TabGroup("Base","Debug"),ShowInInspector] private float _walkCycleLength;
         [TabGroup("Base","Debug"),ShowInInspector] private float _distanceValue;
@@ -56,10 +60,16 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
         {
             base.Enter();
             
-            _walkCycleLength = 2 * _strideLength.Value;
+            // _walkCycleLength = 2 * _strideLength.Value;
             _distanceValue = 0;
             _walkCyclePercent = 0;
             _walkSpeedFactor = 0;
+            
+            _walkCycleLength = 2 * _targetStrideLength.Value;
+            _targetStrideLength.Subscribe(() =>
+            {
+                _walkCycleLength = 2 * _targetStrideLength.Value;
+            });
             
             _animatable.Animancer.Layers[ActionLayer].SetMask(_locomotionMask);
             _animatable.Animancer.States.GetOrCreate(_move);
@@ -123,6 +133,8 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
                 _distanceValue = (_distanceValue + speed * Time.deltaTime) % _walkCycleLength;
                 _walkCyclePercent = _distanceValue / _walkCycleLength;
                 _walkSpeedFactor = speed / _maxSpeed.Value;
+
+                var dilationFactor = _bakedStrideLength.Value / _targetStrideLength.Value;
                 
                 _move.State.Parameter = new Vector2(0, _walkSpeedFactor);
                 _move.State.Speed = 1;

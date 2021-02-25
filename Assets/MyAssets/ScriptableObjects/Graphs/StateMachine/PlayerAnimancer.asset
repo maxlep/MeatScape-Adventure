@@ -2490,6 +2490,8 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
+    - {fileID: 11400000, guid: ce2d394b8df294745b291801fb83eb8c, type: 2}
+    - {fileID: 11400000, guid: dd6508d6670fbdc4d9c2f7ed84a92ee0, type: 2}
     - {fileID: 11400000, guid: 2afb2bcce9701f6458fc72c141bb46e6, type: 2}
     - {fileID: 11400000, guid: f6877814e5cfdd740a764565ec954c17, type: 2}
     - {fileID: 11400000, guid: 272b2d53163bee04c82606f3bb6c1d08, type: 2}
@@ -2498,7 +2500,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: _strideLength
+    - Name: _bakedStrideLength
       Entry: 7
       Data: 0|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
         Assembly-CSharp
@@ -2514,7 +2516,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: _maxSpeed
+    - Name: _targetStrideLength
       Entry: 7
       Data: 1|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
         Assembly-CSharp
@@ -2530,9 +2532,41 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: _leanForwardAngle
+    - Name: _strideLength
       Entry: 7
       Data: 2|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
+        Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: false
+    - Name: ConstantValue
+      Entry: 4
+      Data: 0
+    - Name: ReferenceValue
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _maxSpeed
+      Entry: 7
+      Data: 3|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
+        Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: false
+    - Name: ConstantValue
+      Entry: 4
+      Data: 0
+    - Name: ReferenceValue
+      Entry: 10
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _leanForwardAngle
+      Entry: 7
+      Data: 4|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
         Assembly-CSharp
     - Name: UseConstant
       Entry: 5
@@ -2548,7 +2582,7 @@ MonoBehaviour:
       Data: 
     - Name: _leanSideAngle
       Entry: 7
-      Data: 3|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
+      Data: 5|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
         Assembly-CSharp
     - Name: UseConstant
       Entry: 5
@@ -2564,7 +2598,7 @@ MonoBehaviour:
       Data: 
     - Name: _bobAmplitude
       Entry: 7
-      Data: 4|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
+      Data: 6|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
         Assembly-CSharp
     - Name: UseConstant
       Entry: 5
@@ -2574,13 +2608,13 @@ MonoBehaviour:
       Data: 0
     - Name: ReferenceValue
       Entry: 10
-      Data: 2
+      Data: 4
     - Name: 
       Entry: 8
       Data: 
     - Name: _bobCompressionPercent
       Entry: 7
-      Data: 5|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
+      Data: 7|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
         Assembly-CSharp
     - Name: UseConstant
       Entry: 5

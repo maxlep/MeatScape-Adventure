@@ -15,20 +15,24 @@ namespace MyAssets.ScriptableObjects.Variables
         [HideInInlineEditors]
         public string Description;
         
+        [SerializeField] private bool _evaluateAsPercent = false;
         [SerializeField] private CurveReference _curve;
         [SerializeField] private FloatValueReference _x;
-        
-        #endregion
-        
-        public float Value
+
+        [ShowInInspector] private float _value;
+
+#endregion
+
+        public float Value => _value;
+
+        private void Recalculate()
         {
-            get
-            {
-                return _curve.Value.Evaluate(_x.Value);
-            }
+            _value = _evaluateAsPercent
+                ? _curve.EvaluateFactor(_x.Value)
+                : _curve.Value.Evaluate(_x.Value);
         }
-        
-        #region Interface
+
+#region Interface
         public string GetName() => name;
         public string GetDescription() => Description;
         public float GetValue(Type type) => Value;
@@ -46,6 +50,17 @@ namespace MyAssets.ScriptableObjects.Variables
             _x.Unsubscribe(callback);
         }
         
+        #endregion
+        
+        #region Lifecycle
+
+        private void OnEnable()
+        {
+            Recalculate();
+            _curve.Subscribe(Recalculate);
+            _x.Subscribe(Recalculate);
+        }
+
         #endregion
     }
 }

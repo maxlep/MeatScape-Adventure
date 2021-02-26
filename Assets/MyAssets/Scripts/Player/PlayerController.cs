@@ -192,9 +192,14 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
             impulseVelocityRedirectble = impulseVelocityRedirectable
         };
         
-        if (onStartUpdateVelocity != null) onStartUpdateVelocity.Invoke(velocityInfo);
+        //Only use NewVelocity if there was subscriber that handled the update
+        //Otherwise, will risk using stale value from last subscriber update!
+        if (onStartUpdateVelocity != null)
+        {
+            onStartUpdateVelocity.Invoke(velocityInfo);
+            currentVelocity = NewVelocity.Value;
+        }
         
-        currentVelocity = NewVelocity.Value;
         currentVelocity += impulseVelocityOverlayed;
 
         if (!Mathf.Approximately(StoredJumpVelocity.Value, 0f))

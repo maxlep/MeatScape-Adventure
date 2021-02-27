@@ -370,18 +370,12 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         DistanceToGround.Value = groundInfo.distance;
 
         if (!LastGroundingStatus.FoundAnyGround && GroundingStatus.FoundAnyGround)
-        {
             BecameGrounded.Activate();
-            Debug.Log($"{Time.time} | UpdateParameters | BecameGrounded");
-        }
-            
-        else if (LastGroundingStatus.FoundAnyGround && !GroundingStatus.FoundAnyGround)
-        {
-            BecameUngrounded.Activate();
-            Debug.Log($"{Time.time} | UpdateParameters | BecameUngrounded");
-        }
 
-        Debug.Log($"{Time.time} | UpdateParameters | Previous: {LastGroundingStatus.FoundAnyGround} | Current: {GroundingStatus.FoundAnyGround}");
+        else if (LastGroundingStatus.FoundAnyGround && !GroundingStatus.FoundAnyGround)
+            BecameUngrounded.Activate();
+        
+
     }
 
     public bool StandingOnSlideableSlope()
@@ -415,10 +409,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         
         //If on ground and calling unground, activate became ungrounded trigger
         if (GroundingStatus.FoundAnyGround || LastGroundingStatus.FoundAnyGround)
-        {
             BecameUngrounded.Activate();
-            Debug.Log($"BecameUngrounded | Previous: {LastGroundingStatus.FoundAnyGround} | Current: {GroundingStatus.FoundAnyGround}");
-        }
+        
             
     }
     

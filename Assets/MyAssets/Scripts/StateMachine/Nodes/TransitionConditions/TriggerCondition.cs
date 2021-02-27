@@ -28,11 +28,13 @@ public class TriggerCondition : ITransitionCondition
     }
 
     //Check if the trigger variable that was activated matches the one for this condition
-    public bool Evaluate(TriggerVariable receivedTrigger)
+    public bool Evaluate(List<TriggerVariable> receivedTriggers)
     {
         if (stayingActive) return true;
 
-        bool triggerMatches = targetParameter.Equals(receivedTrigger);
+        bool triggerMatches = (receivedTriggers != null) ?
+            receivedTriggers.Contains(targetParameter) :
+            false;
         if (triggerMatches && KeepTriggerOn)
             stayingActive = true;
         

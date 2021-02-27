@@ -207,7 +207,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             {
                 playerController.UngroundMotor();
                 BounceGameEvent.Raise();
-
+                
                 //Negative dot of velocity and ground normal
                 //Negative to get in range of 0 -> 1 where 1 means directly into ground
                 float bounceFactorNormalMultiplier = -velocityGroundDot;

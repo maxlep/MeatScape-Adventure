@@ -263,7 +263,7 @@ public class StateNode : CollapsableNode
     
     #endregion
 
-    public virtual StateNode CheckStateTransitions(TriggerVariable receivedTrigger = null)
+    public virtual StateNode CheckStateTransitions(List<TriggerVariable> receivedTriggers = null)
     {
         //Check for direct connection to state that bypasses transitions
         if (nextNoTransitionState != null) return nextNoTransitionState;
@@ -271,7 +271,7 @@ public class StateNode : CollapsableNode
         //Check global transitions
         foreach (var transition in stateMachineGraph.globalTransitions)
         {
-            if (transition.EvaluateConditions(receivedTrigger))
+            if (transition.EvaluateConditions(receivedTriggers))
             {
                 return transition.GetNextState();
             }
@@ -280,7 +280,7 @@ public class StateNode : CollapsableNode
         //Check connected and ref node transitions
         foreach (var transition in nextTransitionNodes)
         {
-            if (transition.EvaluateConditions(receivedTrigger))
+            if (transition.EvaluateConditions(receivedTriggers))
             {
                 return transition.GetNextState();
             }

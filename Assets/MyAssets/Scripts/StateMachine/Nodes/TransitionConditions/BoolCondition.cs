@@ -19,7 +19,7 @@ public class BoolCondition : ITransitionCondition
         parentTransitionName = transitionName;
     }
 
-    public bool Evaluate(TriggerVariable receivedTrigger)
+    public bool Evaluate(List<TriggerVariable> receivedTriggers)
     {
 
         return targetParameter.Value == value;

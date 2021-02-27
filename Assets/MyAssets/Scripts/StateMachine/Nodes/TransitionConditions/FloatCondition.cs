@@ -28,7 +28,7 @@ public class FloatCondition : ITransitionCondition
         parentTransitionName = transitionName;
     }
 
-    public bool Evaluate(TriggerVariable receivedTrigger)
+    public bool Evaluate(List<TriggerVariable> receivedTriggers)
     {
         float paramValue = targetParameter.Value;
 

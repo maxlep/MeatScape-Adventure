@@ -222,7 +222,7 @@ public class TransitionNode : CollapsableNode
 
     //Return true if all conditions are met
     //Optional trigger can be sent
-    public bool EvaluateConditions(TriggerVariable receivedTrigger = null)
+    public bool EvaluateConditions(List<TriggerVariable> receivedTriggers = null)
     {
         bool result = true;
 
@@ -255,7 +255,7 @@ public class TransitionNode : CollapsableNode
         {
             foreach (var condition in allConditions)
             {
-                result &= condition.Evaluate(receivedTrigger);
+                result &= condition.Evaluate(receivedTriggers);
                 if (!result) return false;
             }
         }

@@ -32,7 +32,7 @@ public class StateMachineGraph : NodeGraph
     private List<StartNode> startNodes = new List<StartNode>();
     private HashSet<TriggerVariable> triggersFromTransitions = new HashSet<TriggerVariable>();
     private List<(StateNode fromState, StateNode toState)> validTransitions = new List<(StateNode fromState, StateNode toState)>();
-    private TriggerVariable receivedTrigger;
+    private List<TriggerVariable> receivedTriggers = new List<TriggerVariable>();
     private bool debugOnStateChange = false;
 
     public delegate void OnChangeState(StateNode exitingState, StateNode enteringState);
@@ -167,7 +167,8 @@ public class StateMachineGraph : NodeGraph
 
         foreach (var triggerVar in triggersFromTransitions)
         {
-            triggerVar.OnUpdate += () => receivedTrigger = triggerVar;
+            triggerVar.OnUpdate += () => receivedTriggers.Add(triggerVar);
+            ;
         }
     }
     
@@ -269,7 +270,7 @@ public class StateMachineGraph : NodeGraph
         //Store valid state changes
         for (int i = 0; i < currentStates.Count; i++)
         {
-            StateNode nextState = currentStates[i].CheckStateTransitions(receivedTrigger);
+            StateNode nextState = currentStates[i].CheckStateTransitions(receivedTriggers);
             if (nextState != null) validTransitions.Add((currentStates[i], nextState));
         }
     }
@@ -284,7 +285,7 @@ public class StateMachineGraph : NodeGraph
         validTransitions.Clear();
         
         //Reset Cached trigger
-        receivedTrigger = null;
+        receivedTriggers.Clear();
     }
     
     private void ChangeState(StateNode exitingState, StateNode nextState)

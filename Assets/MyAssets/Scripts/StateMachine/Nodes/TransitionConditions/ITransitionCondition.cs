@@ -6,5 +6,5 @@ using UnityEngine;
 public interface ITransitionCondition
 {
     void Init(string transitionName);
-    bool Evaluate(TriggerVariable receivedTrigger);
+    bool Evaluate(List<TriggerVariable> receivedTriggers);
 }

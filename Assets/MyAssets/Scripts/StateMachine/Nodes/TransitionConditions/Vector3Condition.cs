@@ -38,7 +38,7 @@ public class Vector3Condition : ITransitionCondition
         parentTransitionName = transitionName;
     }
 
-    public bool Evaluate(TriggerVariable receivedTrigger)
+    public bool Evaluate(List<TriggerVariable> receivedTriggers)
     {
         bool xIs = Compare(xCompare, targetParameter.Value.x);
         bool yIs = Compare(yCompare, targetParameter.Value.y);

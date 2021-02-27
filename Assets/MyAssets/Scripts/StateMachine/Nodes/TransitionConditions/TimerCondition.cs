@@ -18,7 +18,7 @@ public class TimerCondition : ITransitionCondition
         parentTransitionName = transitionName;
     }
 
-    public bool Evaluate(TriggerVariable receivedTrigger)
+    public bool Evaluate(List<TriggerVariable> receivedTriggers)
     {
         UpdateTime();
         

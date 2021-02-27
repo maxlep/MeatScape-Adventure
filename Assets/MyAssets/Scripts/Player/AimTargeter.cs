@@ -1,4 +1,5 @@
 ﻿using Sirenix.Utilities;
+using MyAssets.ScriptableObjects.Variables;
 using UnityEngine;
 
 namespace MyAssets.Scripts.Player
@@ -13,6 +14,7 @@ namespace MyAssets.Scripts.Player
         [SerializeField] private LayerMask obstructionLayerMask;
         [SerializeField] private float maxRange;
         [SerializeField] private int colliderLimit = 64;
+        [SerializeField] private IntVariable enemyHitId;
         
         public Transform CurrentTarget => currentTarget?.transform;
         
@@ -50,6 +52,10 @@ namespace MyAssets.Scripts.Player
             for (int i = 0; i < numColliders; i++)
             {
                 var current = targetableColliders[i];
+                if(current.gameObject.GetInstanceID() == enemyHitId.Value) {
+                    currentTarget = current;
+                    break;
+                }
                 float weight = GetTargetWeight(current);
                 
                 if (weight > currentWeight)
@@ -170,5 +176,10 @@ namespace MyAssets.Scripts.Player
             return center;
         }
         #endregion
+
+        private void OnDrawGizmos() {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, maxRange);
+        }
     }
 }

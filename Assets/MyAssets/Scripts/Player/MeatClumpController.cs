@@ -23,6 +23,7 @@ public class MeatClumpController : MonoBehaviour
     [SerializeField] private FloatReference CollisionRadius;
     [SerializeField] private LayerMask CollisionMask;
     [SerializeField] private UnityEvent OnCollideWithStatic;
+    [SerializeField] private IntVariable enemyHitId;
 
     private float speed;
     private bool hasCollided = false;
@@ -64,6 +65,7 @@ public class MeatClumpController : MonoBehaviour
                     EnemyController enemyScript = hitObj.GetComponent<EnemyController>();
                     Vector3 knockBackDir = (enemyScript.transform.position - transform.position).normalized;
                     enemyScript.DamageEnemy(1, knockBackDir);
+                    enemyHitId.Value = enemyScript.gameObject.GetInstanceID();
                     Destroy(this.gameObject);
                     return;
                 }

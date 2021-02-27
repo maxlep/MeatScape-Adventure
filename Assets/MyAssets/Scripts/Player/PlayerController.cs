@@ -63,6 +63,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable RollReleaseTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable JumpAttackTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable AddImpulseTrigger;
+    [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable BecameGrounded;
+    [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable BecameUngrounded;
 
     [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference ClumpThrowKnockbackSpeed;
     [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference EnemyKnockbackSpeed;
@@ -366,6 +368,20 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         BaseVelocity.Value = charMotor.BaseVelocity;
         groundInfo = GetGroundInfo();
         DistanceToGround.Value = groundInfo.distance;
+
+        if (!LastGroundingStatus.FoundAnyGround && GroundingStatus.FoundAnyGround)
+        {
+            BecameGrounded.Activate();
+            Debug.Log($"{Time.time} | UpdateParameters | BecameGrounded");
+        }
+            
+        else if (LastGroundingStatus.FoundAnyGround && !GroundingStatus.FoundAnyGround)
+        {
+            BecameUngrounded.Activate();
+            Debug.Log($"{Time.time} | UpdateParameters | BecameUngrounded");
+        }
+
+        Debug.Log($"{Time.time} | UpdateParameters | Previous: {LastGroundingStatus.FoundAnyGround} | Current: {GroundingStatus.FoundAnyGround}");
     }
 
     public bool StandingOnSlideableSlope()
@@ -395,8 +411,15 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     public void UngroundMotor()
     {
-        IsGrounded.Value = false;
-        charMotor.ForceUnground(0.2f);
+        charMotor.ForceUnground();
+        
+        //If on ground and calling unground, activate became ungrounded trigger
+        if (GroundingStatus.FoundAnyGround || LastGroundingStatus.FoundAnyGround)
+        {
+            BecameUngrounded.Activate();
+            Debug.Log($"BecameUngrounded | Previous: {LastGroundingStatus.FoundAnyGround} | Current: {GroundingStatus.FoundAnyGround}");
+        }
+            
     }
     
     public Vector3 GetPlatformVelocity()

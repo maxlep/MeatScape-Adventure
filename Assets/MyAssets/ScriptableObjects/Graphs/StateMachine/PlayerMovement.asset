@@ -1304,6 +1304,77 @@ MonoBehaviour:
   TimerConditions: []
   Vector2Conditions: []
   Vector3Conditions: []
+--- !u!114 &-3587464245139835064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: Ground Slam Fall -> Roll Movement
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: -3320, y: -1784}
+  ports:
+    keys:
+    - startingState
+    - nextState
+    values:
+    - _fieldName: startingState
+      _node: {fileID: -3587464245139835064}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: -879615659895784873}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: nextState
+      _node: {fileID: -3587464245139835064}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: -2572909702905097865}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+  collapsed: 1
+  transitionPriority: 0
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+'
+  ValidStartStates: []
+  InvalidStartStates: []
+  BoolConditions:
+  - targetParameter:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: 7515e678ba0d82a4b92ee5e8bc9cee52, type: 2}
+    value: 1
+  TriggerConditions: []
+  FloatConditions: []
+  IntConditions: []
+  TimerConditions: []
+  Vector2Conditions: []
+  Vector3Conditions: []
 --- !u!114 &-3389136680139366552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1733,6 +1804,9 @@ MonoBehaviour:
       connections:
       - fieldName: nextState
         node: {fileID: 144026596585446073}
+        reroutePoints: []
+      - fieldName: nextState
+        node: {fileID: -3587464245139835064}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -2210,6 +2284,9 @@ MonoBehaviour:
       - fieldName: startingState
         node: {fileID: 144026596585446073}
         reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: -3587464245139835064}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 2
@@ -2553,6 +2630,7 @@ MonoBehaviour:
   - {fileID: -879615659895784873}
   - {fileID: 144026596585446073}
   - {fileID: -2572909702905097865}
+  - {fileID: -3587464245139835064}
 --- !u!114 &144026596585446073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2575,7 +2653,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -3352, y: -1448}
+  position: {x: -3320, y: -1304}
   ports:
     keys:
     - startingState
@@ -2607,18 +2685,15 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Is Grounded_ Controller_ Player
+  conditionPreview: '-  Became Ungrounded_ Controller_ Player
 
 '
   ValidStartStates: []
   InvalidStartStates: []
-  BoolConditions:
-  - targetParameter:
-      UseConstant: 0
-      ConstantValue: 0
-      Variable: {fileID: 11400000, guid: 7515e678ba0d82a4b92ee5e8bc9cee52, type: 2}
-    value: 1
-  TriggerConditions: []
+  BoolConditions: []
+  TriggerConditions:
+  - targetParameter: {fileID: 11400000, guid: 767157d13b396884ab6b2e050dbc4701, type: 2}
+    KeepTriggerOn: 0
   FloatConditions: []
   IntConditions: []
   TimerConditions: []
@@ -3212,7 +3287,7 @@ MonoBehaviour:
   BypassState: 0
   Name: GroundMovement
   Description: 
-  isActiveState: 1
+  isActiveState: 0
   BaseSpeed:
     UseConstant: 1
     ConstantValue: 0
@@ -3574,14 +3649,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Is Grounded_ Controller_ Player
-
-    -  Roll Pressed_ Controller_
-    Player
-
-    -  Slingshot Delay Timer_ Roll_ Player: 0.4 sec
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -4714,7 +4782,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 0
+  collapsed: 1
   BypassState: 0
   Name: Ground Slam
   Description: Set velocity downwards

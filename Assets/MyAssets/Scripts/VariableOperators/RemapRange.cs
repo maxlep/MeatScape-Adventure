@@ -30,8 +30,8 @@ namespace MyAssets.Scripts.VariableOperators
 
         private void Recalculate()
         {
-            var oldMin = useCurve ? _curve.GetMinValue() : _oldMin.Value;
-            var oldMax = useCurve ? _curve.GetMaxValue() : _oldMax.Value;
+            var oldMin = useCurve ? _curve.MinValue : _oldMin.Value;
+            var oldMax = useCurve ? _curve.MaxValue : _oldMax.Value;
             _output.Value =
                 (_input.Value - oldMin)
                 / (oldMax - oldMin)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using UnityEditor;
 using UnityEngine;
 
@@ -28,6 +29,13 @@ namespace MyAssets.ScriptableObjects.Variables
                 runtimeValue = value;
                 this.OnUpdate?.Invoke();
             }
+        }
+
+        [Button]
+        private void BroadcastUpdate()
+        {
+            OnUpdate?.Invoke();
+            OnUpdateDelta?.Invoke(runtimeValue, runtimeValue);
         }
 
         public void Subscribe(OnUpdate callback)
@@ -165,35 +173,49 @@ namespace MyAssets.ScriptableObjects.Variables
     
     [Serializable]
     [InlineProperty]
-    public class CurveReference : Reference<AnimationCurve, CurveVariable> {
+    public class CurveReference : Reference<AnimationCurve, CurveVariable>, ISerializationCallbackReceiver {
 
-        private float maxValue = float.MinValue;
         private float minValue = float.MaxValue;
+        private float minTime = float.MaxValue;
+        private float maxValue = float.MinValue;
+        private float maxTime = float.MinValue;
 
-        public CurveReference() : base() {
+        public float MaxValue => maxValue;
+        public float MaxTime => maxTime;
+        public float MinValue => minValue;
+        public float MinTime => minTime;
+
+        private void RefreshMinMax()
+        {
             if (Variable != null || UseConstant) {
                 var curve = UseConstant ? ConstantValue : Variable.Value;
                 foreach (var key in curve.keys)
                 {
-                    if (key.value < minValue) minValue = key.value;
-                    if (key.value > maxValue) maxValue = key.value;
+                    if (key.value < minValue)
+                    {
+                        minValue = key.value;
+                        minTime = key.time;
+                    }
+                    if (key.value > maxValue)
+                    {
+                        maxValue = key.value;
+                        maxTime = key.time;
+                    }
                 }
             }
         }
 
-        public float GetMaxValue() {
-            return maxValue;
-        }
-
-        public float GetMinValue() {
-            return minValue;
-        }
-        
         public float EvaluateFactor(float time)
         {
             var value = Value.Evaluate(time);
             var factor = (value - minValue) / (maxValue - minValue);
             return factor;
+        }
+
+        public void OnBeforeSerialize() { }
+        public void OnAfterDeserialize()
+        {
+            RefreshMinMax();
         }
     }
 }

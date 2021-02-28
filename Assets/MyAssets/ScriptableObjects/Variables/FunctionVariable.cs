@@ -105,6 +105,12 @@ namespace MyAssets.ScriptableObjects.Variables
             Operations.ForEach((o) => o.value.Subscribe(Recalculate));
         }
 
+        private void OnDisable()
+        {
+            Operations.ForEach((o) => o.value.Unsubscribe(Recalculate));
+        }
+
+        [Button]
         private void Recalculate()
         {
             _result = Operations.Aggregate(0f, (accumulator, op) =>

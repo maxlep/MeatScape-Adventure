@@ -3,6 +3,7 @@ using System.Linq;
 using Animancer;
 using Animancer.Examples.Jobs;
 using BehaviorDesigner.Runtime.Tasks.Unity.UnityTransform;
+using Den.Tools.Matrices;
 using MyAssets.ScriptableObjects.Variables;
 using MyAssets.ScriptableObjects.Variables.ValueReferences;
 using MyAssets.Scripts.PoseAnimancer.AnimancerJobs;
@@ -23,13 +24,13 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
         
         [TabGroup("Base", "Inputs")]
         
-        [TitleGroup("Base/Inputs/Locomotion"),SerializeField] private FloatValueReference _bakedStrideLength;
-        [TitleGroup("Base/Inputs/Locomotion"), SerializeField] private FloatValueReference _targetStrideLength;
-
-        [TitleGroup("Base/Inputs/Locomotion"),SerializeField] private FloatValueReference _strideLength;
         [TitleGroup("Base/Inputs/Locomotion"),SerializeField] private Vector3Reference _velocity;
         [TitleGroup("Base/Inputs/Locomotion"),SerializeField] private FloatValueReference _maxSpeed;
         [TitleGroup("Base/Inputs/Locomotion"),SerializeField] private Vector3Reference _groundNormal;
+        [TitleGroup("Base/Inputs/Locomotion"),SerializeField] private FloatValueReference _bakedStrideLength;
+        [TitleGroup("Base/Inputs/Locomotion"), SerializeField] private FloatValueReference _targetStrideLength;
+        [TitleGroup("Base/Inputs/Locomotion"), SerializeField] private CurveReference _strideLeapFactor;
+        [TitleGroup("Base/Inputs/Locomotion"), SerializeField] private CurveReference _strideLandFactor;
         
         [TitleGroup("Base/Inputs/Lean"),SerializeField] private Vector3Reference _acceleration;
         [TitleGroup("Base/Inputs/Lean"),SerializeField] private Vector3Reference _leanForwardAxis;
@@ -39,10 +40,8 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
         [TitleGroup("Base/Inputs/Lean"),SerializeField] private TransformSceneReference[] _leanBones;
         
         [TitleGroup("Base/Inputs/Bob"),SerializeField] private Vector3Reference _bobAxis;
-        [TitleGroup("Base/Inputs/Bob"),SerializeField] private FloatValueReference _bobAmplitude;
-        [TitleGroup("Base/Inputs/Bob"), SerializeField] private FloatValueReference _bobCompressionPercent;
         [TitleGroup("Base/Inputs/Bob"),SerializeField] private TransformSceneReference[] _bobBones;
-
+        [TitleGroup("Base/Inputs/Bob"),SerializeField] private FloatValueReference _bobGravity;
         
         [TabGroup("Base","Debug"),ShowInInspector] private float _walkCycleLength;
         [TabGroup("Base","Debug"),ShowInInspector] private float _distanceValue;
@@ -71,9 +70,9 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
                 _walkCycleLength = 2 * _targetStrideLength.Value;
             });
             
-            _animatable.Animancer.Layers[ActionLayer].SetMask(_locomotionMask);
             _animatable.Animancer.States.GetOrCreate(_move);
-            _animatable.Animancer.Play(_move, 0.5f, FadeMode.FixedDuration);
+            _animatable.Animancer.Layers[ActionLayer].SetMask(_locomotionMask);
+            _animatable.Animancer.Layers[ActionLayer].Play(_move, 0.5f, FadeMode.FixedDuration);
 
             // Init lean
             _leanForward = new SpecificLean(_animatable.Animancer.Playable, _leanBones.Select(b => b.Value));
@@ -110,7 +109,7 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
             {
                 _bob.Axis = _bobAxis.Value;
             });
-            _bob.Distance = _bobAmplitude.Value;
+            _bob.Distance = 0;
             _bob.Axis = _bobAxis.Value;
         }
         
@@ -135,11 +134,30 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
                 _walkSpeedFactor = speed / _maxSpeed.Value;
 
                 var dilationFactor = _bakedStrideLength.Value / _targetStrideLength.Value;
-                
+
                 _move.State.Parameter = new Vector2(0, _walkSpeedFactor);
                 _move.State.Speed = 1;
                 _move.State.NormalizedTime = _walkCyclePercent;
+                
+                var stridePercent = (_walkCyclePercent * 2f) % 1;
+                var leapPercent = _strideLeapFactor.Value.Evaluate(stridePercent);
+                var landPercent = _strideLandFactor.Value.Evaluate(stridePercent);
+                
+                var leapTime = (_strideLeapFactor.MaxTime - _strideLeapFactor.MinTime) * _targetStrideLength.Value / speed;
+                var leapHeight = Mathf.Abs(0.5f * _bobGravity.Value * Mathf.Pow(leapTime / 2f, 2));
+                var leapVerticalSpeed = Mathf.Abs(_bobGravity.Value * leapTime / 2f);
 
+                var currentLeapTime = leapTime * leapPercent;
+                var currentLeapHeight = 0 + (leapVerticalSpeed * currentLeapTime) +
+                                        (0.5f * _bobGravity.Value * Mathf.Pow(currentLeapTime, 2));
+                _bob.Distance = currentLeapHeight;
+
+                // var stridePercent = (_walkCyclePercent * 2f) % 1;
+                // var bobPercent = DilatedSineShapingFunction(stridePercent, 2);
+                // var bobPercent = BobShapingFunction(Mathf.Min(stridePercent / .75f, 1f));
+                // bobPercent = bobPercent * (1 + _bobCompressionPercent.Value) - _bobCompressionPercent.Value;
+                // _bob.Distance = Mathf.Clamp(bobPercent * _bobAmplitude.Value / _walkSpeedFactor, -_bobAmplitude.Value, _bobAmplitude.Value);
+                
                 var leanForwardPercent = Vector3.Dot(_acceleration.Value.normalized, _animatable.transform.forward);
                 // _lean.Angle = Mathf.Min(leanPercent * _leanAngle.Value, _leanAngle.Value);
                 _leanForward.Angle = _walkSpeedFactor * leanForwardPercent * _leanForwardAngle.Value;
@@ -147,17 +165,27 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
                 var leanSidePercent = Vector3.Dot(_acceleration.Value.normalized, _animatable.transform.right);
                 // _lean.Angle = Mathf.Min(leanPercent * _leanAngle.Value, _leanAngle.Value);
                 _leanSide.Angle = _walkSpeedFactor * leanSidePercent * _leanSideAngle.Value;
-                
-                var stridePercent = (_walkCyclePercent * 2f) % 1;
-                var bobPercent = DilaterShapingFunction(stridePercent, 3);
-                bobPercent = bobPercent * (1 + _bobCompressionPercent.Value) - _bobCompressionPercent.Value;
-                _bob.Distance = Mathf.Clamp(bobPercent * _bobAmplitude.Value / _walkSpeedFactor, -_bobAmplitude.Value, _bobAmplitude.Value);
             }
             else
             {
                 _move.State.Parameter = Vector2.zero;
                 _move.State.Speed = 0;
             }
+        }
+
+        private float BobShapingFunction(float x)
+        {
+            var scaledX = (x - 0.5f) * 2;
+            var factor = Mathf.Pow(Mathf.Min(Mathf.Cos(scaledX), 1 - Mathf.Abs(scaledX)), 0.5f);
+            var value = 1 - Mathf.Cos(factor * Mathf.PI) / 2 - 0.5f;
+            return value;
+        }
+
+        private float DilatedSineShapingFunction(float x, float dilationPower)
+        {
+            var dilation = DilaterShapingFunction(x, dilationPower);
+            var factor = (1 - Mathf.Cos(dilation * Mathf.PI)) / 2;
+            return factor;
         }
         
         private float DilaterShapingFunction(float x, float dilationPower)
@@ -170,6 +198,8 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
         public override void DrawGizmos()
         {
             base.DrawGizmos();
+
+            if (_animatable == null) return; 
 
             var t = _animatable.transform;
             var up = t.up;

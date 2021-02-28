@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8702961708a548e3a82c85a6515d8a21, type: 3}
-  m_Name: Run_Stride_Target_Anim_Player
+  m_Name: Run_Speed_Maximum_Player
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 11400000, guid: bd85c5e333ce27a42b5f6895044076a7, type: 2}
+    - {fileID: 11400000, guid: a2ccba2714bbff848a888e49e2fcee03, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -38,25 +38,41 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  Description: Real stride length value to show in game. This target will be reached
-    by solbing backwards from the baked animation stride length to get the necessary
-    animation playback multiplier.
+  Description: The player's current maximum run speed, based on hunger.
   _evaluateAsPercent: 0
   _curve:
-    UseConstant: 1
+    UseConstant: 0
     ConstantValue:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 5
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 34
+        value: 36.06175
+        inSlope: -89.25617
+        outSlope: -89.25617
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
+        outWeight: 0.036897276
+      - serializedVersion: 3
+        time: 0.75
+        value: 12
+        inSlope: -2.0360956
+        outSlope: Infinity
+        tangentMode: 97
+        weightedMode: 0
+        inWeight: 0.20763457
         outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    Variable: {fileID: 0}
+    Variable: {fileID: 11400000, guid: a391167406d5de44388fe858bea82ec7, type: 2}

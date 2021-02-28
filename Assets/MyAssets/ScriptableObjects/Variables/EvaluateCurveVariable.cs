@@ -10,7 +10,6 @@ namespace MyAssets.ScriptableObjects.Variables
     public class EvaluateCurveVariable : SerializedScriptableObject, IFloatValue
     {
         #region Inspector
-        
         [TextArea (7, 10)]
         [HideInInlineEditors]
         public string Description;
@@ -20,16 +19,19 @@ namespace MyAssets.ScriptableObjects.Variables
         [SerializeField] private FloatValueReference _x;
 
         [ShowInInspector] private float _value;
-
-#endregion
+        #endregion
+        
+        protected event OnUpdate OnUpdate;
 
         public float Value => _value;
-
+        
+        [Button]
         private void Recalculate()
         {
             _value = _evaluateAsPercent
                 ? _curve.EvaluateFactor(_x.Value)
                 : _curve.Value.Evaluate(_x.Value);
+            OnUpdate?.Invoke();
         }
 
 #region Interface
@@ -40,20 +42,16 @@ namespace MyAssets.ScriptableObjects.Variables
 
         public void Subscribe(OnUpdate callback)
         {
-            _curve.Subscribe(callback);
-            _x.Subscribe(callback);
+            OnUpdate += callback;
         }
         
         public void Unsubscribe(OnUpdate callback)
         {
-            _curve.Unsubscribe(callback);
-            _x.Unsubscribe(callback);
+            OnUpdate -= callback;
         }
-        
         #endregion
         
         #region Lifecycle
-
         private void OnEnable()
         {
             Recalculate();
@@ -61,6 +59,11 @@ namespace MyAssets.ScriptableObjects.Variables
             _x.Subscribe(Recalculate);
         }
 
+        private void OnDisable()
+        {
+            _curve.Unsubscribe(Recalculate);
+            _x.Unsubscribe(Recalculate);
+        }
         #endregion
     }
 }

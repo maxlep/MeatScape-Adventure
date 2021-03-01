@@ -27,6 +27,8 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
         [TitleGroup("Base/Inputs/Locomotion"),SerializeField] private Vector3Reference _velocity;
         [TitleGroup("Base/Inputs/Locomotion"),SerializeField] private FloatValueReference _maxSpeed;
         [TitleGroup("Base/Inputs/Locomotion"),SerializeField] private Vector3Reference _groundNormal;
+        [TitleGroup("Base/Inputs/Locomotion"),SerializeField] private FloatValueReference _runBlendFactor;
+        [TitleGroup("Base/Inputs/Locomotion"),SerializeField] private FloatValueReference _moveInputFactor;
         [TitleGroup("Base/Inputs/Locomotion"),SerializeField] private FloatValueReference _bakedStrideLength;
         [TitleGroup("Base/Inputs/Locomotion"), SerializeField] private FloatValueReference _targetStrideLength;
         [TitleGroup("Base/Inputs/Locomotion"), SerializeField] private CurveReference _strideLeapFactor;
@@ -135,7 +137,7 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
 
                 var dilationFactor = _bakedStrideLength.Value / _targetStrideLength.Value;
 
-                _move.State.Parameter = new Vector2(0, _walkSpeedFactor);
+                _move.State.Parameter = new Vector2(0, _runBlendFactor.Value);
                 _move.State.Speed = 1;
                 _move.State.NormalizedTime = _walkCyclePercent;
                 
@@ -150,7 +152,7 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
                 var currentLeapTime = leapTime * leapPercent;
                 var currentLeapHeight = 0 + (leapVerticalSpeed * currentLeapTime) +
                                         (0.5f * _bobGravity.Value * Mathf.Pow(currentLeapTime, 2));
-                _bob.Distance = currentLeapHeight;
+                _bob.Distance = Mathf.Min(currentLeapHeight * _moveInputFactor.Value, _targetStrideLength.Value * _moveInputFactor.Value);
 
                 // var stridePercent = (_walkCyclePercent * 2f) % 1;
                 // var bobPercent = DilatedSineShapingFunction(stridePercent, 2);

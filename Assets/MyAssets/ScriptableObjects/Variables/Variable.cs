@@ -205,10 +205,11 @@ namespace MyAssets.ScriptableObjects.Variables
             }
         }
 
-        public float EvaluateFactor(float time)
+        public float EvaluateFactor(float time, bool zeroBaseline = false)
         {
             var value = Value.Evaluate(time);
-            var factor = (value - minValue) / (maxValue - minValue);
+            var min = zeroBaseline ? 0 : minValue;
+            var factor = (value - min) / (maxValue - min);
             return factor;
         }
 

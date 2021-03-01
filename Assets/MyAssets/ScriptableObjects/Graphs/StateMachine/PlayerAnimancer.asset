@@ -954,7 +954,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Idle NEW!
   Description: 
-  isActiveState: 0
+  isActiveState: 1
   transitionTime: 0
   transitionCurve:
     serializedVersion: 2
@@ -2491,8 +2491,10 @@ MonoBehaviour:
     SerializedBytes: 
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: 8eb24c5557e980b42a8a3b86875b8726, type: 2}
+    - {fileID: 11400000, guid: e9e3643202e17404ca926539b4f95976, type: 2}
+    - {fileID: 11400000, guid: 6a10218abdd0c3e4aa9e7cafe3a7a9a3, type: 2}
     - {fileID: 11400000, guid: ce2d394b8df294745b291801fb83eb8c, type: 2}
-    - {fileID: 11400000, guid: dd6508d6670fbdc4d9c2f7ed84a92ee0, type: 2}
+    - {fileID: 11400000, guid: e8d7562555bd85e4bbe42a5a95f1aaba, type: 2}
     - {fileID: 11400000, guid: 56f7dddcde6f3704eae2bdafefb30807, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
@@ -2515,13 +2517,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: _moveInputFactor
-      Entry: 6
-      Data: 
-    - Name: _moveSpeedFactor
-      Entry: 6
-      Data: 
-    - Name: _bakedStrideLength
+    - Name: _runBlendFactor
       Entry: 7
       Data: 1|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
         Assembly-CSharp
@@ -2537,7 +2533,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: _targetStrideLength
+    - Name: _moveInputFactor
       Entry: 7
       Data: 2|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
         Assembly-CSharp
@@ -2553,9 +2549,41 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: _leanForwardAngle
+    - Name: _bakedStrideLength
       Entry: 7
       Data: 3|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
+        Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: false
+    - Name: ConstantValue
+      Entry: 4
+      Data: 0
+    - Name: ReferenceValue
+      Entry: 10
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _targetStrideLength
+      Entry: 7
+      Data: 4|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
+        Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: false
+    - Name: ConstantValue
+      Entry: 4
+      Data: 0
+    - Name: ReferenceValue
+      Entry: 10
+      Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _leanForwardAngle
+      Entry: 7
+      Data: 5|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
         Assembly-CSharp
     - Name: UseConstant
       Entry: 5
@@ -2571,7 +2599,7 @@ MonoBehaviour:
       Data: 
     - Name: _leanSideAngle
       Entry: 7
-      Data: 4|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
+      Data: 6|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
         Assembly-CSharp
     - Name: UseConstant
       Entry: 5
@@ -2587,7 +2615,7 @@ MonoBehaviour:
       Data: 
     - Name: _bobGravity
       Entry: 7
-      Data: 5|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
+      Data: 7|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
         Assembly-CSharp
     - Name: UseConstant
       Entry: 5
@@ -2597,7 +2625,7 @@ MonoBehaviour:
       Data: 0
     - Name: ReferenceValue
       Entry: 10
-      Data: 3
+      Data: 5
     - Name: 
       Entry: 8
       Data: 
@@ -2636,7 +2664,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Walk NEW!
   Description: 
-  isActiveState: 1
+  isActiveState: 0
   transitionTime: 0
   transitionCurve:
     serializedVersion: 2

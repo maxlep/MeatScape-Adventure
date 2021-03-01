@@ -15,6 +15,8 @@ namespace MyAssets.ScriptableObjects.Variables
         public string Description;
         
         [SerializeField] private bool _evaluateAsPercent = false;
+
+        [ShowIf("_evaluateAsPercent"), SerializeField] private bool _useZeroBaseline;
         [SerializeField] private CurveReference _curve;
         [SerializeField] private FloatValueReference _x;
 
@@ -29,7 +31,7 @@ namespace MyAssets.ScriptableObjects.Variables
         private void Recalculate()
         {
             _value = _evaluateAsPercent
-                ? _curve.EvaluateFactor(_x.Value)
+                ? _curve.EvaluateFactor(_x.Value, _useZeroBaseline)
                 : _curve.Value.Evaluate(_x.Value);
             OnUpdate?.Invoke();
         }

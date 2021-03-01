@@ -154,12 +154,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '- ! Is Grounded_ Controller_ Player
-
-    - 0  Ignore 0 && 0 
-    Less Than -0.1 && 0  Ignore 0
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -378,12 +373,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Is Grounded_ Controller_ Player
-
-    - 0  Abs Less Than 0.001
-    && 0  Ignore 0 && 0  Abs Less Than 0.001
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -987,11 +977,6 @@ MonoBehaviour:
   transitionPriority: 0
   conditionPreview: '-  Invalid:  Slope  Movement
 
-    - ! Is Grounded_ Controller_
-    Player
-
-    - 0  Ignore 0 && 0  Less Than -0.1 && 0  Ignore 0
-
 '
   ValidStartStates: []
   InvalidStartStates:
@@ -1164,11 +1149,11 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 1
+  collapsed: 0
   BypassState: 0
   Name: Ground Movement Sub
   Description: 
-  isActiveState: 1
+  isActiveState: 0
   subGraph: {fileID: 11400000, guid: 4f0b2461e75d7144a8c84ccdd4a54214, type: 2}
   subStates:
   - {fileID: 509529243320291220, guid: 4f0b2461e75d7144a8c84ccdd4a54214, type: 2}
@@ -1724,7 +1709,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 1
+  collapsed: 0
   BypassState: 0
   Name: Skid Sub
   Description: 
@@ -1791,9 +1776,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Throw_ Time_ Anim_ Player: 0.15 sec
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -1861,9 +1844,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Jump Trigger_ Anim_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -1940,7 +1921,7 @@ MonoBehaviour:
   BypassState: 1
   Name: 'Idle '
   Description: 
-  isActiveState: 0
+  isActiveState: 1
   transitionTime: 0.5
   transitionCurve:
     serializedVersion: 2
@@ -2042,10 +2023,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '- 0  Abs Greater Than 0 && 0  Ignore 0 && 0  Abs Greater Than
-    0
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -2831,9 +2809,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Throw_ Time_ Anim_ Player: 0.15 sec
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -2969,7 +2945,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 1
+  collapsed: 0
   BypassState: 0
   Name: Roll Movement Sub
   Description: 
@@ -3133,9 +3109,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Fast Turn Triggered_ Movement_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -3241,10 +3215,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Move Speed_ Player_ Resultant_ Anim_ Player  Greater Than
-    3
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -3314,9 +3285,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Slide Turn Triggered_ Movement_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []

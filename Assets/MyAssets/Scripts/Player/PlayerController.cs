@@ -77,6 +77,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Hunger Parameters"), SerializeField] private TransformSceneReference SizeChangePivot;
     [Title("Blend shapes")]
     [FoldoutGroup("Hunger Parameters"), SerializeField] private SkinnedMeshRenderer SkinnedMesh;
+    [FoldoutGroup("Hunger Parameters"), SerializeField] private SkinnedMeshRenderer EyesSkinnedMesh;
     
     [Title("Frenzy value")]
     [FoldoutGroup("Frenzy Parameters"), SerializeField] private TimerReference FrenzyDecayTimer;
@@ -333,6 +334,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     public void UpdateBloat(float value) {
         var clamped = Mathf.Clamp(value, 0, 100);
         SkinnedMesh.SetBlendShapeWeight(1, clamped);
+        EyesSkinnedMesh.SetBlendShapeWeight(0, clamped);
     }
 
     [Button]

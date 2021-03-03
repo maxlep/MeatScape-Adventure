@@ -13,6 +13,8 @@ using Sirenix.OdinInspector;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Animations;
+using Damping = MyAssets.Scripts.PoseAnimancer.AnimancerJobs.Damping;
+using DampingJob = MyAssets.Scripts.PoseAnimancer.AnimancerJobs.DampingJob;
 
 namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
 {
@@ -44,6 +46,9 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
         [TitleGroup("Base/Inputs/Bob"),SerializeField] private Vector3Reference _bobAxis;
         [TitleGroup("Base/Inputs/Bob"),SerializeField] private TransformSceneReference[] _bobBones;
         [TitleGroup("Base/Inputs/Bob"),SerializeField] private FloatValueReference _bobGravity;
+
+        // [TitleGroup("Base/Inputs/Damping"), SerializeField] private TransformSceneReference _dampingEndBone;
+        // [TitleGroup("Base/Inputs/Damping"), SerializeField] private IntReference _dampingBoneCount;
         
         [TabGroup("Base","Debug"),ShowInInspector] private float _walkCycleLength;
         [TabGroup("Base","Debug"),ShowInInspector] private float _distanceValue;
@@ -53,6 +58,7 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
         private SpecificLean _leanForward;
         private SpecificLean _leanSide;
         private TranslateRoot _bob;
+        // private Damping _damping;
         
         private const int BaseLayer = 0;
         private const int ActionLayer = 1;
@@ -113,6 +119,8 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
             });
             _bob.Distance = 0;
             _bob.Axis = _bobAxis.Value;
+            
+            // _damping = new Damping(_animatable.Animancer.Playable, _dampingBoneCount.Value, _dampingEndBone.Value);
         }
         
         public override void Exit()
@@ -122,6 +130,7 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
             _leanForward.Destroy();
             _leanSide.Destroy();
             _bob.Destroy();
+            // _damping.Destroy();
         }
         
         public override void Execute()
@@ -152,7 +161,7 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
                 var currentLeapTime = leapTime * leapPercent;
                 var currentLeapHeight = 0 + (leapVerticalSpeed * currentLeapTime) +
                                         (0.5f * _bobGravity.Value * Mathf.Pow(currentLeapTime, 2));
-                _bob.Distance = Mathf.Min(currentLeapHeight * _moveInputFactor.Value, _targetStrideLength.Value * _moveInputFactor.Value);
+                _bob.Distance = Mathf.Min(currentLeapHeight, _targetStrideLength.Value / 2) * Mathf.Pow(Mathf.Clamp01(_moveInputFactor.Value), 2);
 
                 // var stridePercent = (_walkCyclePercent * 2f) % 1;
                 // var bobPercent = DilatedSineShapingFunction(stridePercent, 2);

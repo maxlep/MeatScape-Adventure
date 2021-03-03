@@ -26,6 +26,7 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
         
         [TabGroup("Base", "Inputs")]
         
+        [TabGroup("Base/Inputs", "Locomotion")]
         [TitleGroup("Base/Inputs/Locomotion"),SerializeField] private Vector3Reference _velocity;
         [TitleGroup("Base/Inputs/Locomotion"),SerializeField] private FloatValueReference _maxSpeed;
         [TitleGroup("Base/Inputs/Locomotion"),SerializeField] private Vector3Reference _groundNormal;
@@ -36,6 +37,7 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
         [TitleGroup("Base/Inputs/Locomotion"), SerializeField] private CurveReference _strideLeapFactor;
         [TitleGroup("Base/Inputs/Locomotion"), SerializeField] private CurveReference _strideLandFactor;
         
+        [TabGroup("Base/Inputs", "Lean")]
         [TitleGroup("Base/Inputs/Lean"),SerializeField] private Vector3Reference _acceleration;
         [TitleGroup("Base/Inputs/Lean"),SerializeField] private Vector3Reference _leanForwardAxis;
         [TitleGroup("Base/Inputs/Lean"),SerializeField] private FloatValueReference _leanForwardAngle;
@@ -43,6 +45,7 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
         [TitleGroup("Base/Inputs/Lean"),SerializeField] private FloatValueReference _leanSideAngle;
         [TitleGroup("Base/Inputs/Lean"),SerializeField] private TransformSceneReference[] _leanBones;
         
+        [TabGroup("Base/Inputs", "Bob")]
         [TitleGroup("Base/Inputs/Bob"),SerializeField] private Vector3Reference _bobAxis;
         [TitleGroup("Base/Inputs/Bob"),SerializeField] private TransformSceneReference[] _bobBones;
         [TitleGroup("Base/Inputs/Bob"),SerializeField] private FloatValueReference _bobGravity;

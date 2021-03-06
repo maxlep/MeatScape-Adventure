@@ -43,6 +43,12 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [SerializeField] private bool ignoreInput;
     [ShowIf("ignoreInput"), SerializeField] private Vector2Reference fakeMoveInput;
 
+    [Button]
+    private void FakeJump()
+    {
+        JumpTrigger.Activate();
+    }
+
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private Vector3Reference NewVelocity;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private QuaternionReference NewRotation;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference StoredJumpVelocity;

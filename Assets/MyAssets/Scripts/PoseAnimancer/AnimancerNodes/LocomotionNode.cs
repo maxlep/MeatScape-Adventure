@@ -47,6 +47,7 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
         
         [TabGroup("Base/Inputs", "Bob")]
         [TitleGroup("Base/Inputs/Bob"),SerializeField] private Vector3Reference _bobAxis;
+        [TitleGroup("Base/Inputs/Bob"),SerializeField] private FloatValueReference _bobConstantOffset;
         [TitleGroup("Base/Inputs/Bob"),SerializeField] private TransformSceneReference[] _bobBones;
         [TitleGroup("Base/Inputs/Bob"),SerializeField] private FloatValueReference _bobGravity;
 
@@ -82,8 +83,8 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
             });
             
             _animatable.Animancer.States.GetOrCreate(_move);
-            _animatable.Animancer.Layers[ActionLayer].SetMask(_locomotionMask);
-            _animatable.Animancer.Layers[ActionLayer].Play(_move, 0.5f, FadeMode.FixedDuration);
+            // _animatable.Animancer.Layers[BaseLayer].SetMask(_locomotionMask);
+            _animatable.Animancer.Layers[BaseLayer].Play(_move, 0.5f, FadeMode.FixedDuration);
 
             // Init lean
             _leanForward = new SpecificLean(_animatable.Animancer.Playable, _leanBones.Select(b => b.Value));
@@ -95,7 +96,6 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
             {
                 _leanForward.Axis = _leanForwardAxis.Value;
             });
-            _leanForward.Angle = _leanForwardAngle.Value;
             _leanForward.Axis = _leanForwardAxis.Value;
             
             _leanSide = new SpecificLean(_animatable.Animancer.Playable, _leanBones.Select(b => b.Value));
@@ -107,7 +107,6 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
             {
                 _leanSide.Axis = _leanSideAxis.Value;
             });
-            _leanSide.Angle = _leanSideAngle.Value;
             _leanSide.Axis = _leanSideAxis.Value;
             
             // Init bob
@@ -120,16 +119,26 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
             {
                 _bob.Axis = _bobAxis.Value;
             });
-            _bob.Distance = 0;
+            _bob.Distance = 0 + _bobConstantOffset.Value;
             _bob.Axis = _bobAxis.Value;
-            
+
             // _damping = new Damping(_animatable.Animancer.Playable, _dampingBoneCount.Value, _dampingEndBone.Value);
         }
         
         public override void Exit()
         {
             base.Exit();
-
+            
+            // var distanceReset = LeanTween.value(_animatable.Animancer.gameObject, _bob.Distance, 0, 0.2f).setOnUpdate(
+            //     (float value) =>
+            //     {
+            //         _bob.Distance = value;
+            //     }).setOnComplete(() =>
+            // {
+            //     _bob.Destroy();
+            // });
+            
+            // _animatable.Animancer.Layers[BaseLayer].SetMask();
             _leanForward.Destroy();
             _leanSide.Destroy();
             _bob.Destroy();
@@ -164,7 +173,12 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
                 var currentLeapTime = leapTime * leapPercent;
                 var currentLeapHeight = 0 + (leapVerticalSpeed * currentLeapTime) +
                                         (0.5f * _bobGravity.Value * Mathf.Pow(currentLeapTime, 2));
-                _bob.Distance = Mathf.Min(currentLeapHeight, _targetStrideLength.Value / 2) * Mathf.Pow(Mathf.Clamp01(_moveInputFactor.Value), 2);
+                currentLeapHeight = Mathf.Min(currentLeapHeight, _targetStrideLength.Value / 2)
+                                    * Mathf.Pow(Mathf.Clamp01(_moveInputFactor.Value), 2);
+                
+                var landTime = (_strideLandFactor.MaxTime - _strideLandFactor.MinTime) * _targetStrideLength.Value / speed;
+                var currentLandHeight = (1 - Mathf.Abs(landPercent * 2 - 1)) * _bobConstantOffset.Value;
+                _bob.Distance = currentLeapHeight + currentLandHeight;
 
                 // var stridePercent = (_walkCyclePercent * 2f) % 1;
                 // var bobPercent = DilatedSineShapingFunction(stridePercent, 2);

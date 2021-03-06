@@ -13,7 +13,7 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
             base.Enter();
             
             _animatable.Animancer.States.GetOrCreate(_pose);
-            _animatable.Animancer.Play(_pose);
+            _animatable.Animancer.Layers[0].Play(_pose);
         }
     }
 }

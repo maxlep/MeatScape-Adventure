@@ -12,7 +12,7 @@ namespace MyAssets.Scripts.Player
         [SerializeField] private TransformSceneReference firePoint;
         [SerializeField] private PlayerController playerController;
         [SerializeField] private CinemachineFreeLook freeLookCam;
-        [SerializeField] private CinemachineVirtualCameraBase lockOnVirtualCam;
+        [SerializeField] private CinemachineVirtualCamera lockOnVirtualCam;
         [SerializeField] private CinemachineTargetGroup targetGroup;
         [SerializeField] private GameObject targetingReticlePrefab;
         [SerializeField] private LayerMapper layerMapper;
@@ -32,6 +32,8 @@ namespace MyAssets.Scripts.Player
         private Collider currentTarget, lastTarget;
         private float currentWeight;
         private bool lockedOn;
+
+        private CinemachineFramingTransposer framingTransposer;
         
         private GameObject targetingReticle;
         private LTDescr targettingMoveTween;
@@ -46,17 +48,15 @@ namespace MyAssets.Scripts.Player
             currentWeight = 0;
             targetingReticle = Instantiate<GameObject>(targetingReticlePrefab);
             targetingReticle.SetActive(false);
-            
-            CinemachineOrbitalTransposer.Heading heading = new CinemachineOrbitalTransposer.Heading();
-            heading.m_Definition = CinemachineOrbitalTransposer.Heading.HeadingDefinition.TargetForward;
-            freeLookCam.m_Heading = heading;
-            freeLookCam.m_RecenterToTargetHeading.m_RecenteringTime = .001f;
-            freeLookCam.m_RecenterToTargetHeading.m_WaitTime = .001f;
+            framingTransposer = lockOnVirtualCam.GetCinemachineComponent<CinemachineFramingTransposer>();
         }
         
         private void Update()
         {
             HandleUpdateTarget();
+            
+            //Make LockOnCam distance equal the current free look middle rig radius
+            framingTransposer.m_CameraDistance = freeLookCam.m_Orbits[1].m_Radius;
         }
         #endregion
         
@@ -77,6 +77,9 @@ namespace MyAssets.Scripts.Player
             
             for (int i = 0; i < numColliders; i++)
             {
+                if (lockedOn)
+                    break;
+                
                 var current = targetableColliders[i];
                 if(current.gameObject.GetInstanceID() == enemyHitId.Value) {
                     currentTarget = current;
@@ -198,17 +201,6 @@ namespace MyAssets.Scripts.Player
             //Only toggle if needed, for performance
             if (lockOnVirtualCam.enabled != lockOnEnabled) lockOnVirtualCam.enabled = lockOnEnabled;
             if (freeLookCam.enabled == lockOnEnabled) freeLookCam.enabled = !lockOnEnabled;
-
-            //TODO: Change the target to empty transform that points to the group center (or lock target)
-            //If using lock cam, keep free cam aimed at target forward
-            if (lockOnEnabled)
-                freeLookCam.m_RecenterToTargetHeading.m_enabled = true;
-            else
-                freeLookCam.m_RecenterToTargetHeading.m_enabled = false;
-            
-            
-        
-            
         }
 
         #endregion

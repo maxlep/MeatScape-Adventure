@@ -1,4 +1,6 @@
-﻿using Sirenix.Utilities;
+﻿using Cinemachine;
+using MyAssets.ScriptableObjects.Events;
+using Sirenix.Utilities;
 using MyAssets.ScriptableObjects.Variables;
 using UnityEngine;
 
@@ -7,14 +9,21 @@ namespace MyAssets.Scripts.Player
     public class AimTargeter : MonoBehaviour
     {
         [SerializeField] private CameraSceneReference camera;
-        [SerializeField] private GameObject targetingReticlePrefab;
         [SerializeField] private TransformSceneReference firePoint;
+        [SerializeField] private PlayerController playerController;
+        [SerializeField] private CinemachineFreeLook freeLookCam;
+        [SerializeField] private CinemachineVirtualCameraBase lockOnVirtualCam;
+        [SerializeField] private CinemachineTargetGroup targetGroup;
+        [SerializeField] private GameObject targetingReticlePrefab;
         [SerializeField] private LayerMapper layerMapper;
         [SerializeField] private LayerMask enemyLayerMask;
         [SerializeField] private LayerMask obstructionLayerMask;
         [SerializeField] private float maxRange;
         [SerializeField] private int colliderLimit = 64;
         [SerializeField] private IntVariable enemyHitId;
+        [SerializeField] private GameEvent lockOnStartEvent;
+        [SerializeField] private GameEvent lockOnStopEvent;
+        
         
         public Transform CurrentTarget => currentTarget?.transform;
         
@@ -22,6 +31,7 @@ namespace MyAssets.Scripts.Player
         
         private Collider currentTarget, lastTarget;
         private float currentWeight;
+        private bool lockedOn;
         
         private GameObject targetingReticle;
         private LTDescr targettingMoveTween;
@@ -29,15 +39,30 @@ namespace MyAssets.Scripts.Player
         #region Lifecycle
         private void Awake()
         {
+            InputManager.Instance.onLockOn += () => ToggleLockOnMode(!lockedOn);
             targetableColliders = new Collider[colliderLimit];
             lastTarget = null;
             currentTarget = null;
             currentWeight = 0;
             targetingReticle = Instantiate<GameObject>(targetingReticlePrefab);
             targetingReticle.SetActive(false);
+            
+            CinemachineOrbitalTransposer.Heading heading = new CinemachineOrbitalTransposer.Heading();
+            heading.m_Definition = CinemachineOrbitalTransposer.Heading.HeadingDefinition.TargetForward;
+            freeLookCam.m_Heading = heading;
+            freeLookCam.m_RecenterToTargetHeading.m_RecenteringTime = .001f;
+            freeLookCam.m_RecenterToTargetHeading.m_WaitTime = .001f;
         }
         
         private void Update()
+        {
+            HandleUpdateTarget();
+        }
+        #endregion
+        
+        #region Update Positions/Target
+
+        private void HandleUpdateTarget()
         {
             currentWeight = GetTargetWeight(currentTarget);
             if (Mathf.Approximately(currentWeight, 0))
@@ -45,6 +70,7 @@ namespace MyAssets.Scripts.Player
                 lastTarget = null;
                 currentTarget = null;
                 currentWeight = 0;
+                ToggleLockOnMode(false);
             }
             
             int numColliders = Physics.OverlapSphereNonAlloc(transform.position, maxRange, targetableColliders, enemyLayerMask);
@@ -64,19 +90,7 @@ namespace MyAssets.Scripts.Player
                     currentWeight = weight;
                 }
             }
-            
-            if (!currentTarget.SafeIsUnityNull())
-            {
-                RaycastHit hit = default(RaycastHit);
-                bool hitObstruction = Physics.Raycast
-                (
-                    firePoint.Value.position, 
-                    (currentTarget.bounds.center - firePoint.Value.position).normalized,
-                    out hit, maxRange, 
-                    obstructionLayerMask
-                );
-            }
-            
+
             if (!currentTarget.SafeIsUnityNull())
             {
                 RaycastHit hit = default(RaycastHit);
@@ -91,7 +105,7 @@ namespace MyAssets.Scripts.Player
                 {
                     if (!GameObject.ReferenceEquals(currentTarget, lastTarget))
                     {
-                        ChangeTarget();
+                        if (!lockedOn) ChangeTarget();
                     }
                     else
                     {
@@ -108,9 +122,6 @@ namespace MyAssets.Scripts.Player
             lastTarget = currentTarget;
             targetingReticle.SetActive(false);
         }
-        #endregion
-        
-        #region Update positions
         private void FollowTarget()
         {
             if (targettingMoveTween == null)
@@ -142,6 +153,64 @@ namespace MyAssets.Scripts.Player
                 targettingMoveTween = null;
             }).setEase(LeanTweenType.easeInOutCubic);
         }
+        #endregion
+
+        #region LockOn
+
+        private void ToggleLockOnMode(bool lockOnEnabled)
+        {
+            if (!lockOnEnabled)
+            {
+                ToggleLockOnCamera(false);
+                lockOnStopEvent.Raise();
+                lockedOn = false;
+                return;
+            }
+            
+            //Don't LockOn if no current target
+            if (currentTarget == null)
+            {
+                ToggleLockOnCamera(false);
+                lockOnStopEvent.Raise();
+                lockedOn = false;
+                return;
+            }
+            
+            ToggleLockOnCamera(true);
+            lockOnStartEvent.Raise();
+            lockedOn = true;
+
+            CinemachineTargetGroup.Target playerTarget = new CinemachineTargetGroup.Target();
+            playerTarget.weight = 1f;
+            playerTarget.radius = 0f;
+            playerTarget.target = playerController.transform;
+            
+            CinemachineTargetGroup.Target enemyTarget = new CinemachineTargetGroup.Target();
+            enemyTarget.weight = 1f;
+            enemyTarget.radius = 0f;
+            enemyTarget.target = currentTarget.transform;
+            
+            targetGroup.m_Targets = new[] {playerTarget, enemyTarget};
+        }
+        
+        private void ToggleLockOnCamera(bool lockOnEnabled)
+        {
+            //Only toggle if needed, for performance
+            if (lockOnVirtualCam.enabled != lockOnEnabled) lockOnVirtualCam.enabled = lockOnEnabled;
+            if (freeLookCam.enabled == lockOnEnabled) freeLookCam.enabled = !lockOnEnabled;
+
+            //TODO: Change the target to empty transform that points to the group center (or lock target)
+            //If using lock cam, keep free cam aimed at target forward
+            if (lockOnEnabled)
+                freeLookCam.m_RecenterToTargetHeading.m_enabled = true;
+            else
+                freeLookCam.m_RecenterToTargetHeading.m_enabled = false;
+            
+            
+        
+            
+        }
+
         #endregion
         
         #region Calculate

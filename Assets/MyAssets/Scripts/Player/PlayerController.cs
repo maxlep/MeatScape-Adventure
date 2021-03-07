@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Data;
 using System.Runtime.CompilerServices;
+using Cinemachine;
 using KinematicCharacterController;
 using MoreMountains.Feedbacks;
 using MoreMountains.Tools;

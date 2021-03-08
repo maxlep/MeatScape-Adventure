@@ -18,6 +18,8 @@ public class InputManager : MonoBehaviour
     public delegate void _OnRoll();
     public delegate void _OnDownwardAttack();
     public delegate void _OnLockOn();
+    public delegate void _OnCycleTargetRight();
+    public delegate void _OnCycleTargetLeft();
     public delegate void _OnSave();
     public delegate void _OnLoad();
     public delegate void _OnJump_Pressed();
@@ -41,6 +43,8 @@ public class InputManager : MonoBehaviour
     public event _OnRoll onRoll_Released;
     public event _OnDownwardAttack onDownwardAttack;
     public event _OnLockOn onLockOn;
+    public event _OnCycleTargetRight onCycleTargetRight;
+    public event _OnCycleTargetLeft onCycleTargetLeft;
     public event _OnSave onSave;
     public event _OnLoad onLoad;
     public event _OnJump_Pressed onJump_Pressed;
@@ -190,6 +194,16 @@ public class InputManager : MonoBehaviour
     public void OnLockOn()
     {
         if (onLockOn != null) onLockOn();
+    }
+
+    public void OnCycleTargetRight()
+    {
+        if (onCycleTargetRight != null) onCycleTargetRight();
+    }
+    
+    public void OnCycleTargetLeft()
+    {
+        if (onCycleTargetLeft != null) onCycleTargetLeft();
     }
     
     public void OnSave()

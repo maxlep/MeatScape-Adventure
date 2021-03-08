@@ -101,10 +101,14 @@ public class EnemyController : MonoBehaviour
 
         if (applyKnockBack)
         {
-            SharedVariable KnockBackDirVar = behaviorTree.GetVariable("KnockBackDirection");
-            if (KnockBackDirVar != null) KnockBackDirVar.SetValue(knockBackDirection);
-            behaviorTree.SendEvent("TookDamage");
+            this.KnockbackEnemy(knockBackDirection);
         }
+    }
+
+    public virtual void KnockbackEnemy(Vector3 knockBackDirection) {
+        SharedVariable KnockBackDirVar = behaviorTree.GetVariable("KnockBackDirection");
+        if (KnockBackDirVar != null) KnockBackDirVar.SetValue(knockBackDirection);
+        behaviorTree.SendEvent("TookDamage");
     }
 
     #endregion

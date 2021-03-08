@@ -96,6 +96,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Referenced Components")] [SerializeField] private GameObject slingshotCone;
     
     [FoldoutGroup("GameEvents")] [SerializeField] private GameEvent throwClumpEvent;
+    [FoldoutGroup("GameEvents")] [SerializeField] private GameObjectTriggerVariable PlayerCollidedWith;
 
     private Vector3 moveDirection;
     private InputAction playerMove;
@@ -246,6 +247,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         ref HitStabilityReport hitStabilityReport)
     {
         // This is called when the motor's movement logic detects a hit
+        PlayerCollidedWith.Activate(hitCollider.gameObject);
     }
 
     public void ProcessHitStabilityReport(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint,

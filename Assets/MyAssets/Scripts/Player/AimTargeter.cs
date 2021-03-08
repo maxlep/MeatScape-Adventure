@@ -116,6 +116,7 @@ namespace MyAssets.Scripts.Player
             {
                 lastTarget = currentTarget;
                 targetingReticle.SetActive(false);
+                UpdateLockOn(false);
                 return;
             }
 

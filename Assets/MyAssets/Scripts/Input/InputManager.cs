@@ -20,6 +20,7 @@ public class InputManager : MonoBehaviour
     public delegate void _OnLockOn();
     public delegate void _OnCycleTargetRight();
     public delegate void _OnCycleTargetLeft();
+    public delegate void _OnCycleTarget_Pressed(Vector2 input);
     public delegate void _OnSave();
     public delegate void _OnLoad();
     public delegate void _OnJump_Pressed();
@@ -45,6 +46,7 @@ public class InputManager : MonoBehaviour
     public event _OnLockOn onLockOn;
     public event _OnCycleTargetRight onCycleTargetRight;
     public event _OnCycleTargetLeft onCycleTargetLeft;
+    public event _OnCycleTarget_Pressed onCycleTarget_Pressed;
     public event _OnSave onSave;
     public event _OnLoad onLoad;
     public event _OnJump_Pressed onJump_Pressed;
@@ -74,7 +76,7 @@ public class InputManager : MonoBehaviour
 
     private PlayerInput _inputs;
     private InputActionMap playerActions, uiActions;
-    private InputAction playerMove, playerLook, playerJump, playerRegenerateMeat, mousePosition, playerRoll, playerAttack;
+    private InputAction playerMove, playerLook, playerJump, playerRegenerateMeat, mousePosition, playerRoll, playerAttack, cycleTarget;
 
     public static bool PlatformInvertsScroll()
     {
@@ -100,6 +102,7 @@ public class InputManager : MonoBehaviour
         playerLook = playerActions.FindAction("Look");
         playerJump = playerActions.FindAction("Jump");
         playerRoll = playerActions.FindAction("Roll");
+        cycleTarget = playerActions.FindAction("CycleTarget");
         playerAttack = playerActions.FindAction("Attack");
         mousePosition = uiActions.FindAction("MousePosition");
         playerActions.Disable();
@@ -112,6 +115,8 @@ public class InputManager : MonoBehaviour
 
         playerAttack.performed += OnAttack_Pressed;
         playerAttack.canceled += OnAttack_Released;
+
+        cycleTarget.performed += OnCycleTarget_Pressed;
     }
 
     void Start()
@@ -204,6 +209,11 @@ public class InputManager : MonoBehaviour
     public void OnCycleTargetLeft()
     {
         if (onCycleTargetLeft != null) onCycleTargetLeft();
+    }
+
+    public void OnCycleTarget_Pressed(InputAction.CallbackContext ctx)
+    {
+        if (onCycleTarget_Pressed != null) onCycleTarget_Pressed(cycleTarget.ReadValue<Vector2>());
     }
     
     public void OnSave()

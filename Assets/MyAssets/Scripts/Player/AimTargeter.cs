@@ -96,34 +96,18 @@ namespace MyAssets.Scripts.Player
             {
                 var current = targetableColliders[i];
                 float weight = GetTargetWeight(current);
-
-                //If locked on, update cycle targets
+                
                 if (lockedOn && !Mathf.Approximately(weight, 0f))
                 {
                     //Dont consider the currentTarget for lock on cycle
                     if (current.Equals(currentTarget)) continue;
-                    
-                    var playerToCurrent = (current.bounds.center - playerController.transform.position).xz();
-                    var signedAngle = -Vector2.SignedAngle(playerToTarget, playerToCurrent);
-                    if (signedAngle >= 0f && signedAngle < currentCycleRightAngle)
-                    {
-                        currentCycleRightAngle = signedAngle;
-                        cycleTargetRight = current;
-                    }
-                    else if (signedAngle < 0f && signedAngle > currentCycleLeftAngle)
-                    {
-                        currentCycleLeftAngle = signedAngle;
-                        cycleTargetLeft = current;
-                    }
+                    UpdateCycleTargets(current, playerToTarget);
                 }
-                //If not locked on, handle auto-lock target based on weights
-                else
+                //If not locked on, handle update auto-lock target based on weights
+                else if (!lockedOn && weight > currentWeight)
                 {
-                    if (weight > currentWeight)
-                    {
-                        currentTarget = current;
-                        currentWeight = weight;
-                    }
+                    currentTarget = current;
+                    currentWeight = weight;
                 }
             }
 
@@ -245,6 +229,22 @@ namespace MyAssets.Scripts.Player
                 currentTarget = cycleTargetLeft;
                 MoveReticleToTarget();
                 UpdateLockOn(true);
+            }
+        }
+
+        private void UpdateCycleTargets(Collider target, Vector2 playerToTarget)
+        {
+            var playerToCurrent = (target.bounds.center - playerController.transform.position).xz();
+            var signedAngle = -Vector2.SignedAngle(playerToTarget, playerToCurrent);
+            if (signedAngle >= 0f && signedAngle < currentCycleRightAngle)
+            {
+                currentCycleRightAngle = signedAngle;
+                cycleTargetRight = target;
+            }
+            else if (signedAngle < 0f && signedAngle > currentCycleLeftAngle)
+            {
+                currentCycleLeftAngle = signedAngle;
+                cycleTargetLeft = target;
             }
         }
 

@@ -199,7 +199,7 @@ namespace MyAssets.Scripts.Player
             lockedOn = true;
 
             CinemachineTargetGroup.Target playerTarget = new CinemachineTargetGroup.Target();
-            playerTarget.weight = 1f;
+            playerTarget.weight = 0f;
             playerTarget.radius = 0f;
             playerTarget.target = lockOnCamTarget;
             

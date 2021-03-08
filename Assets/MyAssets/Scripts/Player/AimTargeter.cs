@@ -26,6 +26,7 @@ namespace MyAssets.Scripts.Player
         [SerializeField] private IntVariable enemyHitId;
         [SerializeField] private GameEvent lockOnStartEvent;
         [SerializeField] private GameEvent lockOnStopEvent;
+        [SerializeField] private FloatVariable lockOnCameraAimOffsetY;
         
         
         public Transform CurrentTarget => currentTarget?.transform;
@@ -38,6 +39,7 @@ namespace MyAssets.Scripts.Player
         private float lastSeenTargetTime;
 
         private CinemachineFramingTransposer framingTransposer;
+        private CinemachineGroupComposer groupComposer;
         
         private GameObject targetingReticle;
         private LTDescr targettingMoveTween;
@@ -57,15 +59,16 @@ namespace MyAssets.Scripts.Player
             targetingReticle = Instantiate<GameObject>(targetingReticlePrefab);
             targetingReticle.SetActive(false);
             framingTransposer = lockOnVirtualCam.GetCinemachineComponent<CinemachineFramingTransposer>();
+            groupComposer = lockOnVirtualCam.GetCinemachineComponent<CinemachineGroupComposer>();
         }
         
         private void Update()
         {
             HandleUpdateTarget();
             
-            //Make LockOnCam distance equal the current free look middle rig radius
-            //So it changes with player size as well
+            //Change distance and aim offset with size (indirectly)
             framingTransposer.m_CameraDistance = freeLookCam.m_Orbits[1].m_Radius;
+            groupComposer.m_TrackedObjectOffset.y = lockOnCameraAimOffsetY.Value;
         }
         #endregion
         

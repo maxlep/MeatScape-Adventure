@@ -1,4 +1,5 @@
 ﻿using System;
+using MoreMountains.Feedbacks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -9,9 +10,8 @@ namespace MyAssets.Scripts.ShaderHelpers
     {
         [SerializeField, LabelText("Meat Clump Renderer")] private Renderer renderer;
         [SerializeField] private float splatTime;
-        [SerializeField] private AudioClip splatSound;
 
-        [SerializeField] private float fadeTime;
+        [SerializeField] private MMFeedbacks splatFeedback;
         
         private Material material;
         private bool collided;
@@ -26,8 +26,8 @@ namespace MyAssets.Scripts.ShaderHelpers
             // if (collided) return;
             // collided = true;
             
-            EffectsManager.Instance.PlayClipAtPoint(splatSound, transform.position);
-
+            splatFeedback.PlayFeedbacks();
+            
             material.SetVector("_SplatNormal", normal);
 
             LTDescr tween;

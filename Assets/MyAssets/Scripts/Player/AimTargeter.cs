@@ -291,7 +291,8 @@ namespace MyAssets.Scripts.Player
                 camera.Value.transform.position, 
                 (target.bounds.center - camera.Value.transform.position).normalized,
                 out hit, maxRange, 
-                obstructionLayerMask
+                obstructionLayerMask,
+                QueryTriggerInteraction.Ignore
             );
             if (hitObstruction)
                 hitObstruction &= !hit.collider.Equals(target); //Dont consider the target an obstruction

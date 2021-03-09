@@ -64,18 +64,10 @@ namespace MyAssets.Scripts.Player
         
         private void Update()
         {
-            HandleUpdateTarget();
-            
             //Change distance and aim offset with size (indirectly)
             framingTransposer.m_CameraDistance = freeLookCam.m_Orbits[1].m_Radius;
             groupComposer.m_TrackedObjectOffset.y = lockOnCameraAimOffsetY.Value;
-        }
-        #endregion
-        
-        #region Update Positions/Target
-
-        private void HandleUpdateTarget()
-        {
+            
             //If locked on and target null (dies), cycle to next best
             if (lockedOn && currentTarget.SafeIsUnityNull())
             {
@@ -97,12 +89,10 @@ namespace MyAssets.Scripts.Player
                 UpdateLockOn(false);
             }
 
-            Vector2 playerToTarget = Vector2.zero;
-            
-            if (lockedOn)
-                playerToTarget = (currentTarget.bounds.center - playerController.transform.position).xz();
-            
+            Vector2 playerToTarget = (currentTarget.bounds.center - playerController.transform.position).xz();
+
             //TODO: What if 1 enemy has multiple colliders? Right now assuming each enemy has 1
+            //Cycle through targets and handle lock on and auto-aim modes
             int numColliders = Physics.OverlapSphereNonAlloc(transform.position, maxRange, targetableColliders, enemyLayerMask);
             for (int i = 0; i < numColliders; i++)
             {
@@ -134,17 +124,17 @@ namespace MyAssets.Scripts.Player
 
             //If new target, move reticle
             if (!GameObject.ReferenceEquals(currentTarget, lastTarget))
-            {
                 MoveReticleToTarget();
-            }
             else
-            {
                 FollowTarget();
-            }
-            
+
             lastTarget = currentTarget;
             targetingReticle.SetActive(true);
         }
+        #endregion
+        
+        #region Update Positions/Target
+        
         private void FollowTarget()
         {
             if (targettingMoveTween == null)
@@ -212,7 +202,8 @@ namespace MyAssets.Scripts.Player
             ToggleLockOnCamera(true);
             lockOnStartEvent.Raise();
             lockedOn = true;
-
+            
+            //Update target groups transforms
             CinemachineTargetGroup.Target playerTarget = new CinemachineTargetGroup.Target();
             playerTarget.weight = 0f;
             playerTarget.radius = 0f;

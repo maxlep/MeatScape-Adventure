@@ -89,7 +89,10 @@ namespace MyAssets.Scripts.Player
                 UpdateLockOn(false);
             }
 
-            Vector2 playerToTarget = (currentTarget.bounds.center - playerController.transform.position).xz();
+            Vector2 playerToTarget;
+
+            if (lockedOn)
+            playerToTarget = (currentTarget.bounds.center - playerController.transform.position).xz();
 
             //TODO: What if 1 enemy has multiple colliders? Right now assuming each enemy has 1
             //Cycle through targets and handle lock on and auto-aim modes

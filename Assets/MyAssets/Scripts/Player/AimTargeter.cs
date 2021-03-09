@@ -34,7 +34,7 @@ namespace MyAssets.Scripts.Player
         private Collider[] targetableColliders;
         
         private Collider currentTarget, lastTarget, cycleTargetRight, cycleTargetLeft;
-        private float currentWeight, currentCycleRightAngle, currentCycleLeftAngle;
+        private float currentWeight, currentRightWeight, currentLeftWeight, currentCycleRightAngle, currentCycleLeftAngle;
         private bool lockedOn;
         private float lastSeenTargetTime;
 
@@ -76,6 +76,15 @@ namespace MyAssets.Scripts.Player
 
         private void HandleUpdateTarget()
         {
+            //If locked on and target null (dies), cycle to next best
+            if (lockedOn && currentTarget.SafeIsUnityNull())
+            {
+                if (currentRightWeight > currentLeftWeight)
+                    TryCycleTarget(true);
+                else 
+                    TryCycleTarget(false);
+            }
+            
             ClearCycleTargets();
             
             //Update current target weight
@@ -149,6 +158,12 @@ namespace MyAssets.Scripts.Player
             if (targettingMoveTween != null)
             {
                 LeanTween.cancel(targettingMoveTween.id);
+            }
+
+            if (lastTarget.SafeIsUnityNull())
+            {
+                targetingReticle.transform.position = GetTargetPosition(currentTarget);
+                return;
             }
 
             var startPosition = lastTarget.SafeIsUnityNull() ? transform.position : targetingReticle.transform.position;
@@ -243,11 +258,13 @@ namespace MyAssets.Scripts.Player
             if (signedAngle >= 0f && signedAngle < currentCycleRightAngle)
             {
                 currentCycleRightAngle = signedAngle;
+                currentRightWeight = GetTargetWeight(target);
                 cycleTargetRight = target;
             }
             else if (signedAngle < 0f && signedAngle > currentCycleLeftAngle)
             {
                 currentCycleLeftAngle = signedAngle;
+                currentLeftWeight = GetTargetWeight(target);
                 cycleTargetLeft = target;
             }
         }

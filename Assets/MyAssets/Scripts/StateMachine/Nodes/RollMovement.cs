@@ -416,7 +416,10 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             else
             {
                 //This rotation will keep the collider up along round normal
-                newRotation = Quaternion.LookRotation(velocityDirection, playerController.GroundingStatus.GroundNormal);
+                if (Mathf.Approximately(velocityDirection.magnitude, 0f))
+                    newRotation = currentRotation;
+                else
+                    newRotation = Quaternion.LookRotation(velocityDirection, playerController.GroundingStatus.GroundNormal);
             }
             
             NewRotationOut.Value = newRotation;

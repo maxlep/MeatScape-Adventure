@@ -272,7 +272,7 @@ namespace MyAssets.Scripts.Player
         }
 
         #endregion
-        
+
         #region Calculate
         private float GetTargetWeight(Collider target)
         {
@@ -284,7 +284,13 @@ namespace MyAssets.Scripts.Player
             //     currentTarget = current;
             //     break;
             // }
+
+            //If target not within camera bounds
+            if (!CameraUtils.IsVisible(target.bounds.center, target.bounds.extents, camera.Value))
+                return 0;
             
+            
+            //Check for obstructions
             RaycastHit hit = default(RaycastHit);
             bool hitObstruction = Physics.Raycast
             (
@@ -307,6 +313,7 @@ namespace MyAssets.Scripts.Player
                     return 0;
             }
 
+            //Update last seen LockOn Target
             if (!hitObstruction && isLockOnTarget)
                 lastSeenTargetTime = Time.time;
             

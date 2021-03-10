@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Den.Tools;
+using MoreMountains.Feedbacks;
 using Sirenix.Utilities;
 using Unity.Mathematics;
 using UnityEngine;
@@ -9,7 +10,7 @@ using Random = UnityEngine.Random;
 
 public class ProjectileController : MonoBehaviour
 {
-    [SerializeField] private List<AudioClip> impactSounds;
+    [SerializeField] private MMFeedbacks impactFeedback;
     [SerializeField] private GameObject impactParticles;
     [SerializeField] private GameObject muzzleParticles;
     [SerializeField] private LayerMask impactMask;
@@ -52,8 +53,7 @@ public class ProjectileController : MonoBehaviour
 
                 if (otherObj.IsInLayerMask(impactMask))
                 {
-                    if (!impactSounds.IsNullOrEmpty())
-                        EffectsManager.Instance.PlayClipAtPoint(PickRandomClip(impactSounds), transform.position, .10f);
+                    impactFeedback.PlayFeedbacks();
                     if (impactParticles != null)
                         EffectsManager.Instance.SpawnParticlesAtPoint(impactParticles, transform.position, quaternion.identity);
 
@@ -110,11 +110,4 @@ public class ProjectileController : MonoBehaviour
     }
 
 
-    private AudioClip PickRandomClip(List<AudioClip> audioClips)
-    {
-        int randomIndex = Random.Range(0, impactSounds.Count);
-        return audioClips[randomIndex];
-    }
-
-    
 }

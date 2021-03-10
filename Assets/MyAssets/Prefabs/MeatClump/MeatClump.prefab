@@ -137,7 +137,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8144861432666529593}
   - component: {fileID: 8239211911836117986}
-  - component: {fileID: 6235047683192329323}
+  - component: {fileID: 8339928552127525950}
   m_Layer: 10
   m_Name: SplatFeedback
   m_TagString: Untagged
@@ -173,12 +173,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Feedbacks:
-  - {fileID: 6235047683192329323}
+  - {fileID: 8339928552127525950}
   InitializationMode: 2
   SafeMode: 3
   AutoPlayOnStart: 0
   DebugActive: 0
---- !u!114 &6235047683192329323
+--- !u!114 &8339928552127525950
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -187,11 +187,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6908684000516486566}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbeb74f1ccfa52540b6fd5784df42533, type: 3}
+  m_Script: {fileID: 11500000, guid: 8992174433e952f4ab19e373a3c9ddba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Active: 1
-  Label: AudioSource
+  Label: SoundCustomSource
   Chance: 100
   Timing:
     TimescaleMode: 0
@@ -205,10 +205,22 @@ MonoBehaviour:
     Quantized: 0
     TargetBPM: 120
   DebugActive: 0
-  TargetAudioSource: {fileID: 5487899656280661656}
-  Mode: 0
-  RandomSfx:
-  - {fileID: 8300000, guid: 1edeeb0844d80a24b92eb308bb8a07fc, type: 3}
+  Sfx: {fileID: 8300000, guid: 1edeeb0844d80a24b92eb308bb8a07fc, type: 3}
+  RandomSfx: []
+  audioSourceSettings:
+    Priority: 128
+    StereoPan: 0
+    SpatialBlend: 1
+    ReverbZoneMix: 1
+    DopplerLevel: 1
+    Spread: 0
+    VolumeRolloff: 0
+    MinDistance: 15
+    MaxDistance: 500
+  TestButton: 0
+  TestStopButton: 0
+  PlayMethod: 2
+  PoolSize: 10
   MinVolume: 1
   MaxVolume: 1
   MinPitch: 1

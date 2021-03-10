@@ -147,7 +147,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             Vector3 currentVelocity = velocityInfo.currentVelocity;
             Vector3 impulseVelocity = velocityInfo.impulseVelocity;
             Vector3 impulseVelocityRedirectble = velocityInfo.impulseVelocityRedirectble;
-
+            
             Vector3 totalImpulse = impulseVelocity;
             Vector3 resultingVelocity;
             Vector3 horizontalVelocity = CalculateHorizontalVelocity(currentVelocity);

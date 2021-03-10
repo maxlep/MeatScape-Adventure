@@ -213,18 +213,29 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
             onStartUpdateVelocity.Invoke(velocityInfo);
             currentVelocity = NewVelocity.Value;
         }
-        
-        currentVelocity += impulseVelocityOverlayed;
 
+        #region OverlayedVelocity
+
+        if (impulseVelocityOverlayed.y > 0f)
+            UngroundMotor();
+
+        if (!Mathf.Approximately(0f, impulseVelocityOverlayed.sqrMagnitude))
+        {
+            currentVelocity += impulseVelocityOverlayed;
+            NewVelocity.Value = currentVelocity;    //Update new velocity to keep in sync
+        }
+        
         if (!Mathf.Approximately(StoredJumpVelocity.Value, 0f))
         {
             currentVelocity.y = StoredJumpVelocity.Value;
+            NewVelocity.Value = currentVelocity;    //Update new velocity to keep in sync
         }
-        
+
+        #endregion
+
         impulseVelocity = Vector3.zero;
         impulseVelocityRedirectable = Vector3.zero;
         impulseVelocityOverlayed = Vector3.zero;
-
     }
 
     public void AfterCharacterUpdate(float deltaTime, Vector3 previousVelocity)
@@ -418,9 +429,9 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         MoveInput.Value = playerMove.ReadValue<Vector2>();
     }
 
-    public void UngroundMotor()
+    public void UngroundMotor(float time = .1f)
     {
-        charMotor.ForceUnground();
+        charMotor.ForceUnground(time);
         
         //If on ground and calling unground, activate became ungrounded trigger
         if (GroundingStatus.FoundAnyGround || LastGroundingStatus.FoundAnyGround)

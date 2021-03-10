@@ -22,7 +22,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -8680, y: -1448}
+  position: {x: -10392, y: -1416}
   ports:
     keys:
     - transitions
@@ -72,7 +72,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -6856, y: -216}
+  position: {x: -8568, y: -184}
   ports:
     keys:
     - previousState
@@ -122,7 +122,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -5640, y: -1720}
+  position: {x: -7432, y: -1688}
   ports:
     keys:
     - previousState
@@ -150,6 +150,79 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   referencedState: {fileID: -8209884016339463683}
+--- !u!114 &-8239950027094308354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a72f93ed1b9d7a34da632e737a456763, type: 3}
+  m_Name: Flatten <Flatten> (PlayerMovement)
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: -4440, y: -1416}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: -8239950027094308354}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: -3587464245139835064}
+        reroutePoints: []
+      - fieldName: nextState
+        node: {fileID: 144026596585446073}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: -8239950027094308354}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: startingState
+        node: {fileID: -4746875906139237634}
+        reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: 3000325693515124949}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  collapsed: 1
+  BypassState: 0
+  Name: Flatten
+  Description: 
+  isActiveState: 0
+  FlattenStartEvent: {fileID: 11400000, guid: c15a91da8ceae864e82458d1a848051b, type: 2}
+  FlattenStopEvent: {fileID: 11400000, guid: f0f0fecb99f305b47a784f9b4130b785, type: 2}
+  NewVelocityOut:
+    UseConstant: 0
+    ConstantValue: {x: 0, y: 0, z: 0}
+    Variable: {fileID: 11400000, guid: 9bb89c095cc264240a1d00bcb25ce309, type: 2}
+  NewRotationOut:
+    UseConstant: 0
+    ConstantValue: {x: 0, y: 0, z: 0, w: 0}
+    Variable: {fileID: 11400000, guid: 642843bee527d554f9408523e1ab11c8, type: 2}
 --- !u!114 &-8209884016339463683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -649,7 +722,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -5160, y: -728}
+  position: {x: -6872, y: -696}
   ports:
     keys:
     - startingState
@@ -807,7 +880,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -6872, y: -536}
+  position: {x: -8584, y: -504}
   ports:
     keys:
     - previousState
@@ -857,7 +930,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -8680, y: -1688}
+  position: {x: -10392, y: -1656}
   ports:
     keys:
     - previousState
@@ -907,15 +980,15 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -8776, y: -2072}
+  position: {x: -10472, y: -2040}
   ports:
     keys: []
     values: []
-  Width: 6552
-  Height: 2239
+  Width: 8531
+  Height: 2200
   Color: {r: 1, g: 1, b: 1, a: 0.08}
   TextColor: {r: 1, g: 1, b: 1, a: 1}
-  Description: Roll & Slingshot
+  Description: Roll & Slingshot & GroundSlam
   Minimized: 0
 --- !u!114 &-5533445536069484476
 MonoBehaviour:
@@ -1148,6 +1221,77 @@ MonoBehaviour:
   TextColor: {r: 1, g: 1, b: 1, a: 1}
   Description: Ground to Air
   Minimized: 0
+--- !u!114 &-4746875906139237634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: Flatten -> GroundMovement
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: -3768, y: -1720}
+  ports:
+    keys:
+    - startingState
+    - nextState
+    values:
+    - _fieldName: startingState
+      _node: {fileID: -4746875906139237634}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: -8239950027094308354}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: nextState
+      _node: {fileID: -4746875906139237634}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: 3397190755906087193}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+  collapsed: 1
+  transitionPriority: 0
+  conditionPreview: '-  Flatten Timer_ Movement_ Player: 0.4 sec
+
+'
+  ValidStartStates: []
+  InvalidStartStates: []
+  BoolConditions: []
+  TriggerConditions: []
+  FloatConditions: []
+  IntConditions: []
+  TimerConditions:
+  - targetParameter:
+      UseConstant: 0
+      ConstantDuration: 0
+      Variable: {fileID: 11400000, guid: 91e8f5b2675f2644d8f1e09594df1b4d, type: 2}
+    restartOnEnterPreviousState: 1
+  Vector2Conditions: []
+  Vector3Conditions: []
 --- !u!114 &-4515850440577635702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1314,7 +1458,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Ground Slam Fall -> Roll Movement
+  m_Name: Ground Slam Fall -> Flatten
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -1326,7 +1470,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -3320, y: -1784}
+  position: {x: -5032, y: -1752}
   ports:
     keys:
     - startingState
@@ -1350,7 +1494,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: previousState
-        node: {fileID: -2572909702905097865}
+        node: {fileID: -8239950027094308354}
         reroutePoints: []
       _direction: 1
       _connectionType: 1
@@ -1484,6 +1628,9 @@ MonoBehaviour:
   transitionPriority: 0
   conditionPreview: '-  Is Grounded_ Controller_ Player
 
+    -  Waited Jump Ground
+    Delay_ Movement_ Player
+
 '
   ValidStartStates: []
   InvalidStartStates: []
@@ -1492,6 +1639,11 @@ MonoBehaviour:
       UseConstant: 0
       ConstantValue: 0
       Variable: {fileID: 11400000, guid: 7515e678ba0d82a4b92ee5e8bc9cee52, type: 2}
+    value: 1
+  - targetParameter:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: 358e23c96757a634d87c428b8667b8ee, type: 2}
     value: 1
   TriggerConditions: []
   FloatConditions: []
@@ -1521,7 +1673,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -7384, y: -1336}
+  position: {x: -9096, y: -1304}
   ports:
     keys:
     - previousState
@@ -1650,6 +1802,7 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 783f2468a05364043be711de8bd02039, type: 2}
+  EnableBounce: 1
   BounceFactor:
     UseConstant: 0
     ConstantValue: 0
@@ -1779,7 +1932,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
-  m_Name: Roll Movement <Reference>
+  m_Name: NoLowJump <Reference>
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -1791,7 +1944,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -2712, y: -1416}
+  position: {x: -2344, y: -1112}
   ports:
     keys:
     - previousState
@@ -1802,11 +1955,8 @@ MonoBehaviour:
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
-      - fieldName: nextState
-        node: {fileID: 144026596585446073}
-        reroutePoints: []
-      - fieldName: nextState
-        node: {fileID: -3587464245139835064}
+      - fieldName: transitions
+        node: {fileID: -1722979581280647801}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -1821,7 +1971,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  referencedState: {fileID: 4966931143862885706}
+  referencedState: {fileID: 8382683336472367375}
 --- !u!114 &-2334806701575608527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2036,6 +2186,75 @@ MonoBehaviour:
   TimerConditions: []
   Vector2Conditions: []
   Vector3Conditions: []
+--- !u!114 &-1722979581280647801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 733a44eca73a244498d080098d67662e, type: 3}
+  m_Name: GroundSlamJump <GroundSlamJump> (PlayerMovement)
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: -3048, y: -1144}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: -1722979581280647801}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: 3000325693515124949}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: -1722979581280647801}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: -2572909702905097865}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  collapsed: 1
+  BypassState: 0
+  Name: GroundSlamJump
+  Description: 
+  isActiveState: 0
+  JumpImpulse:
+    UseConstant: 1
+    ConstantValue: 35
+    Variable: {fileID: 0}
+  jumpGroundDelay:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 324837fd9b74bdb48abfa5049fd2a21c, type: 2}
+  hasWaitedJumpDelay:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 358e23c96757a634d87c428b8667b8ee, type: 2}
 --- !u!114 &-1333640993000816840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2258,7 +2477,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -3944, y: -1448}
+  position: {x: -5656, y: -1416}
   ports:
     keys:
     - previousState
@@ -2388,6 +2607,7 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 783f2468a05364043be711de8bd02039, type: 2}
+  EnableBounce: 0
   BounceFactor:
     UseConstant: 0
     ConstantValue: 0
@@ -2444,7 +2664,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -6440, y: -568}
+  position: {x: -8152, y: -536}
   ports:
     keys:
     - startingState
@@ -2631,6 +2851,12 @@ MonoBehaviour:
   - {fileID: 144026596585446073}
   - {fileID: -2572909702905097865}
   - {fileID: -3587464245139835064}
+  - {fileID: -8239950027094308354}
+  - {fileID: -4746875906139237634}
+  - {fileID: 3397190755906087193}
+  - {fileID: 3000325693515124949}
+  - {fileID: -1722979581280647801}
+  - {fileID: 5913525189570184767}
 --- !u!114 &144026596585446073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2641,7 +2867,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Ground Slam Fall -> Roll Movement
+  m_Name: Ground Slam Fall -> Flatten
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -2653,7 +2879,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -3320, y: -1304}
+  position: {x: -5032, y: -1272}
   ports:
     keys:
     - startingState
@@ -2677,7 +2903,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: previousState
-        node: {fileID: -2572909702905097865}
+        node: {fileID: -8239950027094308354}
         reroutePoints: []
       _direction: 1
       _connectionType: 1
@@ -2685,14 +2911,14 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Became Ungrounded_ Controller_ Player
+  conditionPreview: '-  Became Grounded_ Controller_ Player
 
 '
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
   TriggerConditions:
-  - targetParameter: {fileID: 11400000, guid: 767157d13b396884ab6b2e050dbc4701, type: 2}
+  - targetParameter: {fileID: 11400000, guid: bc3f007a9a652244e9b936a55801d5e7, type: 2}
     KeepTriggerOn: 0
   FloatConditions: []
   IntConditions: []
@@ -3617,7 +3843,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -8184, y: -1704}
+  position: {x: -9896, y: -1672}
   ports:
     keys:
     - startingState
@@ -3678,6 +3904,7 @@ MonoBehaviour:
       UseConstant: 0
       ConstantDuration: 0
       Variable: {fileID: 11400000, guid: b6204589a5aac664c88aaf66c1af8512, type: 2}
+    restartOnEnterPreviousState: 1
   Vector2Conditions: []
   Vector3Conditions: []
 --- !u!114 &2073304123495497544
@@ -3702,7 +3929,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -4536, y: -536}
+  position: {x: -6248, y: -504}
   ports:
     keys:
     - previousState
@@ -3730,6 +3957,82 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   referencedState: {fileID: 3160719255603912525}
+--- !u!114 &3000325693515124949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: Flatten -> GroundSlamJump
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: -3768, y: -1192}
+  ports:
+    keys:
+    - startingState
+    - nextState
+    values:
+    - _fieldName: startingState
+      _node: {fileID: 3000325693515124949}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: -8239950027094308354}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: nextState
+      _node: {fileID: 3000325693515124949}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: -1722979581280647801}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+  collapsed: 1
+  transitionPriority: 0
+  conditionPreview: '-  Jump Trigger_ Controller_ Player
+
+    -  Flatten Jump Delay
+    Timer_ Movement_ Player: 0.1 sec
+
+'
+  ValidStartStates: []
+  InvalidStartStates: []
+  BoolConditions: []
+  TriggerConditions:
+  - targetParameter: {fileID: 11400000, guid: cde4df9a2139a5e419bc8adc56c875e2, type: 2}
+    KeepTriggerOn: 0
+  FloatConditions: []
+  IntConditions: []
+  TimerConditions:
+  - targetParameter:
+      UseConstant: 0
+      ConstantDuration: 0
+      Variable: {fileID: 11400000, guid: 533bf6839bf05b443b48952d8fd3397f, type: 2}
+    restartOnEnterPreviousState: 1
+  Vector2Conditions: []
+  Vector3Conditions: []
 --- !u!114 &3160719255603912525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3808,6 +4111,56 @@ MonoBehaviour:
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 358e23c96757a634d87c428b8667b8ee, type: 2}
   triggerJumpAnim: {fileID: 11400000, guid: 692eae34b308467428fcb511fd2a56c5, type: 2}
+--- !u!114 &3397190755906087193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: GroundMovement <Reference>
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: -3032, y: -1608}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: 3397190755906087193}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: -4746875906139237634}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: 3397190755906087193}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  referencedState: {fileID: 1196608421412681666}
 --- !u!114 &4879078656723649851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3880,7 +4233,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -5736, y: -936}
+  position: {x: -7448, y: -904}
   ports:
     keys:
     - previousState
@@ -4012,6 +4365,7 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 783f2468a05364043be711de8bd02039, type: 2}
+  EnableBounce: 1
   BounceFactor:
     UseConstant: 0
     ConstantValue: 0
@@ -4139,7 +4493,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -5640, y: -1384}
+  position: {x: -7448, y: -1432}
   ports:
     keys:
     - previousState
@@ -4189,7 +4543,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -8184, y: -1224}
+  position: {x: -9896, y: -1192}
   ports:
     keys:
     - startingState
@@ -4205,6 +4559,9 @@ MonoBehaviour:
         reroutePoints: []
       - fieldName: transitions
         node: {fileID: 6383937841313842351}
+        reroutePoints: []
+      - fieldName: transitions
+        node: {fileID: 5913525189570184767}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -4249,6 +4606,56 @@ MonoBehaviour:
   TimerConditions: []
   Vector2Conditions: []
   Vector3Conditions: []
+--- !u!114 &5913525189570184767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: Flatten <Reference>
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: -10392, y: -1016}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: 5913525189570184767}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: 5913525189570184767}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: startingState
+        node: {fileID: 5756824846197644187}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  referencedState: {fileID: -8239950027094308354}
 --- !u!114 &5989774036663823448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4303,7 +4710,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -5144, y: -1480}
+  position: {x: -6872, y: -1640}
   ports:
     keys:
     - startingState
@@ -4348,6 +4755,9 @@ MonoBehaviour:
 
     -  Distance To Ground_ Controller_ Player  Greater Than 3
 
+    - 
+    Ground Slam Cooldown Timer_ Movement_ Player: 0.75 sec
+
 '
   ValidStartStates: []
   InvalidStartStates: []
@@ -4368,7 +4778,12 @@ MonoBehaviour:
     comparator: 1
     value: 3
   IntConditions: []
-  TimerConditions: []
+  TimerConditions:
+  - targetParameter:
+      UseConstant: 0
+      ConstantDuration: 0
+      Variable: {fileID: 11400000, guid: 075c1fded8a47364b8151f8e495992f1, type: 2}
+    restartOnEnterPreviousState: 0
   Vector2Conditions: []
   Vector3Conditions: []
 --- !u!114 &6332291481083292061
@@ -4461,7 +4876,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -8680, y: -1240}
+  position: {x: -10392, y: -1208}
   ports:
     keys:
     - previousState
@@ -4759,7 +5174,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -4536, y: -1464}
+  position: {x: -6248, y: -1432}
   ports:
     keys:
     - previousState
@@ -4810,6 +5225,8 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: {x: 0, y: 0, z: 0}
     Variable: {fileID: 11400000, guid: 32fe95a7d33c6774fbb7a1297b54ed10, type: 2}
+  GroundSlamCooldownTimer: {fileID: 11400000, guid: 075c1fded8a47364b8151f8e495992f1,
+    type: 2}
 --- !u!114 &9201189763644822038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4832,7 +5249,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -6456, y: -1208}
+  position: {x: -8168, y: -1176}
   ports:
     keys:
     - startingState
@@ -4858,7 +5275,7 @@ MonoBehaviour:
       - fieldName: previousState
         node: {fileID: 4966931143862885706}
         reroutePoints:
-        - {x: -5728, y: -880}
+        - {x: -7440, y: -848}
       _direction: 1
       _connectionType: 1
       _typeConstraint: 2

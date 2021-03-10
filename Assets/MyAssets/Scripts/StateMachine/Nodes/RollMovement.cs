@@ -71,6 +71,10 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Vertical")] [Required]
+        protected bool EnableBounce = true;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Vertical")] [Required]
         protected FloatReference BounceFactor;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
@@ -201,7 +205,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             
             float velocityGroundDot = Vector3.Dot(previousVelocityOutput.normalized, GroundingStatus.GroundNormal);
 
-            if (!LastGroundingStatus.FoundAnyGround && GroundingStatus.FoundAnyGround &&
+            if (EnableBounce && !LastGroundingStatus.FoundAnyGround && GroundingStatus.FoundAnyGround &&
                 velocityIntoGround.magnitude >= BounceThresholdVelocity.Value &&
                 -velocityGroundDot > BounceGroundDotThreshold.Value)
             {

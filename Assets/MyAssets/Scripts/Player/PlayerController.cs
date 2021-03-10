@@ -72,6 +72,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable AddImpulseTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable BecameGrounded;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable BecameUngrounded;
+    [FoldoutGroup("Transition Parameters")] [SerializeField] private TimerVariable GroundSlamCooldownTimer;
+
 
     [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference ClumpThrowKnockbackSpeed;
     [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference EnemyKnockbackSpeed;
@@ -139,6 +141,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
                 FrenzyDecayTimer.RestartTimer();
             }
         });
+        GroundSlamCooldownTimer.StartTimer();
     }
 
     void Awake()
@@ -379,6 +382,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         BaseVelocity.Value = charMotor.BaseVelocity;
         groundInfo = GetGroundInfo();
         DistanceToGround.Value = groundInfo.distance;
+        GroundSlamCooldownTimer.UpdateTime();
 
         if (!LastGroundingStatus.FoundAnyGround && GroundingStatus.FoundAnyGround)
             BecameGrounded.Activate();

@@ -10,7 +10,8 @@ using UnityEngine;
 public class TimerCondition : ITransitionCondition
 {
     [SerializeField] [HideLabel] private TimerReference targetParameter;
-
+    [SerializeField] [LabelWidth(175f)] private bool restartOnEnterPreviousState = true;
+    
     private string parentTransitionName = "";
 
     public void Init(string transitionName)
@@ -27,7 +28,8 @@ public class TimerCondition : ITransitionCondition
     
     public void StartTimer()
     {
-        targetParameter?.RestartTimer();
+        if (restartOnEnterPreviousState)
+            targetParameter?.RestartTimer();
     }
 
     public void UpdateTime()

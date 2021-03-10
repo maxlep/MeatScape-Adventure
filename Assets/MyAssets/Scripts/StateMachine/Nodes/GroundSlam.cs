@@ -10,12 +10,13 @@ public class GroundSlam : PlayerStateNode
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference StoredJumpVelocity;
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference BounceThresholdVelocity;
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private Vector3Reference PreviousVelocity;
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TimerVariable GroundSlamCooldownTimer;
     
     
     public override void Enter()
     {
         base.Enter();
-        
+        GroundSlamCooldownTimer.StartTimer();
         
         //Set Velocity at least enough to bounce, and dont decrease if already falling fast
         float newJumpVelocity = Mathf.Min(-Mathf.Abs(SlamVelocity.Value), -BounceThresholdVelocity.Value);

@@ -56,7 +56,8 @@ namespace MyAssets.Runtime.AnimationJobs
             var streamB = stream.GetInputStream(1);
             var numHandles = handles.Length;
 
-            if (useBonesLastAsFirst)
+            if (useBonesLastAsFirst &&
+                streamA.isValid)
             {
                 if (!isTransitioning)
                 {

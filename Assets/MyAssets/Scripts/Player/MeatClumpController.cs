@@ -21,11 +21,12 @@ public class MeatClumpController : MonoBehaviour
     [SerializeField] private FloatReference ClumpFalloffSpeed;
     [SerializeField] private FloatReference ClumpFalloffDistanceFactor;
     [SerializeField] private FloatReference CollisionRadius;
+    [SerializeField] private FloatReference DragCoefficient;
     [SerializeField] private LayerMask CollisionMask;
     [SerializeField] private UnityEvent OnCollideWithStatic;
     [SerializeField] private IntVariable enemyHitId;
 
-    private float speed;
+    private float currentSpeed;
     private bool hasCollided = false;
     private bool shouldFallOff = false;
     
@@ -38,7 +39,8 @@ public class MeatClumpController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        float deltaDistance = this.speed * Time.deltaTime;
+        this.currentSpeed -= this.currentSpeed * DragCoefficient.Value * Time.deltaTime;
+        float deltaDistance = this.currentSpeed * Time.deltaTime;
 
         if (!hasCollided) PreMoveCollisionCheck(deltaDistance);
         if (!hasCollided) Move(deltaDistance);
@@ -48,7 +50,7 @@ public class MeatClumpController : MonoBehaviour
     
     #region Setters
     public void SetMoving(float speed, Vector3 direction) {
-        this.speed = speed;
+        this.currentSpeed = speed;
         this.transform.forward = direction.normalized;
     }
     #endregion

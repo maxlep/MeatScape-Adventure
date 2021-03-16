@@ -151,6 +151,7 @@ namespace MyAssets.Scripts.Player
             if (targettingMoveTween != null)
             {
                 LeanTween.cancel(targettingMoveTween.id);
+                targettingMoveTween = null;
             }
 
             if (lastTarget.SafeIsUnityNull())

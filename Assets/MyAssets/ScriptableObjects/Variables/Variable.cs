@@ -187,7 +187,7 @@ namespace MyAssets.ScriptableObjects.Variables
 
         private void RefreshMinMax()
         {
-            if (Variable != null || UseConstant) {
+            if ((Variable != null && Variable.Value != null) || (UseConstant && ConstantValue != null)) {
                 var curve = UseConstant ? ConstantValue : Variable.Value;
                 foreach (var key in curve.keys)
                 {

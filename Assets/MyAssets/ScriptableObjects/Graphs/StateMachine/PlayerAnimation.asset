@@ -837,9 +837,12 @@ MonoBehaviour:
   transitionPriority: 0
   conditionPreview: '-  Valid:  Roll  Movement
 
+    -  Valid:  Meateor  Strike
+
 '
   ValidStartStates:
   - {fileID: 4966931143862885706, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  - {fileID: 454363467314561103, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   InvalidStartStates: []
   BoolConditions: []
   TriggerConditions: []
@@ -1067,10 +1070,17 @@ MonoBehaviour:
 
     -  Valid:  Ground  Slam  Fall
 
+    - 
+    Valid:  Flatten
+
+    -  Valid:  Meateor  Strike
+
 '
   ValidStartStates:
   - {fileID: 4966931143862885706, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   - {fileID: -879615659895784873, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  - {fileID: -8239950027094308354, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  - {fileID: 454363467314561103, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   InvalidStartStates: []
   BoolConditions: []
   TriggerConditions: []
@@ -1149,7 +1159,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 0
+  collapsed: 1
   BypassState: 0
   Name: Ground Movement Sub
   Description: 
@@ -1709,7 +1719,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 0
+  collapsed: 1
   BypassState: 0
   Name: Skid Sub
   Description: 
@@ -1788,6 +1798,7 @@ MonoBehaviour:
       UseConstant: 0
       ConstantDuration: 0
       Variable: {fileID: 11400000, guid: 2586ea3250397f44b9a3d11e0cf49858, type: 2}
+    restartOnEnterPreviousState: 1
   Vector2Conditions: []
   Vector3Conditions: []
 --- !u!114 &1227796362267375465
@@ -2504,9 +2515,16 @@ MonoBehaviour:
   transitionPriority: 0
   conditionPreview: '-  Valid:  Roll  Movement
 
+    -  Valid:  Flatten
+
+    -  Valid: 
+    Meateor  Strike
+
 '
   ValidStartStates:
   - {fileID: 4966931143862885706, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  - {fileID: -8239950027094308354, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  - {fileID: 454363467314561103, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   InvalidStartStates: []
   BoolConditions: []
   TriggerConditions: []
@@ -2821,6 +2839,7 @@ MonoBehaviour:
       UseConstant: 0
       ConstantDuration: 0
       Variable: {fileID: 11400000, guid: 2586ea3250397f44b9a3d11e0cf49858, type: 2}
+    restartOnEnterPreviousState: 1
   Vector2Conditions: []
   Vector3Conditions: []
 --- !u!114 &5445976633038325129
@@ -2945,7 +2964,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 0
+  collapsed: 1
   BypassState: 0
   Name: Roll Movement Sub
   Description: 
@@ -3433,6 +3452,11 @@ MonoBehaviour:
 
     -  Invalid:  Ground  Slam
 
+    -  Invalid: 
+    Flatten
+
+    -  Invalid:  Meateor  Strike
+
 '
   ValidStartStates: []
   InvalidStartStates:
@@ -3440,6 +3464,8 @@ MonoBehaviour:
   - {fileID: -2916305283311469656, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   - {fileID: -879615659895784873, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   - {fileID: 8988548520584293854, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  - {fileID: -8239950027094308354, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  - {fileID: 454363467314561103, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   BoolConditions: []
   TriggerConditions: []
   FloatConditions: []

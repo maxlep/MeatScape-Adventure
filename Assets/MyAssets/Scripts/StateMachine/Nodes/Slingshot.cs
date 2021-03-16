@@ -43,6 +43,10 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [Required]
         private TimerVariable DelayTimer;
         
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [Required]
+        private Vector3Reference SlingshotDirection;
+        
         #region GameEvents
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
@@ -56,6 +60,22 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [Required]
         private GameEvent SlingShotOptimalReleaseEvent;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [Required]
+        private TriggerVariable SlingShotOptimalReleaseTrigger;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [Required]
+        private TriggerVariable SlingShotReleaseTrigger;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [Required]
+        private TriggerVariable SlingshotReleaseInput;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [Required]
+        private TransformSceneReference currentTargetSceneReference;
         
         #endregion
 
@@ -72,26 +92,13 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             accumulatedForce = Vector3.zero;
             enterTime = Time.time;
             activatedParticles = false;
+            SlingshotReleaseInput.Subscribe(Release);
         }
 
         public override void Exit()
         {
             base.Exit();
-
-            float timeToOptimalCharge = Mathf.Abs(Time.time - (enterTime + OptimalChargeTime.Value));
-            if (timeToOptimalCharge < OptimalChargeErrorThreshold.Value)
-            {
-                accumulatedForce = MaxForce.Value * OptimalChargeMultiplier.Value * accumulatedForce.normalized;
-                SlingShotOptimalReleaseEvent.Raise();
-            }
-            else if (accumulatedForce != Vector3.zero)
-            {
-                SlingShotReleaseEvent.Raise();
-            }
-            
-            playerController.AddImpulse(accumulatedForce);
-            playerController.ToggleArrow(false);
-            DelayTimer.StartTimer();
+            SlingshotReleaseInput.Unsubscribe(Release);
         }
 
         public override void Execute()
@@ -141,9 +148,17 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         private void AccumulateSlingForce()
         {
             CharacterGroundingReport groundingStatus = playerController.GroundingStatus;
+
+            Vector3 slingDirection;
             
-            Vector3 slingDirection =
-                Vector3.ProjectOnPlane(moveInputCameraRelative.normalized, groundingStatus.GroundNormal);
+            if (currentTargetSceneReference.Value == null)
+                slingDirection = Vector3.ProjectOnPlane(moveInputCameraRelative.normalized, groundingStatus.GroundNormal);
+            else
+            {
+                Vector3 playerToTarget =
+                    (currentTargetSceneReference.Value.position - playerController.transform.position).normalized;
+                slingDirection = playerToTarget;
+            }
 
             float timePassed = Time.time - enterTime;
             float percentToMax = Mathf.Clamp01(timePassed/TimeToMaxCharge.Value);
@@ -152,6 +167,27 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
             float maxArowLine = 15f;
             playerController.SetSlingshotArrow(percentToMax * maxArowLine * slingDirection);
+            SlingshotDirection.Value = slingDirection;
+        }
+
+        private void Release()
+        {
+            float timeToOptimalCharge = Mathf.Abs(Time.time - (enterTime + OptimalChargeTime.Value));
+            if (timeToOptimalCharge < OptimalChargeErrorThreshold.Value)
+            {
+                accumulatedForce = MaxForce.Value * OptimalChargeMultiplier.Value * accumulatedForce.normalized;
+                SlingShotOptimalReleaseEvent.Raise();
+                SlingShotOptimalReleaseTrigger.Activate();
+            }
+            else if (accumulatedForce != Vector3.zero)
+            {
+                SlingShotReleaseEvent.Raise();
+                SlingShotReleaseTrigger.Activate();
+            }
+            
+            playerController.AddImpulse(accumulatedForce);
+            playerController.ToggleArrow(false);
+            DelayTimer.StartTimer();
         }
     }
 }

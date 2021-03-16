@@ -1,4 +1,5 @@
-﻿using Cinemachine;
+﻿using System;
+using Cinemachine;
 using MyAssets.ScriptableObjects.Events;
 using Sirenix.Utilities;
 using MyAssets.ScriptableObjects.Variables;
@@ -27,6 +28,7 @@ namespace MyAssets.Scripts.Player
         [SerializeField] private GameEvent lockOnStartEvent;
         [SerializeField] private GameEvent lockOnStopEvent;
         [SerializeField] private FloatVariable lockOnCameraAimOffsetY;
+        [SerializeField] private TransformSceneReference currentTargetSceneReference;
         
         
         public Transform CurrentTarget => currentTarget?.transform;
@@ -134,6 +136,15 @@ namespace MyAssets.Scripts.Player
             lastTarget = currentTarget;
             targetingReticle.SetActive(true);
         }
+
+        private void LateUpdate()
+        {
+            if (currentTarget != null)
+                currentTargetSceneReference.Value = currentTarget.transform;
+            else
+                currentTargetSceneReference.Value = null;
+        }
+
         #endregion
         
         #region Update Positions/Target

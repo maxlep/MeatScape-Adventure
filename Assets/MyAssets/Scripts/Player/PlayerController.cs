@@ -9,6 +9,7 @@ using MoreMountains.Feedbacks;
 using MoreMountains.Tools;
 using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
+using MyAssets.ScriptableObjects.Variables.ValueReferences;
 using MyAssets.Scripts.Player;
 using MyAssets.Scripts.Utils;
 using Shapes;
@@ -55,6 +56,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference StoredJumpVelocity;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference MinSlopeSlideAngle;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference MaxStableDenivelationAngle;
+    [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatValueReference Scale;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector2Reference MoveInput;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector3Reference BaseVelocity;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference JumpPressed;
@@ -119,6 +121,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     private float invincibilityTimer = -Mathf.Infinity;
 
+    private float capsuleStartHeight, capsuleStartRadius;
+
     public delegate void _OnStartUpdateVelocity(VelocityInfo velocityInfo);
     public delegate void _OnStartUpdateRotation(Quaternion currentRotation);
     public event _OnStartUpdateVelocity onStartUpdateVelocity;
@@ -142,6 +146,14 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
             }
         });
         GroundSlamCooldownTimer.StartTimer();
+
+        capsuleStartHeight = charMotor.Capsule.height;
+        capsuleStartRadius = charMotor.Capsule.radius;
+        Scale.Subscribe(() =>
+        {
+            charMotor.Capsule.height = capsuleStartHeight * Scale.Value;
+            charMotor.Capsule.radius = capsuleStartRadius * Scale.Value;
+        });
     }
 
     void Awake()

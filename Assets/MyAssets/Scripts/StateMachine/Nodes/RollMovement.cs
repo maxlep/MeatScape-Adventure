@@ -5,7 +5,6 @@ using MyAssets.ScriptableObjects.Variables;
 using MyAssets.Scripts.Utils;
 using Shapes;
 using Sirenix.OdinInspector;
-using Sirenix.Utilities.Editor;
 using Unity.Mathematics;
 using UnityEngine;
 

@@ -116,6 +116,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private Vector3 impulseVelocity;
     private Vector3 impulseVelocityRedirectable;
     private Vector3 impulseVelocityOverlayed;
+    private Vector3 impulseVelocityOverlayedOverrideX;
 
     private float invincibilityTimer = -Mathf.Infinity;
 
@@ -225,6 +226,12 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
             NewVelocity.Value = currentVelocity;    //Update new velocity to keep in sync
         }
         
+        if (!Mathf.Approximately(0f, impulseVelocityOverlayedOverrideX.sqrMagnitude))
+        {
+            currentVelocity = impulseVelocityOverlayedOverrideX;
+            NewVelocity.Value = currentVelocity;    //Update new velocity to keep in sync
+        }
+        
         if (!Mathf.Approximately(StoredJumpVelocity.Value, 0f))
         {
             currentVelocity.y = StoredJumpVelocity.Value;
@@ -236,6 +243,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         impulseVelocity = Vector3.zero;
         impulseVelocityRedirectable = Vector3.zero;
         impulseVelocityOverlayed = Vector3.zero;
+        impulseVelocityOverlayedOverrideX = Vector3.zero;
     }
 
     public void AfterCharacterUpdate(float deltaTime, Vector3 previousVelocity)
@@ -278,6 +286,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     public void OnDiscreteCollisionDetected(Collider hitCollider)
     {
         // This is called by the motor when it is detecting a collision that did not result from a "movement hit".
+        PlayerCollidedWith.Activate(hitCollider.gameObject);
     }
 
     #endregion
@@ -300,9 +309,13 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         AddImpulseTrigger.Activate();
     }
     
-    public void AddImpulseOverlayed(Vector3 addImpulse)
+    public void AddImpulseOverlayed(Vector3 addImpulse, bool overrideXComponent = false)
     {
-        impulseVelocityOverlayed += addImpulse;
+        if (overrideXComponent)
+            impulseVelocityOverlayedOverrideX += addImpulse;
+        else
+            impulseVelocityOverlayed += addImpulse;
+        
         AddImpulseTrigger.Activate();
     }
 

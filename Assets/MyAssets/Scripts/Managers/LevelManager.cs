@@ -13,17 +13,20 @@ public class LevelManager : MonoBehaviour
     public float DistanceFromCenter {get; private set;}
 
     private TMP_Text DistanceText;
+    private string textPrefix;
 
     void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(this);
-
+        
         DistanceText = DistanceTextTransform.Value.GetComponent<TMP_Text>();
+        textPrefix = DistanceText.text;
     }
 
-    void Update() {
+    void Update()
+    {
         DistanceFromCenter = Vector3.Distance(MapCenter.Value.position.xoz(), Player.Value.position.xoz());
-        DistanceText.text = "Dist: " + DistanceFromCenter.ToString("0");
+        DistanceText.text = textPrefix + DistanceFromCenter.ToString("N0");
     }
 }

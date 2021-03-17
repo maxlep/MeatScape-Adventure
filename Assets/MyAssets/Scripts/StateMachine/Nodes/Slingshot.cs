@@ -149,17 +149,17 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         {
             CharacterGroundingReport groundingStatus = playerController.GroundingStatus;
 
-            Vector3 slingDirection;
-            
-            if (currentTargetSceneReference.Value == null)
-                slingDirection = Vector3.ProjectOnPlane(moveInputCameraRelative.normalized, groundingStatus.GroundNormal);
-            else
+            Vector3 slingDirection = Vector3.ProjectOnPlane(moveInputCameraRelative.normalized, groundingStatus.GroundNormal);
+
+            if (currentTargetSceneReference.Value != null)
             {
                 Vector3 playerToTarget =
                     (currentTargetSceneReference.Value.position - playerController.transform.position).normalized;
-                slingDirection = playerToTarget;
+            
+                if (Vector3.Dot(moveInputCameraRelative.xoz().normalized, playerToTarget.xoz()) > .75)
+                    slingDirection = playerToTarget;
             }
-
+            
             float timePassed = Time.time - enterTime;
             float percentToMax = Mathf.Clamp01(timePassed/TimeToMaxCharge.Value);
             float accumulatedForceMagnitude = Mathf.Lerp(MinForce.Value, MaxForce.Value, percentToMax);

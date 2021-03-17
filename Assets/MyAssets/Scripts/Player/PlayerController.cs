@@ -122,6 +122,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private float invincibilityTimer = -Mathf.Infinity;
 
     private float capsuleStartHeight, capsuleStartRadius;
+    private Vector3 capsuleStartCenter;
 
     public delegate void _OnStartUpdateVelocity(VelocityInfo velocityInfo);
     public delegate void _OnStartUpdateRotation(Quaternion currentRotation);
@@ -148,10 +149,12 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         GroundSlamCooldownTimer.StartTimer();
 
         capsuleStartHeight = charMotor.Capsule.height;
+        capsuleStartCenter = charMotor.Capsule.center;
         capsuleStartRadius = charMotor.Capsule.radius;
         Scale.Subscribe(() =>
         {
             charMotor.Capsule.height = capsuleStartHeight * Scale.Value;
+            charMotor.Capsule.center = capsuleStartCenter + charMotor.transform.up * Scale.Value * 0.5f;
             charMotor.Capsule.radius = capsuleStartRadius * Scale.Value;
         });
     }

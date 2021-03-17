@@ -24,6 +24,6 @@ public class LevelManager : MonoBehaviour
 
     void Update() {
         DistanceFromCenter = Vector3.Distance(MapCenter.Value.position.xoz(), Player.Value.position.xoz());
-        DistanceText.text = "Dist: " + DistanceFromCenter.ToString();
+        DistanceText.text = "Dist: " + DistanceFromCenter.ToString("0");
     }
 }

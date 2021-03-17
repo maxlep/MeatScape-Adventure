@@ -8,6 +8,9 @@ public class RollCombat : PlayerStateNode
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private LayerMapper layerMapper;
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private IntVariable HungerLevel;
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private IntVariable HungerThreshold;
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private Vector3Reference NewVelocity;
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference KnockbackTime;
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference KnockbackSpeed;
 
     public override void Initialize(StateMachineGraph parentGraph)
     {
@@ -26,7 +29,7 @@ public class RollCombat : PlayerStateNode
             if(HungerLevel.Value >= HungerThreshold.Value) {
                 enemy.DamageEnemy(999);
             } else {
-                enemy.KnockbackEnemy(playerController.CharacterMotor.Velocity.normalized);
+                enemy.KnockbackEnemy(NewVelocity.Value.normalized, KnockbackTime.Value, KnockbackSpeed.Value);
             }
         }
         

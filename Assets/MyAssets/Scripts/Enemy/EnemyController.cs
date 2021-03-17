@@ -105,9 +105,13 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    public virtual void KnockbackEnemy(Vector3 knockBackDirection) {
+    public virtual void KnockbackEnemy(Vector3 knockBackDirection, float knockBackTime = .2f, float KnockBackSpeed = 50f) {
         SharedVariable KnockBackDirVar = behaviorTree.GetVariable("KnockBackDirection");
         if (KnockBackDirVar != null) KnockBackDirVar.SetValue(knockBackDirection);
+        SharedVariable KnockbackTime = behaviorTree.GetVariable("KnockbackTime");
+        if (KnockbackTime != null) KnockbackTime.SetValue(knockBackTime);
+        SharedVariable KnockbackSpeed = behaviorTree.GetVariable("KnockbackSpeed");
+        if (KnockbackSpeed != null) KnockbackSpeed.SetValue(KnockBackSpeed);
         behaviorTree.SendEvent("TookDamage");
     }
 

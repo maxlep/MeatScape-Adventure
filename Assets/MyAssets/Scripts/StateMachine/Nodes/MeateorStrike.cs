@@ -23,10 +23,10 @@ public class MeateorStrike : PlayerStateNode
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [Required]
     private FloatReference MeateorStrikeSpeed;
-    
+
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [Required]
-    private TransformSceneReference currentTargetSceneReference;
+    private TransformSceneReference slingshotTargetSceneReference;
     
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [Required]
@@ -58,10 +58,10 @@ public class MeateorStrike : PlayerStateNode
     {
         NewVelocityOut.Value = SlingshotDirection.Value.normalized * MeateorStrikeSpeed.Value;
 
-        if (currentTargetSceneReference.Value != null)
+        if (slingshotTargetSceneReference.Value != null)
         {
             Vector3 playerToTarget =
-                (currentTargetSceneReference.Value.position - playerController.transform.position).normalized;
+                (slingshotTargetSceneReference.Value.position - playerController.transform.position).normalized;
             NewVelocityOut.Value = playerToTarget * MeateorStrikeSpeed.Value;
         }
     }

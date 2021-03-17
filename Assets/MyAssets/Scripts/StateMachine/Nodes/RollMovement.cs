@@ -128,7 +128,6 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [TabGroup("Events")] [Required]
         protected GameEvent RollSoundGameEvent;
 
-
         #endregion
 
         private Vector3 velocityAlongSlope;

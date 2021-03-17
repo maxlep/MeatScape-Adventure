@@ -37,6 +37,10 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [Required]
+        private FloatReference HomingDotProductMin;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [Required]
         private FloatReference OptimalChargeMultiplier;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
@@ -46,6 +50,10 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [Required]
         private Vector3Reference SlingshotDirection;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [Required]
+        private TransformSceneReference slingshotTargetSceneReference;
         
         #region GameEvents
         
@@ -148,16 +156,19 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         private void AccumulateSlingForce()
         {
             CharacterGroundingReport groundingStatus = playerController.GroundingStatus;
-
             Vector3 slingDirection = Vector3.ProjectOnPlane(moveInputCameraRelative.normalized, groundingStatus.GroundNormal);
-
+            slingshotTargetSceneReference.Value = null;
+            
             if (currentTargetSceneReference.Value != null)
             {
                 Vector3 playerToTarget =
                     (currentTargetSceneReference.Value.position - playerController.transform.position).normalized;
-            
-                if (Vector3.Dot(moveInputCameraRelative.xoz().normalized, playerToTarget.xoz()) > .75)
+
+                if (Vector3.Dot(moveInputCameraRelative.xoz().normalized, playerToTarget.xoz().normalized) > HomingDotProductMin.Value)
+                {
                     slingDirection = playerToTarget;
+                    slingshotTargetSceneReference.Value = currentTargetSceneReference.Value;
+                }
             }
             
             float timePassed = Time.time - enterTime;
@@ -168,6 +179,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             float maxArowLine = 15f;
             playerController.SetSlingshotArrow(percentToMax * maxArowLine * slingDirection);
             SlingshotDirection.Value = slingDirection;
+            
         }
 
         private void Release()

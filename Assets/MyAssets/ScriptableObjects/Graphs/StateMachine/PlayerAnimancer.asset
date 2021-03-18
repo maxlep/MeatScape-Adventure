@@ -386,9 +386,12 @@ MonoBehaviour:
   transitionPriority: 0
   conditionPreview: '-  Valid:  Jump
 
+    -  Valid:  Ground Slam Jump
+
 '
   ValidStartStates:
   - {fileID: 3160719255603912525, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  - {fileID: -1722979581280647801, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   InvalidStartStates: []
   BoolConditions: []
   TriggerConditions: []
@@ -451,12 +454,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '- ! Is Grounded_ Controller_ Player
-
-    - 0  Ignore 0 && 0 
-    Less Than -0.1 && 0  Ignore 0
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -821,12 +819,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Is Grounded_ Controller_ Player
-
-    - 0  Abs Less Than 0.001
-    && 0  Ignore 0 && 0  Abs Less Than 0.001
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -1407,7 +1400,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Idle NEW!
   Description: 
-  isActiveState: 0
+  isActiveState: 1
   transitionTime: 0
   transitionCurve:
     serializedVersion: 2
@@ -1682,7 +1675,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -4936, y: 1272}
+  position: {x: -4936, y: 1240}
   ports:
     keys:
     - previousState
@@ -1844,10 +1837,14 @@ MonoBehaviour:
 
     -  Valid:  Air Jump
 
+    -  Valid:  Ground
+    Slam Jump
+
 '
   ValidStartStates:
   - {fileID: 3160719255603912525, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   - {fileID: -5368650478412996812, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  - {fileID: -1722979581280647801, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   InvalidStartStates: []
   BoolConditions: []
   TriggerConditions: []
@@ -2113,11 +2110,6 @@ MonoBehaviour:
   collapsed: 1
   transitionPriority: 0
   conditionPreview: '-  Invalid:  Slope  Movement
-
-    - ! Is Grounded_ Controller_
-    Player
-
-    - 0  Ignore 0 && 0  Less Than -0.1 && 0  Ignore 0
 
 '
   ValidStartStates: []
@@ -2696,7 +2688,6 @@ MonoBehaviour:
   - {fileID: 4816591445205595285}
   - {fileID: 6014131950554872200}
   - {fileID: 2770782318915219806}
-  - {fileID: 6914680476712774408}
   - {fileID: -7132070869502677456}
   - {fileID: 5392895341558477783}
   - {fileID: 1349021886776321368}
@@ -2715,6 +2706,7 @@ MonoBehaviour:
   - {fileID: -3378563851010946194}
   - {fileID: -1470796060094009426}
   - {fileID: -2350006928959415067}
+  - {fileID: 5726978737435666698}
 --- !u!114 &264669591117630602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3032,9 +3024,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Throw_ Time_ Anim_ Player: 0.15 sec
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -3103,9 +3093,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Jump Trigger_ Anim_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -3201,7 +3189,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: nextState
-        node: {fileID: 6914680476712774408}
+        node: {fileID: 5726978737435666698}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -3516,7 +3504,7 @@ MonoBehaviour:
         node: {fileID: -7132070869502677456}
         reroutePoints: []
       - fieldName: startingState
-        node: {fileID: 6914680476712774408}
+        node: {fileID: 5726978737435666698}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -4733,9 +4721,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Throw_ Time_ Anim_ Player: 0.15 sec
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -4982,6 +4968,80 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   referencedState: {fileID: 1784268939710130638}
+--- !u!114 &5726978737435666698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: Fall NEW! -> Jump NEW!
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: -1832, y: 264}
+  ports:
+    keys:
+    - nextState
+    - startingState
+    values:
+    - _fieldName: nextState
+      _node: {fileID: 5726978737435666698}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: 1349021886776321368}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: startingState
+      _node: {fileID: 5726978737435666698}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: 2770782318915219806}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  collapsed: 1
+  transitionPriority: 0
+  conditionPreview: '-  Valid:  Ground Slam Jump
+
+    -  Valid:  Air Jump
+
+    - 
+    Valid:  Jump
+
+'
+  ValidStartStates:
+  - {fileID: -1722979581280647801, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  - {fileID: -5368650478412996812, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  - {fileID: 3160719255603912525, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  InvalidStartStates: []
+  BoolConditions: []
+  TriggerConditions: []
+  FloatConditions: []
+  IntConditions: []
+  TimerConditions: []
+  Vector2Conditions: []
+  Vector3Conditions: []
 --- !u!114 &5774636384409134502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5036,10 +5096,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '- 0  Abs Greater Than 0 && 0  Ignore 0 && 0  Abs Greater Than
-    0
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -5116,9 +5173,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Fast Turn Triggered_ Movement_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -5343,9 +5398,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '- < Missing  Float>  Greater Than 3
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -5502,82 +5555,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Slide Turn Triggered_ Movement_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
   TriggerConditions:
   - targetParameter: {fileID: 11400000, guid: 4dd3aed967556774397f7132ad414a80, type: 2}
-    KeepTriggerOn: 0
-  FloatConditions: []
-  IntConditions: []
-  TimerConditions: []
-  Vector2Conditions: []
-  Vector3Conditions: []
---- !u!114 &6914680476712774408
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Fall NEW! -> Jump NEW!
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  graph: {fileID: 11400000}
-  position: {x: -1832, y: 360}
-  ports:
-    keys:
-    - nextState
-    - startingState
-    values:
-    - _fieldName: nextState
-      _node: {fileID: 6914680476712774408}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: previousState
-        node: {fileID: 1349021886776321368}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 1
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: startingState
-      _node: {fileID: 6914680476712774408}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: 2770782318915219806}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  collapsed: 1
-  transitionPriority: 0
-  conditionPreview: '-  Jump Trigger_ Anim_ Player
-
-'
-  ValidStartStates: []
-  InvalidStartStates: []
-  BoolConditions: []
-  TriggerConditions:
-  - targetParameter: {fileID: 11400000, guid: 692eae34b308467428fcb511fd2a56c5, type: 2}
     KeepTriggerOn: 0
   FloatConditions: []
   IntConditions: []
@@ -5883,7 +5866,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Parameter Processor
   Description: 
-  isActiveState: 0
+  isActiveState: 1
   subGraph: {fileID: 11400000, guid: 3833a745fc2f8524cb9f2b661e39a5ed, type: 2}
   subStates:
   - {fileID: 5592738946215276755, guid: 3833a745fc2f8524cb9f2b661e39a5ed, type: 2}

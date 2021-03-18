@@ -168,7 +168,6 @@ public class StateMachineGraph : NodeGraph
         foreach (var triggerVar in triggersFromTransitions)
         {
             triggerVar.OnUpdate += () => receivedTriggers.Add(triggerVar);
-            ;
         }
     }
     

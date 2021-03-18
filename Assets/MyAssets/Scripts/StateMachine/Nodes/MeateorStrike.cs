@@ -119,7 +119,8 @@ public class MeateorStrike : PlayerStateNode
             playerController.UngroundMotor();
             Vector3 playerToTarget = (otherObj.transform.position.xoz() - playerController.transform.position.xoz()).normalized;
             //Vector3 knockbackDir = Vector3.RotateTowards(-playerToTarget, Vector3.up, 30f, 0f);
-            KnockbackForceOutput.Value = -playerToTarget * KnockbackForceMagnitude.Value + Vector3.up * KnockbackForceMagnitude.Value;
+            KnockbackForceOutput.Value = -NewVelocityOut.Value.normalized.xoz() * KnockbackForceMagnitude.Value + 
+                                         Vector3.up * KnockbackForceMagnitude.Value;
 
             MeateorStrikeHitPosition.Value = collisionInfo.contactPoint;
             MeateorCollideTriger.Activate();

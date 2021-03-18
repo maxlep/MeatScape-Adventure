@@ -11,78 +11,82 @@ namespace MyAssets.Graphs.StateMachine.Nodes
     
     public class Slingshot : RollMovement
     {
+        #region Slingshot
+
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [Required]
+        [TabGroup("Slingshot")] [Required]
         private FloatReference MaxForce;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [Required]
+        [TabGroup("Slingshot")] [Required]
         private FloatReference MinForce;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [Required]
+        [TabGroup("Slingshot")] [Required]
         private FloatReference TimeToMaxCharge;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [Required]
+        [TabGroup("Slingshot")] [Required]
         private FloatReference MinChargeTime;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [Required]
+        [TabGroup("Slingshot")] [Required]
         private FloatReference OptimalChargeTime;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [Required]
+        [TabGroup("Slingshot")] [Required]
         private FloatReference OptimalChargeErrorThreshold;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [Required]
+        [TabGroup("Slingshot")] [Required]
         private FloatReference HomingDotProductMin;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [Required]
+        [TabGroup("Slingshot")] [Required]
         private FloatReference OptimalChargeMultiplier;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [Required]
+        [TabGroup("Slingshot")] [Required]
         private TimerVariable DelayTimer;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [Required]
+        [TabGroup("Slingshot")] [Required]
         private Vector3Reference SlingshotDirection;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [Required]
+        [TabGroup("Slingshot")] [Required]
         private TransformSceneReference slingshotTargetSceneReference;
+
+        #endregion
         
         #region GameEvents
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [Required]
+        [TabGroup("Events")] [Required]
         private GameEvent SlingshotOptimalChargeEvent;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [Required]
+        [TabGroup("Events")] [Required]
         private GameEvent SlingShotReleaseEvent;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [Required]
+        [TabGroup("Events")] [Required]
         private GameEvent SlingShotOptimalReleaseEvent;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [Required]
+        [TabGroup("Events")] [Required]
         private TriggerVariable SlingShotOptimalReleaseTrigger;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [Required]
+        [TabGroup("Events")] [Required]
         private TriggerVariable SlingShotReleaseTrigger;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [Required]
+        [TabGroup("Events")] [Required]
         private TriggerVariable SlingshotReleaseInput;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [Required]
+        [TabGroup("Events")] [Required]
         private TransformSceneReference currentTargetSceneReference;
         
         #endregion

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
 using MyAssets.ScriptableObjects.Variables.ValueReferences;
 using MyAssets.Scripts.Utils;
@@ -94,6 +95,14 @@ public class MeateorStrike : PlayerStateNode
 
     #endregion
 
+    #region Events
+
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Outputs")][Required]
+    private GameEvent MeateorStrikeHitEvent;
+
+    #endregion
+
     private float currentSpeed;
     private float duration;
     private Vector3 previousVelocityOutput = Vector3.zero;
@@ -157,6 +166,7 @@ public class MeateorStrike : PlayerStateNode
 
             MeateorStrikeHitPosition.Value = collisionInfo.contactPoint;
             MeateorCollideTrigger.Activate();
+            MeateorStrikeHitEvent.Raise();
         }
         else
         {
@@ -174,6 +184,7 @@ public class MeateorStrike : PlayerStateNode
                                              Vector3.up * KnockbackForceMagnitude.Value;
                 MeateorStrikeHitPosition.Value = collisionInfo.contactPoint;
                 MeateorCollideTrigger.Activate();
+                MeateorStrikeHitEvent.Raise();
             }
         }
     }

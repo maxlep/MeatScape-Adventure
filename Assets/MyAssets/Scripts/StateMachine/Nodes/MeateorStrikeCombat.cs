@@ -12,7 +12,6 @@ public class MeateorStrikeCombat : PlayerStateNode
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private Vector3Reference NewVelocity;
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference KnockbackTime;
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference KnockbackSpeed;
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private GameEvent MeateorStrikeEvent;
 
     public override void Initialize(StateMachineGraph parentGraph)
     {
@@ -37,7 +36,6 @@ public class MeateorStrikeCombat : PlayerStateNode
                 enemy.DamageEnemy(1);
             }
             enemy.KnockbackEnemy(NewVelocity.Value.normalized, KnockbackTime.Value, KnockbackSpeed.Value);
-            MeateorStrikeEvent.Raise();
         }
         
     }

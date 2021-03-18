@@ -525,7 +525,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '- ! Is Grounded_ Controller_ Player
+
+    - ! Is On Slideable
+    Slope_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -699,7 +704,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Sling Shot Release_ Slingshot_ Player
+
+    -  Slingshot Min
+    Charge Timer_ Roll_ Player: 0.2 sec
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -899,7 +909,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    -  Waited Jump Ground
+    Delay_ Movement_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -1236,7 +1251,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Add Impulse Trigger_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -1334,7 +1351,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Flatten Timer_ Movement_ Player: 0.4 sec
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -1403,7 +1422,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 1
-  conditionPreview: 
+  conditionPreview: '-  Sling Shot Release_ Slingshot_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -1554,7 +1575,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '- ! Is Grounded_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -1623,7 +1646,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -1745,7 +1770,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    -  Waited Jump Ground
+    Delay_ Movement_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -1905,10 +1935,19 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 3d5d2942ac632b04a8395e548c7cfa43, type: 2}
-  PreviousVelocity:
+  EnableDeflect: 1
+  DeflectFactor:
     UseConstant: 0
-    ConstantValue: {x: 0, y: 0, z: 0}
-    Variable: {fileID: 11400000, guid: 32fe95a7d33c6774fbb7a1297b54ed10, type: 2}
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: f10a642a0228d1646b9f083e4118e435, type: 2}
+  DeflectThresholdVelocity:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 19fd07916833e3e4082f8e0a5bbf7499, type: 2}
+  DeflectContactDotThreshold:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: ebbf4556b5ca4724fac7aa9a0efbc4df, type: 2}
   FallMultiplier:
     UseConstant: 0
     ConstantValue: 0
@@ -1950,6 +1989,7 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 21ab8b14c3952f84bb29af6e6a4d4953, type: 2}
+  PlayerCollidedWith: {fileID: 11400000, guid: e681bc16e8a93be469583e210ea5d4a2, type: 2}
   HorizontalSpeedOut:
     UseConstant: 0
     ConstantValue: 0
@@ -2067,7 +2107,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Meateor Strike Duration Timer_ Movement_ Player: 0.35 sec
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -2236,7 +2278,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    - ! Is On Slideable
+    Slope_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -2366,7 +2413,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is On Slideable Slope_ Controller_ Player
+
+    -  Waited
+    Jump Ground Delay_ Movement_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -2788,10 +2840,19 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 3d5d2942ac632b04a8395e548c7cfa43, type: 2}
-  PreviousVelocity:
+  EnableDeflect: 1
+  DeflectFactor:
     UseConstant: 0
-    ConstantValue: {x: 0, y: 0, z: 0}
-    Variable: {fileID: 11400000, guid: 32fe95a7d33c6774fbb7a1297b54ed10, type: 2}
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: f10a642a0228d1646b9f083e4118e435, type: 2}
+  DeflectThresholdVelocity:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 19fd07916833e3e4082f8e0a5bbf7499, type: 2}
+  DeflectContactDotThreshold:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: ebbf4556b5ca4724fac7aa9a0efbc4df, type: 2}
   FallMultiplier:
     UseConstant: 0
     ConstantValue: 0
@@ -2833,6 +2894,7 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 21ab8b14c3952f84bb29af6e6a4d4953, type: 2}
+  PlayerCollidedWith: {fileID: 11400000, guid: e681bc16e8a93be469583e210ea5d4a2, type: 2}
   HorizontalSpeedOut:
     UseConstant: 0
     ConstantValue: 0
@@ -2900,7 +2962,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Roll Pressed Trigger_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -3118,7 +3182,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Became Grounded_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -3304,7 +3370,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 0
+  collapsed: 1
   BypassState: 0
   Name: Meateor Strike
   Description: 
@@ -3361,6 +3427,8 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0.5
     Variable: {fileID: 11400000, guid: 0feecde91f8c04c438eb373f30a513f7, type: 2}
+  MeateorStrikeHitEvent: {fileID: 11400000, guid: 3b4fb8e5c1872c54792d49571b9e337c,
+    type: 2}
 --- !u!114 &647826158662486185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3680,6 +3748,8 @@ MonoBehaviour:
 
     - 
     Valid:  Forward  Throw 3
+
+    -  Is Grounded_ Controller_ Player
 
 '
   ValidStartStates:
@@ -4042,7 +4112,15 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is On Slideable Slope_ Controller_ Player
+
+    -  Waited
+    Jump Ground Delay_ Movement_ Player
+
+    - 0  Ignore 0 && 0  Less Than 0 && 0 
+    Ignore 0
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -4182,7 +4260,14 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    -  Roll Pressed_ Controller_
+    Player
+
+    -  Slingshot Delay Timer_ Roll_ Player: 0.4 sec
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -4311,7 +4396,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Jump Trigger_ Controller_ Player
+
+    -  Flatten Jump Delay
+    Timer_ Movement_ Player: 0.1 sec
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -4510,7 +4600,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Meateor Collide Trigger_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -4773,10 +4865,19 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 3d5d2942ac632b04a8395e548c7cfa43, type: 2}
-  PreviousVelocity:
+  EnableDeflect: 1
+  DeflectFactor:
     UseConstant: 0
-    ConstantValue: {x: 0, y: 0, z: 0}
-    Variable: {fileID: 11400000, guid: 32fe95a7d33c6774fbb7a1297b54ed10, type: 2}
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: f10a642a0228d1646b9f083e4118e435, type: 2}
+  DeflectThresholdVelocity:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 19fd07916833e3e4082f8e0a5bbf7499, type: 2}
+  DeflectContactDotThreshold:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: ebbf4556b5ca4724fac7aa9a0efbc4df, type: 2}
   FallMultiplier:
     UseConstant: 0
     ConstantValue: 0
@@ -4818,6 +4919,7 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 21ab8b14c3952f84bb29af6e6a4d4953, type: 2}
+  PlayerCollidedWith: {fileID: 11400000, guid: e681bc16e8a93be469583e210ea5d4a2, type: 2}
   HorizontalSpeedOut:
     UseConstant: 0
     ConstantValue: 0
@@ -5009,7 +5111,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    -  Roll Pressed_ Controller_
+    Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -5224,7 +5331,17 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '- ! Is Grounded_ Controller_ Player
+
+    -  Jump Trigger_ Controller_
+    Player
+
+    -  Distance To Ground_ Controller_ Player  Greater Than 3
+
+    - 
+    Ground Slam Cooldown Timer_ Movement_ Player: 0.75 sec
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -5815,7 +5932,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Sling Shot Optimal Release_ Slingshot_ Player
+
+    -  Slingshot
+    Min Charge Timer_ Roll_ Player: 0.2 sec
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []

@@ -44,7 +44,19 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Horizontal")] [Required]
-        protected Vector3Reference PreviousVelocity;
+        protected bool EnableDeflect = true;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Horizontal")] [Required]
+        protected FloatReference DeflectFactor;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Horizontal")] [Required]
+        protected FloatReference DeflectThresholdVelocity;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Horizontal")] [Required]
+        protected FloatReference DeflectContactDotThreshold;
 
         #endregion
 
@@ -102,6 +114,14 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
         #endregion
 
+        #region Inputs
+
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [TabGroup("Inputs")] [Required]
+        private DynamicGameEvent PlayerCollidedWith;
+
+        #endregion
+
         #region Outputs
 
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
@@ -133,6 +153,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         private Vector3 velocityAlongSlope;
         private Vector3 moveInputOnSlope;
         private Vector3 previousVelocityOutput = Vector3.zero;
+        private Vector3 storedDeflectVelocity;
 
         private float lastRollSoundTime;
 
@@ -150,7 +171,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 playerController.AddImpulse(impulseDir * AirForwardForce.Value);
             }
                 
-
+            PlayerCollidedWith.Subscribe(CheckForDeflect);
             lastRollSoundTime = Mathf.NegativeInfinity;
             GroundStickAngleOutput.Value = GroundStickAngleInput.Value;
             InitRollParticles();
@@ -161,6 +182,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         {
             base.Exit();
             StopParticlesGameEvent.Raise();
+            PlayerCollidedWith.Unsubscribe(CheckForDeflect);
         }
 
         public override void Execute()
@@ -245,6 +267,11 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         private Vector3 CalculateHorizontalVelocity(Vector3 currentVelocity)
         {
             CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
+
+            if (!Mathf.Approximately(0f, storedDeflectVelocity.sqrMagnitude))
+            {
+                currentVelocity = storedDeflectVelocity;
+            }
             
             velocityAlongSlope = Vector3.ProjectOnPlane(currentVelocity, GroundingStatus.GroundNormal);
             float currentSpeed = (GroundingStatus.FoundAnyGround)
@@ -342,6 +369,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             #endregion
             
             HorizontalSpeedOut.Value = newSpeed;
+            storedDeflectVelocity = Vector3.zero;
             return newDirection * newSpeed;
         }
 
@@ -425,6 +453,29 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             }
             
             NewRotationOut.Value = newRotation;
+        }
+        
+        private void CheckForDeflect(System.Object prevCollisionInfoObj, System.Object collisionInfoObj)
+        {
+            CollisionInfo collisionInfo = (CollisionInfo) collisionInfoObj;
+            GameObject otherObj = collisionInfo.other.gameObject;
+            
+            //If going fast enough into the normal, deflect with knockback
+        
+            Vector3 velocityIntoNormal = Vector3.Project(previousVelocityOutput, -collisionInfo.contactNormal);
+        
+            float velocityGroundDot = Vector3.Dot(previousVelocityOutput.normalized, collisionInfo.contactNormal);
+
+            if (EnableDeflect && velocityIntoNormal.magnitude >= DeflectThresholdVelocity.Value &&
+                -velocityGroundDot > DeflectContactDotThreshold.Value)
+            {
+                //Reflect velocity in the XZ plane
+                playerController.UngroundMotor();
+                storedDeflectVelocity = Vector3.Reflect(NewVelocityOut.Value.normalized, collisionInfo.contactNormal);
+                storedDeflectVelocity =
+                    storedDeflectVelocity.xoz() * NewVelocityOut.Value.xoz().magnitude * DeflectFactor.Value;
+            }
+            
         }
 
         private void InitRollParticles()

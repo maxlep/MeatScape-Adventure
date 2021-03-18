@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
+using MyAssets.Scripts.Utils;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using XNode;
@@ -31,8 +32,11 @@ public class Flatten : PlayerStateNode {
 
 	private void UpdateVelocity(VelocityInfo velocityInfo)
 	{
-
-		NewVelocityOut.Value = Vector3.zero;
+		//If not grounded yet, keep y velocity going until grounded
+		if (!playerController.GroundingStatus.IsStableOnGround)
+			NewVelocityOut.Value = velocityInfo.currentVelocity.y * Vector3.one.oyo();
+		else
+			NewVelocityOut.Value = Vector3.zero;
 	}
 	
 	private void UpdateRotation(Quaternion currentRotation)

@@ -44,7 +44,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 {
   [SerializeField] private KinematicCharacterMotor charMotor;
   [SerializeField] private LayerMapper layerMapper;
-  [SerializeField] private LayerMask groundMask;
   [SerializeField] private AudioClip jumpAttackClip;
   [SerializeField] private AimTargeter aimTargeter;
   [SerializeField] private Collider collider;
@@ -582,7 +581,9 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
   private bool CastColliderDown(out RaycastHit hit, float dist)
   {
-    if (Physics.SphereCast(collider.bounds.center, collider.bounds.size.z, Vector3.down, out hit, dist, groundMask))
+    LayerMask groundMask = charMotor.StableGroundLayers;
+    if (Physics.SphereCast(collider.bounds.center, collider.bounds.size.z, Vector3.down, out hit, 
+      dist, groundMask))
     {
       return true;
     }

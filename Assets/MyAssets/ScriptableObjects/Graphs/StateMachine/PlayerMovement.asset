@@ -189,6 +189,9 @@ MonoBehaviour:
       - fieldName: nextState
         node: {fileID: 144026596585446073}
         reroutePoints: []
+      - fieldName: nextState
+        node: {fileID: 6219059516673579915}
+        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 2
@@ -2759,6 +2762,9 @@ MonoBehaviour:
       - fieldName: startingState
         node: {fileID: -3587464245139835064}
         reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: 6219059516673579915}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 2
@@ -3128,6 +3134,7 @@ MonoBehaviour:
   - {fileID: 5772675743492293238}
   - {fileID: 3614495433649291030}
   - {fileID: 4956857665740836817}
+  - {fileID: 6219059516673579915}
 --- !u!114 &144026596585446073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3898,7 +3905,7 @@ MonoBehaviour:
   BypassState: 0
   Name: GroundMovement
   Description: 
-  isActiveState: 1
+  isActiveState: 0
   BaseSpeed:
     UseConstant: 1
     ConstantValue: 0
@@ -4117,8 +4124,8 @@ MonoBehaviour:
     -  Waited
     Jump Ground Delay_ Movement_ Player
 
-    - 0  Ignore 0 && 0  Less Than 0 && 0 
-    Ignore 0
+    - -0.1150549  Ignore 0 && -0.066558 
+    Less Than 0 && 0.66769  Ignore 0
 
 '
   ValidStartStates: []
@@ -5367,6 +5374,78 @@ MonoBehaviour:
       ConstantDuration: 0
       Variable: {fileID: 11400000, guid: 075c1fded8a47364b8151f8e495992f1, type: 2}
     restartOnEnterPreviousState: 0
+  Vector2Conditions: []
+  Vector3Conditions: []
+--- !u!114 &6219059516673579915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: Ground Slam Fall -> Flatten
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: -5240, y: -872}
+  ports:
+    keys:
+    - startingState
+    - nextState
+    values:
+    - _fieldName: startingState
+      _node: {fileID: 6219059516673579915}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: -879615659895784873}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: nextState
+      _node: {fileID: 6219059516673579915}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: -8239950027094308354}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+  collapsed: 1
+  transitionPriority: 0
+  conditionPreview: '-  Distance To Ground_ Controller_ Player  Less Than 2
+
+'
+  ValidStartStates: []
+  InvalidStartStates: []
+  BoolConditions: []
+  TriggerConditions: []
+  FloatConditions:
+  - targetParameter:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: 1980c2697dbf0704093ef4d581af5a0c, type: 2}
+    comparator: 0
+    value: 2
+  IntConditions: []
+  TimerConditions: []
   Vector2Conditions: []
   Vector3Conditions: []
 --- !u!114 &6332291481083292061

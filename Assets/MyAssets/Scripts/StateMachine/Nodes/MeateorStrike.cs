@@ -10,62 +10,93 @@ using UnityEngine;
 
 public class MeateorStrike : PlayerStateNode
 {
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Outputs")] [Required]
+    #region Inputs
+
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required]
+    private LayerMapper LayerMapper;
+
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required]
+    private TransformSceneReference slingshotTargetSceneReference;
+
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required]
+    private DynamicGameEvent PlayerCollidedWith;
+
+    #endregion
+
+    #region Outputs
+
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+    [TabGroup("Outputs")] [Required]
     protected Vector3Reference NewVelocityOut;
-	
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Outputs")] [Required]
+
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Outputs")] [Required]
     protected QuaternionReference NewRotationOut;
-    
+
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [Required]
+    [TabGroup("Outputs")] [Required]
     private Vector3Reference SlingshotDirection;
-    
+
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [Required]
-    private FloatReference MeateorStrikeSpeed;
-    
+    [TabGroup("Outputs")][Required]
+    private TriggerVariable MeateorCollideTrigger;
+
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+    [TabGroup("Outputs")] [Required]
+    protected FloatReference KnockbackForceMagnitude;
+
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+    [TabGroup("Outputs")] [Required]
+    protected Vector3Reference KnockbackForceOutput;
+
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+    [TabGroup("Outputs")] [Required]
+    protected Vector3Reference MeateorStrikeHitPosition;
+
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+    [TabGroup("Outputs")] [Required]
+    protected TimerReference MeateorStrikeDurationTimer;
+
+    #endregion
+
+    #region Velocity
+
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [Required]
+    [TabGroup("Velocity")][Required]
     private FloatReference MeateorStrikeMinSpeed;
-    
+
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [Required]
+    [TabGroup("Velocity")][Required]
     private FloatReference MeateorStrikeMaxSpeed;
 
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [Required]
-    private TransformSceneReference slingshotTargetSceneReference;
-    
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [Required]
-    private DynamicGameEvent PlayerCollidedWith;
-    
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [Required]
-    private LayerMapper LayerMapper;
-    
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [Required]
-    private TriggerVariable MeateorCollideTriger;
-    
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Outputs")] [Required]
-    protected FloatReference KnockbackForceMagnitude;
-    
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Outputs")] [Required]
-    protected Vector3Reference KnockbackForceOutput;
-    
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Outputs")] [Required]
-    protected Vector3Reference MeateorStrikeHitPosition;
-    
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Outputs")] [Required]
-    protected TimerReference MeateorStrikeDurationTimer;
-    
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Outputs")] [Required]
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+    [TabGroup("Velocity")] [Required]
     protected LeanTweenType VelocityEasingType;
 
+    #endregion
+
+    #region Knockback
+
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+    [TabGroup("Knockback")] [Required]
+    protected bool EnableDeflect = true;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+    [TabGroup("Knockback")] [Required] [ShowIf("$EnableDeflect")]
+    protected FloatReference DeflectThresholdVelocity;
+        
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+    [TabGroup("Knockback")] [Required] [ShowIf("$EnableDeflect")]
+    protected FloatReference DeflectContactDotThreshold;
+
+    #endregion
 
     private float currentSpeed;
     private float duration;
+    private Vector3 previousVelocityOutput = Vector3.zero;
 
     public override void Enter()
     {
@@ -93,6 +124,8 @@ public class MeateorStrike : PlayerStateNode
                 (slingshotTargetSceneReference.Value.position - playerController.transform.position).normalized;
             NewVelocityOut.Value = playerToTarget * currentSpeed;
         }
+        
+        previousVelocityOutput = NewVelocityOut.Value;
     }
 	
     private void UpdateRotation(Quaternion currentRotation)
@@ -123,11 +156,25 @@ public class MeateorStrike : PlayerStateNode
                                          Vector3.up * KnockbackForceMagnitude.Value;
 
             MeateorStrikeHitPosition.Value = collisionInfo.contactPoint;
-            MeateorCollideTriger.Activate();
+            MeateorCollideTrigger.Activate();
         }
         else
         {
-            //TODO: check if going fast enough into the normal, if so, knockback
+            //If going fast enough into the normal, deflect with knockback
+            
+            Vector3 velocityIntoNormal = Vector3.Project(previousVelocityOutput, -collisionInfo.contactNormal);
+            
+            float velocityGroundDot = Vector3.Dot(previousVelocityOutput.normalized, collisionInfo.contactNormal);
+
+            if (EnableDeflect && velocityIntoNormal.magnitude >= DeflectThresholdVelocity.Value &&
+                -velocityGroundDot > DeflectContactDotThreshold.Value)
+            {
+                playerController.UngroundMotor();
+                KnockbackForceOutput.Value = -NewVelocityOut.Value.normalized.xoz() * KnockbackForceMagnitude.Value + 
+                                             Vector3.up * KnockbackForceMagnitude.Value;
+                MeateorStrikeHitPosition.Value = collisionInfo.contactPoint;
+                MeateorCollideTrigger.Activate();
+            }
         }
     }
 }

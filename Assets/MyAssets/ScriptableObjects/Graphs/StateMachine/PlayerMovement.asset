@@ -525,12 +525,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '- ! Is Grounded_ Controller_ Player
-
-    - ! Is On Slideable
-    Slope_ Controller_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -704,12 +699,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Sling Shot Release_ Slingshot_ Player
-
-    -  Slingshot Min
-    Charge Timer_ Roll_ Player: 0.2 sec
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -830,7 +820,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    -  Jump Trigger_ Controller_
+    Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -3123,9 +3118,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Became Grounded_ Controller_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -3311,11 +3304,15 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 1
+  collapsed: 0
   BypassState: 0
   Name: Meateor Strike
   Description: 
   isActiveState: 0
+  LayerMapper: {fileID: 11400000, guid: 3f0bff594715a77478fbb7703d7b9fc0, type: 2}
+  slingshotTargetSceneReference: {fileID: 11400000, guid: 8d1418fc5e1270d43a0541982810b2aa,
+    type: 2}
+  PlayerCollidedWith: {fileID: 11400000, guid: e681bc16e8a93be469583e210ea5d4a2, type: 2}
   NewVelocityOut:
     UseConstant: 0
     ConstantValue: {x: 0, y: 0, z: 0}
@@ -3328,23 +3325,7 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: {x: 0, y: 0, z: 0}
     Variable: {fileID: 11400000, guid: b08d99b9716843643bbd01f005dc4c3d, type: 2}
-  MeateorStrikeSpeed:
-    UseConstant: 1
-    ConstantValue: 50
-    Variable: {fileID: 0}
-  MeateorStrikeMinSpeed:
-    UseConstant: 1
-    ConstantValue: 50
-    Variable: {fileID: 0}
-  MeateorStrikeMaxSpeed:
-    UseConstant: 1
-    ConstantValue: 120
-    Variable: {fileID: 0}
-  slingshotTargetSceneReference: {fileID: 11400000, guid: 8d1418fc5e1270d43a0541982810b2aa,
-    type: 2}
-  PlayerCollidedWith: {fileID: 11400000, guid: e681bc16e8a93be469583e210ea5d4a2, type: 2}
-  LayerMapper: {fileID: 11400000, guid: 3f0bff594715a77478fbb7703d7b9fc0, type: 2}
-  MeateorCollideTriger: {fileID: 11400000, guid: c369c75b92ac2f641a19e0bc304e077b,
+  MeateorCollideTrigger: {fileID: 11400000, guid: c369c75b92ac2f641a19e0bc304e077b,
     type: 2}
   KnockbackForceMagnitude:
     UseConstant: 0
@@ -3362,7 +3343,24 @@ MonoBehaviour:
     UseConstant: 0
     ConstantDuration: 0
     Variable: {fileID: 11400000, guid: 992f08fcfa6e489498f8f9eca1cc1b8c, type: 2}
+  MeateorStrikeMinSpeed:
+    UseConstant: 0
+    ConstantValue: 50
+    Variable: {fileID: 11400000, guid: 6954fd41ed10bcd4e844914ffcd15fa8, type: 2}
+  MeateorStrikeMaxSpeed:
+    UseConstant: 0
+    ConstantValue: 120
+    Variable: {fileID: 11400000, guid: c41db583b97b6c44cb2834959e6f0542, type: 2}
   VelocityEasingType: 5
+  EnableDeflect: 1
+  DeflectThresholdVelocity:
+    UseConstant: 0
+    ConstantValue: 50
+    Variable: {fileID: 11400000, guid: 3224bb9532f1bbc47a34a61561fc7173, type: 2}
+  DeflectContactDotThreshold:
+    UseConstant: 0
+    ConstantValue: 0.5
+    Variable: {fileID: 11400000, guid: 0feecde91f8c04c438eb373f30a513f7, type: 2}
 --- !u!114 &647826158662486185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3599,6 +3597,8 @@ MonoBehaviour:
     - 
     Valid:  Forward  Throw 3
 
+    - ! Is Grounded_ Controller_ Player
+
 '
   ValidStartStates:
   - {fileID: -8354906802381047596, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
@@ -3828,7 +3828,7 @@ MonoBehaviour:
   BypassState: 0
   Name: GroundMovement
   Description: 
-  isActiveState: 0
+  isActiveState: 1
   BaseSpeed:
     UseConstant: 1
     ConstantValue: 0
@@ -4510,9 +4510,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Meateor Collide Trigger_ Controller_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -4887,7 +4885,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Jump Attack Trigger_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -5306,7 +5306,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Jump Trigger_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -5422,7 +5424,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 1
-  conditionPreview: 
+  conditionPreview: '-  Sling Shot Optimal Release_ Slingshot_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []

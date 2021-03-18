@@ -3,6 +3,7 @@ using MyAssets.Scripts.ShaderHelpers;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
+using MyAssets.Scripts.Utils;
 
 public class MeatClumpController : MonoBehaviour
 {
@@ -17,40 +18,46 @@ public class MeatClumpController : MonoBehaviour
     
     [SerializeField] private LayerMapper layerMapper;
     [SerializeField] private FloatReference ClumpScalingFactor;
-    [SerializeField] private FloatReference ClumpFalloffDistance;
-    [SerializeField] private FloatReference ClumpFalloffSpeed;
-    [SerializeField] private FloatReference ClumpFalloffDistanceFactor;
+    [SerializeField] private FloatReference ClumpGravityDistance;
+    [SerializeField] private FloatReference ClumpDestroyTime;
     [SerializeField] private FloatReference CollisionRadius;
     [SerializeField] private FloatReference DragCoefficient;
     [SerializeField] private LayerMask CollisionMask;
     [SerializeField] private UnityEvent OnCollideWithStatic;
     [SerializeField] private IntVariable enemyHitId;
 
-    private float currentSpeed;
-    private bool hasCollided = false;
-    private bool shouldFallOff = false;
-    
     private Vector3 startMovementPoint;
+    private Vector3 currentVelocity;
+    private bool hasCollided = false;
+    private bool hasGravity = false;
     
     #region Lifecycle
     private void Awake() {
         transform.localScale *= ClumpScalingFactor.Value;
     }
 
-    private void FixedUpdate()
-    {
-        this.currentSpeed -= this.currentSpeed * DragCoefficient.Value * Time.deltaTime;
-        float deltaDistance = this.currentSpeed * Time.deltaTime;
+    private void Start() {
+        this.startMovementPoint = transform.position;
+    }
 
-        if (!hasCollided) PreMoveCollisionCheck(deltaDistance);
-        if (!hasCollided) Move(deltaDistance);
-        if (!hasCollided) PostMoveCollisionCheck();
+    private void Update()
+    {
+        if(!hasCollided) {
+            this.currentVelocity -= this.currentVelocity * DragCoefficient.Value * Time.deltaTime;
+            if(!hasGravity) hasGravity = Vector3.Distance(transform.position, this.startMovementPoint) >= ClumpGravityDistance.Value;
+            if(hasGravity) this.currentVelocity += Physics.gravity * Time.deltaTime;
+            Vector3 deltaDistance = this.currentVelocity * Time.deltaTime;
+
+            PreMoveCollisionCheck(deltaDistance);
+            Move(deltaDistance);
+            PostMoveCollisionCheck();
+        }
     }
     #endregion
     
     #region Setters
     public void SetMoving(float speed, Vector3 direction) {
-        this.currentSpeed = speed;
+        this.currentVelocity = speed * direction.normalized;
         this.transform.forward = direction.normalized;
     }
     #endregion
@@ -76,15 +83,16 @@ public class MeatClumpController : MonoBehaviour
             //Static object hit
             if (shaderUpdater != null) shaderUpdater.StartSplat(normal);
             OnCollideWithStatic.Invoke();
+            TimeUtils.SetTimeout(ClumpDestroyTime.Value, () => Destroy(this.gameObject));
         }
     }
 
-    private void PreMoveCollisionCheck(float deltaDistance)
+    private void PreMoveCollisionCheck(Vector3 deltaDistance)
     {
         //SphereCast from current pos to next pos and check for collisions
         RaycastHit hit;
         if (Physics.SphereCast(transform.position, CollisionRadius.Value, transform.forward,
-            out hit, deltaDistance, CollisionMask, QueryTriggerInteraction.Ignore))
+            out hit, deltaDistance.magnitude, CollisionMask, QueryTriggerInteraction.Ignore))
         {
             transform.position += (transform.forward * hit.distance);
             
@@ -103,14 +111,10 @@ public class MeatClumpController : MonoBehaviour
     #endregion
     
     #region Movement
-    private void Move(float deltaDistance)
+    private void Move(Vector3 deltaDistance)
     {
-        shouldFallOff = Vector3.Distance(transform.position, this.startMovementPoint) >= ClumpFalloffDistance.Value * ClumpFalloffDistanceFactor.Value;
-        if(shouldFallOff) {
-            float newY = transform.forward.y - (this.ClumpFalloffSpeed.Value * Time.deltaTime * (1 / ClumpFalloffDistanceFactor.Value));
-            transform.forward = new Vector3(transform.forward.x, newY, transform.forward.z);
-        }
-        transform.position += transform.forward * deltaDistance;
+        transform.position += deltaDistance;
+        transform.forward = this.currentVelocity.normalized;
     }
     #endregion
 }

@@ -19,7 +19,7 @@ namespace MoreMountains.Feedbacks
         public override Color FeedbackColor { get { return MMFeedbacksInspectorColors.ParticlesColor; } }
         #endif
         
-        public ParticleSystem ParticlesPrefab;
+        public GameObject ParticlesPrefab;
         
         public Vector3Reference TargetPosition;
         public Vector3 Offset;
@@ -33,7 +33,9 @@ namespace MoreMountains.Feedbacks
         /// </summary>
         protected virtual void InstantiateParticleSystem()
         {
-            _instantiatedParticleSystem = Instantiate(ParticlesPrefab, TargetPosition.Value + Offset, Quaternion.identity);
+            _instantiatedParticleSystem =
+                (Instantiate(ParticlesPrefab, TargetPosition.Value + Offset, Quaternion.identity))
+                .GetComponent<ParticleSystem>();
         }
         
 

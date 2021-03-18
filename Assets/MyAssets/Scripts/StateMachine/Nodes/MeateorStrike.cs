@@ -23,6 +23,14 @@ public class MeateorStrike : PlayerStateNode
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [Required]
     private FloatReference MeateorStrikeSpeed;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [Required]
+    private FloatReference MeateorStrikeMinSpeed;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [Required]
+    private FloatReference MeateorStrikeMaxSpeed;
 
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [Required]
@@ -45,6 +53,19 @@ public class MeateorStrike : PlayerStateNode
     
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Outputs")] [Required]
     protected Vector3Reference KnockbackForceOutput;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Outputs")] [Required]
+    protected Vector3Reference MeateorStrikeHitPosition;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Outputs")] [Required]
+    protected TimerReference MeateorStrikeDurationTimer;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Outputs")] [Required]
+    protected LeanTweenType VelocityEasingType;
+
+
+    private float currentSpeed;
+    private float duration;
 
     public override void Enter()
     {
@@ -52,17 +73,25 @@ public class MeateorStrike : PlayerStateNode
         playerController.onStartUpdateVelocity += UpdateVelocity;
         playerController.onStartUpdateRotation += UpdateRotation;
         PlayerCollidedWith.Subscribe(CheckForHit);
+        duration = MeateorStrikeDurationTimer.Duration;
+
+        LeanTween.value(MeateorStrikeMaxSpeed.Value, MeateorStrikeMinSpeed.Value, duration)
+            .setOnUpdate(speed =>
+            {
+                currentSpeed = speed;
+            })
+            .setEase(VelocityEasingType);
     }
 
     private void UpdateVelocity(VelocityInfo velocityInfo)
     {
-        NewVelocityOut.Value = SlingshotDirection.Value.normalized * MeateorStrikeSpeed.Value;
-
+        NewVelocityOut.Value = SlingshotDirection.Value * currentSpeed;
+        
         if (slingshotTargetSceneReference.Value != null)
         {
             Vector3 playerToTarget =
                 (slingshotTargetSceneReference.Value.position - playerController.transform.position).normalized;
-            NewVelocityOut.Value = playerToTarget * MeateorStrikeSpeed.Value;
+            NewVelocityOut.Value = playerToTarget * currentSpeed;
         }
     }
 	
@@ -90,7 +119,9 @@ public class MeateorStrike : PlayerStateNode
             playerController.UngroundMotor();
             Vector3 playerToTarget = (otherObj.transform.position.xoz() - playerController.transform.position.xoz()).normalized;
             //Vector3 knockbackDir = Vector3.RotateTowards(-playerToTarget, Vector3.up, 30f, 0f);
-            KnockbackForceOutput.Value = -playerToTarget * KnockbackForceMagnitude.Value + Vector3.up * KnockbackForceMagnitude.Value; 
+            KnockbackForceOutput.Value = -playerToTarget * KnockbackForceMagnitude.Value + Vector3.up * KnockbackForceMagnitude.Value;
+
+            MeateorStrikeHitPosition.Value = collisionInfo.contactPoint;
             MeateorCollideTriger.Activate();
         }
         else

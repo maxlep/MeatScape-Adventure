@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MeateorStrikeCombat : PlayerStateNode
 {
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private GameObjectTriggerVariable PlayerCollidedWith;
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private DynamicGameEvent PlayerCollidedWith_CollisionInfo;
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private LayerMapper layerMapper;
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private IntVariable HungerLevel;
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private IntVariable HungerThreshold;
@@ -20,12 +20,15 @@ public class MeateorStrikeCombat : PlayerStateNode
     public override void Enter()
     {
         base.Enter();
-        PlayerCollidedWith.Subscribe(this.OnPlayerCollidedWith);
+        PlayerCollidedWith_CollisionInfo.Subscribe(this.OnPlayerCollidedWith);
     }
 
-    private void OnPlayerCollidedWith(GameObject prev, GameObject gameObject) {
-        if(gameObject.layer == layerMapper.GetLayer(LayerEnum.Enemy)) {
-            EnemyController enemy = gameObject.GetComponent<EnemyController>();
+    private void OnPlayerCollidedWith(System.Object prevCollisionInfoObj, System.Object collisionInfoObj) {
+        CollisionInfo collisionInfo = (CollisionInfo) collisionInfoObj;
+        GameObject otherObj = collisionInfo.other.gameObject;
+        
+        if(otherObj.layer == layerMapper.GetLayer(LayerEnum.Enemy)) {
+            EnemyController enemy = otherObj.GetComponent<EnemyController>();
             if(HungerLevel.Value >= HungerThreshold.Value) {
                 enemy.DamageEnemy(999);
             } else {
@@ -39,6 +42,6 @@ public class MeateorStrikeCombat : PlayerStateNode
     public override void Exit()
     {
         base.Exit();
-        PlayerCollidedWith.Unsubscribe(this.OnPlayerCollidedWith);
+        PlayerCollidedWith_CollisionInfo.Unsubscribe(this.OnPlayerCollidedWith);
     }
 }

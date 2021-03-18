@@ -30,7 +30,7 @@ public class MeateorStrike : PlayerStateNode
     
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [Required]
-    private GameObjectTriggerVariable PlayerCollidedWith;
+    private DynamicGameEvent PlayerCollidedWith;
     
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [Required]
@@ -80,15 +80,22 @@ public class MeateorStrike : PlayerStateNode
 
     }
 
-    private void CheckForHit(GameObject previous, GameObject other)
+    private void CheckForHit(System.Object prevCollisionInfoObj, System.Object collisionInfoObj)
     {
-        if (other.layer == LayerMapper.GetLayer(LayerEnum.Enemy))
+        CollisionInfo collisionInfo = (CollisionInfo) collisionInfoObj;
+        GameObject otherObj = collisionInfo.other.gameObject;
+        
+        if (otherObj.layer == LayerMapper.GetLayer(LayerEnum.Enemy))
         {
             playerController.UngroundMotor();
-            Vector3 playerToTarget = (other.transform.position.xoz() - playerController.transform.position.xoz()).normalized;
+            Vector3 playerToTarget = (otherObj.transform.position.xoz() - playerController.transform.position.xoz()).normalized;
             //Vector3 knockbackDir = Vector3.RotateTowards(-playerToTarget, Vector3.up, 30f, 0f);
             KnockbackForceOutput.Value = -playerToTarget * KnockbackForceMagnitude.Value + Vector3.up * KnockbackForceMagnitude.Value; 
             MeateorCollideTriger.Activate();
+        }
+        else
+        {
+            //TODO: check if going fast enough into the normal, if so, knockback
         }
     }
 }

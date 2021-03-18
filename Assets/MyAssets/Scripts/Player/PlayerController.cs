@@ -33,6 +33,13 @@ public struct GroundingInfo
     public Vector3 normal;
 }
 
+public struct CollisionInfo
+{
+    public Collider other;
+    public Vector3 contactPoint;
+    public Vector3 contactNormal;
+}
+
 public class PlayerController : SerializedMonoBehaviour, ICharacterController
 {
     [SerializeField] private KinematicCharacterMotor charMotor;
@@ -51,6 +58,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         JumpTrigger.Activate();
     }
 
+    #region ReferenceInputs
+
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private Vector3Reference NewVelocity;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private QuaternionReference NewRotation;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference StoredJumpVelocity;
@@ -63,6 +72,11 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference RollPressed;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector3Reference PreviousVelocity;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private FloatReference DistanceToGround;
+
+    #endregion
+
+    #region TransitionParameters
+
     [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference IsGrounded;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference IsOnSlidebleSlope;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable AttackTrigger;
@@ -76,10 +90,16 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable BecameUngrounded;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TimerVariable GroundSlamCooldownTimer;
 
+    #endregion
+
+    #region InteractionParameters
 
     [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference ClumpThrowKnockbackSpeed;
     [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference EnemyKnockbackSpeed;
     [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference InvincibilityTime;
+
+    #endregion
+
 
     [Title("Hunger value")]
     [FoldoutGroup("Hunger Parameters"), SerializeField] private TimerReference HungerDecayTimer;
@@ -100,7 +120,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Referenced Components")] [SerializeField] private GameObject slingshotCone;
     
     [FoldoutGroup("GameEvents")] [SerializeField] private GameEvent throwClumpEvent;
-    [FoldoutGroup("GameEvents")] [SerializeField] private GameObjectTriggerVariable PlayerCollidedWith;
+    [FoldoutGroup("GameEvents")] [SerializeField] private DynamicGameEvent PlayerCollidedWith_CollisionInfo;
 
     private Vector3 moveDirection;
     private InputAction playerMove;
@@ -284,7 +304,14 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         ref HitStabilityReport hitStabilityReport)
     {
         // This is called when the motor's movement logic detects a hit
-        PlayerCollidedWith.Activate(hitCollider.gameObject);
+        CollisionInfo collisionInfo = new CollisionInfo()
+        {
+            other = hitCollider,
+            contactPoint = hitPoint,
+            contactNormal =  hitNormal
+            
+        };
+        PlayerCollidedWith_CollisionInfo.Raise(collisionInfo);
     }
 
     public void ProcessHitStabilityReport(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint,
@@ -301,7 +328,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     public void OnDiscreteCollisionDetected(Collider hitCollider)
     {
         // This is called by the motor when it is detecting a collision that did not result from a "movement hit".
-        PlayerCollidedWith.Activate(hitCollider.gameObject);
     }
 
     #endregion

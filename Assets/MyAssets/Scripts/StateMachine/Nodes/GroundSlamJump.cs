@@ -10,6 +10,8 @@ public class GroundSlamJump : PlayerStateNode
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference JumpImpulse;
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference jumpGroundDelay;
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private BoolReference hasWaitedJumpDelay;
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TriggerVariable triggerJumpAnim;
+
     
     
     public override void Enter()
@@ -17,6 +19,7 @@ public class GroundSlamJump : PlayerStateNode
         base.Enter();
         playerController.UngroundMotor();
         playerController.AddImpulseOverlayed(Vector3.up * JumpImpulse.Value);
+        triggerJumpAnim.Activate();
     }
 
     public override void Exit()

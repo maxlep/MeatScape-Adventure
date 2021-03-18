@@ -12,8 +12,7 @@ namespace MyAssets.Scripts.Camera
         [SerializeField] private CinemachineFreeLook _cinemachineFreeLook;
 
         [SerializeField] private FloatReference _scaleValue;
-        [SerializeField] private FloatReference _scaleMin;
-        [SerializeField] private FloatReference _scaleMax;
+        [SerializeField] private CurveReference ScaleCurve_Hunger_Player;
 
         [SerializeField] private CurveReference _topRigRadius;
         [SerializeField] private CurveReference _topRigHeight;
@@ -23,6 +22,8 @@ namespace MyAssets.Scripts.Camera
         [SerializeField] private CurveReference _botRigHeight;
 
         private bool doUpdate = false;
+        private float scaleMin;
+        private float scaleMax;
 
         private void Start()
         {
@@ -37,9 +38,11 @@ namespace MyAssets.Scripts.Camera
             if (doUpdate)
             {
                 doUpdate = false;
+
+                scaleMin = ScaleCurve_Hunger_Player.MinValue;
+                scaleMax = ScaleCurve_Hunger_Player.MaxValue;
                 
-                var fac = (_scaleValue.Value - _scaleMin.Value) /
-                          (_scaleMax.Value - _scaleMin.Value);
+                var fac = (_scaleValue.Value - scaleMin) / (scaleMax - scaleMin);
                 
                 _cinemachineFreeLook.m_Orbits[0] = new CinemachineFreeLook.Orbit(_topRigHeight.Value.Evaluate(fac), _topRigRadius.Value.Evaluate(fac));
                 _cinemachineFreeLook.m_Orbits[1] = new CinemachineFreeLook.Orbit(_midRigHeight.Value.Evaluate(fac), _midRigRadius.Value.Evaluate(fac));

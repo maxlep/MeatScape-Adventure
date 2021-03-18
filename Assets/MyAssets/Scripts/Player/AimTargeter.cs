@@ -23,6 +23,7 @@ namespace MyAssets.Scripts.Player
         [SerializeField] private LayerMask obstructionLayerMask;
         [SerializeField] private float maxRange;
         [SerializeField] private float timeToLoseLockOnTarget = 2f;
+        [SerializeField] private float reticleMoveTime = .15f;
         [SerializeField] private int colliderLimit = 64;
         [SerializeField] private IntVariable enemyHitId;
         [SerializeField] private GameEvent lockOnStartEvent;
@@ -181,7 +182,7 @@ namespace MyAssets.Scripts.Player
                 }, 
                 startPosition, 
                 GetTargetPosition(currentTarget), 
-                0.25f
+                reticleMoveTime
             ).setOnComplete(() =>
             {
                 targettingMoveTween = null;

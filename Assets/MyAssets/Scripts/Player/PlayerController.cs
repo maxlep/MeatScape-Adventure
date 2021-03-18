@@ -154,9 +154,11 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         capsuleStartRadius = charMotor.Capsule.radius;
         Scale.Subscribe(() =>
         {
-            charMotor.Capsule.height = capsuleStartHeight * Scale.Value;
-            charMotor.Capsule.center = charMotor.transform.up * (capsuleStartCenter.y - capsuleStartHeight / 2 + Scale.Value * capsuleStartHeight * 0.5f);
-            charMotor.Capsule.radius = capsuleStartRadius * Scale.Value;
+            charMotor.SetCapsuleDimensions(
+                capsuleStartRadius * Scale.Value,
+                capsuleStartHeight * Scale.Value,
+                capsuleStartCenter.y - capsuleStartHeight / 2 + Scale.Value * capsuleStartHeight * 0.5f
+                );
         });
     }
 

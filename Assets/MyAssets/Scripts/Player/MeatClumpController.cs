@@ -3,6 +3,7 @@ using MyAssets.Scripts.ShaderHelpers;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
+using MyAssets.Scripts.Utils;
 
 public class MeatClumpController : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class MeatClumpController : MonoBehaviour
     [SerializeField] private LayerMapper layerMapper;
     [SerializeField] private FloatReference ClumpScalingFactor;
     [SerializeField] private FloatReference ClumpGravityDistance;
+    [SerializeField] private FloatReference ClumpDestroyTime;
     [SerializeField] private FloatReference CollisionRadius;
     [SerializeField] private FloatReference DragCoefficient;
     [SerializeField] private LayerMask CollisionMask;
@@ -40,14 +42,16 @@ public class MeatClumpController : MonoBehaviour
 
     private void Update()
     {
-        this.currentVelocity -= this.currentVelocity * DragCoefficient.Value * Time.deltaTime;
-        if(!hasGravity) hasGravity = Vector3.Distance(transform.position, this.startMovementPoint) >= ClumpGravityDistance.Value;
-        if(hasGravity) this.currentVelocity += Physics.gravity * Time.deltaTime;
-        Vector3 deltaDistance = this.currentVelocity * Time.deltaTime;
+        if(!hasCollided) {
+            this.currentVelocity -= this.currentVelocity * DragCoefficient.Value * Time.deltaTime;
+            if(!hasGravity) hasGravity = Vector3.Distance(transform.position, this.startMovementPoint) >= ClumpGravityDistance.Value;
+            if(hasGravity) this.currentVelocity += Physics.gravity * Time.deltaTime;
+            Vector3 deltaDistance = this.currentVelocity * Time.deltaTime;
 
-        if (!hasCollided) PreMoveCollisionCheck(deltaDistance);
-        if (!hasCollided) Move(deltaDistance);
-        if (!hasCollided) PostMoveCollisionCheck();
+            PreMoveCollisionCheck(deltaDistance);
+            Move(deltaDistance);
+            PostMoveCollisionCheck();
+        }
     }
     #endregion
     
@@ -79,6 +83,7 @@ public class MeatClumpController : MonoBehaviour
             //Static object hit
             if (shaderUpdater != null) shaderUpdater.StartSplat(normal);
             OnCollideWithStatic.Invoke();
+            TimeUtils.SetTimeout(ClumpDestroyTime.Value, () => Destroy(this.gameObject));
         }
     }
 

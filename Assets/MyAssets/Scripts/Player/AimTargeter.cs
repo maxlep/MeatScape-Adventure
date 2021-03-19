@@ -31,16 +31,16 @@ namespace MyAssets.Scripts.Player
         [SerializeField] private FloatVariable lockOnCameraAimOffsetYDistance;
         [SerializeField] private FloatVariable lockOnCameraAimOffsetYScale;
         [SerializeField] private IntVariable lockOnTargetCurrentDistance;
+        [SerializeField] private BoolReference lockedOn;
         [SerializeField] private TransformSceneReference currentTargetSceneReference;
-        
-        
+
+
         public Transform CurrentTarget => currentTarget?.transform;
         
         private Collider[] targetableColliders;
         
         private Collider currentTarget, lastTarget, cycleTargetRight, cycleTargetLeft;
         private float currentWeight, currentRightWeight, currentLeftWeight, currentCycleRightAngle, currentCycleLeftAngle;
-        private bool lockedOn;
         private float lastSeenTargetTime;
 
         private CinemachineFramingTransposer framingTransposer;
@@ -52,7 +52,7 @@ namespace MyAssets.Scripts.Player
         #region Lifecycle
         private void Awake()
         {
-            InputManager.Instance.onLockOn += () => UpdateLockOn(!lockedOn);
+            InputManager.Instance.onLockOn += () => UpdateLockOn(!lockedOn.Value);
             InputManager.Instance.onCycleTargetRight += () => TryCycleTarget(true);
             InputManager.Instance.onCycleTargetLeft += () => TryCycleTarget(false);
             targetableColliders = new Collider[colliderLimit];
@@ -75,7 +75,7 @@ namespace MyAssets.Scripts.Player
                                                     lockOnCameraAimOffsetYScale.Value;
             
             //If locked on and target null (dies), cycle to next best
-            if (lockedOn && currentTarget.SafeIsUnityNull())
+            if (lockedOn.Value && currentTarget.SafeIsUnityNull())
             {
                 if (currentRightWeight > currentLeftWeight)
                     TryCycleTarget(true);
@@ -97,7 +97,7 @@ namespace MyAssets.Scripts.Player
 
             Vector2 playerToTarget = Vector2.zero;
 
-            if (lockedOn)
+            if (lockedOn.Value)
                 playerToTarget = (currentTarget.bounds.center - playerController.transform.position).xz();
 
             //TODO: What if 1 enemy has multiple colliders? Right now assuming each enemy has 1
@@ -108,14 +108,14 @@ namespace MyAssets.Scripts.Player
                 var current = targetableColliders[i];
                 float weight = GetTargetWeight(current);
                 
-                if (lockedOn && !Mathf.Approximately(weight, 0f))
+                if (lockedOn.Value && !Mathf.Approximately(weight, 0f))
                 {
                     //Dont consider the currentTarget for lock on cycle
                     if (current.Equals(currentTarget)) continue;
                     UpdateCycleTargets(current, playerToTarget);
                 }
                 //If not locked on, handle update auto-lock target based on weights
-                else if (!lockedOn && weight > currentWeight)
+                else if (!lockedOn.Value && weight > currentWeight)
                 {
                     currentTarget = current;
                     currentWeight = weight;
@@ -148,7 +148,7 @@ namespace MyAssets.Scripts.Player
             else
                 currentTargetSceneReference.Value = null;
 
-            if (lockedOn)
+            if (lockedOn.Value)
             {
                 Vector3 playerToTargetHorizontal = currentTarget.transform.position.xoz() - transform.position.xoz();
                 lockOnTargetCurrentDistance.Value = Mathf.FloorToInt(playerToTargetHorizontal.magnitude);
@@ -211,7 +211,7 @@ namespace MyAssets.Scripts.Player
                 cycleTargetLeft = null;
                 currentCycleRightAngle = Mathf.Infinity;
                 currentCycleLeftAngle = Mathf.NegativeInfinity;
-                lockedOn = false;
+                lockedOn.Value = false;
                 return;
             }
             
@@ -220,13 +220,13 @@ namespace MyAssets.Scripts.Player
             {
                 ToggleLockOnCamera(false);
                 lockOnStopEvent.Raise();
-                lockedOn = false;
+                lockedOn.Value = false;
                 return;
             }
             
             ToggleLockOnCamera(true);
             lockOnStartEvent.Raise();
-            lockedOn = true;
+            lockedOn.Value = true;
             
             //Update target groups transforms
             CinemachineTargetGroup.Target playerTarget = new CinemachineTargetGroup.Target();
@@ -251,7 +251,7 @@ namespace MyAssets.Scripts.Player
 
         private void TryCycleTarget(bool isRight)
         {
-            if (!lockedOn) return;
+            if (!lockedOn.Value) return;
             
             if (isRight && cycleTargetRight != null)
             {
@@ -299,7 +299,7 @@ namespace MyAssets.Scripts.Player
         private float GetTargetWeight(Collider target)
         {
             if (target.SafeIsUnityNull()) return 0;
-            bool isLockOnTarget = lockedOn && target.Equals(currentTarget);
+            bool isLockOnTarget = lockedOn.Value && target.Equals(currentTarget);
             
             //TODO: Consider the last hit enemy here
             // if(current.gameObject.GetInstanceID() == enemyHitId.Value) {

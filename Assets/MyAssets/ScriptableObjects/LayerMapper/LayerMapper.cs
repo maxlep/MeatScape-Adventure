@@ -19,6 +19,18 @@ public class LayerMapper : SerializedScriptableObject
             return -1;
         }
     }
+    
+    public string GetLayerName(LayerEnum layer)
+    {
+        if (LayerDict.ContainsKey(layer))
+            return LayerDict[layer];
+
+        else
+        {
+            Debug.LogError($"Layer {layer} is not a key in LayerDict!");
+            return null;
+        }
+    }
 }
 
 public enum LayerEnum

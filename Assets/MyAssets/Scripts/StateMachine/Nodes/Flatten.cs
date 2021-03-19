@@ -8,6 +8,19 @@ using UnityEngine;
 using XNode;
 
 public class Flatten : PlayerStateNode {
+	
+	#region Outputs
+
+	[HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Outputs")] [Required]
+	protected Vector3Reference NewVelocityOut;
+	
+	[HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Outputs")] [Required]
+	protected QuaternionReference NewRotationOut;
+
+	#endregion
+	
+	#region Events
+
 	[HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
 	[Required]
 	private GameEvent FlattenStartEvent;
@@ -15,13 +28,9 @@ public class Flatten : PlayerStateNode {
 	[HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
 	[Required]
 	private GameEvent FlattenStopEvent;
-	
-	[HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Outputs")] [Required]
-	protected Vector3Reference NewVelocityOut;
-	
-	[HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Outputs")] [Required]
-	protected QuaternionReference NewRotationOut;
-	
+
+	#endregion
+
 	public override void Enter()
 	{
 		base.Enter();

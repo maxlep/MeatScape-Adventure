@@ -83,7 +83,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable DownwardAttackTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable RollTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable RollReleaseTrigger;
-    [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable JumpAttackTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable AddImpulseTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable BecameGrounded;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable BecameUngrounded;
@@ -94,7 +93,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     #region InteractionParameters
 
     [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference ClumpThrowKnockbackSpeed;
-    [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference EnemyKnockbackSpeed;
     [FoldoutGroup("Interaction Parameters")] [SerializeField] private FloatReference InvincibilityTime;
 
     #endregion
@@ -528,33 +526,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     if (interactablesInRange.Count < 1) return;
 
     interactablesInRange[0].InvokeOnInteract();
-  }
-
-  private void OnTriggerStay(Collider other)
-  {
-    GameObject otherGameObject = other.gameObject;
-    if (otherGameObject.layer == layerMapper.GetLayer(LayerEnum.EnemyJumpTrigger))
-    {
-      AttemptJumpAttack(other, otherGameObject);
-    }
-  }
-
-  private void AttemptJumpAttack(Collider enemyCollider, GameObject enemyObject)
-  {
-    EnemyJumpHurtTrigger enemyController = enemyObject.GetComponent<EnemyJumpHurtTrigger>();
-    if (enemyController == null) return;
-
-    float playerBottomY = collider.bounds.center.y - collider.bounds.extents.y;
-    float enemyTriggerBottomY = enemyCollider.bounds.center.y - enemyCollider.bounds.extents.y;
-
-    //Only jump attack if player is above bottom of enemy trigger and falling downwards
-    if (playerBottomY > enemyTriggerBottomY && NewVelocity.Value.y <= 0f)
-    {
-      enemyController.DamageEnemy(1);
-      JumpAttackTrigger.Activate();
-      CameraShakeManager.Instance.ShakeCamera(1.75f, .3f, .3f);
-      EffectsManager.Instance?.PlayClipAtPoint(jumpAttackClip, transform.position, .4f);
-    }
   }
 
   //Cast downward from collider to get info about ground below

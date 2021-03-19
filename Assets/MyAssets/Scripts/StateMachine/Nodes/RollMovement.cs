@@ -470,7 +470,6 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 -velocityGroundDot > DeflectContactDotThreshold.Value)
             {
                 //Reflect velocity in the XZ plane
-                playerController.UngroundMotor();
                 storedDeflectVelocity = Vector3.Reflect(NewVelocityOut.Value.normalized, collisionInfo.contactNormal);
                 storedDeflectVelocity =
                     storedDeflectVelocity.xoz() * NewVelocityOut.Value.xoz().magnitude * DeflectFactor.Value;

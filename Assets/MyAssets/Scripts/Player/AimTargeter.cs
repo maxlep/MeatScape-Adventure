@@ -221,7 +221,7 @@ namespace MyAssets.Scripts.Player
             
             //Update target groups transforms
             CinemachineTargetGroup.Target playerTarget = new CinemachineTargetGroup.Target();
-            playerTarget.weight = 0f;
+            playerTarget.weight = 1f;
             playerTarget.radius = 0f;
             playerTarget.target = lockOnCamTarget;
             

@@ -183,6 +183,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         InputManager.Instance.onRoll_Pressed += () => RollTrigger.Activate();
         InputManager.Instance.onRoll_Released += () => RollReleaseTrigger.Activate();
         InputManager.Instance.onInteract += AttemptInteract;
+        InputManager.Instance.onFunction3 += RemoveHunger;
+        InputManager.Instance.onFunction4 += FeedHunger;
     }
 
     // Update is called once per frame
@@ -414,6 +416,12 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     {
         HungerOut.Value += 1;
     }
+    
+    [Button]
+    private void RemoveHunger()
+    {
+        HungerOut.Value -= 1;
+    }
 
 #endregion
 
@@ -600,7 +608,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         {
             return true;
         }
-
         return false;
     }
+    
+    
 }

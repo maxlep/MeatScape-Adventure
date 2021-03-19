@@ -99,7 +99,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Vertical")] [Required]
         protected FloatReference SlopeVerticalGravityFactor;
-        
+
         #endregion
         
         #region Grounding
@@ -167,14 +167,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         public override void Enter()
         {
             base.Enter();
-            
-            //If airborn, give forward boost
-            if (!playerController.GroundingStatus.FoundAnyGround)
-            {
-                Vector3 impulseDir = (playerController.transform.forward + playerController.transform.up).normalized;
-                playerController.AddImpulse(impulseDir * AirForwardForce.Value);
-            }
-                
+
             PlayerCollidedWith.Subscribe(CheckForDeflect);
             lastRollSoundTime = Mathf.NegativeInfinity;
             GroundStickAngleOutput.Value = GroundStickAngleInput.Value;

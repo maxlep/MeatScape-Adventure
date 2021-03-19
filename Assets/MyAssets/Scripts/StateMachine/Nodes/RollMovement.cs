@@ -61,15 +61,17 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         #endregion
 
         #region Vertical Movement
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [Required] [TabGroup("Vertical")]
+        private bool AlignColliderWithGroundNormal = true;
 
-        [HideIf("$collapsed")]
-        [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
-        [TabGroup("Vertical")]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [Required] [TabGroup("Vertical")]
         private FloatReference FallMultiplier;
 
-        [HideIf("$collapsed")]
-        [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
-        [TabGroup("Vertical")]
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [Required] [TabGroup("Vertical")]
         private FloatReference MaxFallSpeed;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
@@ -430,7 +432,8 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             GroundingInfo groundInfo = playerController.GroundInfo;
 
             //If found ground below and its close enough, orient collider to normal
-            if (!playerController.GroundingStatus.FoundAnyGround && 
+            if (AlignColliderWithGroundNormal &&
+                !playerController.GroundingStatus.FoundAnyGround && 
                 groundInfo.foundGround &&
                 groundInfo.distance < 50f)
             {
@@ -446,7 +449,8 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 if (Mathf.Approximately(velocityDirection.magnitude, 0f))
                     newRotation = currentRotation;
                 else
-                    newRotation = Quaternion.LookRotation(velocityDirection, playerController.GroundingStatus.GroundNormal);
+                    newRotation = Quaternion.LookRotation(velocityDirection, Vector3.up);
+                    //newRotation = Quaternion.LookRotation(velocityDirection, playerController.GroundingStatus.GroundNormal);
             }
             
             NewRotationOut.Value = newRotation;

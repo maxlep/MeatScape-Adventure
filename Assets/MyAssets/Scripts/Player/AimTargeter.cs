@@ -28,7 +28,9 @@ namespace MyAssets.Scripts.Player
         [SerializeField] private IntVariable enemyHitId;
         [SerializeField] private GameEvent lockOnStartEvent;
         [SerializeField] private GameEvent lockOnStopEvent;
-        [SerializeField] private FloatVariable lockOnCameraAimOffsetY;
+        [SerializeField] private FloatVariable lockOnCameraAimOffsetYDistance;
+        [SerializeField] private FloatVariable lockOnCameraAimOffsetYScale;
+        [SerializeField] private IntVariable lockOnTargetCurrentDistance;
         [SerializeField] private TransformSceneReference currentTargetSceneReference;
         
         
@@ -69,7 +71,8 @@ namespace MyAssets.Scripts.Player
         {
             //Change distance and aim offset with size (indirectly)
             framingTransposer.m_CameraDistance = freeLookCam.m_Orbits[1].m_Radius;
-            groupComposer.m_TrackedObjectOffset.y = lockOnCameraAimOffsetY.Value;
+            groupComposer.m_TrackedObjectOffset.y = lockOnCameraAimOffsetYDistance.Value +
+                                                    lockOnCameraAimOffsetYScale.Value;
             
             //If locked on and target null (dies), cycle to next best
             if (lockedOn && currentTarget.SafeIsUnityNull())
@@ -144,6 +147,12 @@ namespace MyAssets.Scripts.Player
                 currentTargetSceneReference.Value = currentTarget.transform;
             else
                 currentTargetSceneReference.Value = null;
+
+            if (lockedOn)
+            {
+                Vector3 playerToTargetHorizontal = currentTarget.transform.position.xoz() - transform.position.xoz();
+                lockOnTargetCurrentDistance.Value = Mathf.FloorToInt(playerToTargetHorizontal.magnitude);
+            }
         }
 
         #endregion

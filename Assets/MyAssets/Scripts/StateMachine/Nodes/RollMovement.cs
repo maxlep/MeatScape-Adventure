@@ -146,6 +146,10 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Events")] [Required]
+        protected GameEvent DeflectGameEvent;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Events")] [Required]
         protected GameEvent RollSoundGameEvent;
 
         #endregion
@@ -470,6 +474,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 -velocityGroundDot > DeflectContactDotThreshold.Value)
             {
                 //Reflect velocity in the XZ plane
+                DeflectGameEvent.Raise();
                 storedDeflectVelocity = Vector3.Reflect(NewVelocityOut.Value.normalized, collisionInfo.contactNormal);
                 storedDeflectVelocity =
                     storedDeflectVelocity.xoz() * NewVelocityOut.Value.xoz().magnitude * DeflectFactor.Value;

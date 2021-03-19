@@ -80,6 +80,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference IsOnSlidebleSlope;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable AttackTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable JumpTrigger;
+    [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable JumpAttackTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable DownwardAttackTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable RollTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable RollReleaseTrigger;
@@ -495,6 +496,34 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
 
   }
+  
+  private void OnTriggerStay(Collider other)
+  {
+    GameObject otherGameObject = other.gameObject;
+    if (otherGameObject.layer == layerMapper.GetLayer(LayerEnum.EnemyJumpTrigger))
+    {
+      AttemptJumpAttack(other, otherGameObject);
+    }
+  }
+
+  private void AttemptJumpAttack(Collider enemyCollider, GameObject enemyObject)
+  {
+    EnemyJumpHurtTrigger enemyController = enemyObject.GetComponent<EnemyJumpHurtTrigger>();
+    if (enemyController == null) return;
+
+    float playerBottomY = collider.bounds.center.y - collider.bounds.extents.y;
+    float enemyTriggerBottomY = enemyCollider.bounds.center.y - enemyCollider.bounds.extents.y;
+
+    //Only jump attack if player is above bottom of enemy trigger and falling downwards
+    if (playerBottomY > enemyTriggerBottomY && NewVelocity.Value.y <= 0f)
+    {
+      //enemyController.DamageEnemy(1);
+      JumpAttackTrigger.Activate();
+      CameraShakeManager.Instance.ShakeCamera(1.75f, .3f, .3f);
+      EffectsManager.Instance?.PlayClipAtPoint(jumpAttackClip, transform.position, .4f);
+    }
+  }
+
 
   public Vector3 GetPlatformVelocity()
   {

@@ -83,7 +83,10 @@ public class MeatClumpController : MonoBehaviour
             //Static object hit
             if (shaderUpdater != null) shaderUpdater.StartSplat(normal);
             OnCollideWithStatic.Invoke();
-            TimeUtils.SetTimeout(ClumpDestroyTime.Value, () => Destroy(this.gameObject));
+            TimeUtils.SetTimeout(ClumpDestroyTime.Value, () =>
+            {
+                if (this != null) Destroy(this.gameObject);
+            });
         }
     }
 

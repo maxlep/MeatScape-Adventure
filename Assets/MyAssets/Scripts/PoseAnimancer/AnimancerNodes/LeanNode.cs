@@ -18,7 +18,7 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
         {
             base.Enter();
             
-            _lean = new SpecificLean(sharedData.Animatable.Animancer.Playable);
+            _lean = new SpecificLean(_animatable.Animancer.Playable);
             _angle.Subscribe(() =>
             {
                 _lean.Angle = _angle.Value;

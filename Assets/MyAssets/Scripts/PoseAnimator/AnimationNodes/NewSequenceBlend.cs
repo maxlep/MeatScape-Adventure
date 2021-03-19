@@ -28,7 +28,7 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
         {
             base.RuntimeInitialize(startNodeIndex);
             
-            animationJobRunner.Initialize(base.name, sharedData);
+            animationJobRunner.Initialize(base.name, null);
         }
 
         public override void Execute()

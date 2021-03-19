@@ -25,7 +25,6 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
         public virtual Playable Output => Playable.Null;
         public void SetIsStateOutput(bool value) => isStateOutput = value;
 
-        protected SharedAnimationData sharedData;
         protected Animatable _animatable;
 
         #region Lifecycle methods
@@ -35,22 +34,6 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
 
             _animatable = stateMachineGraph.AnimationLayerStartNodes.FirstOrDefault().Animatable;
             // return;
-            sharedData = stateMachineGraph.AnimationLayerStartNodes.FirstOrDefault().SharedData;
-        }
-
-        public override void Enter()
-        {
-            base.Enter();
-            // return;
-            if (isStateOutput) sharedData.GetAnimationLayer(StartNodeIndex).TransitionToState(this, transitionTime, transitionCurve);
-            // Debug.Log($"State: {name} | isStateOutput: {isStateOutput}");
-        }
-        
-        public override void Exit()
-        {
-            base.Exit();
-
-            // Debug.Log($"EXIT {base.name}");
         }
 
         #endregion

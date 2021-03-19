@@ -9,7 +9,7 @@ namespace MyAssets.Scripts.PoseAnimator.Components
 
         private void Update()
         {
-            animatable.Value.SharedData.AnimationLayers.ForEach(i => i.Update());
+            //animatable.Value.SharedData.AnimationLayers.ForEach(i => i.Update());
         }
     }
 }

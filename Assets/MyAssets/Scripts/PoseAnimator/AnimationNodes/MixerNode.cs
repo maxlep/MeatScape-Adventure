@@ -33,7 +33,7 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
         {
             base.RuntimeInitialize(startNodeIndex);
             
-            mixerRunner.Initialize(base.name, sharedData);
+            mixerRunner.Initialize(base.name, null);
             mixerRunner.Output.ConnectInput(0, state1.Output, 0);
             mixerRunner.Output.ConnectInput(1, state2.Output, 0);
             mixerRunner.Output.SetInputWeight(0, 1f);

@@ -25,6 +25,7 @@ public class SubStateProcessorNode : StateNode
     public override void Initialize(StateMachineGraph parentGraph)
     {
         base.Initialize(parentGraph);
+        Debug.Log(name);
         subStates.ForEach(s => s.Initialize(parentGraph));
     }
 

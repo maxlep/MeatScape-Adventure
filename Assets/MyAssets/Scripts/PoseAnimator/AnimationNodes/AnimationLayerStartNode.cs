@@ -22,35 +22,11 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
         [SerializeField] [LabelWidth(165f)] [PropertySpace(0f, 15f)]
         private AnimatableSceneReference animatable;
 
-        [SerializeField] [LabelWidth(165f)] [PropertySpace(10f, 15f)] 
-        [HideLabel] [BoxGroup("AnimationLayer")]
-        public AnimationLayer AnimationLayer;
-
-        public SharedAnimationData SharedData => animatable.Value.SharedData;
         public Animatable Animatable => animatable.Value;
-
-        public override void RuntimeInitialize()
-        {
-            base.RuntimeInitialize();
-            // return;
-            // Debug.Log($"{animatable} {animatable.Value}");
-            AnimationLayer = new AnimationLayer(base.name, SharedData, defaultPose, isAdditive, layerWeight, layerMask);
-            AnimationLayer.Initialize();
-            animatable.Value.RegisterAnimationLayer(this);
-            // animationStateMachine.AnimationLayerStartNodes.ForEach((i, index) =>
-            //     i.InjectAnimationLayer(new AnimationLayer(name, sharedData)));
-        }
-
+        
         protected override void OnValidate()
         {
             name = $"Animation Start {executionOrderIndex}";
-        }
-
-        public override void OnApplictionExit()
-        {
-            base.OnApplictionExit();
-            // return;
-            AnimationLayer.Dispose();
         }
     }
 }

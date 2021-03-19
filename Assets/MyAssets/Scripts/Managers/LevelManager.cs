@@ -1,6 +1,7 @@
 using MyAssets.Scripts.Utils;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -19,6 +20,11 @@ public class LevelManager : MonoBehaviour
     {
         if (Instance == null) Instance = this;
         else Destroy(this);
+        
+        InputManager.Instance.onRestartScene += () =>
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        };
         
         DistanceText = DistanceTextTransform.Value.GetComponent<TMP_Text>();
         textPrefix = DistanceText.text;

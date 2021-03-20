@@ -408,7 +408,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     {
         var clamped = Mathf.Clamp(value, 0, 100);
         SkinnedMesh.SetBlendShapeWeight(1, clamped);
-        EyesSkinnedMesh.SetBlendShapeWeight(0, clamped);
+        //EyesSkinnedMesh.SetBlendShapeWeight(0, clamped);
     }
 
     [Button]

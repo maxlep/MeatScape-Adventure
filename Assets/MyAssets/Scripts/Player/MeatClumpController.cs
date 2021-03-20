@@ -1,4 +1,5 @@
-﻿using MyAssets.ScriptableObjects.Variables;
+﻿using MoreMountains.Feedbacks;
+using MyAssets.ScriptableObjects.Variables;
 using MyAssets.Scripts.ShaderHelpers;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -25,6 +26,7 @@ public class MeatClumpController : MonoBehaviour
     [SerializeField] private LayerMask CollisionMask;
     [SerializeField] private UnityEvent OnCollideWithStatic;
     [SerializeField] private IntVariable enemyHitId;
+    [SerializeField] private MMFeedbacks impactFeedbacks;
 
     private Vector3 startMovementPoint;
     private Vector3 currentVelocity;
@@ -75,6 +77,7 @@ public class MeatClumpController : MonoBehaviour
                     Vector3 knockBackDir = (enemyScript.transform.position - transform.position).normalized;
                     enemyScript.DamageEnemy(1, knockBackDir);
                     enemyHitId.Value = enemyScript.gameObject.GetInstanceID();
+                    impactFeedbacks.PlayFeedbacks();
                     Destroy(this.gameObject);
                     return;
                 }

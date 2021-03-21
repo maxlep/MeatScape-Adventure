@@ -25,7 +25,7 @@ namespace MyAssets.ScriptableObjects.Variables
             get => runtimeValue;
             set
             {
-                this.OnUpdateDelta?.Invoke(runtimeValue, value);
+                this.OnUpdateDelta?.Invoke(runtimeValue, value); // TODO: Since this notifies subscribers before setting the value, they may read the old value.
                 runtimeValue = value;
                 this.OnUpdate?.Invoke();
             }

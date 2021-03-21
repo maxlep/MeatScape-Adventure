@@ -162,7 +162,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         capsuleStartHeight = charMotor.Capsule.height;
         capsuleStartCenter = charMotor.Capsule.center;
         capsuleStartRadius = charMotor.Capsule.radius;
-        Scale.Subscribe(OnUpdateScale);
+        Scale.Subscribe(OnScaleChanged);
     }
 
     void Awake()
@@ -199,7 +199,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     {
         MaxStableDenivelationAngle.Unsubscribe(OnUpdateMaxStableDenivelationAngle);
         FrenzyOut.Unsubscribe(OnUpdateFrenzy);
-        Scale.Unsubscribe(OnUpdateScale);
+        Scale.Unsubscribe(OnScaleChanged);
     }
 
 #endregion
@@ -396,6 +396,11 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     public void UpdateScale(float value)
     {
         SizeChangePivot.Value.localScale = new Vector3(value, value, value);
+        charMotor.SetCapsuleDimensions(
+            capsuleStartRadius * Scale.Value,
+            capsuleStartHeight * Scale.Value,
+            capsuleStartCenter.y - capsuleStartHeight / 2 + Scale.Value * capsuleStartHeight * 0.5f
+        );
     }
 
     public void UpdateStarvation(float value)
@@ -459,13 +464,9 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         charMotor.MaxStableDenivelationAngle = MaxStableDenivelationAngle.Value;
     }
 
-    private void OnUpdateScale()
+    private void OnScaleChanged()
     {
-        charMotor.SetCapsuleDimensions(
-            capsuleStartRadius * Scale.Value,
-            capsuleStartHeight * Scale.Value,
-            capsuleStartCenter.y - capsuleStartHeight / 2 + Scale.Value * capsuleStartHeight * 0.5f
-        );
+        UpdateScale(Scale.Value);
     }
 
     private void UpdateParameters()

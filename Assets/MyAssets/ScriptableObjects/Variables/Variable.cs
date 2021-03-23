@@ -12,7 +12,7 @@ namespace MyAssets.ScriptableObjects.Variables
 
     [Serializable]
     [InlineEditor(InlineEditorObjectFieldModes.Foldout)]
-    public class Variable<T> : ScriptableObject {
+    public class Variable<T> : SerializedScriptableObject {
         [TextArea (7, 10)] [HideInInlineEditors] public String Description;
         [SerializeField] private T defaultValue;
         [SerializeField] private T runtimeValue;

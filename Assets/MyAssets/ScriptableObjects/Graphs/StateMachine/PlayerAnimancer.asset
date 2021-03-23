@@ -1164,7 +1164,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '- ! Is Grounded_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -1647,7 +1649,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Fast Turn Triggered_ Movement_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -1934,7 +1938,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    - 0  Abs Greater Than
+    0 && 0  Ignore 0 && 0  Abs Greater Than 0
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -2016,7 +2025,10 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Move Speed_ Player_ Resultant_ Anim_ Player  Greater Than
+    3
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -2168,7 +2180,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Slide Turn Triggered_ Movement_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -2888,7 +2902,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '- ! Is Grounded_ Controller_ Player
+
+    - 0  Ignore 0 && 0 
+    Less Than -0.1 && 0  Ignore 0
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -3055,7 +3074,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    - 0  Abs Less Than 0.001
+    && 0  Ignore 0 && 0  Abs Less Than 0.001
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -3239,7 +3263,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Parameter Processor
   Description: 
-  isActiveState: 0
+  isActiveState: 1
   subGraph: {fileID: 11400000, guid: 3833a745fc2f8524cb9f2b661e39a5ed, type: 2}
   subStates:
   - {fileID: 5592738946215276755, guid: 3833a745fc2f8524cb9f2b661e39a5ed, type: 2}

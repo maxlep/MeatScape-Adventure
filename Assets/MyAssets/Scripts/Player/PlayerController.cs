@@ -64,7 +64,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference StoredJumpVelocity;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference MinSlopeSlideAngle;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference MaxStableDenivelationAngle;
-    [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatValueReference Scale;
+    [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference Scale;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector2Reference MoveInput;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector3Reference BaseVelocity;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference JumpPressed;
@@ -113,6 +113,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Frenzy Parameters"), SerializeField] private IntReference FrenzyOut;
 
     [FoldoutGroup("Feedbacks")] [SerializeField] private MMFeedbacks damageFeedback;
+    [FoldoutGroup("Feedbacks")] [SerializeField] private MMFeedbacks sizeUpFeedback;
+    [FoldoutGroup("Feedbacks")] [SerializeField] private MMFeedbacks sizeDownFeedback;
     
     [FoldoutGroup("Referenced Components")] [SerializeField] private Line slingshotLine;
     [FoldoutGroup("Referenced Components")] [SerializeField] private GameObject slingshotCone;
@@ -162,7 +164,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         capsuleStartHeight = charMotor.Capsule.height;
         capsuleStartCenter = charMotor.Capsule.center;
         capsuleStartRadius = charMotor.Capsule.radius;
-        Scale.Subscribe(OnScaleChanged);
+        Scale.Subscribe(UpdateScale);
     }
 
     void Awake()
@@ -199,7 +201,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     {
         MaxStableDenivelationAngle.Unsubscribe(OnUpdateMaxStableDenivelationAngle);
         FrenzyOut.Unsubscribe(OnUpdateFrenzy);
-        Scale.Unsubscribe(OnScaleChanged);
+        Scale.Unsubscribe(UpdateScale);
     }
 
 #endregion
@@ -393,9 +395,12 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         }
     }
 
-    public void UpdateScale(float value)
+    public void UpdateScale(float prevValue, float value)
     {
-        SizeChangePivot.Value.localScale = new Vector3(value, value, value);
+        //SizeChangePivot.Value.localScale = new Vector3(value, value, value);
+        if (prevValue > value) sizeDownFeedback?.PlayFeedbacks();
+        else sizeUpFeedback?.PlayFeedbacks();
+        
         charMotor.SetCapsuleDimensions(
             capsuleStartRadius * Scale.Value,
             capsuleStartHeight * Scale.Value,
@@ -462,11 +467,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private void OnUpdateMaxStableDenivelationAngle()
     {
         charMotor.MaxStableDenivelationAngle = MaxStableDenivelationAngle.Value;
-    }
-
-    private void OnScaleChanged()
-    {
-        UpdateScale(Scale.Value);
     }
 
     private void UpdateParameters()

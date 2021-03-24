@@ -17,6 +17,7 @@ namespace MyAssets.ScriptableObjects.Variables
         [SerializeField] private T defaultValue;
         [SerializeField] private T runtimeValue;
 
+        protected T prevValue;
         protected event OnUpdate OnUpdate;
         protected event OnUpdate<T> OnUpdateDelta;
     
@@ -25,8 +26,9 @@ namespace MyAssets.ScriptableObjects.Variables
             get => runtimeValue;
             set
             {
-                this.OnUpdateDelta?.Invoke(runtimeValue, value); // TODO: Since this notifies subscribers before setting the value, they may read the old value.
+                prevValue = runtimeValue;
                 runtimeValue = value;
+                this.OnUpdateDelta?.Invoke(prevValue, runtimeValue);
                 this.OnUpdate?.Invoke();
             }
         }

@@ -164,6 +164,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         capsuleStartHeight = charMotor.Capsule.height;
         capsuleStartCenter = charMotor.Capsule.center;
         capsuleStartRadius = charMotor.Capsule.radius;
+        
+        UpdateScale(Scale.Value, Scale.Value);
         Scale.Subscribe(UpdateScale);
     }
 

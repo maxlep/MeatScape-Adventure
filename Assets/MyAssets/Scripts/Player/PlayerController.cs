@@ -561,6 +561,11 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         {
             Interactable interactableScript = otherGameObject.GetComponent<Interactable>();
             if (interactableScript != null) interactablesInRange.Add(interactableScript);
+
+            if (interactableScript.InteractOnEnter)
+            {
+                interactableScript.InvokeOnInteract();
+            }
         }
     }
 

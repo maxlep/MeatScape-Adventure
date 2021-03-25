@@ -2,12 +2,16 @@ using MyAssets.Scripts.Utils;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] private TransformSceneReference MapCenter;
     [SerializeField] private TransformSceneReference Player;
     [SerializeField] private TransformSceneReference DistanceTextTransform;
+
+    [SerializeField] private bool UseRandomSeed;
+    [SerializeField] private int UnityRandomSeed = 0;
 
     public static LevelManager Instance;
 
@@ -28,6 +32,12 @@ public class LevelManager : MonoBehaviour
         
         DistanceText = DistanceTextTransform.Value.GetComponent<TMP_Text>();
         textPrefix = DistanceText.text;
+
+        if (UseRandomSeed)
+        {
+            UnityRandomSeed = Random.state.GetHashCode();
+        }
+        Random.InitState(UnityRandomSeed);
     }
 
     void Update()

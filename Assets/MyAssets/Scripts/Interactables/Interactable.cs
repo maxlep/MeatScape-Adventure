@@ -9,6 +9,9 @@ public class Interactable : MonoBehaviour
     [SerializeField] private LayerMapper layerMapper;
     [SerializeField] private UnityEvent onInteract;
     [SerializeField] private UnityEvent onStopInteract;
+    [SerializeField] private bool _interactOnEnter;
+
+    public bool InteractOnEnter => _interactOnEnter;
 
     public void InvokeOnInteract()
     {

@@ -21,6 +21,8 @@ public class EnemyController : MonoBehaviour
     [SerializeField] protected MMFeedbacks deathFeedbacks;
     [SerializeField] protected GameObject destroyOnDeathObj;
     [SerializeField] protected GameObject dropOnDeath;
+    [SerializeField] protected HealthBar healthBar;
+    
 
     [SerializeField] protected UnityEvent OnDeathEvent;
 
@@ -40,6 +42,8 @@ public class EnemyController : MonoBehaviour
 
     protected virtual void Awake() {
         health = MaxHealth;
+        healthBar.SetMaxHealth(MaxHealth);
+        healthBar.gameObject.SetActive(false);
         isAlive = true;
         behaviorTree.SetVariableValue("PlayerTransform", playerTransformReference.Value);
         behaviorTree.EnableBehavior();
@@ -98,6 +102,8 @@ public class EnemyController : MonoBehaviour
     public virtual void DamageEnemy(int dmg, Vector3 knockBackDirection, bool applyKnockBack = true) {
         health -= dmg;
         if (damageFeedbacks != null) damageFeedbacks?.PlayFeedbacks();
+        healthBar.gameObject.SetActive(true);
+        healthBar.UpdateHealth(health);
 
         if (applyKnockBack)
         {

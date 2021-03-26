@@ -230,28 +230,16 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             {
                 playerController.UngroundMotor();
                 BounceGameEvent.Raise();
-                
-                //Negative dot of velocity and ground normal
-                //Negative to get in range of 0 -> 1 where 1 means directly into ground
-                float bounceFactorNormalMultiplier = -velocityGroundDot;
-                
-                //Lerp from normal bounce to half based on ground normal velocity dot
-                //-------NO LONGER DOING THIS FOR A MORE CONSISTENT ROLL BOUNCE HEIGHT----------
-                //float normalBounceFactorMultiplier = Mathf.Lerp(BounceFactor.Value, BounceFactor.Value * 2f, bounceFactorNormalMultiplier);
-                float normalBounceFactorMultiplier = BounceFactor.Value;
-                
+
                 //Reflect velocity perfectly then dampen the y based on dot with normal
                 Vector3 reflectedVelocity = Vector3.Reflect(previousVelocityOutput, GroundingStatus.GroundNormal);
-                reflectedVelocity.y *= normalBounceFactorMultiplier;
+                reflectedVelocity.y *= BounceFactor.Value;
                 
                 //Redirect bounce if conditions met
                 if (EnableRedirect && CheckRedirectConditions(reflectedVelocity))
-                {
                     reflectedVelocity = CalculateRedirectedImpulse(reflectedVelocity);
-                }
-                    
-
-                resultingVelocity = normalBounceFactorMultiplier * reflectedVelocity;
+                
+                resultingVelocity = reflectedVelocity;
             }
 
             #endregion
@@ -266,6 +254,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         private Vector3 CalculateHorizontalVelocity(Vector3 currentVelocity)
         {
             CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
+            CharacterTransientGroundingReport LastGroundingStatus = playerController.LastGroundingStatus;
 
             if (!Mathf.Approximately(0f, storedDeflectVelocity.sqrMagnitude))
             {
@@ -276,6 +265,10 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             float currentSpeed = (GroundingStatus.FoundAnyGround)
                 ? velocityAlongSlope.magnitude
                 : currentVelocity.xoz().magnitude;
+            
+            //If just became grounded, redirect velocity and overwrite speed (dont slow down)
+            if (!LastGroundingStatus.FoundAnyGround && GroundingStatus.FoundAnyGround)
+                currentSpeed = previousVelocityOutput.magnitude;
 
             #region Get New Move Direction
 

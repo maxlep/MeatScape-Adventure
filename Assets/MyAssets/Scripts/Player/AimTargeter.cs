@@ -22,6 +22,7 @@ namespace MyAssets.Scripts.Player
         [SerializeField] private LayerMask enemyLayerMask;
         [SerializeField] private LayerMask obstructionLayerMask;
         [SerializeField] private float maxRange;
+        [SerializeField] private float aimReticleYOffset;
         [SerializeField] private float timeToLoseLockOnTarget = 2f;
         [SerializeField] private float reticleMoveTime = .15f;
         [SerializeField] private int colliderLimit = 64;
@@ -359,11 +360,12 @@ namespace MyAssets.Scripts.Player
             return Mathf.Max(0f,(camAlignment * (1 - distFac)) * (1 - distFac) * (playerAlignment * (1 - distFac)));
         }
         
-        private static Vector3 GetTargetPosition(Collider target)
+        private Vector3 GetTargetPosition(Collider target)
         {
             var bounds = target.bounds;
             var center = bounds.center;
             center.y += bounds.extents.y;
+            center.y += aimReticleYOffset;
             return center;
         }
         #endregion

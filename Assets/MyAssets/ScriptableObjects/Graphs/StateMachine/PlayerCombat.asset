@@ -78,77 +78,6 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 50
     Variable: {fileID: 11400000, guid: c0ce7ec98f6b99544a61ebb03036b8ec, type: 2}
---- !u!114 &-8355637963256714917
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Forward Throw 3 -> DoNothing
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  graph: {fileID: 11400000}
-  position: {x: 5048, y: -488}
-  ports:
-    keys:
-    - nextState
-    - startingState
-    values:
-    - _fieldName: nextState
-      _node: {fileID: -8355637963256714917}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: previousState
-        node: {fileID: 509438275094468515}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 1
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: startingState
-      _node: {fileID: -8355637963256714917}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: -6926500366338806423}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  collapsed: 1
-  transitionPriority: 0
-  conditionPreview: '-  Attack Post Combo Timer_ Combat_ Player: 0.5 sec
-
-'
-  ValidStartStates: []
-  InvalidStartStates: []
-  BoolConditions: []
-  TriggerConditions: []
-  FloatConditions: []
-  IntConditions: []
-  TimerConditions:
-  - targetParameter:
-      UseConstant: 0
-      ConstantDuration: 0
-      Variable: {fileID: 11400000, guid: a701ba794602b294087ffec4c024d55e, type: 2}
-    restartOnEnterPreviousState: 1
-  Vector2Conditions: []
-  Vector3Conditions: []
 --- !u!114 &-8354906802381047596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,7 +88,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a5b13c47b83130d4b8b43bf8c05f286e, type: 3}
-  m_Name: Forward Throw 1 <ForwardAttack> (PlayerCombat)
+  m_Name: Forward Throw <ForwardAttack> (PlayerCombat)
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -171,7 +100,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: 2168, y: -424}
+  position: {x: 4648, y: -472}
   ports:
     keys:
     - transitions
@@ -182,13 +111,9 @@ MonoBehaviour:
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
-      - fieldName: startingState
-        node: {fileID: -3557754941773718037}
+      - fieldName: previousState
+        node: {fileID: -1651560789672905927}
         reroutePoints: []
-      - fieldName: startingState
-        node: {fileID: 6081311161080663211}
-        reroutePoints:
-        - {x: 2608, y: -704}
       _direction: 1
       _connectionType: 0
       _typeConstraint: 2
@@ -199,7 +124,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: nextState
-        node: {fileID: 5736769057387298889}
+        node: {fileID: 1625376886150853897}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -207,7 +132,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   BypassState: 0
-  Name: Forward Throw 1
+  Name: Forward Throw
   Description: 
   isActiveState: 0
   MeatClumpPrefab: {fileID: 2487677105210045783, guid: f257932619900ee48a82e1b4e73d5325,
@@ -224,7 +149,7 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 253f68b1cd3945c488bcb8015d51137c, type: 2}
-  ThrowPoint: {fileID: 11400000, guid: 27642181c01fbae46b19d9ad22d9cdce, type: 2}
+  FirePoint: {fileID: 11400000, guid: 27642181c01fbae46b19d9ad22d9cdce, type: 2}
   PlayerCameraTransform: {fileID: 11400000, guid: d50b3bc5cde09794cb0468cc9e2dba0f,
     type: 2}
   MoveInput:
@@ -239,145 +164,7 @@ MonoBehaviour:
     UseConstant: 0
     ConstantDuration: 0
     Variable: {fileID: 11400000, guid: a701ba794602b294087ffec4c024d55e, type: 2}
---- !u!114 &-7056521487864695197
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
-  m_Name: DoNothing <Reference>
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  graph: {fileID: 11400000}
-  position: {x: 4456, y: -1448}
-  ports:
-    keys:
-    - transitions
-    - previousState
-    values:
-    - _fieldName: transitions
-      _node: {fileID: -7056521487864695197}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: previousState
-      _node: {fileID: -7056521487864695197}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: nextState
-        node: {fileID: -4935851696750448494}
-        reroutePoints: []
-      - fieldName: nextState
-        node: {fileID: 6081311161080663211}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  referencedState: {fileID: 9174840935225501389}
---- !u!114 &-6926500366338806423
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5b13c47b83130d4b8b43bf8c05f286e, type: 3}
-  m_Name: Forward Throw 3 <ForwardAttack> (PlayerCombat)
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  graph: {fileID: 11400000}
-  position: {x: 4472, y: -408}
-  ports:
-    keys:
-    - transitions
-    - previousState
-    values:
-    - _fieldName: transitions
-      _node: {fileID: -6926500366338806423}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: startingState
-        node: {fileID: -8355637963256714917}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: previousState
-      _node: {fileID: -6926500366338806423}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: nextState
-        node: {fileID: -3630650883385373099}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  collapsed: 1
-  BypassState: 0
-  Name: Forward Throw 3
-  Description: 
-  isActiveState: 0
-  MeatClumpPrefab: {fileID: 2487677105210045783, guid: f257932619900ee48a82e1b4e73d5325,
-    type: 3}
-  ThrowDelay:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 78868f588c19dee488b854e3b3d104e4, type: 2}
-  ThrowSpeed:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: bbe60700273ca2549a705475c1cdd7a1, type: 2}
-  WaitedAttackDelay:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 253f68b1cd3945c488bcb8015d51137c, type: 2}
-  ThrowPoint: {fileID: 11400000, guid: 27642181c01fbae46b19d9ad22d9cdce, type: 2}
-  PlayerCameraTransform: {fileID: 11400000, guid: d50b3bc5cde09794cb0468cc9e2dba0f,
-    type: 2}
-  MoveInput:
-    UseConstant: 0
-    ConstantValue: {x: 0, y: 0}
-    Variable: {fileID: 11400000, guid: f48af2d5870a315459ef8f032591c5be, type: 2}
-  comboTimer:
-    UseConstant: 0
-    ConstantDuration: 0
-    Variable: {fileID: 11400000, guid: 5a207bcd7f9967540ab6a89d4fd721e3, type: 2}
-  comboFinishTimer:
-    UseConstant: 0
-    ConstantDuration: 0
-    Variable: {fileID: 11400000, guid: a701ba794602b294087ffec4c024d55e, type: 2}
+  CurrentTargetRef: {fileID: 11400000, guid: 9c84f1d8213cea74c99441a95f9dc03f, type: 2}
 --- !u!114 &-6731531537402926775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -599,7 +386,7 @@ MonoBehaviour:
   TimerConditions: []
   Vector2Conditions: []
   Vector3Conditions: []
---- !u!114 &-4935851696750448494
+--- !u!114 &-4695961148579739637
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -608,8 +395,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Forward Throw 2 -> DoNothing
+  m_Script: {fileID: 11500000, guid: df5c5942a98128b4d879236d700c3676, type: 3}
+  m_Name: Forward Throw Charge <ForwardAttackCharge> (PlayerCombat)
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -621,211 +408,71 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: 3912, y: -1224}
+  position: {x: 2120, y: -584}
   ports:
     keys:
-    - nextState
-    - startingState
+    - previousState
+    - transitions
     values:
-    - _fieldName: nextState
-      _node: {fileID: -4935851696750448494}
+    - _fieldName: previousState
+      _node: {fileID: -4695961148579739637}
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
-      - fieldName: previousState
-        node: {fileID: -7056521487864695197}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 1
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: startingState
-      _node: {fileID: -4935851696750448494}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: -2659756497756101328}
+      - fieldName: nextState
+        node: {fileID: 5736769057387298889}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 1
-  transitionPriority: 0
-  conditionPreview: '-  Attack Combo Timer_ Combat_ Player: 0.5 sec
-
-'
-  ValidStartStates: []
-  InvalidStartStates: []
-  BoolConditions: []
-  TriggerConditions: []
-  FloatConditions: []
-  IntConditions: []
-  TimerConditions:
-  - targetParameter:
-      UseConstant: 0
-      ConstantDuration: 0
-      Variable: {fileID: 11400000, guid: 5a207bcd7f9967540ab6a89d4fd721e3, type: 2}
-    restartOnEnterPreviousState: 1
-  Vector2Conditions: []
-  Vector3Conditions: []
---- !u!114 &-3630650883385373099
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Forward Throw 2 -> Forward Throw 3
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  graph: {fileID: 11400000}
-  position: {x: 3896, y: -552}
-  ports:
-    keys:
-    - nextState
-    - startingState
-    values:
-    - _fieldName: nextState
-      _node: {fileID: -3630650883385373099}
+    - _fieldName: transitions
+      _node: {fileID: -4695961148579739637}
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
-      - fieldName: previousState
-        node: {fileID: -6926500366338806423}
+      - fieldName: startingState
+        node: {fileID: 5477511717740853373}
+        reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: 3915487099188867546}
+        reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: -2080469077405477817}
         reroutePoints: []
       _direction: 1
-      _connectionType: 1
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: startingState
-      _node: {fileID: -3630650883385373099}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: -2659756497756101328}
-        reroutePoints: []
-      _direction: 0
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
   collapsed: 1
-  transitionPriority: 0
-  conditionPreview: '-  Valid:  Ground Movement
-
-    -  Valid:  Air Movement
-
-    - 
-    Valid:  No Low Jump
-
-    -  Attack Trigger_ Controller_ Player
-
-'
-  ValidStartStates:
-  - {fileID: 1196608421412681666, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  - {fileID: -8209884016339463683, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  - {fileID: 8382683336472367375, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  InvalidStartStates: []
-  BoolConditions: []
-  TriggerConditions:
-  - targetParameter: {fileID: 11400000, guid: 5e15a58a7e2120d4ab58b2aacd49f1ba, type: 2}
-    KeepTriggerOn: 0
-  FloatConditions: []
-  IntConditions: []
-  TimerConditions: []
-  Vector2Conditions: []
-  Vector3Conditions: []
---- !u!114 &-3557754941773718037
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Forward Throw 1 -> Forward Throw 2
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  graph: {fileID: 11400000}
-  position: {x: 2760, y: -584}
-  ports:
-    keys:
-    - nextState
-    - startingState
-    values:
-    - _fieldName: nextState
-      _node: {fileID: -3557754941773718037}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: previousState
-        node: {fileID: -2659756497756101328}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 1
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: startingState
-      _node: {fileID: -3557754941773718037}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: -8354906802381047596}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  collapsed: 1
-  transitionPriority: 0
-  conditionPreview: '-  Valid:  Ground Movement
-
-    -  Valid:  Air Movement
-
-    - 
-    Valid:  No Low Jump
-
-    -  Attack Trigger_ Controller_ Player
-
-'
-  ValidStartStates:
-  - {fileID: 1196608421412681666, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  - {fileID: -8209884016339463683, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  - {fileID: 8382683336472367375, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  InvalidStartStates: []
-  BoolConditions: []
-  TriggerConditions:
-  - targetParameter: {fileID: 11400000, guid: 5e15a58a7e2120d4ab58b2aacd49f1ba, type: 2}
-    KeepTriggerOn: 0
-  FloatConditions: []
-  IntConditions: []
-  TimerConditions: []
-  Vector2Conditions: []
-  Vector3Conditions: []
+  BypassState: 0
+  Name: Forward Throw Charge
+  Description: 
+  isActiveState: 0
+  MinThrowSpeed:
+    UseConstant: 1
+    ConstantValue: 50
+    Variable: {fileID: 0}
+  MaxThrowSpeed:
+    UseConstant: 1
+    ConstantValue: 160
+    Variable: {fileID: 0}
+  TimeToMaxCharge:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
+  RunSpeedChargeClumpFactor:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 196e33f2a45b52045a49464a36087730, type: 2}
+  ThrowSpeedOut:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: bbe60700273ca2549a705475c1cdd7a1, type: 2}
+  RunSpeedChargeClumpFactorOut:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: cb32274ad4f0e524dab4e19536fd8ee8, type: 2}
 --- !u!114 &-2973879846195416936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -902,102 +549,12 @@ MonoBehaviour:
   ports:
     keys: []
     values: []
-  Width: 2480
-  Height: 1096
+  Width: 2938
+  Height: 1080
   Color: {r: 1, g: 1, b: 1, a: 0.08}
   TextColor: {r: 1, g: 1, b: 1, a: 1}
   Description: Ground Slam Attack
   Minimized: 0
---- !u!114 &-2659756497756101328
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5b13c47b83130d4b8b43bf8c05f286e, type: 3}
-  m_Name: Forward Throw 2 <ForwardAttack> (PlayerCombat)
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  graph: {fileID: 11400000}
-  position: {x: 3336, y: -408}
-  ports:
-    keys:
-    - transitions
-    - previousState
-    values:
-    - _fieldName: transitions
-      _node: {fileID: -2659756497756101328}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: startingState
-        node: {fileID: -3630650883385373099}
-        reroutePoints: []
-      - fieldName: startingState
-        node: {fileID: -4935851696750448494}
-        reroutePoints:
-        - {x: 3776, y: -752}
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: previousState
-      _node: {fileID: -2659756497756101328}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: nextState
-        node: {fileID: -3557754941773718037}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  collapsed: 1
-  BypassState: 0
-  Name: Forward Throw 2
-  Description: 
-  isActiveState: 0
-  MeatClumpPrefab: {fileID: 2487677105210045783, guid: f257932619900ee48a82e1b4e73d5325,
-    type: 3}
-  ThrowDelay:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 78868f588c19dee488b854e3b3d104e4, type: 2}
-  ThrowSpeed:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: bbe60700273ca2549a705475c1cdd7a1, type: 2}
-  WaitedAttackDelay:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 253f68b1cd3945c488bcb8015d51137c, type: 2}
-  ThrowPoint: {fileID: 11400000, guid: 27642181c01fbae46b19d9ad22d9cdce, type: 2}
-  PlayerCameraTransform: {fileID: 11400000, guid: d50b3bc5cde09794cb0468cc9e2dba0f,
-    type: 2}
-  MoveInput:
-    UseConstant: 0
-    ConstantValue: {x: 0, y: 0}
-    Variable: {fileID: 11400000, guid: f48af2d5870a315459ef8f032591c5be, type: 2}
-  comboTimer:
-    UseConstant: 0
-    ConstantDuration: 0
-    Variable: {fileID: 11400000, guid: 5a207bcd7f9967540ab6a89d4fd721e3, type: 2}
-  comboFinishTimer:
-    UseConstant: 0
-    ConstantDuration: 0
-    Variable: {fileID: 11400000, guid: a701ba794602b294087ffec4c024d55e, type: 2}
 --- !u!114 &-2613604185990810040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1115,6 +672,136 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   referencedState: {fileID: 9174840935225501389}
+--- !u!114 &-2080469077405477817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: Forward Throw Charge -> DoNothing
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 2776, y: -1544}
+  ports:
+    keys:
+    - startingState
+    - nextState
+    values:
+    - _fieldName: startingState
+      _node: {fileID: -2080469077405477817}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: -4695961148579739637}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: nextState
+      _node: {fileID: -2080469077405477817}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: -1651560789672905927}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+  collapsed: 1
+  transitionPriority: 0
+  conditionPreview: '-  Valid:  Air Movement
+
+    -  Valid:  No Low Jump
+
+    - 
+    Valid:  Slingshot
+
+'
+  ValidStartStates:
+  - {fileID: -8209884016339463683, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  - {fileID: 8382683336472367375, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  - {fileID: -2916305283311469656, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  InvalidStartStates: []
+  BoolConditions: []
+  TriggerConditions: []
+  FloatConditions: []
+  IntConditions: []
+  TimerConditions: []
+  Vector2Conditions: []
+  Vector3Conditions: []
+--- !u!114 &-1651560789672905927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: DoNothing <Reference>
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 5160, y: -904}
+  ports:
+    keys:
+    - transitions
+    - previousState
+    values:
+    - _fieldName: transitions
+      _node: {fileID: -1651560789672905927}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: previousState
+      _node: {fileID: -1651560789672905927}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: 3915487099188867546}
+        reroutePoints: []
+      - fieldName: nextState
+        node: {fileID: -2080469077405477817}
+        reroutePoints: []
+      - fieldName: transitions
+        node: {fileID: -8354906802381047596}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  referencedState: {fileID: 9174840935225501389}
 --- !u!114 &-1073656007664256303
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1211,11 +898,11 @@ MonoBehaviour:
   ports:
     keys: []
     values: []
-  Width: 4232
-  Height: 1872
+  Width: 4171
+  Height: 1855
   Color: {r: 1, g: 1, b: 1, a: 0.08}
   TextColor: {r: 1, g: 1, b: 1, a: 1}
-  Description: Clump Combo
+  Description: Clump Throw
   Minimized: 0
 --- !u!114 &11400000
 MonoBehaviour:
@@ -1240,21 +927,13 @@ MonoBehaviour:
     SerializationNodes: []
   nodes:
   - {fileID: 6366080442694501292}
-  - {fileID: -269645449966665761}
   - {fileID: -2725368094518049691}
+  - {fileID: -269645449966665761}
   - {fileID: 4601134146122477444}
   - {fileID: 9174840935225501389}
   - {fileID: 5736769057387298889}
   - {fileID: -8354906802381047596}
-  - {fileID: -2659756497756101328}
-  - {fileID: -6926500366338806423}
-  - {fileID: -3557754941773718037}
-  - {fileID: -3630650883385373099}
   - {fileID: 509438275094468515}
-  - {fileID: -8355637963256714917}
-  - {fileID: 6081311161080663211}
-  - {fileID: -4935851696750448494}
-  - {fileID: -7056521487864695197}
   - {fileID: 32925268295708575}
   - {fileID: -2613604185990810040}
   - {fileID: -8621457283185439964}
@@ -1267,6 +946,13 @@ MonoBehaviour:
   - {fileID: 1276200426000752610}
   - {fileID: -2973879846195416936}
   - {fileID: 572562320552309934}
+  - {fileID: -4695961148579739637}
+  - {fileID: 5477511717740853373}
+  - {fileID: -1651560789672905927}
+  - {fileID: 3915487099188867546}
+  - {fileID: -2080469077405477817}
+  - {fileID: 1625376886150853897}
+  - {fileID: 1439799944267282103}
 --- !u!114 &32925268295708575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1406,7 +1092,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: 5768, y: 504}
+  position: {x: 3800, y: 920}
   ports:
     keys:
     - transitions
@@ -1426,9 +1112,6 @@ MonoBehaviour:
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
-      - fieldName: nextState
-        node: {fileID: -8355637963256714917}
-        reroutePoints: []
       - fieldName: nextState
         node: {fileID: -2613604185990810040}
         reroutePoints: []
@@ -1652,6 +1335,199 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 1
     Variable: {fileID: 11400000, guid: c394daf86e8cc8547adf299c0746ee88, type: 2}
+--- !u!114 &1439799944267282103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc274b634cffc89469d316664cc97169, type: 3}
+  m_Name: Forward Throw Start <ForwardThrowStart> (PlayerCombat)
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 3416, y: -440}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: 1439799944267282103}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: 5477511717740853373}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: 1439799944267282103}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: startingState
+        node: {fileID: 1625376886150853897}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  collapsed: 0
+  BypassState: 0
+  Name: Forward Throw Start
+  Description: 
+  isActiveState: 0
+--- !u!114 &1625376886150853897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: Forward Throw Start -> Forward Throw
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 4040, y: -472}
+  ports:
+    keys:
+    - startingState
+    - nextState
+    values:
+    - _fieldName: startingState
+      _node: {fileID: 1625376886150853897}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: 1439799944267282103}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: nextState
+      _node: {fileID: 1625376886150853897}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: -8354906802381047596}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+  collapsed: 1
+  transitionPriority: 0
+  conditionPreview: '-  Pitch Clump Complete_ Anim_ Player
+
+'
+  ValidStartStates: []
+  InvalidStartStates: []
+  BoolConditions: []
+  TriggerConditions:
+  - targetParameter: {fileID: 11400000, guid: 2f01d417e9e5bda4dbc3af0531b0584e, type: 2}
+    KeepTriggerOn: 0
+  FloatConditions: []
+  IntConditions: []
+  TimerConditions: []
+  Vector2Conditions: []
+  Vector3Conditions: []
+--- !u!114 &3915487099188867546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: Forward Throw Charge -> DoNothing
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 2776, y: -1048}
+  ports:
+    keys:
+    - startingState
+    - nextState
+    values:
+    - _fieldName: startingState
+      _node: {fileID: 3915487099188867546}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: -4695961148579739637}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: nextState
+      _node: {fileID: 3915487099188867546}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: -1651560789672905927}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+  collapsed: 1
+  transitionPriority: 0
+  conditionPreview: '-  Attack Trigger Release_ Controller_ Player
+
+'
+  ValidStartStates: []
+  InvalidStartStates: []
+  BoolConditions: []
+  TriggerConditions:
+  - targetParameter: {fileID: 11400000, guid: b4bc01cba93485041859df72680ac6b2, type: 2}
+    KeepTriggerOn: 0
+  FloatConditions: []
+  IntConditions: []
+  TimerConditions: []
+  Vector2Conditions: []
+  Vector3Conditions: []
 --- !u!114 &4601134146122477444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1692,7 +1568,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   executionOrderIndex: 0
---- !u!114 &5736769057387298889
+--- !u!114 &5477511717740853373
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1702,7 +1578,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: DoNothing -> Forward Throw 1
+  m_Name: Forward Throw Charge -> Forward Throw Start
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -1714,7 +1590,83 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: 1416, y: -600}
+  position: {x: 2776, y: -472}
+  ports:
+    keys:
+    - startingState
+    - nextState
+    values:
+    - _fieldName: startingState
+      _node: {fileID: 5477511717740853373}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: -4695961148579739637}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: nextState
+      _node: {fileID: 5477511717740853373}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: 1439799944267282103}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+  collapsed: 1
+  transitionPriority: 0
+  conditionPreview: '-  Attack Trigger Release_ Controller_ Player
+
+    -  Foward
+    Throw Min Charge Time_ Combat_ Player: 0.2 sec
+
+'
+  ValidStartStates: []
+  InvalidStartStates: []
+  BoolConditions: []
+  TriggerConditions:
+  - targetParameter: {fileID: 11400000, guid: b4bc01cba93485041859df72680ac6b2, type: 2}
+    KeepTriggerOn: 0
+  FloatConditions: []
+  IntConditions: []
+  TimerConditions:
+  - targetParameter:
+      UseConstant: 0
+      ConstantDuration: 0
+      Variable: {fileID: 11400000, guid: 453cf28ccdbfd604eb68f7f54d329a1e, type: 2}
+    restartOnEnterPreviousState: 1
+  Vector2Conditions: []
+  Vector3Conditions: []
+--- !u!114 &5736769057387298889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: DoNothing -> Forward Throw Charge
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 1448, y: -600}
   ports:
     keys:
     - nextState
@@ -1726,7 +1678,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: previousState
-        node: {fileID: -8354906802381047596}
+        node: {fileID: -4695961148579739637}
         reroutePoints: []
       _direction: 1
       _connectionType: 1
@@ -1751,104 +1703,34 @@ MonoBehaviour:
   transitionPriority: 0
   conditionPreview: '-  Valid:  Ground Movement
 
-    -  Valid:  Air Movement
-
-    - 
-    Valid:  No Low Jump
-
     -  Valid:  Roll  Movement
 
-    -  Valid:  Slingshot
-
     - 
-    Attack Trigger_ Controller_ Player
+    Valid:  Slingshot
+
+    -  Is Grounded_ Controller_ Player
+
+    -  Attack Trigger_
+    Controller_ Player
 
 '
   ValidStartStates:
   - {fileID: 1196608421412681666, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  - {fileID: -8209884016339463683, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  - {fileID: 8382683336472367375, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   - {fileID: 4966931143862885706, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   - {fileID: -2916305283311469656, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   InvalidStartStates: []
-  BoolConditions: []
+  BoolConditions:
+  - targetParameter:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: 7515e678ba0d82a4b92ee5e8bc9cee52, type: 2}
+    value: 1
   TriggerConditions:
   - targetParameter: {fileID: 11400000, guid: 5e15a58a7e2120d4ab58b2aacd49f1ba, type: 2}
     KeepTriggerOn: 0
   FloatConditions: []
   IntConditions: []
   TimerConditions: []
-  Vector2Conditions: []
-  Vector3Conditions: []
---- !u!114 &6081311161080663211
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Forward Throw 1 -> DoNothing
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  graph: {fileID: 11400000}
-  position: {x: 2776, y: -1224}
-  ports:
-    keys:
-    - nextState
-    - startingState
-    values:
-    - _fieldName: nextState
-      _node: {fileID: 6081311161080663211}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: previousState
-        node: {fileID: -7056521487864695197}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 1
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: startingState
-      _node: {fileID: 6081311161080663211}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: -8354906802381047596}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  collapsed: 1
-  transitionPriority: 0
-  conditionPreview: '-  Attack Combo Timer_ Combat_ Player: 0.5 sec
-
-'
-  ValidStartStates: []
-  InvalidStartStates: []
-  BoolConditions: []
-  TriggerConditions: []
-  FloatConditions: []
-  IntConditions: []
-  TimerConditions:
-  - targetParameter:
-      UseConstant: 0
-      ConstantDuration: 0
-      Variable: {fileID: 11400000, guid: 5a207bcd7f9967540ab6a89d4fd721e3, type: 2}
-    restartOnEnterPreviousState: 1
   Vector2Conditions: []
   Vector3Conditions: []
 --- !u!114 &6366080442694501292
@@ -1877,8 +1759,8 @@ MonoBehaviour:
   ports:
     keys: []
     values: []
-  Width: 2200
-  Height: 1424
+  Width: 2858
+  Height: 1361
   Color: {r: 1, g: 1, b: 1, a: 0.08}
   TextColor: {r: 1, g: 1, b: 1, a: 1}
   Description: Roll & Meateor

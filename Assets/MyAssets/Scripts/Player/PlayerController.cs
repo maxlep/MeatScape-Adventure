@@ -68,6 +68,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector2Reference MoveInput;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector3Reference BaseVelocity;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference JumpPressed;
+    [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference AttackPressed;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference RollPressed;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector3Reference PreviousVelocity;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private FloatReference DistanceToGround;
@@ -79,6 +80,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference IsGrounded;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference IsOnSlidebleSlope;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable AttackTrigger;
+    [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable AttackReleaseTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable JumpTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable JumpAttackTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable DownwardAttackTrigger;
@@ -126,7 +128,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private InputAction playerMove;
     private GroundingInfo groundInfo;
 
-    public Transform AimTarget => aimTargeter.CurrentTarget;
     public KinematicCharacterMotor CharacterMotor => charMotor;
     public CharacterGroundingReport GroundingStatus => charMotor.GroundingStatus;
     public CharacterTransientGroundingReport LastGroundingStatus => charMotor.LastGroundingStatus;
@@ -180,9 +181,12 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         InputManager.Instance.onJump_Released += () => JumpPressed.Value = false;
         InputManager.Instance.onRoll_Pressed += () => RollPressed.Value = true;
         InputManager.Instance.onRoll_Released += () => RollPressed.Value = false;
+        InputManager.Instance.onAttack_Pressed += () => AttackPressed.Value = true;
+        InputManager.Instance.onAttack_Released += () => AttackPressed.Value = false;
 
         InputManager.Instance.onJump_Pressed += () => JumpTrigger.Activate();
-        InputManager.Instance.onAttack_Released += () => AttackTrigger.Activate();
+        InputManager.Instance.onAttack_Pressed += () => AttackTrigger.Activate();
+        InputManager.Instance.onAttack_Released += () => AttackReleaseTrigger.Activate();
         InputManager.Instance.onDownwardAttack += () => DownwardAttackTrigger.Activate();
         InputManager.Instance.onRoll_Pressed += () => RollTrigger.Activate();
         InputManager.Instance.onRoll_Released += () => RollReleaseTrigger.Activate();
@@ -191,7 +195,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         InputManager.Instance.onFunction4 += FeedHunger;
     }
 
-    // Update is called once per frame
+    // Update is called once per frame.
     private void Update()
     {
         UpdateParameters();

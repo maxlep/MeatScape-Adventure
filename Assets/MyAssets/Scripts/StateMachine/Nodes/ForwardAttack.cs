@@ -11,12 +11,13 @@ public class ForwardAttack : PlayerStateNode
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference ThrowDelay;
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference ThrowSpeed;
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private BoolReference WaitedAttackDelay;
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TransformSceneReference ThrowPoint;
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TransformSceneReference FirePoint;
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TransformSceneReference PlayerCameraTransform;
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private Vector2Reference MoveInput;
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TimerReference comboTimer;
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TimerReference comboFinishTimer;
-
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TransformSceneReference CurrentTargetRef;
+    
     private bool clumpThrown;
 
     public override void Initialize(StateMachineGraph parentGraph)
@@ -39,15 +40,15 @@ public class ForwardAttack : PlayerStateNode
         comboTimer.RestartTimer();
         comboFinishTimer.RestartTimer();
 
-        var autoAimTarget = playerController.AimTarget;
+        var autoAimTarget = CurrentTargetRef.Value;
         var throwDirection = autoAimTarget.SafeIsUnityNull()
             ? GetMoveDirection().normalized
-            : (autoAimTarget.position - playerController.transform.position).normalized;
+            : (autoAimTarget.position - FirePoint.Value.position).normalized;
 
-        if(Mathf.Approximately(throwDirection.magnitude, 0)) throwDirection = ThrowPoint.Value.forward;
+        if(Mathf.Approximately(throwDirection.magnitude, 0)) throwDirection = FirePoint.Value.forward;
 
         MeatClumpController clump = Instantiate(MeatClumpPrefab);
-        clump.transform.position = ThrowPoint.Value.position;
+        clump.transform.position = FirePoint.Value.position;
         clump.SetMoving(ThrowSpeed.Value, throwDirection);
 
         playerController.OnClumpThrown(throwDirection);

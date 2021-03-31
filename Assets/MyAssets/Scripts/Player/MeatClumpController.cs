@@ -18,17 +18,21 @@ public class MeatClumpController : MonoBehaviour
     private GameObject AbsorbSystem;
     
     [SerializeField] private LayerMapper layerMapper;
+    [SerializeField] private Transform meshTransform;
     [SerializeField] private FloatReference ClumpScalingFactor;
-    [SerializeField] private FloatReference ClumpGravityDistance;
+    [SerializeField] private FloatReference ClumpGravityEnableTime;
+    [SerializeField] private FloatReference ClumpGravityFactor;
     [SerializeField] private FloatReference ClumpDestroyTime;
-    [SerializeField] private FloatReference CollisionRadius;
-    [SerializeField] private FloatReference DragCoefficient;
-    [SerializeField] private LayerMask CollisionMask;
+    [SerializeField] private FloatReference CollisionRadiusEnvironment;
+    [SerializeField] private FloatReference CollisionRadiusEnemy;
+    [SerializeField] private FloatReference DragCoefficientHorizontal;
+    [SerializeField] private LayerMask CollisionMaskEnvironment;
+    [SerializeField] private LayerMask CollisionMaskEnemy;
     [SerializeField] private UnityEvent OnCollideWithStatic;
     [SerializeField] private IntVariable enemyHitId;
     [SerializeField] private MMFeedbacks impactFeedbacks;
 
-    private Vector3 startMovementPoint;
+    private float startTime;
     private Vector3 currentVelocity;
     private bool hasCollided = false;
     private bool hasGravity = false;
@@ -38,17 +42,22 @@ public class MeatClumpController : MonoBehaviour
         transform.localScale *= ClumpScalingFactor.Value;
     }
 
-    private void Start() {
-        this.startMovementPoint = transform.position;
+    private void Start()
+    {
+        startTime = Time.time;
     }
 
     private void Update()
     {
-        if(!hasCollided) {
-            this.currentVelocity -= this.currentVelocity * DragCoefficient.Value * Time.deltaTime;
-            if(!hasGravity) hasGravity = Vector3.Distance(transform.position, this.startMovementPoint) >= ClumpGravityDistance.Value;
-            if(hasGravity) this.currentVelocity += Physics.gravity * Time.deltaTime;
-            Vector3 deltaDistance = this.currentVelocity * Time.deltaTime;
+        if(!hasCollided)
+        {
+            Vector3 horizontalDrag = currentVelocity.xoz() * DragCoefficientHorizontal.Value * Time.deltaTime;
+            currentVelocity -= horizontalDrag;
+            
+            //Enable gravity after clump has been moving for ClumpGravityEnableTime duration
+            if(!hasGravity) hasGravity = Time.time - startTime >= ClumpGravityEnableTime.Value;
+            if(hasGravity) currentVelocity += Physics.gravity * ClumpGravityFactor.Value * Time.deltaTime;
+            Vector3 deltaDistance = currentVelocity * Time.deltaTime;
 
             PreMoveCollisionCheck(deltaDistance);
             Move(deltaDistance);
@@ -59,60 +68,81 @@ public class MeatClumpController : MonoBehaviour
     
     #region Setters
     public void SetMoving(float speed, Vector3 direction) {
-        this.currentVelocity = speed * direction.normalized;
-        this.transform.forward = direction.normalized;
+        currentVelocity = speed * direction.normalized;
+        transform.forward = direction.normalized;
     }
     #endregion
     
     #region Collision
-    private void HandleCollisions(Collider[] colliders, Vector3 normal) {
-        if (colliders.Length > 0)
-        {
-            this.hasCollided = true;
-            foreach (var collider in colliders) {
-                GameObject hitObj = collider.gameObject;
-                
-                if(hitObj.layer == layerMapper.GetLayer(LayerEnum.Enemy)) {
-                    EnemyController enemyScript = hitObj.GetComponent<EnemyController>();
-                    Vector3 knockBackDir = (enemyScript.transform.position - transform.position).normalized;
-                    enemyScript.DamageEnemy(1, knockBackDir);
-                    enemyHitId.Value = enemyScript.gameObject.GetInstanceID();
-                    impactFeedbacks.PlayFeedbacks();
-                    Destroy(this.gameObject);
-                    return;
-                }
-            }
+    private void HandleCollisions(Collider[] colliders, Vector3 normal)
+    {
+        if (colliders.Length < 1) return;
         
-            //Static object hit
-            if (shaderUpdater != null) shaderUpdater.StartSplat(normal);
-            OnCollideWithStatic.Invoke();
-            TimeUtils.SetTimeout(ClumpDestroyTime.Value, () =>
-            {
-                if (this != null) Destroy(this.gameObject);
-            });
+        hasCollided = true;
+        foreach (var collider in colliders) {
+            GameObject hitObj = collider.gameObject;
+            
+            if(hitObj.layer == layerMapper.GetLayer(LayerEnum.Enemy)) {
+                EnemyController enemyScript = hitObj.GetComponent<EnemyController>();
+                Vector3 knockBackDir = (enemyScript.transform.position - transform.position).normalized;
+                enemyScript.DamageEnemy(1, knockBackDir);
+                enemyHitId.Value = enemyScript.gameObject.GetInstanceID();
+                impactFeedbacks.PlayFeedbacks();
+                Destroy(gameObject);
+                return;
+            }
         }
+    
+        //Static object hit
+        if (shaderUpdater != null) shaderUpdater.StartSplat(normal);
+        OnCollideWithStatic.Invoke();
+        TimeUtils.SetTimeout(ClumpDestroyTime.Value, () =>
+        {
+            if (this != null) Destroy(gameObject);
+        });
+        
     }
 
     private void PreMoveCollisionCheck(Vector3 deltaDistance)
     {
         //SphereCast from current pos to next pos and check for collisions
-        RaycastHit hit;
-        if (Physics.SphereCast(transform.position, CollisionRadius.Value, transform.forward,
-            out hit, deltaDistance.magnitude, CollisionMask, QueryTriggerInteraction.Ignore))
+        //Check for enemy hit
+        RaycastHit hitEnemy;
+        if (Physics.SphereCast(transform.position, CollisionRadiusEnemy.Value, transform.forward,
+            out hitEnemy, deltaDistance.magnitude, CollisionMaskEnemy, QueryTriggerInteraction.Ignore))
         {
-            transform.position += (transform.forward * hit.distance);
+            transform.position += (transform.forward * hitEnemy.distance);
             
-            this.HandleCollisions(new Collider[]{hit.collider}, hit.normal);
+            HandleCollisions(new Collider[]{hitEnemy.collider}, hitEnemy.normal);
         }
+        
+        //Check for environment hit
+        RaycastHit hitEnvironment;
+        if (Physics.SphereCast(transform.position, CollisionRadiusEnvironment.Value, transform.forward,
+            out hitEnvironment, deltaDistance.magnitude, CollisionMaskEnvironment, QueryTriggerInteraction.Ignore))
+        {
+            transform.position += (transform.forward * hitEnvironment.distance);
+            
+            HandleCollisions(new Collider[]{hitEnvironment.collider}, hitEnvironment.normal);
+        }
+        
+        
     }
 
     private void PostMoveCollisionCheck()
     {
-        //Overlap sphere at final position to check for intersecting colliders
-        Collider[] hitColliders =
-            (Physics.OverlapSphere(transform.position, CollisionRadius.Value, CollisionMask, QueryTriggerInteraction.Ignore));
+        //Overlap sphere at final position to check for intersecting colliders.
         
-        this.HandleCollisions(hitColliders, -transform.forward);
+        //Check Enemy hit
+        Collider[] hitCollidersEnemy =
+            (Physics.OverlapSphere(transform.position, CollisionRadiusEnemy.Value, CollisionMaskEnemy, QueryTriggerInteraction.Ignore));
+        
+        //Check Environment hit
+        Collider[] hitCollidersEnvironment =
+            (Physics.OverlapSphere(transform.position, CollisionRadiusEnvironment.Value, CollisionMaskEnvironment, QueryTriggerInteraction.Ignore));
+        
+        HandleCollisions(hitCollidersEnemy, -meshTransform.forward);
+        HandleCollisions(hitCollidersEnvironment, -meshTransform.forward);
     }
     #endregion
     
@@ -120,7 +150,7 @@ public class MeatClumpController : MonoBehaviour
     private void Move(Vector3 deltaDistance)
     {
         transform.position += deltaDistance;
-        transform.forward = this.currentVelocity.normalized;
+        meshTransform.forward = currentVelocity.normalized;    //Point mesh in direction of velocity
     }
     #endregion
 }

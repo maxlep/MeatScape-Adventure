@@ -540,14 +540,19 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         float playerBottomY = collider.bounds.center.y - collider.bounds.extents.y;
         float otherColliderBottomY = otherCollider.bounds.center.y - otherCollider.bounds.extents.y;
 
-        //Only jump attack if player is above bottom of trigger and falling downwards.
+        //Only jump attack if player is above bottom of trigger and falling downwards
         if (playerBottomY > otherColliderBottomY && NewVelocity.Value.y <= 0f)
         {
-            JumpAttackTrigger.Activate();
+            
             
             InteractionReceiver interactionReceiver = otherCollider.GetComponent<InteractionReceiver>();
-            if (interactionReceiver != null) interactionReceiver.ReceiveJumpOnInteraction(new JumpOnPayload());
+            if (interactionReceiver != null)
+            {
+                bool hasJumpInteraction = interactionReceiver.ReceiveJumpOnInteraction(new JumpOnPayload());
+                if (!hasJumpInteraction) return;
+            }
             
+            JumpAttackTrigger.Activate();
             CameraShakeManager.Instance.ShakeCamera(1.75f, .3f, .3f);
             EffectsManager.Instance?.PlayClipAtPoint(jumpAttackClip, transform.position, .4f);
         }

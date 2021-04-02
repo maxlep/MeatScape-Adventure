@@ -1,4 +1,5 @@
-﻿using MyAssets.ScriptableObjects.Events;
+﻿using EnhancedHierarchy;
+using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -40,10 +41,27 @@ public class ForwardAttack : PlayerStateNode
         comboTimer.RestartTimer();
         comboFinishTimer.RestartTimer();
 
-        var autoAimTarget = CurrentTargetRef.Value;
-        var throwDirection = autoAimTarget.SafeIsUnityNull()
-            ? GetMoveDirection().normalized
-            : (autoAimTarget.position - FirePoint.Value.position).normalized;
+        Vector3 throwDirection;
+        var aimTarget = CurrentTargetRef.Value;
+        
+        //If no target, throw forward
+        if (aimTarget.SafeIsUnityNull())
+        {
+            throwDirection = GetMoveDirection().normalized;
+        }
+        //If find collider, target center bounds, otherwise target transform.
+        else
+        {
+            Collider targetCollider = aimTarget.GetComponent<Collider>();
+            Vector3 targetPosition;
+            
+            if (targetCollider != null)
+                targetPosition = targetCollider.bounds.center;
+            else
+                targetPosition = aimTarget.position;
+            
+            throwDirection = (targetPosition - FirePoint.Value.position).normalized;
+        }
 
         if(Mathf.Approximately(throwDirection.magnitude, 0)) throwDirection = FirePoint.Value.forward;
 

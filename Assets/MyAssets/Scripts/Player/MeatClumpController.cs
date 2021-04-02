@@ -54,7 +54,7 @@ public class MeatClumpController : MonoBehaviour
             Vector3 horizontalDrag = currentVelocity.xoz() * DragCoefficientHorizontal.Value * Time.deltaTime;
             currentVelocity -= horizontalDrag;
             
-            //Enable gravity after clump has been moving for ClumpGravityEnableTime duration
+            //Enable gravity after clump has been moving for ClumpGravityEnableTime duration.
             if(!hasGravity) hasGravity = Time.time - startTime >= ClumpGravityEnableTime.Value;
             if(hasGravity) currentVelocity += Physics.gravity * ClumpGravityFactor.Value * Time.deltaTime;
             Vector3 deltaDistance = currentVelocity * Time.deltaTime;
@@ -71,6 +71,7 @@ public class MeatClumpController : MonoBehaviour
         currentVelocity = speed * direction.normalized;
         transform.forward = direction.normalized;
     }
+    
     #endregion
     
     #region Collision
@@ -82,14 +83,24 @@ public class MeatClumpController : MonoBehaviour
         foreach (var collider in colliders) {
             GameObject hitObj = collider.gameObject;
             
+            //Hit enemy
             if(hitObj.layer == layerMapper.GetLayer(LayerEnum.Enemy)) {
                 EnemyController enemyScript = hitObj.GetComponent<EnemyController>();
                 Vector3 knockBackDir = (enemyScript.transform.position - transform.position).normalized;
-                enemyScript.DamageEnemy(1, knockBackDir);
+                float knockBackForce = currentVelocity.magnitude * 2f;
+                enemyScript.DamageEnemy(1, knockBackDir, true, knockBackForce);
                 enemyHitId.Value = enemyScript.gameObject.GetInstanceID();
                 impactFeedbacks.PlayFeedbacks();
                 Destroy(gameObject);
                 return;
+            }
+
+            //Hit Interactable
+            if (hitObj.layer == layerMapper.GetLayer(LayerEnum.Interactable))
+            {
+                var interactableScript = collider.GetComponent<InteractionReceiver>();
+                if (interactableScript != null)
+                    interactableScript.ReceiveMeatClumpHitInteraction(new MeatClumpHitPayload());
             }
         }
     

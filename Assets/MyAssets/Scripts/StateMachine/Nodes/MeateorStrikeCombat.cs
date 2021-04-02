@@ -38,6 +38,12 @@ public class MeateorStrikeCombat : PlayerStateNode
             enemy.KnockbackEnemy(NewVelocity.Value.normalized, KnockbackTime.Value, KnockbackSpeed.Value);
         }
         
+        else if (otherObj.layer == layerMapper.GetLayer(LayerEnum.Interactable))
+        {
+            InteractionReceiver interactionReceiver = collisionInfo.other.GetComponent<InteractionReceiver>();
+            if (interactionReceiver != null) 
+                interactionReceiver.ReceiveMeateorStirkeIntoInteraction(new MeateorStrikeIntoPayload());
+        }
     }
     
     public override void Exit()

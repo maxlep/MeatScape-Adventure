@@ -59,7 +59,7 @@ namespace MyAssets.ScriptableObjects.Variables.ValueReferences
             get
             {
                 if (UseConstant)
-                    return $"<Const>{ConstantValue}";
+                    return $"{ConstantValue}";
                 if (ReferenceValue != null)
                     return ReferenceValue.GetName();
                 return "<Missing Float>";

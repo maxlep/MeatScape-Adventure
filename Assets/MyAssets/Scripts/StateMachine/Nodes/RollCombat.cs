@@ -37,6 +37,12 @@ public class RollCombat : PlayerStateNode
             }
         }
         
+        else if (otherObj.layer == layerMapper.GetLayer(LayerEnum.Interactable))
+        {
+            InteractionReceiver interactionReceiver = collisionInfo.other.GetComponent<InteractionReceiver>();
+            if (interactionReceiver != null) interactionReceiver.ReceiveRollIntoInteraction(new RollIntoPayload());
+        }
+        
     }
     
     public override void Exit()

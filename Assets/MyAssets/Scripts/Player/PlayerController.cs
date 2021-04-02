@@ -134,7 +134,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     public GroundingInfo GroundInfo => groundInfo;
     
-    private List<Interactable> interactablesInRange = new List<Interactable>();
+    private List<InteractionReceiver> interactablesInRange = new List<InteractionReceiver>();
 
     private Vector3 impulseVelocity;
     private Vector3 impulseVelocityRedirectable;
@@ -190,7 +190,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         InputManager.Instance.onDownwardAttack += () => DownwardAttackTrigger.Activate();
         InputManager.Instance.onRoll_Pressed += () => RollTrigger.Activate();
         InputManager.Instance.onRoll_Released += () => RollReleaseTrigger.Activate();
-        InputManager.Instance.onInteract += AttemptInteract;
+        InputManager.Instance.onInteract += AttemptInspect;
         InputManager.Instance.onFunction3 += RemoveHunger;
         InputManager.Instance.onFunction4 += FeedHunger;
     }
@@ -528,25 +528,26 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private void OnTriggerStay(Collider other)
     {
         GameObject otherGameObject = other.gameObject;
-        if (otherGameObject.layer == layerMapper.GetLayer(LayerEnum.EnemyJumpTrigger))
+        if (otherGameObject.layer == layerMapper.GetLayer(LayerEnum.EnemyJumpTrigger) ||
+            otherGameObject.layer == layerMapper.GetLayer(LayerEnum.Interactable))
         {
-            AttemptJumpAttack(other, otherGameObject);
+            AttemptJumpAttack(other);
         }
     }
 
-    private void AttemptJumpAttack(Collider enemyCollider, GameObject enemyObject)
+    private void AttemptJumpAttack(Collider otherCollider)
     {
-        EnemyJumpHurtTrigger enemyController = enemyObject.GetComponent<EnemyJumpHurtTrigger>();
-        if (enemyController == null) return;
-
         float playerBottomY = collider.bounds.center.y - collider.bounds.extents.y;
-        float enemyTriggerBottomY = enemyCollider.bounds.center.y - enemyCollider.bounds.extents.y;
+        float otherColliderBottomY = otherCollider.bounds.center.y - otherCollider.bounds.extents.y;
 
-        //Only jump attack if player is above bottom of enemy trigger and falling downwards
-        if (playerBottomY > enemyTriggerBottomY && NewVelocity.Value.y <= 0f)
+        //Only jump attack if player is above bottom of trigger and falling downwards.
+        if (playerBottomY > otherColliderBottomY && NewVelocity.Value.y <= 0f)
         {
-            //enemyController.DamageEnemy(1);
             JumpAttackTrigger.Activate();
+            
+            InteractionReceiver interactionReceiver = otherCollider.GetComponent<InteractionReceiver>();
+            if (interactionReceiver != null) interactionReceiver.ReceiveJumpOnInteraction(new JumpOnPayload());
+            
             CameraShakeManager.Instance.ShakeCamera(1.75f, .3f, .3f);
             EffectsManager.Instance?.PlayClipAtPoint(jumpAttackClip, transform.position, .4f);
         }
@@ -561,14 +562,13 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private void OnTriggerEnter(Collider other)
     {
         GameObject otherGameObject = other.gameObject;
-        if (otherGameObject.layer == layerMapper.GetLayer(LayerEnum.InteractableTrigger))
+        if (otherGameObject.layer == layerMapper.GetLayer(LayerEnum.Interactable))
         {
-            Interactable interactableScript = otherGameObject.GetComponent<Interactable>();
-            if (interactableScript != null) interactablesInRange.Add(interactableScript);
-
-            if (interactableScript.InteractOnEnter)
+            var interactableScript = otherGameObject.GetComponent<InteractionReceiver>();
+            if (interactableScript != null)
             {
-                interactableScript.InvokeOnInteract();
+                interactablesInRange.Add(interactableScript);
+                interactableScript.ReceiveTriggerEnterInteraction(new TriggerEnterPayload());
             }
         }
     }
@@ -576,18 +576,22 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private void OnTriggerExit(Collider other)
     {
         GameObject otherGameObject = other.gameObject;
-        if (otherGameObject.layer == layerMapper.GetLayer(LayerEnum.InteractableTrigger))
+        if (otherGameObject.layer == layerMapper.GetLayer(LayerEnum.Interactable))
         {
-            Interactable interactableScript = otherGameObject.GetComponent<Interactable>();
-            if (interactableScript != null) interactablesInRange.Remove(interactableScript);
+            var interactableScript = otherGameObject.GetComponent<InteractionReceiver>();
+            if (interactableScript != null)
+            {
+                interactablesInRange.Add(interactableScript);
+                interactableScript.ReceiveTriggerExitInteraction(new TriggerExitPayload());
+            }
         }
     }
 
-    private void AttemptInteract()
+    private void AttemptInspect()
     {
         if (interactablesInRange.Count < 1) return;
 
-        interactablesInRange[0].InvokeOnInteract();
+        interactablesInRange[0].ReceiveInspectInteraction(new InspectPayload());
     }
 
     //Cast downward from collider to get info about ground below

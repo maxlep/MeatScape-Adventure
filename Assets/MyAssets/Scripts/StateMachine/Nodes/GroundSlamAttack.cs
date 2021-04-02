@@ -27,13 +27,11 @@ public class GroundSlamAttack: PlayerStateNode
     private IntReference Damage;
 
     private float currentRadius;
-    private LayerMask enemyMask;
     private List<EnemyController> enemiesDamagedList;
 
     public override void Awaken()
     {
         base.Awaken();
-        enemyMask = LayerMask.GetMask(LayerMapper.GetLayerName( LayerEnum.Enemy));
     }
 
     public override void Enter()
@@ -42,25 +40,48 @@ public class GroundSlamAttack: PlayerStateNode
 
         enemiesDamagedList.Clear();
         Vector3 playerPosition = playerController.transform.position;
-        LayerMask enemyMask = LayerMask.GetMask(LayerMapper.GetLayerName( LayerEnum.Enemy));
+        LayerMask hitMask = LayerMask.GetMask(
+            LayerMapper.GetLayerName( LayerEnum.Enemy),
+            LayerMapper.GetLayerName( LayerEnum.Interactable)
+        );
         
         //Scale the radius with player scale
         currentRadius = AttackBaseRadius.Value * PlayerScale.Value;
-        Collider[] enemyColliders = Physics.OverlapSphere(playerPosition, currentRadius, enemyMask);
+        Collider[] hitColliders = Physics.OverlapSphere(playerPosition, currentRadius, hitMask);
         
-        foreach (var enemyCollider in enemyColliders)
+        foreach (var collider in hitColliders)
         {
-            EnemyController enemyController = enemyCollider.GetComponentInChildren<EnemyController>();
+            int otherLayer = collider.gameObject.layer;
             
-            //Dont hit enemies more than once, they can have multiple colliders
-            if (enemyController != null && !enemiesDamagedList.Contains(enemyController))
-            {
-                enemyController.DamageEnemy(Damage.Value);
-                Vector3 knockbackDirection = (enemyController.transform.position - playerPosition).normalized;
-                enemyController.KnockbackEnemy(knockbackDirection, KnockbackTime.Value, KnockbackSpeed.Value);
-                enemiesDamagedList.Add(enemyController);
-            }
+            if (otherLayer == LayerMapper.GetLayer(LayerEnum.Enemy))
+                HandleEnemyHit(collider, playerPosition);
+            else if (otherLayer == LayerMapper.GetLayer(LayerEnum.Interactable))
+                HandleInteractableHit(collider, playerPosition);
         }
+    }
+
+    private void HandleEnemyHit(Collider enemyCollider, Vector3 playerPosition)
+    {
+        EnemyController enemyController = enemyCollider.GetComponentInChildren<EnemyController>();
+            
+        //Dont hit enemies more than once, they can have multiple colliders
+        if (enemyController != null && !enemiesDamagedList.Contains(enemyController))
+        {
+            enemyController.DamageEnemy(Damage.Value);
+            Vector3 knockbackDirection = (enemyController.transform.position - playerPosition).normalized;
+            enemyController.KnockbackEnemy(knockbackDirection, KnockbackTime.Value, KnockbackSpeed.Value);
+            enemiesDamagedList.Add(enemyController);
+        }
+    }
+
+    private void HandleInteractableHit(Collider interactableCollider, Vector3 playerPosition)
+    {
+        var interactableScript = interactableCollider.GetComponent<InteractionReceiver>();
+        if (interactableScript != null)
+            interactableScript.ReceiveGroundSlamInteraction(new GroundSlamPayload()
+            {
+                origin = playerPosition
+            });
     }
 
     public override void DrawGizmos()

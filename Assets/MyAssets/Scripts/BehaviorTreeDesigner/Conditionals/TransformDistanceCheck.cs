@@ -5,7 +5,7 @@ using UnityEngine;
 
 [TaskCategory("Unity/Transform")]
 [TaskDescription("Compares distance (using square distance) between two transforms against provided float using the selected operation")]
-public class TransformDistanceCheck : Conditional
+public class TransformDistanceCheck : BehaviorDesigner.Runtime.Tasks.Conditional
 {
     public enum Operation
     {

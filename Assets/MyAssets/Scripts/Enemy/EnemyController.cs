@@ -99,7 +99,7 @@ public class EnemyController : MonoBehaviour
         DamageEnemy(dmg, Vector3.zero, false);
     }
     
-    public virtual void DamageEnemy(int dmg, Vector3 knockBackDirection, bool applyKnockBack = true) {
+    public virtual void DamageEnemy(int dmg, Vector3 knockBackDirection, bool applyKnockBack = true, float knockForce = 50f) {
         health -= dmg;
         if (damageFeedbacks != null) damageFeedbacks?.PlayFeedbacks();
         healthBar.gameObject.SetActive(true);
@@ -107,7 +107,7 @@ public class EnemyController : MonoBehaviour
 
         if (applyKnockBack)
         {
-            this.KnockbackEnemy(knockBackDirection);
+            this.KnockbackEnemy(knockBackDirection, .2f, knockForce);
         }
     }
 

@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using Cinemachine;
 using KinematicCharacterController;
 using MoreMountains.Feedbacks;
+using MoreMountains.NiceVibrations;
 using MoreMountains.Tools;
 using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
@@ -47,6 +48,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [SerializeField] private AudioClip jumpAttackClip;
     [SerializeField] private AimTargeter aimTargeter;
     [SerializeField] private Collider collider;
+    [SerializeField] private GameObject ragdollPrefab;
+    [SerializeField] private CinemachineFreeLook freeLookCam;
     public bool invincible;
     [SerializeField] private bool ignoreInput;
     [ShowIf("ignoreInput"), SerializeField] private Vector2Reference fakeMoveInput;
@@ -209,6 +212,13 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         FrenzyOut.Unsubscribe(OnUpdateFrenzy);
         Scale.Unsubscribe(UpdateScale);
     }
+    
+    void OnApplicationQuit()
+    {
+        //Stop all vibrations when quitting game/editor, to prevent getting stuck
+        MMVibrationManager.StopContinuousHaptic(true);
+        MMVibrationManager.StopAllHaptics(true);
+    }
 
 #endregion
 
@@ -368,7 +378,11 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         damageFeedback.PlayFeedbacks();
         this.AddImpulse(knockbackDir * knockbackSpeed);
         invincibilityTimer = Time.time;
-        HungerOut.Value = Mathf.Max(0, HungerOut.Value - damage);
+
+        if (HungerOut.Value <= 0)
+            OnDeath();
+        else
+            IncrementHunger(-damage);
     }
 
     public void ToggleArrow(bool enabled)
@@ -394,9 +408,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         HungerDecayTimer?.UpdateTime();
         if (HungerDecayTimer.IsFinished)
         {
-            // TODO react when hunger reaches 0
             damageFeedback.PlayFeedbacks();
-            HungerOut.Value = Mathf.Max(0, HungerOut.Value - 1);
+            IncrementHunger(-1);
             HungerDecayTimer.RestartTimer();
         }
     }
@@ -430,16 +443,22 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [Button]
     private void FeedHunger()
     {
-        HungerOut.Value += 1;
+        IncrementHunger(1);
     }
     
     [Button]
     private void RemoveHunger()
     {
-        HungerOut.Value -= 1;
+        IncrementHunger(-1);
     }
 
-#endregion
+    public void IncrementHunger(int amount)
+    {
+        HungerOut.Value += amount;
+        HungerOut.Value = Math.Max(0, HungerOut.Value);
+    }
+
+    #endregion
 
 #region Frenzy
 
@@ -469,6 +488,25 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     }
 
 #endregion
+
+    private void OnDeath()
+    {
+        gameObject.SetActive(false);
+        GameObject ragdoll = Instantiate(ragdollPrefab, transform.position, transform.rotation);
+        Rigidbody[] ragdollsRbs = ragdoll.GetComponentsInChildren<Rigidbody>();
+        ragdollsRbs.ForEach(r => r.velocity = PreviousVelocity.Value);
+        freeLookCam.Follow = ragdollsRbs[0].transform;
+        freeLookCam.LookAt = ragdollsRbs[0].transform;
+
+        //Force stop all vibrations to prevent getting stuck
+        LeanTween.value(0f, 1f, .5f)
+            .setOnComplete(_ =>
+            {
+                MMVibrationManager.StopContinuousHaptic(true);
+                MMVibrationManager.StopAllHaptics(true);
+            });
+
+    }
 
     private void OnUpdateMaxStableDenivelationAngle()
     {

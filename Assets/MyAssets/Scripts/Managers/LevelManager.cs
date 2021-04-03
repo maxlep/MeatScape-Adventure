@@ -96,8 +96,10 @@ public class LevelManager : MonoBehaviour
 
     private void SpawnBoss()
     {
+        
         _originalSkyboxColor = _skybox.GetColor("_Color2");
         _skybox.SetColor("_Color2", _bossSkyboxColor);
+        
         _originalSkyboxFlowAmount = _skybox.GetFloat("_FlowAmount");
         _skybox.SetFloat("_FlowAmount", _bossSkyboxFlowAmount);
     }

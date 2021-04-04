@@ -1,6 +1,4 @@
-﻿using EnhancedHierarchy;
-using MyAssets.ScriptableObjects.Events;
-using MyAssets.ScriptableObjects.Variables;
+﻿using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using MyAssets.Scripts.Utils;

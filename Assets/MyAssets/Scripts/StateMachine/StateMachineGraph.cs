@@ -43,6 +43,7 @@ public class StateMachineGraph : NodeGraph
 
     public void Awaken()
     {
+        currentStates = new List<StateNode>();
         currentStates.ForEach(s => s.Awaken());
     }
 

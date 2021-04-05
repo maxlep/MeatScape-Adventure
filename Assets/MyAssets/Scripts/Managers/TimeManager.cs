@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using MyAssets.ScriptableObjects.Variables;
+using UnityEngine;
 
 public class TimeManager : MonoBehaviour
 {
@@ -6,6 +7,7 @@ public class TimeManager : MonoBehaviour
 
     [SerializeField] private GameObject pauseText;
     [SerializeField] private GameObject manualUpdateText;
+    [SerializeField] private BoolReference IsPlayerDead;
 
     private bool isPaused = false;
     private bool manualUpdate = false;
@@ -56,7 +58,7 @@ public class TimeManager : MonoBehaviour
 
     private void TogglePauseGame()
     {
-        if (manualUpdate) return;
+        if (IsPlayerDead.Value || manualUpdate) return;
         
         if (!isPaused) PauseGame();
         else UnPauseGame();

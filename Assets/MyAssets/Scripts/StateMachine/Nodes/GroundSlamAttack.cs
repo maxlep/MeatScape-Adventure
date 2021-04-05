@@ -27,7 +27,7 @@ public class GroundSlamAttack: PlayerStateNode
     private IntReference Damage;
 
     private float currentRadius;
-    private List<EnemyController> enemiesDamagedList;
+    private List<EnemyController> enemiesDamagedList = new List<EnemyController>();
 
     public override void Awaken()
     {

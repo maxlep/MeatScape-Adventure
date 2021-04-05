@@ -1,4 +1,5 @@
 using System;
+using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
 using MyAssets.ScriptableObjects.Variables.ValueReferences;
 using MyAssets.Scripts.Utils;
@@ -31,6 +32,11 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private bool UseRandomSeed;
     [SerializeField] private int UnityRandomSeed = 0;
 
+    [TitleGroup("World State")] [SerializeField]
+    private BoolReference _isPlayerDead;
+    [SerializeField] private GameObject _deathText;
+    [SerializeField] private GameEvent onRestartGame;
+
     public static LevelManager Instance;
 
     public float DistanceFromCenter {get; private set;}
@@ -48,8 +54,19 @@ public class LevelManager : MonoBehaviour
         
         InputManager.Instance.onRestartScene += () =>
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            RestartScene();
         };
+
+        InputManager.Instance.onStart += () =>
+        {
+            if (_isPlayerDead.Value)
+            {
+                _deathText.SetActive(false);
+                RestartScene();
+            }
+        };
+
+        _isPlayerDead.Subscribe(TryEnableDeathText);
         
         DistanceText = DistanceTextTransform.Value.GetComponent<TMP_Text>();
         distanceTextPrefix = DistanceText.text;
@@ -102,5 +119,16 @@ public class LevelManager : MonoBehaviour
         
         _originalSkyboxFlowAmount = _skybox.GetFloat("_FlowAmount");
         _skybox.SetFloat("_FlowAmount", _bossSkyboxFlowAmount);
+    }
+
+    private void RestartScene()
+    {
+        onRestartGame.Raise();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private void TryEnableDeathText(bool prev, bool isDead)
+    {
+        if (isDead) _deathText.SetActive(true);
     }
 }

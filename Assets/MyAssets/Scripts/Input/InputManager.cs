@@ -36,6 +36,7 @@ public class InputManager : MonoBehaviour
     public delegate void _OnEnableDebug();
     public delegate void _OnFunction();
     public delegate void _OnRestartScene();
+    public delegate void _OnStart();
 
     public event _OnControlsChanged onControlsChanged;
     public event _OnAttack_Pressed onAttack_Pressed;
@@ -73,6 +74,7 @@ public class InputManager : MonoBehaviour
     public event _OnFunction onFunction11;
     public event _OnFunction onFunction12;
     public event _OnRestartScene onRestartScene;
+    public event _OnStart onStart;
 
     private PlayerInput _inputs;
     private InputActionMap playerActions, uiActions;
@@ -344,6 +346,11 @@ public class InputManager : MonoBehaviour
     public void OnRestartScene()
     {
         if (onRestartScene != null) onRestartScene();
+    }
+    
+    public void OnStart()
+    {
+        if (onStart != null) onStart();
     }
 
     #endregion

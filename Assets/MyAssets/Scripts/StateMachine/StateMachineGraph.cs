@@ -43,7 +43,6 @@ public class StateMachineGraph : NodeGraph
 
     public void Awaken()
     {
-        currentStates = new List<StateNode>();
         currentStates.ForEach(s => s.Awaken());
     }
 
@@ -251,7 +250,7 @@ public class StateMachineGraph : NodeGraph
 
     private void EnterStartStates()
     {
-        currentStates.Clear();
+        currentStates = new List<StateNode>();
         
         //Loop through start nodes and enter entry states
         foreach (var startNode in startNodes)

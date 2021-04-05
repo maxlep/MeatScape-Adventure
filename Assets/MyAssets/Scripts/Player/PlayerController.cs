@@ -49,7 +49,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [SerializeField] private AimTargeter aimTargeter;
     [SerializeField] private Collider collider;
     [SerializeField] private GameObject ragdollPrefab;
-    [SerializeField] private CinemachineFreeLook freeLookCam;
+    [SerializeField] private TransformSceneReference freeLookCamRef;
     public bool invincible;
     [SerializeField] private bool ignoreInput;
     [ShowIf("ignoreInput"), SerializeField] private Vector2Reference fakeMoveInput;
@@ -75,6 +75,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference RollPressed;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector3Reference PreviousVelocity;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private FloatReference DistanceToGround;
+    [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference IsPlayerDead;
 
     #endregion
 
@@ -148,6 +149,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     private float capsuleStartHeight, capsuleStartRadius;
     private Vector3 capsuleStartCenter;
+    
+    private CinemachineFreeLook freeLookCam;
 
     public delegate void _OnStartUpdateVelocity(VelocityInfo velocityInfo);
     public delegate void _OnStartUpdateRotation(Quaternion currentRotation);
@@ -171,6 +174,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         
         UpdateScale(Scale.Value, Scale.Value);
         Scale.Subscribe(UpdateScale);
+        IsPlayerDead.Value = false;
     }
 
     void Awake()
@@ -196,6 +200,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         InputManager.Instance.onInteract += AttemptInspect;
         InputManager.Instance.onFunction3 += RemoveHunger;
         InputManager.Instance.onFunction4 += FeedHunger;
+
+        freeLookCam = freeLookCamRef.Value.GetComponent<CinemachineFreeLook>();
     }
 
     // Update is called once per frame.
@@ -492,6 +498,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private void OnDeath()
     {
         gameObject.SetActive(false);
+        IsPlayerDead.Value = true;
         GameObject ragdoll = Instantiate(ragdollPrefab, transform.position, transform.rotation);
         Rigidbody[] ragdollsRbs = ragdoll.GetComponentsInChildren<Rigidbody>();
         ragdollsRbs.ForEach(r => r.velocity = PreviousVelocity.Value);

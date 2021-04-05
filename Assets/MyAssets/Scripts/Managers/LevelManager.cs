@@ -1,7 +1,7 @@
 using System;
 using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
-using MyAssets.ScriptableObjects.Variables.ValueReferences;
+using MapMagic.Core;
 using MyAssets.Scripts.Utils;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -36,6 +36,12 @@ public class LevelManager : MonoBehaviour
     private BoolReference _isPlayerDead;
     [SerializeField] private GameObject _deathText;
     [SerializeField] private GameEvent onRestartGame;
+    
+    [TitleGroup("MapMagicSeed")]
+    [SerializeField] TransformSceneReference MapMagicSceneReference;
+    [DisableIf("UseSetSeed")] [SerializeField] bool GenerateRandomSeed;
+    [DisableIf("GenerateRandomSeed")] [SerializeField] bool UseSetSeed;
+    [ShowIf("UseSetSeed")] [SerializeField] string Seed;
 
     public static LevelManager Instance;
 
@@ -82,6 +88,16 @@ public class LevelManager : MonoBehaviour
             UnityRandomSeed = Random.state.GetHashCode();
         }
         Random.InitState(UnityRandomSeed);
+
+        MapMagicObject mapMagic = MapMagicSceneReference.Value.GetComponent<MapMagicObject>();
+        if(GenerateRandomSeed || mapMagic.graph.random.Seed == 0) {
+            mapMagic.graph.random.Seed = Random.Range(10000, 9999999);
+            mapMagic.Refresh();
+        }
+        if(UseSetSeed) {
+            mapMagic.graph.random.Seed = int.Parse(Seed);
+            mapMagic.Refresh();
+        }
     }
 
     private void OnDestroy()

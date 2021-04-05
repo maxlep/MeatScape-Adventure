@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1552495894175013456}
   - component: {fileID: 1552495894175013457}
   - component: {fileID: 1552495894175013458}
+  - component: {fileID: 5587299453541587556}
   m_Layer: 0
   m_Name: WindZoneParticles
   m_TagString: Untagged
@@ -4805,6 +4806,24 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &5587299453541587556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552495894175013459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf3d8bcadf2092b47a3a2bcf0a5d7134, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useFixedUpdate: 0
+  followPosition: 1
+  followRotation: 0
+  followScale: 0
+  target: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}
 --- !u!1 &1552495894231821806
 GameObject:
   m_ObjectHideFlags: 0
@@ -4831,7 +4850,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1552495894231821806}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 201, y: 0, z: 414}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1552495894175013456}
@@ -4910,7 +4929,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
   randomSeed: 0
@@ -5405,7 +5424,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 1000
+    maxNumParticles: 10000
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -5472,7 +5491,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 1017.2, y: 20.5, z: 971}
+    m_Scale: {x: 500, y: 40, z: 500}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -5670,7 +5689,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 15
       minScalar: 10
       maxCurve:
         serializedVersion: 2

@@ -22,11 +22,17 @@ public class PlayerHealthController : MonoBehaviour
 
     private void Awake()
     {
+        currentHealthList.Clear();
         InitMaxHealth();
         currentHungerLevel.Subscribe(UpdateHealthBar);
-        
+
         //Trigger update to get latest.
         currentHungerLevel.Value = currentHungerLevel.Value;
+    }
+
+    private void OnDisable()
+    {
+        currentHungerLevel.Unsubscribe(UpdateHealthBar);
     }
 
     private void InitMaxHealth()

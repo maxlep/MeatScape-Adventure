@@ -5,7 +5,7 @@ using UnityEngine.Rendering.PostProcessing;
 /// <summary>
 /// this class is intended to be put on the focus object itself
 /// </summary>
-[ExecuteInEditMode]
+
 public class DOFFocusOnObject : MonoBehaviour
 {
     [SerializeField] private TransformSceneReference camTransformRef;

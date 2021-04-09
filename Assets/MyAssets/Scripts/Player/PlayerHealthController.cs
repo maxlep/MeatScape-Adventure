@@ -9,6 +9,7 @@ using UnityEngine;
 
 public class PlayerHealthController : MonoBehaviour
 {
+    [SerializeField] private bool isHorizontal;
     [SerializeField] private IntReference currentHungerLevel;
     [SerializeField] private IntReference maxHungerLevel;
     [SerializeField] private GameObject healthTickPrefab;
@@ -43,8 +44,10 @@ public class PlayerHealthController : MonoBehaviour
             healthTick.SetActive(true);
             RectTransform healthTickRect = healthTick.GetComponent<RectTransform>();
             tickHeight = healthTickRect.rect.height;
+            Vector3 dir = isHorizontal ? Vector3.right : Vector3.up;
             healthTickRect.position = healthBarRect.position +
-                                      i * (tickHeight + tickSpacing) * Vector3.up; 
+                                      i * (tickHeight + tickSpacing) * dir;
+            if (isHorizontal) healthTickRect.rotation = Quaternion.LookRotation(Vector3.back, Vector3.right);
         }
 
     }
@@ -66,9 +69,11 @@ public class PlayerHealthController : MonoBehaviour
             GameObject healthTick = Instantiate(healthTickPrefab, healthBarRect);
             RectTransform healthTickRect = healthTick.GetComponent<RectTransform>();
             tickHeight = healthTickRect.rect.height;
+            Vector3 dir = isHorizontal ? Vector3.right : Vector3.up;
             healthTickRect.position = healthBarRect.position +
-                                      currentHealthList.Count * (tickHeight + tickSpacing) * Vector3.up;
+                                      currentHealthList.Count * (tickHeight + tickSpacing) * dir;
             currentHealthList.Add(healthTick);
+            if (isHorizontal) healthTickRect.rotation = Quaternion.LookRotation(Vector3.back, Vector3.right);
         }
     }
 

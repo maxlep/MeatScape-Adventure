@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
@@ -5,13 +6,57 @@ using UnityEngine;
 
 public class MeateorStrikeCombat : PlayerStateNode
 {
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private DynamicGameEvent PlayerCollidedWith_CollisionInfo;
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private LayerMapper layerMapper;
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private IntVariable HungerLevel;
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private IntVariable HungerThreshold;
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private Vector3Reference NewVelocity;
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference KnockbackTime;
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference KnockbackSpeed;
+    #region Inputs
+
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required] 
+    private LayerMapper LayerMapper;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required] 
+    private LayerMapper layerMapper;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required] 
+    private FloatReference PlayerScale;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+    [TabGroup("Inputs")] [Required] 
+    private IntVariable HungerLevel;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required] 
+    private IntVariable HungerInstantKillThreshold;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required] 
+    private FloatReference AttackBaseRadius;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+    [TabGroup("Inputs")] [Required]
+    private FloatReference KnockbackTime;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+    [TabGroup("Inputs")] [Required] 
+    private FloatReference KnockbackSpeed;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+    [TabGroup("Inputs")] [Required] 
+    private DynamicGameEvent MeateorStrikeCollision;
+
+    #endregion
+
+    #region Outputs
+
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+    [TabGroup("Outputs")]  [Required] 
+    private Vector3Reference NewVelocity;
+    
+    private float currentRadius;
+    private List<EnemyController> enemiesDamagedList = new List<EnemyController>();
+
+    #endregion
+    
 
     public override void Initialize(StateMachineGraph parentGraph)
     {
@@ -21,34 +66,81 @@ public class MeateorStrikeCombat : PlayerStateNode
     public override void Enter()
     {
         base.Enter();
-        PlayerCollidedWith_CollisionInfo.Subscribe(this.OnPlayerCollidedWith);
+        MeateorStrikeCollision.Subscribe(OnPlayerCollidedWith);
     }
 
     private void OnPlayerCollidedWith(System.Object prevCollisionInfoObj, System.Object collisionInfoObj) {
         CollisionInfo collisionInfo = (CollisionInfo) collisionInfoObj;
-        GameObject otherObj = collisionInfo.other.gameObject;
+        Debug.Log($"Collided with: {collisionInfo.other.gameObject.name}");
         
-        if(otherObj.layer == layerMapper.GetLayer(LayerEnum.Enemy)) {
-            EnemyController enemy = otherObj.GetComponent<EnemyController>();
-            if(HungerLevel.Value >= HungerThreshold.Value) {
-                enemy.DamageEnemy(999);
-            } else {
-                enemy.DamageEnemy(1);
-            }
-            enemy.KnockbackEnemy(NewVelocity.Value.normalized, KnockbackTime.Value, KnockbackSpeed.Value);
-        }
+        enemiesDamagedList.Clear();
+        LayerMask hitMask = LayerMask.GetMask(
+            LayerMapper.GetLayerName(LayerEnum.Enemy),
+            LayerMapper.GetLayerName(LayerEnum.Interactable)
+        );
         
-        else if (otherObj.layer == layerMapper.GetLayer(LayerEnum.Interactable))
+        //Scale the radius with player scale
+        currentRadius = AttackBaseRadius.Value * PlayerScale.Value;
+        
+        //Overlap sphere on contact point to deal damage
+        Collider[] hitColliders = Physics.OverlapSphere(collisionInfo.contactPoint, currentRadius, hitMask);
+        
+        foreach (var collider in hitColliders)
         {
-            InteractionReceiver interactionReceiver = collisionInfo.other.GetComponent<InteractionReceiver>();
-            if (interactionReceiver != null) 
-                interactionReceiver.ReceiveMeateorStirkeIntoInteraction(new MeateorStrikeIntoPayload());
+            int otherLayer = collider.gameObject.layer;
+            
+            if (otherLayer == LayerMapper.GetLayer(LayerEnum.Enemy))
+                HandleEnemyHit(collider);
+            else if (otherLayer == LayerMapper.GetLayer(LayerEnum.Interactable))
+                HandleInteractableHit(collider);
         }
+
+
+        foreach (var collider in hitColliders)
+        {
+            int otherLayer = collider.gameObject.layer;
+            
+            if (otherLayer == layerMapper.GetLayer(LayerEnum.Enemy))
+            {
+                HandleEnemyHit(collider);
+            }
+
+            else if (otherLayer == layerMapper.GetLayer(LayerEnum.Interactable))
+            {
+                HandleInteractableHit(collider);
+            }
+        }
+    }
+    
+    private void HandleEnemyHit(Collider enemyCollider)
+    {
+        Debug.Log($"hit enemy: {enemyCollider.gameObject.name}");
+        EnemyController enemyController = enemyCollider.GetComponentInChildren<EnemyController>();
+            
+        //Dont hit enemies more than once, they can have multiple colliders
+        if (enemyController != null && !enemiesDamagedList.Contains(enemyController))
+        {
+            TimeManager.Instance.FreezeFrame();
+            if(HungerLevel.Value >= HungerInstantKillThreshold.Value) {
+                enemyController.DamageEnemy(999);
+            } else {
+                enemyController.DamageEnemy(1);
+            }
+            enemyController.KnockbackEnemy(NewVelocity.Value.normalized, KnockbackTime.Value, KnockbackSpeed.Value);
+            enemiesDamagedList.Add(enemyController);
+        }
+    }
+
+    private void HandleInteractableHit(Collider interactableCollider)
+    {
+        var interactableScript = interactableCollider.GetComponent<InteractionReceiver>();
+        if (interactableScript != null)
+            interactableScript.ReceiveMeateorStirkeIntoInteraction(new MeateorStrikeIntoPayload());
     }
     
     public override void Exit()
     {
         base.Exit();
-        PlayerCollidedWith_CollisionInfo.Unsubscribe(this.OnPlayerCollidedWith);
+        MeateorStrikeCollision.Unsubscribe(OnPlayerCollidedWith);
     }
 }

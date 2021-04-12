@@ -6,17 +6,54 @@ using Sirenix.Utilities;
 
 public class ForwardAttack : PlayerStateNode
 {
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private MeatClumpController MeatClumpPrefab;
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference ThrowDelay;
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference ThrowSpeed;
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private BoolReference WaitedAttackDelay;
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TransformSceneReference FirePoint;
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TransformSceneReference PlayerCameraTransform;
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private Vector2Reference MoveInput;
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TimerReference comboTimer;
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TimerReference comboFinishTimer;
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TransformSceneReference CurrentTargetRef;
+    #region Inputs
+
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required] 
+    private MeatClumpController MeatClumpPrefab;
     
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required] 
+    private FloatReference ThrowDelay;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+    [TabGroup("Inputs")] [Required] 
+    private FloatReference ThrowSpeed;
+
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required] 
+    private TransformSceneReference FirePoint;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required] 
+    private TransformSceneReference PlayerCameraTransform;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required] 
+    private Vector2Reference MoveInput;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+    [TabGroup("Inputs")] [Required] 
+    private TimerReference comboTimer;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required] 
+    private TimerReference comboFinishTimer;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+    [TabGroup("Inputs")] [Required] 
+    private TransformSceneReference CurrentTargetRef;
+
+    #endregion
+
+    #region Outputs
+
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+    [TabGroup("Outputs")] [Required] 
+    private BoolReference WaitedAttackDelay;
+
+    #endregion
+
     private bool clumpThrown;
 
     public override void Initialize(StateMachineGraph parentGraph)

@@ -60,6 +60,10 @@ public class MeateorStrike : PlayerStateNode
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
     [TabGroup("Outputs")] [Required]
     protected TimerReference MeateorStrikeDurationTimer;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required]
+    private DynamicGameEvent MeateorStrikeCollision;
 
     #endregion
 
@@ -166,12 +170,12 @@ public class MeateorStrike : PlayerStateNode
 
             MeateorStrikeHitPosition.Value = collisionInfo.contactPoint;
             MeateorCollideTrigger.Activate();
+            MeateorStrikeCollision.Raise(collisionInfo);
             MeateorStrikeHitEvent.Raise();
         }
         else
         {
             //If going fast enough into the normal, deflect with knockback
-            
             Vector3 velocityIntoNormal = Vector3.Project(previousVelocityOutput, -collisionInfo.contactNormal);
             
             float velocityGroundDot = Vector3.Dot(previousVelocityOutput.normalized, collisionInfo.contactNormal);

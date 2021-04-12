@@ -207,6 +207,9 @@ MonoBehaviour:
       - fieldName: startingState
         node: {fileID: 3000325693515124949}
         reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: -62459670998784075}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 2
@@ -1516,7 +1519,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -3976, y: -1768}
+  position: {x: -3976, y: -2136}
   ports:
     keys:
     - startingState
@@ -3262,6 +3265,73 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   referencedState: {fileID: 8382683336472367375}
+--- !u!114 &-62459670998784075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: Flatten -> GroundMovement
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: -3976, y: -1672}
+  ports:
+    keys:
+    - startingState
+    - nextState
+    values:
+    - _fieldName: startingState
+      _node: {fileID: -62459670998784075}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: -8239950027094308354}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: nextState
+      _node: {fileID: -62459670998784075}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: 3397190755906087193}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+  collapsed: 1
+  transitionPriority: 0
+  conditionPreview: '-  Valid:  Forward  Throw  Charge
+
+'
+  ValidStartStates:
+  - {fileID: -4695961148579739637, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
+  InvalidStartStates: []
+  BoolConditions: []
+  TriggerConditions: []
+  FloatConditions: []
+  IntConditions: []
+  TimerConditions: []
+  Vector2Conditions: []
+  Vector3Conditions: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3373,6 +3443,7 @@ MonoBehaviour:
   - {fileID: -5394790113833797430}
   - {fileID: 4847382009070371305}
   - {fileID: -3814421004231281048}
+  - {fileID: -62459670998784075}
 --- !u!114 &144026596585446073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3730,6 +3801,8 @@ MonoBehaviour:
     UseConstant: 0
     ConstantDuration: 0
     Variable: {fileID: 11400000, guid: 992f08fcfa6e489498f8f9eca1cc1b8c, type: 2}
+  MeateorStrikeCollision: {fileID: 11400000, guid: 28e71790ed6bf0c4ca784c62a82fcd76,
+    type: 2}
   MeateorStrikeMinSpeed:
     UseConstant: 0
     ConstantValue: 50
@@ -4875,6 +4948,9 @@ MonoBehaviour:
       connections:
       - fieldName: nextState
         node: {fileID: -4746875906139237634}
+        reroutePoints: []
+      - fieldName: nextState
+        node: {fileID: -62459670998784075}
         reroutePoints: []
       _direction: 0
       _connectionType: 0

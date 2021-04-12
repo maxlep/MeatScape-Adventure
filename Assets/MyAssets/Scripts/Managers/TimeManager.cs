@@ -1,4 +1,5 @@
-﻿using MyAssets.ScriptableObjects.Variables;
+﻿using System.Collections;
+using MyAssets.ScriptableObjects.Variables;
 using UnityEngine;
 
 public class TimeManager : MonoBehaviour
@@ -12,8 +13,11 @@ public class TimeManager : MonoBehaviour
     private bool isPaused = false;
     private bool manualUpdate = false;
     private bool skipFrame = false;
+    private bool isFrozen = false;
     private float timescaleFactor = 1f;
 
+    private Coroutine freezeFrameRoutine;
+    
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -66,6 +70,7 @@ public class TimeManager : MonoBehaviour
 
     private void PauseGame()
     {
+        if (freezeFrameRoutine != null) StopCoroutine(freezeFrameRoutine);
         Time.timeScale = 0f;
         isPaused = true;
         pauseText.SetActive(true);
@@ -94,7 +99,23 @@ public class TimeManager : MonoBehaviour
             manualUpdateText.SetActive(false);
         }
     }
-
+    
+    public void FreezeFrame(float duration = .05f)
+    {
+        if (isFrozen || isPaused) return;
+        freezeFrameRoutine = StartCoroutine(DoFreeze(duration));
+    }
+    
+    private IEnumerator DoFreeze(float duration = .05f)
+    {
+        isFrozen = true;
+        var originalScale = Time.timeScale;
+        Time.timeScale = 0f;
+        yield return new WaitForSecondsRealtime(duration);
+        Time.timeScale = originalScale;
+        isFrozen = false;
+    }
+    
     private void OnGUI()
     {
         if (!DebugManager.Instance.EnableDebugGUI) return;

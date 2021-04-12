@@ -8,23 +8,33 @@ using UnityEngine;
 
 public class GroundSlamAttack: PlayerStateNode
 {
+    #region Inputs
+
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required] 
     private LayerMapper LayerMapper;
     
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required] 
     private FloatReference PlayerScale;
     
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required] 
     private FloatReference AttackBaseRadius;
     
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required] 
     private FloatReference KnockbackTime;
     
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required] 
     private FloatReference KnockbackSpeed;
     
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required] 
     private IntReference Damage;
+
+    #endregion
 
     private float currentRadius;
     private List<EnemyController> enemiesDamagedList = new List<EnemyController>();

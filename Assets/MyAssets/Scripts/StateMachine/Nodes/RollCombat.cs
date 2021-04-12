@@ -4,14 +4,42 @@ using UnityEngine;
 
 public class RollCombat : PlayerStateNode
 {
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private DynamicGameEvent PlayerCollidedWith_CollisionInfo;
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private LayerMapper layerMapper;
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private IntVariable HungerLevel;
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private IntVariable HungerThreshold;
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private Vector3Reference NewVelocity;
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference KnockbackTime;
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference KnockbackSpeed;
+    #region Inputs
 
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required]
+    private DynamicGameEvent PlayerCollidedWith_CollisionInfo;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required]
+    private LayerMapper layerMapper;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required]
+    private IntVariable HungerLevel;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required]
+    private IntVariable HungerInstantKillThreshold;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required]
+    private FloatReference KnockbackTime;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required]
+    private FloatReference KnockbackSpeed;
+
+    #endregion
+
+    #region Outputs
+
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Outputs")] [Required]
+    private Vector3Reference NewVelocity;
+    
+
+    #endregion
     public override void Initialize(StateMachineGraph parentGraph)
     {
         base.Initialize(parentGraph);
@@ -30,7 +58,7 @@ public class RollCombat : PlayerStateNode
         
         if(otherObj.layer == layerMapper.GetLayer(LayerEnum.Enemy)) {
             EnemyController enemy = otherObj.GetComponent<EnemyController>();
-            if(HungerLevel.Value >= HungerThreshold.Value) {
+            if(HungerLevel.Value >= HungerInstantKillThreshold.Value) {
                 enemy.DamageEnemy(999);
             } else {
                 enemy.KnockbackEnemy(NewVelocity.Value.normalized, KnockbackTime.Value, KnockbackSpeed.Value);

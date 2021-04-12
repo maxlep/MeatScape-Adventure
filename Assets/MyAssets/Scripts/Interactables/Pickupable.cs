@@ -46,4 +46,14 @@ public class Pickupable : MonoBehaviour
         
         Destroy(this.gameObject);
     }
+
+    public void AddListenerOnPickup(UnityAction action)
+    {
+        OnPickUp.AddListener(action);
+    }
+
+    public void RemoveListenerOnPickup(UnityAction action)
+    {
+        OnPickUp.RemoveListener(action);
+    }
 }

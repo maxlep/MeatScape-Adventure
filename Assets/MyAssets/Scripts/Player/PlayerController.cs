@@ -412,7 +412,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private void UpdateHunger()
     {
         HungerDecayTimer?.UpdateTime();
-        if (HungerDecayTimer.IsFinished)
+        if (HungerDecayTimer.IsFinished && HungerOut.Value > 0)
         {
             damageFeedback.PlayFeedbacks();
             IncrementHunger(-1);

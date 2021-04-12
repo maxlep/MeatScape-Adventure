@@ -41,6 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8379201988489175662}
+  - component: {fileID: 282523361469515421}
   - component: {fileID: 4029445465579560273}
   - component: {fileID: 6994242715961130270}
   - component: {fileID: 7733247292180758121}
@@ -73,6 +74,53 @@ Transform:
   m_Father: {fileID: 3061227014247918796}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &282523361469515421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1442620330751184830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 468d0d7ee2257a34c966318be3e94f24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UnityEvents:
+  - UnityCallback: 2
+    delay: 0.05
+    unityEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4029445465579560273}
+          m_TargetAssemblyTypeName: MoreMountains.Feedbacks.MMFeedbacks, MoreMountains.Feedbacks
+          m_MethodName: PlayFeedbacks
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - UnityCallback: 3
+    delay: 0
+    unityEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4029445465579560273}
+          m_TargetAssemblyTypeName: MoreMountains.Feedbacks.MMFeedbacks, MoreMountains.Feedbacks
+          m_MethodName: StopFeedbacks
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!114 &4029445465579560273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98,7 +146,7 @@ MonoBehaviour:
   - {fileID: 4375739203181106553}
   InitializationMode: 2
   SafeMode: 3
-  AutoPlayOnStart: 1
+  AutoPlayOnStart: 0
   DebugActive: 0
 --- !u!114 &6994242715961130270
 MonoBehaviour:

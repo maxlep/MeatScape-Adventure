@@ -19,6 +19,7 @@ public class MeatClumpController : MonoBehaviour
     
     [SerializeField] private LayerMapper layerMapper;
     [SerializeField] private Transform meshTransform;
+    [SerializeField] private IntReference ClumpDamage;
     [SerializeField] private FloatReference ClumpScalingFactor;
     [SerializeField] private FloatReference ClumpGravityEnableTime;
     [SerializeField] private FloatReference ClumpGravityFactor;
@@ -77,7 +78,7 @@ public class MeatClumpController : MonoBehaviour
     #region Collision
     private void HandleCollisions(Collider[] colliders, Vector3 normal)
     {
-        if (colliders.Length < 1) return;
+        if (colliders.Length < 1 || hasCollided) return;
         
         hasCollided = true;
         foreach (var collider in colliders) {
@@ -88,7 +89,7 @@ public class MeatClumpController : MonoBehaviour
                 EnemyController enemyScript = hitObj.GetComponent<EnemyController>();
                 Vector3 knockBackDir = (enemyScript.transform.position - transform.position).normalized;
                 float knockBackForce = currentVelocity.magnitude * 2f;
-                enemyScript.DamageEnemy(1, knockBackDir, true, knockBackForce);
+                enemyScript.DamageEnemy(ClumpDamage.Value, knockBackDir, true, knockBackForce);
                 enemyHitId.Value = enemyScript.gameObject.GetInstanceID();
                 impactFeedbacks.PlayFeedbacks();
                 Destroy(gameObject);

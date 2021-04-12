@@ -71,7 +71,6 @@ public class MeateorStrikeCombat : PlayerStateNode
 
     private void OnPlayerCollidedWith(System.Object prevCollisionInfoObj, System.Object collisionInfoObj) {
         CollisionInfo collisionInfo = (CollisionInfo) collisionInfoObj;
-        Debug.Log($"Collided with: {collisionInfo.other.gameObject.name}");
         
         enemiesDamagedList.Clear();
         LayerMask hitMask = LayerMask.GetMask(
@@ -114,7 +113,6 @@ public class MeateorStrikeCombat : PlayerStateNode
     
     private void HandleEnemyHit(Collider enemyCollider)
     {
-        Debug.Log($"hit enemy: {enemyCollider.gameObject.name}");
         EnemyController enemyController = enemyCollider.GetComponentInChildren<EnemyController>();
             
         //Dont hit enemies more than once, they can have multiple colliders

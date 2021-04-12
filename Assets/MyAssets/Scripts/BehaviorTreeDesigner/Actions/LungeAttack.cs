@@ -34,11 +34,12 @@ public class LungeAttack : Action
     
     public override void OnAwake()
     {
-        charController = GetComponent<CharacterController>();
-        destinationSetter = GetComponent<AIDestinationSetter>();
-        aiPath = AgentTransform.Value.GetComponent<AIPath>();
         chargeStartTime = Mathf.NegativeInfinity;
         lungeStartTime = Mathf.NegativeInfinity;
+        destinationSetter = AgentTransform.Value.GetComponent<AIDestinationSetter>();
+        charController = AgentTransform.Value.GetComponent<CharacterController>();
+        aiPath = AgentTransform.Value.GetComponent<AIPath>();
+        
     }
 
     public override void OnStart()
@@ -106,7 +107,7 @@ public class LungeAttack : Action
         Vector3 totalForce = forwardForce + upwardForce;
         
         //Add "Force" to the char controller to get it moving and face target
-        transform.rotation = Quaternion.LookRotation(dirToTarget, Vector3.up);
+        AgentTransform.Value.rotation = Quaternion.LookRotation(dirToTarget, Vector3.up);
         charController.Move(totalForce * Time.deltaTime);
         
         if (animator != null) animator.SetTrigger("StartLunge");

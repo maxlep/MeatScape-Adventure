@@ -147,6 +147,14 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         protected override void UpdateRotation(Quaternion currentRotation)
         {
             var GroundingStatus = playerController.GroundingStatus;
+            
+            //If no move input, just face cam forward
+            if (Mathf.Approximately(0f, moveInputCameraRelative.sqrMagnitude))
+            {
+                NewRotationOut.Value = Quaternion.LookRotation(PlayerCameraTransform.Value.forward.xoz(),
+                    GroundingStatus.GroundNormal);
+                return;
+            }
 
             Vector3 moveInputOnSlope;
                 
@@ -162,7 +170,14 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         private void AccumulateSlingForce()
         {
             CharacterGroundingReport groundingStatus = playerController.GroundingStatus;
-            Vector3 slingDirection = Vector3.ProjectOnPlane(moveInputCameraRelative.normalized, groundingStatus.GroundNormal);
+            Vector3 slingDirection;
+            
+            //If no move input, just launch forward
+            if (Mathf.Approximately(0f, moveInputCameraRelative.sqrMagnitude))
+                slingDirection = Vector3.ProjectOnPlane(PlayerCameraTransform.Value.forward.xoz(), groundingStatus.GroundNormal);
+            else
+                slingDirection = Vector3.ProjectOnPlane(moveInputCameraRelative.normalized, groundingStatus.GroundNormal);
+            
             slingshotTargetSceneReference.Value = null;
             
             if (currentTargetSceneReference.Value != null)

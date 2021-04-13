@@ -737,17 +737,10 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Valid:  Air Movement
-
-    -  Valid:  No Low Jump
-
-    - 
-    Valid:  Slingshot
+  conditionPreview: '-  Valid:  Slingshot
 
 '
   ValidStartStates:
-  - {fileID: -8209884016339463683, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  - {fileID: 8382683336472367375, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   - {fileID: -2916305283311469656, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   InvalidStartStates: []
   BoolConditions: []
@@ -1721,28 +1714,27 @@ MonoBehaviour:
     -  Valid:  Roll  Movement
 
     - 
-    Valid:  Slingshot
+    Valid:  Flatten
 
-    -  Valid:  Flatten
+    -  Valid:  No Low Jump
 
-    -  Is Grounded_ Controller_ Player
+    -  Valid:  Air Movement
 
     - 
-    Attack Trigger_ Controller_ Player
+    Valid:  Roll  Air  Dash
+
+    -  Attack Trigger_ Controller_ Player
 
 '
   ValidStartStates:
   - {fileID: 1196608421412681666, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   - {fileID: 4966931143862885706, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  - {fileID: -2916305283311469656, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   - {fileID: -8239950027094308354, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  - {fileID: 8382683336472367375, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  - {fileID: -8209884016339463683, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  - {fileID: 395935480195304943, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   InvalidStartStates: []
-  BoolConditions:
-  - targetParameter:
-      UseConstant: 0
-      ConstantValue: 0
-      Variable: {fileID: 11400000, guid: 7515e678ba0d82a4b92ee5e8bc9cee52, type: 2}
-    value: 1
+  BoolConditions: []
   TriggerConditions:
   - targetParameter: {fileID: 11400000, guid: 5e15a58a7e2120d4ab58b2aacd49f1ba, type: 2}
     KeepTriggerOn: 0

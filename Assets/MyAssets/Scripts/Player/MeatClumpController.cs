@@ -26,7 +26,8 @@ public class MeatClumpController : MonoBehaviour
     [SerializeField] private FloatReference ClumpDestroyTime;
     [SerializeField] private FloatReference CollisionRadiusEnvironment;
     [SerializeField] private FloatReference CollisionRadiusEnemy;
-    [SerializeField] private FloatReference DragCoefficientHorizontal;
+    [SerializeField] private FloatReference DragCoefficient;
+    [SerializeField] private FloatReference DragThresholdVelocity;
     [SerializeField] private LayerMask CollisionMaskEnvironment;
     [SerializeField] private LayerMask CollisionMaskEnemy;
     [SerializeField] private UnityEvent OnCollideWithStatic;
@@ -52,8 +53,9 @@ public class MeatClumpController : MonoBehaviour
     {
         if(!hasCollided)
         {
-            Vector3 horizontalDrag = currentVelocity.xoz() * DragCoefficientHorizontal.Value * Time.deltaTime;
-            currentVelocity -= horizontalDrag;
+            Vector3 horizontalDrag = Mathf.Max(0f,(currentVelocity.sqrMagnitude - DragThresholdVelocity.Value)) 
+                                     * -currentVelocity.normalized * DragCoefficient.Value * Time.deltaTime;
+            currentVelocity += horizontalDrag;
             
             //Enable gravity after clump has been moving for ClumpGravityEnableTime duration.
             if(!hasGravity) hasGravity = Time.time - startTime >= ClumpGravityEnableTime.Value;
@@ -70,7 +72,7 @@ public class MeatClumpController : MonoBehaviour
     #region Setters
     public void SetMoving(float speed, Vector3 direction) {
         currentVelocity = speed * direction.normalized;
-        transform.forward = direction.normalized;
+        meshTransform.forward = direction.normalized;     //Point mesh in direction of velocity
     }
     
     #endregion
@@ -120,20 +122,20 @@ public class MeatClumpController : MonoBehaviour
         //SphereCast from current pos to next pos and check for collisions
         //Check for enemy hit
         RaycastHit hitEnemy;
-        if (Physics.SphereCast(transform.position, CollisionRadiusEnemy.Value, transform.forward,
+        if (Physics.SphereCast(transform.position, CollisionRadiusEnemy.Value, currentVelocity.normalized,
             out hitEnemy, deltaDistance.magnitude, CollisionMaskEnemy, QueryTriggerInteraction.Ignore))
         {
-            transform.position += (transform.forward * hitEnemy.distance);
+            transform.position += (currentVelocity.normalized * hitEnemy.distance);
             
             HandleCollisions(new Collider[]{hitEnemy.collider}, hitEnemy.normal);
         }
         
         //Check for environment hit
         RaycastHit hitEnvironment;
-        if (Physics.SphereCast(transform.position, CollisionRadiusEnvironment.Value, transform.forward,
+        if (Physics.SphereCast(transform.position, CollisionRadiusEnvironment.Value, currentVelocity.normalized,
             out hitEnvironment, deltaDistance.magnitude, CollisionMaskEnvironment, QueryTriggerInteraction.Ignore))
         {
-            transform.position += (transform.forward * hitEnvironment.distance);
+            transform.position += (currentVelocity.normalized * hitEnvironment.distance);
             
             HandleCollisions(new Collider[]{hitEnvironment.collider}, hitEnvironment.normal);
         }

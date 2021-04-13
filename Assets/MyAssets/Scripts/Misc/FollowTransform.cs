@@ -9,26 +9,26 @@ public class FollowTransform : MonoBehaviour
     [SerializeField] private bool followPosition = true;
     [SerializeField] private bool followRotation = true;
     [SerializeField] private bool followScale;
-    [SerializeField] private Transform target;
+    [SerializeField] private TransformSceneReference targetRef;
     [SerializeField] private Vector3 offset;
 
     private void Update()
     {
-        if (target != null && !useFixedUpdate)
+        if (targetRef.Value != null && !useFixedUpdate)
         {
-            if (followPosition) transform.position = target.position + offset;
-            if (followRotation) transform.rotation = target.rotation;
-            if (followScale) transform.localScale = target.localScale;
+            if (followPosition) transform.position = targetRef.Value.position + offset;
+            if (followRotation) transform.rotation = targetRef.Value.rotation;
+            if (followScale) transform.localScale = targetRef.Value.localScale;
         }
     }
 
     private void FixedUpdate()
     {
-        if (target != null && useFixedUpdate)
+        if (targetRef.Value != null && useFixedUpdate)
         {
-            if (followPosition) transform.position = target.position;
-            if (followRotation) transform.rotation = target.rotation;
-            if (followScale) transform.localScale = target.localScale;
+            if (followPosition) transform.position = targetRef.Value.position;
+            if (followRotation) transform.rotation = targetRef.Value.rotation;
+            if (followScale) transform.localScale = targetRef.Value.localScale;
         }
     }
 }

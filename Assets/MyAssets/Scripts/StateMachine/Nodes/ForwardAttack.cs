@@ -2,6 +2,7 @@
 using Sirenix.OdinInspector;
 using UnityEngine;
 using MyAssets.Scripts.Utils;
+using Shapes;
 using Sirenix.Utilities;
 
 public class ForwardAttack : PlayerStateNode
@@ -89,12 +90,15 @@ public class ForwardAttack : PlayerStateNode
         {
             Collider targetCollider = aimTarget.GetComponent<Collider>();
             Vector3 targetPosition;
-            
+
             if (targetCollider != null)
                 targetPosition = targetCollider.bounds.center;
+            
+
             else
                 targetPosition = aimTarget.position;
             
+
             throwDirection = (targetPosition - FirePoint.Value.position).normalized;
         }
 
@@ -116,6 +120,7 @@ public class ForwardAttack : PlayerStateNode
     {
         base.ExecuteFixed();
     }
+
 
     public override void Exit()
     {

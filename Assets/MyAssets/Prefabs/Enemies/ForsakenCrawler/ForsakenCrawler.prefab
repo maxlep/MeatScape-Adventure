@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 6238523250367150444}
   - component: {fileID: 1963654943621754016}
   - component: {fileID: 5126770864297546049}
-  - component: {fileID: 2957019079676054297}
   - component: {fileID: 8432776931042628115}
   - component: {fileID: 5006923093799483560}
   - component: {fileID: 615757095752724573}
@@ -54,7 +53,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 7779709157356129936}
-  charController: {fileID: 2957019079676054297}
+  charController: {fileID: 7667311949742554105}
   parameterName: IsWalking
   moveThreshold: 1
 --- !u!114 &1963654943621754016
@@ -134,24 +133,6 @@ MonoBehaviour:
   slowWhenNotFacingTarget: 1
   preventMovingBackwards: 0
   constrainInsideGraph: 0
---- !u!143 &2957019079676054297
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 71910965963012812}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 1.6
-  m_Radius: 0.89
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.02
-  m_MinMoveDistance: 0
-  m_Center: {x: 0, y: 0.89, z: 0}
 --- !u!114 &8432776931042628115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,7 +220,7 @@ MonoBehaviour:
   _editor_DrawExtra: 0
   _editor_horizontal: 1
   _editor_category: 0
-  Editor_InIsolatedScene: 0
+  Editor_InIsolatedScene: 1
   Editor_JustCreated: 0
   UseDOTS: 1
   DOTSObstacleType: 2
@@ -1586,7 +1567,7 @@ GameObject:
   - component: {fileID: 6759503725687124126}
   - component: {fileID: 4410940029015141553}
   - component: {fileID: 3162976875345405538}
-  - component: {fileID: 7133504873315238420}
+  - component: {fileID: 7667311949742554105}
   m_Layer: 11
   m_Name: ForsakenCrawlerOffset
   m_TagString: Untagged
@@ -1735,8 +1716,8 @@ MonoBehaviour:
       Version: 1.6.6
   gizmoViewMode: 2
   showBehaviorDesignerGizmo: 1
---- !u!136 &7133504873315238420
-CapsuleCollider:
+--- !u!143 &7667311949742554105
+CharacterController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1745,10 +1726,14 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.83
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.79, z: 0}
+  serializedVersion: 2
+  m_Height: 1.6
+  m_Radius: 0.89
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.02
+  m_MinMoveDistance: 0
+  m_Center: {x: 0, y: 0.89, z: 0}
 --- !u!1 &3217732333004738164
 GameObject:
   m_ObjectHideFlags: 0
@@ -2329,6 +2314,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0678196875dceac43933918e63431c6f, type: 3}
+--- !u!4 &8440422832070970658 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5746564759562468899, guid: 0678196875dceac43933918e63431c6f,
+    type: 3}
+  m_PrefabInstance: {fileID: 4223674873870840577}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &7779709157356129936 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 0678196875dceac43933918e63431c6f,
+    type: 3}
+  m_PrefabInstance: {fileID: 4223674873870840577}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4402049377832342762 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0678196875dceac43933918e63431c6f,
+    type: 3}
+  m_PrefabInstance: {fileID: 4223674873870840577}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3917261114191990352 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 0678196875dceac43933918e63431c6f,
+    type: 3}
+  m_PrefabInstance: {fileID: 4223674873870840577}
+  m_PrefabAsset: {fileID: 0}
 --- !u!137 &382652263469293419 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 4599008510767164522, guid: 0678196875dceac43933918e63431c6f,
@@ -2344,30 +2353,6 @@ MeshRenderer:
 --- !u!23 &3899982317185863927 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 901288004993901558, guid: 0678196875dceac43933918e63431c6f,
-    type: 3}
-  m_PrefabInstance: {fileID: 4223674873870840577}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &7779709157356129936 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 0678196875dceac43933918e63431c6f,
-    type: 3}
-  m_PrefabInstance: {fileID: 4223674873870840577}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &8440422832070970658 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5746564759562468899, guid: 0678196875dceac43933918e63431c6f,
-    type: 3}
-  m_PrefabInstance: {fileID: 4223674873870840577}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &4402049377832342762 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0678196875dceac43933918e63431c6f,
-    type: 3}
-  m_PrefabInstance: {fileID: 4223674873870840577}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &3917261114191990352 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 0678196875dceac43933918e63431c6f,
     type: 3}
   m_PrefabInstance: {fileID: 4223674873870840577}
   m_PrefabAsset: {fileID: 0}
@@ -2456,22 +2441,22 @@ PrefabInstance:
     - target: {fileID: 4865785231952529274, guid: cd91939fb39a28e4cb633ce72b3551e5,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.47937238
+      value: 0.22451921
       objectReference: {fileID: 0}
     - target: {fileID: 4865785231952529274, guid: cd91939fb39a28e4cb633ce72b3551e5,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.29778352
+      value: 0.13977025
       objectReference: {fileID: 0}
     - target: {fileID: 4865785231952529274, guid: cd91939fb39a28e4cb633ce72b3551e5,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.7012588
+      value: 0.8187114
       objectReference: {fileID: 0}
     - target: {fileID: 4865785231952529274, guid: cd91939fb39a28e4cb633ce72b3551e5,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.4356182
+      value: -0.50967354
       objectReference: {fileID: 0}
     - target: {fileID: 4865785231952529274, guid: cd91939fb39a28e4cb633ce72b3551e5,
         type: 3}

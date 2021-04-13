@@ -21,7 +21,6 @@ public class ForsakenCrawlerController : EnemyController
         GameObject hitObject = hit.gameObject;
         if (hitObject.IsInLayerMask(playerMask) && isLunging)
         {
-            //TODO: Damage player and destory self
             Vector3 dirToPlayer = (hit.gameObject.transform.position - transform.position).normalized;
             
             PlayerController playerScript = hitObject.GetComponent<PlayerController>();

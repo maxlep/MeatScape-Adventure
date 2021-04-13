@@ -37,7 +37,7 @@ public class LungeAttack : Action
         chargeStartTime = Mathf.NegativeInfinity;
         lungeStartTime = Mathf.NegativeInfinity;
         destinationSetter = AgentTransform.Value.GetComponent<AIDestinationSetter>();
-        charController = AgentTransform.Value.GetComponent<CharacterController>();
+        charController = AgentTransform.Value.GetComponentInChildren<CharacterController>();
         aiPath = AgentTransform.Value.GetComponent<AIPath>();
         
     }

@@ -11,4 +11,9 @@ public class PlayerHealthTickController : MonoBehaviour
     {
         mainImage.color = color;
     }
+
+    public void SetFill(bool fill)
+    {
+        mainImage.gameObject.SetActive(fill);
+    }
 }

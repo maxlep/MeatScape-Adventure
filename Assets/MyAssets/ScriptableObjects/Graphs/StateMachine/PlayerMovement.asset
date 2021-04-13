@@ -72,7 +72,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -9368, y: -40}
+  position: {x: -9368, y: -168}
   ports:
     keys:
     - previousState
@@ -1917,7 +1917,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -7400, y: 1624}
+  position: {x: -7416, y: 2136}
   ports:
     keys:
     - previousState
@@ -3183,6 +3183,9 @@ MonoBehaviour:
       - fieldName: transitions
         node: {fileID: -8897653364566926047}
         reroutePoints: []
+      - fieldName: transitions
+        node: {fileID: 5340667916554630805}
+        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 2
@@ -3201,15 +3204,18 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Roll Pressed Trigger_ Controller_ Player
+  conditionPreview: '-  Dash Pressed_ Controller_ Player
 
 '
   ValidStartStates: []
   InvalidStartStates: []
-  BoolConditions: []
-  TriggerConditions:
-  - targetParameter: {fileID: 11400000, guid: e68ad060bf5f14a4fbc04729ff1c7732, type: 2}
-    KeepTriggerOn: 0
+  BoolConditions:
+  - targetParameter:
+      UseConstant: 0
+      ConstantValue: 0
+      Variable: {fileID: 11400000, guid: 4c19b6fee64fcc548b5ca3f15475652d, type: 2}
+    value: 1
+  TriggerConditions: []
   FloatConditions: []
   IntConditions: []
   TimerConditions: []
@@ -3237,7 +3243,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -7400, y: 1128}
+  position: {x: -7416, y: 1640}
   ports:
     keys:
     - previousState
@@ -3354,9 +3360,9 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   nodes:
+  - {fileID: 821203459161310573}
   - {fileID: 1271538034801937724}
   - {fileID: -5751758519617973417}
-  - {fileID: 821203459161310573}
   - {fileID: 1274938765607699821}
   - {fileID: 5989774036663823448}
   - {fileID: -4907166979001360596}
@@ -3444,6 +3450,7 @@ MonoBehaviour:
   - {fileID: 4847382009070371305}
   - {fileID: -3814421004231281048}
   - {fileID: -62459670998784075}
+  - {fileID: 5340667916554630805}
 --- !u!114 &144026596585446073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3939,8 +3946,8 @@ MonoBehaviour:
   ports:
     keys: []
     values: []
-  Width: 2152
-  Height: 1449
+  Width: 2217
+  Height: 1802
   Color: {r: 1, g: 1, b: 1, a: 0.08}
   TextColor: {r: 1, g: 1, b: 1, a: 1}
   Description: Exit Roll & Slingshot
@@ -4017,7 +4024,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -8216, y: 1096}
+  position: {x: -8232, y: 1368}
   ports:
     keys:
     - nextState
@@ -4052,13 +4059,19 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Valid:  Forward  Throw
+  conditionPreview: '-  Valid:  Forward  Throw  Charge
 
-    - ! Is Grounded_ Controller_
-    Player
+    -  Valid:  Forward  Throw 
+    Start
+
+    -  Valid:  Forward  Throw
+
+    - ! Is Grounded_ Controller_ Player
 
 '
   ValidStartStates:
+  - {fileID: -4695961148579739637, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
+  - {fileID: 1439799944267282103, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
   - {fileID: -8354906802381047596, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
   InvalidStartStates: []
   BoolConditions:
@@ -4095,7 +4108,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -8216, y: 1592}
+  position: {x: -8232, y: 1928}
   ports:
     keys:
     - nextState
@@ -5402,6 +5415,56 @@ MonoBehaviour:
   BounceGameEvent: {fileID: 11400000, guid: 24255205a0786a14982c850f31d81a16, type: 2}
   DeflectGameEvent: {fileID: 11400000, guid: e18adae0951b7f84b876ba71c67aaac4, type: 2}
   RollSoundGameEvent: {fileID: 11400000, guid: 04a2bf2cf5e65934895dd6c42f6df3b0, type: 2}
+--- !u!114 &5340667916554630805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: GroundMovement <Reference>
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: -9368, y: 24}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: 5340667916554630805}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: 5340667916554630805}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: startingState
+        node: {fileID: -616848569264096905}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  referencedState: {fileID: 1196608421412681666}
 --- !u!114 &5601859753555772258
 MonoBehaviour:
   m_ObjectHideFlags: 0

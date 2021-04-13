@@ -37,6 +37,13 @@ public class TimerVariable : ScriptableObject
         startTime = Time.time;
     }
 
+    public void ResetTimer()
+    {
+        isStopped = true;
+        isFinished = false;
+        startTime = Time.time;
+    }
+
     public void StopTimer()
     {
         isStopped = true;
@@ -170,6 +177,14 @@ public class TimerReference
     {
         Variable?.StartTimer();
         isConstantStopped = false;
+        isConstantFinished = false;
+        startTime = Time.time;
+    }
+
+    public void ResetTimer()
+    {
+        Variable?.ResetTimer();
+        isConstantStopped = true;
         isConstantFinished = false;
         startTime = Time.time;
     }

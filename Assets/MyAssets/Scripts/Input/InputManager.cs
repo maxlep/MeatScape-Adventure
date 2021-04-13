@@ -16,6 +16,7 @@ public class InputManager : MonoBehaviour
     public delegate void _OnAttack_Pressed();
     public delegate void _OnAttack_Released();
     public delegate void _OnRoll();
+    public delegate void _OnDash();
     public delegate void _OnDownwardAttack();
     public delegate void _OnLockOn();
     public delegate void _OnCycleTargetRight();
@@ -43,6 +44,8 @@ public class InputManager : MonoBehaviour
     public event _OnAttack_Released onAttack_Released;
     public event _OnRoll onRoll_Pressed;
     public event _OnRoll onRoll_Released;
+    public event _OnDash onDash_Pressed;
+    public event _OnDash onDash_Released;
     public event _OnDownwardAttack onDownwardAttack;
     public event _OnLockOn onLockOn;
     public event _OnCycleTargetRight onCycleTargetRight;
@@ -78,7 +81,8 @@ public class InputManager : MonoBehaviour
 
     private PlayerInput _inputs;
     private InputActionMap playerActions, uiActions;
-    private InputAction playerMove, playerLook, playerJump, playerRegenerateMeat, mousePosition, playerRoll, playerAttack, cycleTarget;
+    private InputAction playerMove, playerLook, playerJump, playerRegenerateMeat, mousePosition, playerRoll, playerDash,
+        playerAttack, cycleTarget;
 
     public static bool PlatformInvertsScroll()
     {
@@ -104,6 +108,7 @@ public class InputManager : MonoBehaviour
         playerLook = playerActions.FindAction("Look");
         playerJump = playerActions.FindAction("Jump");
         playerRoll = playerActions.FindAction("Roll");
+        playerDash = playerActions.FindAction("Dash");
         cycleTarget = playerActions.FindAction("CycleTarget");
         playerAttack = playerActions.FindAction("Attack");
         mousePosition = uiActions.FindAction("MousePosition");
@@ -114,6 +119,9 @@ public class InputManager : MonoBehaviour
         
         playerRoll.performed += OnRoll_Pressed;
         playerRoll.canceled += OnRoll_Released;
+        
+        playerDash.performed += OnDash_Pressed;
+        playerDash.canceled += OnDash_Released;
 
         playerAttack.performed += OnAttack_Pressed;
         playerAttack.canceled += OnAttack_Released;
@@ -180,6 +188,16 @@ public class InputManager : MonoBehaviour
     public void OnRoll_Released(InputAction.CallbackContext ctx)
     {
         if (onRoll_Released != null) onRoll_Released();
+    }
+    
+    public void OnDash_Pressed(InputAction.CallbackContext ctx)
+    {
+        if (onDash_Pressed != null) onDash_Pressed();
+    }
+    
+    public void OnDash_Released(InputAction.CallbackContext ctx)
+    {
+        if (onDash_Released != null) onDash_Released();
     }
     
     public void OnAttack_Pressed(InputAction.CallbackContext ctx)

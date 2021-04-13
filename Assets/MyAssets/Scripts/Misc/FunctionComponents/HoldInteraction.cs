@@ -24,6 +24,7 @@ namespace MyAssets.Scripts.Misc.FunctionComponents
             _timer.UpdateTime();
             if (_timer.IsFinished)
             {
+                _timer.ResetTimer();
                 _action.Invoke();
             }
         }

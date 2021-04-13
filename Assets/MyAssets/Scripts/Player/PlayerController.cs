@@ -73,6 +73,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference JumpPressed;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference AttackPressed;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference RollPressed;
+    [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference DashPressed;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector3Reference PreviousVelocity;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private FloatReference DistanceToGround;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference IsPlayerDead;
@@ -188,6 +189,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         InputManager.Instance.onJump_Released += () => JumpPressed.Value = false;
         InputManager.Instance.onRoll_Pressed += () => RollPressed.Value = true;
         InputManager.Instance.onRoll_Released += () => RollPressed.Value = false;
+        InputManager.Instance.onDash_Pressed += () => DashPressed.Value = true;
+        InputManager.Instance.onDash_Released += () => DashPressed.Value = false;
         InputManager.Instance.onAttack_Pressed += () => AttackPressed.Value = true;
         InputManager.Instance.onAttack_Released += () => AttackPressed.Value = false;
 

@@ -39,6 +39,7 @@ public enum LayerEnum
     PlayerProjectile,
     Enemy,
     EnemyJumpTrigger,
+    EnemyAgent,
     Bounce,
     Interactable
 }

@@ -16,7 +16,7 @@ public class ForsakenCrawlerController : EnemyController
     
     private bool isLunging;
 
-    void OnControllerColliderHit(ControllerColliderHit hit)
+    public void OnControllerColliderHitReceived(ControllerColliderHit hit)
     {
         GameObject hitObject = hit.gameObject;
         if (hitObject.IsInLayerMask(playerMask) && isLunging)

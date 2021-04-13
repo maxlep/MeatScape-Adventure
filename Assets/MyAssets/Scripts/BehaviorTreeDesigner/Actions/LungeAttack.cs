@@ -11,6 +11,7 @@ using UnityEngine;
 [TaskDescription("Performs lunge attack using AStar Seeker and CharController.")]
 public class LungeAttack : Action
 {
+    public LayerMapper layerMapper;
     public SharedTransform Target;
     public SharedTransform AgentTransform;
     public SharedGameObject AnimTarget;
@@ -36,14 +37,17 @@ public class LungeAttack : Action
     {
         chargeStartTime = Mathf.NegativeInfinity;
         lungeStartTime = Mathf.NegativeInfinity;
-        destinationSetter = AgentTransform.Value.GetComponent<AIDestinationSetter>();
+        destinationSetter = AgentTransform.Value.GetComponentInChildren<AIDestinationSetter>();
         charController = AgentTransform.Value.GetComponentInChildren<CharacterController>();
-        aiPath = AgentTransform.Value.GetComponent<AIPath>();
+        aiPath = AgentTransform.Value.GetComponentInChildren<AIPath>();
         
     }
 
     public override void OnStart()
     {
+        //Change to enemy Layer so able to collide with player
+        AgentTransform.Value.gameObject.layer = layerMapper.GetLayer(LayerEnum.Enemy);
+        
         //Init animator and detect if target obj changed
         var currentGameObject = GetDefaultGameObject(AnimTarget.Value);
         if (currentGameObject != prevGameObject && currentGameObject != null) {
@@ -65,6 +69,9 @@ public class LungeAttack : Action
     public override void OnEnd()
     {
         aiPath.enabled = true;
+        
+        //Change to enemyAgebt Layer so dont collide with player
+        AgentTransform.Value.gameObject.layer = layerMapper.GetLayer(LayerEnum.EnemyAgent);
     }
 
     public override TaskStatus OnUpdate()

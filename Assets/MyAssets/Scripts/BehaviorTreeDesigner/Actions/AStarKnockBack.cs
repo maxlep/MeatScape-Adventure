@@ -21,7 +21,7 @@ public class AStarKnockBack : Action
 
 	public override void OnStart()
 	{
-		charController = AgentTransform.Value.GetComponent<CharacterController>();
+		charController = AgentTransform.Value.GetComponentInChildren<CharacterController>();
 		aiPath = AgentTransform.Value.GetComponent<AIPath>();
 		aiPath.enabled = false;
 		knockBackStartTime = Time.time;

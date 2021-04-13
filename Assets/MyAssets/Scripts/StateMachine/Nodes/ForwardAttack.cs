@@ -20,6 +20,10 @@ public class ForwardAttack : PlayerStateNode
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
     [TabGroup("Inputs")] [Required] 
     private FloatReference ThrowSpeed;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required]
+    private BoolReference ClumpOverCharged;
 
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required] 
@@ -107,6 +111,7 @@ public class ForwardAttack : PlayerStateNode
         MeatClumpController clump = Instantiate(MeatClumpPrefab);
         clump.transform.position = FirePoint.Value.position;
         clump.SetMoving(ThrowSpeed.Value, throwDirection);
+        if (ClumpOverCharged.Value) clump.SetOverCharged();
 
         playerController.OnClumpThrown(throwDirection);
     }

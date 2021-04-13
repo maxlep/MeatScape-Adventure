@@ -91,6 +91,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable DownwardAttackTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable RollTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable RollReleaseTrigger;
+    [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable DashPressTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable AddImpulseTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable BecameGrounded;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable BecameUngrounded;
@@ -200,6 +201,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         InputManager.Instance.onDownwardAttack += () => DownwardAttackTrigger.Activate();
         InputManager.Instance.onRoll_Pressed += () => RollTrigger.Activate();
         InputManager.Instance.onRoll_Released += () => RollReleaseTrigger.Activate();
+        InputManager.Instance.onDash_Pressed += () => DashPressTrigger.Activate();
         InputManager.Instance.onInteract += AttemptInspect;
         InputManager.Instance.onFunction3 += RemoveHunger;
         InputManager.Instance.onFunction4 += FeedHunger;

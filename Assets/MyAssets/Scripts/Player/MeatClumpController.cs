@@ -33,6 +33,7 @@ public class MeatClumpController : MonoBehaviour
     [SerializeField] private UnityEvent OnCollideWithStatic;
     [SerializeField] private IntVariable enemyHitId;
     [SerializeField] private MMFeedbacks impactFeedbacks;
+    [SerializeField] private MMFeedbacks overChargeFeedbacks;
 
     private float startTime;
     private Vector3 currentVelocity;
@@ -74,6 +75,11 @@ public class MeatClumpController : MonoBehaviour
         currentVelocity = speed * direction.normalized;
         meshTransform.forward = direction.normalized;     //Point mesh in direction of velocity
     }
+
+    public void SetOverCharged()
+    {
+        overChargeFeedbacks.PlayFeedbacks();
+    }
     
     #endregion
     
@@ -88,7 +94,7 @@ public class MeatClumpController : MonoBehaviour
             
             //Hit enemy
             if(hitObj.layer == layerMapper.GetLayer(LayerEnum.Enemy)) {
-                EnemyController enemyScript = hitObj.GetComponent<EnemyController>();
+                EnemyController enemyScript = hitObj.GetComponentInChildren<EnemyController>();
                 Vector3 knockBackDir = (enemyScript.transform.position - transform.position).normalized;
                 float knockBackForce = currentVelocity.magnitude * 2f;
                 enemyScript.DamageEnemy(ClumpDamage.Value, knockBackDir, true, knockBackForce);

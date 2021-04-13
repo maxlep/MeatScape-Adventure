@@ -23,7 +23,7 @@ public class AStarSeek : Action
     public override void OnAwake()
     {
         if (aiScriptObj.Value != null)
-            destinationSetter = aiScriptObj.Value.GetComponent<AIDestinationSetter>();
+            destinationSetter = aiScriptObj.Value.GetComponentInChildren<AIDestinationSetter>();
         else
             destinationSetter = GetComponent<AIDestinationSetter>();
     }

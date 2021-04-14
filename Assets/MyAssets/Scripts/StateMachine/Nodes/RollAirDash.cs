@@ -65,7 +65,15 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             
             AirRollDashEvent.Raise();
             StoredJumpVelocity.Value = AirUpwardForce.Value;
-            Vector3 jumpDirection = moveInputCameraRelative.xoz().normalized;
+            Vector3 jumpDirection;
+                
+            //If no move input, just launch forward
+            if (Mathf.Approximately(0f, moveInputCameraRelative.sqrMagnitude))
+                jumpDirection = PlayerCameraTransform.Value.forward.xoz();
+            else
+                jumpDirection = moveInputCameraRelative.xoz().normalized;
+                
+                
             playerController.AddImpulseOverlayed(jumpDirection * AirForwardForce.Value, true);
             
         }

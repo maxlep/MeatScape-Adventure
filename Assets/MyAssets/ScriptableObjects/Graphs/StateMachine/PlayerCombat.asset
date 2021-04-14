@@ -60,7 +60,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Roll Combat
   Description: 
-  isActiveState: 0
+  isActiveState: 1
   PlayerCollidedWith_CollisionInfo: {fileID: 11400000, guid: e681bc16e8a93be469583e210ea5d4a2,
     type: 2}
   layerMapper: {fileID: 11400000, guid: 3f0bff594715a77478fbb7703d7b9fc0, type: 2}
@@ -146,6 +146,10 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: bbe60700273ca2549a705475c1cdd7a1, type: 2}
+  ClumpOverCharged:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 51d1c04623e4e1d48bb1b3f9373ba8f4, type: 2}
   FirePoint: {fileID: 11400000, guid: 27642181c01fbae46b19d9ad22d9cdce, type: 2}
   PlayerCameraTransform: {fileID: 11400000, guid: d50b3bc5cde09794cb0468cc9e2dba0f,
     type: 2}
@@ -476,6 +480,7 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 196e33f2a45b52045a49464a36087730, type: 2}
+  ThrowMinChargeTime: {fileID: 11400000, guid: 453cf28ccdbfd604eb68f7f54d329a1e, type: 2}
   ThrowSpeedOut:
     UseConstant: 0
     ConstantValue: 0
@@ -484,6 +489,14 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: cb32274ad4f0e524dab4e19536fd8ee8, type: 2}
+  ClumpOverChargedOut:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 51d1c04623e4e1d48bb1b3f9373ba8f4, type: 2}
+  ClumpThrowMaxChargeEvent: {fileID: 11400000, guid: 1a6b80c86d65b1d4fae133b8dbf6939b,
+    type: 2}
+  ClumpThrowMinChargeEvent: {fileID: 11400000, guid: 00f0be78d68c212419b9e5c5818edcd4,
+    type: 2}
 --- !u!114 &-2973879846195416936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1711,7 +1724,7 @@ MonoBehaviour:
   conditionPreview: '-  Attack Trigger Release_ Controller_ Player
 
     -  Foward
-    Throw Min Charge Time_ Combat_ Player: 0.1 sec
+    Throw Min Charge Time_ Combat_ Player: 0.2 sec
 
 '
   ValidStartStates: []
@@ -2048,4 +2061,4 @@ MonoBehaviour:
   BypassState: 0
   Name: DoNothing
   Description: 
-  isActiveState: 1
+  isActiveState: 0

@@ -15,8 +15,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private TransformSceneReference MapCenter;
     [SerializeField] private TransformSceneReference Player;
     [SerializeField] private TransformSceneReference DistanceTextTransform;
-
-    [TitleGroup("Boss Progress")]
+    
+    [TitleGroup("Boss Event")]
     [SerializeField] private IntReference _bossShrineRequirement;
     [SerializeField] private IntReference _playerShrinesVisited;
     [SerializeField] private Color _bossSkyboxColor;
@@ -24,6 +24,12 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private float _bossSkyboxFlowAmount;
     private float _originalSkyboxFlowAmount;
     [SerializeField] private TransformSceneReference ShrineTextTransform;
+    [SerializeField] private Light _sceneLight;
+    [SerializeField] private Color _bossLightColor;
+    private Color _originalLightColor;
+    [SerializeField] private float _portalDelay;
+    [SerializeField] private GameObject _bossPortal;
+    [SerializeField] private Transform _playerTransform;
     
     [TitleGroup("Level Effects")]
     [SerializeField] private Material _skybox;
@@ -108,6 +114,7 @@ public class LevelManager : MonoBehaviour
         {
             _skybox.SetColor("_Color2", _originalSkyboxColor);
             _skybox.SetFloat("_FlowAmount", _originalSkyboxFlowAmount);
+            _sceneLight.color = _originalLightColor;
         }
     }
 
@@ -127,14 +134,19 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    // TODO this whole boss event implementation is super janky, should be replaced with something more modular when we build it out
     private void SpawnBoss()
     {
-        
         _originalSkyboxColor = _skybox.GetColor("_Color2");
         _skybox.SetColor("_Color2", _bossSkyboxColor);
         
         _originalSkyboxFlowAmount = _skybox.GetFloat("_FlowAmount");
         _skybox.SetFloat("_FlowAmount", _bossSkyboxFlowAmount);
+
+        _originalLightColor = _sceneLight.color;
+        _sceneLight.color = _bossLightColor;
+
+        var portal = Instantiate(_bossPortal, _playerTransform.position, Quaternion.identity);
     }
 
     private void RestartScene()

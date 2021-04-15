@@ -13,6 +13,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private bool SpawnOnAwake;
 
     [SerializeField] private int Count = 1;
+    [SerializeField] private int IncrementCountOnDeath = 0;
     
     [SerializeField] [ValueDropdown("GetEnemyDropdown")] [OnValueChanged("StoreEnemyPrefabMeshes")]
     private GameObject EnemyPrefab;
@@ -93,6 +94,7 @@ public class EnemySpawner : MonoBehaviour
                 TimeUtils.SetTimeout(SpawnTime, () => TrySpawnEnemy());
                 lock (_spawnedEnemiesLock)
                 {
+                    Count += IncrementCountOnDeath;
                     _spawnedEnemeies.Remove(enemyScript);
                 }
             };

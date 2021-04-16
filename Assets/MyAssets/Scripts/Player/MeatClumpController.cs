@@ -20,8 +20,10 @@ public class MeatClumpController : MonoBehaviour
     [SerializeField] private LayerMapper layerMapper;
     [SerializeField] private Transform meshTransform;
     [SerializeField] private IntReference ClumpDamage;
+    [SerializeField] private IntReference ClumpOverchargedDamage;
     [SerializeField] private FloatReference ClumpScalingFactor;
     [SerializeField] private FloatReference ClumpGravityEnableTime;
+    [SerializeField] private FloatReference ClumpDragEnableTime;
     [SerializeField] private FloatReference ClumpGravityFactor;
     [SerializeField] private FloatReference ClumpDestroyTime;
     [SerializeField] private FloatReference CollisionRadiusEnvironment;
@@ -36,13 +38,16 @@ public class MeatClumpController : MonoBehaviour
     [SerializeField] private MMFeedbacks overChargeFeedbacks;
 
     private float startTime;
+    private float damage;
     private Vector3 currentVelocity;
-    private bool hasCollided = false;
-    private bool hasGravity = false;
-    
+    private bool hasCollided;
+    private bool hasGravity;
+    private bool hasDrag;
+
     #region Lifecycle
     private void Awake() {
         transform.localScale *= ClumpScalingFactor.Value;
+        damage = ClumpDamage.Value;
     }
 
     private void Start()
@@ -54,10 +59,15 @@ public class MeatClumpController : MonoBehaviour
     {
         if(!hasCollided)
         {
-            Vector3 horizontalDrag = Mathf.Max(0f,(currentVelocity.sqrMagnitude - DragThresholdVelocity.Value)) 
-                                     * -currentVelocity.normalized * DragCoefficient.Value * Time.deltaTime;
-            currentVelocity += horizontalDrag;
-            
+            //Enable Drag after clump has been moving for ClumpDragEnableTime duration.
+            if(!hasDrag) hasDrag = Time.time - startTime >= ClumpDragEnableTime.Value;
+            if (hasDrag)
+            {
+                Vector3 horizontalDrag = Mathf.Max(0f,(currentVelocity.sqrMagnitude - DragThresholdVelocity.Value)) 
+                                         * -currentVelocity.normalized * DragCoefficient.Value * Time.deltaTime;
+                currentVelocity += horizontalDrag;
+            }
+
             //Enable gravity after clump has been moving for ClumpGravityEnableTime duration.
             if(!hasGravity) hasGravity = Time.time - startTime >= ClumpGravityEnableTime.Value;
             if(hasGravity) currentVelocity += Physics.gravity * ClumpGravityFactor.Value * Time.deltaTime;
@@ -79,6 +89,7 @@ public class MeatClumpController : MonoBehaviour
     public void SetOverCharged()
     {
         overChargeFeedbacks.PlayFeedbacks();
+        damage = ClumpOverchargedDamage.Value;
     }
     
     #endregion

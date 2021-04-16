@@ -137,6 +137,8 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         
         protected override Vector3 CalculateVelocity(VelocityInfo velocityInfo)
         {
+            return base.CalculateVelocity(velocityInfo);
+            
             //If not grounded yet, keep y velocity going until grounded
             if (!playerController.GroundingStatus.IsStableOnGround)
                 return Vector3.down * 10f;

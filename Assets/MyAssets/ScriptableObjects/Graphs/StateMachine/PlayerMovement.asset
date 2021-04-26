@@ -3154,7 +3154,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: AirMovement -> Roll Air Dash
+  m_Name: AirMovement -> Roll Dash
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -3186,6 +3186,9 @@ MonoBehaviour:
       - fieldName: transitions
         node: {fileID: 5340667916554630805}
         reroutePoints: []
+      - fieldName: transitions
+        node: {fileID: 3322800365907845554}
+        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 2
@@ -3204,18 +3207,15 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Dash Pressed_ Controller_ Player
+  conditionPreview: '-  Dash Pressed Trigger_ Controller_ Player
 
 '
   ValidStartStates: []
   InvalidStartStates: []
-  BoolConditions:
-  - targetParameter:
-      UseConstant: 0
-      ConstantValue: 0
-      Variable: {fileID: 11400000, guid: 4c19b6fee64fcc548b5ca3f15475652d, type: 2}
-    value: 1
-  TriggerConditions: []
+  BoolConditions: []
+  TriggerConditions:
+  - targetParameter: {fileID: 11400000, guid: 7c60af321dcfb334893268c7db553cf9, type: 2}
+    KeepTriggerOn: 0
   FloatConditions: []
   IntConditions: []
   TimerConditions: []
@@ -3451,6 +3451,7 @@ MonoBehaviour:
   - {fileID: -3814421004231281048}
   - {fileID: -62459670998784075}
   - {fileID: 5340667916554630805}
+  - {fileID: 3322800365907845554}
 --- !u!114 &144026596585446073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3648,7 +3649,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f5ec0956924db6489f3145851191e45, type: 3}
-  m_Name: Roll Air Dash <RollAirDash> (PlayerMovement)
+  m_Name: Roll Dash <RollAirDash> (PlayerMovement)
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -3692,7 +3693,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   BypassState: 0
-  Name: Roll Air Dash
+  Name: Roll Dash
   Description: 
   isActiveState: 0
   MoveInput:
@@ -4926,6 +4927,56 @@ MonoBehaviour:
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 358e23c96757a634d87c428b8667b8ee, type: 2}
   triggerJumpAnim: {fileID: 11400000, guid: 692eae34b308467428fcb511fd2a56c5, type: 2}
+--- !u!114 &3322800365907845554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: Flatten <Reference>
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: -9368, y: 200}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: 3322800365907845554}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: 3322800365907845554}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: startingState
+        node: {fileID: -616848569264096905}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  referencedState: {fileID: -8239950027094308354}
 --- !u!114 &3397190755906087193
 MonoBehaviour:
   m_ObjectHideFlags: 0

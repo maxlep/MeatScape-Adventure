@@ -9,7 +9,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 
 
-public class MeateorStrike : PlayerStateNode
+public class MeateorDash : PlayerStateNode
 {
     #region Inputs
 
@@ -24,10 +24,6 @@ public class MeateorStrike : PlayerStateNode
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required]
     private DynamicGameEvent PlayerCollidedWith;
-    
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Inputs")] [Required]
-    private TransformSceneReference currentTargetSceneReference;
 
     #endregion
 
@@ -64,7 +60,7 @@ public class MeateorStrike : PlayerStateNode
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
     [TabGroup("Outputs")] [Required]
     protected TimerReference MeateorStrikeDurationTimer;
-    
+
 
     #endregion
 
@@ -130,24 +126,11 @@ public class MeateorStrike : PlayerStateNode
                 currentSpeed = speed;
             })
             .setEase(VelocityEasingType);
-
-        
-        //If null homing target, check current lock on target (null if coming from meateor dash)
-        if (slingshotTargetSceneReference.Value == null && currentTargetSceneReference.Value != null)
-            slingshotTargetSceneReference.Value = currentTargetSceneReference.Value;
     }
 
     private void UpdateVelocity(VelocityInfo velocityInfo)
     {
         NewVelocityOut.Value = SlingshotDirection.Value * currentSpeed;
-        
-        if (slingshotTargetSceneReference.Value != null)
-        {
-            Vector3 playerToTarget =
-                (slingshotTargetSceneReference.Value.position - playerController.transform.position).normalized;
-            NewVelocityOut.Value = playerToTarget * currentSpeed;
-        }
-        
         previousVelocityOutput = NewVelocityOut.Value;
     }
 	
@@ -162,6 +145,7 @@ public class MeateorStrike : PlayerStateNode
         playerController.onStartUpdateVelocity -= UpdateVelocity;
         playerController.onStartUpdateRotation -= UpdateRotation;
         PlayerCollidedWith.Unsubscribe(CheckForHit);
+        
 
     }
 

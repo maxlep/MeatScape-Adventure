@@ -57,7 +57,7 @@ public class RollCombat : PlayerStateNode
         GameObject otherObj = collisionInfo.other.gameObject;
         
         if(otherObj.layer == layerMapper.GetLayer(LayerEnum.Enemy)) {
-            EnemyController enemy = otherObj.GetComponent<EnemyController>();
+            EnemyController enemy = otherObj.GetComponentInChildren<EnemyController>();
             if(HungerLevel.Value >= HungerInstantKillThreshold.Value) {
                 enemy.DamageEnemy(999);
             } else {

@@ -120,7 +120,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Inputs")] [Required]
-        private DynamicGameEvent PlayerCollidedWith;
+        private BoolReference RollInputPressed;
 
         #endregion
 
@@ -153,6 +153,10 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Events")] [Required]
         protected GameEvent RollSoundGameEvent;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [TabGroup("Inputs")] [Required]
+        private DynamicGameEvent PlayerCollidedWith;
 
         #endregion
 
@@ -224,7 +228,11 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             
             float velocityGroundDot = Vector3.Dot(previousVelocityOutput.normalized, GroundingStatus.GroundNormal);
 
-            if (EnableBounce && !LastGroundingStatus.FoundAnyGround && GroundingStatus.FoundAnyGround &&
+            //If roll pressed, dont bounce, instead will want to slingshot
+            if (EnableBounce &&
+                !RollInputPressed.Value &&
+                !LastGroundingStatus.FoundAnyGround &&
+                GroundingStatus.FoundAnyGround &&
                 velocityIntoGround.magnitude >= BounceThresholdVelocity.Value &&
                 -velocityGroundDot > BounceGroundDotThreshold.Value)
             {

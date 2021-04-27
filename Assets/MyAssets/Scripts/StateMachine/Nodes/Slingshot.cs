@@ -11,55 +11,72 @@ namespace MyAssets.Graphs.StateMachine.Nodes
     
     public class Slingshot : RollMovement
     {
-        #region Slingshot
+        #region Inputs
 
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Slingshot")] [Required]
+        [TabGroup("Inputs")] [Required]
         private FloatReference MaxForce;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Slingshot")] [Required]
+        [TabGroup("Inputs")] [Required]
         private FloatReference MinForce;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Slingshot")] [Required]
+        [TabGroup("Inputs")] [Required]
         private FloatReference TimeToMaxCharge;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Slingshot")] [Required]
+        [TabGroup("Inputs")] [Required]
         private FloatReference MinChargeTime;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Slingshot")] [Required]
+        [TabGroup("Inputs")] [Required]
         private FloatReference OptimalChargeTime;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Slingshot")] [Required]
+        [TabGroup("Inputs")] [Required]
         private FloatReference OptimalChargeErrorThreshold;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Slingshot")] [Required]
+        [TabGroup("Inputs")] [Required]
         private FloatReference HomingDotProductMin;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Slingshot")] [Required]
+        [TabGroup("Inputs")] [Required]
         private FloatReference OptimalChargeMultiplier;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Slingshot")] [Required]
+        [TabGroup("Inputs")] [Required]
         private TimerVariable DelayTimer;
+
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [TabGroup("Inputs")] [Required]
+        private TransformSceneReference currentTargetSceneReference;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Slingshot")] [Required]
+        [TabGroup("Inputs")] [Required]
+        private TriggerVariable SlingshotReleaseInput;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [TabGroup("Inputs")] [Required]
+        private TriggerVariable SlingshotHomingReleaseInput;
+        
+        #endregion
+
+        #region Outputs
+
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [TabGroup("Outputs")] [Required]
         private Vector3Reference SlingshotDirection;
-        
+
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Slingshot")] [Required]
+        [TabGroup("Outputs")] [Required]
         private TransformSceneReference slingshotTargetSceneReference;
 
         #endregion
         
-        #region GameEvents
+        
+        #region Events
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Events")] [Required]
@@ -79,15 +96,11 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Events")] [Required]
+        private TriggerVariable SlingShotOptimalReleaseHomingTrigger;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [TabGroup("Events")] [Required]
         private TriggerVariable SlingShotReleaseTrigger;
-        
-        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Events")] [Required]
-        private TriggerVariable SlingshotReleaseInput;
-        
-        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Events")] [Required]
-        private TransformSceneReference currentTargetSceneReference;
         
         #endregion
 
@@ -105,12 +118,14 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             enterTime = Time.time;
             activatedParticles = false;
             SlingshotReleaseInput.Subscribe(Release);
+            SlingshotHomingReleaseInput.Subscribe(ReleaseHoming);
         }
 
         public override void Exit()
         {
             base.Exit();
             SlingshotReleaseInput.Unsubscribe(Release);
+            SlingshotHomingReleaseInput.Unsubscribe(ReleaseHoming);
         }
 
         public override void Execute()
@@ -188,10 +203,8 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                     (currentTargetSceneReference.Value.position - playerController.transform.position).normalized;
 
                 if (Vector3.Dot(moveInputCameraRelative.xoz().normalized, playerToTarget.xoz().normalized) > HomingDotProductMin.Value)
-                {
-                    slingDirection = playerToTarget;
                     slingshotTargetSceneReference.Value = currentTargetSceneReference.Value;
-                }
+                
             }
             
             float timePassed = Time.time - enterTime;
@@ -207,12 +220,32 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
         private void Release()
         {
+            Release(false);
+        }
+
+        private void ReleaseHoming()
+        {
+            Release(true);
+        }
+
+        private void Release(bool isHoming)
+        {
             float timeToOptimalCharge = Mathf.Abs(Time.time - (enterTime + OptimalChargeTime.Value));
             if (timeToOptimalCharge < OptimalChargeErrorThreshold.Value)
             {
                 accumulatedForce = MaxForce.Value * OptimalChargeMultiplier.Value * accumulatedForce.normalized;
-                SlingShotOptimalReleaseEvent.Raise();
-                SlingShotOptimalReleaseTrigger.Activate();
+
+                //Homing or normal release based on input
+                if (isHoming)
+                {
+                    SlingShotOptimalReleaseHomingTrigger.Activate();
+                }
+                else
+                {
+                    SlingShotOptimalReleaseEvent.Raise();
+                    SlingShotOptimalReleaseTrigger.Activate();
+                }
+                
             }
             else if (accumulatedForce != Vector3.zero)
             {

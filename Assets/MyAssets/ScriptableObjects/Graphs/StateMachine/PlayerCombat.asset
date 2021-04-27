@@ -489,6 +489,15 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: cb32274ad4f0e524dab4e19536fd8ee8, type: 2}
+  ClumpThrowPercentToMaxCharge:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 28ea56363fb752a40a1a2726932a10e6, type: 2}
+  ClumpMinChargePercent:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: a11519f896ed5344b9377eaf546e04de, type: 2}
+  ClumpMinChargeTime: {fileID: 11400000, guid: 453cf28ccdbfd604eb68f7f54d329a1e, type: 2}
   ClumpOverChargedOut:
     UseConstant: 0
     ConstantValue: 0
@@ -551,12 +560,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '- ! Attack Pressed_ Controller_ Player
-
-    -  Foward Throw
-    Min Charge Time_ Combat_ Player: 0.1 sec
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions:
@@ -1624,9 +1628,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Pitch Clump Complete_ Anim_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -1732,12 +1734,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Attack Trigger Release_ Controller_ Player
-
-    -  Foward
-    Throw Min Charge Time_ Combat_ Player: 0.1 sec
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   BoolConditions: []
@@ -1827,8 +1824,6 @@ MonoBehaviour:
 
     - 
     Valid:  Roll  Dash
-
-    -  Attack Trigger_ Controller_ Player
 
 '
   ValidStartStates:

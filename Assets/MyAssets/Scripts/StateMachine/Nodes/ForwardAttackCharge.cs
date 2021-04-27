@@ -38,6 +38,18 @@ public class ForwardAttackCharge : PlayerStateNode
     
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Outputs")] [Required]
+    private FloatReference ClumpThrowPercentToMaxCharge;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Outputs")] [Required]
+    private FloatReference ClumpMinChargePercent;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Outputs")] [Required]
+    private TimerVariable ClumpMinChargeTime;
+
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Outputs")] [Required]
     private BoolReference ClumpOverChargedOut;
 
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
@@ -47,10 +59,6 @@ public class ForwardAttackCharge : PlayerStateNode
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Outputs")] [Required]
     private GameEvent ClumpThrowMinChargeEvent;
-    
-    
-    
-    
 
     private float chargeStartTime = Mathf.NegativeInfinity;
     private bool reachedMinCharge;
@@ -63,12 +71,14 @@ public class ForwardAttackCharge : PlayerStateNode
         reachedMaxCharge = false;
         chargeStartTime = Time.time;
         RunSpeedChargeClumpFactorOut.Value = RunSpeedChargeClumpFactor.Value;
+        ClumpMinChargePercent.Value =  ClumpMinChargeTime.Duration / TimeToMaxCharge.Value;
     }
 
     public override void Execute()
     {
         base.Execute();
         float elapsedChargeTime = Time.time - chargeStartTime;
+        ClumpThrowPercentToMaxCharge.Value = Mathf.InverseLerp(0f, TimeToMaxCharge.Value, elapsedChargeTime);
 
         if (!reachedMaxCharge && elapsedChargeTime > TimeToMaxCharge.Value)
         {

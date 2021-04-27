@@ -2,6 +2,7 @@
 using KinematicCharacterController;
 using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
+using MyAssets.ScriptableObjects.Variables.ValueReferences;
 using MyAssets.Scripts.Utils;
 using Shapes;
 using Sirenix.OdinInspector;
@@ -26,7 +27,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Horizontal")] [Required]
-        protected FloatReference AirForwardForce;
+        protected FloatValueReference AirForwardForce;
 
         #endregion
 
@@ -34,7 +35,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Vertical")] [Required]
-        protected FloatReference AirUpwardForce;
+        protected FloatValueReference AirUpwardForce;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Vertical")] [Required]

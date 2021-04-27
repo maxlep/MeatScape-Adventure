@@ -96,18 +96,6 @@ public class MeateorDash : PlayerStateNode
 
     #endregion
 
-    #region Events
-
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Events")][Required]
-    private GameEvent MeateorStrikeHitEvent;
-    
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Events")] [Required]
-    private DynamicGameEvent MeateorStrikeCollision;
-
-    #endregion
-
     private float currentSpeed;
     private float duration;
     private Vector3 previousVelocityOutput = Vector3.zero;
@@ -164,8 +152,6 @@ public class MeateorDash : PlayerStateNode
 
             MeateorStrikeHitPosition.Value = collisionInfo.contactPoint;
             MeateorCollideTrigger.Activate();
-            MeateorStrikeCollision.Raise(collisionInfo);
-            MeateorStrikeHitEvent.Raise();
         }
         else
         {
@@ -182,7 +168,6 @@ public class MeateorDash : PlayerStateNode
                                              Vector3.up * KnockbackForceMagnitude.Value;
                 MeateorStrikeHitPosition.Value = collisionInfo.contactPoint;
                 MeateorCollideTrigger.Activate();
-                MeateorStrikeHitEvent.Raise();
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using MyAssets.ScriptableObjects.Variables;
+using MyAssets.ScriptableObjects.Variables.ValueReferences;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using MyAssets.Scripts.Utils;
@@ -12,6 +13,14 @@ public class ForwardAttack : PlayerStateNode
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required] 
     private MeatClumpController MeatClumpPrefab;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required] 
+    private IntReference CurrentHungerLevel;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+    [TabGroup("Inputs")] [Required] 
+    private IntReference HungerCost;
     
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required] 
@@ -48,7 +57,7 @@ public class ForwardAttack : PlayerStateNode
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
     [TabGroup("Inputs")] [Required] 
     private TransformSceneReference CurrentTargetRef;
-
+    
     #endregion
 
     #region Outputs
@@ -80,6 +89,7 @@ public class ForwardAttack : PlayerStateNode
         
         comboTimer.RestartTimer();
         comboFinishTimer.RestartTimer();
+        CurrentHungerLevel.Value = Mathf.FloorToInt(Mathf.Max(0f, CurrentHungerLevel.Value - HungerCost.Value));
 
         Vector3 throwDirection;
         var aimTarget = CurrentTargetRef.Value;

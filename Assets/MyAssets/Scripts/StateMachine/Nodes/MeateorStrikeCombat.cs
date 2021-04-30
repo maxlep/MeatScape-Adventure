@@ -22,12 +22,16 @@ public class MeateorStrikeCombat : PlayerStateNode
     
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
     [TabGroup("Inputs")] [Required] 
-    private IntVariable HungerLevel;
+    private IntReference CurrentHungerLevel;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+    [TabGroup("Inputs")] [Required] 
+    private IntReference HungerCost;
     
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required] 
-    private IntVariable HungerInstantKillThreshold;
-    
+    private IntReference HungerInstantKillThreshold;
+
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required] 
     private FloatReference AttackBaseRadius;
@@ -67,6 +71,7 @@ public class MeateorStrikeCombat : PlayerStateNode
     {
         base.Enter();
         MeateorStrikeCollision.Subscribe(OnPlayerCollidedWith);
+        CurrentHungerLevel.Value = Mathf.FloorToInt(Mathf.Max(0f, CurrentHungerLevel.Value - HungerCost.Value));
     }
 
     private void OnPlayerCollidedWith(System.Object prevCollisionInfoObj, System.Object collisionInfoObj) {
@@ -119,7 +124,7 @@ public class MeateorStrikeCombat : PlayerStateNode
         if (enemyController != null && !enemiesDamagedList.Contains(enemyController))
         {
             TimeManager.Instance.FreezeFrame();
-            if(HungerLevel.Value >= HungerInstantKillThreshold.Value) {
+            if(CurrentHungerLevel.Value >= HungerInstantKillThreshold.Value) {
                 enemyController.DamageEnemy(999);
             } else {
                 enemyController.DamageEnemy(1);

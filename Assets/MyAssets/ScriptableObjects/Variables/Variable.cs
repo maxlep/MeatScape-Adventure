@@ -65,18 +65,8 @@ namespace MyAssets.ScriptableObjects.Variables
         public void Reset() => runtimeValue = defaultValue;
 
         public void Save()
-        {
-            
-            if (!AssetDatabase.Contains(this))
-            {
-                String guid = this.GetHashCode().ToString();
-                String folderPath = "Assets/MyAssets/ScriptableObjects/InstancedProperties/";
-                String prefix = "{Instance}";
-                String path = $"{folderPath}{prefix}{guid}.asset";
-                AssetDatabase.CreateAsset(this, path);
-            }
-
-            AssetDatabase.SaveAssets();
+        { 
+            this.SaveInstance();
         }
 
         private void Awake()

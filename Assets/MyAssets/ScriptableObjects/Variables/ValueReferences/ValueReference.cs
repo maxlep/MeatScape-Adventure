@@ -14,35 +14,45 @@ namespace MyAssets.ScriptableObjects.Variables.ValueReferences
         where I : class, IValue<T>
     {
         #region Inspector
-
-        public String LabelText => UseConstant ? "" : "?";
+        
         public String Tooltip => ReferenceValue != null && !UseConstant ? ReferenceValue.GetDescription() : "";
         
-        [HorizontalGroup("Split", LabelWidth = 0.001f)]
-        [HorizontalGroup("Split/Left", LabelWidth = .01f, Width = .1f)]
-        [BoxGroup("Split/Left/Left", ShowLabel = false)]
+        [VerticalGroup("Top")]
+        [HorizontalGroup("Top/Split", LabelWidth = 0.001f)]
+        [HorizontalGroup("Top/Split/Left", LabelWidth = .01f)]
+        [BoxGroup("Top/Split/Left/Left", ShowLabel = false)]
         [PropertyTooltip("$Tooltip")]
-        [LabelText("$LabelText")]
+        [LabelText("C")]
         [LabelWidth(10f)]
         [SerializeField]
         protected bool UseConstant = false;
+        
+        [HorizontalGroup("Top/Split/Left/Right", LabelWidth = .01f)]
+        [BoxGroup("Top/Split/Left/Right/Right", ShowLabel = false)]
+        [PropertyTooltip("$Tooltip")]
+        [LabelText("I")]
+        [LabelWidth(10f)]
+        [SerializeField]
+        protected bool EnableInstanceOptions = false;
 
+        [VerticalGroup("Bottom")]
         [ValueDropdown("GetTypes")]
-        [HorizontalGroup("Split/Left/Right", LabelWidth = .01f, Width = .75f)]
-        [BoxGroup("Split/Left/Right/Right", ShowLabel = false)]
+        [HorizontalGroup("Bottom/Split", LabelWidth = 0.001f)]
+        [BoxGroup("Bottom/Split/Left", ShowLabel = false)]
         [HideLabel]
         [LabelWidth(.01f)]
+        [ShowIf("EnableInstanceOptions")]
         [SerializeField] 
         protected Type InstanceType;
 
-        [HorizontalGroup("Split", LabelWidth = 0.001f, Width = .5f)]
-        [BoxGroup("Split/Right", ShowLabel = false)]
+        [HorizontalGroup("Top/Split", LabelWidth = 0.001f, Width = .7f)]
+        [BoxGroup("Top/Split/Right", ShowLabel = false)]
         [HideLabel]
         [ShowIf("UseConstant")]
         [SerializeField]
         protected T ConstantValue;
         
-        [BoxGroup("Split/Right", ShowLabel = false)]
+        [BoxGroup("Top/Split/Right", ShowLabel = false)]
         [HideLabel]
         [HideIf("UseConstant")]
         [InlineEditor()]
@@ -98,14 +108,16 @@ namespace MyAssets.ScriptableObjects.Variables.ValueReferences
         }
 
         [PropertyTooltip("Create an Instance SO")]
-        [BoxGroup("Split/Left/Right/Left", ShowLabel = false)] 
+        [BoxGroup("Bottom/Split/Right", ShowLabel = false)]
         [LabelWidth(.01f)]
-        [Button("I", ButtonSizes.Small)]
+        [ShowIf("EnableInstanceOptions")]
+        [Button("Create Instance", ButtonSizes.Small)]
         public void CreateInstance()
         {
             UseConstant = false;
             ReferenceValue = ScriptableObject.CreateInstance(InstanceType) as I;
             ReferenceValue.Save();
+            EnableInstanceOptions = false;
         }
 
         #endregion

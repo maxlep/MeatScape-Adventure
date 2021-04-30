@@ -18,10 +18,10 @@ namespace MyAssets.ScriptableObjects.Variables
         [SerializeField] private bool _evaluateAsPercent = false;
 
         [ShowIf("_evaluateAsPercent"), SerializeField] private bool _useZeroBaseline;
-        [SerializeField] private CurveReference _curve;
-        [SerializeField] private FloatValueReference _x;
+        [SerializeField] [LabelWidth(50f)] private CurveReference _curve;
+        [SerializeField] [LabelWidth(55f)] private FloatValueReference _x;
 
-        [ShowInInspector] private float _value;
+        [ShowInInspector] [LabelWidth(50f)] private float _value;
         #endregion
         
         protected event OnUpdate OnUpdate;
@@ -55,16 +55,7 @@ namespace MyAssets.ScriptableObjects.Variables
 
         public void Save()
         {
-            if (!AssetDatabase.Contains(this))
-            {
-                String guid = this.GetHashCode().ToString();
-                String folderPath = "Assets/MyAssets/ScriptableObjects/InstancedProperties/";
-                String prefix = "{Instance}";
-                String path = $"{folderPath}{prefix}{guid}.asset";
-                AssetDatabase.CreateAsset(this, path);
-            }
-
-            AssetDatabase.SaveAssets();
+            this.SaveInstance();
         }
 
         #endregion

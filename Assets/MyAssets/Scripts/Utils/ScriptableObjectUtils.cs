@@ -6,14 +6,14 @@ using UnityEngine;
 
 public static class ScriptableObjectUtils
 {
-    public static void SaveInstance(this ScriptableObject so)
+    public static void SaveInstance(this ScriptableObject so, String label = "")
     {
         if (!AssetDatabase.Contains(so))
         {
-            String guid = so.GetHashCode().ToString();
+            String name = string.IsNullOrEmpty(label) ? name = so.GetHashCode().ToString() : label;
             String folderPath = "Assets/MyAssets/ScriptableObjects/InstancedProperties/";
-            String prefix = "{Instance}";
-            String path = $"{folderPath}{prefix}{guid}.asset";
+            String prefix = "{I}";
+            String path = $"{folderPath}{prefix} {name}.asset";
             AssetDatabase.CreateAsset(so, path);
         }
 

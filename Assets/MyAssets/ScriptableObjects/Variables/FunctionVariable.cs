@@ -98,9 +98,9 @@ namespace MyAssets.ScriptableObjects.Variables
             this.OnUpdate -= callback;
         }
         
-        public void Save(string name = "")
-        {
-            this.SaveInstance();
+        public bool Save(string folderPath, string name = "")
+        { 
+            return this.SaveInstance(folderPath, name);
         }
 
 #endregion

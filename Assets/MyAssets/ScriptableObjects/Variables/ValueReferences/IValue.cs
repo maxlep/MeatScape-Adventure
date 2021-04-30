@@ -14,6 +14,6 @@ namespace MyAssets.ScriptableObjects.Variables.ValueReferences
 
         void Unsubscribe(OnUpdate callback);
 
-        void Save(string name = "");
+        bool Save(string folderPath, string name = "");
     }
 }

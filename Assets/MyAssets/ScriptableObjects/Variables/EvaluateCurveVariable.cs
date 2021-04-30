@@ -15,7 +15,7 @@ namespace MyAssets.ScriptableObjects.Variables
         [HideInInlineEditors]
         public string Description;
         
-        [SerializeField] private bool _evaluateAsPercent = false;
+        [SerializeField] [LabelWidth(120f)] private bool _evaluateAsPercent = false;
 
         [ShowIf("_evaluateAsPercent"), SerializeField] private bool _useZeroBaseline;
         [SerializeField] [LabelWidth(50f)] private CurveReference _curve;
@@ -53,9 +53,9 @@ namespace MyAssets.ScriptableObjects.Variables
             OnUpdate -= callback;
         }
 
-        public void Save(string name = "")
-        {
-            this.SaveInstance(name);
+        public bool Save(string folderPath, string name = "")
+        { 
+            return this.SaveInstance(folderPath, name);
         }
 
         #endregion

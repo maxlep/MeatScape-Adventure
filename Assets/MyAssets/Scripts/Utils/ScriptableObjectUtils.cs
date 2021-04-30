@@ -3,20 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public static class ScriptableObjectUtils
 {
-    public static void SaveInstance(this ScriptableObject so, String label = "")
+    public static bool SaveInstance(this ScriptableObject so, string folderPath, string name = "")
     {
-        if (!AssetDatabase.Contains(so))
-        {
-            String name = string.IsNullOrEmpty(label) ? name = so.GetHashCode().ToString() : label;
-            String folderPath = "Assets/MyAssets/ScriptableObjects/InstancedProperties/";
-            String prefix = "{I}";
-            String path = $"{folderPath}{prefix} {name}.asset";
-            AssetDatabase.CreateAsset(so, path);
-        }
+        if (AssetDatabase.Contains(so)) return false;
+        
+        String label = string.IsNullOrEmpty(name) ? name = so.GetHashCode().ToString() : name;
+        String path = $"{folderPath}{label}.asset";
+        Debug.Log($"Trying to save ScriptableObject to: {path}");
 
+        if (AssetDatabase.LoadAssetAtPath(path, typeof(Object)) != null)
+        {
+            Debug.LogError("Failed to save ScriptableObject! Asset with same path/name already exists!");
+            return false;
+        }
+        
+        AssetDatabase.CreateAsset(so, path);
         AssetDatabase.SaveAssets();
+        return true;
     }
 }

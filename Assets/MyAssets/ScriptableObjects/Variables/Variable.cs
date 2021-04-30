@@ -64,9 +64,9 @@ namespace MyAssets.ScriptableObjects.Variables
 
         public void Reset() => runtimeValue = defaultValue;
 
-        public void Save(string name = "")
+        public bool Save(string folderPath, string name = "")
         { 
-            this.SaveInstance(name);
+            return this.SaveInstance(folderPath, name);
         }
 
         private void Awake()
@@ -112,16 +112,25 @@ namespace MyAssets.ScriptableObjects.Variables
         [PropertyTooltip("$Tooltip")]
         [LabelText("I")]
         [LabelWidth(10f)]
+        [OnValueChanged("ResetInstanceOptions")]
         [SerializeField]
         protected bool EnableInstanceOptions = false;
 
         [VerticalGroup("Middle")]
-        [VerticalGroup("Middle/Box/Bottom")]
+        [VerticalGroup("Middle/Box/Top")]
         [LabelText("Name")]
         [LabelWidth(40f)]
-        [ShowIf("EnableInstanceOptions")]
+        [ShowIf("InstanceNotConstant")]
         [SerializeField] 
         protected String InstanceName;
+        
+        [VerticalGroup("Middle/Box/Middle")]
+        [LabelText("Folder")]
+        [LabelWidth(40f)]
+        [FolderPath(ParentFolder = "Assets/MyAssets/ScriptableObjects/", RequireExistingPath = true)]
+        [ShowIf("InstanceNotConstant")]
+        [SerializeField] 
+        protected String InstancePath = "InstancedProperties";
 
         public String LabelText => UseConstant ? "" : "?";
 
@@ -140,6 +149,8 @@ namespace MyAssets.ScriptableObjects.Variables
         protected VT Variable;
     
         public String Tooltip => Variable != null && !UseConstant ? $"{Variable.name}:\n{Variable.Description}" : "";
+        
+        protected bool InstanceNotConstant => (!UseConstant && EnableInstanceOptions);
 
         #endregion
 
@@ -166,15 +177,29 @@ namespace MyAssets.ScriptableObjects.Variables
 
         [PropertyTooltip("Create an Instance SO")]
         [BoxGroup("Middle/Box", ShowLabel = false)]
+        [VerticalGroup("Middle/Box/Bottom")]
         [LabelWidth(.01f)]
         [GUIColor(.85f, 1f, .9f)]
-        [ShowIf("EnableInstanceOptions")]
+        [ShowIf("InstanceNotConstant")]
         [Button("Create Instance", ButtonSizes.Small)]
         public void CreateInstance()
         {
             UseConstant = false;
-            Variable = ScriptableObject.CreateInstance(typeof(VT)) as VT;
-            Variable.Save(InstanceName);
+            VT tempScriptableObj = ScriptableObject.CreateInstance(typeof(VT)) as VT;
+            String fullPath = $"Assets/MyAssets/ScriptableObjects/{InstancePath}/";
+
+            //Try saving scriptable object to desired path
+            if (tempScriptableObj.Save(fullPath, InstanceName))
+            {
+                Variable = tempScriptableObj;
+                EnableInstanceOptions = false;
+            }
+        }
+        
+        private void ResetInstanceOptions()
+        {
+            InstanceName = "{I} ";
+            InstancePath = "InstancedProperties";
         }
         
         public void Reset()

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
+using System.Data.SqlTypes;
 using System.Linq;
+using MoreMountains.Tools;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
@@ -32,23 +34,32 @@ namespace MyAssets.ScriptableObjects.Variables.ValueReferences
         [PropertyTooltip("$Tooltip")]
         [LabelText("I")]
         [LabelWidth(10f)]
+        [OnValueChanged("ResetInstanceOptions")]
         [SerializeField]
         protected bool EnableInstanceOptions = false;
 
         [VerticalGroup("Middle")]
-        [VerticalGroup("Middle/Box/Bottom")]
+        [VerticalGroup("Middle/Box/Top")]
         [LabelText("Name")]
         [LabelWidth(40f)]
-        [ShowIf("EnableInstanceOptions")]
+        [ShowIf("InstanceNotConstant")]
         [SerializeField] 
-        protected String InstanceName;
+        protected String InstanceName = "{I} ";
+
+        [VerticalGroup("Middle/Box/Middle")]
+        [LabelText("Folder")]
+        [LabelWidth(40f)]
+        [FolderPath(ParentFolder = "Assets/MyAssets/ScriptableObjects/", RequireExistingPath = true)]
+        [ShowIf("InstanceNotConstant")]
+        [SerializeField] 
+        protected String InstancePath = "InstancedProperties";
 
         [ValueDropdown("GetTypes")]
         [BoxGroup("Middle/Box", ShowLabel = false)]
-        [HorizontalGroup("Middle/Box/Bottom/Split", LabelWidth = 0.001f)]
-        [HideLabel]
-        [LabelWidth(.01f)]
-        [ShowIf("EnableInstanceOptions")]
+        [VerticalGroup("Middle/Box/Middle2")]
+        [LabelText("Type")]
+        [LabelWidth(40f)]
+        [ShowIf("InstanceNotConstant")]
         [SerializeField] 
         protected Type InstanceType;
 
@@ -66,6 +77,8 @@ namespace MyAssets.ScriptableObjects.Variables.ValueReferences
         [SerializeField]
         protected I ReferenceValue;
 
+        protected bool InstanceNotConstant => (!UseConstant && EnableInstanceOptions);
+        
         #endregion
         
         #region Interface
@@ -115,17 +128,29 @@ namespace MyAssets.ScriptableObjects.Variables.ValueReferences
         }
 
         [PropertyTooltip("Create an Instance SO")]
-        [HorizontalGroup("Middle/Box/Bottom/Split/Right", LabelWidth = 0.001f)]
+        [VerticalGroup("Middle/Box/Bottom")]
         [LabelWidth(.01f)]
         [GUIColor(.85f, 1f, .9f)]
-        [ShowIf("EnableInstanceOptions")]
+        [ShowIf("InstanceNotConstant")]
         [Button("Create Instance", ButtonSizes.Small)]
         public void CreateInstance()
         {
             UseConstant = false;
-            ReferenceValue = ScriptableObject.CreateInstance(InstanceType) as I;
-            ReferenceValue.Save(InstanceName);
-            EnableInstanceOptions = false;
+            I tempScriptableObj = ScriptableObject.CreateInstance(InstanceType) as I;
+            String fullPath = $"Assets/MyAssets/ScriptableObjects/{InstancePath}/";
+
+            //Try saving scriptable object to desired path
+            if (tempScriptableObj.Save(fullPath, InstanceName))
+            {
+                ReferenceValue = tempScriptableObj;
+                EnableInstanceOptions = false;
+            }
+        }
+
+        private void ResetInstanceOptions()
+        {
+            InstanceName = "{I} ";
+            InstancePath = "InstancedProperties";
         }
 
         #endregion

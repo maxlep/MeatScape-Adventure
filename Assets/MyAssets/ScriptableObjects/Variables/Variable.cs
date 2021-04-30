@@ -14,8 +14,8 @@ namespace MyAssets.ScriptableObjects.Variables
     [InlineEditor(InlineEditorObjectFieldModes.Foldout)]
     public class Variable<T> : SerializedScriptableObject {
         [TextArea (7, 10)] [HideInInlineEditors] public String Description;
-        [SerializeField] private T defaultValue;
-        [SerializeField] private T runtimeValue;
+        [SerializeField] [LabelText("Default")] [LabelWidth(50f)] private T defaultValue;
+        [SerializeField] [LabelText("Runtime")] [LabelWidth(50f)] private T runtimeValue;
 
         protected T prevValue;
         protected event OnUpdate OnUpdate;
@@ -62,8 +62,24 @@ namespace MyAssets.ScriptableObjects.Variables
 
         public void Reset() => runtimeValue = defaultValue;
 
-        private void OnEnable() => Reset();
-        private void OnDisable() => OnUpdate = null;
+        private void Awake()
+        {
+            // if (string.IsNullOrEmpty(AssetDatabase.GetAssetPath(this))) AssetDatabase.CreateAsset(this, "Assets/InstanceVar.asset");
+            // AssetDatabase.SaveAssets();
+        }
+
+        private void OnEnable()
+        {
+            hideFlags = HideFlags.DontUnloadUnusedAsset;
+            Reset();
+        }
+
+        private void OnDisable()
+        {
+            OnUpdate = null;
+            //Undo.DestroyObjectImmediate(this);
+            //AssetDatabase.SaveAssets();
+        }
     }
 
     [Serializable]
@@ -71,19 +87,34 @@ namespace MyAssets.ScriptableObjects.Variables
     [SynchronizedHeader]
     public class Reference<T, VT> where VT: Variable<T>
     {
-        [HorizontalGroup("Split", LabelWidth = .01f)] [PropertyTooltip("$Tooltip")]
-        [BoxGroup("Split/Left", ShowLabel = false)] [LabelText("$LabelText")] [LabelWidth(10f)]
-        [SerializeField] protected bool UseConstant = false;
-        
+        #region Inspector
+
+        [HorizontalGroup("Split", LabelWidth = .01f, Width = .2f)]
+        [HorizontalGroup("Split/Left", LabelWidth = .01f)]
+        [BoxGroup("Split/Left/Left", ShowLabel = false)]
+        [PropertyTooltip("$Tooltip")] 
+        [LabelText("$LabelText")]
+        [LabelWidth(10f)]
+        [SerializeField] 
+        protected bool UseConstant = false;
+
         public String LabelText => UseConstant ? "" : "?";
 
-        [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [ShowIf("UseConstant")]
-        [SerializeField] protected T ConstantValue;
+        [BoxGroup("Split/Right", ShowLabel = false)]
+        [HideLabel] 
+        [ShowIf("UseConstant")]
+        [SerializeField] 
+        protected T ConstantValue;
         
-        [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [HideIf("UseConstant")] 
-        [SerializeField] protected VT Variable;
+        [BoxGroup("Split/Right", ShowLabel = false)]
+        [HideLabel]
+        [HideIf("UseConstant")] 
+        [SerializeField] 
+        protected VT Variable;
     
         public String Tooltip => Variable != null && !UseConstant ? $"{Variable.name}:\n{Variable.Description}" : "";
+
+        #endregion
 
         //WARNING: will update subscribers synchronously within whatever time cycle the var is updated (Awake, LateUpdate, etc.)
         public void Subscribe(OnUpdate callback)
@@ -104,6 +135,15 @@ namespace MyAssets.ScriptableObjects.Variables
         public void Unsubscribe(OnUpdate<T> callback)
         {
             Variable?.Unsubscribe(callback);
+        }
+
+        [PropertyTooltip("Create an Instance SO")]
+        [BoxGroup("Split/Left/Right", ShowLabel = false)] [LabelText("$LabelText")] [LabelWidth(10f)]
+        [Button("I", ButtonSizes.Small)]
+        public void CreateInstance()
+        {
+            UseConstant = false;
+            Variable = ScriptableObject.CreateInstance(typeof(VT)) as VT;
         }
         
         public void Reset()

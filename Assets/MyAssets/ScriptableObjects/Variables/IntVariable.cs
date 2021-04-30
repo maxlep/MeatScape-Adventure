@@ -13,5 +13,6 @@ namespace MyAssets.ScriptableObjects.Variables
         public string GetDescription() => Description;
         public float GetFloat() => Value;
         public float GetValue(System.Type type) => Value;
+
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Linq;
 using Sirenix.OdinInspector;
+using UnityEditor;
 using UnityEngine;
 
 namespace MyAssets.ScriptableObjects.Variables.ValueReferences
@@ -9,7 +10,8 @@ namespace MyAssets.ScriptableObjects.Variables.ValueReferences
     [InlineProperty]
     [SynchronizedHeader]
     [HideReferenceObjectPicker]
-    public class ValueReference<I, T> where I : class, IValue<T>
+    public class ValueReference<I, T> 
+        where I : class, IValue<T>
     {
         #region Inspector
 
@@ -103,6 +105,7 @@ namespace MyAssets.ScriptableObjects.Variables.ValueReferences
         {
             UseConstant = false;
             ReferenceValue = ScriptableObject.CreateInstance(InstanceType) as I;
+            ReferenceValue.Save();
         }
 
         #endregion

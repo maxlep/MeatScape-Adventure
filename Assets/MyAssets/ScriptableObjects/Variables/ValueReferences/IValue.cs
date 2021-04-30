@@ -1,4 +1,6 @@
-﻿namespace MyAssets.ScriptableObjects.Variables.ValueReferences
+﻿using UnityEngine;
+
+namespace MyAssets.ScriptableObjects.Variables.ValueReferences
 {
     public interface IValue<T>
     {
@@ -11,5 +13,7 @@
         void Subscribe(OnUpdate callback);
 
         void Unsubscribe(OnUpdate callback);
+
+        void Save();
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
+using BehaviorDesigner.Runtime.Tasks.Unity.UnityString;
+using Den.Tools;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using UnityEditor;
@@ -62,14 +64,30 @@ namespace MyAssets.ScriptableObjects.Variables
 
         public void Reset() => runtimeValue = defaultValue;
 
+        public void Save()
+        {
+            
+            if (!AssetDatabase.Contains(this))
+            {
+                String guid = this.GetHashCode().ToString();
+                String folderPath = "Assets/MyAssets/ScriptableObjects/InstancedProperties/";
+                String prefix = "{Instance}";
+                String path = $"{folderPath}{prefix}{guid}.asset";
+                AssetDatabase.CreateAsset(this, path);
+            }
+
+            AssetDatabase.SaveAssets();
+        }
+
         private void Awake()
         {
-            // if (string.IsNullOrEmpty(AssetDatabase.GetAssetPath(this))) AssetDatabase.CreateAsset(this, "Assets/InstanceVar.asset");
-            // AssetDatabase.SaveAssets();
+            
         }
 
         private void OnEnable()
         {
+            
+            
             hideFlags = HideFlags.DontUnloadUnusedAsset;
             Reset();
         }
@@ -144,6 +162,7 @@ namespace MyAssets.ScriptableObjects.Variables
         {
             UseConstant = false;
             Variable = ScriptableObject.CreateInstance(typeof(VT)) as VT;
+            Variable.Save();
         }
         
         public void Reset()

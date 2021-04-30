@@ -25,6 +25,7 @@ namespace MyAssets.ScriptableObjects.Variables
         public string GetDescription() => Description;
         public float GetFloat() => Value.magnitude;
         float IValue<float>.GetValue(Type type) => GetFloat();
+
         public Vector3 GetVector3()
         {
             if (!UseComponentReferences) return Value;

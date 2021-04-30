@@ -80,7 +80,7 @@ public class TimerVariable : ScriptableObject
 [SynchronizedHeader]
 public class TimerReference
 {
-    [HorizontalGroup("Split", LabelWidth = .01f)] [PropertyTooltip("$Tooltip")]
+    [HorizontalGroup("Split", LabelWidth = .01f, Width = .2f)] [PropertyTooltip("$Tooltip")]
     [BoxGroup("Split/Left", ShowLabel = false)] [LabelText("$LabelText")] [LabelWidth(10f)]
     [SerializeField] private bool UseConstant = false;
     

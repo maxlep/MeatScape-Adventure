@@ -98,7 +98,7 @@ namespace MyAssets.ScriptableObjects.Variables
             this.OnUpdate -= callback;
         }
         
-        public void Save()
+        public void Save(string name = "")
         {
             this.SaveInstance();
         }

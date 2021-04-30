@@ -35,10 +35,17 @@ namespace MyAssets.ScriptableObjects.Variables.ValueReferences
         [SerializeField]
         protected bool EnableInstanceOptions = false;
 
-        [VerticalGroup("Bottom")]
+        [VerticalGroup("Middle")]
+        [VerticalGroup("Middle/Box/Bottom")]
+        [LabelText("Name")]
+        [LabelWidth(40f)]
+        [ShowIf("EnableInstanceOptions")]
+        [SerializeField] 
+        protected String InstanceName;
+
         [ValueDropdown("GetTypes")]
-        [HorizontalGroup("Bottom/Split", LabelWidth = 0.001f)]
-        [BoxGroup("Bottom/Split/Left", ShowLabel = false)]
+        [BoxGroup("Middle/Box", ShowLabel = false)]
+        [HorizontalGroup("Middle/Box/Bottom/Split", LabelWidth = 0.001f)]
         [HideLabel]
         [LabelWidth(.01f)]
         [ShowIf("EnableInstanceOptions")]
@@ -108,15 +115,16 @@ namespace MyAssets.ScriptableObjects.Variables.ValueReferences
         }
 
         [PropertyTooltip("Create an Instance SO")]
-        [BoxGroup("Bottom/Split/Right", ShowLabel = false)]
+        [HorizontalGroup("Middle/Box/Bottom/Split/Right", LabelWidth = 0.001f)]
         [LabelWidth(.01f)]
+        [GUIColor(.85f, 1f, .9f)]
         [ShowIf("EnableInstanceOptions")]
         [Button("Create Instance", ButtonSizes.Small)]
         public void CreateInstance()
         {
             UseConstant = false;
             ReferenceValue = ScriptableObject.CreateInstance(InstanceType) as I;
-            ReferenceValue.Save();
+            ReferenceValue.Save(InstanceName);
             EnableInstanceOptions = false;
         }
 

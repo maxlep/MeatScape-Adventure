@@ -53,9 +53,9 @@ namespace MyAssets.ScriptableObjects.Variables
             OnUpdate -= callback;
         }
 
-        public void Save()
+        public void Save(string name = "")
         {
-            this.SaveInstance();
+            this.SaveInstance(name);
         }
 
         #endregion

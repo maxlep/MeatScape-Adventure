@@ -14,6 +14,6 @@ namespace MyAssets.ScriptableObjects.Variables.ValueReferences
 
         void Unsubscribe(OnUpdate callback);
 
-        void Save();
+        void Save(string name = "");
     }
 }

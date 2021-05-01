@@ -52,7 +52,7 @@ namespace MyAssets.ScriptableObjects.Variables.ValueReferences
         [FolderPath(ParentFolder = "Assets/MyAssets/ScriptableObjects/", RequireExistingPath = true)]
         [ShowIf("InstanceNotConstant")]
         [SerializeField] 
-        protected String InstancePath = "InstancedProperties";
+        protected String InstancePath = "IntermediateProperties";
 
         [ValueDropdown("GetTypes")]
         [BoxGroup("Middle/Box", ShowLabel = false)]
@@ -150,7 +150,7 @@ namespace MyAssets.ScriptableObjects.Variables.ValueReferences
         private void ResetInstanceOptions()
         {
             InstanceName = "{I} ";
-            InstancePath = "InstancedProperties";
+            InstancePath = "IntermediateProperties";
         }
 
         #endregion

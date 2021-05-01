@@ -130,7 +130,7 @@ namespace MyAssets.ScriptableObjects.Variables
         [FolderPath(ParentFolder = "Assets/MyAssets/ScriptableObjects/", RequireExistingPath = true)]
         [ShowIf("InstanceNotConstant")]
         [SerializeField] 
-        protected String InstancePath = "InstancedProperties";
+        protected String InstancePath = "IntermediateProperties";
 
         public String LabelText => UseConstant ? "" : "?";
 
@@ -199,7 +199,7 @@ namespace MyAssets.ScriptableObjects.Variables
         private void ResetInstanceOptions()
         {
             InstanceName = "{I} ";
-            InstancePath = "InstancedProperties";
+            InstancePath = "IntermediateProperties";
         }
         
         public void Reset()

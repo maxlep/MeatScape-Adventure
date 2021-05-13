@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MyAssets.ScriptableObjects.Variables;
 using MyAssets.Scripts.Events;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -14,17 +15,41 @@ namespace MyAssets.ScriptableObjects.Events
         
         private List<GameEventListener> listeners = 
             new List<GameEventListener>();
+        
+        public event OnUpdate OnUpdate;
+        
+        #region Code-based Registration
 
-        public void Raise()
+        public void Subscribe(OnUpdate callback)
         {
-            for(int i = listeners.Count -1; i >= 0; i--)
-                listeners[i].OnEventRaised();
+            this.OnUpdate += callback;
         }
+
+        public void Unsubscribe(OnUpdate callback)
+        {
+            this.OnUpdate -= callback;
+        }
+
+        #endregion
+        
+        #region GameEventListener Registration
 
         public void RegisterListener(GameEventListener listener)
         { listeners.Add(listener); }
 
         public void UnregisterListener(GameEventListener listener)
         { listeners.Remove(listener); }
+
+        #endregion
+
+        public void Raise()
+        {
+            OnUpdate?.Invoke();
+            
+            for(int i = listeners.Count -1; i >= 0; i--)
+                listeners[i].OnEventRaised();
+        }
+
+        
     }
 }

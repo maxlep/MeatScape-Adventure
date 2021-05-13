@@ -103,5 +103,6 @@ public class ForwardAttackCharge : PlayerStateNode
         ThrowSpeedOut.Value = (reachedMaxCharge) ? MaxThrowSpeed.Value : MinThrowSpeed.Value;
         ClumpOverChargedOut.Value = reachedMaxCharge;
         RunSpeedChargeClumpFactorOut.Value = 1f;
+        ClumpThrowPercentToMaxCharge.Value = 0;
     }
 }

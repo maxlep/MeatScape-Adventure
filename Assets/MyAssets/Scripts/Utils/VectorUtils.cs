@@ -70,6 +70,11 @@ namespace MyAssets.Scripts.Utils
         {
             return new Vector3(1/vec.x, 1/vec.y, 1/vec.z);
         }
+        
+        public static Vector2 Inverse(this Vector2 vec)
+        {
+            return new Vector2(1/vec.x, 1/vec.y);
+        }
 
         public static Vector3 ProjectComponents(this Vector3 vec, Vector3 onNormal)
         {

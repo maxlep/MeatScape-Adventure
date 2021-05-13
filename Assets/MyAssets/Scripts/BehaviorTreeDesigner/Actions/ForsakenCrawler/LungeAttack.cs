@@ -7,7 +7,7 @@ using Pathfinding;
 using Unity.Mathematics;
 using UnityEngine;
 
-[TaskCategory("AStarPro")]
+[TaskCategory("Combat")]
 [TaskDescription("Performs lunge attack using AStar Seeker and CharController.")]
 public class LungeAttack : Action
 {

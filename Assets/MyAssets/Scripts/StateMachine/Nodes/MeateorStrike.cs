@@ -16,6 +16,10 @@ public class MeateorStrike : PlayerStateNode
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required]
     private LayerMapper LayerMapper;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required] 
+    private LayerMask EnemyMask;
 
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required]
@@ -170,7 +174,7 @@ public class MeateorStrike : PlayerStateNode
         CollisionInfo collisionInfo = (CollisionInfo) collisionInfoObj;
         GameObject otherObj = collisionInfo.other.gameObject;
         
-        if (otherObj.layer == LayerMapper.GetLayer(LayerEnum.Enemy))
+        if (otherObj.IsInLayerMask(EnemyMask))
         {
             playerController.UngroundMotor();
             Vector3 playerToTarget = (otherObj.transform.position.xoz() - playerController.transform.position.xoz()).normalized;

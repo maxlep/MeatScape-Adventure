@@ -104,12 +104,27 @@ public class MeatClumpController : MonoBehaviour
             GameObject hitObj = collider.gameObject;
             
             //Hit enemy
-            if(hitObj.layer == layerMapper.GetLayer(LayerEnum.Enemy)) {
+            if(hitObj.IsInLayerMask(CollisionMaskEnemy)) {
                 EnemyController enemyScript = hitObj.GetComponentInChildren<EnemyController>();
-                Vector3 knockBackDir = (enemyScript.transform.position - transform.position).normalized;
-                float knockBackForce = currentVelocity.magnitude * 2f;
-                enemyScript.DamageEnemy(ClumpDamage.Value, knockBackDir, true, knockBackForce);
-                enemyHitId.Value = enemyScript.gameObject.GetInstanceID();
+                
+                if (enemyScript != null)
+                {
+                    Vector3 knockBackDir = (enemyScript.transform.position - transform.position).normalized;
+                    float knockBackForce = currentVelocity.magnitude * 2f;
+                    enemyScript.DamageEnemy(ClumpDamage.Value, knockBackDir, true, knockBackForce);
+                    enemyHitId.Value = enemyScript.gameObject.GetInstanceID();
+                }
+                //Hit enemy proxy script
+                else 
+                {
+                    EnemyHurtProxy hurtProxy = hitObj.GetComponent<EnemyHurtProxy>();
+                    Vector3 knockBackDir = (hurtProxy.transform.position - transform.position).normalized;
+                    float knockBackForce = currentVelocity.magnitude * 2f;
+                    hurtProxy.DamageEnemy(ClumpDamage.Value, knockBackDir, true, knockBackForce);
+                    enemyHitId.Value = hurtProxy.gameObject.GetInstanceID();
+                }
+                
+                
                 impactFeedbacks.PlayFeedbacks();
                 Destroy(gameObject);
                 return;

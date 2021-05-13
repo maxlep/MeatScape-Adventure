@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using BehaviorDesigner.Runtime.Tasks.Unity.UnityGameObject;
 using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
@@ -14,8 +15,12 @@ public class MeateorStrikeCombat : PlayerStateNode
     
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required] 
-    private LayerMapper layerMapper;
+    private LayerMask EnemyMask;
     
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required] 
+    private LayerMask InteractableMask;
+
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required] 
     private FloatReference PlayerScale;
@@ -78,11 +83,8 @@ public class MeateorStrikeCombat : PlayerStateNode
         CollisionInfo collisionInfo = (CollisionInfo) collisionInfoObj;
         
         enemiesDamagedList.Clear();
-        LayerMask hitMask = LayerMask.GetMask(
-            LayerMapper.GetLayerName(LayerEnum.Enemy),
-            LayerMapper.GetLayerName(LayerEnum.Interactable)
-        );
-        
+        LayerMask hitMask = EnemyMask | InteractableMask;
+
         //Scale the radius with player scale
         currentRadius = AttackBaseRadius.Value * PlayerScale.Value;
         
@@ -91,34 +93,22 @@ public class MeateorStrikeCombat : PlayerStateNode
         
         foreach (var collider in hitColliders)
         {
-            int otherLayer = collider.gameObject.layer;
+            GameObject otherObj = collider.gameObject;
             
-            if (otherLayer == LayerMapper.GetLayer(LayerEnum.Enemy))
+            if (otherObj.IsInLayerMask(EnemyMask))
                 HandleEnemyHit(collider);
-            else if (otherLayer == LayerMapper.GetLayer(LayerEnum.Interactable))
+            else if (otherObj.IsInLayerMask(InteractableMask))
                 HandleInteractableHit(collider);
-        }
-
-
-        foreach (var collider in hitColliders)
-        {
-            int otherLayer = collider.gameObject.layer;
-            
-            if (otherLayer == layerMapper.GetLayer(LayerEnum.Enemy))
-            {
-                HandleEnemyHit(collider);
-            }
-
-            else if (otherLayer == layerMapper.GetLayer(LayerEnum.Interactable))
-            {
-                HandleInteractableHit(collider);
-            }
         }
     }
     
     private void HandleEnemyHit(Collider enemyCollider)
     {
         EnemyController enemyController = enemyCollider.GetComponentInChildren<EnemyController>();
+        
+        //If enemy controller not found, try hurt proxy
+        if (enemyController == null)
+            enemyController = enemyCollider.GetComponent<EnemyHurtProxy>().EnemyController;
             
         //Dont hit enemies more than once, they can have multiple colliders
         if (enemyController != null && !enemiesDamagedList.Contains(enemyController))

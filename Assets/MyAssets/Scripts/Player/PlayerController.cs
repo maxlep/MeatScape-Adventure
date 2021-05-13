@@ -147,7 +147,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private Vector3 impulseVelocityOverlayed;
     private Vector3 impulseVelocityOverlayedOverrideX;
 
-    private float invincibilityTimer = -Mathf.Infinity;
+    private float lastDamageTime = -Mathf.Infinity;
 
     private float capsuleStartHeight, capsuleStartRadius;
     private Vector3 capsuleStartCenter;
@@ -386,14 +386,19 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     public void Damage(int damage, Vector3 knockbackDir, float knockbackSpeed)
     {
+        //Invincibility delay
+        if (lastDamageTime + InvincibilityTime.Value > Time.time)
+            return;
+        
         damageFeedback.PlayFeedbacks();
         this.AddImpulse(knockbackDir * knockbackSpeed);
-        invincibilityTimer = Time.time;
 
         if (HungerOut.Value <= 0)
             OnDeath();
         else
             IncrementHunger(-damage);
+        
+        lastDamageTime = Time.time;
     }
 
     public void ToggleArrow(bool enabled)

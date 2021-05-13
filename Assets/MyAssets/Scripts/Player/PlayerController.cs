@@ -154,12 +154,14 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     
     private CinemachineFreeLook freeLookCam;
 
+    private bool isInvincible;
+
     public delegate void _OnStartUpdateVelocity(VelocityInfo velocityInfo);
     public delegate void _OnStartUpdateRotation(Quaternion currentRotation);
     public event _OnStartUpdateVelocity onStartUpdateVelocity;
     public event _OnStartUpdateRotation onStartUpdateRotation;
 
-    #region Unity Methods
+#region Unity Lifecycle Methods
 
     private void Start()
     {
@@ -386,7 +388,10 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     public void Damage(int damage, Vector3 knockbackDir, float knockbackSpeed)
     {
-        //Invincibility delay
+        //State invincibility
+        if (isInvincible) return;
+        
+        //Invincibility time after damage
         if (lastDamageTime + InvincibilityTime.Value > Time.time)
             return;
         
@@ -413,6 +418,25 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         slingshotLine.End = transform.InverseTransformDirection(arrowVector);
         slingshotCone.transform.position = slingshotLine.transform.position + arrowVector;
         slingshotCone.transform.rotation = Quaternion.LookRotation(arrowVector);
+    }
+    
+    public void UngroundMotor(float time = .1f)
+    {
+        charMotor.ForceUnground(time);
+
+        //If on ground and calling unground, activate became ungrounded trigger
+        if (GroundingStatus.FoundAnyGround || LastGroundingStatus.FoundAnyGround)
+            BecameUngrounded.Activate();
+    }
+
+    public void SetInvincible(bool enabled)
+    {
+        isInvincible = enabled;
+    }
+    
+    public Vector3 GetPlatformVelocity()
+    {
+        return charMotor.Velocity - charMotor.BaseVelocity;
     }
 
 #endregion
@@ -505,24 +529,42 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
 #endregion
 
-    private void OnDeath()
+#region Death
+
+private void OnDeath()
+{
+    gameObject.SetActive(false);
+    IsPlayerDead.Value = true;
+    GameObject ragdoll = Instantiate(ragdollPrefab, transform.position, transform.rotation);
+    Rigidbody[] ragdollsRbs = ragdoll.GetComponentsInChildren<Rigidbody>();
+    ragdollsRbs.ForEach(r => r.velocity = PreviousVelocity.Value);
+    freeLookCam.Follow = ragdollsRbs[0].transform;
+    freeLookCam.LookAt = ragdollsRbs[0].transform;
+
+    //Force stop all vibrations to prevent getting stuck
+    LeanTween.value(0f, 1f, .5f)
+        .setOnComplete(_ =>
+        {
+            MMVibrationManager.StopContinuousHaptic(true);
+            MMVibrationManager.StopAllHaptics(true);
+        });
+
+}
+
+#endregion
+
+#region Input / Update Parameters
+
+    private void GetInput()
     {
-        gameObject.SetActive(false);
-        IsPlayerDead.Value = true;
-        GameObject ragdoll = Instantiate(ragdollPrefab, transform.position, transform.rotation);
-        Rigidbody[] ragdollsRbs = ragdoll.GetComponentsInChildren<Rigidbody>();
-        ragdollsRbs.ForEach(r => r.velocity = PreviousVelocity.Value);
-        freeLookCam.Follow = ragdollsRbs[0].transform;
-        freeLookCam.LookAt = ragdollsRbs[0].transform;
-
-        //Force stop all vibrations to prevent getting stuck
-        LeanTween.value(0f, 1f, .5f)
-            .setOnComplete(_ =>
-            {
-                MMVibrationManager.StopContinuousHaptic(true);
-                MMVibrationManager.StopAllHaptics(true);
-            });
-
+    #if UNITY_EDITOR
+        if (ignoreInput)
+        {
+            MoveInput.Value = fakeMoveInput.Value;
+            return;
+        }
+    #endif
+        MoveInput.Value = playerMove.ReadValue<Vector2>();
     }
 
     private void OnUpdateMaxStableDenivelationAngle()
@@ -546,7 +588,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
             BecameUngrounded.Activate();
     }
 
-    public bool StandingOnSlideableSlope()
+    private bool StandingOnSlideableSlope()
     {
         if (!GroundingStatus.FoundAnyGround)
             return false;
@@ -558,102 +600,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
         return false;
     }
-
-    private void GetInput()
-    {
-#if UNITY_EDITOR
-        if (ignoreInput)
-        {
-            MoveInput.Value = fakeMoveInput.Value;
-            return;
-        }
-#endif
-        MoveInput.Value = playerMove.ReadValue<Vector2>();
-    }
-
-    public void UngroundMotor(float time = .1f)
-    {
-        charMotor.ForceUnground(time);
-
-        //If on ground and calling unground, activate became ungrounded trigger
-        if (GroundingStatus.FoundAnyGround || LastGroundingStatus.FoundAnyGround)
-            BecameUngrounded.Activate();
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        GameObject otherGameObject = other.gameObject;
-        if (otherGameObject.layer == layerMapper.GetLayer(LayerEnum.EnemyJumpTrigger) ||
-            otherGameObject.layer == layerMapper.GetLayer(LayerEnum.Interactable))
-        {
-            AttemptJumpAttack(other);
-        }
-    }
-
-    private void AttemptJumpAttack(Collider otherCollider)
-    {
-        float playerBottomY = collider.bounds.center.y - collider.bounds.extents.y;
-        float otherColliderBottomY = otherCollider.bounds.center.y - otherCollider.bounds.extents.y;
-
-        //Only jump attack if player is above bottom of trigger and falling downwards
-        if (playerBottomY > otherColliderBottomY && NewVelocity.Value.y <= 0f)
-        {
-            
-            
-            InteractionReceiver interactionReceiver = otherCollider.GetComponent<InteractionReceiver>();
-            if (interactionReceiver != null)
-            {
-                bool hasJumpInteraction = interactionReceiver.ReceiveJumpOnInteraction(new JumpOnPayload());
-                if (!hasJumpInteraction) return;
-            }
-            
-            JumpAttackTrigger.Activate();
-            CameraShakeManager.Instance.ShakeCamera(1.75f, .3f, .3f);
-            EffectsManager.Instance?.PlayClipAtPoint(jumpAttackClip, transform.position, .4f);
-        }
-    }
-
-
-    public Vector3 GetPlatformVelocity()
-    {
-        return charMotor.Velocity - charMotor.BaseVelocity;
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        GameObject otherGameObject = other.gameObject;
-        if (otherGameObject.layer == layerMapper.GetLayer(LayerEnum.Interactable))
-        {
-            var interactableScript = otherGameObject.GetComponent<InteractionReceiver>();
-            if (interactableScript != null)
-            {
-                interactablesInRange.Add(interactableScript);
-                interactableScript.ReceiveTriggerEnterInteraction(new TriggerEnterPayload());
-            }
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        GameObject otherGameObject = other.gameObject;
-        if (otherGameObject.layer == layerMapper.GetLayer(LayerEnum.Interactable))
-        {
-            var interactableScript = otherGameObject.GetComponent<InteractionReceiver>();
-            if (interactableScript != null)
-            {
-                interactablesInRange.Add(interactableScript);
-                interactableScript.ReceiveTriggerExitInteraction(new TriggerExitPayload());
-            }
-        }
-    }
-
-    private void AttemptInspect()
-    {
-        if (interactablesInRange.Count < 1) return;
-
-        interactablesInRange[0].ReceiveInspectInteraction(new InspectPayload());
-    }
-
+    
     //Cast downward from collider to get info about ground below
     private GroundingInfo GetGroundInfo()
     {
@@ -686,6 +633,86 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         }
         return false;
     }
+
+#endregion
+
+#region TriggerCallbacks
+
+private void OnTriggerStay(Collider other)
+{
+    GameObject otherGameObject = other.gameObject;
+    if (otherGameObject.layer == layerMapper.GetLayer(LayerEnum.EnemyJumpTrigger) ||
+        otherGameObject.layer == layerMapper.GetLayer(LayerEnum.Interactable))
+    {
+        AttemptJumpAttack(other);
+    }
+}
+
+private void OnTriggerEnter(Collider other)
+{
+    GameObject otherGameObject = other.gameObject;
+    if (otherGameObject.layer == layerMapper.GetLayer(LayerEnum.Interactable))
+    {
+        var interactableScript = otherGameObject.GetComponent<InteractionReceiver>();
+        if (interactableScript != null)
+        {
+            interactablesInRange.Add(interactableScript);
+            interactableScript.ReceiveTriggerEnterInteraction(new TriggerEnterPayload());
+        }
+    }
+}
+
+private void OnTriggerExit(Collider other)
+{
+    GameObject otherGameObject = other.gameObject;
+    if (otherGameObject.layer == layerMapper.GetLayer(LayerEnum.Interactable))
+    {
+        var interactableScript = otherGameObject.GetComponent<InteractionReceiver>();
+        if (interactableScript != null)
+        {
+            interactablesInRange.Add(interactableScript);
+            interactableScript.ReceiveTriggerExitInteraction(new TriggerExitPayload());
+        }
+    }
+}
+
+#endregion
+
+#region Actions
+
+private void AttemptJumpAttack(Collider otherCollider)
+{
+    float playerBottomY = collider.bounds.center.y - collider.bounds.extents.y;
+    float otherColliderBottomY = otherCollider.bounds.center.y - otherCollider.bounds.extents.y;
+
+    //Only jump attack if player is above bottom of trigger and falling downwards
+    if (playerBottomY > otherColliderBottomY && NewVelocity.Value.y <= 0f)
+    {
+            
+            
+        InteractionReceiver interactionReceiver = otherCollider.GetComponent<InteractionReceiver>();
+        if (interactionReceiver != null)
+        {
+            bool hasJumpInteraction = interactionReceiver.ReceiveJumpOnInteraction(new JumpOnPayload());
+            if (!hasJumpInteraction) return;
+        }
+            
+        JumpAttackTrigger.Activate();
+        CameraShakeManager.Instance.ShakeCamera(1.75f, .3f, .3f);
+        EffectsManager.Instance?.PlayClipAtPoint(jumpAttackClip, transform.position, .4f);
+    }
+}
+    
+private void AttemptInspect()
+{
+    if (interactablesInRange.Count < 1) return;
+
+    interactablesInRange[0].ReceiveInspectInteraction(new InspectPayload());
+}
+
+#endregion
+
+    
     
     
 }

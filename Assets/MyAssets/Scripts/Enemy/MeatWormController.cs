@@ -187,7 +187,8 @@ public class MeatWormController : EnemyController
         //SegmentList[0].Translate(deltaMove, Space.World);
         CharController.Move(deltaMove);
         
-        if (!Mathf.Approximately(0f, deltaMove.magnitude))
+        if (!Mathf.Approximately(0f, deltaMove.magnitude) && 
+            (!Mathf.Approximately(0f, Time.timeScale)))
             Head.rotation = Quaternion.LookRotation(deltaMove);
 
         for (int i = 1; i < SegmentList.Count; i++)

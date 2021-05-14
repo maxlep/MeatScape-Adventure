@@ -33,13 +33,11 @@ namespace MyAssets.Scripts.UI
         private void OnEnable()
         {
             _onPreCull.Subscribe(RunUpdate);
-            Debug.Log($"Enable");
         }
 
         private void OnDisable()
         {
             _onPreCull.Unsubscribe(RunUpdate);
-            Debug.Log($"Disable");
         }
 
         private void RunUpdate()

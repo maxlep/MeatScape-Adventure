@@ -1,14 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
+using MoreMountains.Feedbacks;
 using MyAssets.Scripts.Utils;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class MeatWormController : EnemyController
 {
+    [Title("References")]
     [SerializeField] private LayerMapper LayerMapper;
     [SerializeField] private CharacterController CharController;
+    [SerializeField] private List<Transform> SegmentList;
+    
+    [Title("Feedbacks")]
+    [SerializeField] private MMFeedbacks BurrowingFeedbacks;
+
+    [SerializeField] private MMFeedbacks UnBurrowFeedbacks;
+
+    [Title("Combat")]
     [SerializeField] private int Damage = 1;
+
+    [Title("Movement")]
     [SerializeField] private float MinSegmentDistance;
+    [SerializeField] private float turningDeltaDegrees = 3f;
     [SerializeField] private float HorizontalDragAir = .3f;
     [SerializeField] private float XLaunchVelocity = 40f;
     [SerializeField] private float MinYLaunchVelocity = 30f;
@@ -18,24 +32,36 @@ public class MeatWormController : EnemyController
     [SerializeField] private float UpwardDigAcceleration = 9.8f;
     [SerializeField] private float TurnAroundDigAccelerationMultiplier = 3f;
     [SerializeField] private float FallMultiplier;
+    [SerializeField] private float UnBurrowRaycastOffset = 30f;
     [SerializeField] private float MoveSpeed = 20f;
+    
+    [Title("LayerMasks")]
     [SerializeField] private LayerMask GroundMask;
-    [SerializeField] private List<Transform> SegmentList;
+
+    private Transform Head
+    {
+        get => SegmentList[0];
+        set => SegmentList[0] = value;
+    }
 
     private Vector3 currentVelocity;
     private Vector3 moveDir;
     private Vector3 targetDir;
     private bool isGrounded, isGroundedLast;
+    private bool becameGrounded, becameUngrounded;
+    private bool unburrowFeedbackReady;
     
     protected override void Awake()
     {
         base.Awake();
-        moveDir = SegmentList[0].forward;
+        moveDir = Head.forward;
     }
 
     private void Update()
     {
         UpdateGroundingStatus();
+        HandleBurrowFeedback();
+        HandleUnburrowFeedback();
         TurnToTarget();
         UpdateVelocity();
         Move();
@@ -48,20 +74,53 @@ public class MeatWormController : EnemyController
         //Raycast downwards from head, looking for ground
         RaycastHit groundHit;
         
-        bool foundGroundBelow = Physics.Raycast(SegmentList[0].position, Vector3.down, out groundHit,
+        bool foundGroundBelow = Physics.Raycast(Head.position, Vector3.down, out groundHit,
             Mathf.Infinity, GroundMask);
 
         if (foundGroundBelow)
             isGrounded = false;
         else
             isGrounded = true;
+
+        becameGrounded = !isGroundedLast && isGrounded;
+        becameUngrounded = isGroundedLast && !isGrounded;
+    }
+
+    private void HandleBurrowFeedback()
+    {
+        if (becameGrounded)
+        {
+            BurrowingFeedbacks.PlayFeedbacks();
+            unburrowFeedbackReady = true;
+            UnBurrowFeedbacks.StopFeedbacks();
+        }
+        if (becameUngrounded) BurrowingFeedbacks.StopFeedbacks();
+    }
+
+    private void HandleUnburrowFeedback()
+    {
+        //Raycast from position in from of head to the head's origin checking for ground
+        //If found ground, it means the worm is about to surface
+        RaycastHit groundHit;
+        Vector3 origin = Head.position + Head.forward * UnBurrowRaycastOffset;
+        float dist = Vector3.Distance(origin, Head.position);
+        
+        bool foundGroundAhead = Physics.Raycast(origin, -Head.forward, out groundHit,
+            dist, GroundMask);
+
+        if (foundGroundAhead)
+        {
+            UnBurrowFeedbacks.PlayFeedbacks();
+            unburrowFeedbackReady = false;
+        }
     }
 
     private void TurnToTarget()
     {
-        //Turn to target if grounded
-        if (isGrounded)
-            moveDir = targetDir;
+        if (!isGrounded) return;
+        
+        moveDir = Vector3.RotateTowards(currentVelocity.xoz(), targetDir, 
+            turningDeltaDegrees * Time.deltaTime, Mathf.Infinity);
     }
 
     private void UpdateVelocity()
@@ -98,7 +157,7 @@ public class MeatWormController : EnemyController
         
         
         //If just became grounded, clamp to burrow velocity
-        if (!isGroundedLast && isGrounded)
+        if (becameGrounded)
         {
             newVelocity.y = Mathf.Min(-MinYBurrowVelocity, newVelocity.y);
             newVelocity.y = Mathf.Max(-MaxYBurrowVelocity, newVelocity.y);
@@ -106,7 +165,7 @@ public class MeatWormController : EnemyController
         }
         
         //If just became ungrounded, Launch worm
-        if (isGroundedLast && !isGrounded)
+        if (becameUngrounded)
         {
             //Set horizontal speed to the launch X speed
             Vector3 launchVelocity = currentVelocity.xoz().normalized * XLaunchVelocity;
@@ -129,7 +188,7 @@ public class MeatWormController : EnemyController
         CharController.Move(deltaMove);
         
         if (!Mathf.Approximately(0f, deltaMove.magnitude))
-            SegmentList[0].rotation = Quaternion.LookRotation(deltaMove);
+            Head.rotation = Quaternion.LookRotation(deltaMove);
 
         for (int i = 1; i < SegmentList.Count; i++)
         {
@@ -147,7 +206,8 @@ public class MeatWormController : EnemyController
             curBodyPart.position = Vector3.Slerp(curBodyPart.position, PrevBodyPart.position, T);
             //curBodyPart.rotation = Quaternion.Slerp(curBodyPart.rotation, PrevBodyPart.rotation, T);
             
-            if (!Mathf.Approximately(0f, deltaMove.magnitude))
+            if (!Mathf.Approximately(0f, deltaMove.magnitude) && 
+                (!Mathf.Approximately(0f, Time.timeScale)))
                 curBodyPart.rotation = Quaternion.LookRotation(deltaMove.normalized);
         }
     }

@@ -19,6 +19,8 @@ namespace MyAssets.Scripts.UI
         
         [SerializeField] private MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference _fillPct;
         [SerializeField, Range(0, 1)] private float fillPct;
+        private float fillLastUpdate;
+        [SerializeField, Range(0, 1)] private float appearPct;
 
         [SerializeField] private FloatValueReference minFillThreshold;
         [SerializeField] private FloatValueReference maxFillThreshold;
@@ -38,7 +40,8 @@ namespace MyAssets.Scripts.UI
         public float fontGrowRangeNext = 0.1f;
 
         public Vector2 arcPosUI;
-        
+
+        public Color backgroundFillColor;
         public Color outlineColor;
         public Color minFillColor;
         public Color fillColor;
@@ -49,6 +52,27 @@ namespace MyAssets.Scripts.UI
         [ShowInInspector] private float elapsedAlternateTime;
         [OnValueChanged("ResetFlashTime")] public float chargingFlashDelay;
         [OnValueChanged("ResetFlashTime")] public float fullFlashDelay;
+
+        public bool released = false;
+        public float releasedElapsedTime;
+        public float releasedAnimTime = 0.2f;
+        public AnimationCurve releasedAnimCurve;
+        
+        public bool popped = false;
+        public bool complete = false;
+        public float poppedReleasedOverlapTime;
+        [FormerlySerializedAs("poppoedElapsedTime")] public float poppedElapsedTime;
+        public float poppedAnimTime;
+        public AnimationCurve poppedAnimCurve;
+        
+        public float popupTime;
+        public float elapsedPopupTime;
+        public float originalBarRadius;
+        public float originalBarThickness;
+
+        public bool isReset = true;
+
+        public bool flipFillDirection = false;
 
 #endregion
 
@@ -63,6 +87,28 @@ namespace MyAssets.Scripts.UI
         {
             elapsedAlternateTime = 0;
         }
+
+        private void OnEnable()
+        {
+            appearPct = 0;
+        }
+
+#if UNITY_EDITOR
+        private void Start()
+        {
+            if (Application.isPlaying)
+            {
+                appearPct = 0;
+                elapsedPopupTime = 0;
+                releasedElapsedTime = 0;
+                poppedElapsedTime = 0;
+                released = false;
+                popped = false;
+                complete = false;
+                isReset = true;
+            }
+        }
+#endif
 
 #endregion
 
@@ -79,6 +125,16 @@ namespace MyAssets.Scripts.UI
         }
 
 #endregion
+        
+        
+#region Interface
+
+        public void Release()
+        {
+            released = true;
+        }
+
+#endregion
 
 #region Drawing
 
@@ -86,17 +142,66 @@ namespace MyAssets.Scripts.UI
         {
             #if UNITY_EDITOR
             var tempFill = Application.isPlaying ? _fillPct.Value : fillPct;
+            var deltaTime = Application.isPlaying ? Time.unscaledDeltaTime : Time.fixedUnscaledDeltaTime;
             #else
             var tempFill = fillPct;
+            var deltaTime = Time.unscaledDeltaTime;
             #endif
-
+            
+            if (released && !isReset)
+            {
+                tempFill = fillLastUpdate;
+            }
+            
+            fillLastUpdate = tempFill;
+            
+            if (Mathf.Approximately(tempFill, 0) && Mathf.Approximately(appearPct, 0))
+            {
+                return;
+            }
+            
+            if (tempFill > 0 && appearPct < 1 && !released)
+            {
+                if (isReset) isReset = false; 
+                elapsedPopupTime += deltaTime;
+                appearPct = elapsedPopupTime / popupTime;
+                if (appearPct >= 1)
+                {
+                    appearPct = 1;
+                    elapsedPopupTime = 0;
+                }
+            }
+            
+            if ((Mathf.Approximately(tempFill, 0) || complete) && appearPct > 0)
+            {
+                elapsedPopupTime += deltaTime;
+                appearPct = 1 - (elapsedPopupTime / popupTime);
+                if (appearPct <= 0)
+                {
+                    appearPct = 0;
+                    elapsedPopupTime = 0;
+                    releasedElapsedTime = 0;
+                    poppedElapsedTime = 0;
+                    released = false;
+                    popped = false;
+                    complete = false;
+                    isReset = true;
+                }
+            }
+            
             var uiPos = arcPosUI;// + UnityEngine.Camera.main.WorldToScreenPoint(follow?.position ?? Vector3.zero).xz();
             
             bool minFilled = tempFill >= minFillThreshold.Value;
             bool maxFilled = tempFill >= maxFillThreshold.Value; 
             float angRadMin = barAngularSpanRad / 2 + ShapesMath.TAU / 2;
             float angRadMax = -barAngularSpanRad / 2 + ShapesMath.TAU / 2;
-            float outerRadius = barRadius + barThickness / 2;
+            float outerRadius = barRadius * appearPct + barThickness / 2 * appearPct;
+            if (flipFillDirection)
+            {
+                var temp = angRadMin;
+                angRadMin = angRadMax;
+                angRadMax = temp;
+            }
 
             float chargeAngRad = Mathf.Lerp(angRadMin, angRadMax, tempFill);
             float minChargeAngRad;
@@ -108,10 +213,53 @@ namespace MyAssets.Scripts.UI
             {
                 minChargeAngRad = chargeAngRad;
             }
+
+            if (released)
+            {
+                #if UNITY_EDITOR
+                if (!Application.isPlaying)
+                {
+                    fillPct = 0;
+                }
+                #endif
+                
+                if (releasedElapsedTime < releasedAnimTime)
+                {
+                    releasedElapsedTime += deltaTime;
+                    releasedElapsedTime = Mathf.Min(releasedElapsedTime + deltaTime, releasedAnimTime);
+                    if (releasedElapsedTime >= releasedAnimTime - poppedReleasedOverlapTime)
+                    {
+                        popped = true;
+                    }
+                    // if (Mathf.Approximately(releasedElapsedTime, releasedAnimTime))
+                    // {
+                    //     popped = true;
+                    // }
+                }
+
+                var releasedPct = Mathf.Clamp01(releasedElapsedTime / releasedAnimTime);
+                var releasedAnimFactor = releasedAnimCurve.Evaluate(releasedPct);
+                minChargeAngRad = Mathf.Lerp(minChargeAngRad, chargeAngRad, releasedAnimFactor);
+            }
+            
+            // Background Fill
+            Draw.Color = backgroundFillColor;
+            DrawArcUI(_rectTransform, uiPos, barRadius * appearPct, barThickness * appearPct, angRadMin, angRadMax);
+            Vector2 pTop = uiPos + ShapesMath.AngToDir(angRadMax) * barRadius * appearPct;
+            Vector2 pBot = uiPos + ShapesMath.AngToDir(angRadMin) * barRadius * appearPct;
+            DrawDiscUI(_rectTransform, pTop, barThickness / 2f * appearPct);
+            DrawDiscUI(_rectTransform, pBot, barThickness / 2f * appearPct);
             
             // Outline
             Draw.Color = outlineColor;
-            DrawRoundedArcOutline(_rectTransform, uiPos, barRadius, barThickness, barOutlineThickness, angRadMax, angRadMin);
+            if (flipFillDirection)
+            {
+                DrawRoundedArcOutline(_rectTransform, uiPos, barRadius * appearPct, barThickness * appearPct, barOutlineThickness * appearPct, angRadMin, angRadMax);
+            }
+            else
+            {
+                DrawRoundedArcOutline(_rectTransform, uiPos, barRadius * appearPct, barThickness * appearPct, barOutlineThickness * appearPct, angRadMax, angRadMin);
+            }
             
             // Ghost Outline
             // Draw.Color = outlineColor;
@@ -123,11 +271,7 @@ namespace MyAssets.Scripts.UI
             if (minFilled)
             {
                 var flashDelay = (tempFill >= maxFillThreshold.Value ? fullFlashDelay : chargingFlashDelay);
-                #if UNITY_EDITOR
-                elapsedAlternateTime += Application.isPlaying ? Time.unscaledDeltaTime : Time.fixedUnscaledDeltaTime;
-                #else
-                elapsedAlternateTime += Time.unscaledDeltaTime;
-                #endif
+                elapsedAlternateTime += deltaTime;
                 if (elapsedAlternateTime >= flashDelay)
                 {
                     elapsedAlternateTime = elapsedAlternateTime % flashDelay;
@@ -145,15 +289,30 @@ namespace MyAssets.Scripts.UI
             {
                 Draw.Color = minFillColor;
             }
-            DrawArcUI(_rectTransform, uiPos, barRadius, barThickness, minChargeAngRad, chargeAngRad);
+            DrawArcUI(_rectTransform, uiPos, barRadius * appearPct, barThickness * appearPct, minChargeAngRad, chargeAngRad);
             
             // End fill
-            Vector2 movingTopPos = uiPos + ShapesMath.AngToDir(chargeAngRad) * barRadius;
-            Vector2 bottomPos = uiPos + ShapesMath.AngToDir(minChargeAngRad) * barRadius;
+            Vector2 movingTopPos = uiPos + ShapesMath.AngToDir(chargeAngRad) * barRadius * appearPct;
+            Vector2 bottomPos = uiPos + ShapesMath.AngToDir(minChargeAngRad) * barRadius * appearPct;
+            var circleRadius = barThickness / 2f * appearPct;
+            
+            if (popped)
+            {
+                poppedElapsedTime += deltaTime;
+                poppedElapsedTime = Mathf.Min(poppedElapsedTime + deltaTime, poppedAnimTime);
+                if (Mathf.Approximately(poppedElapsedTime, poppedAnimTime) && !complete)
+                {
+                    complete = true;
+                }
+
+                var pct = poppedElapsedTime / poppedAnimTime;
+                var lerp = 1 + poppedAnimCurve.Evaluate(pct);
+                circleRadius *= lerp;
+            }
             // Bottom
-            DrawDiscUI(_rectTransform, bottomPos, barThickness / 2f);
+            DrawDiscUI(_rectTransform, bottomPos, circleRadius);
             // Top
-            DrawDiscUI(_rectTransform, movingTopPos, barThickness / 2f);// + barOutlineThickness / 2f);
+            DrawDiscUI(_rectTransform, movingTopPos, circleRadius);// + barOutlineThickness / 2f);
             // Draw.Color = Color.blue;
             // DrawDiscUI(_rectTransform, bottomPos, barThickness / 2f - barOutlineThickness / 2f);
             
@@ -181,7 +340,7 @@ namespace MyAssets.Scripts.UI
         private static Vector3 UIToWorldPosition(RectTransform rectTransform, Vector2 offset)
         {
             var worldPosition =
-                RotatePointAroundPivot(((Vector3)offset + rectTransform.position), rectTransform.position, rectTransform.rotation);
+                ((Vector3)offset + rectTransform.position).RotatePointAroundPivot(rectTransform.position, rectTransform.rotation);
             return worldPosition;
         }
 
@@ -200,12 +359,5 @@ namespace MyAssets.Scripts.UI
         }
 
 #endregion
-        
-        public static Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot, Quaternion rotation) {
-            var dir = point - pivot;
-            dir = rotation * dir;
-            point = dir + pivot;
-            return point;
-        }
     }
 }

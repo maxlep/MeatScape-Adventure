@@ -14,7 +14,7 @@ namespace MyAssets.Scripts.UI
         [SerializeField] private Canvas _canvas;
         [SerializeField] private CanvasScaler _canvasScaler;
         [SerializeField] private RectTransform _follower;
-        [SerializeField] private Transform _followed;
+        [SerializeField] private TransformSceneReference _followed;
         [SerializeField] private bool _pauseFollow;
 
         private UnityEngine.Camera _camera;
@@ -48,7 +48,7 @@ namespace MyAssets.Scripts.UI
             }
             else if (_follower != null && _followed != null && _camera != null && _canvas != null)
             {
-                var worldPoint = _followed.position;
+                var worldPoint = _followed.Value.position;
                 var screenPoint = _camera.WorldToScreenPoint(worldPoint).xy();
                 var canvasRect = _canvas.transform as RectTransform;
                 if (canvasRect != null)

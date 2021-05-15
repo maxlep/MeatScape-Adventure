@@ -46,7 +46,7 @@ namespace MyAssets.Scripts.UI
             {
                 _followerOriginalPosition = _follower.position;
             }
-            else if (_follower != null && _followed != null && _camera != null && _canvas != null)
+            else if (_follower != null && _followed != null && _followed.Value != null && _camera != null && _canvas != null)
             {
                 var worldPoint = _followed.Value.position;
                 var screenPoint = _camera.WorldToScreenPoint(worldPoint).xy();

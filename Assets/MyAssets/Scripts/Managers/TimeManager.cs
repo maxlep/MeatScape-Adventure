@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
 using UnityEngine;
 
@@ -8,16 +9,22 @@ public class TimeManager : MonoBehaviour
 
     [SerializeField] private GameObject pauseText;
     [SerializeField] private GameObject manualUpdateText;
+    [SerializeField] private GameObject statScreen;
     [SerializeField] private BoolReference IsPlayerDead;
+    [SerializeField] private GameEvent onEnableStatScreen;
+    [SerializeField] private GameEvent onDisableStatScreen;
 
-    private bool isPaused = false;
-    private bool manualUpdate = false;
-    private bool skipFrame = false;
-    private bool isFrozen = false;
+    private bool isPaused;
+    private bool manualUpdate;
+    private bool skipFrame;
+    private bool isFrozen;
+    private bool keepStatsScreenOpen;
     private float timescaleFactor = 1f;
 
     private Coroutine freezeFrameRoutine;
-    
+
+    #region Unity Methods
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -29,6 +36,20 @@ public class TimeManager : MonoBehaviour
         InputManager.Instance.onReduceTimeScale += () => ChangeTimeScale(-10f);
         InputManager.Instance.onResetTimeScale += ResetTimeScale;
         InputManager.Instance.onIncreaseTimeScale += () => ChangeTimeScale(10f);
+        InputManager.Instance.onFunction11 += () =>
+        {
+            keepStatsScreenOpen = false;
+            DisableStatScreen();
+        };
+        InputManager.Instance.onFunction12 += () =>
+        {
+            keepStatsScreenOpen = true;
+            EnableStatScreen();
+        };
+
+        onEnableStatScreen.Subscribe(EnableStatScreen);
+        onDisableStatScreen.Subscribe(DisableStatScreen);
+        
         pauseText.SetActive(false);
     }
 
@@ -37,6 +58,10 @@ public class TimeManager : MonoBehaviour
         if (manualUpdate && !skipFrame) Time.timeScale = 0f;
         skipFrame = false;
     }
+
+    #endregion
+
+    #region Timescale
 
     private void ResetTimeScale()
     {
@@ -59,6 +84,10 @@ public class TimeManager : MonoBehaviour
         timescaleFactor = Mathf.Clamp(timescaleFactor, .1f, 10f);
         if (!isPaused) Time.timeScale = timescaleFactor;
     }
+
+    #endregion
+
+    #region Pause/UnPause
 
     private void TogglePauseGame()
     {
@@ -83,6 +112,49 @@ public class TimeManager : MonoBehaviour
         pauseText.SetActive(false);
     }
 
+    #endregion
+
+    #region Freeze Frame
+
+    public void FreezeFrame(float duration = .05f)
+    {
+        if (isFrozen || isPaused) return;
+        freezeFrameRoutine = StartCoroutine(DoFreeze(duration));
+    }
+    
+    private IEnumerator DoFreeze(float duration = .05f)
+    {
+        isFrozen = true;
+        var originalScale = Time.timeScale;
+        Time.timeScale = 0f;
+        yield return new WaitForSecondsRealtime(duration);
+        Time.timeScale = originalScale;
+        isFrozen = false;
+    }
+
+    #endregion
+
+    #region Stat Screen
+
+    private void EnableStatScreen()
+    {
+        Time.timeScale = 0f;
+        statScreen.SetActive(true);
+    }
+    
+    private void DisableStatScreen()
+    {
+        //If enabled by debug key, dont let anything else disable it
+        if (keepStatsScreenOpen) return;
+        
+        Time.timeScale = timescaleFactor;
+        statScreen.SetActive(false);
+    }
+
+    #endregion
+
+    #region Debug
+    
     //Set manual update mode (overrides pause game)
     public void ToggleManualUpdate()
     {
@@ -99,23 +171,7 @@ public class TimeManager : MonoBehaviour
             manualUpdateText.SetActive(false);
         }
     }
-    
-    public void FreezeFrame(float duration = .05f)
-    {
-        if (isFrozen || isPaused) return;
-        freezeFrameRoutine = StartCoroutine(DoFreeze(duration));
-    }
-    
-    private IEnumerator DoFreeze(float duration = .05f)
-    {
-        isFrozen = true;
-        var originalScale = Time.timeScale;
-        Time.timeScale = 0f;
-        yield return new WaitForSecondsRealtime(duration);
-        Time.timeScale = originalScale;
-        isFrozen = false;
-    }
-    
+
     private void OnGUI()
     {
         if (!DebugManager.Instance.EnableDebugGUI) return;
@@ -144,4 +200,6 @@ public class TimeManager : MonoBehaviour
         if (GUI.Button(new Rect(pivotX + 210, pivotY + (height + verticalMargin) * 2, smallButtonWidth, height),
             "(N) Next")) SkipFrame();
     }
+
+    #endregion
 }

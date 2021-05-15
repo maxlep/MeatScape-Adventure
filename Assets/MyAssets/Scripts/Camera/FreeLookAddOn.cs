@@ -23,8 +23,8 @@ public class FreeLookAddOn : MonoBehaviour
     {
         lookInput = InputManager.Instance.GetPlayerLook_Action();
         mousePosition = InputManager.Instance.GetMousePosition_Action();
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     private void Start()

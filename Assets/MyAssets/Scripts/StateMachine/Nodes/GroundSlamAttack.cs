@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Den.Tools;
 using MyAssets.ScriptableObjects.Variables;
+using MyAssets.ScriptableObjects.Variables.ValueReferences;
 using Shapes;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -17,26 +18,25 @@ public class GroundSlamAttack: PlayerStateNode
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required] 
     private FloatReference PlayerScale;
-    
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Inputs")] [Required] 
-    private FloatReference AttackBaseRadius;
-    
+
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required] 
     private FloatReference KnockbackTime;
-    
+
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required] 
     private FloatReference KnockbackSpeed;
-    
+
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required] 
+    private FloatValueReference GroundSlamRadius;
+
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required] 
     private IntReference Damage;
 
     #endregion
 
-    private float currentRadius;
     private List<EnemyController> enemiesDamagedList = new List<EnemyController>();
 
     public override void Awaken()
@@ -56,8 +56,7 @@ public class GroundSlamAttack: PlayerStateNode
         );
         
         //Scale the radius with player scale
-        currentRadius = AttackBaseRadius.Value * PlayerScale.Value;
-        Collider[] hitColliders = Physics.OverlapSphere(playerPosition, currentRadius, hitMask);
+        Collider[] hitColliders = Physics.OverlapSphere(playerPosition, GroundSlamRadius.Value, hitMask);
         
         foreach (var collider in hitColliders)
         {
@@ -99,6 +98,6 @@ public class GroundSlamAttack: PlayerStateNode
         base.DrawGizmos();
         Color color = new Color(1f, 1f, 0f, .35f);
         Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, playerController.transform.position,
-            currentRadius, color);
+            GroundSlamRadius.Value, color);
     }
 }

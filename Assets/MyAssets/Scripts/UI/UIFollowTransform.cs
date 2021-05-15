@@ -27,7 +27,7 @@ namespace MyAssets.Scripts.UI
 
         private void OnValidate()
         {
-            _camera = _cameraTransform.Value.GetComponent<UnityEngine.Camera>();
+            _camera = _cameraTransform?.Value?.GetComponent<UnityEngine.Camera>();
         }
 
         private void OnEnable()

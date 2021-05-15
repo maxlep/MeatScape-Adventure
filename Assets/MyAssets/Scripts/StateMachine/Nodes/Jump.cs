@@ -1,4 +1,5 @@
 ﻿using MyAssets.ScriptableObjects.Variables;
+using MyAssets.ScriptableObjects.Variables.ValueReferences;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using MyAssets.Scripts.Utils;
@@ -9,6 +10,7 @@ public class Jump : PlayerStateNode
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference maxJumpHeight;
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference StoredJumpVelocity;
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference jumpGroundDelay;
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatValueReference jumpStatMultiplier;
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private BoolReference hasWaitedJumpDelay;
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TriggerVariable triggerJumpAnim;
 
@@ -32,6 +34,7 @@ public class Jump : PlayerStateNode
         jumpVelocity = Mathf.Abs(gravity) * timeToJumpApex.Value;
         playerController.UngroundMotor();
         StoredJumpVelocity.Value = jumpVelocity + Mathf.Max(playerController.GetPlatformVelocity().y, 0f);
+        StoredJumpVelocity.Value *= jumpStatMultiplier.Value;
         triggerJumpAnim.Activate();
     }
 

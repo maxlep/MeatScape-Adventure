@@ -9,6 +9,9 @@ public static class ScriptableObjectUtils
 {
     public static bool SaveInstance(this ScriptableObject so, string folderPath, string name = "")
     {
+        #if !UNITY_EDITOR
+        return false;
+        #else
         if (AssetDatabase.Contains(so)) return false;
         
         String label = string.IsNullOrEmpty(name) ? name = so.GetHashCode().ToString() : name;
@@ -24,5 +27,6 @@ public static class ScriptableObjectUtils
         AssetDatabase.CreateAsset(so, path);
         AssetDatabase.SaveAssets();
         return true;
+        #endif
     }
 }

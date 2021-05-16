@@ -1,6 +1,7 @@
 ﻿using System;
 using MyAssets.ScriptableObjects.Events;
 using MyAssets.Scripts.Utils;
+using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,9 +26,21 @@ namespace MyAssets.Scripts.UI
             _followerOriginalPosition = _follower.position;
         }
 
+        private void Start()
+        {
+            if (!_cameraTransform.SafeIsUnityNull() && !_cameraTransform.Value.SafeIsUnityNull())
+            {
+                _camera = _cameraTransform.Value.GetComponent<UnityEngine.Camera>();
+            }
+            Debug.Log($"Start follow UI {_camera}");
+        }
+
         private void OnValidate()
         {
-            _camera = _cameraTransform?.Value?.GetComponent<UnityEngine.Camera>();
+            if (!_cameraTransform.SafeIsUnityNull() && !_cameraTransform.Value.SafeIsUnityNull())
+            {
+                _camera = _cameraTransform.Value.GetComponent<UnityEngine.Camera>();
+            }
         }
 
         private void OnEnable()
@@ -46,6 +59,7 @@ namespace MyAssets.Scripts.UI
             {
                 _followerOriginalPosition = _follower.position;
             }
+            #if UNITY_EDITOR
             else if (_follower != null && _followed != null && _followed.Value != null && _camera != null && _canvas != null)
             {
                 var worldPoint = _followed.Value.position;
@@ -61,6 +75,20 @@ namespace MyAssets.Scripts.UI
             {
                 _follower.position = _followerOriginalPosition;
             }
+            #else
+            else
+            {
+                var worldPoint = _followed.Value.position;
+                var screenPoint = _camera.WorldToScreenPoint(worldPoint).xy();
+                var canvasRect = _canvas.transform as RectTransform;
+                if (canvasRect != null)
+                {
+                    var canvasPoint = screenPoint * _camera.pixelRect.size.Inverse() * canvasRect.rect.size;
+                    Debug.Log($"Chargebar: {worldPoint}, {screenPoint}, {canvasPoint} | {_camera.pixelRect.size}, {canvasRect.rect.size}");
+                    _follower.anchoredPosition = canvasPoint;
+                }
+            }
+            #endif
         }
     }
 }

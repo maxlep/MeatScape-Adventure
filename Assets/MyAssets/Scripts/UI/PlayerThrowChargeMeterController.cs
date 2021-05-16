@@ -108,6 +108,18 @@ namespace MyAssets.Scripts.UI
                 isReset = true;
             }
         }
+#else
+        private void Start()
+        {
+            appearPct = 0;
+            elapsedPopupTime = 0;
+            releasedElapsedTime = 0;
+            poppedElapsedTime = 0;
+            released = false;
+            popped = false;
+            complete = false;
+            isReset = true;
+        }
 #endif
 
 #endregion
@@ -144,7 +156,7 @@ namespace MyAssets.Scripts.UI
             var tempFill = Application.isPlaying ? _fillPct.Value : fillPct;
             var deltaTime = Application.isPlaying ? Time.unscaledDeltaTime : Time.fixedUnscaledDeltaTime;
             #else
-            var tempFill = fillPct;
+            var tempFill = _fillPct.Value;
             var deltaTime = Time.unscaledDeltaTime;
             #endif
             

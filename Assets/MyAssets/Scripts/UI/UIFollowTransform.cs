@@ -32,7 +32,6 @@ namespace MyAssets.Scripts.UI
             {
                 _camera = _cameraTransform.Value.GetComponent<UnityEngine.Camera>();
             }
-            Debug.Log($"Start follow UI {_camera}");
         }
 
         private void OnValidate()

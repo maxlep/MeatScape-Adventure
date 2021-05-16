@@ -33,9 +33,11 @@ public class MeatClumpController : MonoBehaviour
     [SerializeField] private LayerMask CollisionMaskEnvironment;
     [SerializeField] private LayerMask CollisionMaskEnemy;
     [SerializeField] private UnityEvent OnCollideWithStatic;
+    [SerializeField] private UnityEvent OnCollideWithEnemy;
     [SerializeField] private IntVariable enemyHitId;
     [SerializeField] private MMFeedbacks impactFeedbacks;
     [SerializeField] private MMFeedbacks overChargeFeedbacks;
+    [SerializeField] private GameObject meatPickupPrefab;
 
     private float startTime;
     private float damage;
@@ -124,9 +126,12 @@ public class MeatClumpController : MonoBehaviour
                     enemyHitId.Value = hurtProxy.gameObject.GetInstanceID();
                 }
                 
-                
                 impactFeedbacks.PlayFeedbacks();
-                Destroy(gameObject);
+                // Destroy(gameObject);
+                if (shaderUpdater != null) shaderUpdater.StartSplat(normal);
+                transform.SetParent(hitObj.transform);
+                OnCollideWithEnemy.Invoke();
+                enemyScript.OnDeath += OnParentEnemyDeath;
                 return;
             }
 
@@ -146,7 +151,6 @@ public class MeatClumpController : MonoBehaviour
         {
             if (this != null) Destroy(gameObject);
         });
-        
     }
 
     private void PreMoveCollisionCheck(Vector3 deltaDistance)
@@ -189,6 +193,12 @@ public class MeatClumpController : MonoBehaviour
         
         HandleCollisions(hitCollidersEnemy, -meshTransform.forward);
         HandleCollisions(hitCollidersEnvironment, -meshTransform.forward);
+    }
+
+    private void OnParentEnemyDeath()
+    {
+        Instantiate(meatPickupPrefab, transform.position, transform.rotation);
+        Destroy(gameObject);
     }
     #endregion
     

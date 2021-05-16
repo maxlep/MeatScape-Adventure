@@ -590,77 +590,77 @@ MonoBehaviour:
   ClumpDamage:
     UseConstant: 0
     EnableInstanceOptions: 0
-    InstanceName: 
+    InstanceName: '{I} '
     InstancePath: IntermediateProperties
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 9ea2de5ac1976594bac6157b4446c691, type: 2}
   ClumpOverchargedDamage:
     UseConstant: 0
     EnableInstanceOptions: 0
-    InstanceName: 
+    InstanceName: '{I} '
     InstancePath: IntermediateProperties
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 8b3893bc9f05c4d428174c47752e7bdc, type: 2}
   ClumpScalingFactor:
     UseConstant: 0
     EnableInstanceOptions: 0
-    InstanceName: 
+    InstanceName: '{I} '
     InstancePath: IntermediateProperties
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: bfedf18eed0eb84469ce945487f08f60, type: 2}
   ClumpGravityEnableTime:
     UseConstant: 0
     EnableInstanceOptions: 0
-    InstanceName: 
+    InstanceName: '{I} '
     InstancePath: IntermediateProperties
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 005e30aa9fd19b74e98f939cef0ec68f, type: 2}
   ClumpDragEnableTime:
     UseConstant: 0
     EnableInstanceOptions: 0
-    InstanceName: 
+    InstanceName: '{I} '
     InstancePath: IntermediateProperties
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: da6f87f45161a42489206fc5db37be88, type: 2}
   ClumpGravityFactor:
     UseConstant: 0
     EnableInstanceOptions: 0
-    InstanceName: 
+    InstanceName: '{I} '
     InstancePath: IntermediateProperties
     ConstantValue: 2
     Variable: {fileID: 11400000, guid: ea72cf50786fd5849bf6f34aa155f960, type: 2}
   ClumpDestroyTime:
     UseConstant: 0
     EnableInstanceOptions: 0
-    InstanceName: 
+    InstanceName: '{I} '
     InstancePath: IntermediateProperties
     ConstantValue: 10
     Variable: {fileID: 11400000, guid: 9adfca61ef6e52e43b20f82f75d2a7d3, type: 2}
   CollisionRadiusEnvironment:
     UseConstant: 0
     EnableInstanceOptions: 0
-    InstanceName: 
+    InstanceName: '{I} '
     InstancePath: IntermediateProperties
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: af52d6475ea8cf14bb9b61c6f6d7b953, type: 2}
   CollisionRadiusEnemy:
     UseConstant: 0
     EnableInstanceOptions: 0
-    InstanceName: 
+    InstanceName: '{I} '
     InstancePath: IntermediateProperties
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: e57ead667074734469c85a2b2fadb069, type: 2}
   DragCoefficient:
     UseConstant: 0
     EnableInstanceOptions: 0
-    InstanceName: 
+    InstanceName: '{I} '
     InstancePath: IntermediateProperties
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 9f0e5df1872c3114ba449c30d044623c, type: 2}
   DragThresholdVelocity:
     UseConstant: 0
     EnableInstanceOptions: 0
-    InstanceName: 
+    InstanceName: '{I} '
     InstancePath: IntermediateProperties
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: ceab4f0124b50ba4a8cf90e996c366c0, type: 2}
@@ -685,9 +685,26 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnCollideWithEnemy:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2761379462448255299}
+        m_TargetAssemblyTypeName: RotateOverTime, Assembly-CSharp
+        m_MethodName: StopRotating
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   enemyHitId: {fileID: 11400000, guid: 6ade8ca39c1c69647bf2a31325804047, type: 2}
   impactFeedbacks: {fileID: 7002593396684346542}
   overChargeFeedbacks: {fileID: 6018149022087274295}
+  meatPickupPrefab: {fileID: 3791119812253180241, guid: 2495a54ad21f870449e44182263d9ea1,
+    type: 3}
 --- !u!114 &2761379462448255299
 MonoBehaviour:
   m_ObjectHideFlags: 0

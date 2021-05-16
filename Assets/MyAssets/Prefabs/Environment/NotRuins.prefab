@@ -5376,7 +5376,7 @@ GameObject:
   - component: {fileID: 3985422239424221697}
   - component: {fileID: 7676172572016548990}
   - component: {fileID: 8818269889209738254}
-  - component: {fileID: 1894307095313976299}
+  - component: {fileID: 9081460815682019471}
   m_Layer: 0
   m_Name: DiscoveredFeedback
   m_TagString: Untagged
@@ -5414,10 +5414,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Feedbacks:
+  - {fileID: 9081460815682019471}
   - {fileID: 7676172572016548990}
   - {fileID: 3985422239424221697}
   - {fileID: 8818269889209738254}
-  - {fileID: 1894307095313976299}
   InitializationMode: 1
   SafeMode: 3
   AutoPlayOnStart: 0
@@ -5542,7 +5542,7 @@ MonoBehaviour:
   MinPitch: 1
   MaxPitch: 1
   SfxAudioMixerGroup: {fileID: 0}
---- !u!114 &1894307095313976299
+--- !u!114 &9081460815682019471
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5551,11 +5551,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3271563871487735162}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23a102c1a91e34644aa37f1e4f00c31a, type: 3}
+  m_Script: {fileID: 11500000, guid: 66650ffe68eb1f548acc774ac2db1b80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Active: 1
-  Label: Events
+  Label: Pause
   Chance: 100
   Timing:
     TimescaleMode: 0
@@ -5569,30 +5569,7 @@ MonoBehaviour:
     Quantized: 0
     TargetBPM: 120
   DebugActive: 0
-  PlayEvents:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: 105c81e1bda1a6a4bb1c87a0dccdeef9, type: 2}
-        m_TargetAssemblyTypeName: MyAssets.ScriptableObjects.Events.GameEvent, Assembly-CSharp
-        m_MethodName: Raise
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  StopEvents:
-    m_PersistentCalls:
-      m_Calls: []
-  InitializationEvents:
-    m_PersistentCalls:
-      m_Calls: []
-  ResetEvents:
-    m_PersistentCalls:
-      m_Calls: []
+  PauseDuration: 0.01
 --- !u!1 &3348894767206216300
 GameObject:
   m_ObjectHideFlags: 0
@@ -6510,8 +6487,6 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 7088730196524153068}
     - {fileID: 0}
-    - {fileID: 923841961055658414}
-    - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
     SerializedBytesString: 
@@ -6555,7 +6530,7 @@ MonoBehaviour:
         UnityEngine.CoreModule]], mscorlib
     - Name: 
       Entry: 12
-      Data: 3
+      Data: 2
     - Name: 
       Entry: 7
       Data: 6|UnityEngine.Events.PersistentCall, UnityEngine.CoreModule
@@ -6612,7 +6587,7 @@ MonoBehaviour:
       Data: MyAssets.Scripts.Misc.FunctionComponents.HoldInteraction, Assembly-CSharp
     - Name: m_MethodName
       Entry: 1
-      Data: StartTimer
+      Data: StartHold
     - Name: m_Mode
       Entry: 3
       Data: 1
@@ -6647,51 +6622,6 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
-      Entry: 7
-      Data: 10|UnityEngine.Events.PersistentCall, UnityEngine.CoreModule
-    - Name: m_Target
-      Entry: 10
-      Data: 4
-    - Name: m_TargetAssemblyTypeName
-      Entry: 1
-      Data: UnityEngine.ParticleSystem, UnityEngine
-    - Name: m_MethodName
-      Entry: 1
-      Data: Play
-    - Name: m_Mode
-      Entry: 3
-      Data: 1
-    - Name: m_Arguments
-      Entry: 7
-      Data: 11|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
-    - Name: m_ObjectArgument
-      Entry: 10
-      Data: 5
-    - Name: m_ObjectArgumentAssemblyTypeName
-      Entry: 1
-      Data: UnityEngine.Object, UnityEngine
-    - Name: m_IntArgument
-      Entry: 3
-      Data: 0
-    - Name: m_FloatArgument
-      Entry: 4
-      Data: 0
-    - Name: m_StringArgument
-      Entry: 1
-      Data: 
-    - Name: m_BoolArgument
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: m_CallState
-      Entry: 3
-      Data: 2
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
       Entry: 13
       Data: 
     - Name: 
@@ -6708,10 +6638,10 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 12|TriggerExitInteraction, Assembly-CSharp
+      Data: 10|TriggerExitInteraction, Assembly-CSharp
     - Name: Conditionals
       Entry: 7
-      Data: 13|System.Collections.Generic.List`1[[IConditional, Assembly-CSharp]],
+      Data: 11|System.Collections.Generic.List`1[[IConditional, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -6724,21 +6654,21 @@ MonoBehaviour:
       Data: 
     - Name: onInteract
       Entry: 7
-      Data: 14|UnityEngine.Events.UnityEvent`1[[TriggerExitPayload, Assembly-CSharp]],
+      Data: 12|UnityEngine.Events.UnityEvent`1[[TriggerExitPayload, Assembly-CSharp]],
         UnityEngine.CoreModule
     - Name: m_PersistentCalls
       Entry: 7
-      Data: 15|UnityEngine.Events.PersistentCallGroup, UnityEngine.CoreModule
+      Data: 13|UnityEngine.Events.PersistentCallGroup, UnityEngine.CoreModule
     - Name: m_Calls
       Entry: 7
-      Data: 16|System.Collections.Generic.List`1[[UnityEngine.Events.PersistentCall,
+      Data: 14|System.Collections.Generic.List`1[[UnityEngine.Events.PersistentCall,
         UnityEngine.CoreModule]], mscorlib
     - Name: 
       Entry: 12
       Data: 2
     - Name: 
       Entry: 7
-      Data: 17|UnityEngine.Events.PersistentCall, UnityEngine.CoreModule
+      Data: 15|UnityEngine.Events.PersistentCall, UnityEngine.CoreModule
     - Name: m_Target
       Entry: 10
       Data: 0
@@ -6753,10 +6683,10 @@ MonoBehaviour:
       Data: 6
     - Name: m_Arguments
       Entry: 7
-      Data: 18|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
+      Data: 16|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
     - Name: m_ObjectArgument
       Entry: 10
-      Data: 6
+      Data: 4
     - Name: m_ObjectArgumentAssemblyTypeName
       Entry: 1
       Data: UnityEngine.Object, UnityEngine
@@ -6783,7 +6713,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 19|UnityEngine.Events.PersistentCall, UnityEngine.CoreModule
+      Data: 17|UnityEngine.Events.PersistentCall, UnityEngine.CoreModule
     - Name: m_Target
       Entry: 10
       Data: 2
@@ -6792,16 +6722,16 @@ MonoBehaviour:
       Data: MyAssets.Scripts.Misc.FunctionComponents.HoldInteraction, Assembly-CSharp
     - Name: m_MethodName
       Entry: 1
-      Data: StopTimer
+      Data: StopHold
     - Name: m_Mode
       Entry: 3
       Data: 1
     - Name: m_Arguments
       Entry: 7
-      Data: 20|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
+      Data: 18|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
     - Name: m_ObjectArgument
       Entry: 10
-      Data: 7
+      Data: 5
     - Name: m_ObjectArgumentAssemblyTypeName
       Entry: 1
       Data: UnityEngine.Object, UnityEngine
@@ -6889,7 +6819,25 @@ MonoBehaviour:
     UseConstant: 1
     ConstantDuration: 3.5
     Variable: {fileID: 0}
-  _action:
+  _onHoldStart:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 923841961055658414}
+        m_TargetAssemblyTypeName: UnityEngine.ParticleSystem, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _onHoldCancelled:
+    m_PersistentCalls:
+      m_Calls: []
+  _onHoldFinished:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1218252045531541911}
@@ -6900,18 +6848,6 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 1
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1992712758853391037}
-        m_TargetAssemblyTypeName: MoreMountains.Feedbacks.MMFeedbacks, MoreMountains.Feedbacks
-        m_MethodName: PlayFeedbacks
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -6928,6 +6864,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1992712758853391037}
+        m_TargetAssemblyTypeName: MoreMountains.Feedbacks.MMFeedbacks, MoreMountains.Feedbacks
+        m_MethodName: PlayFeedbacks
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _activationLimit: 1
 --- !u!1 &7790455444386691190
 GameObject:
   m_ObjectHideFlags: 0

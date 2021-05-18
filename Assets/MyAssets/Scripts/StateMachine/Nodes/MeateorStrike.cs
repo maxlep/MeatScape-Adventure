@@ -76,11 +76,11 @@ public class MeateorStrike : PlayerStateNode
 
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Velocity")][Required]
-    private FloatReference MeateorStrikeMinSpeed;
+    private FloatValueReference MeateorStrikeMinSpeed;
 
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Velocity")][Required]
-    private FloatReference MeateorStrikeMaxSpeed;
+    private FloatValueReference MeateorStrikeMaxSpeed;
 
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
     [TabGroup("Velocity")] [Required]

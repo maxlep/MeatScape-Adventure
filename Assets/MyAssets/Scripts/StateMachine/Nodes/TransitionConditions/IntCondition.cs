@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using MyAssets.ScriptableObjects.Variables;
+using MyAssets.ScriptableObjects.Variables.ValueReferences;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 [System.Serializable]
+[HideReferenceObjectPicker]
 public class IntCondition : ITransitionCondition
 {
     
-    [SerializeField] [HideLabel] private IntReference targetParameter;
+    [SerializeField] [HideLabel] [HideReferenceObjectPicker] 
+    private IntReference targetParameter;
     
     [HideLabel] public Comparator comparator;
-    [HideLabel] public float value;
+    [HideLabel] public FloatValueReference value;
 
     private string parentTransitionName = "";
 
@@ -21,6 +24,8 @@ public class IntCondition : ITransitionCondition
     {
         LessThan,
         GreaterThan,
+        LessThanEqualTo,
+        GreatThanEqualTo,
         EqualTo,
         NotEqualTo
     }
@@ -36,16 +41,22 @@ public class IntCondition : ITransitionCondition
         int paramValue = targetParameter.Value;
         
         if (comparator == Comparator.GreaterThan)
-            return paramValue > value;
+            return paramValue > value.Value;
         
         if (comparator == Comparator.LessThan)
-            return paramValue < value;
+            return paramValue < value.Value;
+        
+        if (comparator == Comparator.GreatThanEqualTo)
+            return paramValue >= value.Value;
+        
+        if (comparator == Comparator.LessThanEqualTo)
+            return paramValue <= value.Value;
         
         if (comparator == Comparator.EqualTo)
-            return paramValue == value;
+            return paramValue == value.Value;
         
         if (comparator == Comparator.NotEqualTo)
-            return paramValue != value;
+            return paramValue != value.Value;
 
         return false;
     }

@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using MyAssets.ScriptableObjects.Variables;
+using MyAssets.ScriptableObjects.Variables.ValueReferences;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 [System.Serializable]
+[HideReferenceObjectPicker]
 public class FloatCondition : ITransitionCondition
 {
     
-    [SerializeField] [HideLabel] private FloatReference targetParameter;
+    [SerializeField] [HideLabel] [HideReferenceObjectPicker] 
+    private FloatReference targetParameter;
     
     [HideLabel] public Comparator comparator;
-    [HideLabel] public float value;
+    [HideLabel] public FloatValueReference value;
     
     private string parentTransitionName = "";
 
@@ -33,10 +36,10 @@ public class FloatCondition : ITransitionCondition
         float paramValue = targetParameter.Value;
 
         if (comparator == Comparator.GreaterThan)
-            return paramValue > value;
+            return paramValue > value.Value;
         
         if (comparator == Comparator.LessThan)
-            return paramValue < value;
+            return paramValue < value.Value;
 
         return false;
     }
@@ -44,7 +47,7 @@ public class FloatCondition : ITransitionCondition
     public override string ToString()
     {
         if (targetParameter != null)
-            return $"{targetParameter.Name} {comparator} {value}";
+            return $"{targetParameter.Name} {comparator} {value.Value}";
         else
             return "<Missing Float>";
     }

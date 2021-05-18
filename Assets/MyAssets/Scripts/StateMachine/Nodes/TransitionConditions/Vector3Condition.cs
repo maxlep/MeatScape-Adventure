@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using MyAssets.ScriptableObjects.Variables;
+using MyAssets.ScriptableObjects.Variables.ValueReferences;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
 
 [System.Serializable]
+[HideReferenceObjectPicker]
 public class Vector3Condition : ITransitionCondition
 {
-    [HideLabel, Required, SerializeField] private Vector3Reference targetParameter;
+    [HideLabel, Required, SerializeField, HideReferenceObjectPicker]
+    private Vector3Reference targetParameter;
 
     [HideLabel] public Comparison xCompare;
     [HideLabel] public Comparison yCompare;
@@ -30,7 +34,7 @@ public class Vector3Condition : ITransitionCondition
     public struct Comparison
     {
         public Comparator comparator;
-        public float value;
+        public FloatValueReference value;
     }
 
     public void Init(string transitionName)
@@ -48,7 +52,9 @@ public class Vector3Condition : ITransitionCondition
 
     public override string ToString()
     {
-        return $"{targetParameter.Value.x} {xCompare.comparator} {xCompare.value} && {targetParameter.Value.y} {yCompare.comparator} {yCompare.value} && {targetParameter.Value.z} {zCompare.comparator} {zCompare.value}";
+        return $"{targetParameter.Value.x} {xCompare.comparator} {xCompare.value.Value} &&" +
+               $" {targetParameter.Value.y} {yCompare.comparator} {yCompare.value.Value} &&" +
+               $" {targetParameter.Value.z} {zCompare.comparator} {zCompare.value.Value}";
     }
 
     private bool Compare(Comparison comparison, float paramValue)
@@ -56,13 +62,13 @@ public class Vector3Condition : ITransitionCondition
         switch (comparison.comparator)
         {
             case Comparator.GreaterThan:
-                return paramValue > comparison.value;
+                return paramValue > comparison.value.Value;
             case Comparator.LessThan:
-                return paramValue < comparison.value;
+                return paramValue < comparison.value.Value;
             case Comparator.AbsGreaterThan:
-                return Mathf.Abs(paramValue) > comparison.value;
+                return Mathf.Abs(paramValue) > comparison.value.Value;
             case Comparator.AbsLessThan:
-                return Mathf.Abs(paramValue) < comparison.value;
+                return Mathf.Abs(paramValue) < comparison.value.Value;
             case Comparator.Ignore:
                 return true;
         }

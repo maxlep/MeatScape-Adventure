@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
@@ -32,8 +33,8 @@ public class TransitionNode : CollapsableNode
 
     [Tooltip("Transition only valid if ALL of these Bool condition are met")] [ListDrawerSettings(Expanded = true, DraggableItems = false)]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$collapsed")]
-    [OnValueChanged("InitConditions")] [Required]
-    [SerializeField] private List<BoolCondition> BoolConditions = new List<BoolCondition>();
+    [OnValueChanged("InitConditions")] [Required] [HideReferenceObjectPicker]
+    [OdinSerialize] private List<BoolCondition> BoolConditions = new List<BoolCondition>();
 
     [Tooltip("Transition only valid if ALL of these Trigger condition are met")] [ListDrawerSettings(Expanded = true, DraggableItems = false)]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$collapsed")]
@@ -42,13 +43,13 @@ public class TransitionNode : CollapsableNode
 
     [Tooltip("Transition only valid if ALL of these Float condition are met")] [ListDrawerSettings(Expanded = true, DraggableItems = false)]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$collapsed")]
-    [OnValueChanged("InitConditions")] [Required]
-    [SerializeField] private List<FloatCondition> FloatConditions = new List<FloatCondition>();
+    [OnValueChanged("InitConditions")] [Required] [HideReferenceObjectPicker]
+    [OdinSerialize] private List<FloatCondition> FloatConditions = new List<FloatCondition>();
 
     [Tooltip("Transition only valid if ALL of these Int condition are met")] [ListDrawerSettings(Expanded = true, DraggableItems = false)]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$collapsed")]
-    [OnValueChanged("InitConditions")] [Required]
-    [SerializeField] private List<IntCondition> IntConditions = new List<IntCondition>();
+    [OnValueChanged("InitConditions")] [Required] [HideReferenceObjectPicker]
+    [OdinSerialize] private List<IntCondition> IntConditions = new List<IntCondition>();
     
     [Tooltip("Transition only valid if ALL of these Int condition are met")] [ListDrawerSettings(Expanded = true, DraggableItems = false)]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$collapsed")]
@@ -57,13 +58,13 @@ public class TransitionNode : CollapsableNode
     
     [Tooltip("Transition only valid if ALL of these Vector2 condition are met")] [ListDrawerSettings(Expanded = true, DraggableItems = false)]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$collapsed")]
-    [OnValueChanged("InitConditions")] [Required]
-    [SerializeField] private List<Vector2Condition> Vector2Conditions = new List<Vector2Condition>();
+    [OnValueChanged("InitConditions")] [Required] [HideReferenceObjectPicker]
+    [OdinSerialize] private List<Vector2Condition> Vector2Conditions = new List<Vector2Condition>();
     
     [Tooltip("Transition only valid if ALL of these Vector3 condition are met")] [ListDrawerSettings(Expanded = true, DraggableItems = false)]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$collapsed")]
-    [OnValueChanged("InitConditions")] [Required]
-    [SerializeField] private List<Vector3Condition> Vector3Conditions = new List<Vector3Condition>();
+    [OnValueChanged("InitConditions")] [Required] [HideReferenceObjectPicker]
+    [OdinSerialize] private List<Vector3Condition> Vector3Conditions = new List<Vector3Condition>();
 
 
     private List<TriggerVariable> triggerVars = new List<TriggerVariable>();

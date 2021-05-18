@@ -3,47 +3,49 @@ using System.Collections.Generic;
 using System.Linq;
 using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
+using MyAssets.ScriptableObjects.Variables.ValueReferences;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace MyAssets.Scripts.Events
 {
-    public class ConditionalEvent : MonoBehaviour
+    public class ConditionalEvent : SerializedMonoBehaviour
     {
         [Tooltip("Transition only valid if ALL of these Bool condition are met")] [ListDrawerSettings(DraggableItems = false)]
         [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)]
-        [Required]
-        [SerializeField] private List<BoolCondition> BoolConditions = new List<BoolCondition>();
+        [Required] [HideReferenceObjectPicker]
+        [OdinSerialize] private List<BoolCondition> BoolConditions = new List<BoolCondition>();
 
         [Tooltip("Transition only valid if ALL of these Float condition are met")] [ListDrawerSettings(DraggableItems = false)]
         [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)]
-        [Required]
-        [SerializeField] private List<FloatCondition> FloatConditions = new List<FloatCondition>();
+        [Required] [HideReferenceObjectPicker]
+        [OdinSerialize] private List<FloatCondition> FloatConditions = new List<FloatCondition>();
 
         [Tooltip("Transition only valid if ALL of these Int condition are met")] [ListDrawerSettings(DraggableItems = false)]
         [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)]
-        [Required]
-        [SerializeField] private List<IntCondition> IntConditions = new List<IntCondition>();
+        [Required] [HideReferenceObjectPicker]
+        [OdinSerialize] private List<IntCondition> IntConditions = new List<IntCondition>();
         
         [Tooltip("Transition only valid if ALL of these Int condition are met")] [ListDrawerSettings(DraggableItems = false)]
         [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)]
-        [Required]
+        [Required] [HideReferenceObjectPicker]
         [SerializeField] private List<TimerCondition> TimerConditions = new List<TimerCondition>();
         
         [Tooltip("Transition only valid if ALL of these Vector2 condition are met")] [ListDrawerSettings(DraggableItems = false)]
         [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)]
-        [Required]
-        [SerializeField] private List<Vector2Condition> Vector2Conditions = new List<Vector2Condition>();
+        [Required] [HideReferenceObjectPicker]
+        [OdinSerialize] private List<Vector2Condition> Vector2Conditions = new List<Vector2Condition>();
         
         [Tooltip("Transition only valid if ALL of these Vector3 condition are met")] [ListDrawerSettings(DraggableItems = false)]
         [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)]
-        [Required]
-        [SerializeField] private List<Vector3Condition> Vector3Conditions = new List<Vector3Condition>();
+        [Required] [HideReferenceObjectPicker]
+        [OdinSerialize] private List<Vector3Condition> Vector3Conditions = new List<Vector3Condition>();
 
         public UnityEvent Response;
-        
+
         private List<ITransitionCondition> allConditions = new List<ITransitionCondition>();
 
         private void Awake()

@@ -6,11 +6,14 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 
 [System.Serializable]
+[HideReferenceObjectPicker]
 public class BoolCondition : ITransitionCondition
 {
-    [SerializeField] [HideLabel] private BoolReference targetParameter;
+    [SerializeField] [HideLabel] [HideReferenceObjectPicker] 
+    private BoolReference targetParameter;
     
-    [LabelWidth(40f)] [SerializeField] private bool value = true;
+    [LabelWidth(40f)] [SerializeField] [HideReferenceObjectPicker]
+    private BoolReference value;
 
     private string parentTransitionName = "";
 
@@ -22,13 +25,13 @@ public class BoolCondition : ITransitionCondition
     public bool Evaluate(List<TriggerVariable> receivedTriggers)
     {
 
-        return targetParameter.Value == value;
+        return targetParameter.Value == value.Value;
     }
     
     public override string ToString()
     {
         if (targetParameter != null)
-            return value ? $"{targetParameter.Name}" : $"!{targetParameter.Name}";
+            return value.Value ? $"{targetParameter.Name}" : $"!{targetParameter.Name}";
         else
             return "<Missing Bool>";
     }

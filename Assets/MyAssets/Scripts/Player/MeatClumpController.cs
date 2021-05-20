@@ -37,7 +37,7 @@ public class MeatClumpController : MonoBehaviour
     [SerializeField] private IntVariable enemyHitId;
     [SerializeField] private MMFeedbacks impactFeedbacks;
     [SerializeField] private MMFeedbacks overChargeFeedbacks;
-    [SerializeField] private GameObject meatPickupPrefab;
+    [SerializeField] protected DynamicGameEvent SpawnMeatEvent;
 
     private float startTime;
     private float damage;
@@ -190,7 +190,11 @@ public class MeatClumpController : MonoBehaviour
 
     private void OnParentEnemyDeath()
     {
-        Instantiate(meatPickupPrefab, transform.position, transform.rotation);
+        SpawnManager.SpawnInfo spawnInfo = new SpawnManager.SpawnInfo()
+        {
+            position = transform.position
+        };
+        SpawnMeatEvent.Raise(spawnInfo);
         Destroy(gameObject);
     }
     #endregion

@@ -75,9 +75,7 @@ public class MeatClumpController : MonoBehaviour
             if(hasGravity) currentVelocity += Physics.gravity * ClumpGravityFactor.Value * Time.deltaTime;
             Vector3 deltaDistance = currentVelocity * Time.deltaTime;
 
-            PreMoveCollisionCheck(deltaDistance);
             Move(deltaDistance);
-            PostMoveCollisionCheck();
         }
     }
     #endregion
@@ -97,8 +95,9 @@ public class MeatClumpController : MonoBehaviour
     #endregion
     
     #region Collision
-    private void HandleCollisions(Collider[] colliders, Vector3 normal)
+    public void HandleCollisions(Collider[] colliders)
     {
+      //, Vector3 normal
         if (colliders.Length < 1 || hasCollided) return;
         
         hasCollided = true;
@@ -121,7 +120,7 @@ public class MeatClumpController : MonoBehaviour
                 
                 impactFeedbacks.PlayFeedbacks();
                 // Destroy(gameObject);
-                if (shaderUpdater != null) shaderUpdater.StartSplat(normal);
+                if (shaderUpdater != null) shaderUpdater.StartSplat(-meshTransform.forward);
                 transform.SetParent(hitObj.transform);
                 OnCollideWithEnemy.Invoke();
                 enemyScript.OnDeath += OnParentEnemyDeath;
@@ -138,54 +137,12 @@ public class MeatClumpController : MonoBehaviour
         }
     
         //Static object hit
-        if (shaderUpdater != null) shaderUpdater.StartSplat(normal);
+        if (shaderUpdater != null) shaderUpdater.StartSplat(-meshTransform.forward);
         OnCollideWithStatic.Invoke();
         TimeUtils.SetTimeout(ClumpDestroyTime.Value, () =>
         {
             if (this != null) Destroy(gameObject);
         });
-    }
-
-    private void PreMoveCollisionCheck(Vector3 deltaDistance)
-    {
-        //SphereCast from current pos to next pos and check for collisions
-        //Check for enemy hit
-        RaycastHit hitEnemy;
-        if (Physics.SphereCast(transform.position, CollisionRadiusEnemy.Value, currentVelocity.normalized,
-            out hitEnemy, deltaDistance.magnitude, CollisionMaskEnemy, QueryTriggerInteraction.Ignore))
-        {
-            transform.position += (currentVelocity.normalized * hitEnemy.distance);
-            
-            HandleCollisions(new Collider[]{hitEnemy.collider}, hitEnemy.normal);
-        }
-        
-        //Check for environment hit
-        RaycastHit hitEnvironment;
-        if (Physics.SphereCast(transform.position, CollisionRadiusEnvironment.Value, currentVelocity.normalized,
-            out hitEnvironment, deltaDistance.magnitude, CollisionMaskEnvironment, QueryTriggerInteraction.Ignore))
-        {
-            transform.position += (currentVelocity.normalized * hitEnvironment.distance);
-            
-            HandleCollisions(new Collider[]{hitEnvironment.collider}, hitEnvironment.normal);
-        }
-        
-        
-    }
-
-    private void PostMoveCollisionCheck()
-    {
-        //Overlap sphere at final position to check for intersecting colliders.
-        
-        //Check Enemy hit
-        Collider[] hitCollidersEnemy =
-            (Physics.OverlapSphere(transform.position, CollisionRadiusEnemy.Value, CollisionMaskEnemy, QueryTriggerInteraction.Ignore));
-        
-        //Check Environment hit
-        Collider[] hitCollidersEnvironment =
-            (Physics.OverlapSphere(transform.position, CollisionRadiusEnvironment.Value, CollisionMaskEnvironment, QueryTriggerInteraction.Ignore));
-        
-        HandleCollisions(hitCollidersEnemy, -meshTransform.forward);
-        HandleCollisions(hitCollidersEnvironment, -meshTransform.forward);
     }
 
     private void OnParentEnemyDeath()

@@ -51,6 +51,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [SerializeField] private GameObject ragdollPrefab;
     [SerializeField] private TransformSceneReference freeLookCamRef;
     public bool invincible;
+    [SerializeField] private bool noHungerDecay;
     [SerializeField] private bool ignoreInput;
     [ShowIf("ignoreInput"), SerializeField] private Vector2Reference fakeMoveInput;
 
@@ -446,7 +447,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private void UpdateHunger()
     {
         HungerDecayTimer?.UpdateTime();
-        if (HungerDecayTimer.IsFinished && HungerOut.Value > 0)
+        if (HungerDecayTimer.IsFinished && HungerOut.Value > 0 && !noHungerDecay)
         {
             damageFeedback.PlayFeedbacks();
             IncrementHunger(-1);

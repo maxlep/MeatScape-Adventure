@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Shapes;
+using UnityEngine.Events;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using MyAssets.Scripts.Utils;
@@ -20,12 +20,15 @@ public class EnemySpawner : MonoBehaviour
     
     [SerializeField] [PropertySpace(5f, 5f)]
     private EnemyTypeContainer EnemyTypes;
+
+    [SerializeField]
+    private UnityEvent<EnemyController> OnSpawnedEnemyDeath;
     
     private List<(Transform transform, Mesh mesh)> enemyTransformMeshTuples = new List<(Transform transform, Mesh mesh)>();
 
     private PatrolPointHelper patrolPointHelper;
 
-    private List<EnemyController> _spawnedEnemeies = new List<EnemyController>();
+    private List<EnemyController> _spawnedEnemies = new List<EnemyController>();
     private object _spawnedEnemiesLock = new object();
 
     #region Inspector/Odin Methods
@@ -57,7 +60,7 @@ public class EnemySpawner : MonoBehaviour
         bool doSpawn = false;
         lock (_spawnedEnemiesLock)
         {
-            if (_spawnedEnemeies.Count < Count)
+            if (_spawnedEnemies.Count < Count)
             {
                 doSpawn = true;
             }
@@ -76,9 +79,12 @@ public class EnemySpawner : MonoBehaviour
     private void SpawnEnemy() {
         GameObject enemy = Instantiate(EnemyPrefab, transform.position, transform.rotation, transform);
         EnemyController enemyScript = enemy.GetComponentInChildren<EnemyController>();
+        enemyScript.OnDeath += () => {
+            OnSpawnedEnemyDeath.Invoke(enemyScript);
+        };
         lock (_spawnedEnemiesLock)
         {
-            _spawnedEnemeies.Add(enemyScript);
+            _spawnedEnemies.Add(enemyScript);
         }
         
         //If helper script on same object, send patrol points to enemy
@@ -95,7 +101,7 @@ public class EnemySpawner : MonoBehaviour
                 lock (_spawnedEnemiesLock)
                 {
                     Count += IncrementCountOnDeath;
-                    _spawnedEnemeies.Remove(enemyScript);
+                    _spawnedEnemies.Remove(enemyScript);
                 }
             };
         }
@@ -107,6 +113,10 @@ public class EnemySpawner : MonoBehaviour
         {
             StoreEnemyPrefabMeshes();
         }
+    }
+
+    public void StopSpawning() {
+        SpawnTime = 0;
     }
 
     #region Gizmos

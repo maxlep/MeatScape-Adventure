@@ -9,8 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1349913818890281188}
+  - component: {fileID: 9196072394317992943}
   m_Layer: 0
-  m_Name: CrawlerHive
+  m_Name: CrawlerHill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,9 +30,24 @@ Transform:
   m_Children:
   - {fileID: 6398492053186275596}
   - {fileID: 1349913818960365533}
+  - {fileID: 2572321666692472999}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9196072394317992943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1349913818890281191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50af3e9785e24f44d8e71a8af0b244ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DroneSpawnerTransform: {fileID: 1349913818960365533}
+  QueenSpawner: {fileID: 6854061075432966653}
 --- !u!1 &1349913818960365532
 GameObject:
   m_ObjectHideFlags: 0
@@ -42,7 +58,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1349913818960365533}
   m_Layer: 0
-  m_Name: Enemies
+  m_Name: DroneSpawners
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65,9 +81,39 @@ Transform:
   - {fileID: 4619308297313922687}
   - {fileID: 8294883678601352950}
   - {fileID: 5561231190349330987}
-  - {fileID: 958436733303777591}
   m_Father: {fileID: 1349913818890281188}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7858569343614454325
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2572321666692472999}
+  m_Layer: 0
+  m_Name: QueenSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2572321666692472999
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7858569343614454325}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 958436733303777591}
+  m_Father: {fileID: 1349913818890281188}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &1349913817919847323
 MeshCollider:
@@ -113,6 +159,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1349913818960365533}
     m_Modifications:
+    - target: {fileID: 77539380017799868, guid: 993d255f79cd1094b8b357c7f33b2094,
+        type: 3}
+      propertyPath: SpawnTime
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5999059400618328694, guid: 993d255f79cd1094b8b357c7f33b2094,
         type: 3}
       propertyPath: m_RootOrder
@@ -188,6 +239,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1349913818960365533}
     m_Modifications:
+    - target: {fileID: 77539380017799868, guid: 993d255f79cd1094b8b357c7f33b2094,
+        type: 3}
+      propertyPath: SpawnTime
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5999059400618328694, guid: 993d255f79cd1094b8b357c7f33b2094,
         type: 3}
       propertyPath: m_RootOrder
@@ -261,12 +317,12 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1349913818960365533}
+    m_TransformParent: {fileID: 2572321666692472999}
     m_Modifications:
     - target: {fileID: 545707919892766359, guid: 47e2c2859ca9bf04a9065a4004cd98d5,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 545707919892766359, guid: 47e2c2859ca9bf04a9065a4004cd98d5,
         type: 3}
@@ -323,6 +379,41 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemySpawnerBigForsakenCrawler
       objectReference: {fileID: 0}
+    - target: {fileID: 6179281102571650653, guid: 47e2c2859ca9bf04a9065a4004cd98d5,
+        type: 3}
+      propertyPath: OnSpawnedEnemyDeath.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6179281102571650653, guid: 47e2c2859ca9bf04a9065a4004cd98d5,
+        type: 3}
+      propertyPath: OnSpawnedEnemyDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6179281102571650653, guid: 47e2c2859ca9bf04a9065a4004cd98d5,
+        type: 3}
+      propertyPath: OnSpawnedEnemyDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 9196072394317992943}
+    - target: {fileID: 6179281102571650653, guid: 47e2c2859ca9bf04a9065a4004cd98d5,
+        type: 3}
+      propertyPath: OnSpawnedEnemyDeath.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6179281102571650653, guid: 47e2c2859ca9bf04a9065a4004cd98d5,
+        type: 3}
+      propertyPath: OnSpawnedEnemyDeath.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StopDroneSpawning
+      objectReference: {fileID: 0}
+    - target: {fileID: 6179281102571650653, guid: 47e2c2859ca9bf04a9065a4004cd98d5,
+        type: 3}
+      propertyPath: OnSpawnedEnemyDeath.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CrawlerHill, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6179281102571650653, guid: 47e2c2859ca9bf04a9065a4004cd98d5,
+        type: 3}
+      propertyPath: OnSpawnedEnemyDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47e2c2859ca9bf04a9065a4004cd98d5, type: 3}
 --- !u!4 &958436733303777591 stripped
@@ -331,6 +422,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 783542049517516704}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6854061075432966653 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6179281102571650653, guid: 47e2c2859ca9bf04a9065a4004cd98d5,
+    type: 3}
+  m_PrefabInstance: {fileID: 783542049517516704}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4796122704e3d2489a6f6a9c0db6610, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1349913817919847324
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -455,6 +558,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1349913818960365533}
     m_Modifications:
+    - target: {fileID: 77539380017799868, guid: 993d255f79cd1094b8b357c7f33b2094,
+        type: 3}
+      propertyPath: SpawnTime
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5999059400618328694, guid: 993d255f79cd1094b8b357c7f33b2094,
         type: 3}
       propertyPath: m_RootOrder
@@ -530,6 +638,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1349913818960365533}
     m_Modifications:
+    - target: {fileID: 77539380017799868, guid: 993d255f79cd1094b8b357c7f33b2094,
+        type: 3}
+      propertyPath: SpawnTime
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5999059400618328694, guid: 993d255f79cd1094b8b357c7f33b2094,
         type: 3}
       propertyPath: m_RootOrder
@@ -605,6 +718,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1349913818960365533}
     m_Modifications:
+    - target: {fileID: 77539380017799868, guid: 993d255f79cd1094b8b357c7f33b2094,
+        type: 3}
+      propertyPath: SpawnTime
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5999059400618328694, guid: 993d255f79cd1094b8b357c7f33b2094,
         type: 3}
       propertyPath: m_RootOrder
@@ -680,6 +798,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1349913818960365533}
     m_Modifications:
+    - target: {fileID: 77539380017799868, guid: 993d255f79cd1094b8b357c7f33b2094,
+        type: 3}
+      propertyPath: SpawnTime
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5999059400618328694, guid: 993d255f79cd1094b8b357c7f33b2094,
         type: 3}
       propertyPath: m_RootOrder

@@ -232,7 +232,7 @@ namespace MyAssets.ScriptableObjects.Variables
                         return ConstantValue;
                     else
                     {
-                        Debug.LogError($"Trying to access Float variable but none set in inspector!");
+                        Debug.LogError($"Trying to access {Name} variable but none set in inspector!");
                         return default(T);
                     }
                 }
@@ -240,7 +240,7 @@ namespace MyAssets.ScriptableObjects.Variables
             set
             {
                 if (Variable != null) Variable.Value = value;
-                else if (!UseConstant) Debug.LogError($"Trying to set float variable that is null!");
+                else if (!UseConstant) Debug.LogError($"Trying to set {Name} variable that is null!");
             } 
         }
     }

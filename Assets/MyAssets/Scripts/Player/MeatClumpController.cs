@@ -17,7 +17,6 @@ public class MeatClumpController : MonoBehaviour
     [SerializeField, Required("No Absorb Particles Set!", InfoMessageType.Warning)]
     private GameObject AbsorbSystem;
     
-    [SerializeField] private LayerMapper layerMapper;
     [SerializeField] private Transform meshTransform;
     [SerializeField] private IntReference ClumpDamage;
     [SerializeField] private IntReference ClumpOverchargedDamage;
@@ -26,12 +25,10 @@ public class MeatClumpController : MonoBehaviour
     [SerializeField] private FloatReference ClumpDragEnableTime;
     [SerializeField] private FloatReference ClumpGravityFactor;
     [SerializeField] private FloatReference ClumpDestroyTime;
-    [SerializeField] private FloatReference CollisionRadiusEnvironment;
-    [SerializeField] private FloatReference CollisionRadiusEnemy;
     [SerializeField] private FloatReference DragCoefficient;
     [SerializeField] private FloatReference DragThresholdVelocity;
-    [SerializeField] private LayerMask CollisionMaskEnvironment;
     [SerializeField] private LayerMask CollisionMaskEnemy;
+    [SerializeField] private LayerMask CollisionMaskInteractable;
     [SerializeField] private UnityEvent OnCollideWithStatic;
     [SerializeField] private UnityEvent OnCollideWithEnemy;
     [SerializeField] private IntVariable enemyHitId;
@@ -97,7 +94,7 @@ public class MeatClumpController : MonoBehaviour
     #region Collision
     public void HandleCollisions(Collider[] colliders)
     {
-      //, Vector3 normal
+        //, Vector3 normal
         if (colliders.Length < 1 || hasCollided) return;
         
         hasCollided = true;
@@ -128,7 +125,7 @@ public class MeatClumpController : MonoBehaviour
             }
 
             //Hit Interactable
-            if (hitObj.layer == layerMapper.GetLayer(LayerEnum.Interactable))
+            if (hitObj.IsInLayerMask(CollisionMaskInteractable))
             {
                 var interactableScript = collider.GetComponent<InteractionReceiver>();
                 if (interactableScript != null)

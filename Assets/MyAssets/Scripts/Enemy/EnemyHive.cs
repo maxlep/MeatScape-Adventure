@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CrawlerHill : MonoBehaviour
+public class EnemyHive : MonoBehaviour
 {
     [SerializeField] private Transform DroneSpawnerTransform;
-    [SerializeField] private EnemySpawner QueenSpawner;
 
     private EnemySpawner[] droneSpawners;
 

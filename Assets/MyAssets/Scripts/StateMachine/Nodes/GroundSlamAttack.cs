@@ -30,6 +30,14 @@ public class GroundSlamAttack: PlayerStateNode
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required] 
     private FloatValueReference GroundSlamRadius;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required] 
+    private LayerMask EnemyMask;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required] 
+    private LayerMask InteractableMask;
 
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required] 
@@ -60,11 +68,11 @@ public class GroundSlamAttack: PlayerStateNode
         
         foreach (var collider in hitColliders)
         {
-            int otherLayer = collider.gameObject.layer;
+            GameObject otherObj = collider.gameObject;
             
-            if (otherLayer == LayerMapper.GetLayer(LayerEnum.Enemy))
+            if (otherObj.IsInLayerMask(EnemyMask))
                 HandleEnemyHit(collider, playerPosition);
-            else if (otherLayer == LayerMapper.GetLayer(LayerEnum.Interactable))
+            else if (otherObj.IsInLayerMask(InteractableMask))
                 HandleInteractableHit(collider, playerPosition);
         }
     }

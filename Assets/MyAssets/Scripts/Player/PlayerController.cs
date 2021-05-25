@@ -45,6 +45,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 {
     [SerializeField] private KinematicCharacterMotor charMotor;
     [SerializeField] private LayerMapper layerMapper;
+    [SerializeField] private LayerMask interactableMask;
     [SerializeField] private AudioClip jumpAttackClip;
     [SerializeField] private AimTargeter aimTargeter;
     [SerializeField] private Collider collider;
@@ -643,7 +644,7 @@ private void OnTriggerStay(Collider other)
 {
     GameObject otherGameObject = other.gameObject;
     if (otherGameObject.layer == layerMapper.GetLayer(LayerEnum.EnemyJumpTrigger) ||
-        otherGameObject.layer == layerMapper.GetLayer(LayerEnum.Interactable))
+        otherGameObject.IsInLayerMask(interactableMask))
     {
         AttemptJumpAttack(other);
     }
@@ -652,7 +653,7 @@ private void OnTriggerStay(Collider other)
 private void OnTriggerEnter(Collider other)
 {
     GameObject otherGameObject = other.gameObject;
-    if (otherGameObject.layer == layerMapper.GetLayer(LayerEnum.Interactable))
+    if (otherGameObject.IsInLayerMask(interactableMask))
     {
         var interactableScript = otherGameObject.GetComponent<InteractionReceiver>();
         if (interactableScript != null)
@@ -666,7 +667,7 @@ private void OnTriggerEnter(Collider other)
 private void OnTriggerExit(Collider other)
 {
     GameObject otherGameObject = other.gameObject;
-    if (otherGameObject.layer == layerMapper.GetLayer(LayerEnum.Interactable))
+    if (otherGameObject.IsInLayerMask(interactableMask))
     {
         var interactableScript = otherGameObject.GetComponent<InteractionReceiver>();
         if (interactableScript != null)

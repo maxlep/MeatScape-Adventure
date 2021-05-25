@@ -15,6 +15,14 @@ public class RollCombat : PlayerStateNode
     private LayerMapper layerMapper;
     
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required] 
+    private LayerMask EnemyMask;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required] 
+    private LayerMask InteractableMask;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required]
     private IntVariable HungerLevel;
     
@@ -56,16 +64,21 @@ public class RollCombat : PlayerStateNode
         CollisionInfo collisionInfo = (CollisionInfo) collisionInfoObj;
         GameObject otherObj = collisionInfo.other.gameObject;
         
-        if(otherObj.layer == layerMapper.GetLayer(LayerEnum.Enemy)) {
-            EnemyController enemy = otherObj.GetComponentInChildren<EnemyController>();
+        if(otherObj.IsInLayerMask(EnemyMask)) {
+            EnemyController enemyScript = otherObj.GetComponentInChildren<EnemyController>();
+            
+            //If no enemy controller found, look for hurt proxy
+            if (enemyScript == null)
+                enemyScript = otherObj.GetComponent<EnemyHurtProxy>().EnemyController;
+            
             if(HungerLevel.Value >= HungerInstantKillThreshold.Value) {
-                enemy.DamageEnemy(999);
+                enemyScript.DamageEnemy(999);
             } else {
-                enemy.KnockbackEnemy(NewVelocity.Value.normalized, KnockbackTime.Value, KnockbackSpeed.Value);
+                enemyScript.KnockbackEnemy(NewVelocity.Value.normalized, KnockbackTime.Value, KnockbackSpeed.Value);
             }
         }
         
-        else if (otherObj.layer == layerMapper.GetLayer(LayerEnum.Interactable))
+        else if (otherObj.IsInLayerMask(InteractableMask))
         {
             InteractionReceiver interactionReceiver = collisionInfo.other.GetComponent<InteractionReceiver>();
             if (interactionReceiver != null) interactionReceiver.ReceiveRollIntoInteraction(new RollIntoPayload());

@@ -20,6 +20,10 @@ public class MeateorStrike : PlayerStateNode
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required] 
     private LayerMask EnemyMask;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required] 
+    private LayerMask InteractableMask;
 
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required]
@@ -174,11 +178,10 @@ public class MeateorStrike : PlayerStateNode
         CollisionInfo collisionInfo = (CollisionInfo) collisionInfoObj;
         GameObject otherObj = collisionInfo.other.gameObject;
         
-        if (otherObj.IsInLayerMask(EnemyMask))
+        if (otherObj.IsInLayerMask(EnemyMask) ||
+            otherObj.IsInLayerMask(InteractableMask))
         {
             playerController.UngroundMotor();
-            Vector3 playerToTarget = (otherObj.transform.position.xoz() - playerController.transform.position.xoz()).normalized;
-            //Vector3 knockbackDir = Vector3.RotateTowards(-playerToTarget, Vector3.up, 30f, 0f);
             KnockbackForceOutput.Value = -NewVelocityOut.Value.normalized.xoz() * KnockbackForceMagnitude.Value + 
                                          Vector3.up * KnockbackForceMagnitude.Value;
 

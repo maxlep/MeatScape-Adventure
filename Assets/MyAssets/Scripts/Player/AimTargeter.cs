@@ -19,7 +19,7 @@ namespace MyAssets.Scripts.Player
         [SerializeField] private CinemachineTargetGroup targetGroup;
         [SerializeField] private GameObject targetingReticlePrefab;
         [SerializeField] private LayerMapper layerMapper;
-        [SerializeField] private LayerMask enemyLayerMask;
+        [SerializeField] private LayerMask targetableMask;
         [SerializeField] private LayerMask obstructionLayerMask;
         [SerializeField] private float maxRange;
         [SerializeField] private float aimReticleYOffset;
@@ -103,7 +103,7 @@ namespace MyAssets.Scripts.Player
 
             //TODO: What if 1 enemy has multiple colliders? Right now assuming each enemy has 1
             //Cycle through targets and handle lock on and auto-aim modes
-            int numColliders = Physics.OverlapSphereNonAlloc(transform.position, maxRange, targetableColliders, enemyLayerMask);
+            int numColliders = Physics.OverlapSphereNonAlloc(transform.position, maxRange, targetableColliders, targetableMask);
             for (int i = 0; i < numColliders; i++)
             {
                 var current = targetableColliders[i];

@@ -11,6 +11,9 @@ public class Damageable : MonoBehaviour
     [SerializeField] private UnityEvent OnDamage;
     [SerializeField] private UnityEvent OnDeath;
 
+    public delegate void OnDeathe_();
+    public event OnDeathe_ OnDeathe;
+
     private int currentHealth;
     private bool isAlive;
 
@@ -28,7 +31,7 @@ public class Damageable : MonoBehaviour
         currentHealth -= damage;
         HealthBar?.UpdateHealth(currentHealth);
         OnDamage.Invoke();
-        
+
         if (currentHealth <= 0) Death();
     }
 
@@ -36,5 +39,6 @@ public class Damageable : MonoBehaviour
     {
         isAlive = false;
         OnDeath.Invoke();
+        OnDeathe?.Invoke();
     }
 }

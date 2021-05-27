@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 using MyAssets.Scripts.Utils;
+using Sirenix.Utilities;
 
 public class MeatClumpController : MonoBehaviour
 {
@@ -100,9 +101,12 @@ public class MeatClumpController : MonoBehaviour
         hasCollided = true;
         foreach (var collider in colliders) {
             GameObject hitObj = collider.gameObject;
-            
+
+            var hitEnemy = hitObj.IsInLayerMask(CollisionMaskEnemy);
+            var hitInteractable = hitObj.IsInLayerMask(CollisionMaskInteractable);
             //Hit enemy
-            if(hitObj.IsInLayerMask(CollisionMaskEnemy)) {
+            if(hitEnemy)
+            {
                 EnemyController enemyScript = hitObj.GetComponentInChildren<EnemyController>();
                 
                 //If no enemy controller found, look for hurt proxy
@@ -115,21 +119,29 @@ public class MeatClumpController : MonoBehaviour
                 enemyScript.DamageEnemy(ClumpDamage.Value, knockBackDir, true, knockBackForce);
                 enemyHitId.Value = enemyScript.gameObject.GetInstanceID();
                 
-                impactFeedbacks.PlayFeedbacks();
-                // Destroy(gameObject);
-                if (shaderUpdater != null) shaderUpdater.StartSplat(-meshTransform.forward);
-                transform.SetParent(hitObj.transform);
-                OnCollideWithEnemy.Invoke();
                 enemyScript.OnDeath += OnParentEnemyDeath;
-                return;
             }
 
             //Hit Interactable
-            if (hitObj.IsInLayerMask(CollisionMaskInteractable))
+            if (hitInteractable)
             {
                 var interactableScript = collider.GetComponent<InteractionReceiver>();
                 if (interactableScript != null)
                     interactableScript.ReceiveMeatClumpHitInteraction(new MeatClumpHitPayload());
+
+                var damageableScript = collider.GetComponent<Damageable>();
+                if ((!damageableScript?.SafeIsUnityNull()) ?? false)
+                    damageableScript.OnDeathe += OnParentEnemyDeath;
+            }
+
+            if (hitEnemy || hitInteractable)
+            {
+                if (shaderUpdater.SafeIsUnityNull())
+                    shaderUpdater.StartSplat(-meshTransform.forward);
+                
+                impactFeedbacks.PlayFeedbacks();
+                transform.SetParent(hitObj.transform);
+                OnCollideWithEnemy.Invoke();
             }
         }
     
@@ -144,6 +156,8 @@ public class MeatClumpController : MonoBehaviour
 
     private void OnParentEnemyDeath()
     {
+        if (this.SafeIsUnityNull()) return;
+
         SpawnManager.SpawnInfo spawnInfo = new SpawnManager.SpawnInfo()
         {
             position = transform.position

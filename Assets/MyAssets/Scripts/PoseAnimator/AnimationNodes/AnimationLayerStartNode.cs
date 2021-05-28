@@ -1,8 +1,10 @@
 ﻿using System;
+using Animancer;
 using MyAssets.ScriptableObjects.Variables.ValueReferences;
 using MyAssets.Scripts.PoseAnimator.Components;
 using MyAssets.Scripts.PoseAnimator.Types;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using UnityEngine;
 
 namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
@@ -22,11 +24,27 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
         [SerializeField] [LabelWidth(165f)] [PropertySpace(0f, 15f)]
         private AnimatableSceneReference animatable;
 
+        [SerializeField] private int animancerLayerIndex;
+
         public Animatable Animatable => animatable.Value;
+
+        public AnimancerLayer AnimancerLayer => Animatable.Animancer.Layers[animancerLayerIndex];
         
         protected override void OnValidate()
         {
-            name = $"Animation Start {executionOrderIndex}";
+            base.OnValidate();
+            
+            name = $"Animation {name}";
+        }
+
+        public override void RuntimeInitialize()
+        {
+            base.RuntimeInitialize();
+
+            if (!layerMask.SafeIsUnityNull())
+            {
+                AnimancerLayer.SetMask(layerMask);
+            }
         }
     }
 }

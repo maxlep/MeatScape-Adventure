@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using DotLiquid.Util;
 using MyAssets.ScriptableObjects.Variables;
 using MyAssets.Scripts.PoseAnimator.AnimationNodes;
 using MyAssets.Scripts.PoseAnimator.Components;
+using MyAssets.Scripts.PoseAnimator.Types;
 using Sirenix.Utilities;
 using UnityEngine;
 using XNode;
@@ -38,6 +40,15 @@ public class StateMachineGraph : NodeGraph
     public delegate void OnChangeState(StateNode exitingState, StateNode enteringState);
 
     public event OnChangeState onChangeState;
+    
+    #region Getters
+
+    public StartNode GetStartNode(int index)
+    {
+        return startNodes.TryGetAtIndex(index);
+    }
+    
+    #endregion
 
     #region LifeCycle Methods
 

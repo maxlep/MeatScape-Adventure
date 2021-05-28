@@ -55,6 +55,8 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
         // [TitleGroup("Base/Inputs/Damping"), SerializeField] private IntReference _dampingBoneCount;
         
         [TabGroup("Base","Debug"),ShowInInspector] private float _walkCycleLength;
+        [TabGroup("Base","Debug"),ShowInInspector] private bool _isMidStep;
+        [TabGroup("Base","Debug"),ShowInInspector] private float _currentStepTargetStrideLength;
         [TabGroup("Base","Debug"),ShowInInspector] private float _distanceValue;
         [TabGroup("Base","Debug"),ShowInInspector] private float _walkCyclePercent;
         [TabGroup("Base","Debug"),ShowInInspector] private float _walkSpeedFactor;
@@ -77,6 +79,7 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
             _walkSpeedFactor = 0;
             
             _walkCycleLength = 2 * _targetStrideLength.Value;
+            _currentStepTargetStrideLength = _targetStrideLength.Value;
             _targetStrideLength.Subscribe(() =>
             {
                 _walkCycleLength = 2 * _targetStrideLength.Value;
@@ -84,7 +87,7 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
             
             _animatable.Animancer.States.GetOrCreate(_move);
             // _animatable.Animancer.Layers[BaseLayer].SetMask(_locomotionMask);
-            _animatable.Animancer.Layers[BaseLayer].Play(_move, 0.5f, FadeMode.FixedDuration);
+            _startNode.AnimancerLayer.Play(_move, 0.5f, FadeMode.FixedDuration);
 
             // Init lean
             _leanForward = new SpecificLean(_animatable.Animancer.Playable, _leanBones.Select(b => b.Value));
@@ -151,12 +154,18 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
             
             if (_move.State.IsActive)
             {
+                if (!_isMidStep)
+                {
+                    _currentStepTargetStrideLength = _targetStrideLength.Value;
+                    _walkCycleLength = 2 * _currentStepTargetStrideLength;
+                }
+                
                 var speed = _velocity.Value.xz().magnitude;
                 _distanceValue = (_distanceValue + speed * Time.deltaTime) % _walkCycleLength;
                 _walkCyclePercent = _distanceValue / _walkCycleLength;
                 _walkSpeedFactor = speed / _maxSpeed.Value;
 
-                var dilationFactor = _bakedStrideLength.Value / _targetStrideLength.Value;
+                var dilationFactor = _bakedStrideLength.Value / _currentStepTargetStrideLength;
 
                 _move.State.Parameter = new Vector2(0, _runBlendFactor.Value);
                 _move.State.Speed = 1;
@@ -165,18 +174,27 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
                 var stridePercent = (_walkCyclePercent * 2f) % 1;
                 var leapPercent = _strideLeapFactor.Value.Evaluate(stridePercent);
                 var landPercent = _strideLandFactor.Value.Evaluate(stridePercent);
+
+                if (leapPercent >= 1 && landPercent >= 0.9f)
+                {
+                    _isMidStep = false;
+                }
+                else
+                {
+                    _isMidStep = false; // true; This is mid-step detection is currently disabled by this comment.
+                }
                 
-                var leapTime = (_strideLeapFactor.MaxTime - _strideLeapFactor.MinTime) * _targetStrideLength.Value / speed;
+                var leapTime = (_strideLeapFactor.MaxTime - _strideLeapFactor.MinTime) * _currentStepTargetStrideLength / speed;
                 var leapHeight = Mathf.Abs(0.5f * _bobGravity.Value * Mathf.Pow(leapTime / 2f, 2));
                 var leapVerticalSpeed = Mathf.Abs(_bobGravity.Value * leapTime / 2f);
 
                 var currentLeapTime = leapTime * leapPercent;
                 var currentLeapHeight = 0 + (leapVerticalSpeed * currentLeapTime) +
                                         (0.5f * _bobGravity.Value * Mathf.Pow(currentLeapTime, 2));
-                currentLeapHeight = Mathf.Min(currentLeapHeight, _targetStrideLength.Value / 2)
+                currentLeapHeight = Mathf.Min(currentLeapHeight, _currentStepTargetStrideLength)
                                     * Mathf.Pow(Mathf.Clamp01(_moveInputFactor.Value), 2);
                 
-                var landTime = (_strideLandFactor.MaxTime - _strideLandFactor.MinTime) * _targetStrideLength.Value / speed;
+                var landTime = (_strideLandFactor.MaxTime - _strideLandFactor.MinTime) * _currentStepTargetStrideLength / speed;
                 var currentLandHeight = (1 - Mathf.Abs(landPercent * 2 - 1)) * _bobConstantOffset.Value;
                 _bob.Distance = currentLeapHeight + currentLandHeight;
 

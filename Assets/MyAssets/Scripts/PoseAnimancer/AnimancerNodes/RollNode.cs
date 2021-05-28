@@ -28,7 +28,7 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
             
             startRotation = _pivot.Value.transform.localRotation;
             _animatable.Animancer.States.GetOrCreate(_pose);
-            _animatable.Animancer.Layers[0].Play(_pose);
+            _startNode.AnimancerLayer.Play(_pose);
         }
         
         public override void Exit()

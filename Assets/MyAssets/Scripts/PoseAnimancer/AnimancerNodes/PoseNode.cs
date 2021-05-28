@@ -14,9 +14,16 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
         public override void Enter()
         {
             base.Enter();
-            
-            _animatable.Animancer.States.GetOrCreate(_pose);
-            _animatable.Animancer.Layers[0].Play(_pose);
+
+            if (_pose.IsValid)
+            {
+                _animatable.Animancer.States.GetOrCreate(_pose);
+                _startNode.AnimancerLayer.Play(_pose);
+            }
+            else
+            {
+                _startNode.AnimancerLayer.Stop();
+            }
         }
 
         public virtual void ActiveEndTrigger()

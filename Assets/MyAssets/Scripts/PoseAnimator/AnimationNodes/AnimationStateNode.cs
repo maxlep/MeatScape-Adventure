@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using Animancer;
 using MyAssets.Runtime.AnimationJobs;
 using MyAssets.Scripts.PoseAnimator.Components;
 using MyAssets.Scripts.PoseAnimator.Types;
@@ -27,12 +28,20 @@ namespace MyAssets.Scripts.PoseAnimator.AnimationNodes
 
         protected Animatable _animatable;
 
-        #region Lifecycle methods
+        protected AnimationLayerStartNode _startNode;
+
+#region Lifecycle methods
         public override void RuntimeInitialize(int startNodeIndex)
         {
             base.RuntimeInitialize(startNodeIndex);
+            
+            _startNode = stateMachineGraph.GetStartNode(startNodeIndex) as AnimationLayerStartNode;
+            if (_startNode == null)
+            {
+                throw new Exception("Animation state nodes must belong to an animation layer start node.");
+            }
 
-            _animatable = stateMachineGraph.AnimationLayerStartNodes.FirstOrDefault().Animatable;
+            _animatable = _startNode.Animatable;
             // return;
         }
 

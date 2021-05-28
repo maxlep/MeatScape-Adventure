@@ -111,6 +111,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     [Title("Hunger value")]
     [FoldoutGroup("Hunger Parameters"), SerializeField] private TimerReference HungerDecayTimer;
+    [FoldoutGroup("Hunger Parameters"), SerializeField] private IntReference HungerSoftMax;
     [FoldoutGroup("Hunger Parameters"), SerializeField] private IntReference HungerOut;
     [Title("Model scale")]
     [FoldoutGroup("Hunger Parameters"), SerializeField] private TransformSceneReference SizeChangePivot;
@@ -497,7 +498,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     public void IncrementHunger(int amount)
     {
         HungerOut.Value += amount;
-        HungerOut.Value = Math.Max(0, HungerOut.Value);
+        HungerOut.Value = Mathf.Clamp(HungerOut.Value, 0, HungerSoftMax.Value);
     }
 
     #endregion

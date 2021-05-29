@@ -142,9 +142,9 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
             // });
             
             // _animatable.Animancer.Layers[BaseLayer].SetMask();
-            _leanForward.Destroy();
-            _leanSide.Destroy();
-            _bob.Destroy();
+            _leanForward?.Destroy();
+            _leanSide?.Destroy();
+            _bob?.Destroy();
             // _damping.Destroy();
         }
         
@@ -197,19 +197,11 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
                 var landTime = (_strideLandFactor.MaxTime - _strideLandFactor.MinTime) * _currentStepTargetStrideLength / speed;
                 var currentLandHeight = (1 - Mathf.Abs(landPercent * 2 - 1)) * _bobConstantOffset.Value;
                 _bob.Distance = currentLeapHeight + currentLandHeight;
-
-                // var stridePercent = (_walkCyclePercent * 2f) % 1;
-                // var bobPercent = DilatedSineShapingFunction(stridePercent, 2);
-                // var bobPercent = BobShapingFunction(Mathf.Min(stridePercent / .75f, 1f));
-                // bobPercent = bobPercent * (1 + _bobCompressionPercent.Value) - _bobCompressionPercent.Value;
-                // _bob.Distance = Mathf.Clamp(bobPercent * _bobAmplitude.Value / _walkSpeedFactor, -_bobAmplitude.Value, _bobAmplitude.Value);
                 
                 var leanForwardPercent = Vector3.Dot(_acceleration.Value.normalized, _animatable.transform.forward);
-                // _lean.Angle = Mathf.Min(leanPercent * _leanAngle.Value, _leanAngle.Value);
                 _leanForward.Angle = _walkSpeedFactor * leanForwardPercent * _leanForwardAngle.Value;
                 
                 var leanSidePercent = Vector3.Dot(_acceleration.Value.normalized, _animatable.transform.right);
-                // _lean.Angle = Mathf.Min(leanPercent * _leanAngle.Value, _leanAngle.Value);
                 _leanSide.Angle = _walkSpeedFactor * leanSidePercent * _leanSideAngle.Value;
             }
             else

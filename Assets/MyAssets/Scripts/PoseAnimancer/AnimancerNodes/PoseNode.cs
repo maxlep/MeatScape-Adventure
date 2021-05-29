@@ -9,6 +9,7 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
     public class PoseNode : AnimationStateNode
     {
         [SerializeField] private TriggerVariable animEndedTrigger;
+        [SerializeField] private TriggerVariable animEventTrigger;
         [SerializeField] private ClipState.Transition _pose;
 
         public override void Enter()
@@ -29,6 +30,11 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
         public virtual void ActiveEndTrigger()
         {
             if (animEndedTrigger != null) animEndedTrigger.Activate();
+        }
+
+        public virtual void ActiveEventTrigger()
+        {
+            if (animEventTrigger != null) animEventTrigger.Activate();
         }
     }
 }

@@ -365,6 +365,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   animEndedTrigger: {fileID: 0}
+  animEventTrigger: {fileID: 0}
   _pose:
     _FadeDuration: 0.05
     _Events:
@@ -708,6 +709,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   animEndedTrigger: {fileID: 0}
+  animEventTrigger: {fileID: 0}
   _pose:
     _FadeDuration: 0.3
     _Events:
@@ -1114,6 +1116,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   animEndedTrigger: {fileID: 0}
+  animEventTrigger: {fileID: 0}
   _pose:
     _FadeDuration: 0.25
     _Events:
@@ -1188,6 +1191,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   animEndedTrigger: {fileID: 0}
+  animEventTrigger: {fileID: 0}
   _pose:
     _FadeDuration: 0.25
     _Events:
@@ -1388,6 +1392,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   animEndedTrigger: {fileID: 0}
+  animEventTrigger: {fileID: 0}
   _pose:
     _FadeDuration: 0.25
     _Events:
@@ -1463,13 +1468,31 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   animEndedTrigger: {fileID: 11400000, guid: 2f01d417e9e5bda4dbc3af0531b0584e, type: 2}
+  animEventTrigger: {fileID: 11400000, guid: d0e2a76a1d7f8744db2f9e3d0cf3fbf3, type: 2}
   _pose:
     _FadeDuration: 0.1
     _Events:
-      _Names: []
+      _Names:
+      - Release clump
       _NormalizedTimes:
-      - 0.26666668
+      - 0.8533333
+      - 1
       _Callbacks:
+      - m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: -3787922203026241292}
+            m_TargetAssemblyTypeName: MyAssets.Scripts.PoseAnimancer.AnimancerNodes.PoseNode,
+              Assembly-CSharp
+            m_MethodName: ActiveEventTrigger
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
       - m_PersistentCalls:
           m_Calls:
           - m_Target: {fileID: -3787922203026241292}
@@ -1487,7 +1510,7 @@ MonoBehaviour:
             m_CallState: 2
     _Clip: {fileID: -9125954989277835355, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055,
       type: 3}
-    _Speed: 2
+    _Speed: 1
     _NormalizedStartTime: NaN
 --- !u!114 &-3771419636353125877
 MonoBehaviour:
@@ -1557,6 +1580,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   animEndedTrigger: {fileID: 0}
+  animEventTrigger: {fileID: 0}
   _pose:
     _FadeDuration: 0.05
     _Events:
@@ -3532,6 +3556,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   animEndedTrigger: {fileID: 0}
+  animEventTrigger: {fileID: 0}
   _pose:
     _FadeDuration: 0.25
     _Events:
@@ -3789,15 +3814,20 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 1
+  collapsed: 0
   transitionPriority: 0
   conditionPreview: '-  Invalid:  Forward  Throw  Start
+
+    -  Pitch Clump Complete_
+    Anim_ Player
 
 '
   ValidStartStates: []
   InvalidStartStates:
   - {fileID: 1439799944267282103, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
-  TriggerConditions: []
+  TriggerConditions:
+  - targetParameter: {fileID: 11400000, guid: 2f01d417e9e5bda4dbc3af0531b0584e, type: 2}
+    KeepTriggerOn: 0
   TimerConditions: []
 --- !u!114 &3888221634601344114
 MonoBehaviour:

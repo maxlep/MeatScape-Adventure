@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Meateor Dash -> Roll Movement
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -219,7 +219,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Meateor Dash Duration Timer_ Movement_ Player: 0.35 sec
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions: []
@@ -395,7 +397,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 0
+  collapsed: 1
   BypassState: 0
   Name: AirMovement
   Description: 
@@ -674,7 +676,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Slope Movement -> NoLowJump
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -893,7 +895,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '- ! Is Grounded_ Controller_ Player
+
+    - ! Is On Slideable
+    Slope_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions: []
@@ -1008,7 +1015,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Slingshot -> Roll Movement
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -1117,7 +1124,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Sling Shot Release_ Slingshot_ Player
+
+    -  Slingshot Min
+    Charge Timer_ Roll_ Player: 0.2 sec
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions:
@@ -1139,7 +1151,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Meateor Dash -> Meateor Strike
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -1248,7 +1260,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Dash Pressed Trigger_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions:
@@ -1357,7 +1371,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 0
+  collapsed: 1
   BypassState: 0
   Name: Meateor Dash
   Description: 
@@ -1454,7 +1468,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Roll Movement -> Jump
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -1618,7 +1632,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    -  Jump Trigger_ Controller_
+    Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions:
@@ -1857,7 +1876,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    -  Waited Jump Ground
+    Delay_ Movement_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions: []
@@ -2260,7 +2284,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 0
+  collapsed: 1
   BypassState: 0
   Name: Clump Pitch
   Description: 
@@ -2353,7 +2377,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Clump Pitch -> GroundMovement
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -2462,7 +2486,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Clump Pitch Duration Timer_ Movement_ Player: 0.2 sec
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions: []
@@ -2654,7 +2680,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: AirMovement -> NoLowJump
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -2763,7 +2789,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Add Impulse Trigger_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions:
@@ -2812,7 +2840,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Flatten -> GroundMovement
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -2921,7 +2949,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Flatten Timer_ Movement_ Player: 0.4 sec
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions: []
@@ -2941,7 +2971,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Slingshot -> GroundMovement
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -3050,7 +3080,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 1
-  conditionPreview: 
+  conditionPreview: '-  Sling Shot Release_ Slingshot_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions:
@@ -3348,7 +3380,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '- ! Is Grounded_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions: []
@@ -3363,7 +3397,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Ground Slam Fall -> Flatten
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -3527,7 +3561,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions: []
@@ -3542,7 +3578,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: AirMovement -> Ground Slam
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -3774,7 +3810,17 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '- ! Is Grounded_ Controller_ Player
+
+    -  Jump Trigger_ Controller_
+    Player
+
+    -  Distance To Ground_ Controller_ Player  Greater Than 3
+
+    - 
+    Ground Slam Cooldown Timer_ Movement_ Player: 0.75 sec
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions:
@@ -4068,7 +4114,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    -  Waited Jump Ground
+    Delay_ Movement_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions: []
@@ -4140,7 +4191,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 0
+  collapsed: 1
   BypassState: 0
   Name: Slingshot
   Description: 
@@ -4477,7 +4528,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Meateor Strike -> Roll Movement
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -4586,7 +4637,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Meateor Strike Duration Timer_ Movement_ Player: 0.35 sec
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions: []
@@ -4706,7 +4759,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Slope Movement -> GroundMovement
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -4925,7 +4978,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    - ! Is On Slideable
+    Slope_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions: []
@@ -4990,7 +5048,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: AirMovement -> Slope Movement
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -5215,7 +5273,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is On Slideable Slope_ Controller_ Player
+
+    -  Waited
+    Jump Ground Delay_ Movement_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions: []
@@ -5840,7 +5903,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: AirMovement -> Roll Dash
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -5958,7 +6021,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Dash Pressed Trigger_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions:
@@ -6025,7 +6090,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Flatten -> GroundMovement
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -6275,7 +6340,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Ground Slam Fall -> Flatten
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -6384,7 +6449,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Became Grounded_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions:
@@ -6446,7 +6513,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 0
+  collapsed: 1
   BypassState: 0
   Name: Slope Movement
   Description: 
@@ -6668,7 +6735,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 0
+  collapsed: 1
   BypassState: 0
   Name: Roll Dash
   Description: 
@@ -6806,7 +6873,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 0
+  collapsed: 1
   BypassState: 0
   Name: Meateor Strike
   Description: 
@@ -7182,7 +7249,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Roll Movement -> NoLowJump
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -7356,6 +7423,8 @@ MonoBehaviour:
 
     -  Valid:  Forward  Throw
 
+    - ! Is Grounded_ Controller_ Player
+
 '
   ValidStartStates:
   - {fileID: -4695961148579739637, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
@@ -7374,7 +7443,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Roll Movement -> GroundMovement
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -7545,6 +7614,9 @@ MonoBehaviour:
 
     -  Valid:  Forward  Throw  Charge
 
+    -
+    ! Is Grounded_ Controller_ Player
+
 '
   ValidStartStates:
   - {fileID: -8354906802381047596, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
@@ -7689,11 +7761,11 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 0
+  collapsed: 1
   BypassState: 0
   Name: GroundMovement
   Description: 
-  isActiveState: 1
+  isActiveState: 0
   BaseSpeed:
     UseConstant: 1
     EnableInstanceOptions: 0
@@ -7896,6 +7968,7 @@ MonoBehaviour:
     Variable: {fileID: 0}
   FastTurnTriggered: {fileID: 11400000, guid: 8d2de91408bd44e42b8cf36cd4a435e2, type: 2}
   SlideTurnTriggered: {fileID: 11400000, guid: 4dd3aed967556774397f7132ad414a80, type: 2}
+  FastTurnCompleted: {fileID: 11400000, guid: 67ed70e9c4991e248a4aad44e482c684, type: 2}
 --- !u!114 &1271538034801937724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7970,7 +8043,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: GroundMovement -> Roll Movement
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -8352,7 +8425,15 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is On Slideable Slope_ Controller_ Player
+
+    -  Waited
+    Jump Ground Delay_ Movement_ Player
+
+    - 0  Ignore 0 && 0  Less Than 0 && 0 
+    Ignore 0
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions: []
@@ -8367,7 +8448,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Slingshot -> Meateor Strike
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -8476,7 +8557,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Sling Shot Optimal Release Homing_ Slingshot_ Player
+
+    - 
+    Slingshot Min Charge Timer_ Roll_ Player: 0.2 sec
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions:
@@ -8551,7 +8637,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Roll Movement -> Slingshot
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -8770,7 +8856,14 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    -  Roll Pressed_ Controller_
+    Player
+
+    -  Slingshot Delay Timer_ Roll_ Player: 0.4 sec
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions: []
@@ -8840,7 +8933,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Flatten -> GroundSlamJump
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -8949,7 +9042,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Jump Trigger_ Controller_ Player
+
+    -  Flatten Jump Delay
+    Timer_ Movement_ Player: 0.1 sec
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions:
@@ -9196,7 +9294,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Meateor Strike -> MeateorKnockBack
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -9305,7 +9403,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Meateor Collide Trigger_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions:
@@ -9528,7 +9628,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 0
+  collapsed: 1
   BypassState: 0
   Name: Roll Movement
   Description: 
@@ -9831,7 +9931,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: AirMovement -> AirJump
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -9943,7 +10043,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Jump Attack Trigger_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions:
@@ -9960,7 +10062,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: GroundMovement -> Slingshot
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -10185,7 +10287,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    -  Roll Pressed_ Controller_
+    Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions: []
@@ -10335,7 +10442,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Ground Slam Fall -> Flatten
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -10506,7 +10613,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Distance To Ground_ Controller_ Player  Less Than 1
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions: []
@@ -10521,7 +10630,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: GroundMovement -> Jump
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -10630,7 +10739,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Jump Trigger_ Controller_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions:
@@ -10697,7 +10808,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Slingshot -> GroundMovement
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -10806,7 +10917,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 1
-  conditionPreview: 
+  conditionPreview: '-  Sling Shot Optimal Release_ Slingshot_ Player
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions:
@@ -10873,7 +10986,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: GroundMovement -> Clump Pitch
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -11075,7 +11188,7 @@ MonoBehaviour:
   BypassState: 0
   Name: NoLowJump
   Description: An AirMovement state but with no low jump fall multiplier
-  isActiveState: 0
+  isActiveState: 1
   BaseSpeed:
     UseConstant: 1
     EnableInstanceOptions: 0
@@ -11387,7 +11500,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Slingshot -> Meateor Dash
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -11496,7 +11609,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Sling Shot Optimal Release_ Slingshot_ Player
+
+    -  Slingshot
+    Min Charge Timer_ Roll_ Player: 0.2 sec
+
+'
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions:

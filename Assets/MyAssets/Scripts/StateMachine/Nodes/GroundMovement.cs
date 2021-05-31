@@ -120,6 +120,10 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")] [Required]
         private TriggerVariable SlideTurnTriggered;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")] [Required]
+        private TriggerVariable FastTurnCompleted;
 
         #endregion
 
@@ -319,6 +323,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             {
                 IsFastTurning.Value = false;
                 IsSlideTurning.Value = false;
+                FastTurnCompleted.Activate();
             }
         }
 

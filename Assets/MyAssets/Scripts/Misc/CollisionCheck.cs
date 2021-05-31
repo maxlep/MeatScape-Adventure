@@ -56,7 +56,7 @@ public class CollisionCheck : MonoBehaviour
       HandleCollisions.Invoke(colliders);
     }
 
-    void OnDrawGizmos() {
+    void OnDrawGizmosSelected() {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(positionOffset, CollisionRadius.Value);
     }

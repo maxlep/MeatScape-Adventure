@@ -1,4 +1,5 @@
 ﻿using Animancer;
+using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
 using MyAssets.Scripts.PoseAnimator.AnimationNodes;
 using Sirenix.OdinInspector;
@@ -9,7 +10,9 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
     public class PoseNode : AnimationStateNode
     {
         [SerializeField] private TriggerVariable animEndedTrigger;
+        [SerializeField] private GameEvent animEndedEvent;
         [SerializeField] private TriggerVariable animEventTrigger;
+        [SerializeField] private GameEvent animEvent;
         [SerializeField] private ClipState.Transition _pose;
 
         public override void Enter()
@@ -30,11 +33,13 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
         public virtual void ActiveEndTrigger()
         {
             if (animEndedTrigger != null) animEndedTrigger.Activate();
+            if (animEndedEvent != null) animEndedEvent.Raise();
         }
 
         public virtual void ActiveEventTrigger()
         {
             if (animEventTrigger != null) animEventTrigger.Activate();
+            if (animEvent != null) animEvent.Raise();
         }
     }
 }

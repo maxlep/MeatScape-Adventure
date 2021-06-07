@@ -368,14 +368,33 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   animEndedTrigger: {fileID: 0}
+  animEndedEvent: {fileID: 11400000, guid: 3e89aaab26a19a74aab1304a168665b6, type: 2}
   animEventTrigger: {fileID: 0}
+  animEvent: {fileID: 11400000, guid: ddd332e29d8ddae439c5756e37451039, type: 2}
   _pose:
-    _FadeDuration: 0.05
+    _FadeDuration: 0.5
     _Events:
       _Names: []
-      _NormalizedTimes: []
-      _Callbacks: []
-    _Clip: {fileID: 8193730744884511861, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055, type: 3}
+      _NormalizedTimes:
+      - 8
+      - 48
+      _Callbacks:
+      - m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: -8076184187842722617}
+            m_TargetAssemblyTypeName: MyAssets.Scripts.PoseAnimancer.AnimancerNodes.PoseNode,
+              Assembly-CSharp
+            m_MethodName: ActiveEventTrigger
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+    _Clip: {fileID: 7320424025298056192, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055, type: 3}
     _Speed: 1
     _NormalizedStartTime: NaN
 --- !u!114 &-7688583208477412393
@@ -712,7 +731,9 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   animEndedTrigger: {fileID: 0}
+  animEndedEvent: {fileID: 0}
   animEventTrigger: {fileID: 0}
+  animEvent: {fileID: 0}
   _pose:
     _FadeDuration: 0.3
     _Events:
@@ -1119,7 +1140,9 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   animEndedTrigger: {fileID: 0}
+  animEndedEvent: {fileID: 0}
   animEventTrigger: {fileID: 0}
+  animEvent: {fileID: 0}
   _pose:
     _FadeDuration: 0.25
     _Events:
@@ -1194,7 +1217,9 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   animEndedTrigger: {fileID: 0}
+  animEndedEvent: {fileID: 0}
   animEventTrigger: {fileID: 0}
+  animEvent: {fileID: 0}
   _pose:
     _FadeDuration: 0.25
     _Events:
@@ -1395,7 +1420,9 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   animEndedTrigger: {fileID: 0}
+  animEndedEvent: {fileID: 0}
   animEventTrigger: {fileID: 0}
+  animEvent: {fileID: 0}
   _pose:
     _FadeDuration: 0.25
     _Events:
@@ -1471,7 +1498,9 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   animEndedTrigger: {fileID: 11400000, guid: 2f01d417e9e5bda4dbc3af0531b0584e, type: 2}
+  animEndedEvent: {fileID: 0}
   animEventTrigger: {fileID: 11400000, guid: d0e2a76a1d7f8744db2f9e3d0cf3fbf3, type: 2}
+  animEvent: {fileID: 0}
   _pose:
     _FadeDuration: 0.1
     _Events:
@@ -1574,7 +1603,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Jump NEW!
   Description: 
-  isActiveState: 1
+  isActiveState: 0
   transitionTime: 0
   transitionCurve:
     serializedVersion: 2
@@ -1583,7 +1612,9 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   animEndedTrigger: {fileID: 0}
+  animEndedEvent: {fileID: 0}
   animEventTrigger: {fileID: 0}
+  animEvent: {fileID: 0}
   _pose:
     _FadeDuration: 0.05
     _Events:
@@ -1762,9 +1793,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Fast Turn Completed_ Movement_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions:
@@ -1977,9 +2006,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '- ! Is Grounded_ Controller_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions: []
@@ -2725,9 +2752,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Fast Turn Triggered_ Movement_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions:
@@ -3421,12 +3446,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Is Grounded_ Controller_ Player
-
-    - 0  Abs Greater Than
-    0 && 0  Ignore 0 && 0  Abs Greater Than 0
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions: []
@@ -3629,7 +3649,9 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   animEndedTrigger: {fileID: 0}
+  animEndedEvent: {fileID: 0}
   animEventTrigger: {fileID: 0}
+  animEvent: {fileID: 0}
   _pose:
     _FadeDuration: 0.25
     _Events:
@@ -3761,9 +3783,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Slide Turn Triggered_ Movement_ Player
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions:
@@ -3890,9 +3910,6 @@ MonoBehaviour:
   collapsed: 0
   transitionPriority: 0
   conditionPreview: '-  Invalid:  Forward  Throw  Start
-
-    -  Pitch Clump Complete_
-    Anim_ Player
 
 '
   ValidStartStates: []
@@ -4213,7 +4230,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Walk NEW!
   Description: 
-  isActiveState: 0
+  isActiveState: 1
   transitionTime: 0
   transitionCurve:
     serializedVersion: 2
@@ -4226,7 +4243,9 @@ MonoBehaviour:
     _FadeDuration: 0.25
     _Events:
       _Names: []
-      _NormalizedTimes: []
+      _NormalizedTimes:
+      - 0.2881761
+      - 1.0001525
       _Callbacks: []
     _Speed: 1
     _States:
@@ -4347,6 +4366,10 @@ MonoBehaviour:
     Variable: {fileID: 0}
   _bobBones:
   - {fileID: 11400000, guid: 46a9a5e2170f6dd45a670f973ab4dfa4, type: 2}
+  _stepLiftoffEventLeft: {fileID: 0}
+  _stepLandEventLeft: {fileID: 0}
+  _stepLiftoffEventRight: {fileID: 0}
+  _stepLandEventRight: {fileID: 0}
 --- !u!114 &4401659622340631345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5099,12 +5122,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '- ! Is Grounded_ Controller_ Player
-
-    - 0  Ignore 0 && 0 
-    Less Than 0.1 && 0  Ignore 0
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions: []
@@ -5649,12 +5667,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Is Grounded_ Controller_ Player
-
-    - 0  Abs Less Than 0.001
-    && 0  Ignore 0 && 0  Abs Less Than 0.001
-
-'
+  conditionPreview: 
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions: []

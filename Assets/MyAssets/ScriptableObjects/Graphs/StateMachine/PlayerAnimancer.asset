@@ -72,7 +72,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -4936, y: 2040}
+  position: {x: -4936, y: 1816}
   ports:
     keys:
     - previousState
@@ -346,6 +346,9 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: startingState
+        node: {fileID: 2718261885113911837}
+        reroutePoints: []
+      - fieldName: startingState
         node: {fileID: -3100221026002377783}
         reroutePoints: []
       _direction: 1
@@ -365,48 +368,16 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   animEndedTrigger: {fileID: 0}
-  animEndedEvent: {fileID: 11400000, guid: 3e89aaab26a19a74aab1304a168665b6, type: 2}
+  animEndedEvent: {fileID: 0}
   animEventTrigger: {fileID: 0}
-  animEvent: {fileID: 11400000, guid: ddd332e29d8ddae439c5756e37451039, type: 2}
+  animEvent: {fileID: 0}
   _pose:
-    _FadeDuration: 0.5
+    _FadeDuration: 0.05
     _Events:
       _Names: []
-      _NormalizedTimes:
-      - 8
-      - 48
-      _Callbacks:
-      - m_PersistentCalls:
-          m_Calls:
-          - m_Target: {fileID: -8076184187842722617}
-            m_TargetAssemblyTypeName: MyAssets.Scripts.PoseAnimancer.AnimancerNodes.PoseNode,
-              Assembly-CSharp
-            m_MethodName: ActiveEventTrigger
-            m_Mode: 1
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 0
-              m_StringArgument: 
-              m_BoolArgument: 0
-            m_CallState: 2
-      - m_PersistentCalls:
-          m_Calls:
-          - m_Target: {fileID: -8076184187842722617}
-            m_TargetAssemblyTypeName: MyAssets.Scripts.PoseAnimancer.AnimancerNodes.PoseNode,
-              Assembly-CSharp
-            m_MethodName: ActiveEndTrigger
-            m_Mode: 1
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 0
-              m_StringArgument: 
-              m_BoolArgument: 0
-            m_CallState: 2
-    _Clip: {fileID: 7320424025298056192, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055, type: 3}
+      _NormalizedTimes: []
+      _Callbacks: []
+    _Clip: {fileID: 8194326456566286029, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055, type: 3}
     _Speed: 1
     _NormalizedStartTime: NaN
 --- !u!114 &-7688583208477412393
@@ -1146,7 +1117,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Do Nothing (Combat Anim)
   Description: 
-  isActiveState: 0
+  isActiveState: 1
   transitionTime: 0
   transitionCurve:
     serializedVersion: 2
@@ -1307,7 +1278,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -4936, y: 2264}
+  position: {x: -4936, y: 2040}
   ports:
     keys:
     - previousState
@@ -1504,7 +1475,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Pitch Clump NEW!
   Description: 
-  isActiveState: 1
+  isActiveState: 0
   transitionTime: 0
   transitionCurve:
     serializedVersion: 2
@@ -2292,7 +2263,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -4936, y: 2456}
+  position: {x: -4936, y: 2232}
   ports:
     keys:
     - previousState
@@ -2604,6 +2575,9 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: nextState
+        node: {fileID: 2718261885113911837}
+        reroutePoints: []
+      - fieldName: nextState
         node: {fileID: -3100221026002377783}
         reroutePoints: []
       _direction: 0
@@ -2642,7 +2616,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -4936, y: 1784}
+  position: {x: -4936, y: 1560}
   ports:
     keys:
     - previousState
@@ -3577,8 +3551,8 @@ MonoBehaviour:
   transitionPriority: 0
   conditionPreview: '-  Is Grounded_ Controller_ Player
 
-    - 0  Abs Greater Than
-    0 && 0  Ignore 0 && 0  Abs Greater Than 0
+    - 16.18801  Abs Greater
+    Than 0 && 15.55555  Ignore 0 && 1.983759  Abs Greater Than 0
 
 '
   ValidStartStates: []
@@ -3682,7 +3656,10 @@ MonoBehaviour:
       _node: {fileID: 2718261885113911837}
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: previousState
+        node: {fileID: -1596843986074591001}
+        reroutePoints: []
       _direction: 1
       _connectionType: 1
       _typeConstraint: 2
@@ -3691,7 +3668,10 @@ MonoBehaviour:
       _node: {fileID: 2718261885113911837}
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: transitions
+        node: {fileID: -8076184187842722617}
+        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 2
@@ -4376,73 +4356,8 @@ MonoBehaviour:
     _FadeDuration: 0.25
     _Events:
       _Names: []
-      _NormalizedTimes:
-      - 0.125
-      - 0.375
-      - 0.625
-      - 0.875
-      - 1.0001525
-      _Callbacks:
-      - m_PersistentCalls:
-          m_Calls:
-          - m_Target: {fileID: 3888221634601344114}
-            m_TargetAssemblyTypeName: MyAssets.Scripts.PoseAnimancer.AnimancerNodes.LocomotionNode,
-              Assembly-CSharp
-            m_MethodName: RaiseStepLiftoffEventLeft
-            m_Mode: 1
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 0
-              m_StringArgument: 
-              m_BoolArgument: 0
-            m_CallState: 2
-      - m_PersistentCalls:
-          m_Calls:
-          - m_Target: {fileID: 3888221634601344114}
-            m_TargetAssemblyTypeName: MyAssets.Scripts.PoseAnimancer.AnimancerNodes.LocomotionNode,
-              Assembly-CSharp
-            m_MethodName: RaiseStepLandEventRight
-            m_Mode: 1
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 0
-              m_StringArgument: 
-              m_BoolArgument: 0
-            m_CallState: 2
-      - m_PersistentCalls:
-          m_Calls:
-          - m_Target: {fileID: 3888221634601344114}
-            m_TargetAssemblyTypeName: MyAssets.Scripts.PoseAnimancer.AnimancerNodes.LocomotionNode,
-              Assembly-CSharp
-            m_MethodName: RaiseStepLiftoffEventRight
-            m_Mode: 1
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 0
-              m_StringArgument: 
-              m_BoolArgument: 0
-            m_CallState: 2
-      - m_PersistentCalls:
-          m_Calls:
-          - m_Target: {fileID: 3888221634601344114}
-            m_TargetAssemblyTypeName: MyAssets.Scripts.PoseAnimancer.AnimancerNodes.LocomotionNode,
-              Assembly-CSharp
-            m_MethodName: RaiseStepLandEventLeft
-            m_Mode: 1
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 0
-              m_StringArgument: 
-              m_BoolArgument: 0
-            m_CallState: 2
+      _NormalizedTimes: []
+      _Callbacks: []
     _Speed: 1
     _States:
     - {fileID: -2420248955592922456, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055, type: 3}
@@ -4562,13 +4477,10 @@ MonoBehaviour:
     Variable: {fileID: 0}
   _bobBones:
   - {fileID: 11400000, guid: 46a9a5e2170f6dd45a670f973ab4dfa4, type: 2}
-  _stepLiftoffEventLeft: {fileID: 11400000, guid: f5c79096a68556545951cea1ebf7516a,
-    type: 2}
-  _stepLandEventLeft: {fileID: 11400000, guid: 2f7014b96711c054da15c0d11d5b99e7, type: 2}
-  _stepLiftoffEventRight: {fileID: 11400000, guid: 1f22ca509748b9241a4608b79051341f,
-    type: 2}
-  _stepLandEventRight: {fileID: 11400000, guid: 15e3207ed8bf64246acbddc918cc52f4,
-    type: 2}
+  _stepLiftoffEventLeft: {fileID: 0}
+  _stepLandEventLeft: {fileID: 0}
+  _stepLiftoffEventRight: {fileID: 0}
+  _stepLandEventRight: {fileID: 0}
 --- !u!114 &4401659622340631345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5323,8 +5235,8 @@ MonoBehaviour:
   transitionPriority: 0
   conditionPreview: '- ! Is Grounded_ Controller_ Player
 
-    - 0  Ignore 0 && 0 
-    Less Than 0.1 && 0  Ignore 0
+    - 16.18801  Ignore
+    0 && 15.55555  Less Than 0.1 && 1.983759  Ignore 0
 
 '
   ValidStartStates: []
@@ -5873,8 +5785,8 @@ MonoBehaviour:
   transitionPriority: 0
   conditionPreview: '-  Is Grounded_ Controller_ Player
 
-    - 0  Abs Less Than 0.001
-    && 0  Ignore 0 && 0  Abs Less Than 0.001
+    - 16.18801  Abs Less
+    Than 0.001 && 15.55555  Ignore 0 && 1.983759  Abs Less Than 0.001
 
 '
   ValidStartStates: []

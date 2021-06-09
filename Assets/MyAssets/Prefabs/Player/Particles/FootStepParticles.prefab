@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 5196373470632188137}
   - component: {fileID: 7537005337255702840}
   - component: {fileID: 8083124120096863914}
-  - component: {fileID: 6015685415113891940}
   m_Layer: 0
   m_Name: FootStepParticles
   m_TagString: Untagged
@@ -43,8 +42,8 @@ ParticleSystem:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1347907466025638417}
-  serializedVersion: 6
-  lengthInSec: 2
+  serializedVersion: 7
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -3682,19 +3681,20 @@ ParticleSystem:
     range: {x: 0, y: 1}
   CollisionModule:
     enabled: 0
-    serializedVersion: 3
+    serializedVersion: 4
     type: 0
     collisionMode: 0
     colliderForce: 0
     multiplyColliderForceByParticleSize: 0
     multiplyColliderForceByParticleSpeed: 0
     multiplyColliderForceByCollisionAngle: 1
-    plane0: {fileID: 0}
-    plane1: {fileID: 0}
-    plane2: {fileID: 0}
-    plane3: {fileID: 0}
-    plane4: {fileID: 0}
-    plane5: {fileID: 0}
+    m_Planes:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
     m_Dampen:
       serializedVersion: 2
       minMaxState: 0
@@ -3868,17 +3868,20 @@ ParticleSystem:
     interiorCollisions: 0
   TriggerModule:
     enabled: 0
-    collisionShape0: {fileID: 0}
-    collisionShape1: {fileID: 0}
-    collisionShape2: {fileID: 0}
-    collisionShape3: {fileID: 0}
-    collisionShape4: {fileID: 0}
-    collisionShape5: {fileID: 0}
+    serializedVersion: 2
     inside: 1
     outside: 0
     enter: 0
     exit: 0
+    colliderQueryMode: 0
     radiusScale: 1
+    primitives:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
   SubModule:
     serializedVersion: 2
     enabled: 0
@@ -4895,13 +4898,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f912ad191c9417e94a482c5aaa34397, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Event: {fileID: 11400000, guid: 2f7014b96711c054da15c0d11d5b99e7, type: 2}
+  Event: {fileID: 11400000, guid: f5c79096a68556545951cea1ebf7516a, type: 2}
   Response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8083124120096863914}
-        m_TargetAssemblyTypeName: MyAssets.Scripts.Events.ConditionalEvent, Assembly-CSharp
-        m_MethodName: TryRaise
+      - m_Target: {fileID: 1347907466025638419}
+        m_TargetAssemblyTypeName: UnityEngine.ParticleSystem, UnityEngine
+        m_MethodName: Play
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4923,15 +4926,73 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 167f43e71a7f42398521d2b0e97eb0f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 8316ac7a291a85c4e84b8766b99f7e3b, type: 2}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _startSpeedMultiplier
+      Entry: 7
+      Data: 0|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
+        Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: false
+    - Name: EnableInstanceOptions
+      Entry: 5
+      Data: false
+    - Name: InstanceName
+      Entry: 1
+      Data: '{I} '
+    - Name: InstancePath
+      Entry: 1
+      Data: IntermediateProperties
+    - Name: InstanceType
+      Entry: 6
+      Data: 
+    - Name: ConstantValue
+      Entry: 4
+      Data: 0
+    - Name: ReferenceValue
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _startLifetimeMultiplier
+      Entry: 7
+      Data: 1|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
+        Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: false
+    - Name: EnableInstanceOptions
+      Entry: 5
+      Data: false
+    - Name: InstanceName
+      Entry: 1
+      Data: '{I} '
+    - Name: InstancePath
+      Entry: 1
+      Data: IntermediateProperties
+    - Name: InstanceType
+      Entry: 6
+      Data: 
+    - Name: ConstantValue
+      Entry: 4
+      Data: 0
+    - Name: ReferenceValue
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
   _particleSystem: {fileID: 1347907466025638419}
-  _startSpeedMultiplier:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 1c49ebf7ba1267e44aed5b194c8a3d83, type: 2}
-  _startLifetimeMultiplier:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 1c49ebf7ba1267e44aed5b194c8a3d83, type: 2}
 --- !u!114 &8083124120096863914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4944,24 +5005,81 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 023e9cd0a8f31a74e8421cea003064f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BoolConditions: []
-  FloatConditions:
-  - targetParameter:
-      UseConstant: 0
-      ConstantValue: 0
-      Variable: {fileID: 11400000, guid: 1c49ebf7ba1267e44aed5b194c8a3d83, type: 2}
-    comparator: 1
-    value: 0.8
-  - targetParameter:
-      UseConstant: 0
-      ConstantValue: 0
-      Variable: {fileID: 11400000, guid: 3ec0e62e603a6894490cff8904828f72, type: 2}
-    comparator: 1
-    value: 0.95
-  IntConditions: []
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: BoolConditions
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[BoolCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: FloatConditions
+      Entry: 7
+      Data: 1|System.Collections.Generic.List`1[[FloatCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: IntConditions
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[IntCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Vector2Conditions
+      Entry: 7
+      Data: 3|System.Collections.Generic.List`1[[Vector2Condition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Vector3Conditions
+      Entry: 7
+      Data: 4|System.Collections.Generic.List`1[[Vector3Condition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   TimerConditions: []
-  Vector2Conditions: []
-  Vector3Conditions: []
   Response:
     m_PersistentCalls:
       m_Calls:
@@ -4977,116 +5095,3 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &6015685415113891940
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1347907466025638417}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3718a7fa08754075b41623c21f2ed2d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 11400000, guid: f6877814e5cfdd740a764565ec954c17, type: 2}
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: _input
-      Entry: 7
-      Data: 0|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
-        Assembly-CSharp
-    - Name: UseConstant
-      Entry: 5
-      Data: false
-    - Name: ConstantValue
-      Entry: 4
-      Data: 0
-    - Name: ReferenceValue
-      Entry: 10
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: _oldMin
-      Entry: 7
-      Data: 1|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
-        Assembly-CSharp
-    - Name: UseConstant
-      Entry: 5
-      Data: true
-    - Name: ConstantValue
-      Entry: 4
-      Data: 0
-    - Name: ReferenceValue
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: _oldMax
-      Entry: 7
-      Data: 2|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
-        Assembly-CSharp
-    - Name: UseConstant
-      Entry: 5
-      Data: true
-    - Name: ConstantValue
-      Entry: 4
-      Data: 20
-    - Name: ReferenceValue
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: _newMin
-      Entry: 7
-      Data: 3|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
-        Assembly-CSharp
-    - Name: UseConstant
-      Entry: 5
-      Data: true
-    - Name: ConstantValue
-      Entry: 4
-      Data: 0.5
-    - Name: ReferenceValue
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: _newMax
-      Entry: 7
-      Data: 4|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
-        Assembly-CSharp
-    - Name: UseConstant
-      Entry: 5
-      Data: true
-    - Name: ConstantValue
-      Entry: 4
-      Data: 1
-    - Name: ReferenceValue
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-  useCurve: 0
-  _curve:
-    UseConstant: 0
-    ConstantValue:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    Variable: {fileID: 11400000, guid: c015210317b373445811b7ae7329312a, type: 2}
-  _output: {fileID: 11400000, guid: 3ec0e62e603a6894490cff8904828f72, type: 2}

@@ -4,6 +4,7 @@ using Animancer;
 using Animancer.Examples.Jobs;
 using BehaviorDesigner.Runtime.Tasks.Unity.UnityTransform;
 using Den.Tools.Matrices;
+using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
 using MyAssets.ScriptableObjects.Variables.ValueReferences;
 using MyAssets.Scripts.PoseAnimancer.AnimancerJobs;
@@ -50,6 +51,12 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
         [TitleGroup("Base/Inputs/Bob"),SerializeField] private FloatValueReference _bobConstantOffset;
         [TitleGroup("Base/Inputs/Bob"),SerializeField] private TransformSceneReference[] _bobBones;
         [TitleGroup("Base/Inputs/Bob"),SerializeField] private FloatValueReference _bobGravity;
+        
+        [TabGroup("Base/Inputs", "Events")]
+        [TitleGroup("Base/Inputs/Events"),SerializeField] private GameEvent _stepLiftoffEventLeft;
+        [TitleGroup("Base/Inputs/Events"),SerializeField] private GameEvent _stepLandEventLeft;
+        [TitleGroup("Base/Inputs/Events"),SerializeField] private GameEvent _stepLiftoffEventRight;
+        [TitleGroup("Base/Inputs/Events"),SerializeField] private GameEvent _stepLandEventRight;
 
         // [TitleGroup("Base/Inputs/Damping"), SerializeField] private TransformSceneReference _dampingEndBone;
         // [TitleGroup("Base/Inputs/Damping"), SerializeField] private IntReference _dampingBoneCount;
@@ -59,15 +66,17 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
         [TabGroup("Base","Debug"),ShowInInspector] private float _currentStepTargetStrideLength;
         [TabGroup("Base","Debug"),ShowInInspector] private float _distanceValue;
         [TabGroup("Base","Debug"),ShowInInspector] private float _walkCyclePercent;
+        [TabGroup("Base","Debug"),ShowInInspector] private float _lastWalkCyclePercent;
         [TabGroup("Base","Debug"),ShowInInspector] private float _walkSpeedFactor;
         
+        private AnimancerEvent.Sequence _moveEvents;
+        private AnimancerEvent _nextMoveEvent;
+        private int _nextMoveEventIndex;
+
         private SpecificLean _leanForward;
         private SpecificLean _leanSide;
         private TranslateRoot _bob;
         // private Damping _damping;
-        
-        private const int BaseLayer = 0;
-        private const int ActionLayer = 1;
         
         public override void Enter()
         {
@@ -76,6 +85,7 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
             // _walkCycleLength = 2 * _strideLength.Value;
             _distanceValue = 0;
             _walkCyclePercent = 0;
+            _lastWalkCyclePercent = 0;
             _walkSpeedFactor = 0;
             
             _walkCycleLength = 2 * _targetStrideLength.Value;
@@ -88,6 +98,13 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
             _animatable.Animancer.States.GetOrCreate(_move);
             // _animatable.Animancer.Layers[BaseLayer].SetMask(_locomotionMask);
             _startNode.AnimancerLayer.Play(_move, 0.5f, FadeMode.FixedDuration);
+
+            _moveEvents = _move.Events;
+            if (_moveEvents.Count > 0)
+            {
+                _nextMoveEventIndex = 0;
+                _nextMoveEvent = _moveEvents[_nextMoveEventIndex];
+            }
 
             // Init lean
             _leanForward = new SpecificLean(_animatable.Animancer.Playable, _leanBones.Select(b => b.Value));
@@ -159,6 +176,8 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
                     _currentStepTargetStrideLength = _targetStrideLength.Value;
                     _walkCycleLength = 2 * _currentStepTargetStrideLength;
                 }
+
+                _lastWalkCyclePercent = _walkCyclePercent;
                 
                 var speed = _velocity.Value.xz().magnitude;
                 _distanceValue = (_distanceValue + speed * Time.deltaTime) % _walkCycleLength;
@@ -170,6 +189,20 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
                 _move.State.Parameter = new Vector2(0, _runBlendFactor.Value);
                 _move.State.Speed = 1;
                 _move.State.NormalizedTime = _walkCyclePercent;
+                
+                // TODO WARNING Events may be double triggered
+                // Animancer doesn't trigger events that are passed by setting normalizedTime, only events where normalizedTime happens to collide exactly
+                // This ensures passed events are always triggered, but doesn't protect against double triggering by Animancer
+                if (_moveEvents.Count > 0)
+                {
+                    if (_nextMoveEvent.normalizedTime > _lastWalkCyclePercent
+                        && _nextMoveEvent.normalizedTime <= _walkCyclePercent)
+                    {
+                        _nextMoveEvent.Invoke(_move.State);
+                        _nextMoveEventIndex = (_nextMoveEventIndex + 1) % _moveEvents.Count;
+                        _nextMoveEvent = _moveEvents[_nextMoveEventIndex];
+                    }
+                }
                 
                 var stridePercent = (_walkCyclePercent * 2f) % 1;
                 var leapPercent = _strideLeapFactor.Value.Evaluate(stridePercent);
@@ -267,5 +300,28 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
             Gizmos.DrawLine(rotated.Item1, rotated.Item2);
             GreatGizmos.DrawLine(rotated.Item3, rotated.Item4, LineStyle.Dashed);
         }
+        
+        #region Events
+        public void RaiseStepLiftoffEventLeft()
+        {
+            if (_stepLiftoffEventLeft != null) _stepLiftoffEventLeft.Raise();
+        }
+        
+        public void RaiseStepLandEventLeft()
+        {
+            if (_stepLandEventLeft != null) _stepLandEventLeft.Raise();
+        }
+
+        public void RaiseStepLiftoffEventRight()
+        {
+            if (_stepLiftoffEventRight != null) _stepLiftoffEventRight.Raise();
+        }
+        
+        public void RaiseStepLandEventRight()
+        {
+            if (_stepLandEventRight != null) _stepLandEventRight.Raise();
+        }
+        
+        #endregion
     }
 }

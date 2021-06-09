@@ -32,7 +32,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 9.2}
+  m_AnchoredPosition: {x: 0, y: 2.7400007}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1920954991424238417
@@ -795,10 +795,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2984288800877938190}
   - component: {fileID: 4007704764213513840}
-  - component: {fileID: 7780959065933542289}
+  - component: {fileID: 3483270082176783171}
   - component: {fileID: 420812598820284873}
   - component: {fileID: 6474287350551834819}
-  - component: {fileID: 7611749661485554296}
   - component: {fileID: 2618258429219803789}
   - component: {fileID: 1860471400550088186}
   - component: {fileID: 655797425510975767}
@@ -855,7 +854,7 @@ MonoBehaviour:
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: -1
---- !u!114 &7780959065933542289
+--- !u!114 &3483270082176783171
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -864,46 +863,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 3179837517301798940}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6eb1402c17e84a9282a7f0f62eb584f, type: 3}
+  m_Script: {fileID: 11500000, guid: acab241a6a65617428b05e40d1216e42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 4
-  radius: 0.98
-  height: 1.66
-  canMove: 1
-  maxSpeed: 9
-  gravity: {x: NaN, y: NaN, z: NaN}
-  groundMask:
+  Destination: {fileID: 0}
+  Seeker: {fileID: 4007704764213513840}
+  GroundMask:
     serializedVersion: 2
-    m_Bits: 4294967295
-  endReachedDistance: 0.05
-  whenCloseToDestination: 0
-  rvoDensityBehavior:
-    enabled: 0
-    densityThreshold: 0.5
-    returnAfterBeingPushedAway: 0
-    progressAverage: 0
-    lastJobDensityResult: 0
-  centerOffsetCompatibility: NaN
-  repathRateCompatibility: 3
-  canSearchCompability: 1
-  orientation: 0
-  enableRotation: 1
-  autoRepath:
-    mode: 1
-    interval: 0.1
-    sensitivity: 10
-    maximumInterval: 2
-    visualizeSensitivity: 0
-  targetCompatibility: {fileID: 0}
-  maxAcceleration: -2.5
-  rotationSpeed: 810
-  slowdownDistance: 3
-  pickNextWaypointDist: 2
-  alwaysDrawGizmos: 0
-  slowWhenNotFacingTarget: 1
-  preventMovingBackwards: 0
-  constrainInsideGraph: 0
+    m_Bits: 1
+  EnemyMask:
+    serializedVersion: 2
+    m_Bits: 2048
+  PathRequestDelay: 0.1
+  StoppingDistance: 10
+  MoveSpeedX: 15
+  MoveSpeedY: 5
+  TurnSpeed: 2
+  GroundOffset: 10
+  AvoidEnemyVelocity: 5
+  AvoidEnemyRadius: 25
 --- !u!143 &420812598820284873
 CharacterController:
   m_ObjectHideFlags: 0
@@ -944,20 +922,6 @@ MonoBehaviour:
   bezierTangentLength: 0.4
   offset: 0.2
   factor: 0.1
---- !u!114 &7611749661485554296
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3179837517301798940}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9679e68a0f1144e79c664d9a11ca121, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 1
-  target: {fileID: 0}
 --- !u!114 &2618258429219803789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -988,7 +952,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   behaviorTree: {fileID: 0}
   BehaviorUpdateInterval: 0
-  aStarAIPath: {fileID: 7780959065933542289}
+  aStarAIPath: {fileID: 0}
 --- !u!114 &655797425510975767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1009,7 +973,7 @@ MonoBehaviour:
   _editor_DrawExtra: 0
   _editor_horizontal: 1
   _editor_category: 0
-  Editor_InIsolatedScene: 0
+  Editor_InIsolatedScene: 1
   Editor_JustCreated: 0
   UseDOTS: 1
   DOTSObstacleType: 2
@@ -1067,259 +1031,6 @@ MonoBehaviour:
   DrawGeneratedPrefabInfo: 0
   DrawDeactivateToggle: 1
   ToOptimize:
-  - constructed: 1
-    ToOptimizeIndex: 0
-    optimizer: {fileID: 655797425510975767}
-    Component: {fileID: 7780959065933542289}
-    Version: 0
-    lockFirstLOD: 1
-    editorHeader: Optim
-    drawProperties: 0
-    LODs_Particle: []
-    LODs_Light: []
-    LODs_Mono:
-    - SetDisabled: 0
-      ver: 1
-      _Locked: 0
-      cmp: {fileID: 7780959065933542289}
-      BaseLOD: 0
-      Event:
-        m_PersistentCalls:
-          m_Calls:
-          - m_Target: {fileID: 1860471400550088186}
-            m_TargetAssemblyTypeName: AITickRateController, Assembly-CSharp
-            m_MethodName: SetAStarUpdateInterval
-            m_Mode: 4
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 0.4
-              m_StringArgument: 
-              m_BoolArgument: 0
-            m_CallState: 2
-      Parameters: []
-      NotSupported: []
-    - SetDisabled: 0
-      ver: 1
-      _Locked: 0
-      cmp: {fileID: 7780959065933542289}
-      BaseLOD: 0
-      Event:
-        m_PersistentCalls:
-          m_Calls:
-          - m_Target: {fileID: 1860471400550088186}
-            m_TargetAssemblyTypeName: AITickRateController, Assembly-CSharp
-            m_MethodName: SetAStarUpdateInterval
-            m_Mode: 4
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 3
-              m_StringArgument: 
-              m_BoolArgument: 0
-            m_CallState: 2
-      Parameters: []
-      NotSupported: []
-    - SetDisabled: 0
-      ver: 1
-      _Locked: 0
-      cmp: {fileID: 7780959065933542289}
-      BaseLOD: 0
-      Event:
-        m_PersistentCalls:
-          m_Calls:
-          - m_Target: {fileID: 1860471400550088186}
-            m_TargetAssemblyTypeName: AITickRateController, Assembly-CSharp
-            m_MethodName: SetAStarUpdateInterval
-            m_Mode: 4
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 6
-              m_StringArgument: 
-              m_BoolArgument: 0
-            m_CallState: 2
-      Parameters: []
-      NotSupported: []
-    - SetDisabled: 1
-      ver: 1
-      _Locked: 0
-      cmp: {fileID: 7780959065933542289}
-      BaseLOD: 0
-      Event:
-        m_PersistentCalls:
-          m_Calls:
-          - m_Target: {fileID: 1860471400550088186}
-            m_TargetAssemblyTypeName: AITickRateController, Assembly-CSharp
-            m_MethodName: SetAStarUpdateInterval
-            m_Mode: 4
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 0
-              m_StringArgument: 
-              m_BoolArgument: 0
-            m_CallState: 2
-      Parameters: []
-      NotSupported: []
-    - SetDisabled: 1
-      ver: 1
-      _Locked: 0
-      cmp: {fileID: 7780959065933542289}
-      BaseLOD: 0
-      Event:
-        m_PersistentCalls:
-          m_Calls: []
-      Parameters: []
-      NotSupported: []
-    LODs_Renderer: []
-    LODs_NavMesh: []
-    LODs_Audio: []
-    LODs_Rigidbody: []
-    LODs_LODGroup: []
-    Ini_Particle:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      EmmissionAmount: 1
-      BurstsAmount: 1
-      ParticleSizeMul: 1
-      MaxParticlAmount: 1
-      OverDistanceMul: 1
-      LifetimeAlpha: 1
-      ColorOverLifetime:
-        m_Mode: 0
-        m_GradientMin:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_GradientMax:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
-    Ini_Light:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      IntensityMul: 1
-      RangeMul: 1
-      ShadowsMode: 2
-      ShadowsStrength: 1
-      RenderMode: 0
-      ChangeIntensity: 1
-    Ini_Mono:
-      SetDisabled: 0
-      ver: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      BaseLOD: 0
-      Event:
-        m_PersistentCalls:
-          m_Calls: []
-      Parameters: []
-      NotSupported: []
-    Ini_Rend:
-      SetDisabled: 0
-      _version: 1
-      _Locked: 0
-      cmp: {fileID: 0}
-      UseShadows: 1
-      MotionVectors: 1
-      SkinnedQuality: 0
-      shaderParam: _Transparency
-      ColorParameter: 0
-      targetParamValue: 1
-    Ini_Nav:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      Priority: 1
-      Quality: 4
-    Ini_Audio:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      PriorityFactor: 1
-      Volume: 1
-    Ini_Rigidbody:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      DetectCollisions: 0
-      IsKinematic: 0
-      Interpolation: 0
-      CollisionMode: 0
-      TryTriggerSleep: 0
-      TriggerWakeup: 0
-    Ini_LODGroup:
-      SetDisabled: 0
-      _version: 1
-      _Locked: 0
-      cmp: {fileID: 0}
-      UnityLODLevel: 0
-      shaderParam: _Transparency
-      ColorParameter: 0
-      shaderVisibleValue: 1
-      shaderInvisibleValue: 0
-      crossfadeHelper: 0
-    eOptimizer: {fileID: 655797425510975767}
-    ControlerType: 3
   - constructed: 1
     ToOptimizeIndex: 1
     optimizer: {fileID: 655797425510975767}
@@ -1930,7 +1641,7 @@ MonoBehaviour:
   _editor_DrawExtra: 0
   _editor_horizontal: 1
   _editor_category: 0
-  Editor_InIsolatedScene: 0
+  Editor_InIsolatedScene: 1
   Editor_JustCreated: 0
   UseDOTS: 0
   DOTSObstacleType: 2
@@ -2348,7 +2059,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8766356294506486938}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 6.49, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7488739021109693651}
@@ -2575,22 +2286,22 @@ PrefabInstance:
     - target: {fileID: 4865785231952529274, guid: cd91939fb39a28e4cb633ce72b3551e5,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.6605755
+      value: 0.05447502
       objectReference: {fileID: 0}
     - target: {fileID: 4865785231952529274, guid: cd91939fb39a28e4cb633ce72b3551e5,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.40898743
+      value: 0.033667423
       objectReference: {fileID: 0}
     - target: {fileID: 4865785231952529274, guid: cd91939fb39a28e4cb633ce72b3551e5,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.53528714
+      value: -0.84890467
       objectReference: {fileID: 0}
     - target: {fileID: 4865785231952529274, guid: cd91939fb39a28e4cb633ce72b3551e5,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.33141667
+      value: 0.5246521
       objectReference: {fileID: 0}
     - target: {fileID: 4865785231952529274, guid: cd91939fb39a28e4cb633ce72b3551e5,
         type: 3}
@@ -2600,7 +2311,7 @@ PrefabInstance:
     - target: {fileID: 4865785231952529274, guid: cd91939fb39a28e4cb633ce72b3551e5,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 9.199997
+      value: 2.74
       objectReference: {fileID: 0}
     - target: {fileID: 4865785231952529274, guid: cd91939fb39a28e4cb633ce72b3551e5,
         type: 3}
@@ -2772,15 +2483,15 @@ SkinnedMeshRenderer:
     type: 3}
   m_PrefabInstance: {fileID: 6057649607724119067}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &6399740315332446538 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 2ff2cc390158f5a4b8956339561a9175,
-    type: 3}
-  m_PrefabInstance: {fileID: 6057649607724119067}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6024586241252742128 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2ff2cc390158f5a4b8956339561a9175,
+    type: 3}
+  m_PrefabInstance: {fileID: 6057649607724119067}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6399740315332446538 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 2ff2cc390158f5a4b8956339561a9175,
     type: 3}
   m_PrefabInstance: {fileID: 6057649607724119067}
   m_PrefabAsset: {fileID: 0}

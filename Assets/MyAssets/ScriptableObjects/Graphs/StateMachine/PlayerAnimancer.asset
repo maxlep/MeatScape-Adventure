@@ -863,6 +863,83 @@ MonoBehaviour:
   InvalidStartStates: []
   TriggerConditions: []
   TimerConditions: []
+--- !u!114 &-6405725390144275743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffe5e2827f3b411ead5333692d5df1ec, type: 3}
+  m_Name: Do Nothing (Acceleration Lean Anim) <PoseNode> (PlayerAnimancer)
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: -6808, y: 280}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: -6405725390144275743}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: 7233885469227987427}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: -6405725390144275743}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: startingState
+        node: {fileID: 8983887671694527322}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  collapsed: 1
+  BypassState: 0
+  Name: Do Nothing (Acceleration Lean Anim)
+  Description: 
+  isActiveState: 0
+  transitionTime: 0
+  transitionCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  animEndedTrigger: {fileID: 0}
+  animEndedEvent: {fileID: 0}
+  animEventTrigger: {fileID: 0}
+  animEvent: {fileID: 0}
+  _pose:
+    _FadeDuration: 0.25
+    _Events:
+      _Names: []
+      _NormalizedTimes: []
+      _Callbacks: []
+    _Clip: {fileID: 0}
+    _Speed: 1
+    _NormalizedStartTime: NaN
 --- !u!114 &-6236714939548423493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1117,7 +1194,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Do Nothing (Combat Anim)
   Description: 
-  isActiveState: 1
+  isActiveState: 0
   transitionTime: 0
   transitionCurve:
     serializedVersion: 2
@@ -1194,7 +1271,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Idle NEW!
   Description: 
-  isActiveState: 1
+  isActiveState: 0
   transitionTime: 0
   transitionCurve:
     serializedVersion: 2
@@ -2832,6 +2909,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   nodes:
+  - {fileID: 1943671558298425074}
   - {fileID: -1964371446718820497}
   - {fileID: -3914965331531075224}
   - {fileID: -2892303193374005006}
@@ -2893,6 +2971,12 @@ MonoBehaviour:
   - {fileID: -3100221026002377783}
   - {fileID: 510184586918515095}
   - {fileID: -3283162308963143387}
+  - {fileID: 922572316073301210}
+  - {fileID: -6405725390144275743}
+  - {fileID: 6456859567410222857}
+  - {fileID: 7233885469227987427}
+  - {fileID: 8983887671694527322}
+  - {fileID: 3533468211253049813}
 --- !u!114 &76974204168438925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3121,6 +3205,52 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 0c1094c8b17a4474b88a5c6c1fbe5e5c, type: 2}
+--- !u!114 &922572316073301210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22afe9b58db4403eaf8f3e17274b3c03, type: 3}
+  m_Name: Animation Start 3
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: -8728, y: 280}
+  ports:
+    keys:
+    - EntryState
+    values:
+    - _fieldName: EntryState
+      _node: {fileID: 922572316073301210}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: 6456859567410222857}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+  executionOrderIndex: 3
+  isAdditive: 0
+  layerWeight: 1
+  layerMask: {fileID: 0}
+  defaultPose: {fileID: 0}
+  animatable: {fileID: 11400000, guid: 826f96e705376da4a900be48a3018c75, type: 2}
+  animancerLayerIndex: 2
 --- !u!114 &1326844991436403835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3551,14 +3681,46 @@ MonoBehaviour:
   transitionPriority: 0
   conditionPreview: '-  Is Grounded_ Controller_ Player
 
-    - 16.18801  Abs Greater
-    Than 0 && 15.55555  Ignore 0 && 1.983759  Abs Greater Than 0
+    - 3.934201  Abs Greater
+    Than 0 && -0.06965769  Ignore 0 && -2.851468  Abs Greater Than 0
 
 '
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions: []
   TimerConditions: []
+--- !u!114 &1943671558298425074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f8445c532b3f064d92579d3ce96782d, type: 3}
+  m_Name: Comment
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: -8776, y: -72}
+  ports:
+    keys: []
+    values: []
+  Width: 3600
+  Height: 1347
+  Color: {r: 1, g: 1, b: 1, a: 0.08}
+  TextColor: {r: 1, g: 1, b: 1, a: 1}
+  Description: Acceleration Lean Layer
+  Minimized: 0
 --- !u!114 &2718261885113911837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3900,6 +4062,56 @@ MonoBehaviour:
   - targetParameter: {fileID: 11400000, guid: 4dd3aed967556774397f7132ad414a80, type: 2}
     KeepTriggerOn: 0
   TimerConditions: []
+--- !u!114 &3533468211253049813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: Acceleration Lean <Reference>
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: -5528, y: 280}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: 3533468211253049813}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: 8983887671694527322}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: 3533468211253049813}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  referencedState: {fileID: 6456859567410222857}
 --- !u!114 &3702290181669568636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5235,8 +5447,8 @@ MonoBehaviour:
   transitionPriority: 0
   conditionPreview: '- ! Is Grounded_ Controller_ Player
 
-    - 16.18801  Ignore
-    0 && 15.55555  Less Than 0.1 && 1.983759  Ignore 0
+    - 3.934201  Ignore
+    0 && -0.06965769  Less Than 0.1 && -2.851468  Ignore 0
 
 '
   ValidStartStates: []
@@ -5370,6 +5582,186 @@ MonoBehaviour:
   InvalidStartStates: []
   TriggerConditions: []
   TimerConditions: []
+--- !u!114 &6456859567410222857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53404519a28a4f16a781dcb6bc66fa68, type: 3}
+  m_Name: Acceleration Lean <SpineLeanNode> (PlayerAnimancer)
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 514e99f8c5475b94bbc29939c00ef73d, type: 2}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: leanForwardMaxAngle
+      Entry: 7
+      Data: 0|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
+        Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: true
+    - Name: EnableInstanceOptions
+      Entry: 5
+      Data: false
+    - Name: InstanceName
+      Entry: 1
+      Data: '{I} '
+    - Name: InstancePath
+      Entry: 1
+      Data: IntermediateProperties
+    - Name: InstanceType
+      Entry: 6
+      Data: 
+    - Name: ConstantValue
+      Entry: 4
+      Data: 15
+    - Name: ReferenceValue
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: leanSideMaxAngle
+      Entry: 7
+      Data: 1|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
+        Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: true
+    - Name: EnableInstanceOptions
+      Entry: 5
+      Data: false
+    - Name: InstanceName
+      Entry: 1
+      Data: '{I} '
+    - Name: InstancePath
+      Entry: 1
+      Data: IntermediateProperties
+    - Name: InstanceType
+      Entry: 6
+      Data: 
+    - Name: ConstantValue
+      Entry: 4
+      Data: 30
+    - Name: ReferenceValue
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: maxSpeed
+      Entry: 7
+      Data: 2|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
+        Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: false
+    - Name: EnableInstanceOptions
+      Entry: 5
+      Data: false
+    - Name: InstanceName
+      Entry: 1
+      Data: '{I} '
+    - Name: InstancePath
+      Entry: 1
+      Data: IntermediateProperties
+    - Name: InstanceType
+      Entry: 6
+      Data: 
+    - Name: ConstantValue
+      Entry: 4
+      Data: 0
+    - Name: ReferenceValue
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+  graph: {fileID: 11400000}
+  position: {x: -8088, y: 280}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: 6456859567410222857}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: EntryState
+        node: {fileID: 922572316073301210}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: 6456859567410222857}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: startingState
+        node: {fileID: 7233885469227987427}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  collapsed: 1
+  BypassState: 0
+  Name: Acceleration Lean
+  Description: 
+  isActiveState: 0
+  transitionTime: 0
+  transitionCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  leanBones:
+  - {fileID: 11400000, guid: 46a9a5e2170f6dd45a670f973ab4dfa4, type: 2}
+  - {fileID: 11400000, guid: 82b465f5224f37c408fb2cb321b4a0a9, type: 2}
+  leanForwardAxis:
+    UseConstant: 1
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: {x: 1, y: 0, z: 0}
+    Variable: {fileID: 0}
+  leanSideAxis:
+    UseConstant: 1
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: {x: 0, y: 0, z: 1}
+    Variable: {fileID: 0}
+  velocity:
+    UseConstant: 0
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: {x: 0, y: 0, z: 0}
+    Variable: {fileID: 11400000, guid: dd2cd63ae1d9c034096f0b67bb5bcf62, type: 2}
+  acceleration:
+    UseConstant: 0
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: {x: 0, y: 0, z: 0}
+    Variable: {fileID: 11400000, guid: c10948b397e5e3e4d8134214ba8cd29d, type: 2}
 --- !u!114 &6680455736931323558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5785,11 +6177,138 @@ MonoBehaviour:
   transitionPriority: 0
   conditionPreview: '-  Is Grounded_ Controller_ Player
 
-    - 16.18801  Abs Less
-    Than 0.001 && 15.55555  Ignore 0 && 1.983759  Abs Less Than 0.001
+    - 3.934201  Abs Less
+    Than 0.001 && -0.06965769  Ignore 0 && -2.851468  Abs Less Than 0.001
 
 '
   ValidStartStates: []
+  InvalidStartStates: []
+  TriggerConditions: []
+  TimerConditions: []
+--- !u!114 &7233885469227987427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: ' -> '
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: BoolConditions
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[BoolCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: FloatConditions
+      Entry: 7
+      Data: 1|System.Collections.Generic.List`1[[FloatCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: IntConditions
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[IntCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Vector2Conditions
+      Entry: 7
+      Data: 3|System.Collections.Generic.List`1[[Vector2Condition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Vector3Conditions
+      Entry: 7
+      Data: 4|System.Collections.Generic.List`1[[Vector3Condition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  graph: {fileID: 11400000}
+  position: {x: -7448, y: 280}
+  ports:
+    keys:
+    - startingState
+    - nextState
+    values:
+    - _fieldName: startingState
+      _node: {fileID: 7233885469227987427}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: 6456859567410222857}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: nextState
+      _node: {fileID: 7233885469227987427}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: -6405725390144275743}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+  collapsed: 0
+  transitionPriority: 0
+  conditionPreview: '-  Valid:  Roll  Movement
+
+'
+  ValidStartStates:
+  - {fileID: 4966931143862885706, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   InvalidStartStates: []
   TriggerConditions: []
   TimerConditions: []
@@ -6094,7 +6613,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Parameter Processor
   Description: 
-  isActiveState: 1
+  isActiveState: 0
   subGraph: {fileID: 11400000, guid: 3833a745fc2f8524cb9f2b661e39a5ed, type: 2}
   subStates:
   - {fileID: 5592738946215276755, guid: 3833a745fc2f8524cb9f2b661e39a5ed, type: 2}
@@ -6201,3 +6720,130 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   referencedState: {fileID: -4826295919186871255}
+--- !u!114 &8983887671694527322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: Do Nothing (Combat Anim) -> Acceleration Lean
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: BoolConditions
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[BoolCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: FloatConditions
+      Entry: 7
+      Data: 1|System.Collections.Generic.List`1[[FloatCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: IntConditions
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[IntCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Vector2Conditions
+      Entry: 7
+      Data: 3|System.Collections.Generic.List`1[[Vector2Condition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Vector3Conditions
+      Entry: 7
+      Data: 4|System.Collections.Generic.List`1[[Vector3Condition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  graph: {fileID: 11400000}
+  position: {x: -6168, y: 280}
+  ports:
+    keys:
+    - startingState
+    - nextState
+    values:
+    - _fieldName: startingState
+      _node: {fileID: 8983887671694527322}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: -6405725390144275743}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: nextState
+      _node: {fileID: 8983887671694527322}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: 3533468211253049813}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+  collapsed: 0
+  transitionPriority: 0
+  conditionPreview: '-  Invalid:  Roll  Movement
+
+'
+  ValidStartStates: []
+  InvalidStartStates:
+  - {fileID: 4966931143862885706, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  TriggerConditions: []
+  TimerConditions: []

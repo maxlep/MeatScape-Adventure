@@ -107,27 +107,27 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
             }
 
             // Init lean
-            _leanForward = new SpecificLean(_animatable.Animancer.Playable, _leanBones.Select(b => b.Value));
+            // _leanForward = new SpecificLean(_animatable.Animancer.Playable, _leanBones.Select(b => b.Value));
             // _leanAngle.Subscribe(() =>
             // {
             //     _lean.Angle = _leanAngle.Value;
             // });
-            _leanForwardAxis.Subscribe(() =>
-            {
-                _leanForward.Axis = _leanForwardAxis.Value;
-            });
-            _leanForward.Axis = _leanForwardAxis.Value;
+            // _leanForwardAxis.Subscribe(() =>
+            // {
+            //     _leanForward.Axis = _leanForwardAxis.Value;
+            // });
+            // _leanForward.Axis = _leanForwardAxis.Value;
             
-            _leanSide = new SpecificLean(_animatable.Animancer.Playable, _leanBones.Select(b => b.Value));
+            // _leanSide = new SpecificLean(_animatable.Animancer.Playable, _leanBones.Select(b => b.Value));
             // _leanSideAngle.Subscribe(() =>
             // {
             //     _leanSide.Angle = _leanSideAngle.Value;
             // });
-            _leanSideAxis.Subscribe(() =>
-            {
-                _leanSide.Axis = _leanSideAxis.Value;
-            });
-            _leanSide.Axis = _leanSideAxis.Value;
+            // _leanSideAxis.Subscribe(() =>
+            // {
+            //     _leanSide.Axis = _leanSideAxis.Value;
+            // });
+            // _leanSide.Axis = _leanSideAxis.Value;
             
             // Init bob
             _bob = new TranslateRoot(_animatable.Animancer.Playable, _bobBones.Select(b => b.Value));
@@ -159,8 +159,8 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
             // });
             
             // _animatable.Animancer.Layers[BaseLayer].SetMask();
-            _leanForward?.Destroy();
-            _leanSide?.Destroy();
+            // _leanForward?.Destroy();
+            // _leanSide?.Destroy();
             _bob?.Destroy();
             // _damping.Destroy();
         }
@@ -231,11 +231,11 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
                 var currentLandHeight = (1 - Mathf.Abs(landPercent * 2 - 1)) * _bobConstantOffset.Value;
                 _bob.Distance = currentLeapHeight + currentLandHeight;
                 
-                var leanForwardPercent = Vector3.Dot(_acceleration.Value.normalized, _animatable.transform.forward);
-                _leanForward.Angle = _walkSpeedFactor * leanForwardPercent * _leanForwardAngle.Value;
-                
-                var leanSidePercent = Vector3.Dot(_acceleration.Value.normalized, _animatable.transform.right);
-                _leanSide.Angle = _walkSpeedFactor * leanSidePercent * _leanSideAngle.Value;
+                // var leanForwardPercent = Vector3.Dot(_acceleration.Value.normalized, _animatable.transform.forward);
+                // _leanForward.Angle = _walkSpeedFactor * leanForwardPercent * _leanForwardAngle.Value;
+                //
+                // var leanSidePercent = Vector3.Dot(_acceleration.Value.normalized, _animatable.transform.right);
+                // _leanSide.Angle = _walkSpeedFactor * leanSidePercent * _leanSideAngle.Value;
             }
             else
             {

@@ -368,16 +368,33 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   animEndedTrigger: {fileID: 0}
-  animEndedEvent: {fileID: 0}
+  animEndedEvent: {fileID: 11400000, guid: 3e89aaab26a19a74aab1304a168665b6, type: 2}
   animEventTrigger: {fileID: 0}
-  animEvent: {fileID: 0}
+  animEvent: {fileID: 11400000, guid: ddd332e29d8ddae439c5756e37451039, type: 2}
   _pose:
     _FadeDuration: 0.05
     _Events:
       _Names: []
-      _NormalizedTimes: []
-      _Callbacks: []
-    _Clip: {fileID: 8194326456566286029, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055, type: 3}
+      _NormalizedTimes:
+      - 12
+      - 24
+      _Callbacks:
+      - m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: -8076184187842722617}
+            m_TargetAssemblyTypeName: MyAssets.Scripts.PoseAnimancer.AnimancerNodes.PoseNode,
+              Assembly-CSharp
+            m_MethodName: ActiveEventTrigger
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+    _Clip: {fileID: 7320424025298056192, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055, type: 3}
     _Speed: 1
     _NormalizedStartTime: NaN
 --- !u!114 &-7793410918566776997
@@ -1405,7 +1422,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Idle NEW!
   Description: 
-  isActiveState: 1
+  isActiveState: 0
   transitionTime: 0
   transitionCurve:
     serializedVersion: 2
@@ -4941,7 +4958,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Walk NEW!
   Description: 
-  isActiveState: 0
+  isActiveState: 1
   transitionTime: 0
   transitionCurve:
     serializedVersion: 2

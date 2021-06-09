@@ -9,6 +9,7 @@ public class SmoothAIPath : MonoBehaviour
 {
     [SerializeField] private Transform Destination;
     [SerializeField] private Seeker Seeker;
+    [SerializeField] private CharacterController CharController;
     [SerializeField] private LayerMask GroundMask;
     [SerializeField] private LayerMask EnemyMask;
     [SerializeField] private float PathRequestDelay = .1f;
@@ -72,7 +73,8 @@ public class SmoothAIPath : MonoBehaviour
     private void Move()
     {
         if (isStopped) return;
-        
+
+        Vector3 deltaMove = Vector3.zero;
         Vector3 dirToNextPoint = (currentPath[currentPathIndex] - transform.position).normalized;
 
         //Flatten rot, then Rotate Towards Target
@@ -82,7 +84,7 @@ public class SmoothAIPath : MonoBehaviour
         
         //Move position Horizontally
         Vector3 horizontalVelocity = transform.forward * MoveSpeedX;
-        transform.position += horizontalVelocity * Time.deltaTime;
+        deltaMove += horizontalVelocity * Time.deltaTime;
         
         //Check for ground below and maintain offset
         (bool foundGround, Vector3 groundLocation) = CheckForGround();
@@ -91,14 +93,10 @@ public class SmoothAIPath : MonoBehaviour
         {
             //Move position Vertically towards target offset from ground
             Vector3 targetOffset = groundLocation + Vector3.up * GroundOffset;
-            Vector3 dirToTargetOffset = (targetOffset - transform.position).oyo().normalized;
-            float distToTargetOffset = (targetOffset - transform.position).oyo().magnitude;
 
-            //Check dist to prevent oscillating around target
-            if (distToTargetOffset < MoveSpeedY)
-                transform.position = targetOffset;
-            else
-                transform.position += dirToTargetOffset * MoveSpeedY * Time.deltaTime;
+            //Use MoveTowards to find point want to move to, then get delta to that point
+            Vector3 deltaMoveY = (Vector3.MoveTowards(transform.position, targetOffset, MoveSpeedY) - transform.position).oyo();
+            deltaMove += deltaMoveY;
         }
         
         //Avoid other enemies
@@ -116,8 +114,10 @@ public class SmoothAIPath : MonoBehaviour
             averagePosition /= enemyColliders.Length;
 
             Vector3 dirAwayFromEnemies = (transform.position - averagePosition).normalized;
-            transform.position += dirAwayFromEnemies * AvoidEnemyVelocity * Time.deltaTime;
+            deltaMove += dirAwayFromEnemies * AvoidEnemyVelocity * Time.deltaTime;
         }
+
+        CharController.Move(deltaMove);
     }
 
     private (bool, Vector3) CheckForGround()

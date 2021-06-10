@@ -33,12 +33,11 @@ public class SmoothAIPath : MonoBehaviour
 
     private void Update()
     {
-        if (currentPath == null || currentPath.Count == 0) return;
-        
         if (lastRequestTime + PathRequestDelay < Time.time)
             RequestPath();
         
-        
+        if (currentPath == null || currentPath.Count == 0) return;
+
         CheckReachedNextPoint();
         Move();
     }
@@ -94,8 +93,10 @@ public class SmoothAIPath : MonoBehaviour
             //Move position Vertically towards target offset from ground
             Vector3 targetOffset = groundLocation + Vector3.up * GroundOffset;
 
-            //Use MoveTowards to find point want to move to, then get delta to that point
-            Vector3 deltaMoveY = (Vector3.MoveTowards(transform.position, targetOffset, MoveSpeedY) - transform.position).oyo();
+            //Use MoveTowards to find point want to move to (given move delta), then get delta to that point
+            Vector3 targetOffsetTowards =
+                Vector3.MoveTowards(transform.position, targetOffset, MoveSpeedY * Time.deltaTime);
+            Vector3 deltaMoveY = (targetOffsetTowards - transform.position).oyo();
             deltaMove += deltaMoveY;
         }
         
@@ -126,7 +127,7 @@ public class SmoothAIPath : MonoBehaviour
         Vector3 offset = Vector3.up * 10f;
         Ray groundRay = new Ray(transform.position + offset, Vector3.down);
         
-        if (Physics.Raycast(groundRay, out groundHit, Mathf.Infinity, GroundMask))
+        if (Physics.Raycast(groundRay, out groundHit, Mathf.Infinity, GroundMask, QueryTriggerInteraction.Ignore))
         {
             return (true, groundHit.point);
         }

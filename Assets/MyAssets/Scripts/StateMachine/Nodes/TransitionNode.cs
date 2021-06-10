@@ -77,6 +77,11 @@ public class TransitionNode : CollapsableNode
     [OnValueChanged("InitConditions")] [Required] [HideReferenceObjectPicker]
     [OdinSerialize] private List<GameEventCondition> GameEventConditions = new List<GameEventCondition>();
     
+    [Tooltip("Transition only valid if ALL of these DynamicGameEvent condition are met")] [ListDrawerSettings(Expanded = true, DraggableItems = false)]
+    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$collapsed")]
+    [OnValueChanged("InitConditions")] [Required] [HideReferenceObjectPicker]
+    [OdinSerialize] private List<DynamicGameEventCondition> DynamicGameEventConditions = new List<DynamicGameEventCondition>();
+    
     private List<TriggerVariable> triggerVars = new List<TriggerVariable>();
     private List<ITransitionCondition> allConditions = new List<ITransitionCondition>();
 
@@ -113,6 +118,7 @@ public class TransitionNode : CollapsableNode
         allConditions = allConditions.Union(Vector2Conditions).ToList();
         allConditions = allConditions.Union(Vector3Conditions).ToList();
         allConditions = allConditions.Union(GameEventConditions).ToList();
+        allConditions = allConditions.Union(DynamicGameEventConditions).ToList();
         InitConditions();
         
         PopulateTriggerList();
@@ -285,10 +291,9 @@ public class TransitionNode : CollapsableNode
 
     public void ResetGameEvents()
     {
-        foreach (var gameEventCondition in GameEventConditions)
-        {
-            gameEventCondition.ResetGameEvent();
-        }
+        GameEventConditions.ForEach(e => e.ResetGameEvent());
+        DynamicGameEventConditions.ForEach(e => e.ResetGameEvent());
+
     }
     
 }

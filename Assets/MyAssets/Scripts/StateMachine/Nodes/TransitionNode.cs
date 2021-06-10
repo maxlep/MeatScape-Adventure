@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
@@ -20,6 +21,11 @@ public class TransitionNode : CollapsableNode
     
     [TextArea(3,10)] [HideLabel] [HideIf("$collapsed")]
     [SerializeField] private string conditionPreview;
+    
+    [Tooltip("Game Events that are raised when this transition is applied")] 
+    [ListDrawerSettings(Expanded = true, DraggableItems = false)] [Required]
+    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.85f, .85f, .95f)]  [HideIf("$collapsed")]
+    public List<GameEvent> RaiseOnTransitionEvents = new List<GameEvent>();
 
     [Tooltip("Transition only valid if ANY 1 or more of these states are active in respective state machine")] 
     [ListDrawerSettings(Expanded = true, DraggableItems = false)] [Required]
@@ -65,8 +71,7 @@ public class TransitionNode : CollapsableNode
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$collapsed")]
     [OnValueChanged("InitConditions")] [Required] [HideReferenceObjectPicker]
     [OdinSerialize] private List<Vector3Condition> Vector3Conditions = new List<Vector3Condition>();
-
-
+    
     private List<TriggerVariable> triggerVars = new List<TriggerVariable>();
     private List<ITransitionCondition> allConditions = new List<ITransitionCondition>();
 
@@ -263,4 +268,13 @@ public class TransitionNode : CollapsableNode
 
         return result;
     }
+
+    public void ResetTriggers()
+    {
+        foreach (var triggerCondition in TriggerConditions)
+        {
+            triggerCondition.ResetTriggers();
+        }
+    }
+    
 }

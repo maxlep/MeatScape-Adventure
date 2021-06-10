@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
@@ -234,6 +235,7 @@ public class StateNode : CollapsableNode
         isActiveState = true;
         foreach (var transition in nextTransitionNodes)
         {
+            transition.ResetTriggers();
             transition.StartTimers();
         }
     }
@@ -263,17 +265,17 @@ public class StateNode : CollapsableNode
     
     #endregion
 
-    public virtual StateNode CheckStateTransitions(List<TriggerVariable> receivedTriggers = null)
+    public virtual (StateNode, List<GameEvent>) CheckStateTransitions(List<TriggerVariable> receivedTriggers = null)
     {
         //Check for direct connection to state that bypasses transitions
-        if (nextNoTransitionState != null) return nextNoTransitionState;
+        if (nextNoTransitionState != null) return (nextNoTransitionState, null);
         
         //Check global transitions
         foreach (var transition in stateMachineGraph.globalTransitions)
         {
             if (transition.EvaluateConditions(receivedTriggers))
             {
-                return transition.GetNextState();
+                return (transition.GetNextState(), transition.RaiseOnTransitionEvents);
             }
         }
         
@@ -282,11 +284,11 @@ public class StateNode : CollapsableNode
         {
             if (transition.EvaluateConditions(receivedTriggers))
             {
-                return transition.GetNextState();
+                return (transition.GetNextState(), transition.RaiseOnTransitionEvents);
             }
         }
 
-        return null;
+        return (null, null);
     }
 
     public override string ToString()

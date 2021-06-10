@@ -24,7 +24,6 @@ public class TriggerCondition : ITransitionCondition
     public void Init(string transitionName)
     {
         parentTransitionName = transitionName;
-        stayingActive = false;
     }
 
     //Check if the trigger variable that was activated matches the one for this condition
@@ -39,6 +38,11 @@ public class TriggerCondition : ITransitionCondition
             stayingActive = true;
         
         return triggerMatches;
+    }
+
+    public void ResetTriggers()
+    {
+        stayingActive = false;
     }
 
     public override string ToString()

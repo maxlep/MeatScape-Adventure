@@ -72,6 +72,11 @@ public class TransitionNode : CollapsableNode
     [OnValueChanged("InitConditions")] [Required] [HideReferenceObjectPicker]
     [OdinSerialize] private List<Vector3Condition> Vector3Conditions = new List<Vector3Condition>();
     
+    [Tooltip("Transition only valid if ALL of these GameEvent condition are met")] [ListDrawerSettings(Expanded = true, DraggableItems = false)]
+    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$collapsed")]
+    [OnValueChanged("InitConditions")] [Required] [HideReferenceObjectPicker]
+    [OdinSerialize] private List<GameEventCondition> GameEventConditions = new List<GameEventCondition>();
+    
     private List<TriggerVariable> triggerVars = new List<TriggerVariable>();
     private List<ITransitionCondition> allConditions = new List<ITransitionCondition>();
 
@@ -107,6 +112,7 @@ public class TransitionNode : CollapsableNode
         allConditions = allConditions.Union(TimerConditions).ToList();
         allConditions = allConditions.Union(Vector2Conditions).ToList();
         allConditions = allConditions.Union(Vector3Conditions).ToList();
+        allConditions = allConditions.Union(GameEventConditions).ToList();
         InitConditions();
         
         PopulateTriggerList();
@@ -274,6 +280,14 @@ public class TransitionNode : CollapsableNode
         foreach (var triggerCondition in TriggerConditions)
         {
             triggerCondition.ResetTriggers();
+        }
+    }
+
+    public void ResetGameEvents()
+    {
+        foreach (var gameEventCondition in GameEventConditions)
+        {
+            gameEventCondition.ResetGameEvent();
         }
     }
     

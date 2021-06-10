@@ -236,6 +236,7 @@ public class StateNode : CollapsableNode
         foreach (var transition in nextTransitionNodes)
         {
             transition.ResetTriggers();
+            transition.ResetGameEvents();
             transition.StartTimers();
         }
     }

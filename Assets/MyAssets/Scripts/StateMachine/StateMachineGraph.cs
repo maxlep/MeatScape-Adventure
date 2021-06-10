@@ -297,7 +297,7 @@ public class StateMachineGraph : NodeGraph
 
         validTransitions.Clear();
         
-        //Reset Cached trigger
+        //Reset Cached triggers
         receivedTriggers.Clear();
     }
     

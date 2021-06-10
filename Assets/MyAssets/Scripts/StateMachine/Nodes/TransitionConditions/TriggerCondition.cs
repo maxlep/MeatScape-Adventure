@@ -12,7 +12,7 @@ public class TriggerCondition : ITransitionCondition
     
     [Tooltip("Keep this trigger condition on after first match")]
     [LabelWidth(100f)] [InfoBox("Trigger will keep evaluating true after first receive!",
-        InfoMessageType.Warning, "KeepTriggerOn")]
+        InfoMessageType.Warning, "KeepGameEventOn")]
     public bool KeepTriggerOn = false;
 
     private string parentTransitionName = "";

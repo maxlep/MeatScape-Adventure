@@ -140,6 +140,13 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             GroundStickAngleOutput.Value = GroundStickAngleInput.Value;
         }
 
+        public override void Exit()
+        {
+            base.Exit();
+            IsFastTurning.Value = false;
+            IsSlideTurning.Value = false;
+        }
+
         #endregion
 
         protected override Vector3 CalculateVelocity(VelocityInfo velocityInfo)

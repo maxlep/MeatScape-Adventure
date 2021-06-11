@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Walk NEW! -> Skid NEW!
+  m_Name: Walk NEW! -> Stopping Skid NEW!
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -318,6 +318,32 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: GameEventConditions
+      Entry: 7
+      Data: 15|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: DynamicGameEventConditions
+      Entry: 7
+      Data: 16|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   graph: {fileID: 11400000}
   position: {x: -2264, y: -2088}
   ports:
@@ -351,7 +377,15 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    - < Const>0.75  Less
+    Than 0
+
+    - 0  Abs Less Than 0.001 && 0  Abs Less Than 0.001
+
+'
+  RaiseOnTransitionEvents: []
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions: []
@@ -366,7 +400,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
-  m_Name: Skid NEW! <Reference>
+  m_Name: Stopping Skid NEW! <Reference>
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -405,7 +439,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  referencedState: {fileID: -8076184187842722617}
+  referencedState: {fileID: 2498406826369069145}
 --- !u!114 &-8758558760906034010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -595,6 +629,32 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: GameEventConditions
+      Entry: 7
+      Data: 5|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: DynamicGameEventConditions
+      Entry: 7
+      Data: 6|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   graph: {fileID: 11400000}
   position: {x: 5048, y: -680}
   ports:
@@ -644,6 +704,7 @@ MonoBehaviour:
     Meateor  Dash
 
 '
+  RaiseOnTransitionEvents: []
   ValidStartStates: []
   InvalidStartStates:
   - {fileID: 4966931143862885706, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
@@ -713,7 +774,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ffe5e2827f3b411ead5333692d5df1ec, type: 3}
-  m_Name: Skid NEW! <PoseNode> (PlayerAnimancer)
+  m_Name: Fast Turn Skid NEW! <PoseNode> (PlayerAnimancer)
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -725,7 +786,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: 1272, y: -1192}
+  position: {x: 1272, y: 344}
   ports:
     keys:
     - previousState
@@ -757,19 +818,13 @@ MonoBehaviour:
       - fieldName: startingState
         node: {fileID: -3100221026002377783}
         reroutePoints: []
-      - fieldName: startingState
-        node: {fileID: -3985480643489832273}
-        reroutePoints: []
-      - fieldName: startingState
-        node: {fileID: 7015546859556399727}
-        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
   collapsed: 1
   BypassState: 0
-  Name: Skid NEW!
+  Name: Fast Turn Skid NEW!
   Description: 
   isActiveState: 0
   transitionTime: 0
@@ -895,6 +950,32 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: GameEventConditions
+      Entry: 7
+      Data: 5|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: DynamicGameEventConditions
+      Entry: 7
+      Data: 6|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   graph: {fileID: 11400000}
   position: {x: 3336, y: -2712}
   ports:
@@ -928,7 +1009,10 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '- < Const>0: 0.15 sec
+
+'
+  RaiseOnTransitionEvents: []
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions: []
@@ -1024,6 +1108,32 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: GameEventConditions
+      Entry: 7
+      Data: 5|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: DynamicGameEventConditions
+      Entry: 7
+      Data: 6|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   graph: {fileID: 11400000}
   position: {x: 5048, y: -1192}
   ports:
@@ -1062,12 +1172,45 @@ MonoBehaviour:
     -  Valid:  Ground Slam Jump
 
 '
+  RaiseOnTransitionEvents: []
   ValidStartStates:
   - {fileID: 3160719255603912525, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   - {fileID: -1722979581280647801, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   InvalidStartStates: []
   TriggerConditions: []
   TimerConditions: []
+--- !u!114 &-7491721879831414520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f8445c532b3f064d92579d3ce96782d, type: 3}
+  m_Name: Comment
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 616, y: -1512}
+  ports:
+    keys: []
+    values: []
+  Width: 1648
+  Height: 1261
+  Color: {r: 1, g: 1, b: 1, a: 0.08}
+  TextColor: {r: 1, g: 1, b: 1, a: 1}
+  Description: Stopping Skid
+  Minimized: 0
 --- !u!114 &-7176834836780725009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1154,6 +1297,32 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: GameEventConditions
+      Entry: 7
+      Data: 5|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: DynamicGameEventConditions
+      Entry: 7
+      Data: 6|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   graph: {fileID: 11400000}
   position: {x: 3640, y: -600}
   ports:
@@ -1205,6 +1374,7 @@ MonoBehaviour:
   conditionPreview: '-  Valid:  Slingshot
 
 '
+  RaiseOnTransitionEvents: []
   ValidStartStates:
   - {fileID: -2916305283311469656, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   InvalidStartStates: []
@@ -1377,6 +1547,32 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: GameEventConditions
+      Entry: 7
+      Data: 5|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: DynamicGameEventConditions
+      Entry: 7
+      Data: 6|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   graph: {fileID: 11400000}
   position: {x: 2184, y: -2712}
   ports:
@@ -1418,6 +1614,7 @@ MonoBehaviour:
     -  Valid:  Slope  Movement
 
 '
+  RaiseOnTransitionEvents: []
   ValidStartStates:
   - {fileID: 1196608421412681666, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   - {fileID: 145714409710213218, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
@@ -1755,7 +1952,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Do Nothing (Combat Anim)
   Description: 
-  isActiveState: 1
+  isActiveState: 0
   transitionTime: 0
   transitionCurve:
     serializedVersion: 2
@@ -1954,7 +2151,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Skid NEW! -> Idle NEW!
+  m_Name: Stopping Skid NEW! -> Idle NEW!
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -2092,8 +2289,34 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: GameEventConditions
+      Entry: 7
+      Data: 8|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: DynamicGameEventConditions
+      Entry: 7
+      Data: 9|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   graph: {fileID: 11400000}
-  position: {x: 1912, y: -1448}
+  position: {x: 1304, y: -1160}
   ports:
     keys:
     - startingState
@@ -2105,7 +2328,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: transitions
-        node: {fileID: -8076184187842722617}
+        node: {fileID: 2498406826369069145}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -2117,7 +2340,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: previousState
-        node: {fileID: -1596843986074591001}
+        node: {fileID: 3302343193503603307}
         reroutePoints: []
       _direction: 1
       _connectionType: 1
@@ -2125,7 +2348,10 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '- < Const>0.1  Greater Than 0
+
+'
+  RaiseOnTransitionEvents: []
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions: []
@@ -2243,6 +2469,56 @@ MonoBehaviour:
       type: 3}
     _Speed: 1
     _NormalizedStartTime: NaN
+--- !u!114 &-3833251149806104403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: Walk NEW! <Reference>
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 1880, y: -664}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: -3833251149806104403}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: 7015546859556399727}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: -3833251149806104403}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  referencedState: {fileID: 3888221634601344114}
 --- !u!114 &-3787922203026241292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2494,7 +2770,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
-  m_Name: Skid NEW! <Reference>
+  m_Name: Fast Turn Skid NEW! <Reference>
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -2547,7 +2823,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Skid NEW! -> Idle NEW!
+  m_Name: Fast Turn Skid NEW! -> Idle NEW!
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -2623,8 +2899,34 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: GameEventConditions
+      Entry: 7
+      Data: 5|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: DynamicGameEventConditions
+      Entry: 7
+      Data: 6|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   graph: {fileID: 11400000}
-  position: {x: 1912, y: -712}
+  position: {x: 1912, y: 824}
   ports:
     keys:
     - startingState
@@ -2656,7 +2958,10 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Fast Turn Completed_ Movement_ Player
+
+'
+  RaiseOnTransitionEvents: []
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions:
@@ -2685,7 +2990,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -8, y: -1544}
+  position: {x: -8, y: -8}
   ports:
     keys: []
     values: []
@@ -2693,7 +2998,7 @@ MonoBehaviour:
   Height: 1341
   Color: {r: 1, g: 1, b: 1, a: 0.08}
   TextColor: {r: 1, g: 1, b: 1, a: 1}
-  Description: Skid
+  Description: Fast Turn Skid
   Minimized: 0
 --- !u!114 &-2819318187826042730
 MonoBehaviour:
@@ -2836,6 +3141,32 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: GameEventConditions
+      Entry: 7
+      Data: 8|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: DynamicGameEventConditions
+      Entry: 7
+      Data: 9|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   graph: {fileID: 11400000}
   position: {x: 904, y: -2824}
   ports:
@@ -2878,7 +3209,10 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '- ! Is Grounded_ Controller_ Player
+
+'
+  RaiseOnTransitionEvents: []
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions: []
@@ -3016,6 +3350,32 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: GameEventConditions
+      Entry: 7
+      Data: 5|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: DynamicGameEventConditions
+      Entry: 7
+      Data: 6|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   graph: {fileID: 11400000}
   position: {x: -440, y: -2392}
   ports:
@@ -3063,6 +3423,7 @@ MonoBehaviour:
     Slam Jump
 
 '
+  RaiseOnTransitionEvents: []
   ValidStartStates:
   - {fileID: 3160719255603912525, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   - {fileID: -5368650478412996812, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
@@ -3206,6 +3567,32 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: GameEventConditions
+      Entry: 7
+      Data: 5|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: DynamicGameEventConditions
+      Entry: 7
+      Data: 6|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   graph: {fileID: 11400000}
   position: {x: 3640, y: -1192}
   ports:
@@ -3254,6 +3641,7 @@ MonoBehaviour:
   conditionPreview: '-  Valid:  Roll  Movement
 
 '
+  RaiseOnTransitionEvents: []
   ValidStartStates:
   - {fileID: 4966931143862885706, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   InvalidStartStates: []
@@ -3395,7 +3783,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: 2552, y: -1192}
+  position: {x: 2552, y: 344}
   ports:
     keys:
     - previousState
@@ -3408,9 +3796,6 @@ MonoBehaviour:
       connections:
       - fieldName: nextState
         node: {fileID: -3100221026002377783}
-        reroutePoints: []
-      - fieldName: nextState
-        node: {fileID: -3985480643489832273}
         reroutePoints: []
       - fieldName: nextState
         node: {fileID: 2718261885113911837}
@@ -3657,7 +4042,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Idle NEW! -> Skid NEW!
+  m_Name: Idle NEW! -> Fast Turn Skid NEW!
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -3733,8 +4118,34 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: GameEventConditions
+      Entry: 7
+      Data: 5|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: DynamicGameEventConditions
+      Entry: 7
+      Data: 6|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   graph: {fileID: 11400000}
-  position: {x: 568, y: -616}
+  position: {x: 568, y: 920}
   ports:
     keys:
     - nextState
@@ -3769,7 +4180,10 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Fast Turn Triggered_ Movement_ Player
+
+'
+  RaiseOnTransitionEvents: []
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions:
@@ -3830,8 +4244,9 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   nodes:
-  - {fileID: -1455369356229782750}
   - {fileID: -2892303193374005006}
+  - {fileID: -7491721879831414520}
+  - {fileID: -1455369356229782750}
   - {fileID: -2161696489879245081}
   - {fileID: 6681429962438373804}
   - {fileID: 1943671558298425074}
@@ -3908,8 +4323,10 @@ MonoBehaviour:
   - {fileID: -8870767577278793796}
   - {fileID: -3985480643489832273}
   - {fileID: 7015546859556399727}
-  - {fileID: 8873658873653307514}
   - {fileID: -623368489479574725}
+  - {fileID: 2498406826369069145}
+  - {fileID: 3302343193503603307}
+  - {fileID: -3833251149806104403}
 --- !u!114 &76974204168438925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3996,6 +4413,32 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: GameEventConditions
+      Entry: 7
+      Data: 5|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: DynamicGameEventConditions
+      Entry: 7
+      Data: 6|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   graph: {fileID: 11400000}
   position: {x: -2955.1318, y: -632.1703}
   ports:
@@ -4032,6 +4475,7 @@ MonoBehaviour:
   conditionPreview: '-  Valid:  Do Nothing
 
 '
+  RaiseOnTransitionEvents: []
   ValidStartStates:
   - {fileID: 9174840935225501389, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
   InvalidStartStates: []
@@ -4047,7 +4491,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
-  m_Name: Skid NEW! <Reference>
+  m_Name: Fast Turn Skid NEW! <Reference>
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -4194,7 +4638,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
-  m_Name: Skid NEW! <Reference>
+  m_Name: Fast Turn Skid NEW! <Reference>
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -4629,6 +5073,32 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: GameEventConditions
+      Entry: 7
+      Data: 13|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: DynamicGameEventConditions
+      Entry: 7
+      Data: 14|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   graph: {fileID: 11400000}
   position: {x: -4168, y: -2312}
   ports:
@@ -4662,7 +5132,13 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    - 0  Abs Greater Than
+    0 && 0  Ignore 0 && 0  Abs Greater Than 0
+
+'
+  RaiseOnTransitionEvents: []
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions: []
@@ -4699,6 +5175,100 @@ MonoBehaviour:
   TextColor: {r: 1, g: 1, b: 1, a: 1}
   Description: Acceleration Lean Layer
   Minimized: 0
+--- !u!114 &2498406826369069145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffe5e2827f3b411ead5333692d5df1ec, type: 3}
+  m_Name: Stopping Skid NEW! <PoseNode> (PlayerAnimancer)
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 664, y: -1160}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: 2498406826369069145}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: 2498406826369069145}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: startingState
+        node: {fileID: -3985480643489832273}
+        reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: 7015546859556399727}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  collapsed: 1
+  BypassState: 0
+  Name: Stopping Skid NEW!
+  Description: 
+  isActiveState: 0
+  transitionTime: 0
+  transitionCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  animEndedTrigger: {fileID: 0}
+  animEndedEvent: {fileID: 11400000, guid: 3e89aaab26a19a74aab1304a168665b6, type: 2}
+  animEventTrigger: {fileID: 0}
+  animEvent: {fileID: 11400000, guid: ddd332e29d8ddae439c5756e37451039, type: 2}
+  _pose:
+    _FadeDuration: 0.05
+    _Events:
+      _Names: []
+      _NormalizedTimes:
+      - 12
+      - 24
+      _Callbacks:
+      - m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 2498406826369069145}
+            m_TargetAssemblyTypeName: MyAssets.Scripts.PoseAnimancer.AnimancerNodes.PoseNode,
+              Assembly-CSharp
+            m_MethodName: ActiveEventTrigger
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+    _Clip: {fileID: 7320424025298056192, guid: ef3bb8ab9698b0d4389f3ffb8bf4a055, type: 3}
+    _Speed: 1
+    _NormalizedStartTime: NaN
 --- !u!114 &2718261885113911837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4709,7 +5279,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Skid NEW! -> Idle NEW!
+  m_Name: Fast Turn Skid NEW! -> Idle NEW!
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -4785,8 +5355,34 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: GameEventConditions
+      Entry: 7
+      Data: 5|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: DynamicGameEventConditions
+      Entry: 7
+      Data: 6|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   graph: {fileID: 11400000}
-  position: {x: 1912, y: -1192}
+  position: {x: 1912, y: 344}
   ports:
     keys:
     - nextState
@@ -4821,6 +5417,7 @@ MonoBehaviour:
   conditionPreview: '-  Invalid:  Ground Movement
 
 '
+  RaiseOnTransitionEvents: []
   ValidStartStates: []
   InvalidStartStates:
   - {fileID: 1196608421412681666, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
@@ -4970,7 +5567,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Idle NEW! -> Skid NEW!
+  m_Name: Idle NEW! -> Fast Turn Skid NEW!
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -5046,8 +5643,34 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: GameEventConditions
+      Entry: 7
+      Data: 5|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: DynamicGameEventConditions
+      Entry: 7
+      Data: 6|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   graph: {fileID: 11400000}
-  position: {x: 568, y: -1192}
+  position: {x: 568, y: 344}
   ports:
     keys:
     - nextState
@@ -5082,13 +5705,66 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Slide Turn Triggered_ Movement_ Player
+
+'
+  RaiseOnTransitionEvents: []
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions:
   - targetParameter: {fileID: 11400000, guid: 4dd3aed967556774397f7132ad414a80, type: 2}
     KeepTriggerOn: 0
   TimerConditions: []
+--- !u!114 &3302343193503603307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: Idle NEW! <Reference>
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 1912, y: -1160}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: 3302343193503603307}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: nextState
+        node: {fileID: -3985480643489832273}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: 3302343193503603307}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  referencedState: {fileID: -4480359106267020904}
 --- !u!114 &3533468211253049813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5225,6 +5901,32 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: GameEventConditions
+      Entry: 7
+      Data: 5|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: DynamicGameEventConditions
+      Entry: 7
+      Data: 6|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   graph: {fileID: 11400000}
   position: {x: -1691.1318, y: -1208.1703}
   ports:
@@ -5260,7 +5962,11 @@ MonoBehaviour:
   transitionPriority: 0
   conditionPreview: '-  Invalid:  Forward  Throw  Start
 
+    -  Pitch Clump Complete_
+    Anim_ Player
+
 '
+  RaiseOnTransitionEvents: []
   ValidStartStates: []
   InvalidStartStates:
   - {fileID: 1439799944267282103, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
@@ -5611,7 +6317,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Walk NEW!
   Description: 
-  isActiveState: 1
+  isActiveState: 0
   transitionTime: 0
   transitionCurve:
     serializedVersion: 2
@@ -5839,7 +6545,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: 56, y: -808}
+  position: {x: 56, y: 728}
   ports:
     keys:
     - previousState
@@ -6006,6 +6712,32 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: GameEventConditions
+      Entry: 7
+      Data: 5|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: DynamicGameEventConditions
+      Entry: 7
+      Data: 6|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   graph: {fileID: 11400000}
   position: {x: 5048, y: -232}
   ports:
@@ -6049,6 +6781,7 @@ MonoBehaviour:
     -  Valid:  Meateor  Dash
 
 '
+  RaiseOnTransitionEvents: []
   ValidStartStates:
   - {fileID: 4966931143862885706, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   - {fileID: 454363467314561103, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
@@ -6193,6 +6926,32 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: GameEventConditions
+      Entry: 7
+      Data: 5|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: DynamicGameEventConditions
+      Entry: 7
+      Data: 6|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   graph: {fileID: 11400000}
   position: {x: 3336, y: -2200}
   ports:
@@ -6237,6 +6996,7 @@ MonoBehaviour:
     Valid:  Jump
 
 '
+  RaiseOnTransitionEvents: []
   ValidStartStates:
   - {fileID: -1722979581280647801, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   - {fileID: -5368650478412996812, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
@@ -6539,6 +7299,32 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: GameEventConditions
+      Entry: 7
+      Data: 13|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: DynamicGameEventConditions
+      Entry: 7
+      Data: 14|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   graph: {fileID: 11400000}
   position: {x: 904, y: -2312}
   ports:
@@ -6572,7 +7358,13 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '- ! Is Grounded_ Controller_ Player
+
+    - 0  Ignore 0 && 0 
+    Less Than 0.1 && 0  Ignore 0
+
+'
+  RaiseOnTransitionEvents: []
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions: []
@@ -6663,6 +7455,32 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: GameEventConditions
+      Entry: 7
+      Data: 5|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: DynamicGameEventConditions
+      Entry: 7
+      Data: 6|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   graph: {fileID: 11400000}
   position: {x: -4235.132, y: -1032.1703}
   ports:
@@ -6699,6 +7517,7 @@ MonoBehaviour:
   conditionPreview: '-  Valid:  Forward  Throw  Charge
 
 '
+  RaiseOnTransitionEvents: []
   ValidStartStates:
   - {fileID: -4695961148579739637, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
   InvalidStartStates: []
@@ -6895,7 +7714,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Acceleration Lean
   Description: 
-  isActiveState: 1
+  isActiveState: 0
   transitionTime: 0
   transitionCurve:
     serializedVersion: 2
@@ -6956,7 +7775,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: 56, y: -1192}
+  position: {x: 56, y: 344}
   ports:
     keys:
     - previousState
@@ -7314,6 +8133,32 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: GameEventConditions
+      Entry: 7
+      Data: 13|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: DynamicGameEventConditions
+      Entry: 7
+      Data: 14|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   graph: {fileID: 11400000}
   position: {x: -2264, y: -2504}
   ports:
@@ -7347,7 +8192,13 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    - 0  Abs Less Than 0.001
+    && 0  Ignore 0 && 0  Abs Less Than 0.001
+
+'
+  RaiseOnTransitionEvents: []
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions: []
@@ -7362,7 +8213,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Skid NEW! -> Walk NEW!
+  m_Name: Stopping Skid NEW! -> Walk NEW!
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -7614,8 +8465,34 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: GameEventConditions
+      Entry: 7
+      Data: 12|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: DynamicGameEventConditions
+      Entry: 7
+      Data: 13|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   graph: {fileID: 11400000}
-  position: {x: 1912, y: -232}
+  position: {x: 1304, y: -664}
   ports:
     keys:
     - startingState
@@ -7627,7 +8504,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: transitions
-        node: {fileID: -8076184187842722617}
+        node: {fileID: 2498406826369069145}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -7639,7 +8516,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: previousState
-        node: {fileID: 8873658873653307514}
+        node: {fileID: -3833251149806104403}
         reroutePoints: []
       _direction: 1
       _connectionType: 1
@@ -7649,7 +8526,13 @@ MonoBehaviour:
   transitionPriority: 0
   conditionPreview: '-  Valid:  Ground Movement
 
+    - < Const>0.2  Less Than 0
+
+    -
+    0  Abs Greater Than 0.001 && 0  Abs Greater Than 0.001
+
 '
+  RaiseOnTransitionEvents: []
   ValidStartStates:
   - {fileID: 1196608421412681666, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   InvalidStartStates: []
@@ -7741,6 +8624,32 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: GameEventConditions
+      Entry: 7
+      Data: 5|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: DynamicGameEventConditions
+      Entry: 7
+      Data: 6|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   graph: {fileID: 11400000}
   position: {x: -4184, y: 408}
   ports:
@@ -7777,6 +8686,7 @@ MonoBehaviour:
   conditionPreview: '-  Valid:  Roll  Movement
 
 '
+  RaiseOnTransitionEvents: []
   ValidStartStates:
   - {fileID: 4966931143862885706, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   InvalidStartStates: []
@@ -7868,6 +8778,32 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: GameEventConditions
+      Entry: 7
+      Data: 5|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: DynamicGameEventConditions
+      Entry: 7
+      Data: 6|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   graph: {fileID: 11400000}
   position: {x: -2939.1318, y: -1192.1703}
   ports:
@@ -7904,6 +8840,7 @@ MonoBehaviour:
   conditionPreview: '-  Valid:  Forward  Throw  Start
 
 '
+  RaiseOnTransitionEvents: []
   ValidStartStates:
   - {fileID: 1439799944267282103, guid: 1873cdd2965623e4386b829a278254b2, type: 2}
   InvalidStartStates: []
@@ -8083,7 +9020,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Parameter Processor
   Description: 
-  isActiveState: 1
+  isActiveState: 0
   subGraph: {fileID: 11400000, guid: 3833a745fc2f8524cb9f2b661e39a5ed, type: 2}
   subStates:
   - {fileID: 5592738946215276755, guid: 3833a745fc2f8524cb9f2b661e39a5ed, type: 2}
@@ -8190,56 +9127,6 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   referencedState: {fileID: -4826295919186871255}
---- !u!114 &8873658873653307514
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
-  m_Name: Walk NEW! <Reference>
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  graph: {fileID: 11400000}
-  position: {x: 2520, y: -280}
-  ports:
-    keys:
-    - previousState
-    - transitions
-    values:
-    - _fieldName: previousState
-      _node: {fileID: 8873658873653307514}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: nextState
-        node: {fileID: 7015546859556399727}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: transitions
-      _node: {fileID: 8873658873653307514}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  referencedState: {fileID: 3888221634601344114}
 --- !u!114 &8983887671694527322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8326,6 +9213,32 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: GameEventConditions
+      Entry: 7
+      Data: 5|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: DynamicGameEventConditions
+      Entry: 7
+      Data: 6|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   graph: {fileID: 11400000}
   position: {x: -2904, y: 408}
   ports:
@@ -8362,6 +9275,7 @@ MonoBehaviour:
   conditionPreview: '-  Invalid:  Roll  Movement
 
 '
+  RaiseOnTransitionEvents: []
   ValidStartStates: []
   InvalidStartStates:
   - {fileID: 4966931143862885706, guid: 7a3214574a4315847bb608ab776638ad, type: 2}

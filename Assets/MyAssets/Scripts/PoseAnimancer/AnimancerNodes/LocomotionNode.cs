@@ -65,7 +65,6 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
         [TabGroup("Base","Debug"),ShowInInspector] private float _walkCycleLength;
         [TabGroup("Base","Debug"),ShowInInspector] private bool _isMidStride;
         [TabGroup("Base","Debug"),ShowInInspector] private bool _isHeldOnContact;
-        [TabGroup("Base","Debug"),ShowInInspector] private bool _startedNextStride;
         [TabGroup("Base","Debug"),ShowInInspector] private float _currentStepTargetStrideLength;
         [TabGroup("Base","Debug"),ShowInInspector] private float _currentStepResultantMoveFactor;
         [TabGroup("Base","Debug"),ShowInInspector] private float _currentStepMoveInputFactor;
@@ -99,6 +98,7 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
             _lastWalkCyclePercent = 0;
             _walkSpeedFactor = 0;
             _currentStepResultantMoveFactor = 0;
+            
 
             _walkCycleLength = 2 * _targetStrideLength.Value;
             _currentStepTargetStrideLength = _targetStrideLength.Value;
@@ -120,6 +120,7 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
             }
 
             _isMidStride = true;
+            _isHeldOnContact = false;
 
             // Init lean
             // _leanForward = new SpecificLean(_animatable.Animancer.Playable, _leanBones.Select(b => b.Value));
@@ -179,19 +180,21 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
             _bob?.Destroy();
             // _damping.Destroy();
         }
-
-        private static float MinStrideLength = 3 * 1;
-        private static float MaxStrideLength = 3 * 7;
-        private static float MaxStrideLengthDelta = MinStrideLength - MinStrideLength;
-        private static float MinMaxStrideLengthDeltaRatio = MaxStrideLengthDelta / MaxStrideLength;
-        private static float MaxMaxStrideLengthDeltaRatio = MaxStrideLengthDelta / MinStrideLength;
+        
         public override void Execute()
         {
             base.Execute();
             
             if (_move.State.IsActive)
             {
-                _currentStepRunBlendFactor = _runBlendFactor.Value;
+                var runBlendDelta = _runBlendFactor.Value - _currentStepRunBlendFactor;
+                var runBlendDeltaRatio = runBlendDelta / _currentStepRunBlendFactor;
+                var runBlendLerpFactor =
+                    runBlendDeltaRatio < 0f ? Mathf.Lerp(0.5f, 0.01f, Mathf.Abs(runBlendDeltaRatio)) : 1f;
+                _currentStepRunBlendFactor = Mathf.Lerp(_currentStepRunBlendFactor,  _runBlendFactor.Value, runBlendLerpFactor);
+                // _currentStepRunBlendFactor = _runBlendFactor.Value;
+                
+                
                 _lastWalkCyclePercent = _walkCyclePercent;
 
                 if (Mathf.Approximately(_resultantMoveFactor.Value, 0))
@@ -212,11 +215,13 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
                     if (Mathf.Approximately(_currentSpeed, 0))
                     {
                         var nearestStride = Mathf.Floor(_distanceValue / _currentStepTargetStrideLength) * _currentStepTargetStrideLength;
-                        _distanceValue = Mathf.MoveTowards(_distanceValue, nearestStride, 0.001f);
+                        _distanceValue = Mathf.MoveTowards(_distanceValue, nearestStride, 0.01f);
                         if (_distanceValue >= _walkCycleLength)
                         {
                             _isMidStride = false;
                         }
+                        _currentStepRunBlendFactor = Mathf.MoveTowards(_currentStepRunBlendFactor, 0f, .01f);
+                        _currentStepResultantMoveFactor = Mathf.MoveTowards(_currentStepResultantMoveFactor, 0f, 0.01f);
                     }
                     else
                     {
@@ -242,8 +247,11 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
                 }
                 else
                 {
-                    _currentStepRunBlendFactor = Mathf.MoveTowards(_currentStepRunBlendFactor, 0f, 0.001f);
-                    _currentStepResultantMoveFactor = Mathf.MoveTowards(_currentStepResultantMoveFactor, 0f, 0.001f);
+                    _currentStepRunBlendFactor = Mathf.MoveTowards(_currentStepRunBlendFactor, 0f, 0.01f);
+                    _currentStepResultantMoveFactor = Mathf.MoveTowards(_currentStepResultantMoveFactor, 0f, 0.01f);
+                    var nearestStride = Mathf.Floor(_distanceValue / _currentStepTargetStrideLength) * _currentStepTargetStrideLength;
+                    _distanceValue = Mathf.MoveTowards(_distanceValue, nearestStride, 0.01f);
+                    // if ()
                 }
                 
                 var leapPercent = _strideLeapFactor.Value.Evaluate(_stridePercent);

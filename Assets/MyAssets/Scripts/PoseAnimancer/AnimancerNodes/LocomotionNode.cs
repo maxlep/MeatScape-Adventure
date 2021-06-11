@@ -32,6 +32,7 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
         [TitleGroup("Base/Inputs/Locomotion"),SerializeField] private FloatValueReference _maxSpeed;
         [TitleGroup("Base/Inputs/Locomotion"),SerializeField] private Vector3Reference _groundNormal;
         [TitleGroup("Base/Inputs/Locomotion"),SerializeField] private FloatValueReference _runBlendFactor;
+        [TitleGroup("Base/Inputs/Locomotion"),SerializeField] private FloatValueReference _resultantMoveFactor;
         [TitleGroup("Base/Inputs/Locomotion"),SerializeField] private FloatValueReference _moveInputFactor;
         [TitleGroup("Base/Inputs/Locomotion"),SerializeField] private FloatValueReference _bakedStrideLength;
         [TitleGroup("Base/Inputs/Locomotion"), SerializeField] private FloatValueReference _targetStrideLength;
@@ -62,12 +63,22 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
         // [TitleGroup("Base/Inputs/Damping"), SerializeField] private IntReference _dampingBoneCount;
         
         [TabGroup("Base","Debug"),ShowInInspector] private float _walkCycleLength;
-        [TabGroup("Base","Debug"),ShowInInspector] private bool _isMidStep;
+        [TabGroup("Base","Debug"),ShowInInspector] private bool _isMidStride;
+        [TabGroup("Base","Debug"),ShowInInspector] private bool _isHeldOnContact;
+        [TabGroup("Base","Debug"),ShowInInspector] private bool _startedNextStride;
         [TabGroup("Base","Debug"),ShowInInspector] private float _currentStepTargetStrideLength;
+        [TabGroup("Base","Debug"),ShowInInspector] private float _currentStepResultantMoveFactor;
+        [TabGroup("Base","Debug"),ShowInInspector] private float _currentStepMoveInputFactor;
+        [TabGroup("Base","Debug"),ShowInInspector] private float _currentStepRunBlendFactor;
+        [TabGroup("Base","Debug"),ShowInInspector] private float _currentStepLeapTime;
+        [TabGroup("Base","Debug"),ShowInInspector] private float _currentSpeed;
         [TabGroup("Base","Debug"),ShowInInspector] private float _distanceValue;
+        [TabGroup("Base","Debug"),ShowInInspector] private float _strideDistance;
+        [TabGroup("Base","Debug"),ShowInInspector] private float _stridePercent;
         [TabGroup("Base","Debug"),ShowInInspector] private float _walkCyclePercent;
         [TabGroup("Base","Debug"),ShowInInspector] private float _lastWalkCyclePercent;
         [TabGroup("Base","Debug"),ShowInInspector] private float _walkSpeedFactor;
+        [TabGroup("Base","Debug"),ShowInInspector] private bool _nextStartingFoot;
         
         private AnimancerEvent.Sequence _moveEvents;
         private AnimancerEvent _nextMoveEvent;
@@ -83,17 +94,19 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
             base.Enter();
             
             // _walkCycleLength = 2 * _strideLength.Value;
-            _distanceValue = 0;
+            _distanceValue = _nextStartingFoot ? 0 : _currentStepTargetStrideLength;
             _walkCyclePercent = 0;
             _lastWalkCyclePercent = 0;
             _walkSpeedFactor = 0;
-            
+            _currentStepResultantMoveFactor = 0;
+
             _walkCycleLength = 2 * _targetStrideLength.Value;
             _currentStepTargetStrideLength = _targetStrideLength.Value;
             _targetStrideLength.Subscribe(() =>
             {
                 _walkCycleLength = 2 * _targetStrideLength.Value;
             });
+            RecalculateStrideLength();
             
             _animatable.Animancer.States.GetOrCreate(_move);
             // _animatable.Animancer.Layers[BaseLayer].SetMask(_locomotionMask);
@@ -105,6 +118,8 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
                 _nextMoveEventIndex = 0;
                 _nextMoveEvent = _moveEvents[_nextMoveEventIndex];
             }
+
+            _isMidStride = true;
 
             // Init lean
             // _leanForward = new SpecificLean(_animatable.Animancer.Playable, _leanBones.Select(b => b.Value));
@@ -164,29 +179,95 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
             _bob?.Destroy();
             // _damping.Destroy();
         }
-        
+
+        private static float MinStrideLength = 3 * 1;
+        private static float MaxStrideLength = 3 * 7;
+        private static float MaxStrideLengthDelta = MinStrideLength - MinStrideLength;
+        private static float MinMaxStrideLengthDeltaRatio = MaxStrideLengthDelta / MaxStrideLength;
+        private static float MaxMaxStrideLengthDeltaRatio = MaxStrideLengthDelta / MinStrideLength;
         public override void Execute()
         {
             base.Execute();
             
             if (_move.State.IsActive)
             {
-                if (!_isMidStep)
+                _currentStepRunBlendFactor = _runBlendFactor.Value;
+                _lastWalkCyclePercent = _walkCyclePercent;
+
+                if (Mathf.Approximately(_resultantMoveFactor.Value, 0))
                 {
-                    _currentStepTargetStrideLength = _targetStrideLength.Value;
-                    _walkCycleLength = 2 * _currentStepTargetStrideLength;
+                    //RecalculateStrideLength();
+                }
+                
+                if (_moveInputFactor.Value > Mathf.Epsilon && _isHeldOnContact)
+                {
+                    _isHeldOnContact = false;
+                    //_nextStartingFoot = !_nextStartingFoot;
+                    _distanceValue = _nextStartingFoot ? 0 : _currentStepTargetStrideLength;
                 }
 
-                _lastWalkCyclePercent = _walkCyclePercent;
+                _currentSpeed = _velocity.Value.xz().magnitude;
+                if (!_isHeldOnContact)
+                {
+                    if (Mathf.Approximately(_currentSpeed, 0))
+                    {
+                        var nearestStride = Mathf.Floor(_distanceValue / _currentStepTargetStrideLength) * _currentStepTargetStrideLength;
+                        _distanceValue = Mathf.MoveTowards(_distanceValue, nearestStride, 0.001f);
+                        if (_distanceValue >= _walkCycleLength)
+                        {
+                            _isMidStride = false;
+                        }
+                    }
+                    else
+                    {
+                        var newDist = (_distanceValue + _currentSpeed * Time.deltaTime);
+                        _distanceValue = newDist % _walkCycleLength;
+                        if (newDist >= _walkCycleLength)
+                        {
+                            _isMidStride = false;
+                        }
+                    }
+                    _walkCyclePercent = _distanceValue / _walkCycleLength;
+                    _walkSpeedFactor = _currentSpeed / _maxSpeed.Value;
                 
-                var speed = _velocity.Value.xz().magnitude;
-                _distanceValue = (_distanceValue + speed * Time.deltaTime) % _walkCycleLength;
-                _walkCyclePercent = _distanceValue / _walkCycleLength;
-                _walkSpeedFactor = speed / _maxSpeed.Value;
+                    var newStrideDist = (_walkCyclePercent * 2f);
+                    if (Mathf.Floor(newStrideDist) != Mathf.Floor(_strideDistance))
+                    {
+                        _isMidStride = false;
+                    }
+
+                    _strideDistance = newStrideDist;
+                    _stridePercent = _strideDistance % 1;
+                    
+                }
+                else
+                {
+                    _currentStepRunBlendFactor = Mathf.MoveTowards(_currentStepRunBlendFactor, 0f, 0.001f);
+                    _currentStepResultantMoveFactor = Mathf.MoveTowards(_currentStepResultantMoveFactor, 0f, 0.001f);
+                }
+                
+                var leapPercent = _strideLeapFactor.Value.Evaluate(_stridePercent);
+                var landPercent = _strideLandFactor.Value.Evaluate(_stridePercent);
+
+                if (!_isMidStride)
+                {
+                    if (_resultantMoveFactor.Value > 0.1f)
+                    {
+                        RecalculateStrideLength();
+                    }
+
+                    if (Mathf.Approximately(_moveInputFactor.Value, 0))
+                    {
+                        _isHeldOnContact = true;
+                    }
+
+                    _nextStartingFoot = !_nextStartingFoot;
+                    _isMidStride = true;
+                }
 
                 var dilationFactor = _bakedStrideLength.Value / _currentStepTargetStrideLength;
 
-                _move.State.Parameter = new Vector2(0, _runBlendFactor.Value);
+                _move.State.Parameter = new Vector2(0, _currentStepRunBlendFactor);
                 _move.State.Speed = 1;
                 _move.State.NormalizedTime = _walkCyclePercent;
                 
@@ -204,30 +285,16 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
                     }
                 }
                 
-                var stridePercent = (_walkCyclePercent * 2f) % 1;
-                var leapPercent = _strideLeapFactor.Value.Evaluate(stridePercent);
-                var landPercent = _strideLandFactor.Value.Evaluate(stridePercent);
+                var leapHeight = Mathf.Abs(0.5f * _bobGravity.Value * Mathf.Pow(_currentStepLeapTime / 2f, 2));
+                var leapVerticalSpeed = Mathf.Abs(_bobGravity.Value * _currentStepLeapTime / 2f);
 
-                if (leapPercent >= 1 && landPercent >= 0.9f)
-                {
-                    _isMidStep = false;
-                }
-                else
-                {
-                    _isMidStep = false; // true; This is mid-step detection is currently disabled by this comment.
-                }
-                
-                var leapTime = (_strideLeapFactor.MaxTime - _strideLeapFactor.MinTime) * _currentStepTargetStrideLength / speed;
-                var leapHeight = Mathf.Abs(0.5f * _bobGravity.Value * Mathf.Pow(leapTime / 2f, 2));
-                var leapVerticalSpeed = Mathf.Abs(_bobGravity.Value * leapTime / 2f);
-
-                var currentLeapTime = leapTime * leapPercent;
+                var currentLeapTime = _currentStepLeapTime * leapPercent;
                 var currentLeapHeight = 0 + (leapVerticalSpeed * currentLeapTime) +
                                         (0.5f * _bobGravity.Value * Mathf.Pow(currentLeapTime, 2));
-                currentLeapHeight = Mathf.Min(currentLeapHeight, _currentStepTargetStrideLength)
-                                    * Mathf.Pow(Mathf.Clamp01(_moveInputFactor.Value), 2);
+                currentLeapHeight = Mathf.Min(currentLeapHeight, _currentStepTargetStrideLength / 2f)
+                                    * Mathf.Pow(Mathf.Clamp01(_currentStepResultantMoveFactor), 2);
                 
-                var landTime = (_strideLandFactor.MaxTime - _strideLandFactor.MinTime) * _currentStepTargetStrideLength / speed;
+                var landTime = (_strideLandFactor.MaxTime - _strideLandFactor.MinTime) * _currentStepTargetStrideLength / _currentSpeed;
                 var currentLandHeight = (1 - Mathf.Abs(landPercent * 2 - 1)) * _bobConstantOffset.Value;
                 _bob.Distance = currentLeapHeight + currentLandHeight;
                 
@@ -242,6 +309,24 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
                 _move.State.Parameter = Vector2.zero;
                 _move.State.Speed = 0;
             }
+        }
+
+        private void RecalculateStrideLength()
+        {
+            var strideLengthDelta = _targetStrideLength.Value - _currentStepTargetStrideLength;
+            var strideLengthDeltaRatio = strideLengthDelta / _currentStepTargetStrideLength;
+            var lerpFactor = strideLengthDeltaRatio < 0f ? Mathf.Lerp(0.5f, 0.01f, Mathf.Abs(strideLengthDeltaRatio)) : 1f;
+            _currentStepResultantMoveFactor = _resultantMoveFactor.Value;
+            _currentStepMoveInputFactor = _moveInputFactor.Value;
+            var prev = _currentStepTargetStrideLength;
+            _currentStepTargetStrideLength = Mathf.Lerp(_currentStepTargetStrideLength,  _targetStrideLength.Value, lerpFactor);
+            //_currentStepTargetStrideLength = _targetStrideLength.Value;
+            _walkCycleLength = 2 * _currentStepTargetStrideLength;
+            Debug.Log($"Delta: {strideLengthDeltaRatio}, Current: {prev}, Target: {_targetStrideLength.Value}, New: {_currentStepTargetStrideLength}");
+            
+            _currentStepLeapTime = (_strideLeapFactor.MaxTime - _strideLeapFactor.MinTime) * _currentStepTargetStrideLength / _currentSpeed;
+
+            _currentStepRunBlendFactor = _runBlendFactor.Value;
         }
 
         private float BobShapingFunction(float x)

@@ -212,11 +212,11 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
                 _currentSpeed = _velocity.Value.xz().magnitude;
                 if (!_isHeldOnContact)
                 {
-                    if (Mathf.Approximately(_currentSpeed, 0))
+                    if (Mathf.Approximately(_moveInputFactor.Value, 0))
                     {
                         var nearestStride = Mathf.Floor(_distanceValue / _currentStepTargetStrideLength) * _currentStepTargetStrideLength;
-                        _distanceValue = Mathf.MoveTowards(_distanceValue, nearestStride, 0.01f);
-                        if (_distanceValue >= _walkCycleLength)
+                        _distanceValue = Mathf.MoveTowards(_distanceValue, nearestStride, 0.05f);
+                        if (Mathf.Approximately(_distanceValue, nearestStride))
                         {
                             _isMidStride = false;
                         }

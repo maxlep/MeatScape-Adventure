@@ -88,7 +88,8 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             
             #region Get New Move Direction
             
-            newDirection = FlattenMoveInputOntoSlope(MoveInput.Value.xoy(), GroundingStatus.GroundNormal);
+            //Broken method that no longer exists, see instead FlattenDirectionOntoSlope
+            //newDirection = FlattenMoveInputOntoSlope(MoveInput.Value.xoy(), GroundingStatus.GroundNormal);
 
             #endregion
 

@@ -179,7 +179,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             if (GroundingStatus.FoundAnyGround && GroundingStatus.GroundNormal == Vector3.up)
                 moveInputOnSlope = moveInputCameraRelative.xoz().normalized;
             else
-                moveInputOnSlope = FlattenMoveInputOntoSlope(MoveInput.Value, GroundingStatus.GroundNormal);
+                moveInputOnSlope = FlattenDirectionOntoSlope(moveInputCameraRelative.xoz().normalized, GroundingStatus.GroundNormal);
             
             NewRotationOut.Value = Quaternion.LookRotation(moveInputOnSlope, GroundingStatus.GroundNormal);
         }

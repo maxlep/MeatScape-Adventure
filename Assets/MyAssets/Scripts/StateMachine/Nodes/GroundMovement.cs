@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using KinematicCharacterController;
 using MyAssets.Graphs.StateMachine.Nodes;
 using MyAssets.ScriptableObjects.Variables;
@@ -8,6 +9,9 @@ using MyAssets.Scripts.Utils;
 using Shapes;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using Quaternion = UnityEngine.Quaternion;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 namespace MyAssets.Graphs.StateMachine.Nodes
 {
@@ -34,6 +38,10 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Horizontal")] [Required]
         private Vector3Reference cachedVelocity;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [TabGroup("Horizontal")] [Required]
+        private CurveReference SlopeSlowdownCurve;
 
         #endregion
         
@@ -130,6 +138,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         private Vector3 fastTurnStartDir;
         private Vector3 lastMoveInputDirection = Vector3.zero;
         private Vector3 slopeOut;
+        private Vector3 intersectingVector;
 
         #region Lifecycle methods
 
@@ -172,15 +181,15 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         private Vector3 CalculateHorizontalVelocity(Vector3 currentVelocity)
         {
             CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
+            //Vector2 horizontalVelocity = currentVelocity.xz();
+            float currentTurnSpeed;
+            float currentSpeed;
 
             #region Determine if Fast Turning
 
             //Dont allow fast turn on slopes
             if (EnableFastTurn)
                 CheckForFastTurn(currentVelocity);
-            
-            float currentTurnSpeed;
-            Vector2 horizontalVelocity = currentVelocity.xz();
 
             //Update turn speed based on isFastTurning
             if (IsFastTurning.Value)
@@ -193,11 +202,22 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             #region Get New Move Direction
 
             //Rotate current vel towards target vel to get new direction
-            Vector2 dummyVel = Vector3.zero;
-            Vector2 dir = Vector2.SmoothDamp(horizontalVelocity.normalized, moveInputCameraRelative.xz(),
+            Vector3 dummyVel = Vector3.zero;
+            Vector3 targetDir = FlattenDirectionOntoSlope(moveInputCameraRelative.xoz(), GroundingStatus.GroundNormal);
+            Vector3 dir = Vector3.SmoothDamp(currentVelocity.normalized, targetDir,
                 ref dummyVel, currentTurnSpeed);
+
+            newDirection = dir.normalized;
             
-            newDirection = dir.xoy().normalized;
+            #endregion
+            
+            #region Slope Slowdown
+
+            float moveAngleAboveHorizontal = Vector3.SignedAngle(newDirection, newDirection.xoz(),
+                Vector3.Cross(newDirection, Vector3.down));
+            float slownessFactor = SlopeSlowdownCurve.Value.Evaluate(moveAngleAboveHorizontal);
+            float slopeSlowedMoveSpeed = slownessFactor * MoveSpeed.Value;
+            Debug.Log($"Angle: {moveAngleAboveHorizontal} Norm: {GroundingStatus.GroundNormal} Slow: {slownessFactor}");
 
             #endregion
 
@@ -205,11 +225,10 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
             //Accelerate/DeAccelerate from current Speed to target speed
             float dummySpeed = 0f;
-            float currentSpeed;
             float targetSpeed;
 
-            currentSpeed = currentVelocity.xoz().magnitude;
-            targetSpeed = MoveInput.Value.magnitude * MoveSpeed.Value;
+            currentSpeed = currentVelocity.magnitude;
+            targetSpeed = MoveInput.Value.magnitude * slopeSlowedMoveSpeed;
             
             if (targetSpeed > currentSpeed)
                 newSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed,
@@ -217,8 +236,10 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             else
                 newSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed,
                     ref dummySpeed, Deacceleration.Value);
-
+            
             #endregion
+
+            
 
             #region Override Speed and Direction if Fast Turning
             
@@ -227,25 +248,25 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             //If fast turning, DeAccelerate to 0 to brake
             if (IsFastTurning.Value)
             {
-                newSpeed = Mathf.SmoothDamp(horizontalVelocity.magnitude, 0f,
+                newSpeed = Mathf.SmoothDamp(currentSpeed, 0f,
                     ref dummySpeed, FastTurnBrakeDeacceleration.Value);
 
                 newDirection = fastTurnStartDir;
 
                 //If finished stopping, turn to face moveDir
                 if (newSpeed < FastTurnBrakeSpeedThreshold.Value)
-                    newDirection = moveInputCameraRelative.xoz().normalized;
+                    newDirection = FlattenDirectionOntoSlope(moveInputCameraRelative.xoz(), GroundingStatus.GroundNormal);
             }
             else if(IsSlideTurning.Value)
             {
-                newSpeed = Mathf.SmoothDamp(horizontalVelocity.magnitude, 0f,
+                newSpeed = Mathf.SmoothDamp(currentSpeed, 0f,
                     ref dummySpeed, SlideTurnBrakeDeacceleration.Value);
 
                 newDirection = fastTurnStartDir;
 
                 //If finished stopping, turn to face moveDir
                 if (newSpeed < FastTurnBrakeSpeedThreshold.Value)
-                    newDirection = moveInputCameraRelative.xoz().normalized;
+                    newDirection = FlattenDirectionOntoSlope(moveInputCameraRelative.xoz(), GroundingStatus.GroundNormal);
             }
 
             #endregion
@@ -275,7 +296,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             //If fast turning, instead rotate to desired turn direction
             if (IsFastTurning.Value)
             {
-                Quaternion moveInputRotation = Quaternion.LookRotation(moveInputCameraRelative, Vector3.up);
+                Quaternion moveInputRotation = Quaternion.LookRotation(moveInputCameraRelative.xoz(), Vector3.up);
                 newRotation = Quaternion.RotateTowards(lookRotation, moveInputRotation, RotationDeltaMax.Value);
             }
         
@@ -297,10 +318,10 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             float FastTurnThreshold = (FastTurnPercentThreshold.Value >= 1f) ?
                 Mathf.Infinity : FastTurnPercentThreshold.Value * MoveSpeed.Value;
         
-            Vector2 horizontalVelocity = currentVelocity.xz();
+            float currentSpeed = currentVelocity.magnitude;
 
             //Dont start fast turn if moving too fast (instead will probably brake)
-            if ((noTurn) && horizontalVelocity.magnitude > FastTurnThreshold)
+            if ((noTurn) && currentSpeed > FastTurnThreshold)
                 return;
 
             //Angle between flattened current speed and flattened desired move direction
@@ -310,7 +331,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             if (noTurn && deltaAngle_VelToMoveDir > FastTurnAngleThreshold.Value &&
                 MoveInput.Value.magnitude > FastTurnInputDeadZone.Value)
             {
-                if (horizontalVelocity.magnitude > SlideTurnThresholdSpeed.Value)
+                if (currentSpeed > SlideTurnThresholdSpeed.Value)
                 {
                     IsSlideTurning.Value = true;
                     SlideTurnTriggered.Activate();
@@ -348,6 +369,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             Vector3 endPos2 = playerController.transform.position + moveInputCameraRelative * 10f;
             Vector3 endPos4 = playerController.transform.position + cachedVelocity.Value.normalized * (cachedVelocity.Value.magnitude / MoveSpeed.Value) * 10f;
             Vector3 endPos6 = playerController.transform.position + playerController.GroundingStatus.GroundNormal * 10f;
+            Vector3 endPos7 = playerController.transform.position + intersectingVector * 10f;
 
             Color actualMoveColor = IsFastTurning.Value ? new Color(1f, 0f, 0f, .35f) : new Color(1f, 1f, 0f, .35f);
             Color moveInputColor = new Color(0f, 1f, 0f, .35f);
@@ -361,6 +383,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             Draw.Line(startPos, endPos4, cachedVelocityColor); //CachedVelocity
             //Draw.Line(startPos, endPos5, slopeRightColor); //Slope Right
             //Draw.Line(startPos, endPos6, groundNormalColor); //Ground Normal
+            Draw.Line(startPos, endPos7, slopeRightColor); //Intersecting Vector
             
             
             Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos, .25f, actualMoveColor);
@@ -368,6 +391,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos4, .25f, cachedVelocityColor);
             //Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos5, .25f, slopeRightColor);
             //Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos6, .25f, groundNormalColor);
+            Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos7, .25f, slopeRightColor);
         }
     }
 }

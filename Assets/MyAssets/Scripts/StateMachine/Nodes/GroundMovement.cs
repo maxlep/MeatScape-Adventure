@@ -217,7 +217,6 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 Vector3.Cross(newDirection, Vector3.down));
             float slownessFactor = SlopeSlowdownCurve.Value.Evaluate(moveAngleAboveHorizontal);
             float slopeSlowedMoveSpeed = slownessFactor * MoveSpeed.Value;
-            Debug.Log($"Angle: {moveAngleAboveHorizontal} Norm: {GroundingStatus.GroundNormal} Slow: {slownessFactor}");
 
             #endregion
 

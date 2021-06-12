@@ -40,6 +40,10 @@ public class LevelManager : MonoBehaviour
     [DisableIf("GenerateRandomSeed")] [SerializeField] bool UseSetSeed;
     [ShowIf("UseSetSeed")] [SerializeField] string Seed;
 
+    [TitleGroup("AreaGameObjects")]
+    [SerializeField] private GameObject MeatScape;
+    [SerializeField] private GameObject Boss;
+
     public static LevelManager Instance;
 
     public float DistanceFromCenter { get; private set; }
@@ -107,7 +111,11 @@ public class LevelManager : MonoBehaviour
 
     private void EnterBossArena()
     {
-
+        MeatScape.SetActive(false);
+        Boss.SetActive(true);
+        var newPos = Boss.transform.position;
+        newPos.y += 100;
+        Player.Value.GetComponent<PlayerController>().SetPlayerPosition(newPos);
     }
 
     private void RestartScene()

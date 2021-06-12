@@ -47,7 +47,7 @@ public class FloatCondition : ITransitionCondition
     public override string ToString()
     {
         if (targetParameter != null)
-            return $"{targetParameter.Name} {comparator} {value.Value}";
+            return $"{targetParameter.Name} {comparator} {value.Name}";
         else
             return "<Missing Float>";
     }

@@ -64,7 +64,7 @@ public class IntCondition : ITransitionCondition
     public override string ToString()
     {
         if (targetParameter != null)
-            return $"{targetParameter.Name} {comparator} {value}";
+            return $"{targetParameter.Name} {comparator} {value.Name}";
         else
             return "<Missing Int>";
     }

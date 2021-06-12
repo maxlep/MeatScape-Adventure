@@ -48,8 +48,8 @@ public class Vector2Condition : ITransitionCondition
 
     public override string ToString()
     {
-        return $"{targetParameter.Value.x} {xCompare.comparator} {xCompare.value.Value} &&" +
-               $" {targetParameter.Value.y} {yCompare.comparator} {yCompare.value.Value}";
+        return $"{targetParameter.Name}.X {xCompare.comparator} {xCompare.value.Name}.X &&" +
+               $" {targetParameter.Name}.Y {yCompare.comparator} {yCompare.value.Name}.Y";
     }
 
     private bool Compare(Comparison comparison, float paramValue)

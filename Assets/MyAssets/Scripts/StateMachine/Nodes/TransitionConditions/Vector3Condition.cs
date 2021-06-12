@@ -52,9 +52,9 @@ public class Vector3Condition : ITransitionCondition
 
     public override string ToString()
     {
-        return $"{targetParameter.Value.x} {xCompare.comparator} {xCompare.value.Value} &&" +
-               $" {targetParameter.Value.y} {yCompare.comparator} {yCompare.value.Value} &&" +
-               $" {targetParameter.Value.z} {zCompare.comparator} {zCompare.value.Value}";
+        return $"{targetParameter.Name}.X {xCompare.comparator} {xCompare.value.Name}.X &&" +
+               $" {targetParameter.Name}.Y {yCompare.comparator} {yCompare.value.Name}.Y &&" +
+               $" {targetParameter.Name}.Z {zCompare.comparator} {zCompare.value.Name}.Z";
     }
 
     private bool Compare(Comparison comparison, float paramValue)

@@ -1,4 +1,5 @@
 ﻿using System;
+using MyAssets.ScriptableObjects.Events;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -12,9 +13,14 @@ public class InputManager : MonoBehaviour
     
     public bool usingMouse { get; private set; }
 
+    #region Delegates
+
     public delegate void _OnControlsChanged(PlayerInput inputs);
     public delegate void _OnAttack_Pressed();
+
     public delegate void _OnAttack_Released();
+    public delegate void _OnModifier_Pressed();
+    public delegate void _OnModifier_Released();
     public delegate void _OnRoll();
     public delegate void _OnDash();
     public delegate void _OnDownwardAttack();
@@ -39,9 +45,15 @@ public class InputManager : MonoBehaviour
     public delegate void _OnRestartScene();
     public delegate void _OnStart();
 
+    #endregion
+
+    #region Events
+
     public event _OnControlsChanged onControlsChanged;
     public event _OnAttack_Pressed onAttack_Pressed;
     public event _OnAttack_Released onAttack_Released;
+    public event _OnModifier_Pressed onModifier_Pressed;
+    public event _OnModifier_Released onModifier_Released;
     public event _OnRoll onRoll_Pressed;
     public event _OnRoll onRoll_Released;
     public event _OnDash onDash_Pressed;
@@ -79,10 +91,19 @@ public class InputManager : MonoBehaviour
     public event _OnRestartScene onRestartScene;
     public event _OnStart onStart;
 
+    #endregion
+
+    #region Output Events
+
+    [SerializeField] private GameEvent OnModifierPressed; 
+    [SerializeField] private GameEvent OnModifierReleased; 
+
+    #endregion
+
     private PlayerInput _inputs;
     private InputActionMap playerActions, uiActions;
     private InputAction playerMove, playerLook, playerJump, playerRegenerateMeat, mousePosition, playerRoll, playerDash,
-        playerAttack, cycleTarget;
+        playerAttack, playerModifier, cycleTarget;
 
     public static bool PlatformInvertsScroll()
     {
@@ -111,6 +132,7 @@ public class InputManager : MonoBehaviour
         playerDash = playerActions.FindAction("Dash");
         cycleTarget = playerActions.FindAction("CycleTarget");
         playerAttack = playerActions.FindAction("Attack");
+        playerModifier = playerActions.FindAction("Modifier");
         mousePosition = uiActions.FindAction("MousePosition");
         playerActions.Disable();
         
@@ -125,6 +147,9 @@ public class InputManager : MonoBehaviour
 
         playerAttack.performed += OnAttack_Pressed;
         playerAttack.canceled += OnAttack_Released;
+        
+        playerModifier.performed += OnModifier_Pressed;
+        playerModifier.canceled += OnModifier_Released;
 
         cycleTarget.performed += OnCycleTarget_Pressed;
     }
@@ -210,6 +235,17 @@ public class InputManager : MonoBehaviour
         if (onAttack_Released != null) onAttack_Released();
     }
 
+    public void OnModifier_Pressed(InputAction.CallbackContext ctx)
+    {
+        if (onModifier_Pressed != null) onModifier_Pressed();
+        if (OnModifierPressed != null) OnModifierPressed.Raise();
+    }
+    
+    public void OnModifier_Released(InputAction.CallbackContext ctx)
+    {
+        if (onModifier_Released != null) onModifier_Released();
+        if (OnModifierReleased != null) OnModifierReleased.Raise();
+    }
     
     public void OnDownwardAttack()
     {

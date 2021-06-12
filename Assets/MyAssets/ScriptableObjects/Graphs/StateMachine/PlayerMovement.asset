@@ -1237,7 +1237,8 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 0f388a1c12deb7e4d9f0da10066ee4d1, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -1314,7 +1315,19 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 6|GameEventCondition, Assembly-CSharp
+    - Name: targetParameter
+      Entry: 10
       Data: 0
+    - Name: KeepGameEventOn
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -1323,7 +1336,7 @@ MonoBehaviour:
       Data: 
     - Name: DynamicGameEventConditions
       Entry: 7
-      Data: 6|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+      Data: 7|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -1373,9 +1386,7 @@ MonoBehaviour:
   RaiseOnTransitionEvents: []
   ValidStartStates: []
   InvalidStartStates: []
-  TriggerConditions:
-  - targetParameter: {fileID: 11400000, guid: 7c60af321dcfb334893268c7db553cf9, type: 2}
-    KeepTriggerOn: 0
+  TriggerConditions: []
   TimerConditions: []
 --- !u!114 &-7240631049424516675
 MonoBehaviour:
@@ -3004,9 +3015,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Add Impulse Trigger_ Controller_ Player
-
-'
+  conditionPreview: 
   RaiseOnTransitionEvents: []
   ValidStartStates: []
   InvalidStartStates: []
@@ -3191,9 +3200,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Flatten Timer_ Movement_ Player: 0.4 sec
-
-'
+  conditionPreview: 
   RaiseOnTransitionEvents: []
   ValidStartStates: []
   InvalidStartStates: []
@@ -4491,12 +4498,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Is Grounded_ Controller_ Player
-
-    -  Waited Jump Ground
-    Delay_ Movement_ Player
-
-'
+  conditionPreview: 
   RaiseOnTransitionEvents: []
   ValidStartStates: []
   InvalidStartStates: []
@@ -5041,9 +5043,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Meateor Strike Duration Timer_ Movement_ Player: 0.35 sec
-
-'
+  conditionPreview: 
   RaiseOnTransitionEvents: []
   ValidStartStates: []
   InvalidStartStates: []
@@ -6506,9 +6506,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Dash Pressed Trigger_ Controller_ Player
-
-'
+  conditionPreview: 
   RaiseOnTransitionEvents: []
   ValidStartStates: []
   InvalidStartStates: []
@@ -8207,9 +8205,6 @@ MonoBehaviour:
 
     -  Valid:  Forward  Throw  Charge
 
-    -
-    ! Is Grounded_ Controller_ Player
-
 '
   RaiseOnTransitionEvents: []
   ValidStartStates:
@@ -8355,11 +8350,11 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 0
+  collapsed: 1
   BypassState: 0
   Name: GroundMovement
   Description: 
-  isActiveState: 1
+  isActiveState: 0
   BaseSpeed:
     UseConstant: 1
     EnableInstanceOptions: 0
@@ -9755,12 +9750,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Jump Trigger_ Controller_ Player
-
-    -  Flatten Jump Delay
-    Timer_ Movement_ Player: 0.1 sec
-
-'
+  conditionPreview: 
   RaiseOnTransitionEvents: []
   ValidStartStates: []
   InvalidStartStates: []
@@ -11434,9 +11424,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Distance To Ground_ Controller_ Player  Less Than 1
-
-'
+  conditionPreview: 
   RaiseOnTransitionEvents: []
   ValidStartStates: []
   InvalidStartStates: []
@@ -12538,12 +12526,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Sling Shot Optimal Release_ Slingshot_ Player
-
-    -  Slingshot
-    Min Charge Timer_ Roll_ Player: 0.2 sec
-
-'
+  conditionPreview: 
   RaiseOnTransitionEvents: []
   ValidStartStates: []
   InvalidStartStates: []

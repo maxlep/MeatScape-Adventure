@@ -266,7 +266,7 @@ public class StateNode : CollapsableNode
     
     #endregion
 
-    public virtual (StateNode, List<GameEvent>) CheckStateTransitions(List<TriggerVariable> receivedTriggers = null)
+    public virtual (StateNode, TransitionNode) CheckStateTransitions(List<TriggerVariable> receivedTriggers = null)
     {
         //Check for direct connection to state that bypasses transitions
         if (nextNoTransitionState != null) return (nextNoTransitionState, null);
@@ -276,7 +276,7 @@ public class StateNode : CollapsableNode
         {
             if (transition.EvaluateConditions(receivedTriggers))
             {
-                return (transition.GetNextState(), transition.RaiseOnTransitionEvents);
+                return (transition.GetNextState(), transition);
             }
         }
         
@@ -285,7 +285,7 @@ public class StateNode : CollapsableNode
         {
             if (transition.EvaluateConditions(receivedTriggers))
             {
-                return (transition.GetNextState(), transition.RaiseOnTransitionEvents);
+                return (transition.GetNextState(), transition);
             }
         }
 

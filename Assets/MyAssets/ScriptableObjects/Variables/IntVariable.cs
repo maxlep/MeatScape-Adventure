@@ -14,5 +14,10 @@ namespace MyAssets.ScriptableObjects.Variables
         public float GetFloat() => Value;
         public float GetValue(System.Type type) => Value;
 
+        public void Incremenet(int increment)
+        {
+            Value += increment;
+        }
+
     }
 }

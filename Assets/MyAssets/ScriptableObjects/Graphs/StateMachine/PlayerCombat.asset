@@ -564,6 +564,7 @@ MonoBehaviour:
   conditionPreview: '-  Valid:  Meateor  Strike
 
 '
+  RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates:
   - {fileID: 454363467314561103, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
@@ -937,6 +938,7 @@ MonoBehaviour:
     Min Charge Time_ Combat_ Player: 0.2 sec
 
 '
+  RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
   InvalidStartStates: []
@@ -1148,6 +1150,7 @@ MonoBehaviour:
     Clump  N E W!
 
 '
+  RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
   InvalidStartStates:
@@ -1335,6 +1338,7 @@ MonoBehaviour:
   conditionPreview: '-  Invalid:  Roll  Movement
 
 '
+  RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
   InvalidStartStates:
@@ -1541,6 +1545,7 @@ MonoBehaviour:
     -  Valid:  Ground  Slam
 
 '
+  RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates:
   - {fileID: -2916305283311469656, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
@@ -1755,6 +1760,7 @@ MonoBehaviour:
   conditionPreview: '-  Valid:  Flatten
 
 '
+  RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates:
   - {fileID: -8239950027094308354, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
@@ -1992,6 +1998,7 @@ MonoBehaviour:
   conditionPreview: '-  Valid:  Roll  Movement
 
 '
+  RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates:
   - {fileID: 4966931143862885706, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
@@ -2249,6 +2256,7 @@ MonoBehaviour:
   conditionPreview: '-  Invalid:  Flatten
 
 '
+  RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
   InvalidStartStates:
@@ -2403,6 +2411,7 @@ MonoBehaviour:
   conditionPreview: '-  Invalid:  Meateor  Strike
 
 '
+  RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
   InvalidStartStates:
@@ -2490,7 +2499,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 0
+  collapsed: 1
   BypassState: 0
   Name: Ground Slam Attack
   Description: 
@@ -2739,6 +2748,7 @@ MonoBehaviour:
   collapsed: 1
   transitionPriority: 0
   conditionPreview: 
+  RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
   InvalidStartStates: []
@@ -2932,6 +2942,7 @@ MonoBehaviour:
   collapsed: 1
   transitionPriority: 0
   conditionPreview: 
+  RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents:
   - {fileID: 11400000, guid: 00f0be78d68c212419b9e5c5818edcd4, type: 2}
   ValidStartStates: []
@@ -2960,7 +2971,8 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 00c841287f9a4604aaa90ce8bd4328ba, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -2998,7 +3010,68 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 3|IntCondition, Assembly-CSharp
+    - Name: targetParameter
+      Entry: 7
+      Data: 4|MyAssets.ScriptableObjects.Variables.IntReference, Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: false
+    - Name: EnableInstanceOptions
+      Entry: 5
+      Data: false
+    - Name: InstanceName
+      Entry: 6
+      Data: 
+    - Name: InstancePath
+      Entry: 1
+      Data: IntermediateProperties
+    - Name: ConstantValue
+      Entry: 3
       Data: 0
+    - Name: Variable
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: comparator
+      Entry: 3
+      Data: 1
+    - Name: value
+      Entry: 7
+      Data: 5|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
+        Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: true
+    - Name: EnableInstanceOptions
+      Entry: 5
+      Data: false
+    - Name: InstanceName
+      Entry: 1
+      Data: '{I} '
+    - Name: InstancePath
+      Entry: 1
+      Data: IntermediateProperties
+    - Name: InstanceType
+      Entry: 6
+      Data: 
+    - Name: ConstantValue
+      Entry: 4
+      Data: 0
+    - Name: ReferenceValue
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -3007,7 +3080,7 @@ MonoBehaviour:
       Data: 
     - Name: Vector2Conditions
       Entry: 7
-      Data: 3|System.Collections.Generic.List`1[[Vector2Condition, Assembly-CSharp]],
+      Data: 6|System.Collections.Generic.List`1[[Vector2Condition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -3020,7 +3093,7 @@ MonoBehaviour:
       Data: 
     - Name: Vector3Conditions
       Entry: 7
-      Data: 4|System.Collections.Generic.List`1[[Vector3Condition, Assembly-CSharp]],
+      Data: 7|System.Collections.Generic.List`1[[Vector3Condition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -3033,7 +3106,7 @@ MonoBehaviour:
       Data: 
     - Name: GameEventConditions
       Entry: 7
-      Data: 5|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+      Data: 8|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -3046,7 +3119,7 @@ MonoBehaviour:
       Data: 
     - Name: DynamicGameEventConditions
       Entry: 7
-      Data: 6|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+      Data: 9|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -3111,6 +3184,7 @@ MonoBehaviour:
     Valid:  Roll  Dash
 
 '
+  RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates:
   - {fileID: 1196608421412681666, guid: 7a3214574a4315847bb608ab776638ad, type: 2}

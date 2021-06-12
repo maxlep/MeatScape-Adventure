@@ -8,6 +8,7 @@ using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using Sirenix.Utilities;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Rendering.PostProcessing;
 using XNode;
 
@@ -22,10 +23,15 @@ public class TransitionNode : CollapsableNode
     [TextArea(3,10)] [HideLabel] [HideIf("$collapsed")]
     [SerializeField] private string conditionPreview;
     
+    [Tooltip("Unity Events that are raised when this transition is applied")] 
+    [ListDrawerSettings(Expanded = true, DraggableItems = false)] [Required]
+    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.85f, .85f, .95f)]  [HideIf("$collapsed")]
+    [SerializeField] private List<UnityEvent> RaiseOnTransitionUnityEvents = new List<UnityEvent>();
+    
     [Tooltip("Game Events that are raised when this transition is applied")] 
     [ListDrawerSettings(Expanded = true, DraggableItems = false)] [Required]
     [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.85f, .85f, .95f)]  [HideIf("$collapsed")]
-    public List<GameEvent> RaiseOnTransitionEvents = new List<GameEvent>();
+    [SerializeField] private List<GameEvent> RaiseOnTransitionEvents = new List<GameEvent>();
 
     [Tooltip("Transition only valid if ANY 1 or more of these states are active in respective state machine")] 
     [ListDrawerSettings(Expanded = true, DraggableItems = false)] [Required]
@@ -293,7 +299,13 @@ public class TransitionNode : CollapsableNode
     {
         GameEventConditions.ForEach(e => e.ResetGameEvent());
         DynamicGameEventConditions.ForEach(e => e.ResetGameEvent());
+    }
 
+    public void RaiseTransitionEvents()
+    {
+        //Raise the unity and game events for valid transition
+        RaiseOnTransitionEvents.ForEach(e => e?.Raise());
+        RaiseOnTransitionUnityEvents.ForEach(e => e?.Invoke());
     }
     
 }

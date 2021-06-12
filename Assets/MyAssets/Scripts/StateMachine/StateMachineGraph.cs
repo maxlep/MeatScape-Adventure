@@ -34,8 +34,8 @@ public class StateMachineGraph : NodeGraph
 
     private List<StartNode> startNodes = new List<StartNode>();
     private HashSet<TriggerVariable> triggersFromTransitions = new HashSet<TriggerVariable>();
-    private List<(StateNode fromState, StateNode toState, List<GameEvent> transitionEvents)> validTransitions = 
-        new List<(StateNode fromState, StateNode toState, List<GameEvent> transitionEvents)>();
+    private List<(StateNode fromState, StateNode toState, TransitionNode transition)> validTransitions = 
+        new List<(StateNode fromState, StateNode toState, TransitionNode transition)>();
     private List<TriggerVariable> receivedTriggers = new List<TriggerVariable>();
     private bool debugOnStateChange = false;
 
@@ -282,16 +282,17 @@ public class StateMachineGraph : NodeGraph
         //Store valid state changes
         for (int i = 0; i < currentStates.Count; i++)
         {
-            (StateNode nextState, List<GameEvent> transitionEvents) = currentStates[i].CheckStateTransitions(receivedTriggers);
-            if (nextState != null) validTransitions.Add((currentStates[i], nextState, transitionEvents));
+            (StateNode nextState, TransitionNode transition) = currentStates[i].CheckStateTransitions(receivedTriggers);
+            if (nextState != null) validTransitions.Add((currentStates[i], nextState, transition));
+            
         }
     }
 
     public void ApplyValidTransitions()
     {
-        foreach (var (exitingState, nextState, transitionEvents) in validTransitions)
+        foreach (var (exitingState, nextState, transition) in validTransitions)
         {
-            transitionEvents?.ForEach(e => e.Raise());
+            transition?.RaiseTransitionEvents();
             ChangeState(exitingState, nextState);
         }
 
@@ -320,10 +321,10 @@ public class StateMachineGraph : NodeGraph
     {
         if (nodeToBypass.GetBypassState())
         {
-            (StateNode bypassNextState, List<GameEvent> transitionEvents) = nodeToBypass.CheckStateTransitions();
+            (StateNode bypassNextState,TransitionNode transition) = nodeToBypass.CheckStateTransitions();
             if (bypassNextState != null)
             {
-                transitionEvents?.ForEach(e => e.Raise());
+                transition?.RaiseTransitionEvents();
                 return GetBypassStateRecursively(bypassNextState);
             }
                 

@@ -326,11 +326,11 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
             var lerpFactor = strideLengthDeltaRatio < 0f ? Mathf.Lerp(0.5f, 0.01f, Mathf.Abs(strideLengthDeltaRatio)) : 1f;
             _currentStepResultantMoveFactor = _resultantMoveFactor.Value;
             _currentStepMoveInputFactor = _moveInputFactor.Value;
-            var prev = _currentStepTargetStrideLength;
+            // var prev = _currentStepTargetStrideLength;
             _currentStepTargetStrideLength = Mathf.Lerp(_currentStepTargetStrideLength,  _targetStrideLength.Value, lerpFactor);
             //_currentStepTargetStrideLength = _targetStrideLength.Value;
             _walkCycleLength = 2 * _currentStepTargetStrideLength;
-            Debug.Log($"Delta: {strideLengthDeltaRatio}, Current: {prev}, Target: {_targetStrideLength.Value}, New: {_currentStepTargetStrideLength}");
+            // Debug.Log($"Delta: {strideLengthDeltaRatio}, Current: {prev}, Target: {_targetStrideLength.Value}, New: {_currentStepTargetStrideLength}");
             
             _currentStepLeapTime = (_strideLeapFactor.MaxTime - _strideLeapFactor.MinTime) * _currentStepTargetStrideLength / _currentSpeed;
 

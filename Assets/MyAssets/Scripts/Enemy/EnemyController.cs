@@ -21,6 +21,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] protected MMFeedbacks deathFeedbacks;
     [SerializeField] protected GameObject destroyOnDeathObj;
     [SerializeField] protected DynamicGameEvent SpawnMeatEvent;
+    [SerializeField] protected bool SpawnMeatOnDeath = true;
     [SerializeField] protected HealthBar healthBar;
     
 
@@ -84,11 +85,14 @@ public class EnemyController : MonoBehaviour
     {
         behaviorTree.DisableBehavior();
         OnDeath?.Invoke();
-        SpawnManager.SpawnInfo spawnInfo = new SpawnManager.SpawnInfo()
+        if (SpawnMeatOnDeath)
         {
-            position = transform.position
-        };
-        SpawnMeatEvent.Raise(spawnInfo);
+            SpawnManager.SpawnInfo spawnInfo = new SpawnManager.SpawnInfo()
+            {
+                position = transform.position
+            };
+            SpawnMeatEvent.Raise(spawnInfo);
+        }
         OnDeathEvent?.Invoke();
         if (destroyOnDeathObj != null)
             Destroy(destroyOnDeathObj);

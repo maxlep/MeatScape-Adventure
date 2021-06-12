@@ -53,6 +53,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [SerializeField] private TransformSceneReference freeLookCamRef;
     public bool invincible;
     [SerializeField] private bool noHungerDecay;
+    [SerializeField] private bool noRegenFromMeatContact;
     [SerializeField] private bool ignoreInput;
     [ShowIf("ignoreInput"), SerializeField] private Vector2Reference fakeMoveInput;
 
@@ -78,6 +79,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference DashPressed;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector3Reference PreviousVelocity;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private FloatReference DistanceToGround;
+    [FoldoutGroup("Referenced Outputs")] [SerializeField] private FloatReference DistanceToMeatGround;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference IsPlayerDead;
 
     #endregion
@@ -110,6 +112,9 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
 
     [Title("Hunger value")]
+    [FoldoutGroup("Hunger Parameters"), SerializeField] private LayerMask HungerSurfaceMask;
+    [FoldoutGroup("Hunger Parameters"), SerializeField] private FloatReference DistanceToMeatGroundThreshold;
+    [FoldoutGroup("Hunger Parameters"), SerializeField] private FloatReference DistancePerClump;
     [FoldoutGroup("Hunger Parameters"), SerializeField] private TimerReference HungerDecayTimer;
     [FoldoutGroup("Hunger Parameters"), SerializeField] private IntReference HungerSoftMax;
     [FoldoutGroup("Hunger Parameters"), SerializeField] private IntReference HungerOut;
@@ -135,7 +140,11 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     private Vector3 moveDirection;
     private InputAction playerMove;
-    private GroundingInfo groundInfo;
+    
+    private GroundingInfo groundInfo, meatGroundInfo;
+    private bool isMeatGrounded => DistanceToMeatGround.Value <= DistanceToMeatGroundThreshold.Value;
+    private bool isRegeneratingMeat;
+    private float meatDistance;
 
     public KinematicCharacterMotor CharacterMotor => charMotor;
     public CharacterGroundingReport GroundingStatus => charMotor.GroundingStatus;
@@ -455,6 +464,20 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
             IncrementHunger(-1);
             HungerDecayTimer.RestartTimer();
         }
+
+        if (isMeatGrounded && isRegeneratingMeat && !noRegenFromMeatContact)
+        {
+            meatDistance += PreviousVelocity.Value.magnitude * Time.deltaTime;
+            if (meatDistance >= DistancePerClump.Value)
+            {
+                meatDistance %= DistancePerClump.Value;
+                IncrementHunger(1);
+            }
+        }
+        else if (!isMeatGrounded)
+        {
+            meatDistance = 0;
+        }
     }
 
     public void UpdateScale(float prevValue, float value)
@@ -468,6 +491,16 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
             capsuleStartHeight * Scale.Value,
             capsuleStartCenter.y - capsuleStartHeight / 2 + Scale.Value * capsuleStartHeight * 0.5f
         );
+    }
+
+    public void SetRegenerating(bool value)
+    {
+        isRegeneratingMeat = value;
+    }
+
+    public void ResetMeatDistance()
+    {
+        meatDistance = 0;
     }
 
     public void UpdateStarvation(float value)
@@ -580,8 +613,10 @@ private void OnDeath()
         IsGrounded.Value = charMotor.GroundingStatus.FoundAnyGround;
         IsOnSlidebleSlope.Value = StandingOnSlideableSlope();
         BaseVelocity.Value = charMotor.BaseVelocity;
-        groundInfo = GetGroundInfo();
+        groundInfo = GetGroundInfo(charMotor.StableGroundLayers);
         DistanceToGround.Value = groundInfo.distance;
+        meatGroundInfo = GetGroundInfo(HungerSurfaceMask);
+        DistanceToMeatGround.Value = meatGroundInfo.distance;
         GroundSlamCooldownTimer.UpdateTime();
 
         if (!LastGroundingStatus.FoundAnyGround && GroundingStatus.FoundAnyGround)
@@ -605,16 +640,17 @@ private void OnDeath()
     }
     
     //Cast downward from collider to get info about ground below
-    private GroundingInfo GetGroundInfo()
+    private GroundingInfo GetGroundInfo(LayerMask groundMask)
     {
         GroundingInfo info = new GroundingInfo();
         RaycastHit hit;
-        bool foundGroundBelow = CastColliderDown(out hit, Mathf.Infinity);
+        var offset = Vector3.up * collider.bounds.size.y;
+        bool foundGroundBelow = CastColliderDown(out hit, offset, Mathf.Infinity, groundMask);
         if (foundGroundBelow)
         {
             info.foundGround = true;
             info.normal = hit.normal;
-            info.distance = hit.distance;
+            info.distance = hit.distance - offset.y;
         }
         else
         {
@@ -626,10 +662,11 @@ private void OnDeath()
         return info;
     }
 
-    private bool CastColliderDown(out RaycastHit hit, float dist)
+    private bool CastColliderDown(out RaycastHit hit, Vector3 offset, float dist, LayerMask groundMask)
     {
-        LayerMask groundMask = charMotor.StableGroundLayers;
-        if (Physics.SphereCast(collider.bounds.center, collider.bounds.size.z, Vector3.down, out hit,
+        var bounds = collider.bounds;
+        var center = bounds.center + (Vector3.up * (-bounds.extents.y + bounds.extents.z));
+        if (Physics.SphereCast(center + offset, collider.bounds.extents.z, Vector3.down, out hit,
             dist, groundMask))
         {
             return true;

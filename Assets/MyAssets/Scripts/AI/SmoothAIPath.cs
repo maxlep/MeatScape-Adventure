@@ -57,7 +57,7 @@ public class SmoothAIPath : MonoBehaviour
         // We got our path back
         if (p.error) {
             // Nooo, a valid path couldn't be found
-            RequestPath();
+            //RequestPath();
         } else {
             currentPath = p.vectorPath;
             currentPathIndex = 0;
@@ -80,11 +80,14 @@ public class SmoothAIPath : MonoBehaviour
         if (isStopped) return;
 
         Vector3 deltaMove = Vector3.zero;
-        Vector3 dirToNextPoint = (currentPath[currentPathIndex] - transform.position).normalized;
+        Vector3 vecToNextPoint = currentPath[currentPathIndex] - transform.position;
+        vecToNextPoint.y = 0;
 
         //Flatten rot, then Rotate Towards Target
-        transform.rotation = Quaternion.LookRotation(transform.forward.xoz(), Vector3.up);
-        Quaternion targetRot = Quaternion.LookRotation(dirToNextPoint.xoz(), Vector3.up);
+        var forward = transform.forward;
+        forward.y = 0;
+        transform.rotation = Quaternion.LookRotation(forward, Vector3.up);
+        Quaternion targetRot = Quaternion.LookRotation(vecToNextPoint, Vector3.up);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRot, TurnSpeed);
         
         //Move position Horizontally
@@ -102,8 +105,7 @@ public class SmoothAIPath : MonoBehaviour
             //Use MoveTowards to find point want to move to (given move delta), then get delta to that point
             Vector3 targetOffsetTowards =
                 Vector3.MoveTowards(transform.position, targetOffset, MoveSpeedY * Time.deltaTime);
-            Vector3 deltaMoveY = (targetOffsetTowards - transform.position).oyo();
-            deltaMove += deltaMoveY;
+            deltaMove.y += (targetOffsetTowards - transform.position).y;
         }
         
         //Avoid other enemies
@@ -121,7 +123,7 @@ public class SmoothAIPath : MonoBehaviour
             averagePosition /= enemyColliders.Length;
 
             Vector3 dirAwayFromEnemies = (transform.position - averagePosition).normalized;
-            deltaMove += dirAwayFromEnemies * AvoidEnemyVelocity * Time.deltaTime;
+            deltaMove += dirAwayFromEnemies * (AvoidEnemyVelocity * Time.deltaTime);
         }
 
         CharController.Move(deltaMove);

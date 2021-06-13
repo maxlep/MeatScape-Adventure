@@ -41,6 +41,31 @@ namespace MyAssets.Scripts.Utils
         }
         
         #endregion
+        
+        #region Distance
+        
+        public static float SqrDistance(this Vector3 point1, Vector3 point2)
+        {
+            return Mathf.Pow(point2.x - point1.x, 2) +
+                   Mathf.Pow(point2.y - point1.y, 2) +
+                   Mathf.Pow(point2.z - point1.z, 2);
+        }
+
+        public static float SqrDistanceMasked(this Vector3 point1, Vector3 point2, bool includeX = true,
+            bool includeY = true, bool includeZ = true)
+        {
+            return (includeX ? Mathf.Pow(point2.x - point1.x, 2) : 0) +
+                   (includeY ? Mathf.Pow(point2.y - point1.y, 2) : 0) +
+                   (includeZ ? Mathf.Pow(point2.z - point1.z, 2) : 0);
+        }
+        
+        public static float SqrDistanceIgnoreY(this Vector3 point1, Vector3 point2)
+        {
+            return Mathf.Pow(point2.x - point1.x, 2) +
+                   Mathf.Pow(point2.z - point1.z, 2);
+        }
+        
+        #endregion
 
         public static Vector2 RoundNearZero(this Vector2 vec)
         {

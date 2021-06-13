@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using MyAssets.Scripts.Utils;
@@ -25,10 +26,12 @@ public class SmoothAIPath : MonoBehaviour
     private int currentPathIndex;
     private float lastRequestTime = Mathf.NegativeInfinity;
     private bool isStopped;
+    private float sqrStoppingDistance;
     
     private void Start ()
     {
         RequestPath();
+        sqrStoppingDistance = Mathf.Pow(StoppingDistance, 2);
     }
 
     private void Update()
@@ -65,8 +68,11 @@ public class SmoothAIPath : MonoBehaviour
     {
         //If within stopping distance of next point, increment index
         //For now ignoring the y pos when checking if reached destination
-        if (Vector3.Distance(transform.position.xoz(), currentPath[currentPathIndex].xoz()) <= StoppingDistance)
+        var sqrDistanceIgnoreY = transform.position.SqrDistanceIgnoreY(currentPath[currentPathIndex]);
+        if (sqrDistanceIgnoreY <= sqrStoppingDistance)
+        {
             currentPathIndex = Mathf.Min(currentPathIndex + 1, currentPath.Count - 1);
+        }
     }
 
     private void Move()

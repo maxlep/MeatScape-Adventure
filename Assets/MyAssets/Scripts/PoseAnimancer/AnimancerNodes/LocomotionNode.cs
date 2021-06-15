@@ -21,6 +21,8 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
 {
     public class LocomotionNode : AnimationStateNode
     {
+        [TabGroup("Base","Animation"),Range(1,10)] public int DilationPower = 1; 
+        
         [TabGroup("Base","Animation"),SerializeField] private AvatarMask _locomotionMask;
         [TabGroup("Base","Animation"),SerializeField] private MixerState.Transition2D _move;
         [TabGroup("Base","Animation"),SerializeField] private float _leanFactor;
@@ -273,11 +275,19 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
                     _isMidStride = true;
                 }
 
-                var dilationFactor = _bakedStrideLength.Value / _currentStepTargetStrideLength;
+                var dilationPower = Mathf.RoundToInt(_bakedStrideLength.Value / _currentStepTargetStrideLength);
+                dilationPower = Mathf.Clamp(dilationPower, 1, 5);
+                dilationPower = DilationPower;
+                var strideIndex = Mathf.FloorToInt(_walkCyclePercent * 2);
+                var dilatedWalkCyclePercent = ExponentialEaseInOutReverseSolve2(_stridePercent, dilationPower, strideIndex * 0.5f, 0.5f, 1);
+                dilatedWalkCyclePercent = Mathf.Clamp01(dilatedWalkCyclePercent);
+                if (float.IsPositiveInfinity(dilatedWalkCyclePercent)) dilatedWalkCyclePercent = 1;
+                if (float.IsNegativeInfinity(dilatedWalkCyclePercent)) dilatedWalkCyclePercent = 0;
 
                 _move.State.Parameter = new Vector2(0, _currentStepRunBlendFactor);
                 _move.State.Speed = 1;
-                _move.State.NormalizedTime = _walkCyclePercent;
+                // _move.State.NormalizedTime = _walkCyclePercent;
+                _move.State.NormalizedTime = dilatedWalkCyclePercent;
                 
                 // TODO WARNING Events may be double triggered
                 // Animancer doesn't trigger events that are passed by setting normalizedTime, only events where normalizedTime happens to collide exactly
@@ -357,6 +367,47 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
             var remapX = (x * 2) - 1;
             var dilated = 1 - Mathf.Pow(Math.Abs(remapX), dilationPower);
             return dilated;
+        }
+
+        private float ExponentialEaseInOut(float time, float power, float startValue, float deltaValue, float duration)
+        {
+            time /= duration / 2f;
+            if (time < 1) return deltaValue / 2f * Mathf.Pow(time, power) + startValue;
+            time -= 2;
+            return deltaValue / 2f * (Mathf.Pow(time, power) + 2) + startValue;
+        }
+        
+        private float ExponentialEaseInOutReverseSolve2(float time, int power, float startValue, float deltaValue, float duration)
+        {
+            var halfWidth = deltaValue / 2f;
+            time /= duration / 2f;
+            time -= 1;
+            if (time < 0)
+            {
+                var sign = power % 2 == 0 ? -1 : 1;
+                var factor = Mathf.Pow(time, power) * sign + 1;
+                return halfWidth * factor + startValue;
+            }
+            else
+            {
+                // time -= 2;
+                var factor = Mathf.Pow(time, power) + 1;
+                return halfWidth * factor + startValue;
+            }
+        }
+        
+        private float ExponentialEaseInOutReverseSolve(float value, float power, float startValue, float deltaValue, float duration)
+        {
+            var temp = (value - startValue) * 2f / deltaValue;
+            var time = Mathf.Pow(temp, 1f / power);
+            if (time >= 1)
+            {
+                time = Mathf.Pow(temp - 2f, 1f / power);
+                time += 2;
+            }
+            time *= duration / 2f;
+            
+            return time;
         }
 
         public override void DrawGizmos()

@@ -401,7 +401,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     public void Damage(int damage, Vector3 knockbackDir, float knockbackSpeed)
     {
         //State invincibility
-        if(isInvincible) return;
+        if(isInvincible || invincible) return;
 
         //Invincibility time after damage
         if(lastDamageTime + InvincibilityTime.Value > Time.time)

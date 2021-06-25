@@ -13,25 +13,39 @@ public class SmoothAIPath : MonoBehaviour
     [SerializeField] private CharacterController CharController;
     [SerializeField] private LayerMask GroundMask;
     [SerializeField] private LayerMask EnemyMask;
+    [SerializeField] private Collider HomeTrigger;
+    [SerializeField] private TransformSceneReference HomeContainerRef;
     [SerializeField] private float PathRequestDelay = .1f;
     [SerializeField] private float StoppingDistance = 5f;
     [SerializeField] private float MoveSpeedX = 10f;
     [SerializeField] private float MoveSpeedY = 3f;
     [SerializeField] private float TurnSpeed = 3f;
+    [SerializeField] private float MinTurnAngle = 20f;
     [SerializeField] private float GroundOffset = 15f;
     [SerializeField] private float AvoidEnemyVelocity = 5f;
     [SerializeField] private float AvoidEnemyRadius = 25f;
 
-    private List<Vector3> currentPath = new List<Vector3>();
+    public Transform Home => home;
+    public bool IsHome => isHome;
+
+    public List<Vector3> currentPath = new List<Vector3>();
     private int currentPathIndex;
     private float lastRequestTime = Mathf.NegativeInfinity;
     private bool isStopped;
+    private bool isHome;
     private float sqrStoppingDistance;
-    
+    private Transform home;
+
     private void Start ()
     {
         RequestPath();
         sqrStoppingDistance = Mathf.Pow(StoppingDistance, 2);
+        
+        //Create home transform at spawn position
+        home = new GameObject("Home").transform;
+        if (HomeContainerRef != null) home.transform.parent = HomeContainerRef.Value;
+        home.transform.position = transform.position;
+        isHome = true;
     }
 
     private void Update()
@@ -53,42 +67,92 @@ public class SmoothAIPath : MonoBehaviour
         lastRequestTime = Time.time;
     }
 
+    private void ValidatePath(List<Vector3> path)
+    {
+        List<Vector3> validatedPath = new List<Vector3>();
+        
+        if (HomeTrigger != null)
+        {
+            //Remove path points outside of home trigger
+            foreach (var pathPoint in path)
+            {
+                Vector3 closestPointInHome = HomeTrigger.ClosestPoint(pathPoint);
+                if (closestPointInHome == pathPoint)
+                {
+                    validatedPath.Add(pathPoint);
+                }
+                else
+                {
+                    //Move point to closest point in home and stop path
+                    validatedPath.Add(closestPointInHome);
+                    break;
+                }
+            } 
+        }
+        
+        
+        //Remove path points already within stopping distance
+        foreach (var pathPoint in path)
+        {
+            if (!HasReachedPoint(pathPoint))
+                validatedPath.Add(pathPoint);
+        }
+
+        currentPath = validatedPath;
+        currentPathIndex = 0;
+    }
+
     public void OnPathComplete (Path p) {
         // We got our path back
         if (p.error) {
             // Nooo, a valid path couldn't be found
             //RequestPath();
-        } else {
-            currentPath = p.vectorPath;
-            currentPathIndex = 0;
+            //currentPath = null;
+        } else
+        {
+            ValidatePath(p.vectorPath);
         }
     }
 
     private void CheckReachedNextPoint()
     {
         //If within stopping distance of next point, increment index
-        //For now ignoring the y pos when checking if reached destination
-        var sqrDistanceIgnoreY = transform.position.SqrDistanceIgnoreY(currentPath[currentPathIndex]);
-        if (sqrDistanceIgnoreY <= sqrStoppingDistance)
-        {
+        //For now ignoring the y pos when checking if reached destination.
+        var nextPoint = currentPath[currentPathIndex];
+        if (HasReachedPoint(nextPoint))
             currentPathIndex = Mathf.Min(currentPathIndex + 1, currentPath.Count - 1);
-        }
+        
+    }
+
+    private bool HasReachedPoint(Vector3 point)
+    {
+        //If within stopping distance of point
+        //For now ignoring the y pos when checking if reached destination.
+        var sqrDistanceIgnoreY = transform.position.SqrDistanceIgnoreY(point);
+        return (sqrDistanceIgnoreY <= sqrStoppingDistance);
     }
 
     private void Move()
     {
         if (isStopped) return;
+        if (currentPathIndex == currentPath.Count - 1) return;
 
         Vector3 deltaMove = Vector3.zero;
-        Vector3 vecToNextPoint = currentPath[currentPathIndex] - transform.position;
-        vecToNextPoint.y = 0;
+        Vector3 vecToNextPoint = (currentPath[currentPathIndex] - transform.position);
 
         //Flatten rot, then Rotate Towards Target
-        var forward = transform.forward;
-        forward.y = 0;
-        transform.rotation = Quaternion.LookRotation(forward, Vector3.up);
-        Quaternion targetRot = Quaternion.LookRotation(vecToNextPoint, Vector3.up);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRot, TurnSpeed);
+        transform.rotation = Quaternion.LookRotation(transform.forward.xoz(), Vector3.up);
+        Quaternion targetRot = Quaternion.LookRotation(vecToNextPoint.xoz(), Vector3.up);
+
+        //Increase trun speed as the angle to target rot increases [0 deg-> 180 deg] -> [1x, 2x]
+        float angleToTarget = Vector3.Angle(transform.forward.xoz(), vecToNextPoint.xoz());
+        float angleFactor = Mathf.InverseLerp(0f, 180f, angleToTarget);
+        float turnSpeedMult = Mathf.Lerp(.5f, 1.5f, angleFactor);
+        
+        float turnSpeed = TurnSpeed * turnSpeedMult;
+        if (angleToTarget < MinTurnAngle) turnSpeed = 0f;
+        
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRot, turnSpeed);
         
         //Move position Horizontally
         Vector3 horizontalVelocity = transform.forward * MoveSpeedX;
@@ -156,6 +220,24 @@ public class SmoothAIPath : MonoBehaviour
         isStopped = true;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (HomeTrigger == null) return;
+        
+        //If enter home trigger
+        if (other.gameObject.transform.Equals(HomeTrigger.transform))
+            isHome = true;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (HomeTrigger == null) return;
+
+        //If exit home trigger
+        if (other.gameObject.transform.Equals(HomeTrigger.transform))
+            isHome = false;
+    }
+
     private void OnDrawGizmos()
     {
         // set up all static parameters. these are used for all following Draw.Line calls
@@ -169,7 +251,7 @@ public class SmoothAIPath : MonoBehaviour
         {
             Vector3 startPos = (i == currentPathIndex) ? transform.position : currentPath[i - 1];
             Vector3 endPos = (i == currentPath.Count - 1) ? currentPath[i] : currentPath[i + 1];
-            Draw.Line(startPos, endPos, new Color(.3f, 1f, .8f, .35f));
+            Draw.Line(startPos, endPos, new Color(.7f, .5f, .8f, .35f));
         }
     }
 }

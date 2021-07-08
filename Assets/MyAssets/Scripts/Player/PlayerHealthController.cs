@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using Den.Tools;
 using MyAssets.ScriptableObjects.Variables;
@@ -36,6 +37,11 @@ public class PlayerHealthController : MonoBehaviour
 
     private void InitMaxHealth()
     {
+        for (int i = 0; i < healthBarRect.childCount; i++)
+        {
+            GameObject child = healthBarRect.GetChild(i).gameObject;
+            Destroy(child);
+        }
         for (int i = 0; i < maxHungerLevel.Value; i++)
         {
             GameObject healthTick = Instantiate(healthTickPrefab, healthBarRect);

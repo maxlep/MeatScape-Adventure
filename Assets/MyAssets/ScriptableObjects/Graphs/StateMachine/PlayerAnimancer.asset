@@ -377,7 +377,16 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    - < Const>0.75  Less
+    Than  Run_ Input_ Factor_ Player
+
+    -  Player Move Input_ Controller_ Player.
+    X  Abs Less Than 0.001. X &&  Player Move Input_ Controller_ Player. Y  Abs Less
+    Than 0.001. Y
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -1071,7 +1080,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Slide Turning_ Movement_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -1223,7 +1234,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '- < Const>0.06033173: 0.15 sec
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -1566,6 +1579,9 @@ MonoBehaviour:
         reroutePoints: []
       - fieldName: transitions
         node: {fileID: -1018658932365461840}
+        reroutePoints: []
+      - fieldName: transitions
+        node: {fileID: -2815708332468142075}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -2168,7 +2184,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Do Nothing (Combat Anim)
   Description: 
-  isActiveState: 1
+  isActiveState: 0
   transitionTime: 0
   transitionCurve:
     serializedVersion: 2
@@ -2619,7 +2635,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '- ! Is Fast Turning_ Movement_ Player
+
+    - < Const>0.1  Greater
+    Than  Run_ Input_ Factor_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -3228,7 +3249,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Fast Turn Completed_ Movement_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -3478,13 +3501,68 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '- ! Is Grounded_ Controller_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
   InvalidStartStates: []
   TriggerConditions: []
   TimerConditions: []
+--- !u!114 &-2815708332468142075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: Stopping Skid NEW! <Reference>
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 3128, y: 88}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: -2815708332468142075}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: -2815708332468142075}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: startingState
+        node: {fileID: -7176834836780725009}
+        reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: -2350006928959415067}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  referencedState: {fileID: 2498406826369069145}
 --- !u!114 &-2460068159231586858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3888,6 +3966,9 @@ MonoBehaviour:
         reroutePoints: []
       - fieldName: transitions
         node: {fileID: -1018658932365461840}
+        reroutePoints: []
+      - fieldName: transitions
+        node: {fileID: -2815708332468142075}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -4512,7 +4593,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Fast Turn Triggered_ Movement_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -4661,6 +4744,7 @@ MonoBehaviour:
   - {fileID: -2201406544706771554}
   - {fileID: 866398115274446673}
   - {fileID: -7890595822532019177}
+  - {fileID: -2815708332468142075}
 --- !u!114 &76974204168438925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5072,7 +5156,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Fast Turning_ Movement_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -5680,7 +5766,14 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    -  Move_ Player_ Resultant_
+    Anim_ Player. X  Abs Greater Than 0. X &&  Move_ Player_ Resultant_ Anim_ Player.
+    Y  Ignore 0. Y &&  Move_ Player_ Resultant_ Anim_ Player. Z  Abs Greater Than
+    0. Z
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -6253,7 +6346,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Slide Turn Triggered_ Movement_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -6508,6 +6603,9 @@ MonoBehaviour:
   collapsed: 1
   transitionPriority: 0
   conditionPreview: '-  Invalid:  Forward  Throw  Start
+
+    -  Pitch Clump Complete_
+    Anim_ Player
 
 '
   RaiseOnTransitionUnityEvents: []
@@ -6862,7 +6960,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Walk NEW!
   Description: 
-  isActiveState: 1
+  isActiveState: 0
   transitionTime: 0
   transitionCurve:
     serializedVersion: 2
@@ -7912,7 +8010,13 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '- ! Is Grounded_ Controller_ Player
+
+    -  Move_ Player_ Resultant_
+    Anim_ Player. X  Ignore 0. X &&  Move_ Player_ Resultant_ Anim_ Player. Y  Less
+    Than 0.1. Y &&  Move_ Player_ Resultant_ Anim_ Player. Z  Ignore 0. Z
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -8265,7 +8369,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Acceleration Lean
   Description: 
-  isActiveState: 1
+  isActiveState: 0
   transitionTime: 0
   transitionCurve:
     serializedVersion: 2
@@ -8749,7 +8853,14 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    -  Move_ Player_ Resultant_
+    Anim_ Player. X  Abs Less Than 0.001. X &&  Move_ Player_ Resultant_ Anim_ Player.
+    Y  Ignore 0. Y &&  Move_ Player_ Resultant_ Anim_ Player. Z  Abs Less Than 0.001.
+    Z
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -9130,9 +9241,18 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 0
+  collapsed: 1
   transitionPriority: 0
   conditionPreview: '-  Valid:  Ground Movement
+
+    - ! Is Fast Turning_ Movement_
+    Player
+
+    - < Const>0.2  Less Than  Run_ Input_ Factor_ Player
+
+    -  Player
+    Move Input_ Controller_ Player. X  Abs Greater Than 0.001. X &&  Player Move
+    Input_ Controller_ Player. Y  Abs Greater Than 0.001. Y
 
 '
   RaiseOnTransitionUnityEvents: []
@@ -9285,7 +9405,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 0
+  collapsed: 1
   transitionPriority: 0
   conditionPreview: '-  Valid:  Roll  Movement
 
@@ -9622,11 +9742,11 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 0
+  collapsed: 1
   BypassState: 0
   Name: Parameter Processor
   Description: 
-  isActiveState: 1
+  isActiveState: 0
   subGraph: {fileID: 11400000, guid: 3833a745fc2f8524cb9f2b661e39a5ed, type: 2}
   subStates:
   - {fileID: 5592738946215276755, guid: 3833a745fc2f8524cb9f2b661e39a5ed, type: 2}
@@ -9876,7 +9996,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 0
+  collapsed: 1
   transitionPriority: 0
   conditionPreview: '-  Invalid:  Roll  Movement
 

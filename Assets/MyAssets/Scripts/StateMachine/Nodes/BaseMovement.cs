@@ -178,6 +178,26 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             return false;
         }
 
+        protected Vector3 CalculateEffectiveGroundNormal(Vector3 currentVelocity, float currentVelocityMagnitude, KinematicCharacterMotor motor)
+        {
+            Vector3 effectiveGroundNormal = motor.GroundingStatus.GroundNormal;
+            if (currentVelocityMagnitude > 0f && motor.GroundingStatus.SnappingPrevented)
+            {
+                // Take the normal from where we're coming from
+                Vector3 groundPointToCharacter = motor.TransientPosition - motor.GroundingStatus.GroundPoint;
+                if (Vector3.Dot(currentVelocity, groundPointToCharacter) >= 0f)
+                {
+                    effectiveGroundNormal = motor.GroundingStatus.OuterGroundNormal;
+                }
+                else
+                {
+                    effectiveGroundNormal = motor.GroundingStatus.InnerGroundNormal;
+                }
+            }
+
+            return effectiveGroundNormal;
+        }
+
         protected Vector3 CalculateRedirectedImpulse(Vector3 addImpulse)
         {
             //Make it range [0, maxDegrees] based on move input

@@ -165,11 +165,11 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         {
             var GroundingStatus = playerController.GroundingStatus;
             
-            //If no move input, just face cam forward
+            //If no move input, just face cam forward flattened onto slope
             if (Mathf.Approximately(0f, moveInputCameraRelative.sqrMagnitude))
             {
-                NewRotationOut.Value = Quaternion.LookRotation(PlayerCameraTransform.Value.forward.xoz(),
-                    GroundingStatus.GroundNormal);
+                Vector3 camDirOnSlope = FlattenDirectionOntoSlope(PlayerCameraTransform.Value.forward.xoz(), GroundingStatus.GroundNormal);
+                NewRotationOut.Value = Quaternion.LookRotation(camDirOnSlope, GroundingStatus.GroundNormal);
                 return;
             }
 

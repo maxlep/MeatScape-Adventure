@@ -150,8 +150,27 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             
             Vector3 totalImpulse = impulseVelocity;
             Vector3 resultingVelocity;
-            Vector3 horizontalVelocity = CalculateHorizontalVelocity(currentVelocity);
-            Vector3 verticalVelocity = CalculateVerticalVelocity(currentVelocity);
+            
+            float currentVelocityMagnitude = currentVelocity.magnitude;
+            KinematicCharacterMotor motor = playerController.CharacterMotor;
+            
+            #region Effective Normal & Reorient Vel on Slope
+            
+            Vector3 effectiveGroundNormal = motor.GroundingStatus.GroundNormal;
+            
+            if (motor.GroundingStatus.FoundAnyGround)
+            {
+                //Get effective ground normal based on move direction
+                effectiveGroundNormal = CalculateEffectiveGroundNormal(currentVelocity, currentVelocityMagnitude, motor);
+
+                // Reorient velocity on slope
+                currentVelocity = motor.GetDirectionTangentToSurface(currentVelocity, effectiveGroundNormal) * currentVelocityMagnitude;
+            }
+            
+            #endregion
+
+            Vector3 horizontalVelocity = CalculateHorizontalVelocity(currentVelocity, effectiveGroundNormal);
+            Vector3 verticalVelocity = CalculateVerticalVelocity(currentVelocity, effectiveGroundNormal);
 
             //Redirect impulseVelocityRedirectble if conditions met
             if (EnableRedirect && CheckRedirectConditions(impulseVelocityRedirectble))
@@ -178,7 +197,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
         }
 
-        private Vector3 CalculateHorizontalVelocity(Vector3 currentVelocity)
+        private Vector3 CalculateHorizontalVelocity(Vector3 currentVelocity, Vector3 effectiveGroundNormal)
         {
             if (EnableFastTurn)
                 CheckForFastTurn(currentVelocity);
@@ -217,7 +236,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             return currentVelocity.xoz() + moveInputCameraRelative * acceleration + dragVelocity;
         }
         
-        private Vector3 CalculateVerticalVelocity(Vector3 currentVelocity)
+        private Vector3 CalculateVerticalVelocity(Vector3 currentVelocity, Vector3 effectiveGroundNormal)
         {
             CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
             CharacterTransientGroundingReport LastGroundingStatus = playerController.LastGroundingStatus;

@@ -172,13 +172,31 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                     characterMotor.GroundingStatus.GroundNormal) * currentVelocity .magnitude;
             }
             
-            Vector3 horizontalVelocity = CalculateHorizontalVelocity(currentVelocity);
+            float currentVelocityMagnitude = currentVelocity.magnitude;
+            KinematicCharacterMotor motor = playerController.CharacterMotor;
+            
+            #region Effective Normal & Reorient Vel on Slope
+            
+            Vector3 effectiveGroundNormal = motor.GroundingStatus.GroundNormal;
+            
+            if (motor.GroundingStatus.FoundAnyGround)
+            {
+                //Get effective ground normal based on move direction
+                effectiveGroundNormal = CalculateEffectiveGroundNormal(currentVelocity, currentVelocityMagnitude, motor);
 
+                // Reorient velocity on slope
+                currentVelocity = motor.GetDirectionTangentToSurface(currentVelocity, effectiveGroundNormal) * currentVelocityMagnitude;
+            }
+            
+            #endregion
+
+            Vector3 horizontalVelocity = CalculateHorizontalVelocity(currentVelocity, effectiveGroundNormal);
+            
             //Addive in XZ but sets in Y
             return horizontalVelocity + impulseVelocity;
         }
 
-        private Vector3 CalculateHorizontalVelocity(Vector3 currentVelocity)
+        private Vector3 CalculateHorizontalVelocity(Vector3 currentVelocity, Vector3 effectiveGroundNormal)
         {
             CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
             //Vector2 horizontalVelocity = currentVelocity.xz();
@@ -203,7 +221,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
             //Rotate current vel towards target vel to get new direction
             Vector3 dummyVel = Vector3.zero;
-            Vector3 targetDir = FlattenDirectionOntoSlope(moveInputCameraRelative.xoz(), GroundingStatus.GroundNormal);
+            Vector3 targetDir = FlattenDirectionOntoSlope(moveInputCameraRelative.xoz(), effectiveGroundNormal);
             Vector3 dir = Vector3.SmoothDamp(currentVelocity.normalized, targetDir,
                 ref dummyVel, currentTurnSpeed);
 
@@ -254,7 +272,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
                 //If finished stopping, turn to face moveDir
                 if (newSpeed < FastTurnBrakeSpeedThreshold.Value)
-                    newDirection = FlattenDirectionOntoSlope(moveInputCameraRelative.xoz(), GroundingStatus.GroundNormal);
+                    newDirection = FlattenDirectionOntoSlope(moveInputCameraRelative.xoz(), effectiveGroundNormal);
             }
             else if(IsSlideTurning.Value)
             {
@@ -265,7 +283,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
                 //If finished stopping, turn to face moveDir
                 if (newSpeed < FastTurnBrakeSpeedThreshold.Value)
-                    newDirection = FlattenDirectionOntoSlope(moveInputCameraRelative.xoz(), GroundingStatus.GroundNormal);
+                    newDirection = FlattenDirectionOntoSlope(moveInputCameraRelative.xoz(), effectiveGroundNormal);
             }
 
             #endregion

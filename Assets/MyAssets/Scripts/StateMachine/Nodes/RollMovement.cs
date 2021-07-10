@@ -108,7 +108,11 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Grounding")] [Required]
-        private FloatReference GroundStickAngleInput;
+        private FloatReference GroundStickAngleInputDownwards;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [TabGroup("Grounding")] [Required]
+        private FloatReference GroundStickAngleInputUpwards;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Grounding")] [Required]
@@ -176,7 +180,6 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
             PlayerCollidedWith.Subscribe(CheckForDeflect);
             lastRollSoundTime = Mathf.NegativeInfinity;
-            GroundStickAngleOutput.Value = GroundStickAngleInput.Value;
             InitRollParticles();
             gravity *= GravityFactor.Value;
         }
@@ -205,8 +208,27 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             
             Vector3 totalImpulse = impulseVelocity;
             Vector3 resultingVelocity;
-            Vector3 horizontalVelocity = CalculateHorizontalVelocity(currentVelocity);
-            Vector3 verticalVelocity = CalculateVerticalVelocity(currentVelocity);
+            
+            float currentVelocityMagnitude = currentVelocity.magnitude;
+            KinematicCharacterMotor motor = playerController.CharacterMotor;
+            
+            #region Effective Normal & Reorient Vel on Slope
+            
+            Vector3 effectiveGroundNormal = motor.GroundingStatus.GroundNormal;
+            
+            if (motor.GroundingStatus.FoundAnyGround)
+            {
+                //Get effective ground normal based on move direction
+                effectiveGroundNormal = CalculateEffectiveGroundNormal(currentVelocity, currentVelocityMagnitude, motor);
+
+                // Reorient velocity on slope
+                currentVelocity = motor.GetDirectionTangentToSurface(currentVelocity, effectiveGroundNormal) * currentVelocityMagnitude;
+            }
+            
+            #endregion
+
+            Vector3 horizontalVelocity = CalculateHorizontalVelocity(currentVelocity, effectiveGroundNormal);
+            Vector3 verticalVelocity = CalculateVerticalVelocity(currentVelocity, effectiveGroundNormal);
             
             //Redirect impulseVelocityRedirectble if conditions met
             if (EnableRedirect && CheckRedirectConditions(impulseVelocityRedirectble))
@@ -228,6 +250,11 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             
             float velocityGroundDot = Vector3.Dot(previousVelocityOutput.normalized, GroundingStatus.GroundNormal);
 
+            if (!LastGroundingStatus.FoundAnyGround && GroundingStatus.FoundAnyGround)
+            {
+                Debug.Log("Landed");
+            }
+
             //If roll pressed, dont bounce, instead will want to slingshot
             if (EnableBounce &&
                 !RollInputPressed.Value &&
@@ -238,6 +265,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             {
                 playerController.UngroundMotor();
                 BounceGameEvent.Raise();
+                Debug.Log("Bounce");
 
                 //Reflect velocity perfectly then dampen the y based on dot with normal
                 Vector3 reflectedVelocity = Vector3.Reflect(previousVelocityOutput, GroundingStatus.GroundNormal);
@@ -247,8 +275,18 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 if (EnableRedirect && CheckRedirectConditions(reflectedVelocity))
                     reflectedVelocity = CalculateRedirectedImpulse(reflectedVelocity);
                 
+
                 resultingVelocity = reflectedVelocity;
             }
+
+            #endregion
+            
+            #region Ground Stick Angle
+
+            if (resultingVelocity.y > 0)
+                GroundStickAngleOutput.Value = GroundStickAngleInputUpwards.Value;
+            else
+                GroundStickAngleOutput.Value = GroundStickAngleInputDownwards.Value;
 
             #endregion
             
@@ -259,7 +297,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
         private Vector3 dirOnSlopeGizmo;
 
-        private Vector3 CalculateHorizontalVelocity(Vector3 currentVelocity)
+        private Vector3 CalculateHorizontalVelocity(Vector3 currentVelocity, Vector3 effectiveGroundNormal)
         {
             CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
             CharacterTransientGroundingReport LastGroundingStatus = playerController.LastGroundingStatus;
@@ -269,7 +307,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 currentVelocity = storedDeflectVelocity;
             }
             
-            velocityAlongSlope = Vector3.ProjectOnPlane(currentVelocity, GroundingStatus.GroundNormal);
+            velocityAlongSlope = Vector3.ProjectOnPlane(currentVelocity, effectiveGroundNormal);
             float currentSpeed = (GroundingStatus.FoundAnyGround)
                 ? velocityAlongSlope.magnitude
                 : currentVelocity.xoz().magnitude;
@@ -298,15 +336,15 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 currentTurnSpeed = Mathf.Lerp(TurnSpeed.Value, slowTurnSpeed, percentToSlowTurnSpeed);
                 
                 Vector3 dirOnSlope = Vector3.ProjectOnPlane(currentVelocity.normalized,
-                        GroundingStatus.GroundNormal).normalized;
+                    effectiveGroundNormal).normalized;
 
                 //If ground is flat, just take flattened move input
-                if (GroundingStatus.GroundNormal == Vector3.up)
+                if (effectiveGroundNormal == Vector3.up)
                     moveInputOnSlope = moveInputCameraRelative.xoz().normalized;
                 else if (Mathf.Approximately(MoveInput.Value.magnitude, 0f))
                     moveInputOnSlope = Vector3.zero;
                 else
-                    moveInputOnSlope = FlattenDirectionOntoSlope(moveInputCameraRelative.xoz().normalized, GroundingStatus.GroundNormal);
+                    moveInputOnSlope = FlattenDirectionOntoSlope(moveInputCameraRelative.xoz().normalized, effectiveGroundNormal);
                 
                 dir = Vector3.SmoothDamp(dirOnSlope, moveInputOnSlope,
                     ref dummyVel, currentTurnSpeed).normalized;
@@ -373,13 +411,13 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             return newDirection * newSpeed;
         }
 
-        private Vector3 CalculateVerticalVelocity(Vector3 currentVelocity)
+        private Vector3 CalculateVerticalVelocity(Vector3 currentVelocity, Vector3 effectiveGroundNormal)
         {
             CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
             CharacterTransientGroundingReport LastGroundingStatus = playerController.LastGroundingStatus;
 
             //Return if standing on flat ground
-            if (GroundingStatus.FoundAnyGround && GroundingStatus.GroundNormal == Vector3.up)
+            if (GroundingStatus.FoundAnyGround && effectiveGroundNormal == Vector3.up)
                 return Vector3.zero;
 
             #region Airborn
@@ -416,7 +454,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             if (GroundingStatus.FoundAnyGround)
             {
                 newVelocity.y = gravity * SlopeVerticalGravityFactor.Value * Time.deltaTime;
-                newVelocity = Vector3.ProjectOnPlane(newVelocity, GroundingStatus.GroundNormal);
+                newVelocity = Vector3.ProjectOnPlane(newVelocity, effectiveGroundNormal);
             }
 
             #endregion
@@ -458,6 +496,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             {
                 //Reflect velocity in the XZ plane
                 DeflectGameEvent.Raise();
+                Debug.Log("Deflected");
                 storedDeflectVelocity = Vector3.Reflect(NewVelocityOut.Value.normalized, collisionInfo.contactNormal);
                 storedDeflectVelocity =
                     storedDeflectVelocity.xoz() * NewVelocityOut.Value.xoz().magnitude * DeflectFactor.Value;

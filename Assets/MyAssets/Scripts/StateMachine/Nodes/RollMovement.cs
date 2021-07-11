@@ -209,17 +209,20 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             Vector3 currentVelocity = velocityInfo.currentVelocity;
             Vector3 impulseVelocity = velocityInfo.impulseVelocity;
             Vector3 impulseVelocityRedirectble = velocityInfo.impulseVelocityRedirectble;
-            
+
             Vector3 totalImpulse = impulseVelocity;
             Vector3 resultingVelocity;
-            
+
+            CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
+            CharacterTransientGroundingReport LastGroundingStatus = playerController.LastGroundingStatus;
+
             float currentVelocityMagnitude = currentVelocity.magnitude;
             KinematicCharacterMotor motor = playerController.CharacterMotor;
-            
+
             #region Effective Normal & Reorient Vel on Slope
-            
+
             Vector3 effectiveGroundNormal = motor.GroundingStatus.GroundNormal;
-            
+
             if (motor.GroundingStatus.FoundAnyGround)
             {
                 //Get effective ground normal based on move direction
@@ -228,25 +231,22 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 // Reorient velocity on slope
                 currentVelocity = motor.GetDirectionTangentToSurface(currentVelocity, effectiveGroundNormal) * currentVelocityMagnitude;
             }
-            
+
             #endregion
 
             Vector3 horizontalVelocity = CalculateHorizontalVelocity(currentVelocity, effectiveGroundNormal);
             Vector3 verticalVelocity = CalculateVerticalVelocity(currentVelocity, effectiveGroundNormal);
-            
+
             //Redirect impulseVelocityRedirectble if conditions met
             if (EnableRedirect && CheckRedirectConditions(impulseVelocityRedirectble))
                 totalImpulse += CalculateRedirectedImpulse(impulseVelocityRedirectble);
             else
                 totalImpulse += impulseVelocityRedirectble;
-            
+
             resultingVelocity = horizontalVelocity + verticalVelocity;
             resultingVelocity += totalImpulse;
-            
-            CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
-            CharacterTransientGroundingReport LastGroundingStatus = playerController.LastGroundingStatus;
 
-            
+
             #region Bounce
 
             //Bounce if just became grounded
@@ -264,7 +264,6 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             {
                 playerController.UngroundMotor();
                 BounceGameEvent.Raise();
-                Debug.Log("Bounce");
 
                 //Reflect velocity perfectly then dampen the y based on dot with normal
                 Vector3 reflectedVelocity = Vector3.Reflect(previousVelocityOutput, GroundingStatus.GroundNormal);
@@ -290,7 +289,6 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             #endregion
             
             previousVelocityOutput = resultingVelocity;
-            
             return resultingVelocity;
         }
 
@@ -508,7 +506,6 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             {
                 //Reflect velocity in the XZ plane
                 DeflectGameEvent.Raise();
-                Debug.Log("Deflected");
                 storedDeflectVelocity = Vector3.Reflect(NewVelocityOut.Value.normalized, collisionInfo.contactNormal);
                 storedDeflectVelocity =
                     storedDeflectVelocity.xoz() * NewVelocityOut.Value.xoz().magnitude * DeflectFactor.Value;

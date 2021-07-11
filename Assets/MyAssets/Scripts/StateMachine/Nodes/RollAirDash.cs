@@ -13,21 +13,30 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 {
     public class RollAirDash : PlayerStateNode
     {
+        private bool isAdditive = false;
+        
         #region Inputs
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Inputs")] [Required]
         protected Vector2Reference MoveInput;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Inputs")] [Required]
+        protected Vector3Reference PreviousVelocity;
 
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Horizontal")] [Required]
         protected TransformSceneReference PlayerCameraTransform;
 
         #endregion
-        
+
         #region Horizontal Movement
 
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Horizontal")] [Required]
         protected FloatValueReference AirForwardForce;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Horizontal")] [Required]
+        protected FloatValueReference AirForwardForceAdditive;
 
         #endregion
 
@@ -36,6 +45,10 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Vertical")] [Required]
         protected FloatValueReference AirUpwardForce;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Vertical")] [Required]
+        protected FloatValueReference AirUpwardForceAdditive;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Vertical")] [Required]
@@ -50,8 +63,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         protected GameEvent AirRollDashEvent;
 
         #endregion
-
-
+        
         #region Lifecycle methods
         
         protected Vector3 moveInputCameraRelative;
@@ -61,22 +73,48 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         {
             base.Enter();
             
+            AirRollDashEvent.Raise();
+
             Vector2 camForward = PlayerCameraTransform.Value.forward.xz().normalized;
             moveInputCameraRelative = camForward.GetRelative(MoveInput.Value).xoy();
-            
-            AirRollDashEvent.Raise();
-            StoredJumpVelocity.Value = AirUpwardForce.Value;
-            Vector3 jumpDirection;
-                
-            //If no move input, just launch forward
-            if (Mathf.Approximately(0f, moveInputCameraRelative.sqrMagnitude))
-                jumpDirection = PlayerCameraTransform.Value.forward.xoz();
+
+            #region Vertical
+
+            if (isAdditive)
+                playerController.AddImpulseOverlayed(Vector3.up * AirUpwardForceAdditive.Value, false);
             else
-                jumpDirection = moveInputCameraRelative.xoz().normalized;
+                StoredJumpVelocity.Value = AirUpwardForce.Value;
+
+            #endregion
+
+
+            #region Horizontal
+
+            Vector3 jumpDirectionHorizontal;
+
+            jumpDirectionHorizontal = moveInputCameraRelative.xoz().normalized * MoveInput.Value.magnitude;
+
+            if (isAdditive)
+            {
+                //Add current velocity to cancel it out
+                Vector3 prevVelocity = PreviousVelocity.Value;
+                playerController.AddImpulseOverlayed(jumpDirectionHorizontal * (AirForwardForceAdditive.Value + prevVelocity.magnitude), true);
+            }
                 
-                
-            playerController.AddImpulseOverlayed(jumpDirection * AirForwardForce.Value, true);
-            
+            else
+                playerController.AddImpulseOverlayed(jumpDirectionHorizontal * AirForwardForce.Value, true);
+
+            #endregion
+        }
+
+        #endregion
+        
+
+        #region Transition Methods
+
+        public void SetAdditive(bool additive)
+        {
+            isAdditive = additive;
         }
 
         #endregion

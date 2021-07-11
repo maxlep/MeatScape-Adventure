@@ -292,24 +292,28 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         if(impulseVelocityOverlayed.y > 0f)
             UngroundMotor();
 
+        //This stored velocity is additive
         if(!Mathf.Approximately(0f, impulseVelocityOverlayed.sqrMagnitude))
         {
             currentVelocity += impulseVelocityOverlayed;
             NewVelocity.Value = currentVelocity; //Update new velocity to keep in sync
         }
 
+        //This stored velocity overrides current x velocity
         if(!Mathf.Approximately(0f, impulseVelocityOverlayedOverrideX.sqrMagnitude))
         {
             currentVelocity = impulseVelocityOverlayedOverrideX;
             NewVelocity.Value = currentVelocity; //Update new velocity to keep in sync
         }
 
+        //This stored velocity overrides current y velocity
         if(!Mathf.Approximately(StoredJumpVelocity.Value, 0f))
         {
             currentVelocity.y = StoredJumpVelocity.Value;
             NewVelocity.Value = currentVelocity; //Update new velocity to keep in sync
         }
-
+        
+        
         #endregion
 
         impulseVelocity = Vector3.zero;

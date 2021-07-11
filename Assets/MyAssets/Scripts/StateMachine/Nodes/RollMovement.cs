@@ -88,6 +88,10 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Vertical")] [Required]
+        protected FloatReference GravityFactorAirborn;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Vertical")] [Required]
         protected bool EnableBounce = true;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
@@ -427,18 +431,20 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
             if (!GroundingStatus.FoundAnyGround)
             {
+                float gravityAirborn = gravity * GravityFactorAirborn.Value;
+                
                 if (newVelocity.y <= 0)  //Falling
                 {
-                    newVelocity.y += gravity * FallMultiplier.Value * Time.deltaTime;
+                    newVelocity.y += gravityAirborn * FallMultiplier.Value * Time.deltaTime;
                 }
                 else if (newVelocity.y > 0f) //Drag when moving up (Note: Affects going up slopes)
                 {
                     var drag = -(newVelocity.y * newVelocity.y) * DragCoefficientVertical.Value * Time.deltaTime;
-                    newVelocity.y += drag + gravity * UpwardsGravityMultiplier.Value * Time.deltaTime;
+                    newVelocity.y += drag + gravityAirborn * UpwardsGravityMultiplier.Value * Time.deltaTime;
                 }
                 else
                 {
-                    newVelocity.y += gravity * Time.deltaTime;
+                    newVelocity.y += gravityAirborn * Time.deltaTime;
                 }
             
                 if (newVelocity.y < -Mathf.Abs(MaxFallSpeed.Value))   //Cap Speed

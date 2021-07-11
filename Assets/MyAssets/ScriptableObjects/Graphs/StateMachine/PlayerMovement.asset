@@ -245,7 +245,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Meateor Dash Duration Timer_ Movement_ Player: 0.35 sec
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -862,7 +864,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Hunger Level_ Player  Greater Than 0
+
+    -  On Modifier
+    Pressed_ Input
+
+'
   RaiseOnTransitionUnityEvents:
   - m_PersistentCalls:
       m_Calls:
@@ -1203,7 +1210,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '- ! Is Grounded_ Controller_ Player
+
+    - ! Is On Slideable
+    Slope_ Controller_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -1455,7 +1467,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Sling Shot Release_ Slingshot_ Player
+
+    -  Slingshot Min
+    Charge Timer_ Roll_ Player: 0.2 sec
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -1689,7 +1706,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Hunger Level_ Player  Greater Than 0
+
+    -  On Modifier
+    Pressed_ Input
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -1803,10 +1825,65 @@ MonoBehaviour:
   Name: Meateor Dash
   Description: 
   isActiveState: 0
-  LayerMapper: {fileID: 11400000, guid: 3f0bff594715a77478fbb7703d7b9fc0, type: 2}
-  slingshotTargetSceneReference: {fileID: 11400000, guid: 8d1418fc5e1270d43a0541982810b2aa,
+  BaseSpeed:
+    UseConstant: 1
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  TurnSpeed:
+    UseConstant: 1
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  ImpulseDampingFactor:
+    UseConstant: 1
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  PlayerCameraTransform: {fileID: 11400000, guid: d50b3bc5cde09794cb0468cc9e2dba0f,
     type: 2}
-  PlayerCollidedWith: {fileID: 11400000, guid: e681bc16e8a93be469583e210ea5d4a2, type: 2}
+  TimeToJumpApex:
+    UseConstant: 0
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 1363a9d9ca886e741bf7446fd6169c24, type: 2}
+  MaxJumpHeight:
+    UseConstant: 0
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 661512a7e6190754c859389501b85860, type: 2}
+  EnableRedirect: 0
+  RedirectMaxDegrees:
+    UseConstant: 0
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  RedirectAngleThreshold:
+    UseConstant: 0
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  MoveInput:
+    UseConstant: 0
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: {x: 0, y: 0}
+    Variable: {fileID: 11400000, guid: f48af2d5870a315459ef8f032591c5be, type: 2}
   NewVelocityOut:
     UseConstant: 0
     EnableInstanceOptions: 0
@@ -1821,6 +1898,10 @@ MonoBehaviour:
     InstancePath: Assets/MyAssets/ScriptableObjects/InstancedProperties/
     ConstantValue: {x: 0, y: 0, z: 0, w: 0}
     Variable: {fileID: 11400000, guid: 642843bee527d554f9408523e1ab11c8, type: 2}
+  LayerMapper: {fileID: 11400000, guid: 3f0bff594715a77478fbb7703d7b9fc0, type: 2}
+  slingshotTargetSceneReference: {fileID: 11400000, guid: 8d1418fc5e1270d43a0541982810b2aa,
+    type: 2}
+  PlayerCollidedWith: {fileID: 11400000, guid: e681bc16e8a93be469583e210ea5d4a2, type: 2}
   SlingshotDirection:
     UseConstant: 0
     EnableInstanceOptions: 0
@@ -1869,7 +1950,28 @@ MonoBehaviour:
     InstancePath: Assets/MyAssets/ScriptableObjects/InstancedProperties/
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: f54355e88b218f04481cefa8c08115d7, type: 2}
-  VelocityEasingType: 0
+  VelocityEasingType: 5
+  GroundStickAngleInputDownwards:
+    UseConstant: 0
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 8b1fdcbd89c6ca149af8663df3786f03, type: 2}
+  GroundStickAngleInputUpwards:
+    UseConstant: 0
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 91c567ba4c0a1dc4cb700b7671286833, type: 2}
+  GroundStickAngleOutput:
+    UseConstant: 0
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 21ab8b14c3952f84bb29af6e6a4d4953, type: 2}
   EnableDeflect: 1
   DeflectThresholdVelocity:
     UseConstant: 0
@@ -2085,7 +2187,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    -  Jump Trigger_ Controller_
+    Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -2352,7 +2459,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    -  Waited Jump Ground
+    Delay_ Movement_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -3035,7 +3147,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Clump Pitch Duration Timer_ Movement_ Player: 0.2 sec
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -3364,7 +3478,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Add Impulse Trigger_ Controller_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -3550,7 +3666,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Flatten Timer_ Movement_ Player: 0.4 sec
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -3707,7 +3825,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 1
-  conditionPreview: 
+  conditionPreview: '-  Sling Shot Release_ Slingshot_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -4033,7 +4153,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '- ! Is Grounded_ Controller_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -4240,7 +4362,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -4515,7 +4639,17 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '- ! Is Grounded_ Controller_ Player
+
+    -  Jump Trigger_ Controller_
+    Player
+
+    -  Distance To Ground_ Controller_ Player  Greater Than 1
+
+    - 
+    Ground Slam Cooldown Timer_ Movement_ Player: 0.75 sec
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -4837,7 +4971,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    -  Waited Jump Ground
+    Delay_ Movement_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -5038,7 +5177,7 @@ MonoBehaviour:
     InstancePath: Assets/MyAssets/ScriptableObjects/InstancedProperties/
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 3d5d2942ac632b04a8395e548c7cfa43, type: 2}
-  EnableDeflect: 1
+  EnableDeflect: 0
   DeflectFactor:
     UseConstant: 0
     EnableInstanceOptions: 0
@@ -5068,6 +5207,13 @@ MonoBehaviour:
     InstancePath: Assets/MyAssets/ScriptableObjects/InstancedProperties/
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 4d11961e025bc3d4b8b0158e12fc0b37, type: 2}
+  UpwardsGravityMultiplier:
+    UseConstant: 0
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 0
+    Variable: {fileID: 0}
   MaxFallSpeed:
     UseConstant: 0
     EnableInstanceOptions: 0
@@ -5224,6 +5370,7 @@ MonoBehaviour:
     type: 2}
   SlingshotHomingReleaseInput: {fileID: 11400000, guid: 5e15a58a7e2120d4ab58b2aacd49f1ba,
     type: 2}
+  SlingshotAimPivot: {fileID: 11400000, guid: 1d413125b78b2da469ee4ba126fd3e58, type: 2}
   SlingshotDirection:
     UseConstant: 0
     EnableInstanceOptions: 0
@@ -5390,7 +5537,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Meateor Strike Duration Timer_ Movement_ Player: 0.35 sec
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -5757,7 +5906,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    - ! Is On Slideable
+    Slope_ Controller_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -6075,7 +6229,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is On Slideable Slope_ Controller_ Player
+
+    -  Waited
+    Jump Ground Delay_ Movement_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -6606,6 +6765,13 @@ MonoBehaviour:
     InstancePath: Assets/MyAssets/ScriptableObjects/InstancedProperties/
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 4d11961e025bc3d4b8b0158e12fc0b37, type: 2}
+  UpwardsGravityMultiplier:
+    UseConstant: 0
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 0
+    Variable: {fileID: 0}
   MaxFallSpeed:
     UseConstant: 0
     EnableInstanceOptions: 0
@@ -6853,7 +7019,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Dash Pressed Trigger_ Controller_ Player
+
+'
   RaiseOnTransitionUnityEvents:
   - m_PersistentCalls:
       m_Calls:
@@ -7352,7 +7520,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Became Grounded_ Controller_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -7784,18 +7954,65 @@ MonoBehaviour:
   Name: Meateor Strike
   Description: 
   isActiveState: 0
-  LayerMapper: {fileID: 11400000, guid: 3f0bff594715a77478fbb7703d7b9fc0, type: 2}
-  EnemyMask:
-    serializedVersion: 2
-    m_Bits: 133120
-  InteractableMask:
-    serializedVersion: 2
-    m_Bits: 0
-  slingshotTargetSceneReference: {fileID: 11400000, guid: 8d1418fc5e1270d43a0541982810b2aa,
+  BaseSpeed:
+    UseConstant: 1
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  TurnSpeed:
+    UseConstant: 1
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  ImpulseDampingFactor:
+    UseConstant: 1
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  PlayerCameraTransform: {fileID: 11400000, guid: d50b3bc5cde09794cb0468cc9e2dba0f,
     type: 2}
-  PlayerCollidedWith: {fileID: 11400000, guid: e681bc16e8a93be469583e210ea5d4a2, type: 2}
-  currentTargetSceneReference: {fileID: 11400000, guid: 9c84f1d8213cea74c99441a95f9dc03f,
-    type: 2}
+  TimeToJumpApex:
+    UseConstant: 0
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 1363a9d9ca886e741bf7446fd6169c24, type: 2}
+  MaxJumpHeight:
+    UseConstant: 0
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 661512a7e6190754c859389501b85860, type: 2}
+  EnableRedirect: 0
+  RedirectMaxDegrees:
+    UseConstant: 0
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  RedirectAngleThreshold:
+    UseConstant: 0
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  MoveInput:
+    UseConstant: 0
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: {x: 0, y: 0}
+    Variable: {fileID: 11400000, guid: f48af2d5870a315459ef8f032591c5be, type: 2}
   NewVelocityOut:
     UseConstant: 0
     EnableInstanceOptions: 0
@@ -7810,6 +8027,18 @@ MonoBehaviour:
     InstancePath: Assets/MyAssets/ScriptableObjects/InstancedProperties/
     ConstantValue: {x: 0, y: 0, z: 0, w: 0}
     Variable: {fileID: 11400000, guid: 642843bee527d554f9408523e1ab11c8, type: 2}
+  LayerMapper: {fileID: 11400000, guid: 3f0bff594715a77478fbb7703d7b9fc0, type: 2}
+  EnemyMask:
+    serializedVersion: 2
+    m_Bits: 133120
+  InteractableMask:
+    serializedVersion: 2
+    m_Bits: 262144
+  slingshotTargetSceneReference: {fileID: 11400000, guid: 8d1418fc5e1270d43a0541982810b2aa,
+    type: 2}
+  PlayerCollidedWith: {fileID: 11400000, guid: e681bc16e8a93be469583e210ea5d4a2, type: 2}
+  currentTargetSceneReference: {fileID: 11400000, guid: 9c84f1d8213cea74c99441a95f9dc03f,
+    type: 2}
   SlingshotDirection:
     UseConstant: 0
     EnableInstanceOptions: 0
@@ -7844,7 +8073,32 @@ MonoBehaviour:
     UseConstant: 0
     ConstantDuration: 0
     Variable: {fileID: 11400000, guid: 992f08fcfa6e489498f8f9eca1cc1b8c, type: 2}
+  MeateorStrikeHitEvent: {fileID: 11400000, guid: 3b4fb8e5c1872c54792d49571b9e337c,
+    type: 2}
+  MeateorStrikeCollision: {fileID: 11400000, guid: 28e71790ed6bf0c4ca784c62a82fcd76,
+    type: 2}
   VelocityEasingType: 5
+  GroundStickAngleInputDownwards:
+    UseConstant: 0
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 8b1fdcbd89c6ca149af8663df3786f03, type: 2}
+  GroundStickAngleInputUpwards:
+    UseConstant: 0
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 91c567ba4c0a1dc4cb700b7671286833, type: 2}
+  GroundStickAngleOutput:
+    UseConstant: 0
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 21ab8b14c3952f84bb29af6e6a4d4953, type: 2}
   EnableDeflect: 1
   DeflectThresholdVelocity:
     UseConstant: 0
@@ -7860,10 +8114,6 @@ MonoBehaviour:
     InstancePath: Assets/MyAssets/ScriptableObjects/InstancedProperties/
     ConstantValue: 0.5
     Variable: {fileID: 11400000, guid: 0feecde91f8c04c438eb373f30a513f7, type: 2}
-  MeateorStrikeHitEvent: {fileID: 11400000, guid: 3b4fb8e5c1872c54792d49571b9e337c,
-    type: 2}
-  MeateorStrikeCollision: {fileID: 11400000, guid: 28e71790ed6bf0c4ca784c62a82fcd76,
-    type: 2}
 --- !u!114 &647826158662486185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8355,6 +8605,8 @@ MonoBehaviour:
 
     -  Valid:  Forward  Throw
 
+    - ! Is Grounded_ Controller_ Player
+
 '
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -8571,6 +8823,9 @@ MonoBehaviour:
   conditionPreview: '-  Valid:  Forward  Throw
 
     -  Valid:  Forward  Throw  Charge
+
+    -
+    ! Is Grounded_ Controller_ Player
 
 '
   RaiseOnTransitionUnityEvents: []
@@ -9420,7 +9675,16 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is On Slideable Slope_ Controller_ Player
+
+    -  Waited
+    Jump Ground Delay_ Movement_ Player
+
+    -  New Velocity_ Controller_ Player.
+    X  Ignore 0. X &&  New Velocity_ Controller_ Player. Y  Less Than 0. Y &&  New
+    Velocity_ Controller_ Player. Z  Ignore 0. Z
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -9634,7 +9898,15 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Sling Shot Optimal Release Homing_ Slingshot_ Player
+
+    - 
+    Hunger Level_ Player  Greater Than 0
+
+    -  Slingshot Min Charge Timer_ Roll_
+    Player: 0.2 sec
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -9956,7 +10228,14 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    -  Roll Pressed_ Controller_
+    Player
+
+    -  Slingshot Delay Timer_ Roll_ Player: 0.4 sec
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -10163,7 +10442,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Jump Trigger_ Controller_ Player
+
+    -  Flatten Jump Delay
+    Timer_ Movement_ Player: 0.1 sec
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -10547,7 +10831,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Meateor Collide Trigger_ Controller_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -10772,7 +11058,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 1
+  collapsed: 0
   BypassState: 0
   Name: Roll Movement
   Description: 
@@ -10929,6 +11215,13 @@ MonoBehaviour:
     InstancePath: Assets/MyAssets/ScriptableObjects/InstancedProperties/
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 4d11961e025bc3d4b8b0158e12fc0b37, type: 2}
+  UpwardsGravityMultiplier:
+    UseConstant: 0
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: c7cb28dd3746b154bb2f86f462d824b3, type: 2}
   MaxFallSpeed:
     UseConstant: 0
     EnableInstanceOptions: 0
@@ -11220,7 +11513,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Jump Attack Trigger_ Controller_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -11490,7 +11785,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    -  Roll Pressed_ Controller_
+    Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -11839,7 +12139,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Distance To Ground_ Controller_ Player  Less Than 1
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -11991,7 +12293,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Jump Trigger_ Controller_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -12195,7 +12499,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 1
-  conditionPreview: 
+  conditionPreview: '-  Sling Shot Optimal Release_ Slingshot_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -12941,7 +13247,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Sling Shot Optimal Release_ Slingshot_ Player
+
+    -  Slingshot
+    Min Charge Timer_ Roll_ Player: 0.2 sec
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []

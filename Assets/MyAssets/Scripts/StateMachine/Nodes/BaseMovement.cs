@@ -55,14 +55,22 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         protected FloatReference RedirectAngleThreshold;
 
         #endregion
-        
+
+        #region Inputs
+
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Inputs")] [Required]
         protected Vector2Reference MoveInput;
-        
+
+        #endregion
+
+        #region Outputs
+
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Outputs")] [Required]
         protected Vector3Reference NewVelocityOut;
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Outputs")] [Required]
         protected QuaternionReference NewRotationOut;
+
+        #endregion
 
         protected Vector3 moveInputCameraRelative;
         protected Vector3 newDirection;

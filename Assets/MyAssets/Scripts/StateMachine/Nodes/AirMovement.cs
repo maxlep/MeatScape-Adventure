@@ -245,7 +245,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             
             if (newVelocity.y <= 0 || GroundingStatus.FoundAnyGround)  //Falling
             {
-                newVelocity.y += gravity * (FallMultiplier.Value - 1) * Time.deltaTime;
+                newVelocity.y += gravity * FallMultiplier.Value * Time.deltaTime;
             }
             else if (newVelocity.y > 0 && !JumpPressed.Value)    //Short jump
             {

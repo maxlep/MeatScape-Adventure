@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using KinematicCharacterController;
+using MyAssets.Graphs.StateMachine.Nodes;
 using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
 using MyAssets.ScriptableObjects.Variables.ValueReferences;
@@ -9,7 +11,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 
 
-public class MeateorStrike : PlayerStateNode
+public class MeateorStrike : BaseMovement
 {
     #region Inputs
 
@@ -41,14 +43,6 @@ public class MeateorStrike : PlayerStateNode
 
     #region Outputs
 
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
-    [TabGroup("Outputs")] [Required]
-    protected Vector3Reference NewVelocityOut;
-
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Outputs")] [Required]
-    protected QuaternionReference NewRotationOut;
-
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Outputs")] [Required]
     private Vector3Reference SlingshotDirection;
@@ -73,6 +67,14 @@ public class MeateorStrike : PlayerStateNode
     [TabGroup("Outputs")] [Required]
     protected TimerReference MeateorStrikeDurationTimer;
     
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Outputs")][Required]
+    private GameEvent MeateorStrikeHitEvent;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Outputs")] [Required]
+    private DynamicGameEvent MeateorStrikeCollision;
+    
 
     #endregion
 
@@ -91,6 +93,22 @@ public class MeateorStrike : PlayerStateNode
     protected LeanTweenType VelocityEasingType;
 
     #endregion
+    
+    #region Grounding
+
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Grounding")] [Required]
+    private FloatReference GroundStickAngleInputDownwards;
+        
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Grounding")] [Required]
+    private FloatReference GroundStickAngleInputUpwards;
+        
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Grounding")] [Required]
+    private FloatReference GroundStickAngleOutput;
+
+    #endregion
 
     #region Knockback
 
@@ -107,22 +125,12 @@ public class MeateorStrike : PlayerStateNode
     protected FloatReference DeflectContactDotThreshold;
 
     #endregion
-
-    #region Events
-
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Events")][Required]
-    private GameEvent MeateorStrikeHitEvent;
     
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Events")] [Required]
-    private DynamicGameEvent MeateorStrikeCollision;
-
-    #endregion
 
     private float currentSpeed;
     private float duration;
     private Vector3 previousVelocityOutput = Vector3.zero;
+    private Vector3 previousSlingshotDir = Vector3.zero;
 
     public override void Enter()
     {
@@ -131,6 +139,7 @@ public class MeateorStrike : PlayerStateNode
         playerController.onStartUpdateRotation += UpdateRotation;
         PlayerCollidedWith.Subscribe(CheckForHit);
         duration = MeateorStrikeDurationTimer.Duration;
+        previousSlingshotDir = SlingshotDirection.Value;
 
         LeanTween.value(MeateorStrikeMaxSpeed.Value, MeateorStrikeMinSpeed.Value, duration)
             .setOnUpdate(speed =>
@@ -145,21 +154,69 @@ public class MeateorStrike : PlayerStateNode
             slingshotTargetSceneReference.Value = currentTargetSceneReference.Value;
     }
 
-    private void UpdateVelocity(VelocityInfo velocityInfo)
+    protected override Vector3 CalculateVelocity(VelocityInfo velocityInfo)
     {
-        NewVelocityOut.Value = SlingshotDirection.Value * currentSpeed;
+        Vector3 currentVelocity = velocityInfo.currentVelocity;
+        Vector3 impulseVelocity = velocityInfo.impulseVelocity;
+        Vector3 impulseVelocityRedirectble = velocityInfo.impulseVelocityRedirectble;
         
+        Vector3 totalImpulse = impulseVelocity;
+        Vector3 resultingVelocity = Vector3.zero;
+        
+        float currentVelocityMagnitude = currentVelocity.magnitude;
+        KinematicCharacterMotor motor = playerController.CharacterMotor;
+            
+        #region Effective Normal & Reorient Vel on Slope
+            
+        Vector3 effectiveGroundNormal = motor.GroundingStatus.GroundNormal;
+            
+        if (motor.GroundingStatus.FoundAnyGround)
+        {
+            //Get effective ground normal based on move direction
+            effectiveGroundNormal = CalculateEffectiveGroundNormal(currentVelocity, currentVelocityMagnitude, motor);
+
+            // Reorient velocity on slope
+            currentVelocity = motor.GetDirectionTangentToSurface(currentVelocity, effectiveGroundNormal) * currentVelocityMagnitude;
+        }
+            
+        #endregion
+
+        #region Calculate New Velocity
+
+        Vector3 slingshotDirOnSlope = previousSlingshotDir;
+        
+        //If grounded, update slingshot direction
+        if (motor.GroundingStatus.FoundAnyGround)
+            slingshotDirOnSlope = FlattenDirectionOntoSlope(SlingshotDirection.Value, effectiveGroundNormal);
+
+        previousSlingshotDir = slingshotDirOnSlope;
+        resultingVelocity = slingshotDirOnSlope * currentSpeed;
+        
+        //If homing onto target, override direction
         if (slingshotTargetSceneReference.Value != null)
         {
             Vector3 playerToTarget =
                 (slingshotTargetSceneReference.Value.position - playerController.transform.position).normalized;
-            NewVelocityOut.Value = playerToTarget * currentSpeed;
+            resultingVelocity = playerToTarget * currentSpeed;
         }
+
+        #endregion
         
-        previousVelocityOutput = NewVelocityOut.Value;
+        #region Ground Stick Angle
+
+        if (resultingVelocity.y >= 0)
+            GroundStickAngleOutput.Value = GroundStickAngleInputUpwards.Value;
+        else
+            GroundStickAngleOutput.Value = GroundStickAngleInputDownwards.Value;
+
+        #endregion
+        
+        previousVelocityOutput = resultingVelocity;
+
+        return resultingVelocity;
     }
 	
-    private void UpdateRotation(Quaternion currentRotation)
+    protected override void UpdateRotation(Quaternion currentRotation)
     {
         NewRotationOut.Value = currentRotation;
     }

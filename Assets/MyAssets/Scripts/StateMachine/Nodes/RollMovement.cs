@@ -69,6 +69,10 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [Required] [TabGroup("Vertical")]
         private FloatReference FallMultiplier;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [Required] [TabGroup("Vertical")]
+        private FloatReference UpwardsGravityMultiplier;
 
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [Required] [TabGroup("Vertical")]
@@ -250,11 +254,6 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             
             float velocityGroundDot = Vector3.Dot(previousVelocityOutput.normalized, GroundingStatus.GroundNormal);
 
-            if (!LastGroundingStatus.FoundAnyGround && GroundingStatus.FoundAnyGround)
-            {
-                Debug.Log("Landed");
-            }
-
             //If roll pressed, dont bounce, instead will want to slingshot
             if (EnableBounce &&
                 !RollInputPressed.Value &&
@@ -283,7 +282,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             
             #region Ground Stick Angle
 
-            if (resultingVelocity.y > 0)
+            if (resultingVelocity.y >= 0)
                 GroundStickAngleOutput.Value = GroundStickAngleInputUpwards.Value;
             else
                 GroundStickAngleOutput.Value = GroundStickAngleInputDownwards.Value;
@@ -318,7 +317,6 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
             #region Get New Move Direction
 
-
             //Rotate current vel towards target vel to get new direction
             Vector3 dummyVel = Vector3.zero;
             Vector3 dir;
@@ -326,8 +324,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             var slowTurnSpeed = TurnSpeed.Value * SlowTurnFactor.Value;
             var slowTurnThreshold = SlowTurnThreshold.Value;
             var percentToSlowTurnSpeed = Mathf.InverseLerp(0f, slowTurnThreshold, currentSpeed);
-
-
+            
             float currentTurnSpeed;
 
             //If grounded, lerp from turn speed to slow turn speed based on current velocity
@@ -337,6 +334,12 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 
                 Vector3 dirOnSlope = Vector3.ProjectOnPlane(currentVelocity.normalized,
                     effectiveGroundNormal).normalized;
+                
+                //If just became grounded, use the unprocessed velocity before collision
+                //This prevents flying up slopes when landing and current velocity is toward slope's up
+                if (!LastGroundingStatus.FoundAnyGround)
+                    dirOnSlope = Vector3.ProjectOnPlane(previousVelocityOutput.normalized,
+                        effectiveGroundNormal).normalized;
 
                 //If ground is flat, just take flattened move input
                 if (effectiveGroundNormal == Vector3.up)
@@ -428,12 +431,12 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             {
                 if (newVelocity.y <= 0)  //Falling
                 {
-                    newVelocity.y += gravity * (FallMultiplier.Value - 1) * Time.deltaTime;
+                    newVelocity.y += gravity * FallMultiplier.Value * Time.deltaTime;
                 }
                 else if (newVelocity.y > 0f) //Drag when moving up (Note: Affects going up slopes)
                 {
                     var drag = -(newVelocity.y * newVelocity.y) * DragCoefficientVertical.Value * Time.deltaTime;
-                    newVelocity.y += drag + gravity * Time.deltaTime;
+                    newVelocity.y += drag + gravity * UpwardsGravityMultiplier.Value * Time.deltaTime;
                 }
                 else
                 {
@@ -453,7 +456,16 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             //Each frame, add gravity to velocity on slope
             if (GroundingStatus.FoundAnyGround)
             {
-                newVelocity.y = gravity * SlopeVerticalGravityFactor.Value * Time.deltaTime;
+                if (newVelocity.y <= 0)  //Falling
+                {
+                    newVelocity.y = gravity * SlopeVerticalGravityFactor.Value * FallMultiplier.Value * Time.deltaTime;
+                }
+                else if (newVelocity.y > 0f) //Drag when moving up (Note: Affects going up slopes)
+                {
+                    var drag = -(newVelocity.y * newVelocity.y) * DragCoefficientVertical.Value * Time.deltaTime;
+                    newVelocity.y = drag + gravity * UpwardsGravityMultiplier.Value * SlopeVerticalGravityFactor.Value * Time.deltaTime;
+                }
+                
                 newVelocity = Vector3.ProjectOnPlane(newVelocity, effectiveGroundNormal);
             }
 

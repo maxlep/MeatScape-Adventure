@@ -100,163 +100,6 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   referencedState: {fileID: 8382683336472367375}
---- !u!114 &-8503580465522690699
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Meateor Dash -> Roll Movement
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: BoolConditions
-      Entry: 7
-      Data: 0|System.Collections.Generic.List`1[[BoolCondition, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: FloatConditions
-      Entry: 7
-      Data: 1|System.Collections.Generic.List`1[[FloatCondition, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: IntConditions
-      Entry: 7
-      Data: 2|System.Collections.Generic.List`1[[IntCondition, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: Vector2Conditions
-      Entry: 7
-      Data: 3|System.Collections.Generic.List`1[[Vector2Condition, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: Vector3Conditions
-      Entry: 7
-      Data: 4|System.Collections.Generic.List`1[[Vector3Condition, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: GameEventConditions
-      Entry: 7
-      Data: 5|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: DynamicGameEventConditions
-      Entry: 7
-      Data: 6|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-  graph: {fileID: 11400000}
-  position: {x: -8712, y: -1928}
-  ports:
-    keys:
-    - startingState
-    - nextState
-    values:
-    - _fieldName: startingState
-      _node: {fileID: -8503580465522690699}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: -7109085029821506954}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: nextState
-      _node: {fileID: -8503580465522690699}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: previousState
-        node: {fileID: 662053822628130529}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 1
-      _typeConstraint: 2
-      _dynamic: 0
-  collapsed: 1
-  transitionPriority: 0
-  conditionPreview: 
-  RaiseOnTransitionUnityEvents: []
-  RaiseOnTransitionEvents: []
-  ValidStartStates: []
-  InvalidStartStates: []
-  TriggerConditions: []
-  TimerConditions:
-  - targetParameter:
-      UseConstant: 0
-      ConstantDuration: 0
-      Variable: {fileID: 11400000, guid: 722faefac1a2ade40a7942c8ab341b16, type: 2}
-    restartOnEnterPreviousState: 1
 --- !u!114 &-8239950027094308354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,7 +168,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Flatten
   Description: 
-  isActiveState: 0
+  isActiveState: 1
   NewVelocityOut:
     UseConstant: 0
     EnableInstanceOptions: 0
@@ -862,7 +705,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Hunger Level_ Player  Greater Than 0
+
+    -  On Modifier
+    Pressed_ Input
+
+'
   RaiseOnTransitionUnityEvents:
   - m_PersistentCalls:
       m_Calls:
@@ -1203,7 +1051,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '- ! Is Grounded_ Controller_ Player
+
+    - ! Is On Slideable
+    Slope_ Controller_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -1455,7 +1308,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Sling Shot Release_ Slingshot_ Player
+
+    -  Slingshot Min
+    Charge Timer_ Roll_ Player: 0.2 sec
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -1469,233 +1327,6 @@ MonoBehaviour:
       ConstantDuration: 0
       Variable: {fileID: 11400000, guid: 084c3fd9a141d8245b30835af6b80f84, type: 2}
     restartOnEnterPreviousState: 1
---- !u!114 &-7462112325815517017
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Meateor Dash -> Meateor Strike
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 11400000, guid: 00c841287f9a4604aaa90ce8bd4328ba, type: 2}
-    - {fileID: 11400000, guid: 0f388a1c12deb7e4d9f0da10066ee4d1, type: 2}
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: BoolConditions
-      Entry: 7
-      Data: 0|System.Collections.Generic.List`1[[BoolCondition, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: FloatConditions
-      Entry: 7
-      Data: 1|System.Collections.Generic.List`1[[FloatCondition, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: IntConditions
-      Entry: 7
-      Data: 2|System.Collections.Generic.List`1[[IntCondition, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 3|IntCondition, Assembly-CSharp
-    - Name: targetParameter
-      Entry: 7
-      Data: 4|MyAssets.ScriptableObjects.Variables.IntReference, Assembly-CSharp
-    - Name: UseConstant
-      Entry: 5
-      Data: false
-    - Name: EnableInstanceOptions
-      Entry: 5
-      Data: false
-    - Name: InstanceName
-      Entry: 6
-      Data: 
-    - Name: InstancePath
-      Entry: 1
-      Data: IntermediateProperties
-    - Name: ConstantValue
-      Entry: 3
-      Data: 0
-    - Name: Variable
-      Entry: 10
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: comparator
-      Entry: 3
-      Data: 1
-    - Name: value
-      Entry: 7
-      Data: 5|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
-        Assembly-CSharp
-    - Name: UseConstant
-      Entry: 5
-      Data: true
-    - Name: EnableInstanceOptions
-      Entry: 5
-      Data: false
-    - Name: InstanceName
-      Entry: 1
-      Data: '{I} '
-    - Name: InstancePath
-      Entry: 1
-      Data: IntermediateProperties
-    - Name: InstanceType
-      Entry: 6
-      Data: 
-    - Name: ConstantValue
-      Entry: 4
-      Data: 0
-    - Name: ReferenceValue
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: Vector2Conditions
-      Entry: 7
-      Data: 6|System.Collections.Generic.List`1[[Vector2Condition, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: Vector3Conditions
-      Entry: 7
-      Data: 7|System.Collections.Generic.List`1[[Vector3Condition, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: GameEventConditions
-      Entry: 7
-      Data: 8|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 9|GameEventCondition, Assembly-CSharp
-    - Name: targetParameter
-      Entry: 10
-      Data: 1
-    - Name: KeepGameEventOn
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: DynamicGameEventConditions
-      Entry: 7
-      Data: 10|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-  graph: {fileID: 11400000}
-  position: {x: -10168, y: -2888}
-  ports:
-    keys:
-    - startingState
-    - nextState
-    values:
-    - _fieldName: startingState
-      _node: {fileID: -7462112325815517017}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: 1108720252115822265}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: nextState
-      _node: {fileID: -7462112325815517017}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: previousState
-        node: {fileID: 454363467314561103}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 1
-      _typeConstraint: 2
-      _dynamic: 0
-  collapsed: 1
-  transitionPriority: 0
-  conditionPreview: 
-  RaiseOnTransitionUnityEvents: []
-  RaiseOnTransitionEvents: []
-  ValidStartStates: []
-  InvalidStartStates: []
-  TriggerConditions: []
-  TimerConditions: []
 --- !u!114 &-7240631049424516675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1746,225 +1377,6 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   referencedState: {fileID: 8382683336472367375}
---- !u!114 &-7109085029821506954
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0dd3d5203de38ad448c6ec3b8bbeb6ff, type: 3}
-  m_Name: Meateor Dash <MeateorDash> (PlayerMovement)
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  graph: {fileID: 11400000}
-  position: {x: -9400, y: -1896}
-  ports:
-    keys:
-    - previousState
-    - transitions
-    values:
-    - _fieldName: previousState
-      _node: {fileID: -7109085029821506954}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: nextState
-        node: {fileID: 9201189763644822038}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: transitions
-      _node: {fileID: -7109085029821506954}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: startingState
-        node: {fileID: -8503580465522690699}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  collapsed: 1
-  BypassState: 0
-  Name: Meateor Dash
-  Description: 
-  isActiveState: 0
-  BaseSpeed:
-    UseConstant: 1
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  TurnSpeed:
-    UseConstant: 1
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  ImpulseDampingFactor:
-    UseConstant: 1
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  PlayerCameraTransform: {fileID: 11400000, guid: d50b3bc5cde09794cb0468cc9e2dba0f,
-    type: 2}
-  TimeToJumpApex:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 1363a9d9ca886e741bf7446fd6169c24, type: 2}
-  MaxJumpHeight:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 661512a7e6190754c859389501b85860, type: 2}
-  EnableRedirect: 0
-  RedirectMaxDegrees:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  RedirectAngleThreshold:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  MoveInput:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: IntermediateProperties
-    ConstantValue: {x: 0, y: 0}
-    Variable: {fileID: 11400000, guid: f48af2d5870a315459ef8f032591c5be, type: 2}
-  NewVelocityOut:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: Assets/MyAssets/ScriptableObjects/InstancedProperties/
-    ConstantValue: {x: 0, y: 0, z: 0}
-    Variable: {fileID: 11400000, guid: 9bb89c095cc264240a1d00bcb25ce309, type: 2}
-  NewRotationOut:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: Assets/MyAssets/ScriptableObjects/InstancedProperties/
-    ConstantValue: {x: 0, y: 0, z: 0, w: 0}
-    Variable: {fileID: 11400000, guid: 642843bee527d554f9408523e1ab11c8, type: 2}
-  LayerMapper: {fileID: 11400000, guid: 3f0bff594715a77478fbb7703d7b9fc0, type: 2}
-  slingshotTargetSceneReference: {fileID: 11400000, guid: 8d1418fc5e1270d43a0541982810b2aa,
-    type: 2}
-  PlayerCollidedWith: {fileID: 11400000, guid: e681bc16e8a93be469583e210ea5d4a2, type: 2}
-  SlingshotDirection:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: Assets/MyAssets/ScriptableObjects/InstancedProperties/
-    ConstantValue: {x: 0, y: 0, z: 0}
-    Variable: {fileID: 11400000, guid: b08d99b9716843643bbd01f005dc4c3d, type: 2}
-  MeateorCollideTrigger: {fileID: 11400000, guid: c369c75b92ac2f641a19e0bc304e077b,
-    type: 2}
-  KnockbackForceMagnitude:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: Assets/MyAssets/ScriptableObjects/InstancedProperties/
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: b362d01128dbf1748bf689ad08301e31, type: 2}
-  KnockbackForceOutput:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: Assets/MyAssets/ScriptableObjects/InstancedProperties/
-    ConstantValue: {x: 0, y: 0, z: 0}
-    Variable: {fileID: 11400000, guid: 1c67dc4194ea9064e9e7926eeb409b2e, type: 2}
-  MeateorStrikeHitPosition:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: Assets/MyAssets/ScriptableObjects/InstancedProperties/
-    ConstantValue: {x: 0, y: 0, z: 0}
-    Variable: {fileID: 11400000, guid: cfec8380cecafee439d036c0d465b380, type: 2}
-  MeateorStrikeDurationTimer:
-    UseConstant: 0
-    ConstantDuration: 0
-    Variable: {fileID: 11400000, guid: 722faefac1a2ade40a7942c8ab341b16, type: 2}
-  MeateorStrikeMinSpeed:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: Assets/MyAssets/ScriptableObjects/InstancedProperties/
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 031578d294fc5834498d5388e062fba6, type: 2}
-  MeateorStrikeMaxSpeed:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: Assets/MyAssets/ScriptableObjects/InstancedProperties/
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: f54355e88b218f04481cefa8c08115d7, type: 2}
-  VelocityEasingType: 5
-  GroundStickAngleInputDownwards:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 8b1fdcbd89c6ca149af8663df3786f03, type: 2}
-  GroundStickAngleInputUpwards:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 91c567ba4c0a1dc4cb700b7671286833, type: 2}
-  GroundStickAngleOutput:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 21ab8b14c3952f84bb29af6e6a4d4953, type: 2}
-  EnableDeflect: 1
-  DeflectThresholdVelocity:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: Assets/MyAssets/ScriptableObjects/InstancedProperties/
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 3224bb9532f1bbc47a34a61561fc7173, type: 2}
-  DeflectContactDotThreshold:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: Assets/MyAssets/ScriptableObjects/InstancedProperties/
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 0feecde91f8c04c438eb373f30a513f7, type: 2}
 --- !u!114 &-6943871768132017621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2165,7 +1577,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    -  Jump Trigger_ Controller_
+    Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -2432,7 +1849,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    -  Waited Jump Ground
+    Delay_ Movement_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -3115,7 +2537,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Clump Pitch Duration Timer_ Movement_ Player: 0.2 sec
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -3444,7 +2868,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Add Impulse Trigger_ Controller_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -3630,7 +3056,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Flatten Timer_ Movement_ Player: 0.4 sec
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -3787,7 +3215,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 1
-  conditionPreview: 
+  conditionPreview: '-  Sling Shot Release_ Slingshot_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -4113,7 +3543,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '- ! Is Grounded_ Controller_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -4320,7 +3752,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -4595,7 +4029,17 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '- ! Is Grounded_ Controller_ Player
+
+    -  Jump Trigger_ Controller_
+    Player
+
+    -  Distance To Ground_ Controller_ Player  Greater Than 1
+
+    - 
+    Ground Slam Cooldown Timer_ Movement_ Player: 0.75 sec
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -4917,7 +4361,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    -  Waited Jump Ground
+    Delay_ Movement_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -5453,7 +4902,7 @@ MonoBehaviour:
       Entry: 8
       Data: 
   graph: {fileID: 11400000}
-  position: {x: -8712, y: -2376}
+  position: {x: -8680, y: -1976}
   ports:
     keys:
     - startingState
@@ -5485,7 +4934,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Meateor Strike Duration Timer_ Movement_ Player: 0.35 sec
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -5852,7 +5303,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    - ! Is On Slideable
+    Slope_ Controller_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -6170,7 +5626,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is On Slideable Slope_ Controller_ Player
+
+    -  Waited
+    Jump Ground Delay_ Movement_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -6962,7 +6423,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Dash Pressed Trigger_ Controller_ Player
+
+'
   RaiseOnTransitionUnityEvents:
   - m_PersistentCalls:
       m_Calls:
@@ -7305,15 +6768,11 @@ MonoBehaviour:
   - {fileID: 5340667916554630805}
   - {fileID: 3322800365907845554}
   - {fileID: 1414667543555465226}
-  - {fileID: -7462112325815517017}
   - {fileID: -3446420888680683612}
   - {fileID: -5785674204744995083}
   - {fileID: -5224011267096786663}
   - {fileID: -6407021980923341271}
   - {fileID: 662053822628130529}
-  - {fileID: -7109085029821506954}
-  - {fileID: 1108720252115822265}
-  - {fileID: -8503580465522690699}
   - {fileID: -6389032827782837766}
   - {fileID: -8195100520333976931}
 --- !u!114 &144026596585446073
@@ -7461,7 +6920,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Became Grounded_ Controller_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -7915,7 +7376,7 @@ MonoBehaviour:
       Entry: 8
       Data: 
   graph: {fileID: 11400000}
-  position: {x: -9480, y: -2568}
+  position: {x: -9448, y: -2168}
   ports:
     keys:
     - previousState
@@ -7930,7 +7391,7 @@ MonoBehaviour:
         node: {fileID: 1414667543555465226}
         reroutePoints: []
       - fieldName: nextState
-        node: {fileID: -7462112325815517017}
+        node: {fileID: 9201189763644822038}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -8178,7 +7639,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -7384, y: -1560}
+  position: {x: -7304, y: -1512}
   ports:
     keys:
     - previousState
@@ -8197,9 +7658,6 @@ MonoBehaviour:
         reroutePoints: []
       - fieldName: nextState
         node: {fileID: -7477617831726838199}
-        reroutePoints: []
-      - fieldName: nextState
-        node: {fileID: -8503580465522690699}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -8347,56 +7805,6 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   referencedState: {fileID: 4966931143862885706}
---- !u!114 &1108720252115822265
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
-  m_Name: Meateor Dash <Reference>
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  graph: {fileID: 11400000}
-  position: {x: -10648, y: -2872}
-  ports:
-    keys:
-    - previousState
-    - transitions
-    values:
-    - _fieldName: previousState
-      _node: {fileID: 1108720252115822265}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: transitions
-      _node: {fileID: 1108720252115822265}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: startingState
-        node: {fileID: -7462112325815517017}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  referencedState: {fileID: -7109085029821506954}
 --- !u!114 &1110923358367202431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8606,6 +8014,8 @@ MonoBehaviour:
     Start
 
     -  Valid:  Forward  Throw
+
+    - ! Is Grounded_ Controller_ Player
 
 '
   RaiseOnTransitionUnityEvents: []
@@ -8824,6 +8234,9 @@ MonoBehaviour:
 
     -  Valid:  Forward  Throw  Charge
 
+    -
+    ! Is Grounded_ Controller_ Player
+
 '
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -8974,7 +8387,7 @@ MonoBehaviour:
   BypassState: 0
   Name: GroundMovement
   Description: 
-  isActiveState: 1
+  isActiveState: 0
   BaseSpeed:
     UseConstant: 1
     EnableInstanceOptions: 0
@@ -9672,7 +9085,16 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is On Slideable Slope_ Controller_ Player
+
+    -  Waited
+    Jump Ground Delay_ Movement_ Player
+
+    -  New Velocity_ Controller_ Player.
+    X  Ignore 0. X &&  New Velocity_ Controller_ Player. Y  Less Than 0. Y &&  New
+    Velocity_ Controller_ Player. Z  Ignore 0. Z
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -9886,7 +9308,15 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Sling Shot Optimal Release Homing_ Slingshot_ Player
+
+    - 
+    Hunger Level_ Player  Greater Than 0
+
+    -  Slingshot Min Charge Timer_ Roll_
+    Player: 0.2 sec
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -10208,7 +9638,14 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    -  Roll Pressed_ Controller_
+    Player
+
+    -  Slingshot Delay Timer_ Roll_ Player: 0.4 sec
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -10477,7 +9914,14 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Jump Trigger_ Controller_ Player
+
+    -  Hunger Level_ Player 
+    Greater Than 0
+
+    -  Flatten Jump Delay Timer_ Movement_ Player: 0.1 sec
+
+'
   RaiseOnTransitionUnityEvents:
   - m_PersistentCalls:
       m_Calls:
@@ -10844,7 +10288,7 @@ MonoBehaviour:
       Entry: 8
       Data: 
   graph: {fileID: 11400000}
-  position: {x: -8712, y: -2856}
+  position: {x: -8680, y: -2456}
   ports:
     keys:
     - startingState
@@ -10876,7 +10320,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Meateor Collide Trigger_ Controller_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -11007,7 +10453,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: -8072, y: -2712}
+  position: {x: -8040, y: -2312}
   ports:
     keys:
     - previousState
@@ -11563,7 +11009,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Jump Attack Trigger_ Controller_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -11833,7 +11281,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    -  Roll Pressed_ Controller_
+    Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -12182,7 +11635,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Distance To Ground_ Controller_ Player  Less Than 1
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -12334,7 +11789,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Jump Trigger_ Controller_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -12538,7 +11995,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 1
-  conditionPreview: 
+  conditionPreview: '-  Sling Shot Optimal Release_ Slingshot_ Player
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []
@@ -13149,7 +12608,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Slingshot -> Meateor Dash
+  m_Name: Slingshot -> Meateor Strike
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -13276,7 +12735,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: previousState
-        node: {fileID: -7109085029821506954}
+        node: {fileID: 454363467314561103}
         reroutePoints: []
       _direction: 1
       _connectionType: 1
@@ -13284,7 +12743,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Sling Shot Optimal Release_ Slingshot_ Player
+
+    -  Slingshot
+    Min Charge Timer_ Roll_ Player: 0.2 sec
+
+'
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
   ValidStartStates: []

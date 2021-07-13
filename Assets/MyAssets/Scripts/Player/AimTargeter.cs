@@ -33,6 +33,7 @@ namespace MyAssets.Scripts.Player
         [SerializeField] private FloatVariable lockOnCameraAimOffsetYScale;
         [SerializeField] private IntVariable lockOnTargetCurrentDistance;
         [SerializeField] private BoolReference lockedOn;
+        [SerializeField] private BoolReference hasTarget;
         [SerializeField] private TransformSceneReference currentTargetSceneReference;
 
 
@@ -145,9 +146,17 @@ namespace MyAssets.Scripts.Player
         private void LateUpdate()
         {
             if (currentTarget != null)
+            {
                 currentTargetSceneReference.Value = currentTarget.transform;
+                hasTarget.Value = true;
+            }
+
             else
+            {
                 currentTargetSceneReference.Value = null;
+                hasTarget.Value = false;
+            }
+                
 
             if (lockedOn.Value)
             {

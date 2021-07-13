@@ -26,6 +26,10 @@ public class MeateorStrike : BaseMovement
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required] 
     private LayerMask InteractableMask;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required]
+    private Vector3Reference SlingshotDirection;
 
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required]
@@ -35,6 +39,10 @@ public class MeateorStrike : BaseMovement
     [TabGroup("Inputs")] [Required]
     private DynamicGameEvent PlayerCollidedWith;
     
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+    [TabGroup("Inputs")] [Required]
+    protected FloatReference KnockbackForceMagnitude;
+    
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required]
     private TransformSceneReference currentTargetSceneReference;
@@ -42,18 +50,10 @@ public class MeateorStrike : BaseMovement
     #endregion
 
     #region Outputs
-
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Outputs")] [Required]
-    private Vector3Reference SlingshotDirection;
-
+    
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Outputs")][Required]
     private TriggerVariable MeateorCollideTrigger;
-
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
-    [TabGroup("Outputs")] [Required]
-    protected FloatReference KnockbackForceMagnitude;
 
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
     [TabGroup("Outputs")] [Required]
@@ -129,6 +129,7 @@ public class MeateorStrike : BaseMovement
 
     private float currentSpeed;
     private float duration;
+    private bool isHoming;
     private Vector3 previousVelocityOutput = Vector3.zero;
     private Vector3 previousSlingshotDir = Vector3.zero;
 
@@ -192,8 +193,8 @@ public class MeateorStrike : BaseMovement
         previousSlingshotDir = slingshotDirOnSlope;
         resultingVelocity = slingshotDirOnSlope * currentSpeed;
         
-        //If homing onto target, override direction
-        if (slingshotTargetSceneReference.Value != null)
+        //If is homing mode and has target, override direction
+        if (isHoming && slingshotTargetSceneReference.Value != null)
         {
             Vector3 playerToTarget =
                 (slingshotTargetSceneReference.Value.position - playerController.transform.position).normalized;
@@ -227,7 +228,7 @@ public class MeateorStrike : BaseMovement
         playerController.onStartUpdateVelocity -= UpdateVelocity;
         playerController.onStartUpdateRotation -= UpdateRotation;
         PlayerCollidedWith.Unsubscribe(CheckForHit);
-
+        isHoming = false;
     }
 
     private void CheckForHit(System.Object prevCollisionInfoObj, System.Object collisionInfoObj)
@@ -265,5 +266,11 @@ public class MeateorStrike : BaseMovement
                 MeateorStrikeHitEvent.Raise();
             }
         }
+    }
+
+    //To be called by the transition into this state
+    public void SetIsHoming(bool homingEnabled)
+    {
+        isHoming = homingEnabled;
     }
 }

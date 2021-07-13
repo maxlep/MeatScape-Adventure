@@ -59,7 +59,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Inputs")] [Required]
-        private TriggerVariable SlingshotHomingReleaseInput;
+        private GameEvent SlingshotHomingReleaseInput;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Inputs")] [Required]

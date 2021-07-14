@@ -21,7 +21,7 @@ public class InputManager : MonoBehaviour
     public delegate void _OnAttack_Released();
     public delegate void _OnModifier_Pressed();
     public delegate void _OnModifier_Released();
-    public delegate void _OnRoll();
+    public delegate void _OnSlingshot();
     public delegate void _OnDash();
     public delegate void _OnDownwardAttack();
     public delegate void _OnLockOn();
@@ -54,8 +54,8 @@ public class InputManager : MonoBehaviour
     public event _OnAttack_Released onAttack_Released;
     public event _OnModifier_Pressed onModifier_Pressed;
     public event _OnModifier_Released onModifier_Released;
-    public event _OnRoll onRoll_Pressed;
-    public event _OnRoll onRoll_Released;
+    public event _OnSlingshot onSlingshot_Pressed;
+    public event _OnSlingshot onSlingshot_Released;
     public event _OnDash onDash_Pressed;
     public event _OnDash onDash_Released;
     public event _OnDownwardAttack onDownwardAttack;
@@ -102,7 +102,7 @@ public class InputManager : MonoBehaviour
 
     private PlayerInput _inputs;
     private InputActionMap playerActions, uiActions;
-    private InputAction playerMove, playerLook, playerJump, playerRegenerateMeat, mousePosition, playerRoll, playerDash,
+    private InputAction playerMove, playerLook, playerJump, playerRegenerateMeat, mousePosition, playerSlingshot, playerDash,
         playerAttack, playerModifier, cycleTarget;
 
     public static bool PlatformInvertsScroll()
@@ -128,7 +128,7 @@ public class InputManager : MonoBehaviour
         playerMove = playerActions.FindAction("Move");
         playerLook = playerActions.FindAction("Look");
         playerJump = playerActions.FindAction("Jump");
-        playerRoll = playerActions.FindAction("Roll");
+        playerSlingshot = playerActions.FindAction("Slingshot");
         playerDash = playerActions.FindAction("Dash");
         cycleTarget = playerActions.FindAction("CycleTarget");
         playerAttack = playerActions.FindAction("Attack");
@@ -139,8 +139,8 @@ public class InputManager : MonoBehaviour
         playerJump.performed += OnJump_Pressed;
         playerJump.canceled += OnJump_Released;
         
-        playerRoll.performed += OnRoll_Pressed;
-        playerRoll.canceled += OnRoll_Released;
+        playerSlingshot.performed += OnSlingshotPressed;
+        playerSlingshot.canceled += OnSlingshotReleased;
         
         playerDash.performed += OnDash_Pressed;
         playerDash.canceled += OnDash_Released;
@@ -205,14 +205,14 @@ public class InputManager : MonoBehaviour
         usingMouse = inputs.currentControlScheme == "Keyboard&Mouse";
     }
     
-    public void OnRoll_Pressed(InputAction.CallbackContext ctx)
+    public void OnSlingshotPressed(InputAction.CallbackContext ctx)
     {
-        if (onRoll_Pressed != null) onRoll_Pressed();
+        if (onSlingshot_Pressed != null) onSlingshot_Pressed();
     }
     
-    public void OnRoll_Released(InputAction.CallbackContext ctx)
+    public void OnSlingshotReleased(InputAction.CallbackContext ctx)
     {
-        if (onRoll_Released != null) onRoll_Released();
+        if (onSlingshot_Released != null) onSlingshot_Released();
     }
     
     public void OnDash_Pressed(InputAction.CallbackContext ctx)

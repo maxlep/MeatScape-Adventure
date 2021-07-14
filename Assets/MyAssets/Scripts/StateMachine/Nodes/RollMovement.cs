@@ -37,11 +37,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Horizontal")] [Required]
         protected FloatReference DragCoefficientHorizontal;
-        
-        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
-        [TabGroup("Horizontal")] [Required]
-        protected FloatReference AirForwardForce;
-        
+
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Horizontal")] [Required]
         protected bool EnableDeflect = true;
@@ -116,15 +112,15 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Grounding")] [Required]
-        private FloatReference GroundStickAngleInputDownwards;
+        protected FloatReference GroundStickAngleInputDownwards;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Grounding")] [Required]
-        private FloatReference GroundStickAngleInputUpwards;
+        protected FloatReference GroundStickAngleInputUpwards;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Grounding")] [Required]
-        private FloatReference GroundStickAngleOutput;
+        protected FloatReference GroundStickAngleOutput;
 
         #endregion
 
@@ -168,13 +164,13 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Inputs")] [Required]
-        private DynamicGameEvent PlayerCollidedWith;
+        protected DynamicGameEvent PlayerCollidedWith;
 
         #endregion
 
         private Vector3 velocityAlongSlope;
         private Vector3 moveInputOnSlope;
-        private Vector3 previousVelocityOutput = Vector3.zero;
+        protected Vector3 previousVelocityOutput = Vector3.zero;
         private Vector3 storedDeflectVelocity;
 
         private float lastRollSoundTime;
@@ -298,7 +294,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
         private Vector3 dirOnSlopeGizmo;
 
-        private Vector3 CalculateHorizontalVelocity(Vector3 currentVelocity, Vector3 effectiveGroundNormal)
+        protected Vector3 CalculateHorizontalVelocity(Vector3 currentVelocity, Vector3 effectiveGroundNormal)
         {
             CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
             CharacterTransientGroundingReport LastGroundingStatus = playerController.LastGroundingStatus;
@@ -416,7 +412,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             return newDirection * newSpeed;
         }
 
-        private Vector3 CalculateVerticalVelocity(Vector3 currentVelocity, Vector3 effectiveGroundNormal)
+        protected Vector3 CalculateVerticalVelocity(Vector3 currentVelocity, Vector3 effectiveGroundNormal)
         {
             CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
             CharacterTransientGroundingReport LastGroundingStatus = playerController.LastGroundingStatus;
@@ -433,20 +429,17 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             {
                 float gravityAirborn = gravity * GravityFactorAirborn.Value;
                 
-                if (newVelocity.y <= 0)  //Falling
+                if (newVelocity.y <= 0f)  //Falling
                 {
-                    newVelocity.y += gravityAirborn * FallMultiplier.Value * Time.deltaTime;
+                    var drag = (newVelocity.y * newVelocity.y) * DragCoefficientVertical.Value * Time.deltaTime;
+                    newVelocity.y += drag + gravityAirborn * FallMultiplier.Value * Time.deltaTime;
                 }
-                else if (newVelocity.y > 0f) //Drag when moving up (Note: Affects going up slopes)
+                else if (newVelocity.y > 0f)
                 {
                     var drag = -(newVelocity.y * newVelocity.y) * DragCoefficientVertical.Value * Time.deltaTime;
                     newVelocity.y += drag + gravityAirborn * UpwardsGravityMultiplier.Value * Time.deltaTime;
                 }
-                else
-                {
-                    newVelocity.y += gravityAirborn * Time.deltaTime;
-                }
-            
+
                 if (newVelocity.y < -Mathf.Abs(MaxFallSpeed.Value))   //Cap Speed
                 {
                     newVelocity.y = -Mathf.Abs(MaxFallSpeed.Value);

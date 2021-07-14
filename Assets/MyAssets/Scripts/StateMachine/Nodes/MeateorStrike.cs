@@ -11,7 +11,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 
 
-public class MeateorStrike : BaseMovement
+public class MeateorStrike : RollMovement
 {
     #region Inputs
 
@@ -35,10 +35,6 @@ public class MeateorStrike : BaseMovement
     [TabGroup("Inputs")] [Required]
     private TransformSceneReference slingshotTargetSceneReference;
 
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Inputs")] [Required]
-    private DynamicGameEvent PlayerCollidedWith;
-    
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
     [TabGroup("Inputs")] [Required]
     protected FloatReference KnockbackForceMagnitude;
@@ -46,6 +42,22 @@ public class MeateorStrike : BaseMovement
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required]
     private TransformSceneReference currentTargetSceneReference;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")][Required]
+    private FloatValueReference MeateorStrikeMinSpeed;
+
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")][Required]
+    private FloatValueReference MeateorStrikeMaxSpeed;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")][Required]
+    private FloatValueReference MeteorStrikeDashForce;
+
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+    [TabGroup("Inputs")] [Required]
+    protected LeanTweenType VelocityEasingType;
 
     #endregion
 
@@ -75,70 +87,23 @@ public class MeateorStrike : BaseMovement
     [TabGroup("Outputs")] [Required]
     private DynamicGameEvent MeateorStrikeCollision;
     
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Outputs")] [Required]
+    private BoolReference IsHomingMeateorStrike;
 
     #endregion
-
-    #region Velocity
-
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Velocity")][Required]
-    private FloatValueReference MeateorStrikeMinSpeed;
-
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Velocity")][Required]
-    private FloatValueReference MeateorStrikeMaxSpeed;
-
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
-    [TabGroup("Velocity")] [Required]
-    protected LeanTweenType VelocityEasingType;
-
-    #endregion
-    
-    #region Grounding
-
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Grounding")] [Required]
-    private FloatReference GroundStickAngleInputDownwards;
-        
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Grounding")] [Required]
-    private FloatReference GroundStickAngleInputUpwards;
-        
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Grounding")] [Required]
-    private FloatReference GroundStickAngleOutput;
-
-    #endregion
-
-    #region Knockback
-
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
-    [TabGroup("Knockback")] [Required]
-    protected bool EnableDeflect = true;
-    
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
-    [TabGroup("Knockback")] [Required] [ShowIf("$EnableDeflect")]
-    protected FloatReference DeflectThresholdVelocity;
-        
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
-    [TabGroup("Knockback")] [Required] [ShowIf("$EnableDeflect")]
-    protected FloatReference DeflectContactDotThreshold;
-
-    #endregion
-    
 
     private float currentSpeed;
     private float duration;
     private bool isHoming;
-    private Vector3 previousVelocityOutput = Vector3.zero;
     private Vector3 previousSlingshotDir = Vector3.zero;
 
     public override void Enter()
     {
         base.Enter();
-        playerController.onStartUpdateVelocity += UpdateVelocity;
-        playerController.onStartUpdateRotation += UpdateRotation;
+        
         PlayerCollidedWith.Subscribe(CheckForHit);
+        
         duration = MeateorStrikeDurationTimer.Duration;
         previousSlingshotDir = SlingshotDirection.Value;
 
@@ -151,8 +116,24 @@ public class MeateorStrike : BaseMovement
 
         
         //If null homing target, check current lock on target (null if coming from meateor dash)
-        if (slingshotTargetSceneReference.Value == null && currentTargetSceneReference.Value != null)
+        //TODO: this essential bypasses the dot product calculations for slingshotTarget in slingshot state.
+        if (currentTargetSceneReference.Value != null)
             slingshotTargetSceneReference.Value = currentTargetSceneReference.Value;
+        
+        //Add impulse for dash if not homing
+        if (!isHoming)
+            playerController.AddImpulse(SlingshotDirection.Value * MeteorStrikeDashForce.Value);
+    }
+    
+    public override void Exit()
+    {
+        base.Exit();
+    }
+
+    public override void Execute()
+    {
+        base.Execute();
+        IsHomingMeateorStrike.Value = isHoming;
     }
 
     protected override Vector3 CalculateVelocity(VelocityInfo velocityInfo)
@@ -183,23 +164,26 @@ public class MeateorStrike : BaseMovement
         #endregion
 
         #region Calculate New Velocity
-
-        Vector3 slingshotDirOnSlope = previousSlingshotDir;
         
-        //If grounded, update slingshot direction
-        if (motor.GroundingStatus.FoundAnyGround)
-            slingshotDirOnSlope = FlattenDirectionOntoSlope(SlingshotDirection.Value, effectiveGroundNormal);
-
-        previousSlingshotDir = slingshotDirOnSlope;
-        resultingVelocity = slingshotDirOnSlope * currentSpeed;
-        
-        //If is homing mode and has target, override direction
-        if (isHoming && slingshotTargetSceneReference.Value != null)
+        //Use roll movement logic if not homing
+        if (!isHoming)
         {
-            Vector3 playerToTarget =
-                (slingshotTargetSceneReference.Value.position - playerController.transform.position).normalized;
-            resultingVelocity = playerToTarget * currentSpeed;
+            Vector3 horizontalVelocity = CalculateHorizontalVelocity(currentVelocity, effectiveGroundNormal);
+            Vector3 verticalVelocity = CalculateVerticalVelocity(currentVelocity, effectiveGroundNormal);
+
+            resultingVelocity = horizontalVelocity + verticalVelocity;
+            resultingVelocity += totalImpulse;
         }
+        //Else use homing logic
+        else
+        {
+            Vector3 homingVelocity = CalculateHomingVelocity(currentVelocity, effectiveGroundNormal);
+
+            resultingVelocity = homingVelocity;
+            resultingVelocity += totalImpulse;
+        }
+
+        
 
         #endregion
         
@@ -216,19 +200,41 @@ public class MeateorStrike : BaseMovement
 
         return resultingVelocity;
     }
+
+    private Vector3 CalculateHomingVelocity(Vector3 currentVelocity, Vector3 effectiveGroundNormal)
+    {
+        Vector3 newVelocity = Vector3.zero;
+        KinematicCharacterMotor motor = playerController.CharacterMotor;
+        Vector3 slingshotDirOnSlope = previousSlingshotDir;
+        
+        //If grounded, update slingshot direction
+        if (motor.GroundingStatus.FoundAnyGround)
+            slingshotDirOnSlope = FlattenDirectionOntoSlope(SlingshotDirection.Value, effectiveGroundNormal);
+
+        previousSlingshotDir = slingshotDirOnSlope;
+        newVelocity = slingshotDirOnSlope * currentSpeed;
+        
+        //If is homing mode and has target, override direction
+        if (isHoming && slingshotTargetSceneReference.Value != null)
+        {
+            Vector3 playerToTarget =
+                (slingshotTargetSceneReference.Value.position - playerController.transform.position).normalized;
+            newVelocity = playerToTarget * currentSpeed;
+        }
+
+        return newVelocity;
+    }
 	
     protected override void UpdateRotation(Quaternion currentRotation)
     {
+        //If not homing, use roll movement logic
+        if (!isHoming)
+        {
+            base.UpdateRotation(currentRotation);
+            return;
+        }
+        
         NewRotationOut.Value = currentRotation;
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
-        playerController.onStartUpdateVelocity -= UpdateVelocity;
-        playerController.onStartUpdateRotation -= UpdateRotation;
-        PlayerCollidedWith.Unsubscribe(CheckForHit);
-        isHoming = false;
     }
 
     private void CheckForHit(System.Object prevCollisionInfoObj, System.Object collisionInfoObj)

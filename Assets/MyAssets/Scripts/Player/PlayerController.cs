@@ -75,8 +75,9 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector3Reference BaseVelocity;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference JumpPressed;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference AttackPressed;
-    [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference RollPressed;
+    [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference SlingshotPressed;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference DashPressed;
+    [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference ModifierPressed;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector3Reference PreviousVelocity;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private FloatReference DistanceToGround;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private FloatReference DistanceToMeatGround;
@@ -93,8 +94,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable JumpTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable JumpAttackTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable DownwardAttackTrigger;
-    [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable RollTrigger;
-    [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable RollReleaseTrigger;
+    [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable SlingshotTrigger;
+    [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable SlingshotReleaseTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable DashPressTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable AddImpulseTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable BecameGrounded;
@@ -202,10 +203,12 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         playerMove = InputManager.Instance.GetPlayerMove_Action();
         InputManager.Instance.onJump_Pressed += () => JumpPressed.Value = true;
         InputManager.Instance.onJump_Released += () => JumpPressed.Value = false;
-        InputManager.Instance.onRoll_Pressed += () => RollPressed.Value = true;
-        InputManager.Instance.onRoll_Released += () => RollPressed.Value = false;
+        InputManager.Instance.onSlingshot_Pressed += () => SlingshotPressed.Value = true;
+        InputManager.Instance.onSlingshot_Released += () => SlingshotPressed.Value = false;
         InputManager.Instance.onDash_Pressed += () => DashPressed.Value = true;
         InputManager.Instance.onDash_Released += () => DashPressed.Value = false;
+        InputManager.Instance.onModifier_Pressed += () => ModifierPressed.Value = true;
+        InputManager.Instance.onModifier_Released += () => ModifierPressed.Value = false;
         InputManager.Instance.onAttack_Pressed += () => AttackPressed.Value = true;
         InputManager.Instance.onAttack_Released += () => AttackPressed.Value = false;
 
@@ -213,8 +216,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         InputManager.Instance.onAttack_Pressed += () => AttackTrigger.Activate();
         InputManager.Instance.onAttack_Released += () => AttackReleaseTrigger.Activate();
         InputManager.Instance.onDownwardAttack += () => DownwardAttackTrigger.Activate();
-        InputManager.Instance.onRoll_Pressed += () => RollTrigger.Activate();
-        InputManager.Instance.onRoll_Released += () => RollReleaseTrigger.Activate();
+        InputManager.Instance.onSlingshot_Pressed += () => SlingshotTrigger.Activate();
+        InputManager.Instance.onSlingshot_Released += () => SlingshotReleaseTrigger.Activate();
         InputManager.Instance.onDash_Pressed += () => DashPressTrigger.Activate();
         InputManager.Instance.onInteract += AttemptInspect;
         InputManager.Instance.onFunction3 += RemoveHunger;

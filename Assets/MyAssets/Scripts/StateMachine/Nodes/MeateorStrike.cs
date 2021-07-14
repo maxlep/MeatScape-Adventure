@@ -39,6 +39,10 @@ public class MeateorStrike : RollMovement
     [TabGroup("Inputs")] [Required]
     protected FloatReference KnockbackForceMagnitude;
     
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+    [TabGroup("Inputs")] [Required]
+    protected FloatReference KnockbackAngleAboveHorizontal;
+    
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required]
     private TransformSceneReference currentTargetSceneReference;
@@ -246,8 +250,12 @@ public class MeateorStrike : RollMovement
             otherObj.IsInLayerMask(InteractableMask))
         {
             playerController.UngroundMotor();
-            KnockbackForceOutput.Value = -NewVelocityOut.Value.normalized.xoz() * KnockbackForceMagnitude.Value + 
-                                         Vector3.up * KnockbackForceMagnitude.Value;
+            
+            //Get direction by taking negative vel direction and turning it upwards towards world up (based on above horizontal angle)
+            Vector3 knockbackDir = Vector3.RotateTowards(-NewVelocityOut.Value.normalized.xoz(), Vector3.up,
+                KnockbackAngleAboveHorizontal.Value * Mathf.Deg2Rad, 0f);
+
+            KnockbackForceOutput.Value = knockbackDir * KnockbackForceMagnitude.Value;
 
             MeateorStrikeHitPosition.Value = collisionInfo.contactPoint;
             MeateorCollideTrigger.Activate();

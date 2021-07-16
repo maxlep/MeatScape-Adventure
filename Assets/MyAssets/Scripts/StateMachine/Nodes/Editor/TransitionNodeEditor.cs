@@ -26,7 +26,7 @@ public class TransitionNodeEditor : NodeEditor
             Vector2 nodeLabelPos = NodeEditorWindow.current.GridToWindowPositionNoClipped(target.position + 
                                                                                           new Vector2(17f, 130f));
             Vector2 topLeftPos = NodeEditorWindow.current.GridToWindowPositionNoClipped(target.position + 
-                                                                                     new Vector2(0f, 110));
+                                                                                     new Vector2(0f, 170));
             
             //Borders
             EditorGUI.DrawRect(new Rect(topLeftPos+ new Vector2(5f, 0f), new Vector2(GetWidth() - 10, 300f)),

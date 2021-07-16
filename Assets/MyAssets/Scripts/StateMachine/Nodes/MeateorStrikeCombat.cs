@@ -28,11 +28,7 @@ public class MeateorStrikeCombat : PlayerStateNode
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
     [TabGroup("Inputs")] [Required] 
     private IntReference CurrentHungerLevel;
-    
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
-    [TabGroup("Inputs")] [Required] 
-    private IntReference HungerCost;
-    
+
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required] 
     private IntReference HungerInstantKillThreshold;
@@ -76,7 +72,6 @@ public class MeateorStrikeCombat : PlayerStateNode
     {
         base.Enter();
         MeateorStrikeCollision.Subscribe(OnPlayerCollidedWith);
-        CurrentHungerLevel.Value = Mathf.FloorToInt(Mathf.Max(0f, CurrentHungerLevel.Value - HungerCost.Value));
     }
 
     private void OnPlayerCollidedWith(System.Object prevCollisionInfoObj, System.Object collisionInfoObj) {

@@ -24,11 +24,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Inputs")] [Required]
         private FloatReference TimeToMaxCharge;
-        
-        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Inputs")] [Required]
-        private FloatReference MinChargeTime;
-        
+
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Inputs")] [Required]
         private FloatReference OptimalChargeTime;
@@ -40,11 +36,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Inputs")] [Required]
         private FloatReference HomingDotProductMin;
-        
-        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Inputs")] [Required]
-        private FloatReference OptimalChargeMultiplier;
-        
+
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Inputs")] [Required]
         private TimerVariable DelayTimer;
@@ -71,6 +63,14 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Outputs")] [Required]
+        private FloatReference TimeToOptimalCharge;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [TabGroup("Outputs")] [Required]
+        private Vector3Reference AccumulatedSlingshotForce;
+
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [TabGroup("Outputs")] [Required]
         private Vector3Reference SlingshotDirection;
 
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
@@ -84,31 +84,10 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Events")] [Required]
         private GameEvent SlingshotOptimalChargeEvent;
-        
-        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Events")] [Required]
-        private GameEvent SlingShotReleaseEvent;
-        
-        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Events")] [Required]
-        private GameEvent SlingShotOptimalReleaseEvent;
-        
-        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Events")] [Required]
-        private TriggerVariable SlingShotOptimalReleaseTrigger;
-        
-        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Events")] [Required]
-        private TriggerVariable SlingShotOptimalReleaseHomingTrigger;
-        
-        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Events")] [Required]
-        private TriggerVariable SlingShotReleaseTrigger;
-        
+
         #endregion
 
 
-        private Vector3 accumulatedForce;
         private float enterTime = Mathf.NegativeInfinity;
         private bool activatedParticles;
 
@@ -117,39 +96,32 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         public override void Enter()
         {
             base.Enter();
-            accumulatedForce = Vector3.zero;
+            AccumulatedSlingshotForce.Value = Vector3.zero;
+            slingshotTargetSceneReference.Value = null;
             enterTime = Time.time;
             activatedParticles = false;
-            SlingshotReleaseInput.Subscribe(Release);
-            SlingshotHomingReleaseInput.Subscribe(ReleaseHoming);
         }
 
         public override void Exit()
         {
             base.Exit();
-            SlingshotReleaseInput.Unsubscribe(Release);
-            SlingshotHomingReleaseInput.Unsubscribe(ReleaseHoming);
             SlingshotAimPivot.Value.localRotation = Quaternion.identity;
         }
 
         public override void Execute()
         {
             base.Execute();
-
-            //Only charge if past the min time
-            if (enterTime + MinChargeTime.Value < Time.time)
-            {
-                playerController.ToggleArrow(true);
-                AccumulateSlingForce();
-            }
-                
+            
+            playerController.ToggleArrow(true);
+            AccumulateSlingForce();
 
             if (!activatedParticles && enterTime + OptimalChargeTime.Value - OptimalChargeErrorThreshold.Value < Time.time)
             {
                 SlingshotOptimalChargeEvent.Raise();
                 activatedParticles = true;
             }
-
+            
+            TimeToOptimalCharge.Value = Mathf.Abs(Time.time - (enterTime + OptimalChargeTime.Value));
         }
 
         #endregion
@@ -204,7 +176,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             if (Mathf.Approximately(0f, moveInputCameraRelative.sqrMagnitude))
                 slingDirection = FlattenDirectionOntoSlope(PlayerCameraTransform.Value.forward.xoz(), groundingStatus.GroundNormal);
             else
-                slingDirection = FlattenDirectionOntoSlope(moveInputCameraRelative.normalized, groundingStatus.GroundNormal);
+                slingDirection = FlattenDirectionOntoSlope(moveInputCameraRelative.xoz().normalized, groundingStatus.GroundNormal);
             
             slingshotTargetSceneReference.Value = null;
             
@@ -221,52 +193,13 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             float timePassed = Time.time - enterTime;
             float percentToMax = Mathf.Clamp01(timePassed/TimeToMaxCharge.Value);
             float accumulatedForceMagnitude = Mathf.Lerp(MinForce.Value, MaxForce.Value, percentToMax);
-            accumulatedForce = slingDirection * accumulatedForceMagnitude;
-
+            AccumulatedSlingshotForce.Value = slingDirection * accumulatedForceMagnitude;
+            
             float maxArowLine = 15f;
             playerController.SetSlingshotArrow(percentToMax * maxArowLine * slingDirection);
             SlingshotDirection.Value = slingDirection;
             
         }
-
-        private void Release()
-        {
-            Release(false);
-        }
-
-        private void ReleaseHoming()
-        {
-            Release(true);
-        }
-
-        private void Release(bool isHoming)
-        {
-            float timeToOptimalCharge = Mathf.Abs(Time.time - (enterTime + OptimalChargeTime.Value));
-            if (timeToOptimalCharge < OptimalChargeErrorThreshold.Value)
-            {
-                accumulatedForce = MaxForce.Value * OptimalChargeMultiplier.Value * accumulatedForce.normalized;
-
-                //Homing or normal release based on input
-                if (isHoming)
-                {
-                    SlingShotOptimalReleaseHomingTrigger.Activate();
-                }
-                else
-                {
-                    SlingShotOptimalReleaseEvent.Raise();
-                    SlingShotOptimalReleaseTrigger.Activate();
-                }
-                
-            }
-            else if (accumulatedForce != Vector3.zero)
-            {
-                SlingShotReleaseEvent.Raise();
-                SlingShotReleaseTrigger.Activate();
-            }
-            
-            playerController.AddImpulse(accumulatedForce);
-            playerController.ToggleArrow(false);
-            DelayTimer.StartTimer();
-        }
+        
     }
 }

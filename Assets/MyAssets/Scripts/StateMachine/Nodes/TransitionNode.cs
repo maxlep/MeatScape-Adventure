@@ -17,11 +17,14 @@ public class TransitionNode : CollapsableNode
     [Input(typeConstraint = TypeConstraint.Strict)] [PropertyOrder(-3)] public StateMachineConnection startingState;
     [Output (connectionType = ConnectionType.Override, typeConstraint = TypeConstraint.Strict)] [PropertyOrder(-2)] public StateMachineConnection nextState;
 
-    [LabelWidth(100)] [MinValue(0)] [HideIf("$collapsed")] [HorizontalGroup("Left", MarginRight = 650f)]
+    [LabelWidth(100)] [MinValue(0)] [HorizontalGroup("Left", MarginRight = 650f)]
     [SerializeField] private int transitionPriority;
     
-    [TextArea(3,10)] [HideLabel] [HideIf("$collapsed")]
+    [TextArea(3,10)] [HideLabel] [HideInInspector]
     [SerializeField] private string conditionPreview;
+    
+    [TextArea(2,2)] [HideLabel] [ShowIf("$collapsed")]
+    [SerializeField] private string Description;
     
     [Tooltip("Unity Events that are raised when this transition is applied")] 
     [ListDrawerSettings(Expanded = true, DraggableItems = false)] [Required]
@@ -88,6 +91,11 @@ public class TransitionNode : CollapsableNode
     [OnValueChanged("InitConditions")] [Required] [HideReferenceObjectPicker]
     [OdinSerialize] private List<DynamicGameEventCondition> DynamicGameEventConditions = new List<DynamicGameEventCondition>();
     
+    [Tooltip("Transition only valid if ALL of these DynamicGameEvent condition are met")] [ListDrawerSettings(Expanded = true, DraggableItems = false)]
+    [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)] [HideIf("$collapsed")]
+    [OnValueChanged("InitConditions")] [Required] [HideReferenceObjectPicker]
+    [OdinSerialize] private List<TransformCondition> TransformConditions = new List<TransformCondition>();
+    
     private List<TriggerVariable> triggerVars = new List<TriggerVariable>();
     private List<ITransitionCondition> allConditions = new List<ITransitionCondition>();
 
@@ -125,6 +133,7 @@ public class TransitionNode : CollapsableNode
         allConditions = allConditions.Union(Vector3Conditions).ToList();
         allConditions = allConditions.Union(GameEventConditions).ToList();
         allConditions = allConditions.Union(DynamicGameEventConditions).ToList();
+        allConditions = allConditions.Union(TransformConditions).ToList();
         InitConditions();
         
         PopulateTriggerList();

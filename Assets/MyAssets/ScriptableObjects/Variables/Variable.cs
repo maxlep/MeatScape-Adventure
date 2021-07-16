@@ -15,6 +15,7 @@ namespace MyAssets.ScriptableObjects.Variables
     [Serializable]
     [InlineEditor(InlineEditorObjectFieldModes.Foldout)]
     public class Variable<T> : SerializedScriptableObject {
+        [HideInInlineEditors] public bool EnableDebugOnUpdate;
         [TextArea (7, 10)] [HideInInlineEditors] public String Description;
         [SerializeField] [LabelText("Default")] [LabelWidth(50f)] private T defaultValue;
         [SerializeField] [LabelText("Runtime")] [LabelWidth(50f)] private T runtimeValue;
@@ -32,6 +33,8 @@ namespace MyAssets.ScriptableObjects.Variables
                 runtimeValue = value;
                 this.OnUpdateDelta?.Invoke(prevValue, runtimeValue);
                 this.OnUpdate?.Invoke();
+                if (EnableDebugOnUpdate)
+                    Debug.LogError($"name: {name} | prevValue: {prevValue} | currentValue: {runtimeValue}");
             }
         }
 
@@ -76,8 +79,6 @@ namespace MyAssets.ScriptableObjects.Variables
 
         private void OnEnable()
         {
-            
-            
             hideFlags = HideFlags.DontUnloadUnusedAsset;
             Reset();
         }

@@ -168,6 +168,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private CinemachineFreeLook freeLookCam;
 
     private bool isInvincible;
+    private bool ungroundTrigger;
 
     public delegate void _OnStartUpdateVelocity(VelocityInfo velocityInfo);
     public delegate void _OnStartUpdateRotation(Quaternion currentRotation);
@@ -292,8 +293,12 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
         #region OverlayedVelocity
 
-        if(impulseVelocityOverlayed.y > 0f)
+        if (ungroundTrigger && (impulseVelocityOverlayedOverrideX.y > 0f) ||
+                                impulseVelocityOverlayed.y > 0f ||
+                                StoredJumpVelocity.Value > 0f)
+        {
             UngroundMotor();
+        }
 
         //This stored velocity is additive
         if(!Mathf.Approximately(0f, impulseVelocityOverlayed.sqrMagnitude))
@@ -323,6 +328,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         impulseVelocityRedirectable = Vector3.zero;
         impulseVelocityOverlayed = Vector3.zero;
         impulseVelocityOverlayedOverrideX = Vector3.zero;
+        ungroundTrigger = false;
     }
 
     public void AfterCharacterUpdate(float deltaTime, Vector3 previousVelocity)
@@ -395,13 +401,14 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         AddImpulseTrigger.Activate();
     }
 
-    public void AddImpulseOverlayed(Vector3 addImpulse, bool overrideXComponent = false)
+    public void AddImpulseOverlayed(Vector3 addImpulse, bool overrideXComponent = false, bool ungroundMotor = false)
     {
         if(overrideXComponent)
             impulseVelocityOverlayedOverrideX += addImpulse;
         else
             impulseVelocityOverlayed += addImpulse;
 
+        ungroundTrigger = ungroundMotor;
         AddImpulseTrigger.Activate();
     }
 

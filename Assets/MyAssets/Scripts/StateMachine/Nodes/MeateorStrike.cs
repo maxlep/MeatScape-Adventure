@@ -124,6 +124,10 @@ public class MeateorStrike : RollMovement
         if (currentTargetSceneReference.Value != null)
             slingshotTargetSceneReference.Value = currentTargetSceneReference.Value;
         
+        //If no target, dont use homing logic
+        if (slingshotTargetSceneReference.Value == null)
+            isHoming = false;
+        
         //Add impulse for dash if not homing
         if (!isHoming)
             playerController.AddImpulse(SlingshotDirection.Value * MeteorStrikeDashForce.Value);

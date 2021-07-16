@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 537cb35d750e8ce408742fb7f17d67f5, type: 3}
-  m_Name: HungerLevel_Player
+  m_Script: {fileID: 11500000, guid: d305b422f5c218c4a9c105b999598742, type: 3}
+  m_Name: AccumulatedSlingshotForce_Slingshot_Player
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -20,11 +20,18 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: X
+      Entry: 6
+      Data: 
+    - Name: Y
+      Entry: 6
+      Data: 
+    - Name: Z
+      Entry: 6
+      Data: 
   EnableDebugOnUpdate: 0
-  Description: 'The current hunger level of the player.
-
-    Reference other properties
-    on the player controller.'
-  defaultValue: 12
-  runtimeValue: 12
+  Description: Force accumulated by slingshot charging
+  defaultValue: {x: 0, y: 0, z: 0}
+  runtimeValue: {x: 0, y: 0, z: 0}
+  UseComponentReferences: 0

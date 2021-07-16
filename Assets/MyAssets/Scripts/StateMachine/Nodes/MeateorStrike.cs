@@ -217,7 +217,7 @@ public class MeateorStrike : RollMovement
         
         //If grounded, update slingshot direction
         if (motor.GroundingStatus.FoundAnyGround)
-            slingshotDirOnSlope = FlattenDirectionOntoSlope(SlingshotDirection.Value, effectiveGroundNormal);
+            slingshotDirOnSlope = VectorUtils.FlattenDirectionOntoSlope(SlingshotDirection.Value, effectiveGroundNormal);
 
         previousSlingshotDir = slingshotDirOnSlope;
         newVelocity = slingshotDirOnSlope * currentSpeed;

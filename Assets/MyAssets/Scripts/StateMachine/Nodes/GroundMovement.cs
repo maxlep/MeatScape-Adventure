@@ -221,7 +221,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
             //Rotate current vel towards target vel to get new direction
             Vector3 dummyVel = Vector3.zero;
-            Vector3 targetDir = FlattenDirectionOntoSlope(moveInputCameraRelative.xoz(), effectiveGroundNormal);
+            Vector3 targetDir = VectorUtils.FlattenDirectionOntoSlope(moveInputCameraRelative.xoz(), effectiveGroundNormal);
             Vector3 dir = Vector3.SmoothDamp(currentVelocity.normalized, targetDir,
                 ref dummyVel, currentTurnSpeed);
 
@@ -272,7 +272,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
                 //If finished stopping, turn to face moveDir
                 if (newSpeed < FastTurnBrakeSpeedThreshold.Value)
-                    newDirection = FlattenDirectionOntoSlope(moveInputCameraRelative.xoz(), effectiveGroundNormal);
+                    newDirection = VectorUtils.FlattenDirectionOntoSlope(moveInputCameraRelative.xoz(), effectiveGroundNormal);
             }
             else if(IsSlideTurning.Value)
             {
@@ -283,7 +283,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
                 //If finished stopping, turn to face moveDir
                 if (newSpeed < FastTurnBrakeSpeedThreshold.Value)
-                    newDirection = FlattenDirectionOntoSlope(moveInputCameraRelative.xoz(), effectiveGroundNormal);
+                    newDirection = VectorUtils.FlattenDirectionOntoSlope(moveInputCameraRelative.xoz(), effectiveGroundNormal);
             }
 
             #endregion

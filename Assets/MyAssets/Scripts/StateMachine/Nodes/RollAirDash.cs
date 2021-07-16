@@ -75,24 +75,29 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             
             AirRollDashEvent.Raise();
 
+            KinematicCharacterMotor motor = playerController.CharacterMotor;
             Vector2 camForward = PlayerCameraTransform.Value.forward.xz().normalized;
             moveInputCameraRelative = camForward.GetRelative(MoveInput.Value).xoy();
 
-            #region Vertical
+            SetHorizontalImpulse();
+            
+            //Only set vertical velocity if not grounded
+            if (!motor.GroundingStatus.FoundAnyGround)
+                SetVerticalImpulse();
 
-            if (isAdditive)
-                playerController.AddImpulseOverlayed(Vector3.up * AirUpwardForceAdditive.Value, false);
-            else
-                StoredJumpVelocity.Value = AirUpwardForce.Value;
+        }
 
-            #endregion
+        #endregion
 
+        private void SetHorizontalImpulse()
+        {
+            KinematicCharacterMotor motor = playerController.CharacterMotor;
+            Vector3 jumpDirectionHorizontal = moveInputCameraRelative.xoz().normalized * MoveInput.Value.magnitude;
 
-            #region Horizontal
-
-            Vector3 jumpDirectionHorizontal;
-
-            jumpDirectionHorizontal = moveInputCameraRelative.xoz().normalized * MoveInput.Value.magnitude;
+            //If grounded, flatten direction onto the slope
+            if (motor.GroundingStatus.FoundAnyGround)
+                jumpDirectionHorizontal =
+                    VectorUtils.FlattenDirectionOntoSlope(jumpDirectionHorizontal, motor.GroundingStatus.GroundNormal);
 
             if (isAdditive)
             {
@@ -103,11 +108,15 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 
             else
                 playerController.AddImpulseOverlayed(jumpDirectionHorizontal * AirForwardForce.Value, true);
-
-            #endregion
         }
-
-        #endregion
+        
+        private void SetVerticalImpulse()
+        {
+            if (isAdditive)
+                playerController.AddImpulseOverlayed(Vector3.up * AirUpwardForceAdditive.Value, false);
+            else
+                StoredJumpVelocity.Value = AirUpwardForce.Value;
+        }
         
 
         #region Transition Methods

@@ -345,7 +345,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 else if (Mathf.Approximately(MoveInput.Value.magnitude, 0f))
                     moveInputOnSlope = Vector3.zero;
                 else
-                    moveInputOnSlope = FlattenDirectionOntoSlope(moveInputCameraRelative.xoz().normalized, effectiveGroundNormal);
+                    moveInputOnSlope = VectorUtils.FlattenDirectionOntoSlope(moveInputCameraRelative.xoz().normalized, effectiveGroundNormal);
                 
                 dir = Vector3.SmoothDamp(dirOnSlope, moveInputOnSlope,
                     ref dummyVel, currentTurnSpeed).normalized;

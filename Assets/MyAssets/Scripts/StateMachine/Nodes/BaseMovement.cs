@@ -220,25 +220,5 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             return addImpulseRedirected;
         }
 
-        /// <summary>
-        /// Different than ProjectOnPlane. This method is like looking at the vector from top-down
-        /// view and pushing it directly downwards onto the slope. Useful to get move input on slope that
-        /// feels better than Vector3.ProjectOnPlane
-        /// </summary>
-        /// <param name="dir"></param>
-        /// <param name="slopeNormal"></param>
-        /// <returns></returns>
-        protected virtual Vector3 FlattenDirectionOntoSlope(Vector3 dir, Vector3 slopeNormal)
-        {
-            //The idea here is to create a plane from dir and Vector3.up
-            //The dir flattened onto the slope (desired value) is nothing more than the line of intersection
-            //between the slope plane and this newly created plane
-            //To find the line of intersection of 2 planes, you just take the cross product of their normals
-            Vector3 crossPlaneNormal = Vector3.Cross(Vector3.up, dir);
-            Vector3 flattenedDirection = Vector3.Cross(crossPlaneNormal, slopeNormal).normalized;
-            
-            return flattenedDirection;
-        }
-        
     }
 }

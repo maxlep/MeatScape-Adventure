@@ -144,7 +144,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             //If no move input, just face cam forward flattened onto slope
             if (Mathf.Approximately(0f, moveInputCameraRelative.sqrMagnitude))
             {
-                Vector3 camDirOnSlope = FlattenDirectionOntoSlope(PlayerCameraTransform.Value.forward.xoz(), GroundingStatus.GroundNormal);
+                Vector3 camDirOnSlope = VectorUtils.FlattenDirectionOntoSlope(PlayerCameraTransform.Value.forward.xoz(), GroundingStatus.GroundNormal);
                 
                 //TODO: Figure out how to get pivot working properly, its not reseting on exit
                 //Here the pivot should handle vertical tilt (visual) while actual rotaiton is just in XZ-Plane
@@ -159,7 +159,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             if (GroundingStatus.FoundAnyGround && GroundingStatus.GroundNormal == Vector3.up)
                 moveInputOnSlope = moveInputCameraRelative.xoz().normalized;
             else
-                moveInputOnSlope = FlattenDirectionOntoSlope(moveInputCameraRelative.xoz().normalized, GroundingStatus.GroundNormal);
+                moveInputOnSlope = VectorUtils.FlattenDirectionOntoSlope(moveInputCameraRelative.xoz().normalized, GroundingStatus.GroundNormal);
 
             //TODO: Figure out how to get pivot working properly, its not reseting on exit
             //Here the pivot should handle vertical tilt (visual) while actual rotaiton is just in XZ-Plane
@@ -174,9 +174,9 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             
             //If no move input, just launch forward
             if (Mathf.Approximately(0f, moveInputCameraRelative.sqrMagnitude))
-                slingDirection = FlattenDirectionOntoSlope(PlayerCameraTransform.Value.forward.xoz(), groundingStatus.GroundNormal);
+                slingDirection = VectorUtils.FlattenDirectionOntoSlope(PlayerCameraTransform.Value.forward.xoz(), groundingStatus.GroundNormal);
             else
-                slingDirection = FlattenDirectionOntoSlope(moveInputCameraRelative.xoz().normalized, groundingStatus.GroundNormal);
+                slingDirection = VectorUtils.FlattenDirectionOntoSlope(moveInputCameraRelative.xoz().normalized, groundingStatus.GroundNormal);
             
             slingshotTargetSceneReference.Value = null;
             

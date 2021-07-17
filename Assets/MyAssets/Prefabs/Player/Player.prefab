@@ -5416,7 +5416,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5636671187981145559}
-  - component: {fileID: 7796392261092317272}
+  - component: {fileID: 5402806964791632679}
   - component: {fileID: 222926512804891898}
   - component: {fileID: 5532309284066483225}
   m_Layer: 9
@@ -5440,7 +5440,7 @@ Transform:
   m_Father: {fileID: 6585804462549008222}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7796392261092317272
+--- !u!114 &5402806964791632679
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5449,14 +5449,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 2597686694220232095}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbdd7941d76692841b8033dd8c43275b, type: 3}
+  m_Script: {fileID: 11500000, guid: 94ca8666ae21d904f9a8fe9795071b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StateMachine: {fileID: 11400000, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
-  ExitState: {fileID: 454363467314561103, guid: 7a3214574a4315847bb608ab776638ad,
-    type: 2}
-  EnterState: {fileID: 0}
-  OnStateChange:
+  StateMachines:
+  - {fileID: 11400000, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  InvalidStates:
+  - {fileID: 454363467314561103, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  - {fileID: 4861591892351112799, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  - {fileID: 4956857665740836817, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  OnNoInvalidStateActive:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 222926512804891898}

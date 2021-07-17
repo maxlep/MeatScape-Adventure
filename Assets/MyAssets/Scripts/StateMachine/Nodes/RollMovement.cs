@@ -431,15 +431,15 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 
                 if (newVelocity.y <= 0f)  //Falling
                 {
-                    //TODO: I dont think this drag is working properly
-                    var drag = (newVelocity.y * newVelocity.y) * DragCoefficientVertical.Value * Time.deltaTime;
-                    newVelocity.y += drag + gravityAirborn * FallMultiplier.Value * Time.deltaTime;
+                    newVelocity.y += gravityAirborn * FallMultiplier.Value * Time.deltaTime;
                 }
                 else if (newVelocity.y > 0f)
                 {
-                    var drag = -(newVelocity.y * newVelocity.y) * DragCoefficientVertical.Value * Time.deltaTime;
-                    newVelocity.y += drag + gravityAirborn * UpwardsGravityMultiplier.Value * Time.deltaTime;
+                    newVelocity.y += gravityAirborn * UpwardsGravityMultiplier.Value * Time.deltaTime;
                 }
+                
+                var drag = newVelocity.y * DragCoefficientVertical.Value * Time.deltaTime;
+                newVelocity.y -= drag;
 
                 if (newVelocity.y < -Mathf.Abs(MaxFallSpeed.Value))   //Cap Speed
                 {

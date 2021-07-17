@@ -136,6 +136,7 @@ public class MeateorStrike : RollMovement
     public override void Exit()
     {
         base.Exit();
+        PlayerCollidedWith.Unsubscribe(CheckForHit);
     }
 
     public override void Execute()

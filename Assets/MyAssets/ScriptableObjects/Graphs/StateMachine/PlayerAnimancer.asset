@@ -390,7 +390,16 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    - < Const>0.75  Less
+    Than  Run_ Input_ Factor_ Player
+
+    -  Player Move Input_ Controller_ Player.
+    X  Abs Less Than 0.001. X &&  Player Move Input_ Controller_ Player. Y  Abs Less
+    Than 0.001. Y
+
+'
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -1112,7 +1121,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Slide Turning_ Movement_ Player
+
+'
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -1278,7 +1289,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '- < Const>: 0.15 sec
+
+'
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -1652,6 +1665,9 @@ MonoBehaviour:
         reroutePoints: []
       - fieldName: transitions
         node: {fileID: -2815708332468142075}
+        reroutePoints: []
+      - fieldName: transitions
+        node: {fileID: -3378563851010946194}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -2269,7 +2285,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Do Nothing (Combat Anim)
   Description: 
-  isActiveState: 0
+  isActiveState: 1
   transitionTime: 0
   transitionCurve:
     serializedVersion: 2
@@ -2346,7 +2362,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Idle NEW!
   Description: 
-  isActiveState: 0
+  isActiveState: 1
   transitionTime: 0
   transitionCurve:
     serializedVersion: 2
@@ -3147,6 +3163,9 @@ MonoBehaviour:
       connections:
       - fieldName: startingState
         node: {fileID: -2350006928959415067}
+        reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: -7176834836780725009}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -5362,7 +5381,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Fast Turning_ Movement_ Player
+
+'
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -8309,7 +8330,13 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '- ! Is Grounded_ Controller_ Player
+
+    -  Move_ Player_ Resultant_
+    Anim_ Player. X  Ignore 0. X &&  Move_ Player_ Resultant_ Anim_ Player. Y  Less
+    Than 0.1. Y &&  Move_ Player_ Resultant_ Anim_ Player. Z  Ignore 0. Z
+
+'
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -8677,7 +8704,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Acceleration Lean
   Description: 
-  isActiveState: 0
+  isActiveState: 1
   transitionTime: 0
   transitionCurve:
     serializedVersion: 2
@@ -9174,7 +9201,14 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    -  Move_ Player_ Resultant_
+    Anim_ Player. X  Abs Less Than 0.001. X &&  Move_ Player_ Resultant_ Anim_ Player.
+    Y  Ignore 0. Y &&  Move_ Player_ Resultant_ Anim_ Player. Z  Abs Less Than 0.001.
+    Z
+
+'
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -10103,7 +10137,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Parameter Processor
   Description: 
-  isActiveState: 0
+  isActiveState: 1
   subGraph: {fileID: 11400000, guid: 3833a745fc2f8524cb9f2b661e39a5ed, type: 2}
   subStates:
   - {fileID: 5592738946215276755, guid: 3833a745fc2f8524cb9f2b661e39a5ed, type: 2}
@@ -10367,7 +10401,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   collapsed: 1
-  transitionPriority: 0
+  transitionPriority: 239
   conditionPreview: '-  Invalid:  Roll  Movement
 
 '

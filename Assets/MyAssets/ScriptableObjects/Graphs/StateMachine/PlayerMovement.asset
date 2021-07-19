@@ -919,7 +919,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Post Meateor Strike Duration_ Meateor_ Player: 0.65 sec
+
+'
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -1153,7 +1155,16 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 10
-  conditionPreview: 
+  conditionPreview: '-  Slingshot Released Trigger_ Controller_ Player
+
+    -  Time
+    To Optimal Charge_ Slingshot_ Player  Less Than  Slingshot Optimal Charge Error
+    Threshold_ Roll_ Player
+
+    -  Slingshot Min Charge Timer_ Roll_ Player: 0.1
+    sec
+
+'
   Description: Optimal release.  LOW PRIORITY
   RaiseOnTransitionUnityEvents:
   - m_PersistentCalls:
@@ -1783,7 +1794,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 15
-  conditionPreview: 
+  conditionPreview: '-  Slingshot Released Trigger_ Controller_ Player
+
+    -  Slingshot
+    Min Charge Timer_ Roll_ Player: 0.1 sec
+
+'
   Description: Slingshot released,  not optimal. LOWER PRIORITY
   RaiseOnTransitionUnityEvents:
   - m_PersistentCalls:
@@ -3094,7 +3110,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    -  Jump Trigger_ Controller_
+    Player
+
+'
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -3903,7 +3924,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Add Impulse Trigger_ Controller_ Player
+
+'
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -4283,7 +4306,21 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Modifier Pressed_ Controller_ Player
+
+    -  Slingshot Released
+    Trigger_ Controller_ Player
+
+    -  Time To Optimal Charge_ Slingshot_ Player 
+    Less Than  Slingshot Optimal Charge Error Threshold_ Roll_ Player
+
+    -  Hunger
+    Level_ Player  Greater Than 0
+
+    -  Slingshot Min Charge Timer_ Roll_ Player:
+    0.1 sec
+
+'
   Description: Homing Meateor Strike. Release at optimal time AND holding modifier
   RaiseOnTransitionUnityEvents:
   - m_PersistentCalls:
@@ -4483,7 +4520,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Flatten Timer_ Movement_ Player: 0.4 sec
+
+'
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -6367,10 +6406,10 @@ MonoBehaviour:
   FallMultiplier:
     UseConstant: 0
     EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: Assets/MyAssets/ScriptableObjects/InstancedProperties/
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 4d11961e025bc3d4b8b0158e12fc0b37, type: 2}
+    InstanceName: FastFallMultiplier_Slingshot_Player
+    InstancePath: PlayerProperties/MovementProps/SlingshotProps
+    ConstantValue: 0.25
+    Variable: {fileID: 11400000, guid: 9fa0485d0f1452a47b24eb4bac2e08e2, type: 2}
   UpwardsGravityMultiplier:
     UseConstant: 0
     EnableInstanceOptions: 0
@@ -6397,7 +6436,7 @@ MonoBehaviour:
     EnableInstanceOptions: 0
     InstanceName: 
     InstancePath: Assets/MyAssets/ScriptableObjects/InstancedProperties/
-    ConstantValue: 0
+    ConstantValue: 0.3
     Variable: {fileID: 11400000, guid: 783f2468a05364043be711de8bd02039, type: 2}
   GravityFactorAirborn:
     UseConstant: 0
@@ -6997,7 +7036,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 15
-  conditionPreview: 
+  conditionPreview: '-  Slingshot Min Charge Timer_ Roll_ Player: 0.1 sec
+
+    - 
+    On Modifier Pressed_ Input
+
+'
   Description: Slingshot released via modifier,  not optimal. LOWER PRIORITY
   RaiseOnTransitionUnityEvents:
   - m_PersistentCalls:
@@ -7306,7 +7350,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    - ! Is On Slideable
+    Slope_ Controller_ Player
+
+'
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -7638,7 +7687,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Is On Slideable Slope_ Controller_ Player
+
+    -  Waited
+    Jump Ground Delay_ Movement_ Player
+
+'
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -8675,7 +8729,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 20
-  conditionPreview: 
+  conditionPreview: '-  Slingshot Released Trigger_ Controller_ Player
+
+'
   Description: Catch-all for release slingshot without reaching timer. LOWEST PRIORITY
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -10851,7 +10907,7 @@ MonoBehaviour:
   BypassState: 0
   Name: GroundMovement
   Description: 
-  isActiveState: 0
+  isActiveState: 1
   BaseSpeed:
     UseConstant: 1
     EnableInstanceOptions: 0
@@ -11912,7 +11968,18 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Slingshot Released Trigger_ Controller_ Player
+
+    -  Time
+    To Optimal Charge_ Slingshot_ Player  Less Than  Slingshot Optimal Charge Error
+    Threshold_ Roll_ Player
+
+    -  Hunger Level_ Player  Greater Than 0
+
+    - 
+    Slingshot Min Charge Timer_ Roll_ Player: 0.1 sec
+
+'
   Description: Homing Meateor Stirke.  Slingshot released at optimal time and has
     hunger
   RaiseOnTransitionUnityEvents:
@@ -12562,7 +12629,14 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Jump Trigger_ Controller_ Player
+
+    -  Hunger Level_ Player 
+    Greater Than 0
+
+    -  Flatten Jump Delay Timer_ Movement_ Player: 0.1 sec
+
+'
   Description: 
   RaiseOnTransitionUnityEvents:
   - m_PersistentCalls:
@@ -12975,7 +13049,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Meateor Collide Trigger_ Controller_ Player
+
+'
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -14035,7 +14111,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 20
-  conditionPreview: 
+  conditionPreview: '-  On Modifier Released_ Input
+
+'
   Description: Catch-all for release slingshot via modifer without reaching timer.
     LOWEST PRIORITY
   RaiseOnTransitionUnityEvents: []
@@ -14387,7 +14465,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Slingshot Pressed Trigger_ Controller_ Player
+
+'
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -14749,7 +14829,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Distance To Ground_ Controller_ Player  Less Than 1
+
+'
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []

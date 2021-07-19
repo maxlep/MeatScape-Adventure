@@ -443,7 +443,9 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         slingshotLine.Start = Vector3.zero;
         slingshotLine.End = transform.InverseTransformDirection(arrowVector);
         slingshotCone.transform.position = slingshotLine.transform.position + arrowVector;
-        slingshotCone.transform.rotation = Quaternion.LookRotation(arrowVector);
+        
+        if (arrowVector.sqrMagnitude > 0f)
+            slingshotCone.transform.rotation = Quaternion.LookRotation(arrowVector);
     }
 
     public void UngroundMotor(float time = .1f)

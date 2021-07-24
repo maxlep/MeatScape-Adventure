@@ -16,6 +16,7 @@ namespace MyAssets.Scripts.Misc
         {
             _initialText = TextMesh.text;
             IntegerValue.Subscribe(UpdateText);
+            UpdateText();
         }
 
         private void OnDestroy()

@@ -60,12 +60,23 @@ public class FireProjectile : Action
         
         //Fire from firepoint
         Vector3 firePos = FirePoint.Value.position;
-        
-        Vector3 targetPos = targetCollider.bounds.center;
-        Vector3 dirToTarget = (targetPos - firePos);
 
-        float timeToTarget = FireSpeed.Value / dirToTarget.magnitude;
-        targetPos += timeToTarget * targetRigidbody.velocity.xoz();
+        Vector3 targetPos;
+        if (targetCollider != null)
+        {
+            targetPos = targetCollider.bounds.center;
+        }
+        else
+        {
+            targetPos = Target.Value.position;
+        }
+        Vector3 dirToTarget = (targetPos - firePos);
+        
+        if (targetRigidbody != null)
+        {
+            float timeToTarget = FireSpeed.Value / dirToTarget.magnitude;
+            targetPos += timeToTarget * targetRigidbody.velocity.xoz();
+        }
         
         Vector3 projectileDrop = Physics.gravity * (dirToTarget.y / (Physics.gravity.y + (FireSpeed.Value * (targetPos - firePos).normalized.y)));
         

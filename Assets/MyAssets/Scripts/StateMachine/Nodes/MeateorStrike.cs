@@ -178,7 +178,11 @@ public class MeateorStrike : RollMovement
         if (!isHoming)
         {
             Vector3 horizontalVelocity = CalculateHorizontalVelocity(currentVelocity, effectiveGroundNormal);
-            Vector3 verticalVelocity = CalculateVerticalVelocity(currentVelocity, effectiveGroundNormal);
+            Vector3 verticalVelocity = Vector3.zero;
+            
+            //Only apply gravity if grounded
+            if (motor.GroundingStatus.FoundAnyGround)
+                verticalVelocity = CalculateVerticalVelocity(currentVelocity, effectiveGroundNormal);
 
             resultingVelocity = horizontalVelocity + verticalVelocity;
             resultingVelocity += totalImpulse;

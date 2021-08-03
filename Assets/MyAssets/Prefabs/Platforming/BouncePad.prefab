@@ -13,12 +13,12 @@ GameObject:
   - component: {fileID: 4639465223873909734}
   - component: {fileID: 4639465223873909735}
   - component: {fileID: 4639465223873909732}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4639465223873909728
 Transform:
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 4639465223873909729}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 8.639883, y: 3.491809, z: 8.639883}
+  m_LocalScale: {x: 39.681606, y: 6.781061, z: 39.681606}
   m_Children: []
   m_Father: {fileID: 4639465224685610794}
   m_RootOrder: 0
@@ -108,10 +108,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3c09b854fa53f54191c02da97840703, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isOverlayForce: 0
   forceType: 1
   forceDirectionType: 0
   LayerMapper: {fileID: 11400000, guid: 3f0bff594715a77478fbb7703d7b9fc0, type: 2}
+  PreviousVelocity:
+    UseConstant: 0
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: {x: 0, y: 0, z: 0}
+    Variable: {fileID: 11400000, guid: 32fe95a7d33c6774fbb7a1297b54ed10, type: 2}
+  OnForceEffectorActivated: {fileID: 11400000, guid: cd8ee4c0d9f2ce545a2f78894b1fb06f,
+    type: 2}
   isDirectionLocalSpace: 0
   direction: {x: 0, y: 1, z: 0}
   forceMagnitude: 20
@@ -127,7 +135,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4639465224685610794}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: BouncePad
   m_TagString: Untagged
   m_Icon: {fileID: 0}

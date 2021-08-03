@@ -89,6 +89,12 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             SetMoveDirection(); //Call to force update moveDir in case updateRot called b4 updateVel
         }
 
+        public override void Execute()
+        {
+            base.Execute();
+            UpdateGravityParameters();
+        }
+
         public override void Exit()
         {
             base.Exit();
@@ -148,6 +154,13 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 return;
 
             NewRotationOut.Value = Quaternion.LookRotation(moveInputCameraRelative, Vector3.up);
+        }
+
+        protected virtual void UpdateGravityParameters()
+        {
+            playerController.Gravity = gravity;
+            playerController.UpwardsGravityFactor = 1f;
+            playerController.DownwardsGravityFactor = 1f;
         }
         #endregion
         

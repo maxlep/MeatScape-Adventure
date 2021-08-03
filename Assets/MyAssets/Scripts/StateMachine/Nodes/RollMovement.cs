@@ -384,7 +384,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             
             //If projected move input is in same direction as velocity, set target speed
             //Otherwise, assume player wants to stop and turn around 
-            if (Vector3.Dot(dir, moveInputOnSlope) > 0f)
+            if (Vector3.Dot(dir.xoz(), moveInputOnSlope.xoz()) > 0f)
                 targetMagnitude = moveInputOnSlope.magnitude;
             else
                 targetMagnitude = 0f;
@@ -488,6 +488,13 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             
             
             NewRotationOut.Value = newRotation;
+        }
+        
+        protected override void UpdateGravityParameters()
+        {
+            playerController.Gravity = gravity * GravityFactorAirborn.Value;
+            playerController.UpwardsGravityFactor = UpwardsGravityMultiplier.Value ;
+            playerController.DownwardsGravityFactor = FallMultiplier.Value;
         }
         
         private void CheckForDeflect(System.Object prevCollisionInfoObj, System.Object collisionInfoObj)

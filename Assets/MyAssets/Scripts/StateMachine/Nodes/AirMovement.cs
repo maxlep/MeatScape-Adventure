@@ -304,6 +304,13 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             NewRotationOut.Value = newRotation;
         }
         
+        protected override void UpdateGravityParameters()
+        {
+            playerController.Gravity = gravity;
+            playerController.UpwardsGravityFactor = 1f;
+            playerController.DownwardsGravityFactor = FallMultiplier.Value;
+        }
+        
         private void CheckForFastTurn(Vector3 currentVelocity)
         {
             //Angle between move input of this frame and previous

@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using BehaviorDesigner.Runtime.Tasks;
+using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
+using MyAssets.ScriptableObjects.Variables.ValueReferences;
 using Shapes;
 using Sirenix.OdinInspector;
 using UnityEditor;
@@ -12,10 +14,11 @@ public class ForceEffector : MonoBehaviour
 {
     [UnityEngine.Tooltip("Apply force after all player-state logic, overlaid additively. Otherwise send to" +
                          " player states for processing")]
-    [SerializeField] private bool isOverlayForce;
     [SerializeField] private ForceType forceType;
     [SerializeField] private ForceDirectionType forceDirectionType;
     [SerializeField] private LayerMapper LayerMapper;
+    [SerializeField] private Vector3Reference PreviousVelocity;
+    [SerializeField] private GameEvent OnForceEffectorActivated;
 
     [SerializeField] [ShowIf("forceDirectionType", ForceDirectionType.Directional)] 
     [LabelText("IsLocalSpace")]
@@ -43,7 +46,8 @@ public class ForceEffector : MonoBehaviour
     private enum ForceType
     {
         Constant,
-        Impulse
+        Impulse,
+        Reflect
     }
 
     [Serializable]
@@ -54,27 +58,46 @@ public class ForceEffector : MonoBehaviour
     }
     
     
-    //TODO: Horiz. force has to be enough to get player out of trigger since additive?
-    
-    private void OnTriggerEnter(Collider other)
+    //To be called by player controller on rigibody sweep
+    public void Activate(PlayerController playerController)
     {
-        if (forceType != ForceType.Impulse) return;
-        
-        if (other.gameObject.layer == LayerMapper.GetLayer(LayerEnum.Player))
+        switch (forceType)
         {
-            PlayerController playerController = other.gameObject.GetComponent<PlayerController>();
-            ApplyForceToPlayer(playerController);
+            case (ForceType.Constant):
+                break;
+            
+            case (ForceType.Impulse):
+                OnForceEffectorActivated.Raise();
+                ApplyForceToPlayer(playerController);
+                break;
+            
+            case (ForceType.Reflect):
+                OnForceEffectorActivated.Raise();
+                ReflectVelocity(playerController);
+                break;
+            
         }
     }
     
     private void OnTriggerStay(Collider other)
     {
-        if (forceType != ForceType.Constant) return;
-        
-        if (other.gameObject.layer == LayerMapper.GetLayer(LayerEnum.Player))
+        if (other.gameObject.layer != LayerMapper.GetLayer(LayerEnum.Player))
+            return;
+
+        switch (forceType)
         {
-            PlayerController playerController = other.gameObject.GetComponent<PlayerController>();
-            ApplyForceToPlayer(playerController);
+            case (ForceType.Constant):
+                OnForceEffectorActivated.Raise();
+                PlayerController playerController = other.gameObject.GetComponent<PlayerController>();
+                ApplyForceToPlayer(playerController);
+                break;
+            
+            case (ForceType.Impulse):
+                break;
+            
+            case (ForceType.Reflect):
+                break;
+            
         }
     }
 
@@ -83,29 +106,60 @@ public class ForceEffector : MonoBehaviour
         Vector3 force = Vector3.zero;
         playerController.UngroundMotor();
 
-        if (forceDirectionType == ForceDirectionType.Radial)
+        switch (forceDirectionType)
         {
-            Vector3 target = (isTargetLocalSpace) ?
-                transform.TransformPoint(targetPoint)
-                : targetPoint;
+            case(ForceDirectionType.Directional):
+                Vector3 dir = (isDirectionLocalSpace) ? 
+                    transform.TransformDirection(direction.normalized) :
+                    direction.normalized;
             
-            Vector3 radialForceDir = (target - playerController.transform.position).normalized;
-            force = radialForceDir * radialAcceleration * Time.deltaTime;
+                //No mult by time.deltaTime because impulse
+                force = forceMagnitude * dir;
+                bool isAdditive = forceType == ForceType.Constant;
+                playerController.SetImpulseDistance(dir, forceMagnitude, isAdditive);
+                break;
+            
+            case(ForceDirectionType.Radial):
+                Vector3 target = (isTargetLocalSpace) ?
+                    transform.TransformPoint(targetPoint)
+                    : targetPoint;
+            
+                Vector3 radialForceDir = (target - playerController.transform.position).normalized;
+                force = radialForceDir * radialAcceleration * Time.deltaTime;
+                playerController.AddImpulse(force);
+                break;
         }
-        else if (forceDirectionType == ForceDirectionType.Directional)
+    }
+
+    private void ReflectVelocity(PlayerController playerController)
+    {
+        Vector3 force = Vector3.zero;
+
+        switch (forceDirectionType)
         {
-            Vector3 dir = (isDirectionLocalSpace) ? 
-                transform.TransformDirection(direction.normalized) :
-                direction.normalized;
+            case(ForceDirectionType.Directional):
+                force = Vector3.Reflect(PreviousVelocity.Value, direction.normalized);
+                break;
             
-            //No mult by time.deltaTime because impulse
-            force = forceMagnitude * dir;    
+            case(ForceDirectionType.Radial):
+                Vector3 target = (isTargetLocalSpace) ?
+                    transform.TransformPoint(targetPoint)
+                    : targetPoint;
+            
+                Vector3 radialForceDir = (target - playerController.transform.position).normalized;
+                force = Vector3.Reflect(PreviousVelocity.Value, -radialForceDir);
+                break;
         }
         
-        if (isOverlayForce)
-            playerController.AddImpulseOverlayed(force);
-        else
-            playerController.AddImpulse(force);
+        if (force.y > 0f)
+            playerController.UngroundMotor();
+        
+        // if (isOverlayForce)
+        //     playerController.AddImpulseOverlayed(force);
+        // else
+        //     playerController.AddImpulse(force);
+        
+        playerController.SetImpulseDistance(force.normalized, forceMagnitude);
     }
 
     private void OnDrawGizmosSelected()

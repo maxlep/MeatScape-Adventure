@@ -44,6 +44,7 @@ public struct CollisionInfo
 public class PlayerController : SerializedMonoBehaviour, ICharacterController
 {
     [SerializeField] private KinematicCharacterMotor charMotor;
+    [SerializeField] private Rigidbody playerRb;
     [SerializeField] private LayerMapper layerMapper;
     [SerializeField] private LayerMask interactableMask;
     [SerializeField] private AudioClip jumpAttackClip;
@@ -155,15 +156,24 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     private List<InteractionReceiver> interactablesInRange = new List<InteractionReceiver>();
 
-    private Vector3 impulseVelocity;
-    private Vector3 impulseVelocityRedirectable;
-    private Vector3 impulseVelocityOverlayed;
-    private Vector3 impulseVelocityOverlayedOverrideX;
+    private Vector3 impulse;
+    private Vector3 impulseRedirectable;
+    private Vector3 impulseOverlayed;
+    private Vector3 impulseOverlayedOverrideX;
+    private Vector3 overrideVelocity;
 
     private float lastDamageTime = -Mathf.Infinity;
 
     private float capsuleStartHeight, capsuleStartRadius;
     private Vector3 capsuleStartCenter;
+    
+    public float Gravity { get => gravity; set => gravity = value; }
+    public float UpwardsGravityFactor { get => upwardsGravityFactor; set => upwardsGravityFactor = value; }
+    public float DownwardsGravityFactor { get => downwardsGravityFactor; set => downwardsGravityFactor = value; }
+
+    private float gravity;
+    private float upwardsGravityFactor;
+    private float downwardsGravityFactor;
 
     private CinemachineFreeLook freeLookCam;
 
@@ -279,8 +289,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         VelocityInfo velocityInfo = new VelocityInfo()
         {
             currentVelocity = currentVelocity,
-            impulseVelocity = impulseVelocity,
-            impulseVelocityRedirectble = impulseVelocityRedirectable
+            impulseVelocity = impulse,
+            impulseVelocityRedirectble = impulseRedirectable
         };
 
         //Only use NewVelocity if there was subscriber that handled the update
@@ -290,27 +300,46 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
             onStartUpdateVelocity.Invoke(velocityInfo);
             currentVelocity = NewVelocity.Value;
         }
+        
+        #region Rigidbody Sweep Test
+
+        var sweepHits = playerRb.SweepTestAll(currentVelocity.normalized, 
+            currentVelocity.magnitude * Time.deltaTime, QueryTriggerInteraction.Collide);
+
+        foreach (var hit in sweepHits)
+        {
+            GameObject other = hit.collider.gameObject;
+            
+            if (other.layer == layerMapper.GetLayer(LayerEnum.Bounce))
+            {
+                ForceEffector forceEffector = other.GetComponent<ForceEffector>();
+                forceEffector.Activate(this);
+            }
+        }
+
+        #endregion
 
         #region OverlayedVelocity
 
-        if (ungroundTrigger && (impulseVelocityOverlayedOverrideX.y > 0f) ||
-                                impulseVelocityOverlayed.y > 0f ||
-                                StoredJumpVelocity.Value > 0f)
+        if (ungroundTrigger && (impulseOverlayedOverrideX.y > 0f) ||
+                                impulseOverlayed.y > 0f ||
+                                StoredJumpVelocity.Value > 0f ||
+                                overrideVelocity.y > 0f)
         {
             UngroundMotor();
         }
 
         //This stored velocity is additive
-        if(!Mathf.Approximately(0f, impulseVelocityOverlayed.sqrMagnitude))
+        if(!Mathf.Approximately(0f, impulseOverlayed.sqrMagnitude))
         {
-            currentVelocity += impulseVelocityOverlayed;
+            currentVelocity += impulseOverlayed;
             NewVelocity.Value = currentVelocity; //Update new velocity to keep in sync
         }
 
         //This stored velocity overrides current x velocity
-        if(!Mathf.Approximately(0f, impulseVelocityOverlayedOverrideX.sqrMagnitude))
+        if(!Mathf.Approximately(0f, impulseOverlayedOverrideX.sqrMagnitude))
         {
-            currentVelocity = impulseVelocityOverlayedOverrideX;
+            currentVelocity = impulseOverlayedOverrideX;
             NewVelocity.Value = currentVelocity; //Update new velocity to keep in sync
         }
 
@@ -319,16 +348,42 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         {
             currentVelocity.y = StoredJumpVelocity.Value;
             NewVelocity.Value = currentVelocity; //Update new velocity to keep in sync
+        } 
+        
+        //This stored velocity completely overrides and sets the velocity
+        //Ignores 0 components
+        if(!Mathf.Approximately(overrideVelocity.x, 0f))
+        {
+            currentVelocity.x = overrideVelocity.x;
+            NewVelocity.Value = currentVelocity; //Update new velocity to keep in sync
+        }
+        if(!Mathf.Approximately(overrideVelocity.y, 0f))
+        {
+            currentVelocity.y = overrideVelocity.y;
+            NewVelocity.Value = currentVelocity; //Update new velocity to keep in sync
+        }
+        if(!Mathf.Approximately(overrideVelocity.z, 0f))
+        {
+            currentVelocity.z = overrideVelocity.z;
+            NewVelocity.Value = currentVelocity; //Update new velocity to keep in sync
         }
         
         
         #endregion
+        
 
-        impulseVelocity = Vector3.zero;
-        impulseVelocityRedirectable = Vector3.zero;
-        impulseVelocityOverlayed = Vector3.zero;
-        impulseVelocityOverlayedOverrideX = Vector3.zero;
+        #region Reset Vars
+
+        impulse = Vector3.zero;
+        impulseRedirectable = Vector3.zero;
+        impulseOverlayed = Vector3.zero;
+        impulseOverlayedOverrideX = Vector3.zero;
+        overrideVelocity = Vector3.zero;
         ungroundTrigger = false;
+
+        #endregion
+        
+        
     }
 
     public void AfterCharacterUpdate(float deltaTime, Vector3 previousVelocity)
@@ -394,22 +449,52 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         AddImpulse(direction * ClumpThrowKnockbackSpeed.Value);
     }
 
+    //Add an impulse that is managed and applied by the current state
     public void AddImpulse(Vector3 addImpulse, bool canRedirect = false)
     {
-        if(canRedirect) impulseVelocityRedirectable += addImpulse;
-        else impulseVelocity += addImpulse;
+        if(canRedirect) impulseRedirectable += addImpulse;
+        else impulse += addImpulse;
         AddImpulseTrigger.Activate();
     }
 
+    //Add an impulse that is independent of state and is applied at player controller level
     public void AddImpulseOverlayed(Vector3 addImpulse, bool overrideXComponent = false, bool ungroundMotor = false)
     {
         if(overrideXComponent)
-            impulseVelocityOverlayedOverrideX += addImpulse;
+            impulseOverlayedOverrideX += addImpulse;
         else
-            impulseVelocityOverlayed += addImpulse;
+            impulseOverlayed += addImpulse;
 
         ungroundTrigger = ungroundMotor;
         AddImpulseTrigger.Activate();
+    }
+
+    //Directly set the velocity of player
+    public void SetVelocity(Vector3 velocity)
+    {
+        overrideVelocity = velocity;
+    }
+
+    //Set an overlayed impulse that is needed to move player a certain distance in a direction
+    //Takes into account current gravity and factors
+    public void SetImpulseDistance(Vector3 dir, float distance, bool additiveY = false)
+    {
+        float gravityFactor = gravity;
+
+        if (dir.y > 0)
+            gravityFactor *= upwardsGravityFactor;
+        else
+            gravityFactor *= downwardsGravityFactor;
+
+        Vector3 impulse = Mathf.Sqrt(-2f * gravityFactor * distance) * dir;
+
+        if (additiveY)
+            AddImpulseOverlayed(impulse.oyo());
+        else 
+            StoredJumpVelocity.Value = impulse.y;
+            
+        
+        AddImpulseOverlayed(impulse.xoz());
     }
 
     public void Damage(int damage, Vector3 knockbackDir, float knockbackSpeed)

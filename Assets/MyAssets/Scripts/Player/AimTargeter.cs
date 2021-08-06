@@ -125,7 +125,7 @@ namespace MyAssets.Scripts.Player
             }
 
             //If target null, disable reticle
-            if (currentTarget.SafeIsUnityNull())
+            if (currentTarget.SafeIsUnityNull() || !currentTarget.enabled)
             {
                 lastTarget = currentTarget;
                 targetingReticle.SetActive(false);

@@ -45,6 +45,16 @@ public class InputManager : MonoBehaviour
     public delegate void _OnRestartScene();
     public delegate void _OnStart();
 
+    public delegate void _OnNumpad1();
+    public delegate void _OnNumpad2();
+    public delegate void _OnNumpad3();
+    public delegate void _OnNumpad4();
+    public delegate void _OnNumpad5();
+    public delegate void _OnNumpad6();
+    public delegate void _OnNumpad7();
+    public delegate void _OnNumpad8();
+    public delegate void _OnNumpad9();
+
     #endregion
 
     #region Events
@@ -90,6 +100,16 @@ public class InputManager : MonoBehaviour
     public event _OnFunction onFunction12;
     public event _OnRestartScene onRestartScene;
     public event _OnStart onStart;
+
+    public event _OnNumpad1 onNumpad1;
+    public event _OnNumpad1 onNumpad2;
+    public event _OnNumpad1 onNumpad3;
+    public event _OnNumpad1 onNumpad4;
+    public event _OnNumpad1 onNumpad5;
+    public event _OnNumpad1 onNumpad6;
+    public event _OnNumpad1 onNumpad7;
+    public event _OnNumpad1 onNumpad8;
+    public event _OnNumpad1 onNumpad9;
 
     #endregion
 
@@ -405,6 +425,50 @@ public class InputManager : MonoBehaviour
     public void OnStart()
     {
         if (onStart != null) onStart();
+    }
+    
+    public void OnNumpad1()
+    {
+        if (onNumpad1 != null) onNumpad1();
+    }
+    
+    public void OnNumpad2()
+    {
+        if (onNumpad2 != null) onNumpad2();
+    }
+    
+    public void OnNumpad3()
+    {
+        if (onNumpad3 != null) onNumpad3();
+    }
+    
+    public void OnNumpad4()
+    {
+        if (onNumpad4 != null) onNumpad4();
+    }
+    
+    public void OnNumpad5()
+    {
+        if (onNumpad5 != null) onNumpad5();
+    }
+    
+    public void OnNumpad6()
+    {
+        if (onNumpad6 != null) onNumpad6();
+    }
+    
+    public void OnNumpad7()
+    {
+        if (onNumpad7 != null) onNumpad7();
+    }
+    
+    public void OnNumpad8()
+    {
+        if (onNumpad8 != null) onNumpad8();
+    }
+    public void OnNumpad9()
+    {
+        if (onNumpad9 != null) onNumpad9();
     }
 
     #endregion

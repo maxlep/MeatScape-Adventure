@@ -41,6 +41,8 @@ public class ForceEffector : MonoBehaviour
     [SerializeField] [ShowIf("forceDirectionType", ForceDirectionType.Radial)]
     [SuffixLabel("m/s^2")]
     private float radialAcceleration;
+
+    private bool impulseActived;
     
     [Serializable]
     private enum ForceType
@@ -56,11 +58,15 @@ public class ForceEffector : MonoBehaviour
         Directional,
         Radial
     }
-    
-    
+
     //To be called by player controller on rigibody sweep
     public void Activate(PlayerController playerController)
     {
+        //Prevent double activate from onTriggerEnter and SweepTest
+        if (impulseActived) return;
+
+        impulseActived = true;
+        
         switch (forceType)
         {
             case (ForceType.Constant):
@@ -68,7 +74,7 @@ public class ForceEffector : MonoBehaviour
             
             case (ForceType.Impulse):
                 OnForceEffectorActivated.Raise();
-                ApplyForceToPlayer(playerController);
+                ApplyForceToPlayer(playerController, false);
                 break;
             
             case (ForceType.Reflect):
@@ -78,7 +84,28 @@ public class ForceEffector : MonoBehaviour
             
         }
     }
-    
+
+    private void OnTriggerEnter(Collider other)
+    {
+        //Prevent double activate from onTriggerEnter and SweepTest
+        if (impulseActived) return;
+        
+        if (other.gameObject.layer == LayerMapper.GetLayer(LayerEnum.Player))
+        {
+            PlayerController playerController = other.gameObject.GetComponent<PlayerController>();
+            Activate(playerController);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.layer == LayerMapper.GetLayer(LayerEnum.Player))
+        {
+            //Reset impulse activated flag
+            impulseActived = false;
+        }
+    }
+
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.layer != LayerMapper.GetLayer(LayerEnum.Player))
@@ -89,7 +116,7 @@ public class ForceEffector : MonoBehaviour
             case (ForceType.Constant):
                 OnForceEffectorActivated.Raise();
                 PlayerController playerController = other.gameObject.GetComponent<PlayerController>();
-                ApplyForceToPlayer(playerController);
+                ApplyForceToPlayer(playerController, true);
                 break;
             
             case (ForceType.Impulse):
@@ -101,7 +128,7 @@ public class ForceEffector : MonoBehaviour
         }
     }
 
-    private void ApplyForceToPlayer(PlayerController playerController)
+    private void ApplyForceToPlayer(PlayerController playerController, bool isConstant)
     {
         Vector3 force = Vector3.zero;
         playerController.UngroundMotor();
@@ -115,6 +142,9 @@ public class ForceEffector : MonoBehaviour
             
                 //No mult by time.deltaTime because impulse
                 force = forceMagnitude * dir;
+                if (isConstant)
+                    force *= Time.deltaTime;
+                
                 bool isAdditive = forceType == ForceType.Constant;
                 playerController.SetImpulseDistance(dir, forceMagnitude, isAdditive);
                 break;
@@ -126,6 +156,9 @@ public class ForceEffector : MonoBehaviour
             
                 Vector3 radialForceDir = (target - playerController.transform.position).normalized;
                 force = radialForceDir * radialAcceleration * Time.deltaTime;
+                if (isConstant)
+                    force *= Time.deltaTime;
+                
                 playerController.AddImpulse(force);
                 break;
         }

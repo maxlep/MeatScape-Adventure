@@ -94,10 +94,14 @@ public class GroundSlamAttack: PlayerStateNode
     private void HandleInteractableHit(Collider interactableCollider, Vector3 playerPosition)
     {
         var interactableScript = interactableCollider.GetComponent<InteractionReceiver>();
+        if (interactableScript == null)
+            interactableScript = interactableCollider.GetComponent<InteractionReceiverProxy>()?.InteractionReceiver;
+        
         if (interactableScript != null)
             interactableScript.ReceiveGroundSlamInteraction(new GroundSlamPayload()
             {
-                origin = playerPosition
+                origin = playerPosition,
+                hitDir = playerController.CharacterMotor.Velocity.normalized
             });
     }
 

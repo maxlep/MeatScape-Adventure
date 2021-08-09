@@ -135,8 +135,8 @@ namespace MyAssets.Scripts.Utils
         /// <returns></returns>
         public static Vector3 FlattenDirectionOntoSlope(Vector3 dir, Vector3 slopeNormal)
         {
-            //The idea here is to create a plane from dir and Vector3.up
-            //The dir flattened onto the slope (desired value) is nothing more than the line of intersection
+            //The idea here is to create a plane from hitDir and Vector3.up
+            //The hitDir flattened onto the slope (desired value) is nothing more than the line of intersection
             //between the slope plane and this newly created plane
             //To find the line of intersection of 2 planes, you just take the cross product of their normals
             Vector3 crossPlaneNormal = Vector3.Cross(Vector3.up, dir);

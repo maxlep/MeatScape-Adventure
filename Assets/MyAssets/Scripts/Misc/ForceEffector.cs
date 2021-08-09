@@ -9,6 +9,7 @@ using Shapes;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ForceEffector : MonoBehaviour
 {
@@ -41,6 +42,9 @@ public class ForceEffector : MonoBehaviour
     [SerializeField] [ShowIf("forceDirectionType", ForceDirectionType.Radial)]
     [SuffixLabel("m/s^2")]
     private float radialAcceleration;
+    
+    [SerializeField]
+    private UnityEvent onActivateEffector;
 
     private bool impulseActived;
     
@@ -66,6 +70,7 @@ public class ForceEffector : MonoBehaviour
         if (impulseActived) return;
 
         impulseActived = true;
+        onActivateEffector.Invoke();
         
         switch (forceType)
         {
@@ -198,7 +203,7 @@ public class ForceEffector : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         //TODO: Gizmos to show the forces and directions when selected
-        //TODO: Utilize handles to modify properties (Force dir, forceTargetPoint, etc)
+        //TODO: Utilize handles to modify properties (Force hitDir, forceTargetPoint, etc)
         
         // set up all static parameters. these are used for all following Draw.Line calls
         Draw.LineGeometry = LineGeometry.Volumetric3D;

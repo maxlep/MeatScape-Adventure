@@ -1,3 +1,4 @@
+using Den.Tools;
 using MyAssets.ScriptableObjects.Variables;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -81,7 +82,14 @@ public class RollCombat : PlayerStateNode
         else if (otherObj.IsInLayerMask(InteractableMask))
         {
             InteractionReceiver interactionReceiver = collisionInfo.other.GetComponent<InteractionReceiver>();
-            if (interactionReceiver != null) interactionReceiver.ReceiveRollIntoInteraction(new RollIntoPayload());
+            if (interactionReceiver == null)
+                interactionReceiver = collisionInfo.other.GetComponent<InteractionReceiverProxy>()?.InteractionReceiver;
+            
+            if (interactionReceiver != null) interactionReceiver.ReceiveRollIntoInteraction(new RollIntoPayload()
+            {
+                hitDir = playerController.CharacterMotor.Velocity.normalized,
+                origin = playerController.transform.position
+            });
         }
         
     }

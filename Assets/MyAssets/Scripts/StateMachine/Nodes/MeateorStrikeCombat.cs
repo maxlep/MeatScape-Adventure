@@ -93,7 +93,7 @@ public class MeateorStrikeCombat : PlayerStateNode
             if (otherObj.IsInLayerMask(EnemyMask))
                 HandleEnemyHit(collider);
             else if (otherObj.IsInLayerMask(InteractableMask))
-                HandleInteractableHit(collider);
+                HandleInteractableHit(collider, collisionInfo);
         }
     }
     
@@ -119,11 +119,21 @@ public class MeateorStrikeCombat : PlayerStateNode
         }
     }
 
-    private void HandleInteractableHit(Collider interactableCollider)
+    private void HandleInteractableHit(Collider interactableCollider, CollisionInfo collisionInfo)
     {
         var interactableScript = interactableCollider.GetComponent<InteractionReceiver>();
+        if (interactableScript == null)
+            interactableScript = interactableCollider.GetComponent<InteractionReceiverProxy>()?.InteractionReceiver;
+        
         if (interactableScript != null)
-            interactableScript.ReceiveMeateorStirkeIntoInteraction(new MeateorStrikeIntoPayload());
+        {
+            MeateorStrikeIntoPayload payload = new MeateorStrikeIntoPayload()
+            {
+                hitDir = -collisionInfo.contactNormal,
+                origin = playerController.transform.position
+            };
+            interactableScript.ReceiveMeateorStirkeIntoInteraction(payload);
+        }
     }
     
     public override void Exit()

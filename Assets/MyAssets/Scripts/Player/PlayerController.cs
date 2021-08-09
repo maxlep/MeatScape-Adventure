@@ -799,6 +799,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         if(otherGameObject.IsInLayerMask(interactableMask))
         {
             var interactableScript = otherGameObject.GetComponent<InteractionReceiver>();
+            if (interactableScript == null)
+                interactableScript = collider.GetComponent<InteractionReceiverProxy>()?.InteractionReceiver;
             if(interactableScript != null)
             {
                 interactablesInRange.Add(interactableScript);
@@ -813,6 +815,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         if(otherGameObject.IsInLayerMask(interactableMask))
         {
             var interactableScript = otherGameObject.GetComponent<InteractionReceiver>();
+            if (interactableScript == null)
+                interactableScript = collider.GetComponent<InteractionReceiverProxy>()?.InteractionReceiver;
             if(interactableScript != null)
             {
                 interactablesInRange.Remove(interactableScript);
@@ -836,6 +840,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
 
             InteractionReceiver interactionReceiver = otherCollider.GetComponent<InteractionReceiver>();
+            if (interactionReceiver == null)
+                interactionReceiver = collider.GetComponent<InteractionReceiverProxy>()?.InteractionReceiver;
             if(interactionReceiver != null)
             {
                 bool hasJumpInteraction = interactionReceiver.ReceiveJumpOnInteraction(new JumpOnPayload());

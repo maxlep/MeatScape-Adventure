@@ -70,6 +70,9 @@ namespace MyAssets.Scripts.Interactables
             if (hitInteractable)
             {
                 var interactableScript = collider.GetComponent<InteractionReceiver>();
+                if (interactableScript == null)
+                    interactableScript = collider.GetComponent<InteractionReceiverProxy>()?.InteractionReceiver;
+                
                 if (interactableScript != null)
                     interactableScript.ReceiveMeatClumpHitInteraction(new MeatClumpHitPayload());
 

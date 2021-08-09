@@ -139,6 +139,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     [FoldoutGroup("GameEvents")] [SerializeField] private GameEvent throwClumpEvent;
     [FoldoutGroup("GameEvents")] [SerializeField] private DynamicGameEvent PlayerCollidedWith_CollisionInfo;
+    [FoldoutGroup("GameEvents")] [SerializeField] private DynamicGameEvent PlayerCollidedWithTrigger_CollisionInfo;
 
     private Vector3 moveDirection;
     private InputAction playerMove;
@@ -300,24 +301,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
             onStartUpdateVelocity.Invoke(velocityInfo);
             currentVelocity = NewVelocity.Value;
         }
-        
-        #region Rigidbody Sweep Test
-
-        var sweepHits = playerRb.SweepTestAll(currentVelocity.normalized, 
-            currentVelocity.magnitude * Time.deltaTime, QueryTriggerInteraction.Collide);
-
-        foreach (var hit in sweepHits)
-        {
-            GameObject other = hit.collider.gameObject;
-            
-            if (other.layer == layerMapper.GetLayer(LayerEnum.Bounce))
-            {
-                ForceEffector forceEffector = other.GetComponent<ForceEffector>();
-                forceEffector.Activate(this);
-            }
-        }
-
-        #endregion
 
         #region OverlayedVelocity
 
@@ -391,6 +374,38 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         // This is called after the motor has finished everything in its update
         StoredJumpVelocity.Value = 0f;
         PreviousVelocity.Value = previousVelocity;
+        
+        
+        #region Rigidbody Sweep Test
+        
+        var sweepHits = playerRb.SweepTestAll(previousVelocity.normalized, 
+            previousVelocity.magnitude  * deltaTime, QueryTriggerInteraction.Collide);
+
+        foreach (var hit in sweepHits)
+        {
+            GameObject other = hit.collider.gameObject;
+            
+            //Activate Force Effectors
+            if (other.layer == layerMapper.GetLayer(LayerEnum.Bounce))
+            {
+                ForceEffector forceEffector = other.GetComponent<ForceEffector>();
+                forceEffector.Activate(this);
+            }
+            
+            //Broadcast trigger collisions info
+            if (hit.collider.isTrigger)
+            {
+                CollisionInfo collisionInfo = new CollisionInfo()
+                {
+                    other = hit.collider,
+                    contactPoint = hit.point,
+                    contactNormal = hit.normal
+                };
+                PlayerCollidedWithTrigger_CollisionInfo.Raise(collisionInfo);
+            }
+        }
+
+        #endregion
     }
 
     public bool IsColliderValidForCollisions(Collider coll)
@@ -798,14 +813,24 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         GameObject otherGameObject = other.gameObject;
         if(otherGameObject.IsInLayerMask(interactableMask))
         {
-            var interactableScript = otherGameObject.GetComponent<InteractionReceiver>();
-            if (interactableScript == null)
-                interactableScript = collider.GetComponent<InteractionReceiverProxy>()?.InteractionReceiver;
+            InteractionReceiver interactableScript = GetInteractionReceiver(otherGameObject);
             if(interactableScript != null)
             {
                 interactablesInRange.Add(interactableScript);
                 interactableScript.ReceiveTriggerEnterInteraction(new TriggerEnterPayload());
             }
+        }
+
+        //Broadcast trigger collisions info
+        if (other.isTrigger)
+        {
+            CollisionInfo collisionInfo = new CollisionInfo()
+            {
+                other = other,
+                contactPoint = collider.bounds.center,
+                contactNormal = (collider.bounds.center - other.bounds.center).normalized
+            };
+            PlayerCollidedWithTrigger_CollisionInfo.Raise(collisionInfo);
         }
     }
 
@@ -814,9 +839,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         GameObject otherGameObject = other.gameObject;
         if(otherGameObject.IsInLayerMask(interactableMask))
         {
-            var interactableScript = otherGameObject.GetComponent<InteractionReceiver>();
-            if (interactableScript == null)
-                interactableScript = collider.GetComponent<InteractionReceiverProxy>()?.InteractionReceiver;
+            InteractionReceiver interactableScript = GetInteractionReceiver(otherGameObject);
             if(interactableScript != null)
             {
                 interactablesInRange.Remove(interactableScript);
@@ -837,11 +860,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         //Only jump attack if player is above bottom of trigger and falling downwards
         if(playerBottomY > otherColliderBottomY && NewVelocity.Value.y <= 0f)
         {
-
-
-            InteractionReceiver interactionReceiver = otherCollider.GetComponent<InteractionReceiver>();
-            if (interactionReceiver == null)
-                interactionReceiver = collider.GetComponent<InteractionReceiverProxy>()?.InteractionReceiver;
+            InteractionReceiver interactionReceiver = GetInteractionReceiver(otherCollider.gameObject);
             if(interactionReceiver != null)
             {
                 bool hasJumpInteraction = interactionReceiver.ReceiveJumpOnInteraction(new JumpOnPayload());
@@ -859,6 +878,19 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         if(interactablesInRange.Count < 1) return;
 
         interactablesInRange[0].ReceiveInspectInteraction(new InspectPayload());
+    }
+
+    #endregion
+
+    #region Helpers
+
+    private InteractionReceiver GetInteractionReceiver(GameObject other)
+    {
+        InteractionReceiver interactionReceiver = other.GetComponent<InteractionReceiver>();
+        if (interactionReceiver == null)
+            interactionReceiver = other.GetComponent<InteractionReceiverProxy>()?.InteractionReceiver;
+
+        return interactionReceiver;
     }
 
     #endregion

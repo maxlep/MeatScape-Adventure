@@ -13,6 +13,10 @@ public class RollCombat : PlayerStateNode
     
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required]
+    private DynamicGameEvent PlayerCollidedWithTrigger_CollisionInfo;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required]
     private LayerMapper layerMapper;
     
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
@@ -58,6 +62,7 @@ public class RollCombat : PlayerStateNode
     {
         base.Enter();
         PlayerCollidedWith_CollisionInfo.Subscribe(this.OnPlayerCollidedWith);
+        PlayerCollidedWithTrigger_CollisionInfo.Subscribe(this.OnPlayerCollidedWith);
     }
 
     private void OnPlayerCollidedWith(System.Object prevCollisionInfoObj, System.Object collisionInfoObj)

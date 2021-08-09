@@ -436,6 +436,7 @@ GameObject:
   - component: {fileID: 2761379462448255299}
   - component: {fileID: 2983765337831966180}
   - component: {fileID: -8705322923180489890}
+  - component: {fileID: 2555413658159907600}
   - component: {fileID: 2633729866812581229}
   m_Layer: 10
   m_Name: MeatClump
@@ -752,9 +753,56 @@ MonoBehaviour:
     Variable: {fileID: 0}
   CollisionMask:
     serializedVersion: 2
-    m_Bits: 411648
+    m_Bits: 133120
   castCheck: 0
   ignoreTriggers: 1
+  HandleCollisions:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2487677105210045783}
+        m_TargetAssemblyTypeName: MeatClumpController, Assembly-CSharp
+        m_MethodName: HandleCollisions
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &2555413658159907600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7432549252289664644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f02b9817ef0f364492d99856a5bc4e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionRadius:
+    UseConstant: 0
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: e57ead667074734469c85a2b2fadb069, type: 2}
+  useOffset: 0
+  CollisionOffset:
+    UseConstant: 0
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: {x: 0, y: 0, z: 0}
+    Variable: {fileID: 0}
+  CollisionMask:
+    serializedVersion: 2
+    m_Bits: 278528
+  castCheck: 0
+  ignoreTriggers: 0
   HandleCollisions:
     m_PersistentCalls:
       m_Calls:

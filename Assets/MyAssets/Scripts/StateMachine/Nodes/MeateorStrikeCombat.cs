@@ -48,6 +48,11 @@ public class MeateorStrikeCombat : PlayerStateNode
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
     [TabGroup("Inputs")] [Required] 
     private DynamicGameEvent MeateorStrikeCollision;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+    [TabGroup("Inputs")] [Required] 
+    private DynamicGameEvent PlayerCollidedWithTrigger_CollisionInfo;
+
 
     #endregion
 
@@ -72,6 +77,7 @@ public class MeateorStrikeCombat : PlayerStateNode
     {
         base.Enter();
         MeateorStrikeCollision.Subscribe(OnPlayerCollidedWith);
+        PlayerCollidedWithTrigger_CollisionInfo.Subscribe(OnPlayerCollidedWith);
     }
 
     private void OnPlayerCollidedWith(System.Object prevCollisionInfoObj, System.Object collisionInfoObj) {

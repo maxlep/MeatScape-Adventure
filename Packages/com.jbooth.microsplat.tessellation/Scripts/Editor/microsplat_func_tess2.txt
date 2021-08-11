@@ -1,0 +1,214 @@
+﻿
+         struct OutputPatchConstant 
+         {
+               float edge[3]         : SV_TessFactor;
+               float inside          : SV_InsideTessFactor;
+         };
+             
+
+         #if defined(SHADER_API_XBOXONE) || defined(SHADER_API_PSSL)
+            // AMD recommand this value for GCN http://amd-dev.wpengine.netdna-cdn.com/wordpress/media/2013/05/GCNPerformanceTweets.pdf
+            #define MAX_TESSELLATION_FACTORS 15.0
+         #else
+            #define MAX_TESSELLATION_FACTORS 64.0
+         #endif
+
+         float CalcDistanceTessFactor (float3 wpos, float minDist, float maxDist, float tess, float3 camPos)
+         {
+            float dist = distance (wpos, camPos);
+            float f = clamp(1.0 - (dist - minDist) / (maxDist - minDist), 0.01, 1.0) * tess;
+            return f;
+         }
+
+         float4 CalcTriEdgeTessFactors (float3 triVertexFactors)
+         {
+            float4 tess;
+            tess.x = 0.5 * (triVertexFactors.y + triVertexFactors.z);
+            tess.y = 0.5 * (triVertexFactors.x + triVertexFactors.z);
+            tess.z = 0.5 * (triVertexFactors.x + triVertexFactors.y);
+            tess.w = (triVertexFactors.x + triVertexFactors.y + triVertexFactors.z) / 3.0f;
+            return tess;
+         }
+
+
+         float4 DistanceBasedTess (float3 v0, float3 v1, float3 v2, float minDist, float maxDist, float tess)
+         {
+            float3 f;
+
+            float3 camPos = TransformWorldToObject(GetCameraWorldPosition());
+            f.x = CalcDistanceTessFactor (v0,minDist,maxDist,tess, camPos);
+            f.y = CalcDistanceTessFactor (v1,minDist,maxDist,tess, camPos);
+            f.z = CalcDistanceTessFactor (v2,minDist,maxDist,tess, camPos);
+
+            return CalcTriEdgeTessFactors (f);
+         }
+
+#if _TESSEDGE || _TESSPHONG
+         float CalcEdgeTessFactor (float3 wpos0, float3 wpos1, float edgeLen)
+         {
+             float3 camPos = TransformWorldToObject(GetCameraWorldPosition());  
+             // distance to edge center
+             float dist = distance (0.5 * (wpos0+wpos1), GetCameraWorldPosition());
+             // length of the edge
+             float len = distance(wpos0, wpos1);
+             // edgeLen is approximate desired size in pixels
+             float f = max(len * _ScreenParams.y / (edgeLen * dist), 1.0);
+             return f;
+         }
+
+         float TessDistanceFromPlane (float3 pos, float4 plane)
+         {
+             float d = dot (float4(pos,1.0f), plane);
+             return d;
+         }
+
+
+
+         float4 EdgeLengthBasedTessCull (float4 v0, float4 v1, float4 v2, float edgeLength, float maxDisplacement)
+         {
+             float3 pos0 = mul(unity_ObjectToWorld,v0).xyz;
+             float3 pos1 = mul(unity_ObjectToWorld,v1).xyz;
+             float3 pos2 = mul(unity_ObjectToWorld,v2).xyz;
+             float4 tess;
+             tess.x = CalcEdgeTessFactor (pos1, pos2, edgeLength);
+             tess.y = CalcEdgeTessFactor (pos2, pos0, edgeLength);
+             tess.z = CalcEdgeTessFactor (pos0, pos1, edgeLength);
+             tess.w = (tess.x + tess.y + tess.z) / 3.0f;
+             return tess;
+         }
+#endif
+
+         float4 Tessellation (TessVertex v0, TessVertex v1, TessVertex v2) 
+         {
+            float3 fac = GetTessFactors();
+            #if _TESSEDGE
+               return EdgeLengthBasedTessCull(v0.vertex, v1.vertex, v2.vertex, fac.x, fac.y);
+            #else
+               return DistanceBasedTess(v0.vertex.xyz, v1.vertex.xyz, v2.vertex.xyz, fac.x, fac.y, fac.z);
+            #endif
+            
+         }
+
+
+         OutputPatchConstant Hullconst (InputPatch<TessVertex,3> v) 
+         {
+            OutputPatchConstant o = (OutputPatchConstant)0;
+            float4 tf = Tessellation( v[0], v[1], v[2] );
+            tf = min(tf, MAX_TESSELLATION_FACTORS);
+            o.edge[0] = tf.x;
+            o.edge[1] = tf.y;
+            o.edge[2] = tf.z;
+            o.inside  = tf.w;
+            return o;
+         }
+
+         [maxtessfactor(MAX_TESSELLATION_FACTORS)]
+         [domain("tri")]
+         [partitioning("fractional_odd")]
+         [outputtopology("triangle_cw")]
+         [patchconstantfunc("Hullconst")]
+         [outputcontrolpoints(3)]
+         TessVertex Hull (InputPatch<TessVertex,3> v, uint id : SV_OutputControlPointID) 
+         {
+            return v[id];
+         }
+
+
+         TessVertex TessVert(VertexData i)
+         {
+            TessVertex o = (TessVertex)o;
+            UNITY_SETUP_INSTANCE_ID(i);
+            UNITY_TRANSFER_INSTANCE_ID(i, o);
+            UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+
+            VertexToPixel v2p = (VertexToPixel)0;
+
+            ChainModifyVertex(i, v2p);
+            
+
+            o.vertex = i.vertex;
+            o.normal = i.normal;
+            
+            o.texcoord0 = i.texcoord0;
+            #if !_MICROTERRAIN || _TERRAINBLENDABLESHADER
+               o.tangent = i.tangent;
+               o.texcoord1 = i.texcoord1;
+               o.texcoord2 = i.texcoord2;
+            #endif
+            %UV3% o.texcoord3 = i.texcoord3;
+            %VERTEXCOLOR% o.vertexColor = i.vertexColor;
+
+            %EXTRAV2F0% o.extraV2F0 = v2p.extraV2F0;
+            %EXTRAV2F1% o.extraV2F1 = v2p.extraV2F1;
+            %EXTRAV2F2% o.extraV2F2 = v2p.extraV2F2;
+            %EXTRAV2F3% o.extraV2F3 = v2p.extraV2F3;
+            %EXTRAV2F4% o.extraV2F4 = v2p.extraV2F4;
+            %EXTRAV2F5% o.extraV2F5 = v2p.extraV2F5;
+            %EXTRAV2F6% o.extraV2F6 = v2p.extraV2F6;
+            %EXTRAV2F7% o.extraV2F7 = v2p.extraV2F7;
+
+            #if _HDRP && (_PASSMOTIONVECTOR || (_PASSFORWARD && defined(_WRITE_TRANSPARENT_MOTION_VECTOR)))
+               o.previousPositionOS = i.previousPositionOS;
+               #if defined (_ADD_PRECOMPUTED_VELOCITY)
+                  o.precomputedVelocity = i.precomputedVelocity;
+               #endif
+            #endif
+
+            return o;
+         }
+
+     
+         [domain("tri")]
+         VertexToPixel Domain (OutputPatchConstant tessFactors, const OutputPatch<TessVertex,3> vi, float3 bary : SV_DomainLocation) 
+         {
+            VertexData v = (VertexData)0;
+            UNITY_TRANSFER_INSTANCE_ID(vi[0], v);
+
+            v.vertex = vi[0].vertex * bary.x + vi[1].vertex * bary.y + vi[2].vertex * bary.z;
+            v.normal = vi[0].normal * bary.x + vi[1].normal * bary.y + vi[2].normal * bary.z;
+            v.texcoord0 = vi[0].texcoord0 * bary.x + vi[1].texcoord0 * bary.y + vi[2].texcoord0 * bary.z;
+            #if !_MICROTERRAIN || _TERRAINBLENDABLESHADER
+            v.tangent = vi[0].tangent * bary.x + vi[1].tangent * bary.y + vi[2].tangent * bary.z;
+            v.texcoord1 = vi[0].texcoord1 * bary.x + vi[1].texcoord1 * bary.y + vi[2].texcoord1 * bary.z;
+            v.texcoord2 = vi[0].texcoord2 * bary.x + vi[1].texcoord2 * bary.y + vi[2].texcoord2 * bary.z;
+            #endif
+            %UV3% v.texcoord3 = vi[0].texcoord3 * bary.x + vi[1].texcoord3 * bary.y + vi[2].texcoord3 * bary.z;
+            %VERTEXCOLOR% v.vertexColor = vi[0].vertexColor * bary.x + vi[1].vertexColor * bary.y + vi[2].vertexColor * bary.z;
+
+            #if _HDRP && (_PASSMOTIONVECTOR || (_PASSFORWARD && defined(_WRITE_TRANSPARENT_MOTION_VECTOR)))
+               v.previousPositionOS = vi[0].previousPositionOS * bary.x + vi[1].previousPositionOS * bary.y + vi[2].previousPositionOS * bary.z;
+               #if defined (_ADD_PRECOMPUTED_VELOCITY)
+                  v.precomputedVelocity = vi[0].precomputedVelocity * bary.x + vi[1].precomputedVelocity * bary.y + vi[2].precomputedVelocity * bary.z;
+               #endif
+            #endif
+
+
+
+            VertexToPixel d = (VertexToPixel)0;
+            %EXTRAV2F0% d.extraV2F0 = vi[0].extraV2F0 * bary.x + vi[1].extraV2F0 * bary.y + vi[2].extraV2F0 * bary.z;
+            %EXTRAV2F1% d.extraV2F1 = vi[0].extraV2F1 * bary.x + vi[1].extraV2F1 * bary.y + vi[2].extraV2F1 * bary.z;
+            %EXTRAV2F2% d.extraV2F2 = vi[0].extraV2F2 * bary.x + vi[1].extraV2F2 * bary.y + vi[2].extraV2F2 * bary.z;
+            %EXTRAV2F3% d.extraV2F3 = vi[0].extraV2F3 * bary.x + vi[1].extraV2F3 * bary.y + vi[2].extraV2F3 * bary.z;
+            %EXTRAV2F4% d.extraV2F4 = vi[0].extraV2F4 * bary.x + vi[1].extraV2F4 * bary.y + vi[2].extraV2F4 * bary.z;
+            %EXTRAV2F5% d.extraV2F5 = vi[0].extraV2F5 * bary.x + vi[1].extraV2F5 * bary.y + vi[2].extraV2F5 * bary.z;
+            %EXTRAV2F6% d.extraV2F6 = vi[0].extraV2F6 * bary.x + vi[1].extraV2F6 * bary.y + vi[2].extraV2F6 * bary.z;
+            %EXTRAV2F7% d.extraV2F7 = vi[0].extraV2F7 * bary.x + vi[1].extraV2F7 * bary.y + vi[2].extraV2F7 * bary.z;
+
+            ChainModifyTessellatedVertex(v, d);
+
+            VertexToPixel v2p = Vert(v);
+         
+            %EXTRAV2F0% v2p.extraV2F0 = d.extraV2F0;
+            %EXTRAV2F1% v2p.extraV2F1 = d.extraV2F1;
+            %EXTRAV2F2% v2p.extraV2F2 = d.extraV2F2;
+            %EXTRAV2F3% v2p.extraV2F3 = d.extraV2F3;
+            %EXTRAV2F4% v2p.extraV2F0 = d.extraV2F4;
+            %EXTRAV2F5% v2p.extraV2F1 = d.extraV2F5;
+            %EXTRAV2F6% v2p.extraV2F2 = d.extraV2F6;
+            %EXTRAV2F7% v2p.extraV2F3 = d.extraV2F7;
+
+            UNITY_TRANSFER_INSTANCE_ID(vi[0], v2p);
+            UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(v2p);
+
+            return v2p;
+         }

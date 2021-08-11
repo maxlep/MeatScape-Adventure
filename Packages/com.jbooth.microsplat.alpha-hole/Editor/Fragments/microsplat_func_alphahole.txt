@@ -1,0 +1,39 @@
+﻿      #if _ALPHAHOLETEXTURE
+         sampler2D _AlphaHoleTexture;   // must declare with a sampler or windows throws an error, which seems like a compiler bug
+         float4 _AlphaHoleTexture_TexelSize;
+      #endif
+
+
+
+      void ClipWaterLevel(float3 worldPos)
+      {
+         clip(worldPos.y - _AlphaData.y);
+      }
+
+      void ClipAlphaHole(inout Config c, inout half4 weights)
+      {
+      #if _ALPHAHOLETEXTURE
+         clip(tex2D(_AlphaHoleTexture, c.uv).r - 0.5);
+      #else
+         if ((int)round(c.uv0.z ) == (int)round(_AlphaData.x))
+         {
+            clip(-1);
+         }
+         else if ((int)round(c.uv1.z ) == (int)round(_AlphaData.x) && weights.y > 0)
+         {
+            weights.y = 0;
+            weights = TotalOne(weights);
+         }
+         else if ((int)round(c.uv2.z ) == (int)round(_AlphaData.x) && weights.z > 0)
+         {
+            weights.z = 0;
+            weights = TotalOne(weights);
+         }
+         else if ((int)round(c.uv3.z ) == (int)round(_AlphaData.x) && weights.w > 0)
+         {
+            weights.w = 0;
+            weights = TotalOne(weights);
+         }
+         
+      #endif
+      }

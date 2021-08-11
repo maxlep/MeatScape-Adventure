@@ -1,0 +1,23 @@
+﻿
+         float3 _GMSTraxBufferPosition;
+         float _GMSTraxBufferWorldSize;
+         float4 _GMSTraxBuffer_TexelSize;
+         float _GMSTraxFudgeFactor;
+         half _TraxInterpContrast;
+
+         #if _SNOWFOOTSTEPS
+            float _TraxSnowAge;
+            float _TraxSnowErosion;
+            float _TraxSnowHeight;
+            half3 _TraxSnowTint;
+            half _TraxSnowRemoval;
+         #endif
+
+         #if _TRAXSINGLE || _TRAXARRAY || _TRAXNOTEXTURE
+            float2 _TraxUVScales;
+            float _TraxTextureBlend;
+            float _TraxNormalStrength;
+         #endif
+         
+         
+         

@@ -1,0 +1,102 @@
+
+                 
+         float3 ToonBary(float2 uv)
+         {
+            float3 w = 0;
+            float2 baseId = floor(uv);
+            float2 f = frac(uv);
+            if (f.x > f.y)
+            {
+               w.xy = f.xy;
+               w.z = f.x - f.y;
+            }
+            else
+            {
+               w.xy = f.xy;
+               w.z = f.y - f.x;
+            }
+            return w;
+         }
+         
+         float4 ToonQuad(float2 uv)
+         {
+            float2 uvfrac = frac(uv);
+            return float4(uvfrac.x, uvfrac.y, 1.0 - uvfrac.x, 1.0 - uvfrac.y);
+         }
+        
+
+         float2 ToonEdgeUV(float2 uv)
+         {
+            float2 smoothUV = uv;
+            float2 scaledUV = uv * _ToonTerrainSize;
+            float2 hardUV = floor(scaledUV) / _ToonTerrainSize;
+            #if _TOONHARDEDGENORMALQUAD
+               float4 w = ToonQuad(scaledUV);
+               float mw = min(w.x, min(min(w.y, w.z), w.w));
+            #else
+               float3 w = ToonBary(scaledUV);
+               float mw = min(min(w.x, w.y), w.z);
+            #endif
+
+            return lerp(hardUV, smoothUV,pow(mw, abs(_ToonEdgeHardness)));
+         }
+
+         #if _TOONPOLYEDGE
+         void FlatShade(inout ShaderData d)
+         {
+            
+            float3 dx = ddx(d.worldSpacePosition);
+		      float3 dy = ddy(d.worldSpacePosition);
+		      float3 worldNormal = normalize(cross(dy, dx));
+		      worldNormal = lerp(d.worldSpaceNormal, worldNormal, _ToonEdgeHardness);
+		      d.worldSpaceNormal = worldNormal;
+		      d.TBNMatrix[2] = worldNormal;
+         }
+         #endif
+
+         
+         void ToonWireframe(float2 uv, inout half3 color)
+         {
+            
+            #if _TOONWIREQUADS
+               float2 scaledUV = uv * _ToonTerrainSize;
+               float4 w = ToonQuad(scaledUV);
+               #if !_TOONWIREWORLDSPACE
+                  float4 deltas = fwidth(w);
+                  float4 smoothing = deltas * _ToonWireSmoothing;
+                  float4 thickness = deltas * _ToonWireThickness;
+                  w = smoothstep(thickness, thickness + smoothing, w);
+                  float mw = min(w.x, min(w.y, min(w.z, w.w)));
+               #else
+                  float mw = min(w.x, min(w.y, min(w.z, w.w)));
+                  mw = smoothstep(0, _ToonWireThickness, mw);
+                  mw = pow(mw, _ToonWireSmoothing);
+               #endif
+            #else // triangles
+               float2 smoothUV = uv;
+               float2 scaledUV = uv * _ToonTerrainSize;
+               float2 hardUV = floor(scaledUV) / _ToonTerrainSize;
+               float3 w = ToonBary(scaledUV);
+               #if !_TOONWIREWORLDSPACE
+                  float3 deltas = fwidth(w);
+                  float3 smoothing = deltas * _ToonWireSmoothing;
+                  float3 thickness = deltas * _ToonWireThickness;
+                  w = smoothstep(thickness, thickness + smoothing, w);
+                  float mw = min(w.x, min(w.y, w.z));
+               #else
+                  float mw = min(w.x, min(w.y, w.z));
+                  mw = smoothstep(0, _ToonWireThickness, mw);
+                  mw = pow(mw, _ToonWireSmoothing);
+               #endif
+            #endif
+
+            #if _WIRESATURATIONBRIGHTNESS
+               half lum = MSLuminance(color);
+               half3 sat = lerp(half3(lum, lum, lum), color, _ToonWireSaturationBrightness.x);
+               color = lerp(sat, color, mw);
+               color = lerp(saturate(color + _ToonWireSaturationBrightness.y - 1), color, mw);
+            #else
+               color = lerp(_ToonWireColor, color, mw * _ToonWireColor.a);
+            #endif
+         }
+         

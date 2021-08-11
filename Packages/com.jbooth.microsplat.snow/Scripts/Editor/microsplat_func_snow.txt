@@ -1,0 +1,530 @@
+﻿         #if _SNOW
+         UNITY_DECLARE_TEX2D_NOSAMPLER(_SnowDiff);
+         UNITY_DECLARE_TEX2D_NOSAMPLER(_SnowNormal);
+         #endif
+
+         #if _SNOWNORMALNOISE
+         UNITY_DECLARE_TEX2D_NOSAMPLER(_SnowNormalNoise);
+         #endif
+
+         #if _SNOWFOOTSTEPS
+         UNITY_DECLARE_TEX2D_NOSAMPLER(_SnowTrackDiff);
+         UNITY_DECLARE_TEX2D_NOSAMPLER(_SnowTrackNSAO);
+         #endif
+
+         #if _SNOWMASK
+         UNITY_DECLARE_TEX2D_NOSAMPLER(_SnowMask);
+         #endif
+
+         #if _SNOWSPARKLE
+            UNITY_DECLARE_TEX2D_NOSAMPLER(_SnowSparkleNoise);
+         #endif
+         
+         
+
+         float SnowFade(float worldHeight, float snowMin, float snowMax, half snowDot, half snowDotVertex, half snowLevel, half puddleHeight)
+         {
+            float snowHeightFade = saturate((worldHeight - snowMin) / max(snowMax, 0.001));
+            half snowAngleFade = max(0, (snowDotVertex - _SnowHeightAngleRange.z) * 6);
+            snowAngleFade = snowAngleFade * (1 - max(0, (snowDotVertex - _SnowHeightAngleRange.w) * 6));
+            return saturate((snowLevel * snowHeightFade * snowAngleFade) - puddleHeight);
+         }
+
+         float DoSnowDisplace(float splat_height, float2 uv, float3 worldNormalVertex, float3 worldPos, float puddleHeight, Config config, half4 weights)
+         {
+            // could force a branch and avoid texsamples
+            #if _SNOW
+               
+               #if _USEGLOBALSNOWLEVEL 
+               float snowLevel = _Global_SnowLevel;
+               #else
+               float snowLevel = _SnowAmount;
+               #endif
+
+               #if _USEGLOBALSNOWHEIGHT
+               float snowMin = _Global_SnowMinMaxHeight.x;
+               float snowMax = _Global_SnowMinMaxHeight.y;
+               #else
+               float snowMin = _SnowHeightAngleRange.x;
+               float snowMax = _SnowHeightAngleRange.y;
+               #endif
+
+               
+
+               float snowAge = _SnowParams.z;
+
+
+               #if _PERTEXSNOWSTRENGTH && !_SNOWSIMPLE
+               SAMPLE_PER_TEX(ptSnowStr, 8.5, config, half4(1.0, 0.0, 0.0, 0.0));
+               snowLevel *= ptSnowStr0.x * weights.x + ptSnowStr1.x * weights.y + ptSnowStr2.x * weights.z + ptSnowStr3.x * weights.w;
+               #endif
+
+               half2 levelMaxMin = half2(1, 0);
+               #if _SNOWMASK
+                  levelMaxMin = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_SnowMask, _Diffuse, uv, 0).xy;
+               #endif
+               
+               float3 snowUpVector = _SnowUpVector;
+               float worldHeight = worldPos.y;
+               #if _PLANETVECTORS
+                  float3 rwp = mul(_PQSToLocal, float4(worldPos, 1));
+                  worldHeight = distance(rwp, float3(0,0,0));
+                  snowUpVector = normalize(rwp);
+               #endif
+               
+               half snowDot = saturate(dot(worldNormalVertex, snowUpVector));
+               half snowDotVertex = max(snowLevel/2, snowDot);
+               
+
+               float snowFade = SnowFade(worldHeight, snowMin, snowMax, snowDotVertex, snowDotVertex, snowLevel, puddleHeight);
+               #if _SNOWMASK
+                  snowFade = min(levelMaxMin.x, snowFade);
+                  snowFade = max(levelMaxMin.y, snowFade);
+               #endif
+
+               float height = splat_height * _SnowParams.x;
+               float erosion = height * _SnowParams.y;
+               float snowMask = saturate((snowFade - erosion));
+               float snowMask2 = saturate(snowMask * 8);
+               snowMask *= snowMask * snowMask * snowMask * snowMask * snowMask2;
+               float snowAmount = snowMask * snowDot;
+
+               return snowAmount;
+            #endif
+            return 0;
+         }
+         
+         #if _SNOWSPARKLE
+         void DoSnowSparkle(Input i, inout MicroSplatLayer o, float3 viewDir, float3 worldPos, float3 worldNormalVertex, float snowLevel)
+         {
+            
+            #if _DEBUG_SNOWSPARKLE
+            o.Albedo = 0;
+            o.Smoothness = 0;
+            o.Occlusion = 1;
+            o.Emission = 0;
+            
+            #endif
+            
+
+            // screen space method. Looks nice because it's in SS, but fails because clearly not
+            // combing from a single spot on the terrain.
+
+            float size = 1 - (_SnowSparkleSize * 0.001);
+            float density = _SnowSparkleDensity;
+            float noiseDensity = _SnowSparkleNoiseDensity;
+            float viewDep = _SnowSparkleViewDependency;
+
+            float3 wsView = worldPos - _WorldSpaceCameraPos;
+            float3 wsViewDir = normalize(wsView);
+
+            float z = length(wsView);
+            float e = floor(log2(0.3*z+3.0)/0.3785116);
+            float level_z = 0.1 * pow(1.3, e) - 0.2;
+            float level = 0.12 / level_z;
+            density *= level;
+            noiseDensity *= level;
+
+            float3 v = wsView / z;
+            float3 view_new = v * level_z;
+            view_new = sign(view_new) * frac(abs(view_new));
+
+            float3 pos = density*worldPos + viewDep * normalize(view_new);
+
+            float3 g_index = floor(pos);
+            float3 pc = g_index / density;
+            
+            float3 noise = _SnowSparkleNoiseAmplitude * MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD( _SnowSparkleNoise, _Diffuse, noiseDensity * pc.xz + pc.y, 0);
+            float3 offset = 0.75;
+            float3 px = pos - g_index + 0.5 * frac(noise)-offset;
+
+            float dotvn = dot(wsViewDir, worldNormalVertex);
+            float3 ma = v - dotvn*worldNormalVertex;
+            float3 px_proj = dot(px, ma) * ma;
+            px += (abs(dotvn)-1.0)*px_proj/dot(ma,ma);
+
+            float dist2 = dot(px, px);
+            float thresh = 1 - size;
+
+            
+            float r = dist2 > thresh? 0 : 1-dist2/thresh;
+
+            r *= snowLevel * _SnowSparkleStrength;
+            float3 c = _SnowSparkleTint * r;
+               
+            o.Albedo += c;
+            o.Emission += c * _SnowSparkleEmission;
+            o.Smoothness += r;
+
+            #if _DEBUG_SNOWSPARKLE
+            o.Albedo = c;
+            o.Emission = c * _SnowSparkleEmission;
+            o.Smoothness = r;
+            o.Normal = float3(0,0,1);
+            #endif
+            
+            
+            
+         }
+         #endif
+
+         #if _SNOWRIM
+         void DoSnowRim(inout MicroSplatLayer o, Input i, float snowAmount)
+         {
+            float rim = 1.0 - saturate(dot(normalize(_WorldSpaceCameraPos - i.worldPos), WorldNormalVector(i, o.Normal))); 
+            o.Emission += pow(rim, _SnowRimPower) * _SnowRimColor * snowAmount;
+         }
+         #endif
+         
+         
+         float DoSnow(Input i, inout MicroSplatLayer o, float2 uv, float3 worldNormal, float3 worldNormalVertex, 
+               float3 worldPos, float puddleHeight, half surfPorosity, float camDist, Config config, half4 weights, 
+               inout half3 SSSTint, inout half SSSThickness, float traxBuffer, float3 traxNormal)
+         {
+            #if _SNOW
+            float2 maskUV = uv;
+            #if _SNOWWORLDSPACEUV
+               uv = worldPos.xz;
+            #endif
+            
+            
+            float2 dx = ddx(uv) * _SnowUVScales.xy;
+            float2 dy = ddy(uv) * _SnowUVScales.xy;
+
+            uv *= _SnowUVScales.xy;
+            
+            #if _USEGLOBALSNOWLEVEL 
+            float snowLevel = _Global_SnowLevel;
+            #else
+            float snowLevel = _SnowAmount;
+            #endif
+
+            #if _USEGLOBALSNOWHEIGHT
+            float snowMin = _Global_SnowMinMaxHeight.x;
+            float snowMax = _Global_SnowMinMaxHeight.y;
+            #else
+            float snowMin = _SnowHeightAngleRange.x;
+            float snowMax = _SnowHeightAngleRange.y;
+            #endif
+
+            
+
+
+            float snowAge = _SnowParams.z;
+            float snowErosion = _SnowParams.y;
+            float snowHeight = _SnowParams.x;
+
+
+
+            #if _PERTEXSNOWSTRENGTH && !_SIMPLESNOW
+            SAMPLE_PER_TEX(ptSnowStr, 8.5, config, half4(1.0, 0.0, 0.0, 0.0));
+            snowLevel *= ptSnowStr0.x * weights.x + ptSnowStr1.x * weights.y + ptSnowStr2.x * weights.z + ptSnowStr3.x * weights.w;
+            #endif
+
+            half2 levelMaxMin = half2(1,0);
+            #if _SNOWMASK
+               levelMaxMin = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_GRAD(_SnowMask, _Diffuse, maskUV, ddx(maskUV), ddy(maskUV));
+            #endif
+            
+            float3 snowUpVector = _SnowUpVector;
+            float worldHeight = i.worldHeight;
+            #if _PLANETVECTORS
+               snowUpVector = i.worldUpVector;
+            #endif
+            
+            
+            half snowDot = max(snowLevel/2, dot(worldNormal, snowUpVector));
+            half snowDotVertex = snowDot;
+            #if _SNOWSIMPLE
+               half ao = 1;
+               half oheight = 0;
+               half smoothness = 0;
+            #else
+               half ao = o.Occlusion;
+               half oheight = o.Height;
+               half smoothness = o.Smoothness;
+            #endif
+               
+            
+            float snowFade = SnowFade(worldHeight, snowMin, snowMax, snowDot, snowDotVertex, snowLevel, puddleHeight);
+
+            #if _SNOWMASK
+               snowFade = min(levelMaxMin.x, snowFade);
+               snowFade = max(levelMaxMin.y, snowFade);
+            #endif
+
+            //MSBRANCHOTHER(snowFade)
+            {
+
+               #if _SNOWSTOCHASTIC
+                  float2 uv1, uv2, uv3;
+                  half3 w;
+                  PrepareStochasticUVs(_SnowStochasticScale, uv, uv1, uv2, uv3, w);
+               
+                  half4 S1 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_GRAD(_SnowDiff, _Diffuse, uv1, dx, dy);
+                  half4 S2 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_GRAD(_SnowDiff, _Diffuse, uv2, dx, dy);
+                  half4 S3 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_GRAD(_SnowDiff, _Diffuse, uv3, dx, dy);
+
+                  COUNTSAMPLE
+                  COUNTSAMPLE
+                  COUNTSAMPLE
+
+                  half3 cw = BaryWeightBlend(w, S1.a, S2.a, S3.a, _SnowStochasticContrast);
+
+                  half4 N1, N2, N3 = half4(0,0,1,0);
+                  MSBRANCHCLUSTER(cw.x);
+                  {
+                     N1 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_GRAD(_SnowNormal, _Diffuse, uv1, dx, dy);
+                     COUNTSAMPLE
+                  }
+                  MSBRANCHCLUSTER(cw.y);
+                  {
+                     N2 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_GRAD(_SnowNormal, _Diffuse, uv2, dx, dy);
+                     COUNTSAMPLE
+                  }
+                  MSBRANCHCLUSTER(cw.z);
+                  {
+                     N3 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_GRAD(_SnowNormal, _Diffuse, uv3, dx, dy);
+                     COUNTSAMPLE
+                  }
+               
+               
+                  half4 snowAlb = S1 * cw.x + S2 * cw.y + S3 * cw.z;
+                  half4 snowNsao = N1 * cw.x + N2 * cw.y + N3 * cw.z;
+                  snowNsao = snowNsao.agrb;
+               #else
+                  half4 snowAlb = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_GRAD(_SnowDiff, _Diffuse, uv, dx, dy);
+                  half4 snowNsao = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_GRAD(_SnowNormal, _Diffuse, uv, dx, dy).agrb;
+                  COUNTSAMPLE
+                  COUNTSAMPLE
+               #endif
+
+               #if _SNOWDISTANCERESAMPLE
+               {
+                  
+                  float fade = saturate ((camDist - _SnowDistanceResampleScaleStrengthFade.z) / _SnowDistanceResampleScaleStrengthFade.w);
+                  fade *= _SnowDistanceResampleScaleStrengthFade.y;
+                  MSBRANCHOTHER(fade)
+                  {
+                     float2 snowResampleUV = uv * _SnowDistanceResampleScaleStrengthFade.x;
+                     float2 rsdx = dx * _SnowDistanceResampleScaleStrengthFade.x;
+                     float2 rsdy = dy * _SnowDistanceResampleScaleStrengthFade.x;
+                     half4 snowAlb2 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_GRAD(_SnowDiff, _Diffuse,  snowResampleUV, rsdx, rsdy);
+                     half4 snowNsao2 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_GRAD(_SnowNormal, _Diffuse, snowResampleUV, rsdx, rsdy).grab;
+                     COUNTSAMPLE
+                     COUNTSAMPLE
+                  
+
+                     snowAlb.rgb = lerp(snowAlb, snowAlb2, fade);
+                     snowNsao = lerp(snowNsao, snowNsao2, fade);
+                  }
+               }
+               #endif
+
+               #if _SNOWNORMALNOISE
+               {
+                  float2 normalUV = uv * _SnowNormalNoiseScaleStrength.x;
+                  half3 noise = UnpackNormal(MICROSPLAT_SAMPLE_TEX2D_SAMPLER_GRAD(_SnowNormalNoise, _Diffuse, normalUV, dx * _SnowNormalNoiseScaleStrength.x, dy * _SnowNormalNoiseScaleStrength.x));
+                  COUNTSAMPLE
+                  snowNsao.xy = lerp(snowNsao.xy, BlendNormal2(snowNsao.xy, noise.xy), _SnowNormalNoiseScaleStrength.y);
+               }
+               #endif
+            
+               #if _SNOWFOOTSTEPS
+               {
+                  traxNormal.xy *= _SnowTraxNormalStrength;
+                  float2 fsdx = dx * _SnowTraxUVScales;
+                  float2 fsdy = dy * _SnowTraxUVScales;
+                  traxBuffer = 1 - ((1 - traxBuffer) * _SnowTraxTextureBlend);
+
+                  half4 traxDiffuse = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_GRAD(_SnowTrackDiff, _Diffuse, uv * _SnowTraxUVScales, fsdx, fsdy);
+                  half4 traxN = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_GRAD(_SnowTrackNSAO, _Diffuse, uv * _SnowTraxUVScales, fsdx, fsdy).agrb;
+                  COUNTSAMPLE
+                  COUNTSAMPLE
+
+                  traxDiffuse.rgb *= _TraxSnowTint;
+                  snowAlb.rgba = lerp(traxDiffuse, snowAlb.rgba, traxBuffer);
+                  snowNsao.rgba = lerp(traxN + half4(traxNormal.xy, 0, 0), snowNsao.rgba, traxBuffer);
+                  snowAge = lerp(_TraxSnowAge, snowAge, traxBuffer);
+                  snowErosion = lerp(_TraxSnowErosion, snowErosion, traxBuffer);
+                  snowHeight = lerp(_TraxSnowHeight, snowHeight, traxBuffer);
+
+                  snowFade = saturate(snowFade - _TraxSnowRemoval * (1-saturate(traxBuffer)));
+               }
+               #endif
+
+              
+
+               half3 snowNormal = float3(snowNsao.xy * 2 - 1, 1);
+             
+               half height = saturate(oheight - (1.0 - snowHeight));
+               half erosion = saturate(ao * snowErosion);
+               erosion *= erosion;
+               half snowMask = saturate(snowFade - erosion - height);
+               snowMask = snowMask * snowMask * snowMask;
+               half snowAmount = snowMask * saturate(snowDot - (height + erosion) * 0.5);  // up
+               snowAmount = saturate(snowAmount * 8);
+
+               float wetnessMask = saturate((_SnowParams.w * (4.0 * snowFade) - (snowNsao.b) * 0.5));
+                
+               float snowNormalAmount = snowAmount * snowAmount;
+
+               float porosity = saturate((((1.0 - smoothness) - 0.5)) / max(surfPorosity, 0.001));
+               float factor = lerp(1, 0.4, porosity);
+
+               o.Albedo *= lerp(1.0, factor, wetnessMask);
+               o.Normal = lerp(o.Normal, float3(0,0,1), wetnessMask);
+               o.Smoothness = lerp(o.Smoothness, 0.8, wetnessMask);
+
+
+               #if _SNOWSSS
+                  SSSTint = lerp(SSSTint, _SnowSSSTint.rgb, snowNormalAmount);
+                  SSSThickness = lerp(SSSThickness, _SnowSSSTint.a * 2 * snowAlb.a, snowNormalAmount);
+               #endif
+
+               snowAlb.rgb *= _SnowTint.rgb;
+               
+
+               o.Albedo = lerp(o.Albedo, snowAlb.rgb, snowAmount);
+               o.Normal = lerp(o.Normal, snowNormal, snowNormalAmount);
+               o.Smoothness = lerp(o.Smoothness, (snowNsao.b) * snowAge, snowAmount);
+               o.Occlusion = lerp(o.Occlusion, snowNsao.w, snowAmount);
+               o.Height = lerp(o.Height, snowAlb.a, snowAmount);
+               o.Metallic = lerp(o.Metallic, 0.01, snowAmount);
+               float crystals = saturate(0.65 - snowNsao.b);
+               o.Smoothness = lerp(o.Smoothness, crystals * snowAge, snowAmount);
+               
+               #if _SNOWSPARKLE
+               DoSnowSparkle(i, o, i.viewDir, worldPos, worldNormalVertex, snowAmount);
+               #endif
+
+               #if _SNOWRIM
+               DoSnowRim(o, i, snowAmount);
+               #endif
+
+               return snowAmount;
+            }
+            #endif
+            return 0;
+         }
+
+         // for object blend shader, must, unfortunately, keep in sync..
+         float DoSnowSimple(Input i, inout MicroSplatLayer o, float2 uv, float3 worldNormal, float3 worldNormalVertex, 
+               float3 worldPos, float puddleHeight, half surfPorosity)
+         {
+            #if _SNOW
+            float2 maskUV = uv;
+            #if _SNOWWORLDSPACEUV
+               uv = worldPos.xz;
+            #endif
+            
+            uv *= _SnowUVScales.xy;
+            float2 dx = ddx(uv);
+            float2 dy = ddy(uv);
+            
+            #if _USEGLOBALSNOWLEVEL 
+               float snowLevel = _Global_SnowLevel;
+            #else
+               float snowLevel = _SnowAmount;
+            #endif
+
+            #if _USEGLOBALSNOWHEIGHT
+               float snowMin = _Global_SnowMinMaxHeight.x;
+               float snowMax = _Global_SnowMinMaxHeight.y;
+            #else
+               float snowMin = _SnowHeightAngleRange.x;
+               float snowMax = _SnowHeightAngleRange.y;
+            #endif
+
+            half2 levelMaxMin = half2(1,0);
+            #if _SNOWMASK
+               levelMaxMin = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_GRAD(_SnowMask, _Diffuse, maskUV, ddx(maskUV), ddy(maskUV));
+            #endif
+
+
+
+            float snowAge = _SnowParams.z;
+            float snowErosion = _SnowParams.y;
+            float snowHeight = _SnowParams.x;
+            
+            float3 snowUpVector = _SnowUpVector;
+            float worldHeight = i.worldHeight;
+            #if _PLANETVECTORS
+               snowUpVector = i.worldUpVector;
+            #endif
+
+            half snowDot = max(snowLevel/2, dot(worldNormal, snowUpVector));
+            half snowDotVertex = max(snowLevel/2, dot(worldNormalVertex, snowUpVector));
+            float snowFade = SnowFade(worldHeight, snowMin, snowMax, snowDot, snowDotVertex, snowLevel, puddleHeight);
+
+            #if _SNOWMASK
+               snowFade = min(levelMaxMin.x, snowFade);
+               snowFade = max(levelMaxMin.y, snowFade);
+            #endif
+
+            MSBRANCHOTHER(snowFade)
+            {
+               
+               half4 snowAlb = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_GRAD(_SnowDiff, _Diffuse, uv, dx, dy);
+               half4 snowNsao = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_GRAD(_SnowNormal, _Diffuse, uv, dx, dy).agrb;
+               COUNTSAMPLE
+               COUNTSAMPLE
+
+               snowAlb.rgb *= _SnowTint.rgb;
+
+               #if _SNOWNORMALNOISE
+               {
+                  float2 normalUV = uv * _SnowNormalNoiseScaleStrength.x;
+                  half3 noise = UnpackNormal(MICROSPLAT_SAMPLE_TEX2D_SAMPLER_GRAD(_SnowNormalNoise, _Diffuse, normalUV, dx * _SnowNormalNoiseScaleStrength.x, dy * _SnowNormalNoiseScaleStrength.x));
+
+                  snowNsao.xy = lerp(snowNsao.xy, BlendNormal2(snowNsao.xy, noise.xy), _SnowNormalNoiseScaleStrength.y);
+               }
+
+               #endif
+               
+               half3 snowNormal = float3(snowNsao.xy * 2 - 1, 1);
+               half ao = o.Occlusion;
+
+               half height = saturate(o.Height - (1-snowHeight));
+               half erosion = saturate(ao * snowErosion);
+               erosion *= erosion;
+               half snowMask = saturate(snowFade - erosion - height);
+               snowMask = snowMask * snowMask * snowMask;
+               half snowAmount = snowMask * saturate(snowDot - (height + erosion) * 0.5);  // up
+               snowAmount = saturate(snowAmount * 8);
+
+               float wetnessMask = saturate((_SnowParams.w * (4.0 * snowFade) - (snowNsao.b) * 0.5));
+
+               float snowNormalAmount = snowAmount * snowAmount;
+
+               float porosity = saturate((((1.0 - o.Smoothness) - 0.5)) / max(surfPorosity, 0.001));
+               float factor = lerp(1, 0.4, porosity);
+
+               o.Albedo *= lerp(1.0, factor, wetnessMask);
+               o.Normal = lerp(o.Normal, float3(0,0,1), wetnessMask);
+               o.Smoothness = lerp(o.Smoothness, 0.8, wetnessMask);
+
+         
+               o.Albedo = lerp(o.Albedo, snowAlb.rgb, snowAmount);
+               o.Normal = lerp(o.Normal, snowNormal, snowNormalAmount);
+               o.Smoothness = lerp(o.Smoothness, (snowNsao.b) * snowAge, snowAmount);
+               o.Occlusion = lerp(o.Occlusion, snowNsao.w, snowAmount);
+               o.Height = lerp(o.Height, snowAlb.a, snowAmount);
+               o.Metallic = lerp(o.Metallic, 0.01, snowAmount);
+               float crystals = saturate(0.65 - snowNsao.b);
+               o.Smoothness = lerp(o.Smoothness, crystals * snowAge, snowAmount);
+
+               #if _SNOWSPARKLE
+               DoSnowSparkle(i, o, i.viewDir, worldPos, worldNormalVertex, snowAmount);
+               #endif
+
+               #if _SNOWRIM
+               DoSnowRim(o, i, snowAmount);
+               #endif
+
+               return snowAmount;
+            
+            }
+            #endif
+            return 0;
+         }

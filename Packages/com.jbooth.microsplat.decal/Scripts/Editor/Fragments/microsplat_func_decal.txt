@@ -1,0 +1,648 @@
+﻿
+      #if _DECAL_MAX0
+         #define _DECALMAX 1
+      #elif _DECAL_MAX4
+         #define _DECALMAX 4
+      #elif _DECAL_MAX8
+         #define _DECALMAX 8
+      #elif _DECAL_MAX16
+         #define _DECALMAX 16
+      #elif _DECAL_MAX32
+         #define _DECALMAX 32
+      #elif _DECAL_MAX64
+         #define _DECALMAX 64
+      #elif _DECAL_MAX128
+         #define _DECALMAX 128
+      #elif _DECAL_MAX256
+         #define _DECALMAX 256
+      #else
+         #define _DECALMAX 1
+      #endif
+
+      #if _DECAL_STATICMAX0
+         #define _STATICDECALMAX 1
+      #elif _DECAL_STATICMAX64
+         #define _STATICDECALMAX 64
+      #elif _DECAL_STATICMAX128
+         #define _STATICDECALMAX 128
+      #elif _DECAL_STATICMAX256
+         #define _STATICDECALMAX 256
+      #elif _DECAL_STATICMAX512
+         #define _STATICDECALMAX 512
+      #elif _DECAL_STATICMAX1024
+         #define _STATICDECALMAX 1024
+      #elif _DECAL_STATICMAX2048
+         #define _STATICDECALMAX 2048
+      #else
+         #define _STATICDECALMAX 1
+      #endif
+
+      UNITY_DECLARE_TEX2DARRAY_NOSAMPLER(_DecalAlbedo);
+      UNITY_DECLARE_TEX2DARRAY_NOSAMPLER(_DecalNormalSAO);
+
+      #if _DECAL_EMISMETAL
+         UNITY_DECLARE_TEX2DARRAY_NOSAMPLER(_DecalEmisMetal);
+      #endif
+
+      
+      #if _DECAL_SPLAT
+         UNITY_DECLARE_TEX2DARRAY_NOSAMPLER(_DecalSplats);
+      #endif
+      
+
+      int _MSDecalCount;
+
+
+      UNITY_DECLARE_TEX2D_NOSAMPLER(_DecalCullData);
+      float4 _DecalCullData_TexelSize;
+
+      UNITY_DECLARE_TEX2D(_DecalControl);
+      float4 _DecalControl_TexelSize;
+      UNITY_DECLARE_TEX2D_NOSAMPLER(_DecalStaticData);
+      float4 _DecalStaticData_TexelSize;
+      UNITY_DECLARE_TEX2D_NOSAMPLER(_DecalDynamicData);
+      float4 _DecalDynamicData_TexelSize;
+
+
+      #define DECALDATA1 4
+      #define DECALDATA2 5
+      #define DECALSPLATS 6
+      #define DECALTINT 7
+
+      float4 GetDecalStaticData(float index, float y)
+      {
+         float2 uv = float2(index + 0.5, y + 0.5) * _DecalStaticData_TexelSize.xy; 
+         return MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_DecalStaticData, _DecalControl, uv, 0);
+      }
+
+      float4x4 GetDecalStaticMtx(float index)
+      {
+         float4x4 mtx;
+         float sz = _DecalStaticData_TexelSize.y;
+         float u = index * _DecalStaticData_TexelSize.x;
+         mtx._m00_m01_m02_m03 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_DecalStaticData, _DecalControl, float2(u, 0), 0);
+         mtx._m10_m11_m12_m13 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_DecalStaticData, _DecalControl, float2(u, 1*sz), 0);
+         mtx._m20_m21_m22_m23 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_DecalStaticData, _DecalControl, float2(u, 2*sz), 0);
+         mtx._m30_m31_m32_m33 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_DecalStaticData, _DecalControl, float2(u, 3*sz), 0);
+         return mtx;
+      }
+
+      float4 GetDecalDynamicData(float index, float y)
+      {
+         float2 uv = float2(index + 0.5, y + 0.5) * _DecalDynamicData_TexelSize.xy; 
+         return MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_DecalDynamicData, _DecalControl, uv, 0);
+      }
+
+      float4x4 GetDecalDynamicMtx(float index)
+      {
+         float4x4 mtx;
+         float sz = _DecalDynamicData_TexelSize.y;
+         float u = index * _DecalDynamicData_TexelSize.x;
+         mtx._m00_m01_m02_m03 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_DecalDynamicData, _DecalControl, float2(u, 0), 0);
+         mtx._m10_m11_m12_m13 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_DecalDynamicData, _DecalControl, float2(u, 1*sz), 0);
+         mtx._m20_m21_m22_m23 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_DecalDynamicData, _DecalControl, float2(u, 2*sz), 0);
+         mtx._m30_m31_m32_m33 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_DecalDynamicData, _DecalControl, float2(u, 3*sz), 0);
+         return mtx;
+      }
+
+
+      DecalLayer InitDecalLayer()
+      {
+         DecalLayer o = (DecalLayer)0;
+         o.uv = float3(0,0,-1);
+         o.dx = float2(0,0);
+         o.dy = float2(0,0);
+         o.dynamic = 0;
+         o.decalIndex = 0;
+
+         return o;
+      }
+
+      DecalOutput InitDecalOutput()
+      {
+         DecalOutput o = (DecalOutput)0;
+         o.l0 = InitDecalLayer();
+         o.l1 = InitDecalLayer();
+         o.l2 = InitDecalLayer();
+         o.l3 = InitDecalLayer();
+
+         o.Weights = half4(0,0,0,0);
+         o.Indexes = half4(0,1,2,3);
+         o.fxLevels = half4(0,0,0,0);
+         return o;
+      }
+
+      
+      
+      
+      // we are drawn from highest to the lowest
+      void DecalInsert(inout DecalOutput o, DecalLayer l)
+      {
+         if (o.l0.uv.z < 0)
+         {
+            o.l0 = l;
+         }
+         else if (o.l1.uv.z < 0)
+         {
+            o.l1 = o.l0;
+            o.l0 = l;
+         }
+         else if (o.l2.uv.z < 0)
+         {
+            o.l2 = o.l1;
+            o.l1 = o.l0;
+            o.l0 = l;
+         }
+         else 
+         {
+            o.l3 = o.l2;
+            o.l2 = o.l1;
+            o.l1 = o.l0;
+            o.l0 = l;
+         }
+      }
+
+      
+      void DrawDecal(int decalIndex, inout DecalOutput o, float4 data, bool dynamic, float2 uv, float2 dx, float2 dy)
+      { 
+         #if !_DECAL_NOTEXTURES || _DECAL_EMISMETAL
+            int texIndex = data.x - floor(data.x * 0.01);
+            DecalLayer l = InitDecalLayer();
+            l.uv = float3(uv, texIndex);
+            l.dx = dx;
+            l.dy = dy;
+            l.dynamic = dynamic;
+            l.decalIndex = decalIndex;
+            DecalInsert(o, l);
+         #endif
+         
+
+         #if _DECAL_SPLAT
+            int splatTexIndex = floor(data.x * 0.01);
+            half4 splats = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_GRAD(_DecalSplats, _Control0, float3(uv.xy, splatTexIndex), dx, dy);
+            
+            float4 splatIndexes = 0;
+            UNITY_BRANCH
+            if (dynamic)
+            {
+               splatIndexes = GetDecalDynamicData(decalIndex, DECALSPLATS);
+            }
+            else
+            {
+               splatIndexes = GetDecalStaticData(decalIndex, DECALSPLATS);
+            }
+
+            float splatOpacity = abs(data.z) - 1;
+            float splatMode = data.z > 0 ? 1 : 0;
+
+            splats *= splatOpacity * 2;
+            UNITY_BRANCH
+            if (splatMode > 0.5)
+            {
+               // Another odity, splat index 0 won't register.. 
+               DoMergeDecalSplats(splats, splatIndexes, o.Weights, o.Indexes);
+            }
+            else
+            {
+               o.fxLevels = max(o.fxLevels, splats);
+            }
+
+         #endif
+      }
+      
+      
+
+      void CullDrawStaticDecal(int i, float3 worldPos, float3 localPos, inout DecalOutput o, float2 dx, float2 dy)
+      {
+         i = min(_STATICDECALMAX-1, i);
+
+         float3 localProj = mul(GetDecalStaticMtx(i), float4(localPos, 1)).xyz;
+         
+         float2 uv = localProj.xz + 0.5;
+         
+         float4 decalData1 = GetDecalStaticData(i, DECALDATA1);
+         
+         float scaleY = decalData1.y;
+
+         float clipPos = (localProj.y + 0.5) - 1.0/max(scaleY, 0.001);
+
+         bool clipBounds = (uv.x == saturate(uv.x) && uv.y == saturate(uv.y) && clipPos == saturate(clipPos));
+         UNITY_BRANCH
+         if (clipBounds)
+         {
+            DrawDecal(i, o, decalData1, false, uv, dx, dy);
+         }
+      }
+
+      void CullDrawDynamicDecal(int i, float3 worldPos, float3 localPos, inout DecalOutput o)
+      {
+         float3 localProj = mul(GetDecalDynamicMtx(i), float4(localPos, 1)).xyz;
+              
+         float2 uv = localProj.xz + 0.5;
+         float2 dx = ddx(uv);
+         float2 dy = ddy(uv);
+         float4 decalData1 = GetDecalDynamicData(i, DECALDATA1);
+         float scaleY = decalData1.y;
+         float clipPos = (localProj.y + 0.5) - 1.0/max(scaleY, 0.001);
+
+         bool clipBounds = (uv.x == saturate(uv.x) && uv.y == saturate(uv.y) && clipPos == saturate(clipPos));
+         UNITY_BRANCH
+         if (clipBounds)
+         {
+            DrawDecal(i, o, decalData1, true, uv, dx, dy);
+         }
+      }
+
+      void CullDrawDynamicDecalTess(int i, float3 worldPos, float3 localPos, inout DecalOutput o)
+      {
+         float3 localProj = mul(GetDecalDynamicMtx(i), float4(localPos, 1)).xyz;
+              
+         float2 uv = localProj.xz + 0.5;
+         float2 dx = 0;
+         float2 dy = 0;
+         float4 decalData1 = GetDecalDynamicData(i, DECALDATA1);
+         float scaleY = decalData1.y;
+         float clipPos = (localProj.y + 0.5) - 1.0/max(scaleY, 0.001);
+
+         bool clipBounds = (uv.x == saturate(uv.x) && uv.y == saturate(uv.y) && clipPos == saturate(clipPos));
+         UNITY_BRANCH
+         if (clipBounds)
+         {
+            DrawDecal(i, o, decalData1, true, uv, dx, dy);
+         }
+      }
+
+      
+      // Distance based culling
+      void RoughCullDynamicDecal(int i, float3 worldPos, float3 localPos, inout DecalOutput o)
+      {
+         float4 cullData = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_DecalCullData, _DecalControl, float2((i+0.5) * _DecalCullData_TexelSize.x, 0.5), 0);
+         float3 lv = worldPos - cullData.xyz;
+         float dist = lv.x * lv.x + lv.y * lv.y + lv.z * lv.z;
+
+         UNITY_BRANCH
+         if (dist < cullData.w)
+         {
+            CullDrawDynamicDecal(i, worldPos, localPos, o);
+         }
+      }
+
+      // Distance based culling
+      void RoughCullDynamicDecalTess(int i, float3 worldPos, float3 localPos, inout DecalOutput o)
+      {
+         float4 cullData = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_DecalCullData, _DecalControl, float2((i+0.5) * _DecalCullData_TexelSize.x, 0.5), 0);
+         float3 lv = worldPos - cullData.xyz;
+         float dist = lv.x * lv.x + lv.y * lv.y + lv.z * lv.z;
+
+         UNITY_BRANCH
+         if (dist < cullData.w)
+         {
+            CullDrawDynamicDecalTess(i, worldPos, localPos, o);
+         }
+      }
+
+      
+      DecalOutput DoDecals(float2 uv, float3 worldPos, float camDist, float3 worldNormalVertex)
+      {
+         DecalOutput o = InitDecalOutput();
+
+         // Terrain matrix's lie, so in terrain mode, we just use worldPos
+         float3 localPos = worldPos;
+
+         #if !_DECAL_STATICMAX0
+            // Static
+            float2 cuv = uv;
+
+            half4 c0 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_DecalControl, _DecalControl, uv, 0);
+            c0 -= 1;
+            
+
+            // OK, I don't quite understand this, and expect it to break, but haven't so far. 
+            // The issue is that we get derivative lines when we have overlapping decals. This is
+            // because the index map may report (2,1,0,0) on one pixel, and (1,0,0,0) on the next when
+            // one decal ends. Thus, when mip map data is shared and the indexes change, you get derivative issues.
+            //
+            // For regular UV scale blending, I just average the derivatives of all texels being used. But
+            // here we can't do that. So while testing, I just transformed the first decal in the list into
+            // decal space and used it's derivatives for all decals. But this can't possibly work right!? Right?
+
+            int initialIdx = max(c0.r, 0);
+
+            float3 localProj = mul(GetDecalStaticMtx(initialIdx), float4(localPos, 1)).xyz;
+            float2 xuv = localProj.xy + 0.5;
+            float2 dx = ddx(xuv);
+            float2 dy = ddy(xuv);
+
+            
+            UNITY_BRANCH
+            if (c0.r >= 0)
+            {
+               CullDrawStaticDecal((int)c0.r, worldPos, localPos, o, dx, dy);
+               UNITY_BRANCH
+               if (c0.g >= 0)
+               {
+                  CullDrawStaticDecal((int)c0.g, worldPos, localPos, o, dx, dy);
+                  UNITY_BRANCH
+                  if (c0.b >= 0)
+                  {
+                     CullDrawStaticDecal((int)c0.b, worldPos, localPos, o, dx, dy);
+                     UNITY_BRANCH
+                     if (c0.a >= 0)
+                     {
+                        CullDrawStaticDecal((int)c0.a, worldPos, localPos, o, dx, dy);
+                     }
+                  }
+               }
+            }
+         #endif
+         
+         #if !_DECAL_MAX0
+            // dynamic
+            int count = _MSDecalCount;
+            if (count > _DECALMAX)
+               count = _DECALMAX;
+               
+            [loop] for (int i = 0; i < count; i++)
+            {
+               RoughCullDynamicDecal(i, worldPos, localPos, o);
+            }
+         #endif //!_DECAL_MAX0
+         
+         return o;
+      }
+
+      #if _TESSDISTANCE && _DECAL_TESS
+      DecalOutput DoDecalsTess(float2 uv, float3 worldPos, float camDist, float3 worldNormalVertex)
+      {
+         DecalOutput o = InitDecalOutput();
+
+         // Terrain matrix's lie, so in terrain mode, we just use worldPos
+         float3 localPos = worldPos;
+
+         #if !_DECAL_STATICMAX0
+            // Static
+            // texture must be clamped, but we want to share samplers, so floor
+            float2 cuv = uv;
+            
+            half4 c0 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_DecalControl, _DecalControl, uv, 0);
+            c0 -= 1;
+            
+
+            // OK, I don't quite understand this, and expect it to break, but haven't so far. 
+            // The issue is that we get derivative lines when we have overlapping decals. This is
+            // because the index map may report (2,1,0,0) on one pixel, and (1,0,0,0) on the next when
+            // one decal ends. Thus, when mip map data is shared and the indexes change, you get derivative issues.
+            //
+            // For regular UV scale blending, I just average the derivatives of all texels being used. But
+            // here we can't do that. So while testing, I just transformed the first decal in the list into
+            // decal space and used it's derivatives for all decals. But this can't possibly work right!? Right?
+            
+
+            
+            UNITY_BRANCH
+            if (c0.r >= 0)
+            {
+               CullDrawStaticDecal((int)c0.r, worldPos, localPos, o, 0, 0);
+               UNITY_BRANCH
+               if (c0.g >= 0)
+               {
+                  CullDrawStaticDecal((int)c0.g, worldPos, localPos, o, 0, 0);
+                  UNITY_BRANCH
+                  if (c0.b >= 0)
+                  {
+                     CullDrawStaticDecal((int)c0.b, worldPos, localPos, o, 0, 0);
+                     UNITY_BRANCH
+                     if (c0.a >= 0)
+                     {
+                        CullDrawStaticDecal((int)c0.a, worldPos, localPos, o, 0, 0);
+                     }
+                  }
+               }
+            }
+         #endif
+         
+         #if !_DECAL_MAX0
+            // dynamic
+            int count = _MSDecalCount;
+            if (count > _DECALMAX)
+               count = _DECALMAX;
+               
+            [loop] for (int i = 0; i < count; i++)
+            {
+               RoughCullDynamicDecalTess(i, worldPos, localPos, o);
+            }
+         #endif //!_DECAL_MAX0
+         
+         return o;
+      }
+      #endif
+
+      // mode is encoded in sign
+      float BlendDecalNormal(half2 src, inout half2 dest, float opacity)
+      {
+         if (opacity < 0)
+         {
+            dest = BlendNormal2(src, dest);
+         }
+
+         half alpha = abs(opacity)-1;
+         return alpha;
+      }
+      
+      void SampleDecalTexLayer(DecalLayer l, inout half4 albedo, inout half4 normalSAO, inout half3 surf, inout half4 emisMetal)
+      {
+         int texIndex = l.uv.z;
+         int decalIndex = l.decalIndex;
+         float4 data1;
+         float4 data2;
+         fixed3 tint = fixed3(1,1,1);
+
+         UNITY_BRANCH
+         if (l.dynamic)
+         {
+            data1 = GetDecalDynamicData(decalIndex, DECALDATA1);
+            data2 = GetDecalDynamicData(decalIndex, DECALDATA2);
+            #if _DECAL_TINT
+               tint = GetDecalDynamicData(decalIndex, DECALTINT);
+            #endif
+         }
+         else
+         {
+            data1 = GetDecalStaticData(decalIndex, DECALDATA1);
+            data2 = GetDecalStaticData(decalIndex, DECALDATA2);
+            #if _DECAL_TINT
+               tint = GetDecalStaticData(decalIndex, DECALTINT);
+            #endif
+         }
+
+         float albedoOpacity = abs(data2.x) - 1;
+         float normalOpacity = data2.y;
+         float smoothnessOpacity = data2.z;
+         float heightBlend = data2.w;
+         
+
+
+         half4 dalbedo = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_GRAD(_DecalAlbedo, _Diffuse, l.uv, l.dx, l.dy);
+         COUNTSAMPLE
+         half4 dnsao = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_GRAD(_DecalNormalSAO, _Diffuse, l.uv, l.dx, l.dy).agrb;
+         COUNTSAMPLE
+         dnsao.xy *= 2;
+         dnsao.xy -= 1;
+
+         half alpha = dnsao.a;
+
+         #if _DECAL_TINT
+            dalbedo.rgb *= tint;
+         #endif
+
+         // reconstruct ao
+         dnsao.a = 1 - (dnsao.x * dnsao.y);
+
+         half hb = lerp(alpha, HeightBlend(albedo.a, dalbedo.a, alpha, _Contrast), heightBlend);
+         if (data2.x < 0)
+         {
+            dalbedo.rgb = BlendMult2X(albedo.rgb, dalbedo.rgb);
+         }
+         albedo = lerp(albedo, dalbedo, albedoOpacity * hb);
+         
+         #if _SURFACENORMALS
+            half3 surfN = ConvertNormal2ToGradient(dnsao.xy);
+         #endif
+
+
+         float alpha0 = BlendDecalNormal(normalSAO.xy, dnsao.xy, normalOpacity);
+         normalSAO.xy = lerp(normalSAO.xy, dnsao.xy, alpha0 * hb);
+         normalSAO.zw = lerp(normalSAO.zw, dnsao.zw, smoothnessOpacity * hb);
+
+         #if _SURFACENORMALS
+            if (normalOpacity < 0)
+               surf += surfN * alpha0 * hb;
+            else
+               surf = lerp(surf, surfN, alpha * hb);
+         #endif
+
+
+         #if _DECAL_EMISMETAL
+            half4 demisMetal = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_GRAD(_DecalEmisMetal, _Diffuse, l.uv, l.dx, l.dy);
+            COUNTSAMPLE
+            emisMetal.w = lerp(emisMetal.w, demisMetal.w, heightBlend);
+            emisMetal.rgb += demisMetal.rgb;
+         #endif
+      }
+
+      void DoDecalBlend(DecalOutput i, inout half4 albedo, inout half4 normalSAO, inout half3 surf, inout half4 emisMetal, float2 uv)
+      { 
+         #if !_DECAL_NOTEXTURES
+
+            UNITY_BRANCH
+            if (i.l0.uv.z >= 0)
+            {
+               SampleDecalTexLayer(i.l0, albedo, normalSAO, surf, emisMetal);
+               #if _DEBUG_DECAL_STATIC
+                  albedo.r += 0.5;
+               #endif
+               UNITY_BRANCH
+               if (i.l1.uv.z >= 0)
+               {
+                  #if _DEBUG_DECAL_STATIC
+                     albedo.g += 0.5;
+                  #endif
+                  SampleDecalTexLayer(i.l1, albedo, normalSAO, surf, emisMetal);
+                  UNITY_BRANCH
+                  if (i.l2.uv.z >= 0)
+                  {
+                     #if _DEBUG_DECAL_STATIC
+                        albedo.b += 0.5;
+                     #endif
+                     SampleDecalTexLayer(i.l2, albedo, normalSAO, surf, emisMetal);
+                     UNITY_BRANCH
+                     if (i.l3.uv.z >= 0)
+                     {
+                         SampleDecalTexLayer(i.l3, albedo, normalSAO, surf, emisMetal);
+                     }
+                  }
+               }
+            }
+
+            float2 cuv = uv;
+
+         #endif
+
+      }
+
+
+      #if _TESSDISTANCE && _DECAL_TESS
+      void SampleDecalTexLayerTess(DecalLayer l, inout half h0, inout half h1, inout half h2, inout half h3, float mipLevel)
+      {
+         int texIndex = l.uv.z;
+         int decalIndex = l.decalIndex;
+         float4 data1;
+         float4 data2;
+
+         if (l.dynamic)
+         {
+            data1 = GetDecalDynamicData(decalIndex, DECALDATA1);
+            data2 = GetDecalDynamicData(decalIndex, DECALDATA2);
+         }
+         else
+         {
+            data1 = GetDecalStaticData(decalIndex, DECALDATA1);
+            data2 = GetDecalStaticData(decalIndex, DECALDATA2);
+         }
+
+         float tessOpacity = data1.w;
+         float heightBlend = data2.w;
+
+
+         half4 dalbedo = SAMPLE_TEXTURE2D_ARRAY_LOD(_DecalAlbedo, sampler_Diffuse, l.uv.xy, l.uv.z, mipLevel);
+         half4 dnsao = SAMPLE_TEXTURE2D_ARRAY_LOD(_DecalNormalSAO, sampler_Diffuse, l.uv.xy, l.uv.z, mipLevel).agrb;
+         half alpha = dnsao.a;
+
+         const float dec = 1.0 / 0.95;
+         float alphaOp = frac(tessOpacity) * dec;
+         float offset = floor(tessOpacity) / 256;
+
+         half height = (dalbedo.a - 0.5 + offset);
+
+         half blend = alpha * alphaOp;
+
+         h0 = lerp(h0, HeightBlend(h0, height, heightBlend, _Contrast), blend);
+         h1 = lerp(h1, HeightBlend(h1, height, heightBlend, _Contrast), blend);
+         h2 = lerp(h2, HeightBlend(h2, height, heightBlend, _Contrast), blend);
+         h3 = lerp(h3, HeightBlend(h3, height, heightBlend, _Contrast), blend);
+
+      }
+
+      
+      void DoDecalBlendTess(DecalOutput i, inout half h0, inout half h1, inout half h2, inout half h3, float mipLevel)
+      {
+      
+         #if !_DECAL_NOTEXTURES && _DECAL_TESS
+
+            UNITY_BRANCH
+            if (i.l0.uv.z >= 0)
+            {
+               SampleDecalTexLayerTess(i.l0, h0, h1, h2, h3, mipLevel);
+               UNITY_BRANCH
+               if (i.l1.uv.z >= 0)
+               {
+                  SampleDecalTexLayerTess(i.l1, h0, h1, h2, h3, mipLevel);
+                  UNITY_BRANCH
+                  if (i.l2.uv.z >= 0)
+                  {
+                     SampleDecalTexLayerTess(i.l2, h0, h1, h2, h3, mipLevel);
+                     UNITY_BRANCH
+                     if (i.l3.uv.z >= 0)
+                     {
+                         SampleDecalTexLayerTess(i.l3, h0, h1, h2, h3, mipLevel);
+                     }
+                  }
+               }
+            }
+
+
+         #endif
+         
+      } 
+      #endif
+      

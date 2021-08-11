@@ -1,0 +1,530 @@
+﻿
+      UNITY_DECLARE_TEX2D_NOSAMPLER(_ProcTexCurves);
+      UNITY_DECLARE_TEX2D_NOSAMPLER(_ProcTexParams);
+      UNITY_DECLARE_TEX2D_NOSAMPLER(_ProcTexNoise);
+      UNITY_DECLARE_TEX2D_NOSAMPLER(_ProcTexBiomeMask);
+      UNITY_DECLARE_TEX2D_NOSAMPLER(_ProcTexBiomeMask2);
+      UNITY_DECLARE_TEX2D_NOSAMPLER(_CavityMap); //  g = cavity, a = erosion
+
+     
+      float ComputeMipLevel(float2 dx, float2 dy, float4 textureSize)
+      {
+         float2  dx_vtc        = dx * textureSize.zw;
+         float2  dy_vtc        = dy * textureSize.zw;
+         float delta_max_sqr   = max(dot(dx_vtc, dx_vtc), dot(dy_vtc, dy_vtc));
+         return 0.5 * log2(delta_max_sqr);
+      }
+
+
+      // ONLY use LOD samplers is here, compute lod from ddx
+      
+      half PCFilter(int index, float height, float slope, float cavity, float erosion, float3 worldPos, float2 uv, half4 bMask, half4 bMask2, out int texIndex, half3 pN, 
+                     float2 dx, float2 dy, float3 wdx, float3 wdy)
+      {
+         // params0 are rgba (noise scale, min, max, offset)
+         // params1 are rg (weight, index)
+         float2 noiseUV = uv;
+         
+         float offset = 1.0 / 32.0;
+         float halfOff = 1.0 / 64.0;
+         float y = (index * offset) + halfOff;
+         
+         half h0 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_ProcTexCurves, _Diffuse, float2(height, y), 0).r;
+         half s0 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_ProcTexCurves, _Diffuse, float2(slope, y), 0).g;
+         half c0 = 1;
+         half e0 = 1;
+         #if _PCCAVITY || _PCUSECOMBINEDAO
+            c0 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_ProcTexCurves, _Diffuse, float2(cavity, y), 0).b;
+         #endif
+         #if _PCFLOW
+            e0 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_ProcTexCurves, _Diffuse, float2(erosion, y), 0).a;
+         #endif
+         
+         // 4 texels, so 1/4 spacing + 1/2 spacing in X
+         half4 params0 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_ProcTexParams, _Diffuse, float2(0.125, y), 0);
+         half4 params1 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_ProcTexParams, _Diffuse, float2(0.375, y), 0);
+         half4 params2 = half4(1,1,1,1);
+         half4 params3 = half4(1,1,1,1);
+         #if _PCBIOMEMASK || _PCBIOMEMASK16
+            params2 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_ProcTexParams, _Diffuse, float2(0.625, y), 0);
+            bMask = smoothstep(0.5 - _ProcBiomeCurveWeight, 0.5 + _ProcBiomeCurveWeight, bMask);
+         #endif
+         #if _PCBIOMEMASK2
+            params3 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_ProcTexParams, _Diffuse, float2(0.875, y), 0);
+            bMask2 = smoothstep(0.5 - _ProcBiomeCurveWeight, 0.5 + _ProcBiomeCurveWeight, bMask2);
+         #endif
+         
+         
+         
+         half4 noise = 0;
+         UNITY_BRANCH
+         if (abs(params0.y - params0.z) > 0)
+         {
+            #if _PCNOISEPROCEDURAL
+               noise = FBM3D(worldPos * 0.002 * params0.r + params0.a);
+            #else
+               // WOW, this is odd. So if we do triplanar or world space, the actual UVs which are set on the config.uv end up 0
+               // However, if we use those UVs to sample a texture and then multiply the saturate(result+1) (which is basically always 1)
+               // into the noise it works around the bug- which must be something in the compiler.
+               float lod = ComputeMipLevel(dx * params0.r, dy * params0.r, _ProcTexNoise_TexelSize);
+               noise = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_ProcTexNoise, _Diffuse, float2(noiseUV * params0.r + params0.a), lod);
+               #if _PCNOISETRIPLANAR
+                  float lod0 = ComputeMipLevel(wdx.zy * 0.002 * params0.r, wdy.zy * 0.002 * params0.r, _ProcTexNoise_TexelSize);
+                  float lod1 = ComputeMipLevel(wdx.xz * 0.002 * params0.r, wdy.xz * 0.002 * params0.r, _ProcTexNoise_TexelSize);
+                  float lod2 = ComputeMipLevel(wdx.xy * 0.002 * params0.r, wdy.xy * 0.002 * params0.r, _ProcTexNoise_TexelSize);
+                  half4 noise0 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_ProcTexNoise, _Diffuse, float2(worldPos.zy * 0.002 * params0.r + params0.a), lod0);
+                  half4 noise1 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_ProcTexNoise, _Diffuse, float2(worldPos.xz * 0.002 * params0.r + params0.a + 0.31), lod1);
+                  half4 noise2 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_ProcTexNoise, _Diffuse, float2(worldPos.xy * 0.002 * params0.r + params0.a + 0.71), lod2);
+                  noise = saturate(noise + 1) * noise0 * pN.x + noise1 * pN.y + noise2 * pN.z;
+               #elif !_PCNOISEUV
+                  float2 pcNoiseUV = float2(worldPos.xz * 0.002 * params0.r + params0.a);
+                  float lodX = ComputeMipLevel(wdx.xz * 0.002 * params0.r, wdy.xz * 0.002 * params0.r, _ProcTexNoise_TexelSize);
+                  noise *= saturate(1 + MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_ProcTexNoise, _Diffuse, pcNoiseUV, lodX));
+               #endif
+               noise = noise * 2 - 1;
+            #endif // !_PCNOISEPROCEDURAL
+         
+         
+         
+            h0 *= 1.0 + lerp(params0.y, params0.z, noise.r);
+            s0 *= 1.0 + lerp(params0.y, params0.z, noise.g);
+            c0 *= 1.0 + lerp(params0.y, params0.z, noise.b);
+            e0 *= 1.0 + lerp(params0.y, params0.z, noise.a);
+         }
+         
+         half bWeight = 1;
+         half bWeight2 = 0;
+         #if _PCBIOMEMASK
+            bMask *= params2;
+            bWeight = max(max(max(bMask.x, bMask.y), bMask.z), bMask.w);
+         #elif _PCBIOMEMASK16
+            bMask.x = 1 - abs(bMask.x - params2.x);
+            bMask.y = 1 - abs(bMask.y - params2.y);
+            bMask.z = 1 - abs(bMask.z - params2.z);
+            bMask.w = 1 - abs(bMask.w - params2.w);
+            bWeight = bMask.x * bMask.y * bMask.z * bMask.w;
+         #endif
+         #if _PCBIOMEMASK2
+           bMask2 *= params3;
+           bWeight2 = max(max(max(bMask2.x, bMask2.y), bMask2.z), bMask2.w);
+         #endif
+           
+           
+         texIndex = params1.g;
+         return saturate(h0 * s0 * c0 * e0 * params1.x * saturate(bWeight + bWeight2));
+      }
+      
+      void PCProcessLayer(inout half4 weights, inout int4 indexes, inout float totalWeight, int curIdx, 
+         float height, float slope, float cavity, float erosion, float3 worldPos, float2 uv, half4 biomeMask, half4 biomeMask2, half3 pN, 
+         float2 dx, float2 dy, float3 wdx, float3 wdy)
+      {
+         
+         int texIndex = 0;
+         half w = PCFilter(curIdx, height, slope, cavity, erosion, worldPos, uv, biomeMask, biomeMask2, texIndex, pN, dx, dy, wdx, wdy);
+         w = min(totalWeight, w);
+         totalWeight -= w;
+         
+         // sort
+         if (w > weights.x)
+         {
+            weights.w = weights.z;
+            weights.z = weights.y;
+            weights.y = weights.x;
+            indexes.w = indexes.z;
+            indexes.z = indexes.y;
+            indexes.y = indexes.x;
+            weights.x = w;
+            indexes.x = texIndex;
+         }
+         else if (w > weights.y)
+         {
+            weights.w = weights.z; 
+            weights.z = weights.y;
+            indexes.w = indexes.z;
+            indexes.z = indexes.y;
+            weights.y = w;
+            indexes.y = texIndex;
+         }
+         else if (w > weights.z)
+         {
+            weights.w = weights.z;
+            indexes.w = indexes.z;
+            weights.z = w;
+            indexes.z = texIndex;
+         }
+         else if (w > weights.w)
+         {
+            weights.w = w;
+            indexes.w = texIndex;
+         }
+      }
+
+      void ProceduralSetup(Input i, float3 worldPos, float worldHeight, float3 worldNormal, float3 up, inout half4 weights, float2 uv, inout Config config, 
+         float2 dx, float2 dy, float3 wdx, float3 wdy, DecalOutput decalOutput)
+      {
+         #if _PROCEDURALBLENDSPLATS
+
+            // true = 1, so any index being used will work.
+            float brch = (config.uv0.z == _PCShowProceduralIndex) + (config.uv1.z == _PCShowProceduralIndex) + (config.uv2.z == _PCShowProceduralIndex) + (config.uv3.z == _PCShowProceduralIndex);
+            
+            UNITY_BRANCH
+            if (brch == 0)
+            {
+               return; // early exit on places where there is no procedural texturing
+            }
+
+            Config origConfig = config;
+            half4 origWeights = weights;
+            half4 origIndexes = half4(config.uv0.z, config.uv1.z, config.uv2.z, config.uv3.z);
+         #endif
+
+         weights = 0;
+      
+      
+         #if defined(SHADER_STAGE_VERTEX) && _TESSDISTANCE
+            #if _PCUSECOMBINEDHEIGHT || _PCUSECOMBINEDAO
+               #if _MESHCOMBINEDPACKEDMAP
+                  half4 packedMap = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_StandardPackedMap, _StandardDiffuse, uv, 0);
+               #else
+                  half4 packedMap = half4(0,0,0,0);
+                  packedMap.b = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_StandardHeight, _StandardDiffuse, uv, _TessData1.b).g;
+                  packedMap.a = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_StandardOcclusion, _StandardDiffuse, uv, _TessData1.b).g;
+               #endif
+            #endif
+
+            // height
+            #if _PCUSECOMBINEDHEIGHT
+               worldHeight = packedMap.b;
+               float height = worldHeight;
+            #else
+               float height = saturate((worldHeight - _WorldHeightRange.x) / max(0.1, (_WorldHeightRange.y - _WorldHeightRange.x)));
+            #endif
+
+            // slope
+            #if _PCUSECOMBINEDNORMAL
+               half3 tangentNormal = UnpackNormal(MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_StandardNormal, _StandardDiffuse, uv, 0));
+               worldNormal = WorldNormalVector(i, tangentNormal);
+            #endif
+         
+            float slope = 1.0 - saturate(dot(worldNormal, up) * 0.5 + 0.49);
+         
+            // cavity and erosion
+            float cavity = 0.5;
+            float erosion = 0.5;
+            #if _PCFLOW || (_PCCAVITY && !_PCUSECOMBINEDAO)
+               half4 cavityData = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_CavityMap, _Diffuse, uv, _TessData1.b);
+               cavity = cavityData.g;
+               erosion = cavityData.a;
+            #endif
+            half4 biomeMask = half4(1,1,1,1);
+            half4 biomeMask2 = half4(1,1,1,1);
+            #if _PCBIOMEMASK || _PCBIOMEMASK16
+               biomeMask = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_ProcTexBiomeMask, _Diffuse, uv, 0);
+            #endif
+            #if _PCBIOMEMASK2
+               biomeMask2 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_ProcTexBiomeMask2, _Diffuse, uv, 0);
+            #endif
+         #else // not vertex
+            #if _PCUSECOMBINEDHEIGHT || _PCUSECOMBINEDAO
+               #if _MESHCOMBINEDPACKEDMAP
+                  half4 packedMap = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_GRAD(_StandardPackedMap, _StandardDiffuse, uv, dx, dy);
+               #else
+                  half4 packedMap = half4(0,0,0,0);
+                  packedMap.b = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_GRAD(_StandardHeight, _StandardDiffuse, uv, dx, dy).g;
+                  packedMap.a = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_GRAD(_StandardOcclusion, _StandardDiffuse, uv, dx, dy).g;
+               #endif
+            #endif
+
+            // height
+            #if _PCUSECOMBINEDHEIGHT
+               worldHeight = packedMap.b;
+               float height = worldHeight;
+            #else
+               float height = saturate((worldHeight - _WorldHeightRange.x) / max(0.1, (_WorldHeightRange.y - _WorldHeightRange.x)));
+            #endif
+
+            // slope
+            #if _PCUSECOMBINEDNORMAL
+               half3 tangentNormal = UnpackNormal(MICROSPLAT_SAMPLE_TEX2D_SAMPLER_GRAD(_StandardNormal, _StandardDiffuse, uv, dx, dy));
+               worldNormal = WorldNormalVector(i, tangentNormal);
+            #endif
+         
+            float slope = 1.0 - saturate(dot(worldNormal, up) * 0.5 + 0.49);
+         
+            // cavity and erosion
+            float cavity = 0.5;
+            float erosion = 0.5;
+            #if _PCFLOW || (_PCCAVITY && !_PCUSECOMBINEDAO)
+               half4 cavityData = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_GRAD(_CavityMap, _Diffuse, uv, dx, dy);
+               cavity = cavityData.g;
+               erosion = cavityData.a;
+            #endif
+            half4 biomeMask = half4(1,1,1,1);
+            half4 biomeMask2 = half4(1,1,1,1);
+            #if _PCBIOMEMASK || _PCBIOMEMASK16
+               biomeMask = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_GRAD(_ProcTexBiomeMask, _Diffuse, uv, dx, dy);
+            #endif
+            #if _PCBIOMEMASK2
+               biomeMask2 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_GRAD(_ProcTexBiomeMask2, _Diffuse, uv, dx, dy);
+            #endif
+         #endif
+         
+
+         #if _PCUSECOMBINEDAO
+            cavity = packedMap.a * packedMap.a * packedMap.a;
+         #endif
+         
+         // find 4 highest weights and indexes
+         int4 indexes = int4(0, 1, 2, 3);
+         float totalWeight = 1.0;
+         
+         
+
+         half3 pN = 0;
+         #if _PCNOISETRIPLANAR
+            pN = pow(abs(worldNormal), 4);
+            pN = pN / (pN.x + pN.y + pN.z);
+         #endif
+         int j = 0;
+         for (j = 0; j < _PCLayerCount; ++j)
+         {
+            COUNTPROCLAYER
+            PCProcessLayer(weights, indexes, totalWeight, j, height, slope, cavity, erosion, worldPos, uv, biomeMask, biomeMask2, pN, dx, dy, wdx, wdy);
+            UNITY_BRANCH
+            if (totalWeight <= 0)
+            {
+               break;
+            }
+         }
+         
+         #if _MAX2LAYER
+            weights.zw = 0;
+            weights.xy *= (1.0 / (weights.x + weights.y));
+         #elif _MAX3LAYER
+            weights.w = 0;
+            weights.xyz *= (1.0 / (weights.x + weights.y + weights.z));
+         #else
+            weights *= (1.0 / (weights.x + weights.y + weights.z + weights.w));
+         #endif
+         
+         // when blending is enabled, we need to resort the weights/indexes between a list of 8
+         #if _PROCEDURALBLENDSPLATS
+            // first, adjust procedural weights by splat weights
+            if (origIndexes.x == _PCShowProceduralIndex)
+            {
+               weights *= origWeights.x;
+               origWeights *= 1 - origWeights.x;
+               origWeights.x = 0;
+            }
+            else if (origIndexes.y == _PCShowProceduralIndex)
+            {
+               weights *= origWeights.y;
+               origWeights *= 1 - origWeights.y;
+               origWeights.y = 0;
+            }
+            else if (origIndexes.z == _PCShowProceduralIndex)
+            {
+               weights *= origWeights.z;
+               origWeights *= 1 - origWeights.z;
+               origWeights.z = 0;
+               
+            }
+            else if (origIndexes.w == _PCShowProceduralIndex)
+            {
+               weights *= origWeights.w;
+               origWeights *= 1 - origWeights.w;
+               origWeights.w = 0;
+            }
+
+            // now merge and resort
+            fixed splats[8];
+            fixed totalIndexes[8];
+            splats[0] = origWeights.x;
+            splats[1] = origWeights.y;
+            splats[2] = origWeights.z;
+            splats[3] = origWeights.w;
+            splats[4] = weights.x;
+            splats[5] = weights.y;
+            splats[6] = weights.z;
+            splats[7] = weights.w;
+
+            totalIndexes[0] = origIndexes.x;
+            totalIndexes[1] = origIndexes.y;
+            totalIndexes[2] = origIndexes.z;
+            totalIndexes[3] = origIndexes.w;
+            totalIndexes[4] = indexes.x;
+            totalIndexes[5] = indexes.y;
+            totalIndexes[6] = indexes.z;
+            totalIndexes[7] = indexes.w;
+
+            half4 mergeIndexes = 0; 
+            half4 mergeWeights = 0;
+            
+            j = 0;
+            for (j = 0; j < 8; ++j)
+            {
+               fixed w = splats[j];
+               if (w >= mergeWeights[0])
+               {
+                  mergeWeights[3] = mergeWeights[2];
+                  mergeIndexes[3] = mergeIndexes[2];
+                  mergeWeights[2] = mergeWeights[1];
+                  mergeIndexes[2] = mergeIndexes[1];
+                  mergeWeights[1] = mergeWeights[0];
+                  mergeIndexes[1] = mergeIndexes[0];
+                  mergeWeights[0] = w;
+                  mergeIndexes[0] = totalIndexes[j];
+               }
+               else if (w >= mergeWeights[1])
+               {
+                  mergeWeights[3] = mergeWeights[2];
+                  mergeIndexes[3] = mergeIndexes[2];
+                  mergeWeights[2] = mergeWeights[1];
+                  mergeIndexes[2] = mergeIndexes[1];
+                  mergeWeights[1] = w;
+                  mergeIndexes[1] = totalIndexes[j];
+               }
+               else if (w >= mergeWeights[2])
+               {
+                  mergeWeights[3] = mergeWeights[2];
+                  mergeIndexes[3] = mergeIndexes[2];
+                  mergeWeights[2] = w;
+                  mergeIndexes[2] = totalIndexes[j];
+               }
+               else if (w >= mergeWeights[3])
+               {
+                  mergeWeights[3] = w;
+                  mergeIndexes[3] = totalIndexes[j];
+               }
+            }
+
+            // clamp and renormalize
+            #if _MAX2LAYER
+               mergeWeights.zw = 0;
+               mergeWeights.xy = TotalOne(mergeWeights.xy);
+            #elif _MAX3LAYER
+               mergeWeights.w = 0;
+               mergeWeights.xyz = TotalOne(mergeWeights.xyz);
+            #else
+               mergeWeights = TotalOne(mergeWeights);
+            #endif
+
+            weights = mergeWeights;
+            indexes = mergeIndexes;
+         #endif
+
+         #if _DECAL_SPLAT
+            DoMergeDecalSplats(decalOutput.Weights, decalOutput.Indexes, weights, indexes);  
+         #endif
+         
+         #if !_PROCEDURALBLENDSPLATS
+            #if _WORLDUV
+                uv = worldPos.xz;
+            #endif
+            float2 scaledUV = uv * _UVScale.xy + _UVScale.zw;
+            config.uv0 = float3(scaledUV, indexes.x);
+            config.uv1 = float3(scaledUV, indexes.y);
+            config.uv2 = float3(scaledUV, indexes.z);
+            config.uv3 = float3(scaledUV, indexes.w);
+         #else
+            config.uv0.z = indexes.x;
+            config.uv1.z = indexes.y;
+            config.uv2.z = indexes.z;
+            config.uv3.z = indexes.w;
+         #endif
+
+      }
+      
+      
+      void PCUnpackWeight(int index, int splatIndex, half weight, inout half4 o)
+      {
+         if (index == splatIndex*4)
+         {
+            o.x += weight;
+         }
+         else if (index == splatIndex*4+1)
+         {
+            o.y += weight;
+         }
+         else if (index == splatIndex*4+2)
+         {
+            o.z += weight;
+         }
+         else if (index == splatIndex*4+3)
+         {
+            o.w += weight;
+         }
+      }
+      
+      void DebugPCSplatOutput(inout MicroSplatLayer l, half4 weights, int4 indexes, int splatIndex)
+      {
+         l.Normal = half3(0,0,1);
+         l.Occlusion = 1;
+         l.Smoothness = 0;
+         l.Emission = 0;
+         // indexes (2, 1, 0, 3)
+         // weights (0.8, 0.2, 0, 0)
+         // result (0, .2, 0.8, 0)
+         
+         half4 o = 0;
+         PCUnpackWeight(indexes.x, splatIndex, weights.x, o);
+         PCUnpackWeight(indexes.y, splatIndex, weights.y, o);
+         PCUnpackWeight(indexes.z, splatIndex, weights.z, o);
+         PCUnpackWeight(indexes.w, splatIndex, weights.w, o);
+
+         l.Albedo = o.xyz;
+         l.Alpha = o.w;
+
+         // this has to be in here or the windows compiler will throw errors
+         // it will strip the texture, but not the sampler for _Diffuse, and not compile.
+         // On OSX in OpenGL or metal this is all fine.
+         l.Albedo *= saturate(UNITY_SAMPLE_TEX2DARRAY(_Diffuse, float3(0,0,0)).r + 2);
+         l.Alpha *= saturate(UNITY_SAMPLE_TEX2DARRAY(_Diffuse, float3(0,0,0)).r + 2);
+      }
+      
+      void ProceduralTextureDebugOutput(inout MicroSplatLayer l, half4 weights, Config config)
+      {
+         int4 outIndexes = int4(config.uv0.z, config.uv1.z, config.uv2.z, config.uv3.z);
+         #if _DEBUG_OUTPUT_SPLAT0
+            DebugPCSplatOutput(l, weights, outIndexes, 0);
+         #elif _DEBUG_OUTPUT_SPLAT1
+            DebugPCSplatOutput(l, weights, outIndexes, 1);
+         #elif _DEBUG_OUTPUT_SPLAT2
+            DebugPCSplatOutput(l, weights, outIndexes, 2);
+         #elif _DEBUG_OUTPUT_SPLAT3
+            DebugPCSplatOutput(l, weights, outIndexes, 3);
+         #elif _DEBUG_OUTPUT_SPLAT4
+            DebugPCSplatOutput(l, weights, outIndexes, 4);
+         #elif _DEBUG_OUTPUT_SPLAT5
+            DebugPCSplatOutput(l, weights, outIndexes, 5);
+         #elif _DEBUG_OUTPUT_SPLAT6
+            DebugPCSplatOutput(l, weights, outIndexes, 6);
+         #elif _DEBUG_OUTPUT_SPLAT7
+            DebugPCSplatOutput(l, weights, outIndexes, 7);
+         #elif _DEBUG_OUTPUT_SPLAT0A
+            DebugPCSplatOutput(l, weights, outIndexes, 0);
+            l.Albedo = l.Alpha;
+         #elif _DEBUG_OUTPUT_SPLAT1A
+            DebugPCSplatOutput(l, weights, outIndexes, 1);
+            l.Albedo = l.Alpha;
+         #elif _DEBUG_OUTPUT_SPLAT2A
+            DebugPCSplatOutput(l, weights, outIndexes, 2);
+            l.Albedo = l.Alpha;
+         #elif _DEBUG_OUTPUT_SPLAT3A
+            DebugPCSplatOutput(l, weights, outIndexes, 3);
+            l.Albedo = l.Alpha;
+         #elif _DEBUG_OUTPUT_SPLAT4A
+            DebugPCSplatOutput(l, weights, outIndexes, 4);
+            l.Albedo = l.Alpha;
+         #elif _DEBUG_OUTPUT_SPLAT5A
+            DebugPCSplatOutput(l, weights, outIndexes, 5);
+            l.Albedo = l.Alpha;
+         #elif _DEBUG_OUTPUT_SPLAT6A
+            DebugPCSplatOutput(l, weights, outIndexes, 6);
+            l.Albedo = l.Alpha;
+         #elif _DEBUG_OUTPUT_SPLAT7A
+            DebugPCSplatOutput(l, weights, outIndexes, 7);
+            l.Albedo = l.Alpha;
+         #endif
+      }
+      

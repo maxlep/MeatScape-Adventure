@@ -1,0 +1,186 @@
+﻿
+
+      #if _TBOBJECTNORMALBLEND
+      sampler2D _NormalOriginal;
+      #endif
+
+      
+
+      float4 SampleInstancedTerrainDesc(float2 uv)
+      {
+         float2 origUV = uv;
+         // because unity uses power of 2 + 1 texture sizes, the last pixel is a wrap pixel, so we have to
+         // futz the UVs
+         uv = (uv * (_PerPixelNormal_TexelSize.zw - 1.0f) + 0.5f) * _PerPixelNormal_TexelSize.xy;
+
+         // unity also only uses 0 to 0.5 in the texture, wasting half the precision for no reason and making
+         // us have to multiply by 2, which is undocumented of course. 
+         float height = UnpackHeightmap(UNITY_SAMPLE_TEX2D_SAMPLER(_TerrainHeightmapTexture, _TerrainHeightmapTexture, origUV)) * 2;
+
+         height *= _TerrainHeightmapScale.y; 
+
+         float4 normSamp = UNITY_SAMPLE_TEX2D_SAMPLER(_PerPixelNormal, _PerPixelNormal, uv);
+         float3 normal = normalize(normSamp.xyz * 2 - 1);
+
+         return float4(normal, height);
+      }
+      
+
+      float3 Barycentric(float2 p, float2 a, float2 b, float2 c)
+      {
+          float2 v0 = b - a;
+          float2 v1 = c - a;
+          float2 v2 = p - a;
+          float d00 = dot(v0, v0);
+          float d01 = dot(v0, v1);
+          float d11 = dot(v1, v1);
+          float d20 = dot(v2, v0);
+          float d21 = dot(v2, v1);
+          float denom = d00 * d11 - d01 * d01;
+          float v = (d11 * d20 - d01 * d21) / denom;
+          float w = (d00 * d21 - d01 * d20) / denom;
+          float u = 1.0f - v - w;
+          return float3(u, v, w);
+      }
+
+      float4 SampleTerrainDesc(inout ShaderData d, out float normBlend)
+      {
+         float2 worldUV = (d.worldSpacePosition.xz - _TerrainBounds.xy);
+         float2 uv = worldUV / max(float2(0.001, 0.001), _TerrainBounds.zw);
+         
+         
+         float4 texelSize = _PerPixelNormal_TexelSize;
+
+         float2 ratio = texelSize.zw / _TerrainBounds.zw;
+
+         float2 uvCorner = worldUV * ratio;
+
+         float2 uvSide = frac(uvCorner);
+         uvCorner = floor(uvCorner);
+
+         float2 uvTop = uvCorner + 1;
+         uvCorner *= texelSize.xy;
+         uvTop *= texelSize.xy;
+
+         float2 uv0 = uvCorner;
+         float2 uv1 = float2(uvCorner.x, uvTop.y);
+         float2 uv2 = float2(uvTop.x, uvTop.y);
+
+         if (uvSide.x > uvSide.y)
+         {
+            uv2 = uvTop;
+         }
+
+         float4 h0 = SampleInstancedTerrainDesc(uv0);
+         float4 h1 = SampleInstancedTerrainDesc(uv1);
+         float4 h2 = SampleInstancedTerrainDesc(uv2);
+
+         float3 weights = Barycentric(uv, uv0, uv1, uv2);
+         float4 th = h0 * weights.x + h1 * weights.y + h2 * weights.z;
+         
+         th.w += _TerrainBlendParams.z; // add terrain height and center..
+
+         float db = abs(th.w - d.worldSpacePosition.y);
+         normBlend = saturate(db / _SlopeBlendParams.w);
+         th.w = saturate(db / _TerrainBlendParams.x);
+         th.w = pow(th.w, abs(_TerrainBlendParams.w));
+         #if !_SNOW
+         clip(0.999-th.w * _FeatureFilters.y < 1);
+         #endif
+         return th;
+
+      }
+
+      float3x3 ComputeTerrainTBN(float4 th, out float3 terrainTangent, out float3 terrainBitangent)
+      {
+         terrainTangent = (cross(th.xyz, float3(0,0,1)));
+         terrainBitangent = (cross(th.xyz, terrainTangent));
+         float3x3 tbn = float3x3(terrainTangent, terrainBitangent, th.xyz);
+         return tbn;
+      }
+
+      float3 GetWorldNormalBlend(ShaderData d, float4 th, float normBlend)
+      {
+         float3 worldNormalBlend = th.xyz;
+         #if _SNOW || _TRIPLANAR
+            worldNormalBlend = lerp(th.xyz, d.worldSpaceNormal, normBlend);
+         #endif
+         return worldNormalBlend;
+      }
+
+
+
+      MicroSplatLayer DoTerrainLayer(inout ShaderData d, float4 th, inout float3 worldNormalBlend, float3x3 tbn)
+      {
+         MicroSplatLayer terrainS = (MicroSplatLayer)0;
+         terrainS.Normal = half3(0, 1, 0);
+         Input input = DescToInput(d);
+
+         float2 worldUV = (d.worldSpacePosition.xz - _TerrainBounds.xy);
+         float2 uv = worldUV / max(float2(0.001, 0.001), _TerrainBounds.zw);
+         input.uv_Control0 = uv;
+
+         float alpha = 1;
+         if (_FeatureFilters.x < 1)
+         {
+            terrainS = SurfImpl(input, worldNormalBlend);
+            alpha = (1.0-th.w);
+
+            // slope
+            #if _TBOBJECTNORMALBLEND
+               float3 normalCustom = UnpackNormal (tex2D (_NormalOriginal, d.texcoord0.xy));
+               half3 slopeNormal = WorldNormalVector (input, normalCustom);
+            #else
+               half3 slopeNormal = d.worldSpaceNormal;
+            #endif
+            slopeNormal.xz += terrainS.Normal.xy * _SlopeBlendParams.z;
+            slopeNormal = normalize(slopeNormal);
+            half slope = max(0, (dot(slopeNormal, half3(0, 1, 0)) - _SlopeBlendParams.x) * _SlopeBlendParams.y);
+            
+            half noiseHeight = 0.5;
+            
+            #if _TBNOISE
+               noiseHeight = Noise3D(d.worldSpacePosition * _TBNoiseScale);
+            #elif _TBNOISEFBM
+               noiseHeight = FBM3D(d.worldSpacePosition * _TBNoiseScale);
+            #endif
+
+
+            alpha = min(alpha + slope, 1);
+            alpha = lerp(alpha, HeightBlend(noiseHeight, terrainS.Height, alpha, _TerrainBlendParams.y), _TerrainBlendParams.y);
+            
+            #if !_TBDISABLE_ALPHACONTROL
+               alpha *= d.vertexColor.a;
+            #endif
+         }
+
+
+         #if _SNOW
+            if (_FeatureFilters.y < 1)
+            {
+               worldNormalBlend = lerp(worldNormalBlend, half3(0,1,0), _SnowBlendParams.x);
+               alpha = max(alpha, DoSnowSimple(input, terrainS, uv, mul(terrainS.Normal, tbn), worldNormalBlend, d.worldSpacePosition, 0, 0.4));
+            }
+         #endif
+
+         terrainS.Alpha = alpha;
+         return terrainS;
+      }
+
+
+      MicroSplatLayer BlendWithTerrain(inout ShaderData d)
+      {
+         float normBlend;
+         float4 th = SampleTerrainDesc(d, normBlend);
+         float3 tang; float3 bitang;
+         float3x3 tbn = ComputeTerrainTBN(th, tang, bitang);
+         float3 worldNormalBlend = GetWorldNormalBlend(d, th, normBlend);
+         MicroSplatLayer l = DoTerrainLayer(d, th, worldNormalBlend, tbn);
+
+         // blend matrix
+         d.TBNMatrix = lerp(d.TBNMatrix, tbn, l.Alpha);
+         d.worldSpaceNormal = d.TBNMatrix[2];
+         d.worldSpaceTangent = d.TBNMatrix[0];
+         return l;
+      }
+

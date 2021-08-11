@@ -1,0 +1,380 @@
+﻿      
+
+      UNITY_DECLARE_TEX2D_NOSAMPLER(_ScatterControl);
+      UNITY_DECLARE_TEX2DARRAY(_ScatterDiffuse);
+      UNITY_DECLARE_TEX2DARRAY(_ScatterNSAO);
+      SamplerState my_point_repeat_sampler;
+
+      struct ScatterVirtualMapping
+      {
+         float3 weights;
+         fixed4 c0, c1, c2;
+      };
+      
+      float3 ScatterBarycentric(float2 p, float2 a, float2 b, float2 c)
+      {
+          float2 v0 = b - a;
+          float2 v1 = c - a;
+          float2 v2 = p - a;
+          float d00 = dot(v0, v0);
+          float d01 = dot(v0, v1);
+          float d11 = dot(v1, v1);
+          float d20 = dot(v2, v0);
+          float d21 = dot(v2, v1);
+          float denom = d00 * d11 - d01 * d01;
+          float v = (d11 * d20 - d01 * d21) / denom;
+          float w = (d00 * d21 - d01 * d20) / denom;
+          float u = 1.0f - v - w;
+          return float3(u, v, w);
+      }
+
+      
+      ScatterVirtualMapping GenerateScatterMapping(float2 uv)
+      {
+         float2 texSize = _ScatterControl_TexelSize.zw;
+         float2 stp = _ScatterControl_TexelSize.xy;
+         // scale coords so we can take floor/frac to construct a cell
+         float2 stepped = uv.xy * texSize;
+         float2 uvBottom = floor(stepped);
+         float2 uvFrac = frac(stepped);
+         uvBottom /= texSize;
+
+         float2 center = stp * 0.5;
+         uvBottom += center;
+
+         // construct uv/positions of triangle based on our interpolation point
+         float2 cuv0, cuv1, cuv2;
+         // make virtual triangle
+         if (uvFrac.x > uvFrac.y)
+         {
+            cuv0 = uvBottom;
+            cuv1 = uvBottom + float2(stp.x, 0);
+            cuv2 = uvBottom + float2(stp.x, stp.y);
+         }
+         else
+         {
+            cuv0 = uvBottom;
+            cuv1 = uvBottom + float2(0, stp.y);
+            cuv2 = uvBottom + float2(stp.x, stp.y);
+         }
+
+         float2 uvBaryFrac = uvFrac * stp + uvBottom;
+         float3 weights = ScatterBarycentric(uvBaryFrac, cuv0, cuv1, cuv2);
+         ScatterVirtualMapping m = (ScatterVirtualMapping)0;
+         m.weights = weights;
+         m.c0 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_ScatterControl, _Control0, cuv0, 0);
+         m.c1 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_ScatterControl, _Control0, cuv1, 0);
+         m.c2 = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_ScatterControl, _Control0, cuv2, 0);
+         return m;
+      }
+      
+      float ScatterFilter(float slope, float2 range, float contrast)
+      {
+         if (range.x > range.y)
+         {
+             slope = 1 - slope;
+             float t = range.x;
+             range.x = range.y;
+             range.y = t;
+         }
+
+         half w = max(0, (slope - range.x) * contrast);
+         w = w * (1 - max(0, (slope - range.y) * contrast));
+         return saturate(w);
+      }
+
+      half3 ScatterBlendAlbedo(half4 albedo, half4 a, float mode, float alpha, float alphaMult, float weight)
+      {
+         if (mode < 0.5) // alpha
+         {
+            return lerp(albedo.rgb, a.rgb, alpha * weight * a.a * alphaMult);
+         }
+         else if (mode < 1.5) // alpha clip
+         {
+            float faq = saturate(((alpha >= a.a)) * (a.a > 0.001));
+            return lerp(albedo.rgb, a.rgb, weight * alphaMult * faq);
+         }
+         else if (mode < 2.5) // overlay
+         {
+            return lerp(albedo.rgb, BlendOverlay(albedo.rgb, a.rgb), alpha * weight * a.a * alphaMult);
+         }
+         else if (mode < 3.5) // overlay
+         {
+            return lerp(albedo.rgb, BlendLighterColor(albedo.rgb, a.rgb), alpha * weight * a.a * alphaMult);
+         }
+         return albedo.rgb;
+      }
+
+      half4 ScatterBlendNormal(half4 normSAO, half4 n, half4 a, float mode, float alpha, float alphaMult, float weight)
+      {
+         if (mode < 0.5) // alpha
+         {
+            return lerp(normSAO, n, alpha * weight * a.a * alphaMult);
+         }
+         else if (mode < 1.5) // alpha clip
+         {
+            return (alpha >= a.a) ? lerp(normSAO, n, weight * alphaMult * (a.a > 0.001)) : normSAO;
+         }
+         else if (mode < 3.5) // overlay
+         {
+            half4 ret = lerp(normSAO, n, weight * a.a * alphaMult);
+            ret.xy = lerp(normSAO.xy, BlendNormal2(normSAO.xy, n.xy), alpha * weight * a.a * alphaMult);
+            return ret;
+         }
+         return normSAO;
+      }
+      #if _SURFACENORMALS
+      half3 ScatterBlendGradient(half3 surfGrad, half4 n, half4 a, float mode, float alpha, float alphaMult, float weight)
+      {
+         half3 grad = ConvertNormal2ToGradient(n.xy);
+         if (mode < 0.5) // alpha
+         {
+            return lerp(surfGrad, grad, alpha * weight * a.a * alphaMult);
+         }
+         else if (mode < 1.5) // alpha clip
+         {
+            return (alpha >= a.a) ? lerp(surfGrad, grad, weight * alphaMult * (a.a > 0.001)) : surfGrad;
+         }
+         else if (mode < 3.5) // overlay
+         {
+            return surfGrad + grad * alpha * weight * a.a * alphaMult;
+         }
+         return surfGrad;
+      }
+      #endif
+
+      void SampleLayer(Input i, inout half4 albedo, inout half4 normalSAO, inout half3 surfGrad, float2 uv, float camDist,
+         int i0, int i1, int i2, half3 weights, float alpha, float2 uvOffset)
+      {
+      
+         float2 dx = ddx(uv);
+         float2 dy = ddy(uv);
+       
+         half4 alb = half4(0,0,0,1);
+         half4 nsao = half4(0.5, 0.5, 0, 1);
+      
+
+         half4 alphaDist0 = 1;
+         half4 alphaDist1 = 1;
+
+         float2 scale0 = 1;
+         float2 scale1 = 1;
+         float2 scale2 = 1;
+         float blend0 = 0;
+         float blend1 = 0;
+         float blend2 = 0;
+         float alphaMult0 = 1;
+         float alphaMult1 = 1;
+         float alphaMult2 = 1;
+
+
+         float mask0 = 1;
+         float mask1 = 1;
+         float mask2 = 1;
+
+         #if _PERTEXSCATTERUV || _PERTEXSCATTERBLENDMODE || _PERTEXSCATTERALPHABOOST
+            float4 pt0 = tex2Dlod(_PerTexProps, float4((float)i0*_PerTexProps_TexelSize.x, 24.5/32, 0, 0));
+            float4 pt1 = tex2Dlod(_PerTexProps, float4((float)i1*_PerTexProps_TexelSize.x, 24.5/32, 0, 0));
+            float4 pt2 = tex2Dlod(_PerTexProps, float4((float)i2*_PerTexProps_TexelSize.x, 24.5/32, 0, 0));
+        
+            #if _PERTEXSCATTERUV
+               scale0 = pt0.xy; scale1 = pt1.xy; scale2 = pt2.xy;
+            #endif
+
+            #if _PERTEXSCATTERBLENDMODE
+               blend0 = pt0.b;
+               blend1 = pt1.b;
+               blend2 = pt2.b;
+            #endif
+
+            #if _PERTEXSCATTERALPHABOOST
+               alphaMult0 = pt0.a;
+               alphaMult1 = pt1.a;
+               alphaMult2 = pt2.a;
+            #endif
+
+         #endif
+
+         #if _PERTEXSCATTERHEIGHTFILTER || _PERTEXSCATTERSLOPEFILTER
+            float4 ptHS0 = tex2Dlod(_PerTexProps, float4((float)i0*_PerTexProps_TexelSize.x, 25.5/32, 0, 0));
+            float4 ptHS1 = tex2Dlod(_PerTexProps, float4((float)i1*_PerTexProps_TexelSize.x, 25.5/32, 0, 0));
+            float4 ptHS2 = tex2Dlod(_PerTexProps, float4((float)i2*_PerTexProps_TexelSize.x, 25.5/32, 0, 0));
+         
+            ptHS0.x *= 2;
+            ptHS0.x -= 1;
+            ptHS1.x *= 2;
+            ptHS1.x -= 1;
+            ptHS2.x *= 2;
+            ptHS2.x -= 1;
+
+            #if _PERTEXSCATTERHEIGHTFILTER
+               mask0 *= ScatterFilter(albedo.a, ptHS0.xy, 6); 
+               mask1 *= ScatterFilter(albedo.a, ptHS1.xy, 6); 
+               mask2 *= ScatterFilter(albedo.a, ptHS2.xy, 6); 
+            #endif
+
+            #if _PERTEXSCATTERSLOPEFILTER
+               float slope = sqrt(saturate(dot(normalSAO.xy, normalSAO.xy))); //dot(WorldNormalVector(i, float3(normalSAO.xy, 1)), float3(0,1,0));
+               mask0 *= ScatterFilter(slope, ptHS0.zw, 6); 
+               mask1 *= ScatterFilter(slope, ptHS1.zw, 6); 
+               mask2 *= ScatterFilter(slope, ptHS2.zw, 6); 
+            #endif
+         
+         #endif
+
+
+         half4 a0 = MICROSPLAT_SAMPLE_TEX2DARRAY_GRAD(_ScatterDiffuse, float3(uv * scale0 + uvOffset, i0), dx * scale0, dy * scale0);
+         half4 a1 = MICROSPLAT_SAMPLE_TEX2DARRAY_GRAD(_ScatterDiffuse, float3(uv * scale1 + uvOffset, i1), dx * scale1, dy * scale1);
+         half4 a2 = MICROSPLAT_SAMPLE_TEX2DARRAY_GRAD(_ScatterDiffuse, float3(uv * scale2 + uvOffset, i2), dx * scale2, dy * scale2);
+
+         if (blend0 == 1)
+         {
+            a0.a = SAMPLE_TEXTURE2D_ARRAY_GRAD(_ScatterDiffuse, my_point_repeat_sampler, uv * scale0 + uvOffset, i0, dx * scale0 * 0.3, dy * scale0 * 3).a;
+         }
+         if (blend1 == 1)
+         {
+            a1.a = SAMPLE_TEXTURE2D_ARRAY_GRAD(_ScatterDiffuse, my_point_repeat_sampler, uv * scale1 + uvOffset, i1, dx * scale1 * 0.3, dy * scale1 * 3).a;
+         }
+         if (blend2 == 1)
+         {
+            a2.a = SAMPLE_TEXTURE2D_ARRAY_GRAD(_ScatterDiffuse, my_point_repeat_sampler, uv * scale2 + uvOffset, i2, dx * scale2 * 0.3, dy * scale2 * 3).a;
+         }
+
+         half4 n0 = 0;
+         half4 n1 = 0;
+         half4 n2 = 0;
+
+         n0 = MICROSPLAT_SAMPLE_TEX2DARRAY_GRAD(_ScatterNSAO, float3(uv * scale0 + uvOffset, i0), dx * scale0, dy * scale0).agrb;
+         n1 = MICROSPLAT_SAMPLE_TEX2DARRAY_GRAD(_ScatterNSAO, float3(uv * scale1 + uvOffset, i1), dx * scale1, dy * scale1).agrb;
+         n2 = MICROSPLAT_SAMPLE_TEX2DARRAY_GRAD(_ScatterNSAO, float3(uv * scale2 + uvOffset, i2), dx * scale2, dy * scale2).agrb;
+         n0.xy *= 2;
+         n0.xy -= 1;
+         n1.xy *= 2;
+         n1.xy -= 1;
+         n2.xy *= 2;
+         n2.xy -= 1;
+
+
+         if (i0 < 0) { a0 = albedo; n0 = normalSAO; }
+         if (i1 < 0) { a1 = albedo; n1 = normalSAO; }
+         if (i2 < 0) { a2 = albedo; n2 = normalSAO; }
+
+
+         #if _STARREACHFORMAT
+            // this format has alpha in the AO channel, and height in the regular height channel.
+            // AO is computed analytically
+            a0.a = n0.w; n0.w = length(n0.xy);
+            a1.a = n1.w; n1.w = length(n1.xy);
+            a2.a = n2.w; n2.w = length(n2.xy);
+         #endif
+
+         // bias alpha to half current value over the mip range
+         #if _PERTEXSCATTERFADE
+            float4 ptDF0 = tex2Dlod(_PerTexProps, float4((float)i0*_PerTexProps_TexelSize.x, 26.5/32, 0, 0));
+            float4 ptDF1 = tex2Dlod(_PerTexProps, float4((float)i1*_PerTexProps_TexelSize.x, 26.5/32, 0, 0));
+            float4 ptDF2 = tex2Dlod(_PerTexProps, float4((float)i2*_PerTexProps_TexelSize.x, 26.5/32, 0, 0));
+
+            float mip0 = ComputeMipLevel(uv * scale0, _ScatterDiffuse_TexelSize.zw);
+            float mip1 = ComputeMipLevel(uv * scale1, _ScatterDiffuse_TexelSize.zw);
+            float mip2 = ComputeMipLevel(uv * scale2, _ScatterDiffuse_TexelSize.zw);
+
+            float mipDiv = log2(_ScatterDiffuse_TexelSize.zw);
+            mip0 = saturate((mip0 / mipDiv) * ptDF0.x);
+            mip1 = saturate((mip1 / mipDiv) * ptDF1.x);
+            mip2 = saturate((mip2 / mipDiv) * ptDF2.x);
+
+            alphaMult0 *= (1-mip0);
+            alphaMult1 *= (1-mip1);
+            alphaMult2 *= (1-mip2);
+         #endif
+
+         albedo.rgb = ScatterBlendAlbedo(albedo, a0, blend0, alpha * mask0, alphaMult0, weights.x);
+         albedo.rgb = ScatterBlendAlbedo(albedo, a1, blend1, alpha * mask1, alphaMult1, weights.y);
+         albedo.rgb = ScatterBlendAlbedo(albedo, a2, blend2, alpha * mask2, alphaMult2, weights.z);
+
+         normalSAO = ScatterBlendNormal(normalSAO, n0, a0, blend0, alpha * mask0, alphaMult0, weights.x);
+         normalSAO = ScatterBlendNormal(normalSAO, n1, a1, blend1, alpha * mask1, alphaMult1, weights.y);
+         normalSAO = ScatterBlendNormal(normalSAO, n2, a2, blend2, alpha * mask2, alphaMult2, weights.z);
+
+
+         #if _SURFACENORMALS
+            surfGrad = ScatterBlendGradient(surfGrad, n0, a0, blend0, alpha * mask0, alphaMult0, weights.x);
+            surfGrad = ScatterBlendGradient(surfGrad, n1, a1, blend1, alpha * mask1, alphaMult1, weights.y);
+            surfGrad = ScatterBlendGradient(surfGrad, n2, a2, blend2, alpha * mask2, alphaMult2, weights.z);
+         #endif
+      }
+
+      void ApplyScatter(
+         #if _MEGASPLAT
+            Config config, 
+         #endif
+         Input i, inout half4 albedo, inout half4 normalSAO, inout half3 surfGrad, float2 controlUV, float camDist)
+      {
+
+         #if _MEGASPLAT
+            MSBRANCHOTHER(i.scatter0.w)
+            {
+               int i0 = round((i.scatter0.x * 255) / max(i.baryWeights.x, 0.00001));
+               int i1 = round((i.scatter0.y * 255) / max(i.baryWeights.y, 0.00001));
+               int i2 = round((i.scatter0.z * 255) / max(i.baryWeights.z, 0.00001));
+               #if _STARREACHFORMAT
+                  if (i0 == 255) i0 = config.uv0.z;
+                  if (i1 == 255) i1 = config.uv0.z;
+                  if (i2 == 255) i2 = config.uv0.z;
+               #endif
+               SampleLayer(i, albedo, normalSAO, surfGrad, controlUV * _ScatterUVScale, camDist, i0, i1, i2, i.baryWeights.xyz, i.scatter0.w, float2(0, 0));
+            }
+            #if _SPLATTERSECONDLAYER
+            MSBRANCHOTHER(i.scatter1.w)
+            {
+               int i3 = round((i.scatter1.x * 255) / max(i.baryWeights.x, 0.00001));
+               int i4 = round((i.scatter1.y * 255) / max(i.baryWeights.y, 0.00001));
+               int i5 = round((i.scatter1.z * 255) / max(i.baryWeights.z, 0.00001));
+               #if _STARREACHFORMAT
+                  if (i0 == 255) i0 = config.uv0.z;
+                  if (i1 == 255) i1 = config.uv0.z;
+                  if (i2 == 255) i2 = config.uv0.z;
+               #endif
+               SampleLayer(i, albedo, normalSAO, surfGrad, controlUV * _ScatterUVScale2.xy + _ScatterUVScale2.zw, camDist, i3, i4, i5, i.baryWeights.xyz, i.scatter1.w, float2(0.5, 0.5));
+            }
+            #endif
+         #else
+            half4 c = UNITY_SAMPLE_TEX2D_SAMPLER(_ScatterControl, _Control0, controlUV);
+
+            half brnch = c.g;
+            #if _SPLATTERSECONDLAYER
+               brnch += c.b;
+            #endif
+
+            // note, second layer is swizzled wz so alpha of 1 doesn't cause an issue.
+
+            MSBRANCHOTHER(brnch)
+            {
+               ScatterVirtualMapping m = GenerateScatterMapping(controlUV);
+               int i0, i1, i2;
+
+               MSBRANCHOTHER(c.g)
+               {
+                  i0 = (m.c0.r * 64) - 1;
+                  i1 = (m.c1.r * 64) - 1;
+                  i2 = (m.c2.r * 64) - 1;
+                  SampleLayer(i, albedo, normalSAO, surfGrad, controlUV * _ScatterUVScale, camDist, i0, i1, i2, m.weights.xyz, c.g, float2(0, 0));
+               }
+
+               #if _SPLATTERSECONDLAYER
+               MSBRANCHOTHER(c.b)
+               {
+                  i0 = (m.c0.a * 64) - 1;
+                  i1 = (m.c1.a * 64) - 1;
+                  i2 = (m.c2.a * 64) - 1;
+
+                  SampleLayer(i, albedo, normalSAO, surfGrad, controlUV * _ScatterUVScale2.xy + _ScatterUVScale2.zw, camDist, i0, i1, i2, m.weights.xyz, c.b, float2(0.5, 0.5));
+               }
+               #endif
+            }
+         #endif
+         
+         
+
+      }
+      

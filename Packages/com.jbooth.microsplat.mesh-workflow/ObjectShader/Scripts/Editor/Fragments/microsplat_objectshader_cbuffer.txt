@@ -1,0 +1,41 @@
+﻿
+#if _ISOBJECTSHADER
+            half _ObjectShaderSmoothness;
+            half _ObjectShaderMetallic;
+            half3 _ObjectShaderDiffuseTint;
+            half4 _ObjectShaderUVScaleOffset;
+            half _ObjectShaderNormalScale;
+
+            #if _TESSDISTANCE
+               half _ObjectShaderTessOffset;
+            #endif
+
+            #if _OBJECTSHADERALPHACLIP
+               float _ObjectShaderAlphaClipThreshold;
+            #endif
+
+            #if defined(_OBJECTSHADERDETAILPACKED)
+               half4 _ObjectShaderDetailUVScaleOffset;
+               half _ObjectShaderDetailNormalScale;
+               half _ObjectShaderDetailAlbedoStrength;
+               half _ObjectShaderDetailSmoothnessStrength;
+            #endif
+            
+
+            float4 _ObjectShaderDiffuse_TexelSize;
+            float4 _ObjectShaderNormal_TexelSize;
+
+
+            #if defined(_OBJECTSHADEREMISSION)
+                float4 _ObjectShaderEmission_TexelSize;
+            #endif
+
+            #if defined(_OBJECTSHADERSPECULAR)
+                float4 _ObjectShaderSpecular_TexelSize;
+            #endif
+
+            float4 _ObjectShaderPackedMap_TexelSize;
+
+            
+#endif // _ISOBJECTSHADER
+

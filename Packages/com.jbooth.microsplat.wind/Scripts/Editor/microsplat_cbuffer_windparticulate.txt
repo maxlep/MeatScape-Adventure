@@ -1,0 +1,49 @@
+﻿
+      #if _GLOBALPARTICULATEROTATION
+         float     _Global_WindParticulateRotation;
+      #else
+         float     _WindParticulateRotation;
+      #endif
+
+      #if _WINDPARTICULATE
+
+         float4    _WindParticulateParams;
+         fixed4    _WindParticulateColor;
+         half3     _WindParticulateShadow;
+         half4     _WindParticulateShadowColor;
+         float4    _WindParticulateHeightMask;
+         float4    _WindParticulateAngleMask;
+         half      _WindParticulateOcclusionStrength;
+         #if _WINDPARTICULATEUPFILTER
+            float4    _WindParticulateUpMask;
+         #endif
+
+         #if _GLOBALWINDPARTICULATESTRENGTH
+            half      _Global_WindParticulateStrength;
+         #else
+            half      _WindParticulateStrength;
+         #endif
+      #endif
+
+
+      #if _SNOWPARTICULATE
+         float4    _SnowParticulateParams;
+         fixed4    _SnowParticulateColor;
+         half3     _SnowParticulateShadow;
+         half4     _SnowParticulateShadowColor;
+         float4    _SnowParticulateHeightMask;
+         float4    _SnowParticulateAngleMask;
+         half      _SnowParticulateOcclusionStrength;
+         #if _SNOWPARTICULATEUPFILTER
+            float4    _SnowParticulateUpMask;
+         #endif
+
+         #if _GLOBALSNOWPARTICULATESTRENGTH
+            half      _Global_SnowParticulateStrength;
+         #else
+            half      _SnowParticulateStrength;
+         #endif
+      #endif
+
+      half2 _WindEmissive;
+

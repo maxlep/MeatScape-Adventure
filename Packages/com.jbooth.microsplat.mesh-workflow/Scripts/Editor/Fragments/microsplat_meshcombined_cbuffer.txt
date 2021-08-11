@@ -1,0 +1,52 @@
+﻿
+            half _StandardSmoothness;
+            half _StandardMetal;
+            half3 _StandardDiffuseTint;
+            half4 _StandardUVScaleOffset;
+            half _CombinedMeshNormalBlend;
+            #if _TESSDISTANCE
+               half _MeshCombineTessOffset;
+            #endif
+            #if _MESHCOMBINEDDETAILALBEDO || _MESHCOMBINEDDETAILNORMAL
+               half4 _StandardDetailUVScaleOffset;
+            #endif
+            #if _MESHCOMBINEDDETAILNORMAL
+               half _StandardDetailNormalScale;
+            #endif
+
+            #if _MESHCOMBINEDUSESSS
+               half3 _StandardSSSTint;
+               half _StandardSSSBlend;
+               #if !_MESHCOMBINEDSSSMAP
+                  half _StandardSSSValue;
+               #endif
+               
+            #endif
+
+            float4 _StandardDiffuse_TexelSize;
+            float4 _StandardNormal_TexelSize;
+
+            #if _MESHCOMBINEDSMOOTHMETAL
+               float4 _StandardSmoothMetal_TexelSize;
+            #endif
+
+            #if _MESHCOMBINEDHEIGHT
+               float4 _StandardHeight_TexelSize;
+            #endif
+
+            #if _MESHCOMBINEDEMISSION
+                float4 _StandardEmission_TexelSize;
+            #endif
+
+            #if _MESHCOMBINEDSPECULAR
+                float4 _StandardSpecular_TexelSize;
+            #endif
+
+            #if _MESHCOMBINEDOCCLUSION
+                float4 _StandardOcclusion_TexelSize;
+            #endif
+
+            #if _MESHCOMBINEDPACKEDMAP
+                float4 _StandardPackedMap_TexelSize;
+            #endif
+            

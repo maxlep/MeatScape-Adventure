@@ -1,0 +1,167 @@
+﻿
+            UNITY_DECLARE_TEX2D(_StandardDiffuse);
+            UNITY_DECLARE_TEX2D_NOSAMPLER(_StandardNormal);
+
+            #if _MESHCOMBINEDSMOOTHMETAL
+            UNITY_DECLARE_TEX2D_NOSAMPLER(_StandardSmoothMetal);
+            #endif
+
+            #if _MESHCOMBINEDHEIGHT
+            UNITY_DECLARE_TEX2D_NOSAMPLER(_StandardHeight);
+            #endif
+
+            #if _MESHCOMBINEDSPECULAR
+            UNITY_DECLARE_TEX2D_NOSAMPLER(_StandardSpecular);
+            #endif
+
+            #if _MESHCOMBINEDEMISSION
+            UNITY_DECLARE_TEX2D_NOSAMPLER(_StandardEmission);
+            #endif
+
+            #if _MESHCOMBINEDOCCLUSION
+            UNITY_DECLARE_TEX2D_NOSAMPLER(_StandardOcclusion);
+            #endif
+
+            #if _MESHCOMBINEDPACKEDMAP
+            UNITY_DECLARE_TEX2D_NOSAMPLER(_StandardPackedMap);
+            #endif
+
+            #if _MESHCOMBINEDDETAILALBEDO
+            UNITY_DECLARE_TEX2D_NOSAMPLER(_StandardDetailAlbedo);  
+            #endif
+
+            #if _MESHCOMBINEDDETAILNORMAL
+            UNITY_DECLARE_TEX2D_NOSAMPLER(_StandardDetailNormal);
+            #endif
+
+            #if _MESHCOMBINEDSSSMAP
+            UNITY_DECLARE_TEX2D_NOSAMPLER(_StandardSSSMap);
+            #endif
+            
+
+
+            void SampleMeshCombined(inout half4 inAlbedo, inout half4 inNormal, inout half3 surfGrad, inout half4 inEmisMetal, inout half3 inSpecular,
+               inout half inAlpha, inout half SSSThickness, inout half3 SSSTint, Config config, half4 weights)
+            {
+               float2 uv = config.uv * _StandardUVScaleOffset.xy + _StandardUVScaleOffset.zw;
+
+               half4 diff = UNITY_SAMPLE_TEX2D(_StandardDiffuse, uv);
+               COUNTSAMPLE
+               diff.rgb *= _StandardDiffuseTint;
+               half3 norm = UnpackNormal(UNITY_SAMPLE_TEX2D_SAMPLER(_StandardNormal, _StandardDiffuse, uv));
+               #if _SURFACENORMALS
+                  half3 surf = ConvertNormalToGradient(norm);
+               #else
+                  
+               #endif
+               COUNTSAMPLE
+
+               #if _MESHCOMBINEDDETAILALBEDO || _MESHCOMBINEDDETAILNORMAL
+                  float2 detailUV = config.uv * _StandardDetailUVScaleOffset.xy + _StandardDetailUVScaleOffset.zw;
+               #endif
+
+               #if _MESHCOMBINEDDETAILALBEDO
+                  diff.rgb *= UNITY_SAMPLE_TEX2D_SAMPLER(_StandardDetailAlbedo, _StandardDiffuse, detailUV) * 2;
+               #endif
+
+               #if _MESHCOMBINEDDETAILNORMAL
+                  #if SURFACENORMALS
+                     surf += ConvertNormalToGradient(UnpackNormal(UNITY_SAMPLE_TEX2D_SAMPLER(_StandardDetailNormal, _StandardDiffuse, detailUV)), _StandardDetailNormalScale);
+                  #else
+                     norm = BlendNormal3(norm, UnpackScaleNormal(UNITY_SAMPLE_TEX2D_SAMPLER(_StandardDetailNormal, _StandardDiffuse, detailUV), _StandardDetailNormalScale));
+                  #endif
+               #endif
+
+
+               half smooth = _StandardSmoothness;
+               half metal = _StandardMetal;
+               half ao = 1;
+               half height = 0.5;
+               half sssThickness = 0;
+               half3 specular = 0;
+               
+
+               #if _MESHCOMBINEDPACKEDMAP
+                  // (R) Metallic, (G) Smoothness, (B) Height (A) Occlusion
+                  // packed in this format so a "black" texture doesn't darken the occlusion, since alpha is 1. 
+                  // I thought maybe it would make more sense for height or smoothness in A, for slightly better quality, 
+                  // but this is more usable..
+                  half4 pk = UNITY_SAMPLE_TEX2D_SAMPLER(_StandardPackedMap, _StandardDiffuse, uv);
+                  COUNTSAMPLE
+                  metal = pk.r;
+                  smooth = pk.g;
+                  height = pk.b;
+                  ao = pk.a;
+                  inAlpha = HeightBlend(inAlbedo.a, 1-height, inAlpha, max(_Contrast, 0.002));
+               #else // separate
+                  #if _MESHCOMBINEDSMOOTHMETAL
+                     half4 sm = UNITY_SAMPLE_TEX2D_SAMPLER(_StandardSmoothMetal, _StandardDiffuse, uv);
+                     COUNTSAMPLE
+                     smooth = sm.r;
+                     metal = sm.a;
+                  #endif
+                  #if _MESHCOMBINEDOCCLUSION
+                     ao = UNITY_SAMPLE_TEX2D_SAMPLER(_StandardOcclusion, _StandardDiffuse, uv).g;
+                     COUNTSAMPLE
+                  #endif
+
+                  #if _MESHCOMBINEDHEIGHT
+                     height = UNITY_SAMPLE_TEX2D_SAMPLER(_StandardHeight, _StandardDiffuse, uv).g;
+                     COUNTSAMPLE
+                     inAlpha = HeightBlend(inAlbedo.a, 1-height, inAlpha, max(_Contrast, 0.002));
+                  #endif
+               #endif // separate maps
+
+
+               #if _MESHCOMBINEDUSESSS
+                  #if _MESHCOMBINEDSSSMAP
+                     sssThickness = UNITY_SAMPLE_TEX2D_SAMPLER(_StandardSSSMap, _StandardDiffuse, uv).g;
+                     COUNTSAMPLE
+                  #else
+                     sssThickness = _StandardSSSValue;
+                  #endif
+               #endif
+
+
+               half3 emission = 0;
+               #if _MESHCOMBINEDEMISSION
+               emission = UNITY_SAMPLE_TEX2D_SAMPLER(_StandardEmission, _StandardDiffuse, uv).rgb;
+               COUNTSAMPLE
+               #endif
+
+               #if _MESHCOMBINESPECULAR
+               specular = UNITY_SAMPLE_TEX2D_SAMPLER(_StandardSpecular, _StandardDiffuse, uv).rgb;
+               COUNTSAMPLE
+               #endif
+
+               float blendFac = _CombinedMeshNormalBlend;
+
+               #if _MESHCOMBINEDPERTEXNORMALBLEND
+                  SAMPLE_PER_TEX(ptc, 12.5, config, half4(0,0.0,0,0));
+                  blendFac = ptc0.a * weights.x + ptc1.a * weights.y + ptc2.a * weights.z + ptc3.a * weights.w;
+               #endif
+
+               #if _SURFACENORMALS
+                  surfGrad = lerp(surfGrad, surf, blendFac);
+               #else
+                  half2 normBlend = BlendNormal2(norm.xy, inNormal.xy);
+                  inNormal.xy = lerp(inNormal.xy, normBlend, blendFac);
+               #endif
+
+               inNormal.w =  lerp(((inNormal.w + ao) * 0.5), inNormal.w, blendFac); // blend ao as well..
+               inNormal = lerp(half4(norm.xy, smooth, ao), inNormal, inAlpha);
+               
+               inAlbedo = lerp(half4(diff.rgb, height), inAlbedo, inAlpha);
+               
+               inEmisMetal = lerp(half4(emission, metal), inEmisMetal, inAlpha);
+               #if _USESPECULARWORKFLOW
+                  inSpecular = lerp(specular, inSpecular, inAlpha);
+               #endif
+               inAlpha = diff.a;
+
+               #if _MESHCOMBINEDUSESSS
+                  SSSThickness = lerp(SSSThickness, sssThickness, inAlpha * _StandardSSSBlend);
+                  SSSTint = lerp(SSSTint, _StandardSSSTint, inAlpha * _StandardSSSBlend);
+               #endif
+            }
+

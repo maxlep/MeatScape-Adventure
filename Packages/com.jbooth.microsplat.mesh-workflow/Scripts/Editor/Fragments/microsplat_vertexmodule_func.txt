@@ -1,0 +1,133 @@
+﻿      
+      #if _MICROVERTEXMESH
+
+      
+      void VertexSetup(Input i, out half4 weights, float2 uv, out Config config, float3 worldPos, DecalOutput decalOutput)
+      {
+         config = (Config)0;
+         half4 indexes = half4(0,1,2,3);
+
+         config.uv = uv;
+
+         #if _WORLDUV
+         uv = worldPos.xz;
+         #endif
+
+         #if _DISABLESPLATMAPS
+            return;
+         #else
+            float2 scaledUV = uv * _UVScale.xy + _UVScale.zw;
+         #endif
+         
+         fixed splats[TEXCOUNT];
+         splats[0] = i.w0.r;
+         splats[1] = i.w0.g;
+         splats[2] = i.w0.b;
+         splats[3] = i.w0.a;
+         #if !_MAX4TEXTURES
+         splats[4] = i.w1.r;
+         splats[5] = i.w1.g;
+         splats[6] = i.w1.b;
+         splats[7] = i.w1.a;
+         #endif
+         #if !_MAX4TEXTURES && !_MAX8TEXTURES
+         splats[8] = i.w2.r;
+         splats[9] = i.w2.g;
+         splats[10] = i.w2.b;
+         splats[11] = i.w2.a;
+         #endif
+         #if !_MAX4TEXTURES && !_MAX8TEXTURES && !_MAX12TEXTURES
+         splats[12] = i.w3.r;
+         splats[13] = i.w3.g;
+         splats[14] = i.w3.b;
+         splats[15] = i.w3.a;
+         #endif
+         #if _MAX20TEXTURES || _MAX24TEXTURES || _MAX28TEXTURES || _MAX32TEXTURES
+         splats[16] = i.w4.r;
+         splats[17] = i.w4.g;
+         splats[18] = i.w4.b;
+         splats[19] = i.w4.a;
+         #endif
+         #if _MAX24TEXTURES || _MAX28TEXTURES || _MAX32TEXTURES
+         splats[20] = i.w5.r;
+         splats[21] = i.w5.g;
+         splats[22] = i.w5.b;
+         splats[23] = i.w5.a;
+         #endif
+         #if (_MAX28TEXTURES || _MAX32TEXTURES) && !_STREAMS && !_LAVA && !_WETNESS && !_PUDDLES
+         splats[24] = i.w6.r;
+         splats[25] = i.w6.g;
+         splats[26] = i.w6.b;
+         splats[27] = i.w6.a;
+         #endif
+        
+         
+         weights[0] = 0;
+         weights[1] = 0;
+         weights[2] = 0;
+         weights[3] = 0;
+         indexes[0] = 0;
+         indexes[1] = 0;
+         indexes[2] = 0;
+         indexes[3] = 0;
+
+         int x = 0;
+         for (x = 0; x < TEXCOUNT; ++x)
+         {
+            fixed w = splats[x];
+            if (w >= weights[0])
+            {
+               weights[3] = weights[2];
+               indexes[3] = indexes[2];
+               weights[2] = weights[1];
+               indexes[2] = indexes[1];
+               weights[1] = weights[0];
+               indexes[1] = indexes[0];
+               weights[0] = w;
+               indexes[0] = x;
+            }
+            else if (w >= weights[1])
+            {
+               weights[3] = weights[2];
+               indexes[3] = indexes[2];
+               weights[2] = weights[1];
+               indexes[2] = indexes[1];
+               weights[1] = w;
+               indexes[1] = x;
+            }
+            else if (w >= weights[2])
+            {
+               weights[3] = weights[2];
+               indexes[3] = indexes[2];
+               weights[2] = w;
+               indexes[2] = x;
+            }
+            else if (w >= weights[3])
+            {
+               weights[3] = w;
+               indexes[3] = x;
+            }
+         }
+
+         #if _DECAL_SPLAT
+            DoMergeDecalSplats(decalOutput.Weights, decalOutput.Indexes, weights, indexes);  
+         #endif
+
+         // clamp and renormalize
+         #if _MAX2LAYER
+         weights.zw = 0;
+         weights.xy *= (1.0 / (weights.x + weights.y));
+         #endif
+         #if _MAX3LAYER
+         weights.w = 0;
+         weights.xyz *= (1.0 / (weights.x + weights.y + weights.z));
+         #endif
+
+         config.uv0 = float3(scaledUV, indexes.x);
+         config.uv1 = float3(scaledUV, indexes.y);
+         config.uv2 = float3(scaledUV, indexes.z);
+         config.uv3 = float3(scaledUV, indexes.w);
+         
+
+      }
+      #endif

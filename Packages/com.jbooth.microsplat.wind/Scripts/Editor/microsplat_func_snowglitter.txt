@@ -1,0 +1,37 @@
+﻿
+      #if _SNOWGLITTER
+
+         void DoSnowGlitter(Input i, Config c, inout MicroSplatLayer o, float camDist, float3 worldVertexNormal, float snowMask)
+         {
+            float str = _SnowGlitterStrength * lerp(_SnowGlitterDistFade.z, _SnowGlitterDistFade.w, saturate((camDist - _SnowGlitterDistFade.x) / max(_SnowGlitterDistFade.y, 0.01)));
+            
+            float uv = c.uv;
+            #if _WORLDUV
+               uv = i.worldPos.xz;
+            #endif
+            
+            half3 lightDir = GetGlobalLightDir(i);
+            
+            half3 viewDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos);
+            half specular = saturate(dot(worldVertexNormal, normalize(viewDir + lightDir)));
+            specular = pow(specular, abs(_SnowGlitterShininess));
+
+
+            float boost = pow(specular, abs(_SnowGlitterShininess)) * _SnowGlitterThreshold;
+
+            float2 uvo = sin(uv * _SnowGlitterUVScale.xy * 0.237);
+            half2 n = UNITY_SAMPLE_TEX2D_SAMPLER(_GlitterWind, _Diffuse, uv * _SnowGlitterUVScale + i.viewDir.z * _SnowGlitterViewDep).xy;
+            half n2 = UNITY_SAMPLE_TEX2D_SAMPLER(_GlitterWind, _Diffuse, uvo + uv * _SnowGlitterUVScale * 0.17921 + 0.5).b;
+            n.xy = n.xy * 2 - 1;
+            n.xy *= n2;
+
+            n.xy *= _SnowGlitterGraininess * boost;
+
+            boost *= str * snowMask;
+
+            o.Normal.xy = lerp(o.Normal.xy, BlendNormal2(o.Normal, n), boost);
+            o.Smoothness = min(1, o.Smoothness + boost);
+
+         }
+      #endif
+

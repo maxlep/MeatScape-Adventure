@@ -1,0 +1,167 @@
+﻿
+#if _ISOBJECTSHADER
+            UNITY_DECLARE_TEX2D(_ObjectShaderDiffuse);
+            UNITY_DECLARE_TEX2D_NOSAMPLER(_ObjectShaderNormal);
+            
+
+            #if defined(_OBJECTSHADERSPECULAR)
+            UNITY_DECLARE_TEX2D_NOSAMPLER(_ObjectShaderSpecular);
+            #endif
+
+            #if defined(_OBJECTSHADEREMISSION)
+            UNITY_DECLARE_TEX2D_NOSAMPLER(_ObjectShaderEmission);
+            #endif
+
+            #if defined(_OBJECTSHADERPACKEDMAP)
+            UNITY_DECLARE_TEX2D_NOSAMPLER(_ObjectShaderPackedMap);
+            #endif
+
+            #if defined(_OBJECTSHADERDETAILPACKED)
+            UNITY_DECLARE_TEX2D_NOSAMPLER(_ObjectShaderDetailNormal);
+            #endif
+            
+            half3 BlendDetailNormal(half3 n1, half3 n2)
+            {
+               return normalize(half3(n1.xy + n2.xy, n1.z*n2.z));
+            }
+
+            void SampleObjectShader(Input i, inout half4 inAlbedo, inout half4 inNormal, inout half3 surfGrad, inout half4 inEmisMetal, inout half3 inSpecular,
+               Config config)
+            {
+               float2 uv = config.uv * _ObjectShaderUVScaleOffset.xy + _ObjectShaderUVScaleOffset.zw;
+
+               half4 diff = UNITY_SAMPLE_TEX2D(_ObjectShaderDiffuse, uv);
+               COUNTSAMPLE
+               #if _OBJECTSHADERALPHACLIP
+                  clip(diff.a - _ObjectShaderAlphaClipThreshold);
+               #endif
+
+               diff.rgb *= _ObjectShaderDiffuseTint;
+               half3 norm = UnpackScaleNormal(UNITY_SAMPLE_TEX2D_SAMPLER(_ObjectShaderNormal, _ObjectShaderDiffuse, uv), _ObjectShaderNormalScale);
+               #if _SURFACENORMALS
+                  half3 surf = ConvertNormalToGradient(norm);
+               #else
+                  
+               #endif
+               COUNTSAMPLE
+
+
+
+              
+               half smooth = _ObjectShaderSmoothness;
+               half metal = _ObjectShaderMetallic;
+               half ao = 1;
+               half height = 0.5;
+               half sssThickness = 0;
+               half3 specular = 0;
+               
+
+               #if defined(_OBJECTSHADERPACKEDMAP)
+                   // Unity mask map format (R) Metallic, (G) Occlusion, (B) Detail Mask (A) Smoothness
+                  half4 pk = UNITY_SAMPLE_TEX2D_SAMPLER(_ObjectShaderPackedMap, _ObjectShaderDiffuse, uv);
+                  COUNTSAMPLE
+                  metal = pk.r;
+                  smooth = pk.a;
+                  ao = pk.g;
+               #endif // separate maps
+
+
+               half3 emission = 0;
+               #if defined(_OBJECTSHADEREMISSION)
+               emission = UNITY_SAMPLE_TEX2D_SAMPLER(_ObjectShaderEmission, _ObjectShaderDiffuse, uv).rgb;
+               COUNTSAMPLE
+               #endif
+
+               #if defined(_OBJECTSHADERSPECULAR) && _USESPECULARWORKFLOW
+               specular = UNITY_SAMPLE_TEX2D_SAMPLER(_ObjectShaderSpecular, _ObjectShaderDiffuse, uv).rgb;
+               COUNTSAMPLE
+               #endif
+
+               #if defined(_OBJECTSHADERDETAILPACKED)
+                  float detailStr = 1;
+                  #if _OBJECTSHADERPACKEDMAP
+                     detailStr = pk.b;
+                  #endif
+
+                  float2 detailUV = config.uv * _ObjectShaderDetailUVScaleOffset.xy + _ObjectShaderDetailUVScaleOffset.zw;
+                  half4 detailSample = UNITY_SAMPLE_TEX2D_SAMPLER(_ObjectShaderDetailNormal, _ObjectShaderDiffuse, detailUV);
+                  #if SURFACENORMALS
+                     surf += ConvertNormalToGradient(UnpackNormal(detailSample), _ObjectShaderDetailNormalScale * detailStr);
+                  #else
+                     norm = BlendDetailNormal(norm, UnpackScaleNormal(detailSample, _ObjectShaderDetailNormalScale * detailStr));
+                  #endif
+                  diff.rgb = lerp(diff.rgb, diff * 2 * detailSample.x,  detailStr * _ObjectShaderDetailAlbedoStrength);
+                  smooth = lerp(smooth, smooth * 2 * detailSample.z, detailStr * _ObjectShaderDetailSmoothnessStrength);
+               #endif
+
+               #if _SURFACENORMALS
+                  surfGrad = surf; 
+               #else
+                  inNormal.xy = norm.xy;
+               #endif
+
+               inNormal.w =  ao;
+               inNormal.z = smooth;
+               
+               inAlbedo = diff;
+               
+               inEmisMetal = half4(emission, metal);
+
+               #if _USESPECULARWORKFLOW
+                  inSpecular = specular;
+               #endif
+               
+            }
+            // vegetation studio instancing support
+
+            #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
+
+	            struct IndirectShaderData
+	            {
+		            float4x4 PositionMatrix;
+		            float4x4 InversePositionMatrix;
+		            float4 ControlData;
+	            };
+
+	            #if defined(SHADER_API_GLCORE) || defined(SHADER_API_D3D11) || defined(SHADER_API_GLES3) || defined(SHADER_API_METAL) || defined(SHADER_API_VULKAN) || defined(SHADER_API_PSSL) || defined(SHADER_API_XBOXONE)
+		            StructuredBuffer<IndirectShaderData> IndirectShaderDataBuffer;
+		            StructuredBuffer<IndirectShaderData> VisibleShaderDataBuffer;
+	            #endif	
+            #endif
+
+            void setupScale()
+            {
+            #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
+	            #ifdef GPU_FRUSTUM_ON
+		            unity_ObjectToWorld = VisibleShaderDataBuffer[unity_InstanceID].PositionMatrix;
+		            unity_WorldToObject = VisibleShaderDataBuffer[unity_InstanceID].InversePositionMatrix;
+	            #else
+		            unity_ObjectToWorld = IndirectShaderDataBuffer[unity_InstanceID].PositionMatrix;
+		            unity_WorldToObject = IndirectShaderDataBuffer[unity_InstanceID].InversePositionMatrix;
+	            #endif
+
+	            #ifdef FAR_CULL_ON_PROCEDURAL_INSTANCING
+		            #define transformPosition mul(unity_ObjectToWorld, float4(0,0,0,1)).xyz
+			            #define distanceToCamera length(transformPosition - _WorldSpaceCameraPos.xyz)
+				            float cull = 1.0 - saturate((distanceToCamera - _CullFarStart) / _CullFarDistance);
+				            unity_ObjectToWorld = mul(unity_ObjectToWorld, float4x4(cull, 0, 0, 0, 0, cull, 0, 0, 0, 0, cull, 0, 0, 0, 0, 1));
+			            #undef transformPosition
+		            #undef distanceToCamera
+	            #endif
+            #endif
+            }
+
+            void setup()
+            {
+            #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
+	            #ifdef GPU_FRUSTUM_ON
+		            unity_ObjectToWorld = VisibleShaderDataBuffer[unity_InstanceID].PositionMatrix;
+		            unity_WorldToObject = VisibleShaderDataBuffer[unity_InstanceID].InversePositionMatrix;
+	            #else
+		            unity_ObjectToWorld = IndirectShaderDataBuffer[unity_InstanceID].PositionMatrix;
+		            unity_WorldToObject = IndirectShaderDataBuffer[unity_InstanceID].InversePositionMatrix;
+	            #endif
+            #endif
+            }
+
+#endif // _ISOBJECTSHADER

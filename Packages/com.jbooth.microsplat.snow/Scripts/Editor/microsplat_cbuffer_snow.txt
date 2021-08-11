@@ -1,0 +1,60 @@
+﻿
+         #if _SNOW
+         half4 _SnowParams; // influence, erosion, crystal, melt
+         half _SnowAmount;
+         half2 _SnowUVScales;
+         float4 _SnowHeightAngleRange;
+         half3 _SnowUpVector;
+         half3 _SnowTint;
+         #endif
+
+         #if _SNOWNORMALNOISE
+         float4 _SnowNormalNoiseScaleStrength;
+         #endif
+
+         #if _SNOWDISTANCERESAMPLE
+         float4 _SnowDistanceResampleScaleStrengthFade;
+         #endif
+
+         #if _SNOW && _USEGLOBALSNOWLEVEL
+         float _Global_SnowLevel;
+         #endif
+
+         #if _SNOW && _USEGLOBALSNOWHEIGHT
+         float2 _Global_SnowMinMaxHeight;
+         #endif
+         
+         #if _SNOWSTOCHASTIC
+         half _SnowStochasticContrast;
+         half _SnowStochasticScale;
+         #endif
+
+         #if _SNOWSSS
+         half4 _SnowSSSTint;
+         #endif
+
+         #if _TESSDISTANCE
+         half _TessDisplaceSnowMultiplier;
+         #endif
+
+         #if _SNOWFOOTSTEPS
+         float2 _SnowTraxUVScales;
+         float _SnowTraxTextureBlend;
+         float _SnowTraxNormalStrength;
+         #endif
+
+         #if _SNOWRIM
+         float _SnowRimPower;
+         half3 _SnowRimColor;
+         #endif
+
+         #if _SNOWSPARKLE
+         float _SnowSparkleStrength;
+         half3 _SnowSparkleTint;
+         half _SnowSparkleEmission;
+         float _SnowSparkleSize;
+         float _SnowSparkleDensity;
+         float _SnowSparkleNoiseDensity;
+         float _SnowSparkleNoiseAmplitude;
+         float _SnowSparkleViewDependency;
+         #endif

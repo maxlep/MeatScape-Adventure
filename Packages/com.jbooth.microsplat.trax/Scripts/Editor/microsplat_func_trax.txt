@@ -1,0 +1,339 @@
+﻿
+         
+         sampler2D_float _GMSTraxBuffer;
+
+         #if _TRAXSINGLE
+         UNITY_DECLARE_TEX2D_NOSAMPLER(_TraxDiff);
+         UNITY_DECLARE_TEX2D_NOSAMPLER(_TraxNSAO);
+         #endif
+
+         #if _TRAXARRAY
+         UNITY_DECLARE_TEX2DARRAY(_TraxArrayDiff);
+         UNITY_DECLARE_TEX2DARRAY(_TraxArrayNSAO);
+         #endif
+
+         #define TRAXSAMPLEQUADRATIC2D(tex, uv, texelSize, ret) \
+         { \
+            float2 q = frac(uv * texelSize.zw); \
+            float2 c = (q*(q - 1.0) + 0.5) / texelSize.zw; \
+            float2 w0 = uv - c; \
+            float2 w1 = uv + c; \
+            half4 s = tex2D(tex, float2(w0.x, w0.y)) \
+              + tex2D(tex, float2(w0.x, w1.y)) \
+              + tex2D(tex, float2(w1.x, w1.y)) \
+              + tex2D(tex, float2(w1.x, w0.y)); \
+            ret = s / 4.0; \
+         } \
+        
+         
+         float SampleTraxBufferLOD(float3 worldPos, float h)
+         {
+            
+            // generate UVs for the buffer, which is moving
+            float2 uv = worldPos.xz;
+            uv -= _GMSTraxBufferPosition.xz;
+            uv /= max(_GMSTraxBufferWorldSize, 1);
+            float fade = saturate(distance(uv, float2(0.0, 0.0)));
+            fade = 1 - pow(fade, 8);
+            uv *= 0.5;
+            uv += 0.5;
+            
+            
+            #if _TRAXQUADRATIC
+               float4 sr;
+               float2 q = frac(uv * _GMSTraxBuffer_TexelSize.zw);
+               float2 c = (q*(q - 1.0) + 0.5) / _GMSTraxBuffer_TexelSize.zw; 
+               float2 w0 = uv - c; 
+               float2 w1 = uv + c; 
+               half4 s = tex2Dlod(_GMSTraxBuffer, float4(w0.x, w0.y, 0, 0)) 
+              + tex2Dlod(_GMSTraxBuffer, float4(w0.x, w1.y, 0, 0))
+              + tex2Dlod(_GMSTraxBuffer, float4(w1.x, w1.y, 0, 0))
+              + tex2Dlod(_GMSTraxBuffer, float4(w1.x, w0.y, 0, 0));
+
+              s /= 4;
+            #else
+               float s =  tex2Dlod(_GMSTraxBuffer, float4(uv, 0, 0)).r;
+            #endif
+            return 1 - saturate((worldPos.y + _GMSTraxFudgeFactor) - s) * fade;
+         }
+         
+        
+         float SampleTraxBuffer(float3 worldPos, out float3 norm)
+         {
+            float2 uv = worldPos.xz;
+            uv -= _GMSTraxBufferPosition.xz;
+            uv /= max(_GMSTraxBufferWorldSize, 1);
+            float fade = saturate(distance(uv, float2(0.0, 0.0)));
+            fade = 1 - pow(fade, 3);
+            uv *= 0.5;
+            uv += 0.5;
+            
+
+            float2 offset = _GMSTraxBuffer_TexelSize.xy;
+
+            #if _TRAXQUADRATIC
+               float4 sr, sr1, sr2, sr3, sr4;
+               TRAXSAMPLEQUADRATIC2D(_GMSTraxBuffer, uv, _GMSTraxBuffer_TexelSize, sr);
+               TRAXSAMPLEQUADRATIC2D(_GMSTraxBuffer, uv + offset * float2(0, -1), _GMSTraxBuffer_TexelSize, sr1);
+               TRAXSAMPLEQUADRATIC2D(_GMSTraxBuffer, uv + offset * float2(-1, 0), _GMSTraxBuffer_TexelSize, sr2);
+               TRAXSAMPLEQUADRATIC2D(_GMSTraxBuffer, uv + offset * float2(1, 0), _GMSTraxBuffer_TexelSize, sr3);
+               TRAXSAMPLEQUADRATIC2D(_GMSTraxBuffer, uv + offset * float2(0, 1), _GMSTraxBuffer_TexelSize, sr4);
+
+               float s = sr.r;
+               float s1 = sr1.r;
+               float s2 = sr2.r;
+               float s3 = sr3.r;
+               float s4 = sr4.r;
+
+            #else
+               float s = tex2D(_GMSTraxBuffer, uv).r;
+               
+               float s1 = tex2D(_GMSTraxBuffer, uv + offset * float2(0, -1)).r;
+               float s2 = tex2D(_GMSTraxBuffer, uv + offset * float2(-1, 0)).r;
+               float s3 = tex2D(_GMSTraxBuffer, uv + offset * float2(1, 0)).r;
+               float s4 = tex2D(_GMSTraxBuffer, uv + offset * float2(0, 1)).r;
+            #endif
+            float r = 1 - saturate((worldPos.y + _GMSTraxFudgeFactor) - s) * fade;
+ 
+
+            // generate normals
+            
+            
+
+            norm.x = (s1 - s4) * 0.25; 
+            norm.y = (s2 - s3) * 0.25;
+            norm.z = 2;
+            norm = normalize(norm);
+     
+            norm.xy *= 1 - r;
+            
+            return r;
+        
+         }
+
+
+         #if _TRAXSINGLE || _TRAXARRAY || _TRAXNOTEXTURE
+         void ApplyTrax(inout RawSamples samples, Config config, float3 worldPos, float traxBuffer, float3 traxNormal)
+         {
+            #if _PERTEXTRAXOPACITY || _PERTEXTRAXNORMALSTR
+               SAMPLE_PER_TEX(strs, 20.5, config, half4(1.0, 1.0, 1.0, 0.0));
+            #else
+               half4 strs0 = half4(1,1,1,1);
+               half4 strs1 = half4(1,1,1,1);
+               half4 strs2 = half4(1,1,1,1);
+               half4 strs3 = half4(1,1,1,1);
+            #endif
+
+            #if _PERTEXTRAXTINT
+               SAMPLE_PER_TEX(ptTint, 21.5, config, half4(0.5, 0.5, 0.5, 1.0));
+               ptTint0 *= 2;
+               ptTint1 *= 2;
+               ptTint2 *= 2;
+               ptTint3 *= 2;
+            #else
+               half4 ptTint0 = half4(1,1,1,1);
+               half4 ptTint1 = half4(1,1,1,1);
+               half4 ptTint2 = half4(1,1,1,1);
+               half4 ptTint3 = half4(1,1,1,1);
+            #endif
+
+            half texBlend = _TraxTextureBlend;
+            #if _TRAXNOTEXTURE
+               texBlend = 1;
+            #endif
+
+            float traxBuffer0 = 1 - ((1 - traxBuffer) * texBlend * strs0.y);
+            float traxBuffer1 = 1 - ((1 - traxBuffer) * texBlend * strs1.y);
+            float traxBuffer2 = 1 - ((1 - traxBuffer) * texBlend * strs2.y);
+            float traxBuffer3 = 1 - ((1 - traxBuffer) * texBlend * strs3.y);
+            
+            float3 traxNormal0 = traxNormal * _TraxNormalStrength * strs0.z;
+            float3 traxNormal1 = traxNormal * _TraxNormalStrength * strs1.z;
+            float3 traxNormal2 = traxNormal * _TraxNormalStrength * strs2.z;
+            float3 traxNormal3 = traxNormal * _TraxNormalStrength * strs3.z;
+
+         #if _TRAXNOTEXTURE // just tint..
+            samples.albedo0 = lerp(samples.albedo0 * ptTint0, samples.albedo0, traxBuffer0);
+            samples.albedo1 = lerp(samples.albedo1 * ptTint1, samples.albedo1, traxBuffer1);
+            samples.albedo2 = lerp(samples.albedo2 * ptTint2, samples.albedo2, traxBuffer2);
+            samples.albedo3 = lerp(samples.albedo3 * ptTint3, samples.albedo3, traxBuffer3);
+            
+            samples.normSAO0 = lerp(samples.normSAO0 + half4(traxNormal0.xy, 0, 0), samples.normSAO0, traxBuffer0);
+            samples.normSAO1 = lerp(samples.normSAO1 + half4(traxNormal1.xy, 0, 0), samples.normSAO1, traxBuffer1);
+            samples.normSAO2 = lerp(samples.normSAO2 + half4(traxNormal2.xy, 0, 0), samples.normSAO2, traxBuffer2);
+            samples.normSAO3 = lerp(samples.normSAO3 + half4(traxNormal3.xy, 0, 0), samples.normSAO3, traxBuffer3);
+
+
+            #if _SURFACENORMALS
+               samples.surf0 = lerp(samples.surf0 + ConvertNormal2ToGradient(traxNormal0.xy), traxBuffer0);
+               samples.surf1 = lerp(samples.surf1 + ConvertNormal2ToGradient(traxNormal1.xy), traxBuffer1);
+               samples.surf2 = lerp(samples.surf2 + ConvertNormal2ToGradient(traxNormal2.xy), traxBuffer2);
+               samples.surf3 = lerp(samples.surf3 + ConvertNormal2ToGradient(traxNormal3.xy), traxBuffer3);
+            #endif
+
+         #elif _TRAXSINGLE
+            float2 uv = config.uv * _TraxUVScales;
+            float2 fsdx = ddx(config.uv) * _TraxUVScales;
+            float2 fsdy = ddy(config.uv) * _TraxUVScales;
+
+            
+            half4 albedo = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_GRAD(_TraxDiff, _Diffuse, uv, fsdx, fsdy);
+            half4 normSAO = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_GRAD(_TraxNSAO, _Diffuse, uv, fsdx, fsdy).agrb;
+            normSAO.xy = normSAO.xy * 2 - 1;
+
+            COUNTSAMPLE
+            COUNTSAMPLE
+            
+            half h0 = HeightBlend(albedo.a, samples.albedo0.a, traxBuffer0, _Contrast);
+            half h1 = HeightBlend(albedo.a, samples.albedo1.a, traxBuffer1, _Contrast);
+            half h2 = HeightBlend(albedo.a, samples.albedo2.a, traxBuffer2, _Contrast);
+            half h3 = HeightBlend(albedo.a, samples.albedo3.a, traxBuffer3, _Contrast);
+
+            h0 = lerp(traxBuffer0, h0, _TraxInterpContrast);
+            h1 = lerp(traxBuffer1, h1, _TraxInterpContrast);
+            h2 = lerp(traxBuffer2, h2, _TraxInterpContrast);
+            h3 = lerp(traxBuffer3, h3, _TraxInterpContrast);
+
+            samples.albedo0.rgba = lerp(albedo * ptTint0, samples.albedo0, h0);
+            samples.normSAO0.rgba = lerp(normSAO + half4(traxNormal0.xy, 0, 0), samples.normSAO0, h0);
+            samples.albedo1.rgba = lerp(albedo * ptTint1, samples.albedo1, h1);
+            samples.normSAO1.rgba = lerp(normSAO + half4(traxNormal1.xy, 0, 0), samples.normSAO1, h1);
+            samples.albedo2.rgba = lerp(albedo * ptTint2, samples.albedo2, h2);
+            samples.normSAO2.rgba = lerp(normSAO + half4(traxNormal2.xy, 0, 0), samples.normSAO2, h2);
+            samples.albedo3.rgba = lerp(albedo * ptTint3, samples.albedo3, h3);
+            samples.normSAO3.rgba = lerp(normSAO + half4(traxNormal3.xy, 0, 0), samples.normSAO3, h3);
+
+            #if _SURFACENORMALS
+               samples.surf0 = lerp(ConvertNormal2ToGradient(normSAO.xy + traxNormal0.xy), samples.surf0, h0);
+               samples.surf1 = lerp(ConvertNormal2ToGradient(normSAO.xy + traxNormal1.xy), samples.surf1, h1);
+               samples.surf2 = lerp(ConvertNormal2ToGradient(normSAO.xy + traxNormal2.xy), samples.surf2, h2);
+               samples.surf3 = lerp(ConvertNormal2ToGradient(normSAO.xy + traxNormal3.xy), samples.surf3, h3);
+            #endif
+
+         #elif _TRAXARRAY
+            float2 uv = config.uv * _TraxUVScales;
+            float2 fsdx = ddx(config.uv) * _TraxUVScales;
+            float2 fsdy = ddy(config.uv) * _TraxUVScales;
+            
+            half4 albedo0 = MICROSPLAT_SAMPLE_TEX2DARRAY_GRAD(_TraxArrayDiff, float3(uv, config.uv0.z), fsdx, fsdy);
+            half4 normSAO0 = MICROSPLAT_SAMPLE_TEX2DARRAY_GRAD(_TraxArrayNSAO, float3(uv, config.uv0.z), fsdx, fsdy).agrb;
+            normSAO0.xy = normSAO0.xy * 2 - 1;
+            half4 albedo1 = MICROSPLAT_SAMPLE_TEX2DARRAY_GRAD(_TraxArrayDiff, float3(uv, config.uv1.z), fsdx, fsdy);
+            half4 normSAO1 = MICROSPLAT_SAMPLE_TEX2DARRAY_GRAD(_TraxArrayNSAO, float3(uv, config.uv1.z), fsdx, fsdy).agrb;
+            normSAO1.xy = normSAO1.xy * 2 - 1;
+            COUNTSAMPLE
+            COUNTSAMPLE
+            COUNTSAMPLE
+            COUNTSAMPLE
+            half h0 = HeightBlend(albedo0.a, samples.albedo0.a, traxBuffer0, _Contrast);
+            half h1 = HeightBlend(albedo1.a, samples.albedo1.a, traxBuffer1, _Contrast);
+            h0 = lerp(traxBuffer0, h0, _TraxInterpContrast);
+            h1 = lerp(traxBuffer1, h1, _TraxInterpContrast);
+
+            #if !_MAX2LAYER
+               half4 albedo2 = MICROSPLAT_SAMPLE_TEX2DARRAY_GRAD(_TraxArrayDiff, float3(uv, config.uv2.z), fsdx, fsdy);
+               half4 normSAO2 = MICROSPLAT_SAMPLE_TEX2DARRAY_GRAD(_TraxArrayNSAO, float3(uv, config.uv2.z), fsdx, fsdy).agrb;
+               half h2 = HeightBlend(albedo2.a, samples.albedo2.a, traxBuffer2, _Contrast);
+               h2 = lerp(traxBuffer2, h2, _TraxInterpContrast);
+               normSAO2.xy = normSAO2.xy * 2 - 1;
+               COUNTSAMPLE
+               COUNTSAMPLE
+            #endif
+            #if !_MAX3LAYER || !_MAX2LAYER
+               half4 albedo3 = MICROSPLAT_SAMPLE_TEX2DARRAY_GRAD(_TraxArrayDiff, float3(uv, config.uv3.z), fsdx, fsdy);
+               half4 normSAO3 = MICROSPLAT_SAMPLE_TEX2DARRAY_GRAD(_TraxArrayNSAO, float3(uv, config.uv3.z), fsdx, fsdy).agrb;
+               normSAO3.xy = normSAO3.xy * 2 - 1;
+               half h3 = HeightBlend(albedo3.a, samples.albedo3.a, traxBuffer3, _Contrast);
+               h3 = lerp(traxBuffer3, h3, _TraxInterpContrast);
+               COUNTSAMPLE
+               COUNTSAMPLE
+            #endif
+
+            
+
+            samples.albedo0.rgba = lerp(albedo0 * ptTint0, samples.albedo0, h0);
+            samples.normSAO0.rgba = lerp(normSAO0 + half4(traxNormal0.xy, 0, 0), samples.normSAO0, h0);
+            samples.albedo1.rgba = lerp(albedo1 * ptTint1, samples.albedo1, h1);
+            samples.normSAO1.rgba = lerp(normSAO0 + half4(traxNormal1.xy, 0, 0), samples.normSAO1, h1);
+
+            #if !_MAX2LAYER
+               samples.albedo2.rgba = lerp(albedo2 * ptTint2, samples.albedo2, h2);
+               samples.normSAO2.rgba = lerp(normSAO2 + half4(traxNormal2.xy, 0, 0), samples.normSAO2, h2);
+            #endif
+            #if !_MAX3LAYER || !_MAX2LAYER
+               samples.albedo3.rgba = lerp(albedo3 * ptTint3, samples.albedo3, h3);
+               samples.normSAO3.rgba = lerp(normSAO3 + half4(traxNormal3.xy, 0, 0), samples.normSAO3, h3);
+            #endif
+
+            #if _SURFACENORMALS
+               samples.surf0 = lerp(ConvertNormal2ToGradient(normSAO0.xy + traxNormal0.xy), samples.surf0, h0);
+               samples.surf1 = lerp(ConvertNormal2ToGradient(normSAO1.xy + traxNormal1.xy), samples.surf1, h1);
+               #if !_MAX2LAYER
+               samples.surf2 = lerp(ConvertNormal2ToGradient(normSAO2.xy + traxNormal2.xy), samples.surf2, h2);
+               #endif
+               #if !_MAX3LAYER || !_MAX2LAYER
+               samples.surf3 = lerp(ConvertNormal2ToGradient(normSAO3.xy + traxNormal3.xy), samples.surf3, h3);
+               #endif
+            #endif
+         #endif
+            
+         }
+
+         void ApplyTraxTess(inout half h0, inout half h1, inout half h2, inout half h3, Config config, float3 worldPos, float traxBuffer, float mipLevel, float offset)
+         {
+            #if (_PERTEXTRAXDIGDEPTH || _PERTEXTRAXOPACITY)
+               SAMPLE_PER_TEX(strs, 20.5, config, half4(1.0, 1.0, 1.0, 0.0));
+            #else
+               half4 strs0 = half4(1,1,1,1);
+               half4 strs1 = half4(1,1,1,1);
+               half4 strs2 = half4(1,1,1,1);
+               half4 strs3 = half4(1,1,1,1);
+            #endif
+
+            float traxBuffer0 = traxBuffer = 1 - ((1 - traxBuffer) * _TraxTextureBlend * strs0.y);
+            float traxBuffer1 = traxBuffer = 1 - ((1 - traxBuffer) * _TraxTextureBlend * strs1.y);
+            float traxBuffer2 = traxBuffer = 1 - ((1 - traxBuffer) * _TraxTextureBlend * strs2.y);
+            float traxBuffer3 = traxBuffer = 1 - ((1 - traxBuffer) * _TraxTextureBlend * strs3.y);
+            
+            float offset0 = offset - strs0.r;
+            float offset1 = offset - strs1.r;
+            float offset2 = offset - strs2.r;
+            float offset3 = offset - strs3.r;
+         
+         #if _TRAXNOTEXTURE
+            h0 = lerp(h0 - offset, h0, traxBuffer0);
+            h1 = lerp(h1 - offset, h1, traxBuffer1);
+            h2 = lerp(h2 - offset, h2, traxBuffer2);
+            h3 = lerp(h3 - offset, h3, traxBuffer3);
+         #elif _TRAXSINGLE
+            float2 uv = config.uv * _TraxUVScales.xy;
+
+            half albedo = MICROSPLAT_SAMPLE_TEX2D_SAMPLER_LOD(_TraxDiff, _Diffuse, uv, mipLevel).a;
+            
+
+            h0 = lerp(albedo - offset, h0, traxBuffer0);
+            h1 = lerp(albedo - offset, h1, traxBuffer1);
+            h2 = lerp(albedo - offset, h2, traxBuffer2);
+            h3 = lerp(albedo - offset, h3, traxBuffer3);
+         #elif _TRAXARRAY
+            float2 uv = config.uv * _TraxUVScales.xy;
+            traxBuffer = 1 - ((1 - traxBuffer) * _TraxTextureBlend);
+
+            
+            half albedo0 = UNITY_SAMPLE_TEX2DARRAY_LOD(_TraxArrayDiff, float3(uv, config.uv0.z), mipLevel).a;
+            half albedo1 = UNITY_SAMPLE_TEX2DARRAY_LOD(_TraxArrayDiff, float3(uv, config.uv1.z), mipLevel).a;
+            half albedo2 = UNITY_SAMPLE_TEX2DARRAY_LOD(_TraxArrayDiff, float3(uv, config.uv2.z), mipLevel).a;
+            half albedo3 = UNITY_SAMPLE_TEX2DARRAY_LOD(_TraxArrayDiff, float3(uv, config.uv3.z), mipLevel).a;
+            
+
+            h0 = lerp(albedo0 - offset0, h0, traxBuffer0);
+            h1 = lerp(albedo1 - offset1, h1, traxBuffer1);
+            h2 = lerp(albedo2 - offset2, h2, traxBuffer2);
+            h3 = lerp(albedo3 - offset3, h3, traxBuffer3);
+         #endif
+            
+         }
+
+
+         #endif
+

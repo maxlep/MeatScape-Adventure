@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4030487847683820589}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,19 +42,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8379201988489175662}
   - component: {fileID: 4029445465579560273}
-  - component: {fileID: 282523361469515421}
   - component: {fileID: 6994242715961130270}
-  - component: {fileID: 7733247292180758121}
-  - component: {fileID: 3312929675672325148}
-  - component: {fileID: 4375739203181106553}
-  - component: {fileID: 638447779972418342}
-  - component: {fileID: 1447060935279975536}
-  - component: {fileID: 6008816130319046902}
-  - component: {fileID: 2421893630782975532}
-  - component: {fileID: 514904729}
-  - component: {fileID: 3333539697894606529}
-  m_Layer: 0
-  m_Name: SquirtFeedbacks
+  m_Layer: 14
+  m_Name: SquirtFeedbacksStart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87,67 +77,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Feedbacks:
-  - {fileID: 638447779972418342}
   - {fileID: 6994242715961130270}
-  - {fileID: 3312929675672325148}
-  - {fileID: 7733247292180758121}
-  - {fileID: 514904729}
-  - {fileID: 1447060935279975536}
-  - {fileID: 6008816130319046902}
-  - {fileID: 2421893630782975532}
-  - {fileID: 3333539697894606529}
-  - {fileID: 4375739203181106553}
   InitializationMode: 2
   SafeMode: 3
   AutoPlayOnStart: 0
   DebugActive: 0
---- !u!114 &282523361469515421
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1442620330751184830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 468d0d7ee2257a34c966318be3e94f24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UnityEvents:
-  - UnityCallback: 2
-    delay: 0.05
-    unityEvent:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 4029445465579560273}
-          m_TargetAssemblyTypeName: MoreMountains.Feedbacks.MMFeedbacks, MoreMountains.Feedbacks
-          m_MethodName: PlayFeedbacks
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - UnityCallback: 3
-    delay: 0
-    unityEvent:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 4029445465579560273}
-          m_TargetAssemblyTypeName: MoreMountains.Feedbacks.MMFeedbacks, MoreMountains.Feedbacks
-          m_MethodName: StopFeedbacks
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!114 &6994242715961130270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,7 +103,7 @@ MonoBehaviour:
     CooldownDuration: 0
     NumberOfRepeats: 0
     RepeatForever: 0
-    DelayBetweenRepeats: 0
+    DelayBetweenRepeats: 1
     Sequence: {fileID: 0}
     TrackID: 0
     Quantized: 0
@@ -178,7 +112,7 @@ MonoBehaviour:
   Mode: 0
   TimeScale: 0
   AnimateScaleTarget: {fileID: 4030487847683820589}
-  AnimateScaleDuration: 2
+  AnimateScaleDuration: 0.1
   RemapCurveZero: 1
   RemapCurveOne: 2
   Offset: 0
@@ -189,47 +123,20 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: 0.0261062
+      outSlope: 0.0261062
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.5067841
-      value: 0.16400877
-      inSlope: -0.01754025
-      outSlope: -0.01754025
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.07080758
-    - serializedVersion: 3
-      time: 0.632955
-      value: -0.37449363
-      inSlope: -0.58713233
-      outSlope: -0.58713233
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.37797162
-    - serializedVersion: 3
-      time: 0.7974736
-      value: -0.39242908
-      inSlope: 0.89711225
-      outSlope: 0.89711225
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.3814319
-      outWeight: 0.33333334
+      outWeight: 0.04167095
     - serializedVersion: 3
       time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
+      value: 0.5
+      inSlope: 0.8317162
+      outSlope: 0.8317162
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.033233404
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -241,56 +148,20 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: -1.5089263
+      outSlope: -1.5089263
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.2882223
-      value: -0.41189152
-      inSlope: -0.95632416
-      outSlope: -0.95632416
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.5380678
-      value: -0.57093406
-      inSlope: -0.01754025
-      outSlope: -0.01754025
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.07080758
-    - serializedVersion: 3
-      time: 0.64014196
-      value: 0.74945956
-      inSlope: 0.29759687
-      outSlope: 0.29759687
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.7999883
-      value: 0.7315241
-      inSlope: -2.2502244
-      outSlope: -2.2502244
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0.043015275
     - serializedVersion: 3
       time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
+      value: -0.9
+      inSlope: -0.100929424
+      outSlope: -0.100929424
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.13110203
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -302,359 +173,25 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: 0.0261062
+      outSlope: 0.0261062
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.5067841
-      value: 0.16400877
-      inSlope: -0.01754025
-      outSlope: -0.01754025
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.07080758
-    - serializedVersion: 3
-      time: 0.632955
-      value: -0.37449363
-      inSlope: -0.58713233
-      outSlope: -0.58713233
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.37797162
-    - serializedVersion: 3
-      time: 0.7974736
-      value: -0.39242908
-      inSlope: 0.89711225
-      outSlope: 0.89711225
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.3814319
-      outWeight: 0.33333334
+      outWeight: 0.04167095
     - serializedVersion: 3
       time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
+      value: 0.5
+      inSlope: 0.8317162
+      outSlope: 0.8317162
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.033233404
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   DestinationScale: {x: 0.5, y: 0.5, z: 0.5}
---- !u!114 &7733247292180758121
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1442620330751184830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8992174433e952f4ab19e373a3c9ddba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Active: 1
-  Label: SoundCustomSource
-  Chance: 100
-  Timing:
-    TimescaleMode: 0
-    InitialDelay: 0
-    CooldownDuration: 0
-    NumberOfRepeats: 0
-    RepeatForever: 0
-    DelayBetweenRepeats: 0
-    Sequence: {fileID: 0}
-    TrackID: 0
-    Quantized: 0
-    TargetBPM: 120
-  DebugActive: 0
-  Sfx: {fileID: 0}
-  RandomSfx:
-  - {fileID: 8300000, guid: aac3fead97a71654b8fbed404b5ed2bf, type: 3}
-  - {fileID: 8300000, guid: 5cb44da8c3caadb448064c5377b606ee, type: 3}
-  - {fileID: 8300000, guid: cba4eb24f0195c14e944a0f7fb4870ec, type: 3}
-  audioSourceSettings:
-    Priority: 128
-    StereoPan: 0
-    SpatialBlend: 1
-    ReverbZoneMix: 1
-    DopplerLevel: 0
-    Spread: 0
-    VolumeRolloff: 0
-    MinDistance: 3
-    MaxDistance: 500
-  TestButton: 0
-  TestStopButton: 0
-  PlayMethod: 1
-  PoolSize: 10
-  MinVolume: 0.6
-  MaxVolume: 0.7
-  MinPitch: 1
-  MaxPitch: 1
-  SfxAudioMixerGroup: {fileID: 0}
---- !u!114 &3312929675672325148
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1442620330751184830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66650ffe68eb1f548acc774ac2db1b80, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Active: 1
-  Label: Pause
-  Chance: 100
-  Timing:
-    TimescaleMode: 0
-    InitialDelay: 0
-    CooldownDuration: 0
-    NumberOfRepeats: 0
-    RepeatForever: 0
-    DelayBetweenRepeats: 0
-    Sequence: {fileID: 0}
-    TrackID: 0
-    Quantized: 0
-    TargetBPM: 120
-  DebugActive: 0
-  PauseDuration: 1
---- !u!114 &4375739203181106553
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1442620330751184830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d7d28823a5fcb24f93e2098725c6e2f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Active: 1
-  Label: Looper
-  Chance: 100
-  Timing:
-    TimescaleMode: 0
-    InitialDelay: 0
-    CooldownDuration: 0
-    NumberOfRepeats: 0
-    RepeatForever: 0
-    DelayBetweenRepeats: 1
-    Sequence: {fileID: 0}
-    TrackID: 0
-    Quantized: 0
-    TargetBPM: 120
-  DebugActive: 0
-  PauseDuration: 3
-  LoopAtLastPause: 0
-  LoopAtLastLoopStart: 1
-  InfiniteLoop: 1
-  NumberOfLoops: 2
-  NumberOfLoopsLeft: 1
-  InInfiniteLoop: 0
---- !u!114 &638447779972418342
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1442620330751184830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61e9bb2e036c53342a4c946cfb0adb2f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Active: 1
-  Label: Looper Start
-  Chance: 100
-  Timing:
-    TimescaleMode: 0
-    InitialDelay: 0
-    CooldownDuration: 0
-    NumberOfRepeats: 0
-    RepeatForever: 0
-    DelayBetweenRepeats: 1
-    Sequence: {fileID: 0}
-    TrackID: 0
-    Quantized: 0
-    TargetBPM: 120
-  DebugActive: 0
-  PauseDuration: 0
---- !u!114 &1447060935279975536
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1442620330751184830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c27131831afa28b499cb120fc9059997, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Active: 1
-  Label: Particles Play
-  Chance: 100
-  Timing:
-    TimescaleMode: 0
-    InitialDelay: 0
-    CooldownDuration: 0
-    NumberOfRepeats: 0
-    RepeatForever: 0
-    DelayBetweenRepeats: 1
-    Sequence: {fileID: 0}
-    TrackID: 0
-    Quantized: 0
-    TargetBPM: 120
-  DebugActive: 0
-  BoundParticleSystem: {fileID: 8103605108795498582}
-  MoveToPosition: 0
-  RandomParticleSystems: []
---- !u!114 &6008816130319046902
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1442620330751184830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66650ffe68eb1f548acc774ac2db1b80, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Active: 1
-  Label: Pause
-  Chance: 100
-  Timing:
-    TimescaleMode: 0
-    InitialDelay: 0
-    CooldownDuration: 0
-    NumberOfRepeats: 0
-    RepeatForever: 0
-    DelayBetweenRepeats: 1
-    Sequence: {fileID: 0}
-    TrackID: 0
-    Quantized: 0
-    TargetBPM: 120
-  DebugActive: 0
-  PauseDuration: 0.3
---- !u!114 &2421893630782975532
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1442620330751184830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23a102c1a91e34644aa37f1e4f00c31a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Active: 1
-  Label: Events
-  Chance: 100
-  Timing:
-    TimescaleMode: 0
-    InitialDelay: 0
-    CooldownDuration: 0
-    NumberOfRepeats: 0
-    RepeatForever: 0
-    DelayBetweenRepeats: 1
-    Sequence: {fileID: 0}
-    TrackID: 0
-    Quantized: 0
-    TargetBPM: 120
-  DebugActive: 0
-  PlayEvents:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8103605108795498582}
-        m_TargetAssemblyTypeName: UnityEngine.ParticleSystem, UnityEngine
-        m_MethodName: Stop
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  StopEvents:
-    m_PersistentCalls:
-      m_Calls: []
-  InitializationEvents:
-    m_PersistentCalls:
-      m_Calls: []
-  ResetEvents:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &514904729
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1442620330751184830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66650ffe68eb1f548acc774ac2db1b80, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Active: 1
-  Label: Pause
-  Chance: 100
-  Timing:
-    TimescaleMode: 0
-    InitialDelay: 0
-    CooldownDuration: 0
-    NumberOfRepeats: 0
-    RepeatForever: 0
-    DelayBetweenRepeats: 1
-    Sequence: {fileID: 0}
-    TrackID: 0
-    Quantized: 0
-    TargetBPM: 120
-  DebugActive: 0
-  PauseDuration: 0.2
---- !u!114 &3333539697894606529
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1442620330751184830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1fd966fdba055d48bf9a6b7b3c8e0aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Active: 1
-  Label: RandomPause
-  Chance: 100
-  Timing:
-    TimescaleMode: 0
-    InitialDelay: 0
-    CooldownDuration: 0
-    NumberOfRepeats: 0
-    RepeatForever: 0
-    DelayBetweenRepeats: 1
-    Sequence: {fileID: 0}
-    TrackID: 0
-    Quantized: 0
-    TargetBPM: 120
-  DebugActive: 0
-  PauseDurationMin: 1
-  PauseDurationMax: 2
 --- !u!114 &1612032626637634482
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -689,7 +226,9 @@ GameObject:
   - component: {fileID: 3061227014247918796}
   - component: {fileID: 3729693898930263864}
   - component: {fileID: 166336345811461738}
-  m_Layer: 0
+  - component: {fileID: 5651991179686641220}
+  - component: {fileID: 3578313398827524144}
+  m_Layer: 14
   m_Name: SquirtingStalk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -709,7 +248,9 @@ Transform:
   m_Children:
   - {fileID: 4030487847683820589}
   - {fileID: 8379201988489175662}
+  - {fileID: 4892770527574356104}
   - {fileID: 8103605108780203494}
+  - {fileID: 4188225546464666924}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -756,7 +297,7 @@ MonoBehaviour:
   _editor_DrawExtra: 0
   _editor_horizontal: 1
   _editor_category: 0
-  Editor_InIsolatedScene: 0
+  Editor_InIsolatedScene: 1
   Editor_JustCreated: 0
   UseDOTS: 0
   DOTSObstacleType: 2
@@ -800,7 +341,7 @@ MonoBehaviour:
   FadeViewVisibility: 0
   DeactivateObject: 0
   LODPercent:
-  - 0.23513718
+  - 0.2078167
   - 0.48027572
   - 1
   AutoDistance: 0
@@ -1018,7 +559,7 @@ MonoBehaviour:
     eOptimizer: {fileID: 166336345811461738}
     ControlerType: 4
   - constructed: 1
-    ToOptimizeIndex: 2
+    ToOptimizeIndex: 1
     optimizer: {fileID: 166336345811461738}
     Component: {fileID: 9176823902838761994}
     Version: 0
@@ -1178,7 +719,7 @@ MonoBehaviour:
       NotSupported: []
     Ini_Rend:
       SetDisabled: 0
-      _version: 1
+      _version: 0
       _Locked: 0
       cmp: {fileID: 0}
       UseShadows: 1
@@ -1222,2556 +763,283 @@ MonoBehaviour:
       crossfadeHelper: 0
     eOptimizer: {fileID: 166336345811461738}
     ControlerType: 4
-  - constructed: 1
-    ToOptimizeIndex: 3
-    optimizer: {fileID: 166336345811461738}
-    Component: {fileID: 8103605108795498582}
-    Version: 0
-    lockFirstLOD: 1
-    editorHeader: Optim
-    drawProperties: 0
-    LODs_Particle:
-    - SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      EmmissionAmount: 1
-      BurstsAmount: 1
-      ParticleSizeMul: 1
-      MaxParticlAmount: 1
-      OverDistanceMul: 1
-      LifetimeAlpha: 1
-      ColorOverLifetime:
-        m_Mode: 0
-        m_GradientMin:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_GradientMax:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
-    - SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 8103605108795498582}
-      EmmissionAmount: 0.6666666
-      BurstsAmount: 0.6666666
-      ParticleSizeMul: 1.25
-      MaxParticlAmount: 0.99999994
-      OverDistanceMul: 0.6666666
-      LifetimeAlpha: 1
-      ColorOverLifetime:
-        m_Mode: 0
-        m_GradientMin:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_GradientMax:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
-    - SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 8103605108795498582}
-      EmmissionAmount: 0.3333333
-      BurstsAmount: 0.3333333
-      ParticleSizeMul: 1.5
-      MaxParticlAmount: 0.49999997
-      OverDistanceMul: 0.3333333
-      LifetimeAlpha: 1
-      ColorOverLifetime:
-        m_Mode: 0
-        m_GradientMin:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_GradientMax:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
-    - SetDisabled: 1
-      _Locked: 0
-      cmp: {fileID: 0}
-      EmmissionAmount: 0
-      BurstsAmount: 0
-      ParticleSizeMul: 1.5
-      MaxParticlAmount: 0
-      OverDistanceMul: 0
-      LifetimeAlpha: 0
-      ColorOverLifetime:
-        m_Mode: 0
-        m_GradientMin:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_GradientMax:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
-    - SetDisabled: 1
-      _Locked: 0
-      cmp: {fileID: 8103605108795498582}
-      EmmissionAmount: 0.3333333
-      BurstsAmount: 0.3333333
-      ParticleSizeMul: 1.5
-      MaxParticlAmount: 0.1
-      OverDistanceMul: 0.3333333
-      LifetimeAlpha: 1
-      ColorOverLifetime:
-        m_Mode: 0
-        m_GradientMin:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_GradientMax:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
-    LODs_Light: []
-    LODs_Mono: []
-    LODs_Renderer: []
-    LODs_NavMesh: []
-    LODs_Audio: []
-    LODs_Rigidbody: []
-    LODs_LODGroup: []
-    Ini_Particle:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      EmmissionAmount: 1
-      BurstsAmount: 1
-      ParticleSizeMul: 1
-      MaxParticlAmount: 1
-      OverDistanceMul: 1
-      LifetimeAlpha: 1
-      ColorOverLifetime:
-        m_Mode: 0
-        m_GradientMin:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_GradientMax:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
-    Ini_Light:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      IntensityMul: 1
-      RangeMul: 1
-      ShadowsMode: 2
-      ShadowsStrength: 1
-      RenderMode: 0
-      ChangeIntensity: 1
-    Ini_Mono:
-      SetDisabled: 0
-      ver: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      BaseLOD: 0
-      Event:
-        m_PersistentCalls:
-          m_Calls: []
-      Parameters: []
-      NotSupported: []
-    Ini_Rend:
-      SetDisabled: 0
-      _version: 1
-      _Locked: 0
-      cmp: {fileID: 0}
-      UseShadows: 1
-      MotionVectors: 1
-      SkinnedQuality: 0
-      shaderParam: _Transparency
-      ColorParameter: 0
-      targetParamValue: 1
-    Ini_Nav:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      Priority: 1
-      Quality: 4
-    Ini_Audio:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      PriorityFactor: 1
-      Volume: 1
-    Ini_Rigidbody:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      DetectCollisions: 0
-      IsKinematic: 0
-      Interpolation: 0
-      CollisionMode: 0
-      TryTriggerSleep: 0
-      TriggerWakeup: 0
-    Ini_LODGroup:
-      SetDisabled: 0
-      _version: 1
-      _Locked: 0
-      cmp: {fileID: 0}
-      UnityLODLevel: 0
-      shaderParam: _Transparency
-      ColorParameter: 0
-      shaderVisibleValue: 1
-      shaderInvisibleValue: 0
-      crossfadeHelper: 0
-    eOptimizer: {fileID: 166336345811461738}
-    ControlerType: 1
-  - constructed: 1
-    ToOptimizeIndex: 4
-    optimizer: {fileID: 166336345811461738}
-    Component: {fileID: 8103605108795484134}
-    Version: 0
-    lockFirstLOD: 1
-    editorHeader: Optim
-    drawProperties: 0
-    LODs_Particle:
-    - SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      EmmissionAmount: 1
-      BurstsAmount: 1
-      ParticleSizeMul: 1
-      MaxParticlAmount: 1
-      OverDistanceMul: 1
-      LifetimeAlpha: 1
-      ColorOverLifetime:
-        m_Mode: 0
-        m_GradientMin:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_GradientMax:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
-    - SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 8103605108795484134}
-      EmmissionAmount: 0.6666666
-      BurstsAmount: 0.6666666
-      ParticleSizeMul: 1.25
-      MaxParticlAmount: 0.99999994
-      OverDistanceMul: 0.6666666
-      LifetimeAlpha: 1
-      ColorOverLifetime:
-        m_Mode: 0
-        m_GradientMin:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_GradientMax:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
-    - SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 8103605108795484134}
-      EmmissionAmount: 0.3333333
-      BurstsAmount: 0.3333333
-      ParticleSizeMul: 1.5
-      MaxParticlAmount: 0.49999997
-      OverDistanceMul: 0.3333333
-      LifetimeAlpha: 1
-      ColorOverLifetime:
-        m_Mode: 0
-        m_GradientMin:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_GradientMax:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
-    - SetDisabled: 1
-      _Locked: 0
-      cmp: {fileID: 0}
-      EmmissionAmount: 0
-      BurstsAmount: 0
-      ParticleSizeMul: 1.5
-      MaxParticlAmount: 0
-      OverDistanceMul: 0
-      LifetimeAlpha: 0
-      ColorOverLifetime:
-        m_Mode: 0
-        m_GradientMin:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_GradientMax:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
-    - SetDisabled: 1
-      _Locked: 0
-      cmp: {fileID: 8103605108795484134}
-      EmmissionAmount: 0.3333333
-      BurstsAmount: 0.3333333
-      ParticleSizeMul: 1.5
-      MaxParticlAmount: 0.1
-      OverDistanceMul: 0.3333333
-      LifetimeAlpha: 1
-      ColorOverLifetime:
-        m_Mode: 0
-        m_GradientMin:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_GradientMax:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
-    LODs_Light: []
-    LODs_Mono: []
-    LODs_Renderer: []
-    LODs_NavMesh: []
-    LODs_Audio: []
-    LODs_Rigidbody: []
-    LODs_LODGroup: []
-    Ini_Particle:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      EmmissionAmount: 1
-      BurstsAmount: 1
-      ParticleSizeMul: 1
-      MaxParticlAmount: 1
-      OverDistanceMul: 1
-      LifetimeAlpha: 1
-      ColorOverLifetime:
-        m_Mode: 0
-        m_GradientMin:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_GradientMax:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
-    Ini_Light:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      IntensityMul: 1
-      RangeMul: 1
-      ShadowsMode: 2
-      ShadowsStrength: 1
-      RenderMode: 0
-      ChangeIntensity: 1
-    Ini_Mono:
-      SetDisabled: 0
-      ver: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      BaseLOD: 0
-      Event:
-        m_PersistentCalls:
-          m_Calls: []
-      Parameters: []
-      NotSupported: []
-    Ini_Rend:
-      SetDisabled: 0
-      _version: 1
-      _Locked: 0
-      cmp: {fileID: 0}
-      UseShadows: 1
-      MotionVectors: 1
-      SkinnedQuality: 0
-      shaderParam: _Transparency
-      ColorParameter: 0
-      targetParamValue: 1
-    Ini_Nav:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      Priority: 1
-      Quality: 4
-    Ini_Audio:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      PriorityFactor: 1
-      Volume: 1
-    Ini_Rigidbody:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      DetectCollisions: 0
-      IsKinematic: 0
-      Interpolation: 0
-      CollisionMode: 0
-      TryTriggerSleep: 0
-      TriggerWakeup: 0
-    Ini_LODGroup:
-      SetDisabled: 0
-      _version: 1
-      _Locked: 0
-      cmp: {fileID: 0}
-      UnityLODLevel: 0
-      shaderParam: _Transparency
-      ColorParameter: 0
-      shaderVisibleValue: 1
-      shaderInvisibleValue: 0
-      crossfadeHelper: 0
-    eOptimizer: {fileID: 166336345811461738}
-    ControlerType: 1
-  - constructed: 1
-    ToOptimizeIndex: 5
-    optimizer: {fileID: 166336345811461738}
-    Component: {fileID: 8103605108795477794}
-    Version: 0
-    lockFirstLOD: 1
-    editorHeader: Optim
-    drawProperties: 0
-    LODs_Particle:
-    - SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      EmmissionAmount: 1
-      BurstsAmount: 1
-      ParticleSizeMul: 1
-      MaxParticlAmount: 1
-      OverDistanceMul: 1
-      LifetimeAlpha: 1
-      ColorOverLifetime:
-        m_Mode: 0
-        m_GradientMin:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_GradientMax:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
-    - SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 8103605108795477794}
-      EmmissionAmount: 0.6666666
-      BurstsAmount: 0.6666666
-      ParticleSizeMul: 1.25
-      MaxParticlAmount: 0.99999994
-      OverDistanceMul: 0.6666666
-      LifetimeAlpha: 1
-      ColorOverLifetime:
-        m_Mode: 0
-        m_GradientMin:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_GradientMax:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
-    - SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 8103605108795477794}
-      EmmissionAmount: 0.3333333
-      BurstsAmount: 0.3333333
-      ParticleSizeMul: 1.5
-      MaxParticlAmount: 0.49999997
-      OverDistanceMul: 0.3333333
-      LifetimeAlpha: 1
-      ColorOverLifetime:
-        m_Mode: 0
-        m_GradientMin:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_GradientMax:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
-    - SetDisabled: 1
-      _Locked: 0
-      cmp: {fileID: 0}
-      EmmissionAmount: 0
-      BurstsAmount: 0
-      ParticleSizeMul: 1.5
-      MaxParticlAmount: 0
-      OverDistanceMul: 0
-      LifetimeAlpha: 0
-      ColorOverLifetime:
-        m_Mode: 0
-        m_GradientMin:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_GradientMax:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
-    - SetDisabled: 1
-      _Locked: 0
-      cmp: {fileID: 8103605108795477794}
-      EmmissionAmount: 0.3333333
-      BurstsAmount: 0.3333333
-      ParticleSizeMul: 1.5
-      MaxParticlAmount: 0.1
-      OverDistanceMul: 0.3333333
-      LifetimeAlpha: 1
-      ColorOverLifetime:
-        m_Mode: 0
-        m_GradientMin:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_GradientMax:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
-    LODs_Light: []
-    LODs_Mono: []
-    LODs_Renderer: []
-    LODs_NavMesh: []
-    LODs_Audio: []
-    LODs_Rigidbody: []
-    LODs_LODGroup: []
-    Ini_Particle:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      EmmissionAmount: 1
-      BurstsAmount: 1
-      ParticleSizeMul: 1
-      MaxParticlAmount: 1
-      OverDistanceMul: 1
-      LifetimeAlpha: 1
-      ColorOverLifetime:
-        m_Mode: 0
-        m_GradientMin:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_GradientMax:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
-    Ini_Light:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      IntensityMul: 1
-      RangeMul: 1
-      ShadowsMode: 2
-      ShadowsStrength: 1
-      RenderMode: 0
-      ChangeIntensity: 1
-    Ini_Mono:
-      SetDisabled: 0
-      ver: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      BaseLOD: 0
-      Event:
-        m_PersistentCalls:
-          m_Calls: []
-      Parameters: []
-      NotSupported: []
-    Ini_Rend:
-      SetDisabled: 0
-      _version: 1
-      _Locked: 0
-      cmp: {fileID: 0}
-      UseShadows: 1
-      MotionVectors: 1
-      SkinnedQuality: 0
-      shaderParam: _Transparency
-      ColorParameter: 0
-      targetParamValue: 1
-    Ini_Nav:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      Priority: 1
-      Quality: 4
-    Ini_Audio:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      PriorityFactor: 1
-      Volume: 1
-    Ini_Rigidbody:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      DetectCollisions: 0
-      IsKinematic: 0
-      Interpolation: 0
-      CollisionMode: 0
-      TryTriggerSleep: 0
-      TriggerWakeup: 0
-    Ini_LODGroup:
-      SetDisabled: 0
-      _version: 1
-      _Locked: 0
-      cmp: {fileID: 0}
-      UnityLODLevel: 0
-      shaderParam: _Transparency
-      ColorParameter: 0
-      shaderVisibleValue: 1
-      shaderInvisibleValue: 0
-      crossfadeHelper: 0
-    eOptimizer: {fileID: 166336345811461738}
-    ControlerType: 1
-  - constructed: 1
-    ToOptimizeIndex: 6
-    optimizer: {fileID: 166336345811461738}
-    Component: {fileID: 8103605108795496418}
-    Version: 0
-    lockFirstLOD: 1
-    editorHeader: Optim
-    drawProperties: 0
-    LODs_Particle:
-    - SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      EmmissionAmount: 1
-      BurstsAmount: 1
-      ParticleSizeMul: 1
-      MaxParticlAmount: 1
-      OverDistanceMul: 1
-      LifetimeAlpha: 1
-      ColorOverLifetime:
-        m_Mode: 0
-        m_GradientMin:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_GradientMax:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
-    - SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 8103605108795496418}
-      EmmissionAmount: 0.6666666
-      BurstsAmount: 0.6666666
-      ParticleSizeMul: 1.25
-      MaxParticlAmount: 0.99999994
-      OverDistanceMul: 0.6666666
-      LifetimeAlpha: 1
-      ColorOverLifetime:
-        m_Mode: 0
-        m_GradientMin:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_GradientMax:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
-    - SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 8103605108795496418}
-      EmmissionAmount: 0.3333333
-      BurstsAmount: 0.3333333
-      ParticleSizeMul: 1.5
-      MaxParticlAmount: 0.49999997
-      OverDistanceMul: 0.3333333
-      LifetimeAlpha: 1
-      ColorOverLifetime:
-        m_Mode: 0
-        m_GradientMin:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_GradientMax:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
-    - SetDisabled: 1
-      _Locked: 0
-      cmp: {fileID: 0}
-      EmmissionAmount: 0
-      BurstsAmount: 0
-      ParticleSizeMul: 1.5
-      MaxParticlAmount: 0
-      OverDistanceMul: 0
-      LifetimeAlpha: 0
-      ColorOverLifetime:
-        m_Mode: 0
-        m_GradientMin:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_GradientMax:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
-    - SetDisabled: 1
-      _Locked: 0
-      cmp: {fileID: 8103605108795496418}
-      EmmissionAmount: 0.3333333
-      BurstsAmount: 0.3333333
-      ParticleSizeMul: 1.5
-      MaxParticlAmount: 0.1
-      OverDistanceMul: 0.3333333
-      LifetimeAlpha: 1
-      ColorOverLifetime:
-        m_Mode: 0
-        m_GradientMin:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_GradientMax:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
-    LODs_Light: []
-    LODs_Mono: []
-    LODs_Renderer: []
-    LODs_NavMesh: []
-    LODs_Audio: []
-    LODs_Rigidbody: []
-    LODs_LODGroup: []
-    Ini_Particle:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      EmmissionAmount: 1
-      BurstsAmount: 1
-      ParticleSizeMul: 1
-      MaxParticlAmount: 1
-      OverDistanceMul: 1
-      LifetimeAlpha: 1
-      ColorOverLifetime:
-        m_Mode: 0
-        m_GradientMin:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_GradientMax:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
-    Ini_Light:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      IntensityMul: 1
-      RangeMul: 1
-      ShadowsMode: 2
-      ShadowsStrength: 1
-      RenderMode: 0
-      ChangeIntensity: 1
-    Ini_Mono:
-      SetDisabled: 0
-      ver: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      BaseLOD: 0
-      Event:
-        m_PersistentCalls:
-          m_Calls: []
-      Parameters: []
-      NotSupported: []
-    Ini_Rend:
-      SetDisabled: 0
-      _version: 1
-      _Locked: 0
-      cmp: {fileID: 0}
-      UseShadows: 1
-      MotionVectors: 1
-      SkinnedQuality: 0
-      shaderParam: _Transparency
-      ColorParameter: 0
-      targetParamValue: 1
-    Ini_Nav:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      Priority: 1
-      Quality: 4
-    Ini_Audio:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      PriorityFactor: 1
-      Volume: 1
-    Ini_Rigidbody:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      DetectCollisions: 0
-      IsKinematic: 0
-      Interpolation: 0
-      CollisionMode: 0
-      TryTriggerSleep: 0
-      TriggerWakeup: 0
-    Ini_LODGroup:
-      SetDisabled: 0
-      _version: 1
-      _Locked: 0
-      cmp: {fileID: 0}
-      UnityLODLevel: 0
-      shaderParam: _Transparency
-      ColorParameter: 0
-      shaderVisibleValue: 1
-      shaderInvisibleValue: 0
-      crossfadeHelper: 0
-    eOptimizer: {fileID: 166336345811461738}
-    ControlerType: 1
-  - constructed: 1
-    ToOptimizeIndex: 7
-    optimizer: {fileID: 166336345811461738}
-    Component: {fileID: 8103605108795394204}
-    Version: 0
-    lockFirstLOD: 1
-    editorHeader: Optim
-    drawProperties: 0
-    LODs_Particle:
-    - SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      EmmissionAmount: 1
-      BurstsAmount: 1
-      ParticleSizeMul: 1
-      MaxParticlAmount: 1
-      OverDistanceMul: 1
-      LifetimeAlpha: 1
-      ColorOverLifetime:
-        m_Mode: 0
-        m_GradientMin:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_GradientMax:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
-    - SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 8103605108795394204}
-      EmmissionAmount: 0.6666666
-      BurstsAmount: 0.6666666
-      ParticleSizeMul: 1.25
-      MaxParticlAmount: 0.99999994
-      OverDistanceMul: 0.6666666
-      LifetimeAlpha: 1
-      ColorOverLifetime:
-        m_Mode: 0
-        m_GradientMin:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_GradientMax:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
-    - SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 8103605108795394204}
-      EmmissionAmount: 0.3333333
-      BurstsAmount: 0.3333333
-      ParticleSizeMul: 1.5
-      MaxParticlAmount: 0.49999997
-      OverDistanceMul: 0.3333333
-      LifetimeAlpha: 1
-      ColorOverLifetime:
-        m_Mode: 0
-        m_GradientMin:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_GradientMax:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
-    - SetDisabled: 1
-      _Locked: 0
-      cmp: {fileID: 0}
-      EmmissionAmount: 0
-      BurstsAmount: 0
-      ParticleSizeMul: 1.5
-      MaxParticlAmount: 0
-      OverDistanceMul: 0
-      LifetimeAlpha: 0
-      ColorOverLifetime:
-        m_Mode: 0
-        m_GradientMin:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_GradientMax:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
-    - SetDisabled: 1
-      _Locked: 0
-      cmp: {fileID: 8103605108795394204}
-      EmmissionAmount: 0.3333333
-      BurstsAmount: 0.3333333
-      ParticleSizeMul: 1.5
-      MaxParticlAmount: 0.1
-      OverDistanceMul: 0.3333333
-      LifetimeAlpha: 1
-      ColorOverLifetime:
-        m_Mode: 0
-        m_GradientMin:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_GradientMax:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
-    LODs_Light: []
-    LODs_Mono: []
-    LODs_Renderer: []
-    LODs_NavMesh: []
-    LODs_Audio: []
-    LODs_Rigidbody: []
-    LODs_LODGroup: []
-    Ini_Particle:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      EmmissionAmount: 1
-      BurstsAmount: 1
-      ParticleSizeMul: 1
-      MaxParticlAmount: 1
-      OverDistanceMul: 1
-      LifetimeAlpha: 1
-      ColorOverLifetime:
-        m_Mode: 0
-        m_GradientMin:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_GradientMax:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        m_ColorMin: {r: 0, g: 0, b: 0, a: 0}
-        m_ColorMax: {r: 0, g: 0, b: 0, a: 0}
-    Ini_Light:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      IntensityMul: 1
-      RangeMul: 1
-      ShadowsMode: 2
-      ShadowsStrength: 1
-      RenderMode: 0
-      ChangeIntensity: 1
-    Ini_Mono:
-      SetDisabled: 0
-      ver: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      BaseLOD: 0
-      Event:
-        m_PersistentCalls:
-          m_Calls: []
-      Parameters: []
-      NotSupported: []
-    Ini_Rend:
-      SetDisabled: 0
-      _version: 1
-      _Locked: 0
-      cmp: {fileID: 0}
-      UseShadows: 1
-      MotionVectors: 1
-      SkinnedQuality: 0
-      shaderParam: _Transparency
-      ColorParameter: 0
-      targetParamValue: 1
-    Ini_Nav:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      Priority: 1
-      Quality: 4
-    Ini_Audio:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      PriorityFactor: 1
-      Volume: 1
-    Ini_Rigidbody:
-      SetDisabled: 0
-      _Locked: 0
-      cmp: {fileID: 0}
-      DetectCollisions: 0
-      IsKinematic: 0
-      Interpolation: 0
-      CollisionMode: 0
-      TryTriggerSleep: 0
-      TriggerWakeup: 0
-    Ini_LODGroup:
-      SetDisabled: 0
-      _version: 1
-      _Locked: 0
-      cmp: {fileID: 0}
-      UnityLODLevel: 0
-      shaderParam: _Transparency
-      ColorParameter: 0
-      shaderVisibleValue: 1
-      shaderInvisibleValue: 0
-      crossfadeHelper: 0
-    eOptimizer: {fileID: 166336345811461738}
-    ControlerType: 1
+--- !u!114 &5651991179686641220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3061227014247918795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e39f83680b5e4d9a91b831bcfb2d551b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 4029445465579560273}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 5598076270854746883}
+    - {fileID: 0}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Interactions
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[IInteraction, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 1|TriggerEnterInteraction, Assembly-CSharp
+    - Name: Conditionals
+      Entry: 7
+      Data: 2|MS.Internal.Xml.XPath.ClonableStack`1[[IConditional, Assembly-CSharp]],
+        System.Xml
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: onInteract
+      Entry: 7
+      Data: 3|UnityEngine.Events.UnityEvent`1[[TriggerEnterPayload, Assembly-CSharp]],
+        UnityEngine.CoreModule
+    - Name: m_PersistentCalls
+      Entry: 7
+      Data: 4|UnityEngine.Events.PersistentCallGroup, UnityEngine.CoreModule
+    - Name: m_Calls
+      Entry: 7
+      Data: 5|System.Collections.Generic.List`1[[UnityEngine.Events.PersistentCall,
+        UnityEngine.CoreModule]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 6|UnityEngine.Events.PersistentCall, UnityEngine.CoreModule
+    - Name: m_Target
+      Entry: 10
+      Data: 0
+    - Name: m_TargetAssemblyTypeName
+      Entry: 1
+      Data: MoreMountains.Feedbacks.MMFeedbacks, MoreMountains.Feedbacks
+    - Name: m_MethodName
+      Entry: 1
+      Data: PlayFeedbacks
+    - Name: m_Mode
+      Entry: 3
+      Data: 1
+    - Name: m_Arguments
+      Entry: 7
+      Data: 7|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
+    - Name: m_ObjectArgument
+      Entry: 10
+      Data: 1
+    - Name: m_ObjectArgumentAssemblyTypeName
+      Entry: 1
+      Data: UnityEngine.Object, UnityEngine
+    - Name: m_IntArgument
+      Entry: 3
+      Data: 0
+    - Name: m_FloatArgument
+      Entry: 4
+      Data: 0
+    - Name: m_StringArgument
+      Entry: 1
+      Data: 
+    - Name: m_BoolArgument
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_CallState
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 8|TriggerExitInteraction, Assembly-CSharp
+    - Name: Conditionals
+      Entry: 7
+      Data: 9|MS.Internal.Xml.XPath.ClonableStack`1[[IConditional, Assembly-CSharp]],
+        System.Xml
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: onInteract
+      Entry: 7
+      Data: 10|UnityEngine.Events.UnityEvent`1[[TriggerExitPayload, Assembly-CSharp]],
+        UnityEngine.CoreModule
+    - Name: m_PersistentCalls
+      Entry: 7
+      Data: 11|UnityEngine.Events.PersistentCallGroup, UnityEngine.CoreModule
+    - Name: m_Calls
+      Entry: 7
+      Data: 12|System.Collections.Generic.List`1[[UnityEngine.Events.PersistentCall,
+        UnityEngine.CoreModule]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 13|UnityEngine.Events.PersistentCall, UnityEngine.CoreModule
+    - Name: m_Target
+      Entry: 10
+      Data: 0
+    - Name: m_TargetAssemblyTypeName
+      Entry: 1
+      Data: MoreMountains.Feedbacks.MMFeedbacks, MoreMountains.Feedbacks
+    - Name: m_MethodName
+      Entry: 1
+      Data: StopFeedbacks
+    - Name: m_Mode
+      Entry: 3
+      Data: 1
+    - Name: m_Arguments
+      Entry: 7
+      Data: 14|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
+    - Name: m_ObjectArgument
+      Entry: 10
+      Data: 2
+    - Name: m_ObjectArgumentAssemblyTypeName
+      Entry: 1
+      Data: UnityEngine.Object, UnityEngine
+    - Name: m_IntArgument
+      Entry: 3
+      Data: 0
+    - Name: m_FloatArgument
+      Entry: 4
+      Data: 0
+    - Name: m_StringArgument
+      Entry: 1
+      Data: 
+    - Name: m_BoolArgument
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_CallState
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 15|UnityEngine.Events.PersistentCall, UnityEngine.CoreModule
+    - Name: m_Target
+      Entry: 10
+      Data: 3
+    - Name: m_TargetAssemblyTypeName
+      Entry: 1
+      Data: MoreMountains.Feedbacks.MMFeedbacks, MoreMountains.Feedbacks
+    - Name: m_MethodName
+      Entry: 1
+      Data: PlayFeedbacks
+    - Name: m_Mode
+      Entry: 3
+      Data: 1
+    - Name: m_Arguments
+      Entry: 7
+      Data: 16|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
+    - Name: m_ObjectArgument
+      Entry: 10
+      Data: 4
+    - Name: m_ObjectArgumentAssemblyTypeName
+      Entry: 1
+      Data: UnityEngine.Object, UnityEngine
+    - Name: m_IntArgument
+      Entry: 3
+      Data: 0
+    - Name: m_FloatArgument
+      Entry: 4
+      Data: 0
+    - Name: m_StringArgument
+      Entry: 1
+      Data: 
+    - Name: m_BoolArgument
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_CallState
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+--- !u!135 &3578313398827524144
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3061227014247918795}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.29
+  m_Center: {x: 0, y: 0.73, z: 0}
 --- !u!1 &3822580507313578767
 GameObject:
   m_ObjectHideFlags: 0
@@ -3783,7 +1051,7 @@ GameObject:
   - component: {fileID: 709764453637469069}
   - component: {fileID: 4925487333760713085}
   - component: {fileID: 9176823902838761994}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Impostor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3853,6 +1121,505 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &5824916445774711169
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4892770527574356104}
+  - component: {fileID: 5598076270854746883}
+  - component: {fileID: 3035527312685001854}
+  - component: {fileID: 670113436203439061}
+  - component: {fileID: 1426671446090792722}
+  - component: {fileID: 9190718367564859510}
+  - component: {fileID: 6779966055728702539}
+  - component: {fileID: 1489743467209724945}
+  m_Layer: 14
+  m_Name: SquirtFeedbacksStop
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4892770527574356104
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5824916445774711169}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3061227014247918796}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5598076270854746883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5824916445774711169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 841b72de2996c5c40bfb394f3d0e0a98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Feedbacks:
+  - {fileID: 3035527312685001854}
+  - {fileID: 6779966055728702539}
+  - {fileID: 1489743467209724945}
+  - {fileID: 670113436203439061}
+  - {fileID: 1426671446090792722}
+  - {fileID: 9190718367564859510}
+  InitializationMode: 2
+  SafeMode: 3
+  AutoPlayOnStart: 0
+  DebugActive: 0
+--- !u!114 &3035527312685001854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5824916445774711169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d958a52145b19904aa2a5bcb3849eafb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Active: 1
+  Label: Scale
+  Chance: 100
+  Timing:
+    TimescaleMode: 0
+    InitialDelay: 0
+    CooldownDuration: 0
+    NumberOfRepeats: 0
+    RepeatForever: 0
+    DelayBetweenRepeats: 1
+    Sequence: {fileID: 0}
+    TrackID: 0
+    Quantized: 0
+    TargetBPM: 120
+  DebugActive: 0
+  Mode: 0
+  TimeScale: 0
+  AnimateScaleTarget: {fileID: 4030487847683820589}
+  AnimateScaleDuration: 0.25
+  RemapCurveZero: 1
+  RemapCurveOne: 2
+  Offset: 0
+  AnimateX: 1
+  AnimateScaleX:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.5
+      inSlope: 0.0073966067
+      outSlope: 0.0073966067
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.033233404
+      outWeight: 0.056912288
+    - serializedVersion: 3
+      time: 0.6466283
+      value: -0.08783139
+      inSlope: -2.208011
+      outSlope: -2.208011
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.051213726
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0.0261062
+      outSlope: 0.0261062
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.04167095
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  AnimateY: 1
+  AnimateScaleY:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: -0.9
+      inSlope: 0.060897995
+      outSlope: 0.060897995
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.13110203
+      outWeight: 0.044531714
+    - serializedVersion: 3
+      time: 0.5666996
+      value: 0.10583028
+      inSlope: 6.5591345
+      outSlope: 6.5591345
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.020134952
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0.18941441
+      outSlope: 0.18941441
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.029664338
+      outWeight: 0.043015275
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  AnimateZ: 1
+  AnimateScaleZ:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.5
+      inSlope: 0.0073966067
+      outSlope: 0.0073966067
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.033233404
+      outWeight: 0.056912288
+    - serializedVersion: 3
+      time: 0.6466283
+      value: -0.08783139
+      inSlope: -2.208011
+      outSlope: -2.208011
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.051213726
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0.0261062
+      outSlope: 0.0261062
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.04167095
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  DestinationScale: {x: 0.5, y: 0.5, z: 0.5}
+--- !u!114 &670113436203439061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5824916445774711169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c27131831afa28b499cb120fc9059997, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Active: 1
+  Label: Particles Play
+  Chance: 100
+  Timing:
+    TimescaleMode: 0
+    InitialDelay: 0
+    CooldownDuration: 0
+    NumberOfRepeats: 0
+    RepeatForever: 0
+    DelayBetweenRepeats: 1
+    Sequence: {fileID: 0}
+    TrackID: 0
+    Quantized: 0
+    TargetBPM: 120
+  DebugActive: 0
+  BoundParticleSystem: {fileID: 8103605108795498582}
+  MoveToPosition: 0
+  RandomParticleSystems: []
+--- !u!114 &1426671446090792722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5824916445774711169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66650ffe68eb1f548acc774ac2db1b80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Active: 1
+  Label: Pause
+  Chance: 100
+  Timing:
+    TimescaleMode: 0
+    InitialDelay: 0
+    CooldownDuration: 0
+    NumberOfRepeats: 0
+    RepeatForever: 0
+    DelayBetweenRepeats: 1
+    Sequence: {fileID: 0}
+    TrackID: 0
+    Quantized: 0
+    TargetBPM: 120
+  DebugActive: 0
+  PauseDuration: 0.2
+--- !u!114 &9190718367564859510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5824916445774711169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23a102c1a91e34644aa37f1e4f00c31a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Active: 1
+  Label: Events
+  Chance: 100
+  Timing:
+    TimescaleMode: 0
+    InitialDelay: 0
+    CooldownDuration: 0
+    NumberOfRepeats: 0
+    RepeatForever: 0
+    DelayBetweenRepeats: 1
+    Sequence: {fileID: 0}
+    TrackID: 0
+    Quantized: 0
+    TargetBPM: 120
+  DebugActive: 0
+  PlayEvents:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8103605108795498582}
+        m_TargetAssemblyTypeName: UnityEngine.ParticleSystem, UnityEngine
+        m_MethodName: Stop
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  StopEvents:
+    m_PersistentCalls:
+      m_Calls: []
+  InitializationEvents:
+    m_PersistentCalls:
+      m_Calls: []
+  ResetEvents:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &6779966055728702539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5824916445774711169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66650ffe68eb1f548acc774ac2db1b80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Active: 1
+  Label: Pause
+  Chance: 100
+  Timing:
+    TimescaleMode: 0
+    InitialDelay: 0
+    CooldownDuration: 0
+    NumberOfRepeats: 0
+    RepeatForever: 0
+    DelayBetweenRepeats: 1
+    Sequence: {fileID: 0}
+    TrackID: 0
+    Quantized: 0
+    TargetBPM: 120
+  DebugActive: 0
+  PauseDuration: 0.2
+--- !u!114 &1489743467209724945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5824916445774711169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbeb74f1ccfa52540b6fd5784df42533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Active: 1
+  Label: AudioSource
+  Chance: 100
+  Timing:
+    TimescaleMode: 0
+    InitialDelay: 0
+    CooldownDuration: 0
+    NumberOfRepeats: 0
+    RepeatForever: 0
+    DelayBetweenRepeats: 1
+    Sequence: {fileID: 0}
+    TrackID: 0
+    Quantized: 0
+    TargetBPM: 120
+  DebugActive: 0
+  TargetAudioSource: {fileID: 179451296211889052}
+  Mode: 0
+  RandomSfx:
+  - {fileID: 8300000, guid: aac3fead97a71654b8fbed404b5ed2bf, type: 3}
+  - {fileID: 8300000, guid: 5cb44da8c3caadb448064c5377b606ee, type: 3}
+  - {fileID: 8300000, guid: cba4eb24f0195c14e944a0f7fb4870ec, type: 3}
+  MinVolume: 0.6
+  MaxVolume: 0.7
+  MinPitch: 1
+  MaxPitch: 1
+  SfxAudioMixerGroup: {fileID: 0}
+--- !u!1 &7649470163163797168
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4188225546464666924}
+  - component: {fileID: 179451296211889052}
+  m_Layer: 14
+  m_Name: AudioSoure
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4188225546464666924
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7649470163163797168}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3061227014247918796}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &179451296211889052
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7649470163163797168}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 0
+  MinDistance: 3
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &3061227014261404717
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3927,14 +1694,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 0dc50c2282a54a74c83ac3aff81a40fe,
         type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0dc50c2282a54a74c83ac3aff81a40fe,
+        type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0dc50c2282a54a74c83ac3aff81a40fe, type: 3}
---- !u!23 &4447933972701505705 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 0dc50c2282a54a74c83ac3aff81a40fe,
+--- !u!1 &2790754102616541564 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 0dc50c2282a54a74c83ac3aff81a40fe,
     type: 3}
   m_PrefabInstance: {fileID: 3061227014261404717}
   m_PrefabAsset: {fileID: 0}
@@ -3944,9 +1716,9 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3061227014261404717}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2790754102616541564 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 0dc50c2282a54a74c83ac3aff81a40fe,
+--- !u!23 &4447933972701505705 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 0dc50c2282a54a74c83ac3aff81a40fe,
     type: 3}
   m_PrefabInstance: {fileID: 3061227014261404717}
   m_PrefabAsset: {fileID: 0}
@@ -3961,9 +1733,29 @@ PrefabInstance:
       propertyPath: m_Name
       value: FlamethrowerCartoonyOrange
       objectReference: {fileID: 0}
+    - target: {fileID: 135720, guid: efbd9c58ba892da4ca3fa50dcfcd894d, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 156804, guid: efbd9c58ba892da4ca3fa50dcfcd894d, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 159448, guid: efbd9c58ba892da4ca3fa50dcfcd894d, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 184906, guid: efbd9c58ba892da4ca3fa50dcfcd894d, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 187934, guid: efbd9c58ba892da4ca3fa50dcfcd894d, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 455982, guid: efbd9c58ba892da4ca3fa50dcfcd894d, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 455982, guid: efbd9c58ba892da4ca3fa50dcfcd894d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3971,7 +1763,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 455982, guid: efbd9c58ba892da4ca3fa50dcfcd894d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.28
+      value: 1.03
       objectReference: {fileID: 0}
     - target: {fileID: 455982, guid: efbd9c58ba892da4ca3fa50dcfcd894d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4016,30 +1808,6 @@ Transform:
 --- !u!198 &8103605108795498582 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 19884190, guid: efbd9c58ba892da4ca3fa50dcfcd894d,
-    type: 3}
-  m_PrefabInstance: {fileID: 8103605108780337352}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &8103605108795484134 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 19869486, guid: efbd9c58ba892da4ca3fa50dcfcd894d,
-    type: 3}
-  m_PrefabInstance: {fileID: 8103605108780337352}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &8103605108795477794 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 19859434, guid: efbd9c58ba892da4ca3fa50dcfcd894d,
-    type: 3}
-  m_PrefabInstance: {fileID: 8103605108780337352}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &8103605108795496418 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 19881770, guid: efbd9c58ba892da4ca3fa50dcfcd894d,
-    type: 3}
-  m_PrefabInstance: {fileID: 8103605108780337352}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &8103605108795394204 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 19841108, guid: efbd9c58ba892da4ca3fa50dcfcd894d,
     type: 3}
   m_PrefabInstance: {fileID: 8103605108780337352}
   m_PrefabAsset: {fileID: 0}

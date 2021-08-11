@@ -20,6 +20,9 @@ public class TimeManager : MonoBehaviour
     private bool isFrozen;
     private bool keepStatsScreenOpen;
     private float timescaleFactor = 1f;
+    private float fpsRefresh = .5f;
+    private float fpsRefreshTimer;
+    private int fps;
 
     private Coroutine freezeFrameRoutine;
 
@@ -51,6 +54,15 @@ public class TimeManager : MonoBehaviour
         onDisableStatScreen.Subscribe(DisableStatScreen);
         
         pauseText.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (Time.unscaledTime > fpsRefreshTimer)
+        {
+            fps = (int) (1f / Time.deltaTime);
+            fpsRefreshTimer = Time.unscaledTime + fpsRefresh;
+        }
     }
 
     private void LateUpdate()
@@ -184,7 +196,7 @@ public class TimeManager : MonoBehaviour
 
 
         GUI.TextArea(new Rect(pivotX, pivotY, 210, 20),
-            $"Timescale: {timescaleFactor}");
+            $"Timescale: {timescaleFactor} | FPS: {fps}");
 
         if (GUI.Button(new Rect(pivotX, pivotY + (height + verticalMargin), smallButtonWidth, 20),
             $"(J) -10%")) ChangeTimeScale(-10f);

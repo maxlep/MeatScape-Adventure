@@ -14,25 +14,25 @@ public class AddForceInteractionReceiver : InteractionReceiver
     
     public override void RespondGroundSlamInteraction(GroundSlamPayload payload)
     {
-        base.ReceiveGroundSlamInteraction(payload);
+        base.RespondGroundSlamInteraction(payload);
         Launch(payload.hitDir, payload.origin);
     }
 
     public override void RespondRollIntoInteraction(RollIntoPayload payload)
     {
-        base.ReceiveRollIntoInteraction(payload);
+        base.RespondRollIntoInteraction(payload);
         Launch(payload.hitDir, payload.origin);
     }
 
     public override void RespondMeateorStirkeIntoInteraction(MeateorStrikeIntoPayload payload)
     {
-        base.ReceiveMeateorStirkeIntoInteraction(payload);
+        base.RespondMeateorStirkeIntoInteraction(payload);
         Launch(payload.hitDir, payload.origin);
     }
 
     public override void RespondMeatClumpHitInteraction(MeatClumpHitPayload payload)
     {
-        base.ReceiveMeatClumpHitInteraction(payload);
+        base.RespondMeatClumpHitInteraction(payload);
         Launch(payload.hitDir, payload.origin);
     }
 

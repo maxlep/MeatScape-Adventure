@@ -3214,6 +3214,7 @@ MonoBehaviour:
     ConstantValue: {x: 0, y: 0, z: 0}
     Variable: {fileID: 11400000, guid: a00e9e7e670ca1a4abbc7d64f52ba63b, type: 2}
   DelayTimer: {fileID: 11400000, guid: b6204589a5aac664c88aaf66c1af8512, type: 2}
+  SlingshotReady: {fileID: 11400000, guid: dfc6749bdec3d234cb79ac678822361a, type: 2}
 --- !u!114 &-6059047097540652081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13821,6 +13822,7 @@ MonoBehaviour:
     SerializedBytes: 
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: 688b2f12f8c42c547b744abf5d7c14d9, type: 2}
+    - {fileID: 11400000, guid: dfc6749bdec3d234cb79ac678822361a, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -13832,7 +13834,7 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 7
       Data: 1|BoolCondition, Assembly-CSharp
@@ -13888,6 +13890,60 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
+      Entry: 7
+      Data: 4|BoolCondition, Assembly-CSharp
+    - Name: targetParameter
+      Entry: 7
+      Data: 5|MyAssets.ScriptableObjects.Variables.BoolReference, Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: false
+    - Name: EnableInstanceOptions
+      Entry: 5
+      Data: false
+    - Name: InstanceName
+      Entry: 6
+      Data: 
+    - Name: InstancePath
+      Entry: 1
+      Data: IntermediateProperties
+    - Name: ConstantValue
+      Entry: 5
+      Data: false
+    - Name: Variable
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: value
+      Entry: 7
+      Data: 6|MyAssets.ScriptableObjects.Variables.BoolReference, Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: true
+    - Name: EnableInstanceOptions
+      Entry: 5
+      Data: false
+    - Name: InstanceName
+      Entry: 6
+      Data: 
+    - Name: InstancePath
+      Entry: 1
+      Data: IntermediateProperties
+    - Name: ConstantValue
+      Entry: 5
+      Data: true
+    - Name: Variable
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
       Entry: 13
       Data: 
     - Name: 
@@ -13895,7 +13951,7 @@ MonoBehaviour:
       Data: 
     - Name: FloatConditions
       Entry: 7
-      Data: 4|System.Collections.Generic.List`1[[FloatCondition, Assembly-CSharp]],
+      Data: 7|System.Collections.Generic.List`1[[FloatCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -13908,7 +13964,7 @@ MonoBehaviour:
       Data: 
     - Name: IntConditions
       Entry: 7
-      Data: 5|System.Collections.Generic.List`1[[IntCondition, Assembly-CSharp]],
+      Data: 8|System.Collections.Generic.List`1[[IntCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -13921,7 +13977,7 @@ MonoBehaviour:
       Data: 
     - Name: Vector2Conditions
       Entry: 7
-      Data: 6|System.Collections.Generic.List`1[[Vector2Condition, Assembly-CSharp]],
+      Data: 9|System.Collections.Generic.List`1[[Vector2Condition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -13934,7 +13990,7 @@ MonoBehaviour:
       Data: 
     - Name: Vector3Conditions
       Entry: 7
-      Data: 7|System.Collections.Generic.List`1[[Vector3Condition, Assembly-CSharp]],
+      Data: 10|System.Collections.Generic.List`1[[Vector3Condition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -13947,7 +14003,7 @@ MonoBehaviour:
       Data: 
     - Name: GameEventConditions
       Entry: 7
-      Data: 8|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+      Data: 11|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -13960,7 +14016,7 @@ MonoBehaviour:
       Data: 
     - Name: DynamicGameEventConditions
       Entry: 7
-      Data: 9|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+      Data: 12|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -13973,7 +14029,7 @@ MonoBehaviour:
       Data: 
     - Name: TransformConditions
       Entry: 7
-      Data: 10|System.Collections.Generic.List`1[[TransformCondition, Assembly-CSharp]],
+      Data: 13|System.Collections.Generic.List`1[[TransformCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -14022,8 +14078,10 @@ MonoBehaviour:
   transitionPriority: 0
   conditionPreview: '-  Slingshot Pressed_ Controller_ Player
 
-    -  Slingshot Delay
-    Timer_ Roll_ Player: 0.15 sec
+    -  Slingshot Ready_
+    Slingshot_ Player
+
+    -  Slingshot Delay Timer_ Roll_ Player: 0.15 sec
 
 '
   Description: 
@@ -15248,7 +15306,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 1
+  collapsed: 0
   BypassState: 0
   Name: MeateorKnockBack
   Description: 
@@ -15260,6 +15318,7 @@ MonoBehaviour:
     InstancePath: Assets/MyAssets/ScriptableObjects/InstancedProperties/
     ConstantValue: {x: 0, y: 0, z: 0}
     Variable: {fileID: 11400000, guid: 1c67dc4194ea9064e9e7926eeb409b2e, type: 2}
+  SlingshotReady: {fileID: 11400000, guid: dfc6749bdec3d234cb79ac678822361a, type: 2}
 --- !u!114 &4966931143862885706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16028,7 +16087,8 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: dfc6749bdec3d234cb79ac678822361a, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -16040,7 +16100,61 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 1|BoolCondition, Assembly-CSharp
+    - Name: targetParameter
+      Entry: 7
+      Data: 2|MyAssets.ScriptableObjects.Variables.BoolReference, Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: false
+    - Name: EnableInstanceOptions
+      Entry: 5
+      Data: false
+    - Name: InstanceName
+      Entry: 6
+      Data: 
+    - Name: InstancePath
+      Entry: 1
+      Data: IntermediateProperties
+    - Name: ConstantValue
+      Entry: 5
+      Data: false
+    - Name: Variable
+      Entry: 10
       Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: value
+      Entry: 7
+      Data: 3|MyAssets.ScriptableObjects.Variables.BoolReference, Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: false
+    - Name: EnableInstanceOptions
+      Entry: 5
+      Data: false
+    - Name: InstanceName
+      Entry: 6
+      Data: 
+    - Name: InstancePath
+      Entry: 1
+      Data: IntermediateProperties
+    - Name: ConstantValue
+      Entry: 5
+      Data: false
+    - Name: Variable
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -16049,7 +16163,7 @@ MonoBehaviour:
       Data: 
     - Name: FloatConditions
       Entry: 7
-      Data: 1|System.Collections.Generic.List`1[[FloatCondition, Assembly-CSharp]],
+      Data: 4|System.Collections.Generic.List`1[[FloatCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -16062,7 +16176,7 @@ MonoBehaviour:
       Data: 
     - Name: IntConditions
       Entry: 7
-      Data: 2|System.Collections.Generic.List`1[[IntCondition, Assembly-CSharp]],
+      Data: 5|System.Collections.Generic.List`1[[IntCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -16075,7 +16189,7 @@ MonoBehaviour:
       Data: 
     - Name: Vector2Conditions
       Entry: 7
-      Data: 3|System.Collections.Generic.List`1[[Vector2Condition, Assembly-CSharp]],
+      Data: 6|System.Collections.Generic.List`1[[Vector2Condition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -16088,7 +16202,7 @@ MonoBehaviour:
       Data: 
     - Name: Vector3Conditions
       Entry: 7
-      Data: 4|System.Collections.Generic.List`1[[Vector3Condition, Assembly-CSharp]],
+      Data: 7|System.Collections.Generic.List`1[[Vector3Condition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -16101,7 +16215,7 @@ MonoBehaviour:
       Data: 
     - Name: GameEventConditions
       Entry: 7
-      Data: 5|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+      Data: 8|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -16114,7 +16228,7 @@ MonoBehaviour:
       Data: 
     - Name: DynamicGameEventConditions
       Entry: 7
-      Data: 6|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+      Data: 9|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -16127,7 +16241,7 @@ MonoBehaviour:
       Data: 
     - Name: TransformConditions
       Entry: 7
-      Data: 7|System.Collections.Generic.List`1[[TransformCondition, Assembly-CSharp]],
+      Data: 10|System.Collections.Generic.List`1[[TransformCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -16183,7 +16297,10 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Slingshot Pressed Trigger_ Controller_ Player
+  conditionPreview: '- ! Slingshot Ready_ Slingshot_ Player
+
+    -  Slingshot Pressed
+    Trigger_ Controller_ Player
 
 '
   Description: 

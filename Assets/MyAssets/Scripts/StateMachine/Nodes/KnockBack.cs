@@ -12,10 +12,15 @@ public class KnockBack : PlayerStateNode
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Outputs")] [Required]
     protected Vector3Reference KnockbackForce;
     
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required]
+    private BoolVariable SlingshotReady;
+    
 
     public override void Enter()
     {
         base.Enter();
         playerController.AddImpulseOverlayed(KnockbackForce.Value, true);
+        SlingshotReady.Value = true;
     }
 }

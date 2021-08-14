@@ -90,6 +90,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference IsGrounded;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference IsOnSlidebleSlope;
+    [FoldoutGroup("Transition Parameters")] [SerializeField] private BoolReference SlingshotReady;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable AttackTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable AttackReleaseTrigger;
     [FoldoutGroup("Transition Parameters")] [SerializeField] private TriggerVariable JumpTrigger;
@@ -731,6 +732,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private void UpdateParameters()
     {
         IsGrounded.Value = charMotor.GroundingStatus.FoundAnyGround;
+        if (charMotor.GroundingStatus.FoundAnyGround) SlingshotReady.Value = true;
         IsOnSlidebleSlope.Value = StandingOnSlideableSlope();
         BaseVelocity.Value = charMotor.BaseVelocity;
         groundInfo = GetGroundInfo(charMotor.StableGroundLayers);
@@ -739,8 +741,10 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         DistanceToMeatGround.Value = meatGroundInfo.distance;
         GroundSlamCooldownTimer.UpdateTime();
 
-        if(!LastGroundingStatus.FoundAnyGround && GroundingStatus.FoundAnyGround)
+        if (!LastGroundingStatus.FoundAnyGround && GroundingStatus.FoundAnyGround)
             BecameGrounded.Activate();
+        
+            
 
         else if(LastGroundingStatus.FoundAnyGround && !GroundingStatus.FoundAnyGround)
             BecameUngrounded.Activate();

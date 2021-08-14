@@ -44,7 +44,7 @@ public class InputManager : MonoBehaviour
     public delegate void _OnFunction();
     public delegate void _OnRestartScene();
     public delegate void _OnStart();
-
+    public delegate void _OnGlide();
     public delegate void _OnNumpad1();
     public delegate void _OnNumpad2();
     public delegate void _OnNumpad3();
@@ -100,16 +100,16 @@ public class InputManager : MonoBehaviour
     public event _OnFunction onFunction12;
     public event _OnRestartScene onRestartScene;
     public event _OnStart onStart;
-
+    public event _OnGlide onGlide;
     public event _OnNumpad1 onNumpad1;
-    public event _OnNumpad1 onNumpad2;
-    public event _OnNumpad1 onNumpad3;
-    public event _OnNumpad1 onNumpad4;
-    public event _OnNumpad1 onNumpad5;
-    public event _OnNumpad1 onNumpad6;
-    public event _OnNumpad1 onNumpad7;
-    public event _OnNumpad1 onNumpad8;
-    public event _OnNumpad1 onNumpad9;
+    public event _OnNumpad2 onNumpad2;
+    public event _OnNumpad3 onNumpad3;
+    public event _OnNumpad4 onNumpad4;
+    public event _OnNumpad5 onNumpad5;
+    public event _OnNumpad6 onNumpad6;
+    public event _OnNumpad7 onNumpad7;
+    public event _OnNumpad8 onNumpad8;
+    public event _OnNumpad9 onNumpad9;
 
     #endregion
 
@@ -117,6 +117,7 @@ public class InputManager : MonoBehaviour
 
     [SerializeField] private GameEvent OnModifierPressed; 
     [SerializeField] private GameEvent OnModifierReleased; 
+    [SerializeField] private GameEvent OnGlidePressed; 
 
     #endregion
 
@@ -425,6 +426,12 @@ public class InputManager : MonoBehaviour
     public void OnStart()
     {
         if (onStart != null) onStart();
+    }
+    
+    public void OnGlide()
+    {
+        if (onGlide != null) onGlide();
+        OnGlidePressed.Raise();
     }
     
     public void OnNumpad1()

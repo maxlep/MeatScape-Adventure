@@ -9,12 +9,21 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
 {
     public class PoseNode : AnimationStateNode
     {
-        [SerializeField] private TriggerVariable animEndedTrigger;
-        [SerializeField] private GameEvent animEndedEvent;
-        [SerializeField] private TriggerVariable animEventTrigger;
-        [SerializeField] private GameEvent animEvent;
-        [SerializeField] private ClipState.Transition _pose;
-
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        private TriggerVariable animEndedTrigger;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        private GameEvent animEndedEvent;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        private TriggerVariable animEventTrigger;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        private GameEvent animEvent;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [Required]
+        private ClipState.Transition _pose;
+        
         public override void Enter()
         {
             base.Enter();

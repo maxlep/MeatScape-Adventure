@@ -23,63 +23,143 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
     {
         [TabGroup("Base","Animation"),Range(1,10)] public int DilationPower = 1; 
         
-        [TabGroup("Base","Animation"),SerializeField] private AvatarMask _locomotionMask;
-        [TabGroup("Base","Animation"),SerializeField] private MixerState.Transition2D _move;
-        [TabGroup("Base","Animation"),SerializeField] private float _leanFactor;
+        [TabGroup("Base","Animation"),SerializeField, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required]
+        private AvatarMask _locomotionMask;
+        
+        [TabGroup("Base","Animation"),SerializeField, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required]
+        private MixerState.Transition2D _move;
+        
+        [TabGroup("Base","Animation"),SerializeField, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private float _leanFactor;
         
         [TabGroup("Base", "Inputs")]
         
         [TabGroup("Base/Inputs", "Locomotion")]
-        [TitleGroup("Base/Inputs/Locomotion"),SerializeField] private Vector3Reference _velocity;
-        [TitleGroup("Base/Inputs/Locomotion"),SerializeField] private FloatValueReference _maxSpeed;
-        [TitleGroup("Base/Inputs/Locomotion"),SerializeField] private Vector3Reference _groundNormal;
-        [TitleGroup("Base/Inputs/Locomotion"),SerializeField] private FloatValueReference _runBlendFactor;
-        [TitleGroup("Base/Inputs/Locomotion"),SerializeField] private FloatValueReference _resultantMoveFactor;
-        [TitleGroup("Base/Inputs/Locomotion"),SerializeField] private FloatValueReference _moveInputFactor;
-        [TitleGroup("Base/Inputs/Locomotion"),SerializeField] private FloatValueReference _bakedStrideLength;
-        [TitleGroup("Base/Inputs/Locomotion"), SerializeField] private FloatValueReference _targetStrideLength;
-        [TitleGroup("Base/Inputs/Locomotion"), SerializeField] private CurveReference _strideLeapFactor;
-        [TitleGroup("Base/Inputs/Locomotion"), SerializeField] private CurveReference _strideLandFactor;
+        [TitleGroup("Base/Inputs/Locomotion"),SerializeField, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private Vector3Reference _velocity;
+        
+        [TitleGroup("Base/Inputs/Locomotion"),SerializeField, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private FloatValueReference _maxSpeed;
+        
+        [TitleGroup("Base/Inputs/Locomotion"),SerializeField, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private Vector3Reference _groundNormal;
+        
+        [TitleGroup("Base/Inputs/Locomotion"),SerializeField, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private FloatValueReference _runBlendFactor;
+        
+        [TitleGroup("Base/Inputs/Locomotion"),SerializeField, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private FloatValueReference _resultantMoveFactor;
+        
+        [TitleGroup("Base/Inputs/Locomotion"),SerializeField, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private FloatValueReference _moveInputFactor;
+        
+        [TitleGroup("Base/Inputs/Locomotion"),SerializeField, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private FloatValueReference _bakedStrideLength;
+        
+        [TitleGroup("Base/Inputs/Locomotion"), SerializeField, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private FloatValueReference _targetStrideLength;
+        
+        [TitleGroup("Base/Inputs/Locomotion"), SerializeField, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private CurveReference _strideLeapFactor;
+        
+        [TitleGroup("Base/Inputs/Locomotion"), SerializeField, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private CurveReference _strideLandFactor;
         
         [TabGroup("Base/Inputs", "Lean")]
-        [TitleGroup("Base/Inputs/Lean"),SerializeField] private Vector3Reference _acceleration;
-        [TitleGroup("Base/Inputs/Lean"),SerializeField] private Vector3Reference _leanForwardAxis;
-        [TitleGroup("Base/Inputs/Lean"),SerializeField] private FloatValueReference _leanForwardAngle;
-        [TitleGroup("Base/Inputs/Lean"),SerializeField] private Vector3Reference _leanSideAxis;
-        [TitleGroup("Base/Inputs/Lean"),SerializeField] private FloatValueReference _leanSideAngle;
-        [TitleGroup("Base/Inputs/Lean"),SerializeField] private TransformSceneReference[] _leanBones;
+        [TitleGroup("Base/Inputs/Lean"),SerializeField, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private Vector3Reference _acceleration;
+        
+        [TitleGroup("Base/Inputs/Lean"),SerializeField, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private Vector3Reference _leanForwardAxis;
+        
+        [TitleGroup("Base/Inputs/Lean"),SerializeField, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private FloatValueReference _leanForwardAngle;
+        
+        [TitleGroup("Base/Inputs/Lean"),SerializeField, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required]
+        private Vector3Reference _leanSideAxis;
+        
+        [TitleGroup("Base/Inputs/Lean"),SerializeField, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private FloatValueReference _leanSideAngle;
+        
+        [TitleGroup("Base/Inputs/Lean"),SerializeField, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private TransformSceneReference[] _leanBones;
         
         [TabGroup("Base/Inputs", "Bob")]
-        [TitleGroup("Base/Inputs/Bob"),SerializeField] private Vector3Reference _bobAxis;
-        [TitleGroup("Base/Inputs/Bob"),SerializeField] private FloatValueReference _bobConstantOffset;
-        [TitleGroup("Base/Inputs/Bob"),SerializeField] private TransformSceneReference[] _bobBones;
-        [TitleGroup("Base/Inputs/Bob"),SerializeField] private FloatValueReference _bobGravity;
+        [TitleGroup("Base/Inputs/Bob"),SerializeField, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private Vector3Reference _bobAxis;
+        
+        [TitleGroup("Base/Inputs/Bob"),SerializeField, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private FloatValueReference _bobConstantOffset;
+        
+        [TitleGroup("Base/Inputs/Bob"),SerializeField, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private TransformSceneReference[] _bobBones;
+        
+        [TitleGroup("Base/Inputs/Bob"),SerializeField, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private FloatValueReference _bobGravity;
         
         [TabGroup("Base/Inputs", "Events")]
-        [TitleGroup("Base/Inputs/Events"),SerializeField] private GameEvent _stepLiftoffEventLeft;
-        [TitleGroup("Base/Inputs/Events"),SerializeField] private GameEvent _stepLandEventLeft;
-        [TitleGroup("Base/Inputs/Events"),SerializeField] private GameEvent _stepLiftoffEventRight;
-        [TitleGroup("Base/Inputs/Events"),SerializeField] private GameEvent _stepLandEventRight;
+        [TitleGroup("Base/Inputs/Events"),SerializeField, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private GameEvent _stepLiftoffEventLeft;
+        
+        [TitleGroup("Base/Inputs/Events"),SerializeField, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private GameEvent _stepLandEventLeft;
+        
+        [TitleGroup("Base/Inputs/Events"),SerializeField, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private GameEvent _stepLiftoffEventRight;
+        
+        [TitleGroup("Base/Inputs/Events"),SerializeField, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private GameEvent _stepLandEventRight;
 
         // [TitleGroup("Base/Inputs/Damping"), SerializeField] private TransformSceneReference _dampingEndBone;
         // [TitleGroup("Base/Inputs/Damping"), SerializeField] private IntReference _dampingBoneCount;
         
-        [TabGroup("Base","Debug"),ShowInInspector] private float _walkCycleLength;
-        [TabGroup("Base","Debug"),ShowInInspector] private bool _isMidStride;
-        [TabGroup("Base","Debug"),ShowInInspector] private bool _isHeldOnContact;
-        [TabGroup("Base","Debug"),ShowInInspector] private float _currentStepTargetStrideLength;
-        [TabGroup("Base","Debug"),ShowInInspector] private float _currentStepResultantMoveFactor;
-        [TabGroup("Base","Debug"),ShowInInspector] private float _currentStepMoveInputFactor;
-        [TabGroup("Base","Debug"),ShowInInspector] private float _currentStepRunBlendFactor;
-        [TabGroup("Base","Debug"),ShowInInspector] private float _currentStepLeapTime;
-        [TabGroup("Base","Debug"),ShowInInspector] private float _currentSpeed;
-        [TabGroup("Base","Debug"),ShowInInspector] private float _distanceValue;
-        [TabGroup("Base","Debug"),ShowInInspector] private float _strideDistance;
-        [TabGroup("Base","Debug"),ShowInInspector] private float _stridePercent;
-        [TabGroup("Base","Debug"),ShowInInspector] private float _walkCyclePercent;
-        [TabGroup("Base","Debug"),ShowInInspector] private float _lastWalkCyclePercent;
-        [TabGroup("Base","Debug"),ShowInInspector] private float _walkSpeedFactor;
-        [TabGroup("Base","Debug"),ShowInInspector] private bool _nextStartingFoot;
+        [TabGroup("Base","Debug"),ShowInInspector, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private float _walkCycleLength;
+        
+        [TabGroup("Base","Debug"),ShowInInspector, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private bool _isMidStride;
+        
+        [TabGroup("Base","Debug"),ShowInInspector, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private bool _isHeldOnContact;
+        
+        [TabGroup("Base","Debug"),ShowInInspector, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private float _currentStepTargetStrideLength;
+        
+        [TabGroup("Base","Debug"),ShowInInspector, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private float _currentStepResultantMoveFactor;
+        
+        [TabGroup("Base","Debug"),ShowInInspector, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private float _currentStepMoveInputFactor;
+        
+        [TabGroup("Base","Debug"),ShowInInspector, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private float _currentStepRunBlendFactor;
+        
+        [TabGroup("Base","Debug"),ShowInInspector, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private float _currentStepLeapTime;
+        
+        [TabGroup("Base","Debug"),ShowInInspector, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private float _currentSpeed;
+        
+        [TabGroup("Base","Debug"),ShowInInspector, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private float _distanceValue;
+        
+        [TabGroup("Base","Debug"),ShowInInspector, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private float _strideDistance;
+        
+        [TabGroup("Base","Debug"),ShowInInspector, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private float _stridePercent;
+        
+        [TabGroup("Base","Debug"),ShowInInspector, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private float _walkCyclePercent;
+        
+        [TabGroup("Base","Debug"),ShowInInspector, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private float _lastWalkCyclePercent;
+        
+        [TabGroup("Base","Debug"),ShowInInspector, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private float _walkSpeedFactor;
+        
+        [TabGroup("Base","Debug"),ShowInInspector, HideIf("$collapsed"), LabelWidth(LABEL_WIDTH), Required] 
+        private bool _nextStartingFoot;
         
         private AnimancerEvent.Sequence _moveEvents;
         private AnimancerEvent _nextMoveEvent;

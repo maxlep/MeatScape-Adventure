@@ -355,7 +355,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             else
             {
                 currentTurnSpeed = TurnSpeedAir.Value;
-                dir = Vector3.SmoothDamp(currentVelocity.xoz().normalized, moveInputCameraRelative.normalized,
+                dir = Vector3.SmoothDamp(currentVelocity.xoz().normalized, moveInputCameraRelative.xoz().normalized,
                     ref dummyVel, currentTurnSpeed).normalized;
             }
 
@@ -365,7 +365,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             
             #region Get New Speed
 
-            var steeringDir = moveInputCameraRelative;
+            var steeringDir = moveInputCameraRelative.xoz().normalized;
             var steeringAngle = Vector3.Angle(dir, steeringDir);
             var steeringFac = steeringAngle / 180;
 

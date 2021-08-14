@@ -256,8 +256,6 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             
             #endregion
 
-            
-
             #region Override Speed and Direction if Fast Turning
             
             dummySpeed = 0f;

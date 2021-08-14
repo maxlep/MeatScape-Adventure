@@ -128,7 +128,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Inputs")] [Required]
-        private BoolReference RollInputPressed;
+        protected BoolReference RollInputPressed;
 
         #endregion
 

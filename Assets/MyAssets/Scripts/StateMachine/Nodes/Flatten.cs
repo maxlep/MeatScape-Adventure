@@ -43,7 +43,7 @@ public class Flatten : PlayerStateNode {
 	{
 		//If not grounded yet, keep y velocity going until grounded
 		if (!playerController.GroundingStatus.IsStableOnGround)
-			NewVelocityOut.Value = velocityInfo.currentVelocity.y * Vector3.one.oyo();
+			NewVelocityOut.Value = -Mathf.Abs(velocityInfo.currentVelocity.y) * Vector3.one.oyo();
 		else
 			NewVelocityOut.Value = Vector3.zero;
 	}

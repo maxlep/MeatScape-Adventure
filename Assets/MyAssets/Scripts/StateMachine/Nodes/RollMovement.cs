@@ -60,19 +60,19 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [Required] [TabGroup("Vertical")]
-        private bool AlignColliderWithGroundNormal = true;
+        protected bool AlignColliderWithGroundNormal = true;
 
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [Required] [TabGroup("Vertical")]
-        private FloatReference FallMultiplier;
+        protected FloatReference FallMultiplier;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [Required] [TabGroup("Vertical")]
-        private FloatReference UpwardsGravityMultiplier;
+        protected FloatReference UpwardsGravityMultiplier;
 
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [Required] [TabGroup("Vertical")]
-        private FloatReference MaxFallSpeed;
+        protected FloatReference MaxFallSpeed;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Vertical")] [Required]

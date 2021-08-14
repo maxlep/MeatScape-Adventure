@@ -186,7 +186,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 return false;
             
             float addImpulseToMoveInputDegrees =
-                Vector3.Angle(impulseVelocity.normalized, moveInputCameraRelative.normalized);
+                Vector3.Angle(impulseVelocity.normalized, moveInputCameraRelative.xoz().normalized);
 
             //If angle less than threshhold, redirect is valid
             if (addImpulseToMoveInputDegrees <= RedirectAngleThreshold.Value && 
@@ -224,7 +224,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             //Make it range [0, maxDegrees] based on move input
             float reditectDegrees = RedirectMaxDegrees.Value * moveInputCameraRelative.magnitude; 
             Vector3 addImpulseRedirectedDir = Vector3.RotateTowards(addImpulse.normalized,
-                moveInputCameraRelative.normalized, reditectDegrees * Mathf.Deg2Rad, 0f);
+                moveInputCameraRelative.xoz().normalized, reditectDegrees * Mathf.Deg2Rad, 0f);
             Vector3 addImpulseRedirected = addImpulse.magnitude * addImpulseRedirectedDir;
             
             //Preserve the original y velocity (so still reach same height)

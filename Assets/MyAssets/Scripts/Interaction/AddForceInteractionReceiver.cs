@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MyAssets.Scripts.Utils;
 using UnityEngine;
 
 public class AddForceInteractionReceiver : InteractionReceiver
 {
     [SerializeField] private List<Rigidbody> launchRbs;
+    [SerializeField] private bool horizontalOnly; 
     [SerializeField] private bool isImpulse;
     [SerializeField] private float launchForce = 1000f;
     [SerializeField] private bool applyExplosiveForce;
@@ -39,10 +41,12 @@ public class AddForceInteractionReceiver : InteractionReceiver
     private void Launch(Vector3 dir, Vector3 origin)
     {
         ForceMode forceMode = (isImpulse) ? ForceMode.Impulse : ForceMode.Force;
+        Vector3 forceDir = dir;
+        if (horizontalOnly) forceDir = forceDir.xoz(); 
         
         foreach (var rb in launchRbs)
         {
-            rb.AddForce(launchForce * dir, forceMode);
+            rb.AddForce(launchForce * forceDir, forceMode);
             if (applyExplosiveForce)
                 rb.AddExplosionForce(explosiveForce, origin, explosiveRadius);
         }

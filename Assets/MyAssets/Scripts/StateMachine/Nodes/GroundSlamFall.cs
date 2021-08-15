@@ -8,7 +8,14 @@ using UnityEngine;
 
 public class GroundSlamFall : RollMovement
 {
-
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required]
+    protected BoolReference JumpPressed;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Vertical")] [Required]
+    protected FloatReference MinYBounceVelocity;
+    
     protected override Vector3 CalculateVelocity(VelocityInfo velocityInfo)
         {
             Vector3 currentVelocity = velocityInfo.currentVelocity;
@@ -65,7 +72,8 @@ public class GroundSlamFall : RollMovement
                 !LastGroundingStatus.FoundAnyGround &&
                 GroundingStatus.FoundAnyGround &&
                 -previousVelocityOutput.y >= BounceThresholdVelocity.Value &&
-                -velocityGroundDot > BounceGroundDotThreshold.Value)
+                -velocityGroundDot > BounceGroundDotThreshold.Value &&
+                !JumpPressed.Value)
             {
                 playerController.UngroundMotor();
                 BounceGameEvent.Raise();
@@ -77,9 +85,10 @@ public class GroundSlamFall : RollMovement
                 //Redirect bounce if conditions met
                 if (EnableRedirect && CheckRedirectConditions(reflectedVelocity))
                     reflectedVelocity = CalculateRedirectedImpulse(reflectedVelocity);
-                
-                    
-                
+
+
+                if (reflectedVelocity.y < MinYBounceVelocity.Value)
+                    reflectedVelocity.y = MinYBounceVelocity.Value;
 
                 resultingVelocity = reflectedVelocity;
             }

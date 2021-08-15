@@ -189,9 +189,6 @@ MonoBehaviour:
       - fieldName: nextState
         node: {fileID: -3587464245139835064}
         reroutePoints: []
-      - fieldName: nextState
-        node: {fileID: 6219059516673579915}
-        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 2
@@ -1305,56 +1302,6 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   referencedState: {fileID: 8382683336472367375}
---- !u!114 &-7801278080240121357
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
-  m_Name: Ground Slam Fall <Reference>
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  graph: {fileID: 11400000}
-  position: {x: 1832, y: 4264}
-  ports:
-    keys:
-    - previousState
-    - transitions
-    values:
-    - _fieldName: previousState
-      _node: {fileID: -7801278080240121357}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: transitions
-      _node: {fileID: -7801278080240121357}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: startingState
-        node: {fileID: -3702368479456565523}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  referencedState: {fileID: -4734523447140204751}
 --- !u!114 &-7690590077960551631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1565,9 +1512,6 @@ MonoBehaviour:
         reroutePoints: []
       - fieldName: transitions
         node: {fileID: 3017535990024611490}
-        reroutePoints: []
-      - fieldName: transitions
-        node: {fileID: 1998031811982130766}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -2696,9 +2640,6 @@ MonoBehaviour:
       - fieldName: startingState
         node: {fileID: -3446420888680683612}
         reroutePoints: []
-      - fieldName: startingState
-        node: {fileID: -334229209758072699}
-        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 2
@@ -3579,9 +3520,6 @@ MonoBehaviour:
       - fieldName: startingState
         node: {fileID: -3446420888680683612}
         reroutePoints: []
-      - fieldName: startingState
-        node: {fileID: -334229209758072699}
-        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 2
@@ -4122,9 +4060,6 @@ MonoBehaviour:
       connections:
       - fieldName: startingState
         node: {fileID: -3446420888680683612}
-        reroutePoints: []
-      - fieldName: startingState
-        node: {fileID: -334229209758072699}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -4977,321 +4912,6 @@ MonoBehaviour:
       ConstantDuration: 0
       Variable: {fileID: 11400000, guid: 91e8f5b2675f2644d8f1e09594df1b4d, type: 2}
     restartOnEnterPreviousState: 1
---- !u!114 &-4734523447140204751
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08ad9a44664ba844a9ab5aaed24da691, type: 3}
-  m_Name: Ground Slam Fall <GroundSlamFall> (PlayerMovement)
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  graph: {fileID: 11400000}
-  position: {x: -2888, y: -920}
-  ports:
-    keys:
-    - previousState
-    - transitions
-    values:
-    - _fieldName: previousState
-      _node: {fileID: -4734523447140204751}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: 9158867017849541406}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: transitions
-      _node: {fileID: -4734523447140204751}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: startingState
-        node: {fileID: -3587464245139835064}
-        reroutePoints: []
-      - fieldName: startingState
-        node: {fileID: 144026596585446073}
-        reroutePoints: []
-      - fieldName: startingState
-        node: {fileID: 6219059516673579915}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  collapsed: 1
-  BypassState: 0
-  Name: Ground Slam Fall
-  Description: 
-  isActiveState: 0
-  BaseSpeed:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: '{I} '
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 7be00214ef026e141a6ec22ccf6d3154, type: 2}
-  TurnSpeed:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: '{I} '
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 779cdd9261daa3a44ba26b41baf8cc9a, type: 2}
-  ImpulseDampingFactor:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: '{I} '
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 7eecb6be98e60d94781277f0f7475b92, type: 2}
-  PlayerCameraTransform: {fileID: 11400000, guid: d50b3bc5cde09794cb0468cc9e2dba0f,
-    type: 2}
-  TimeToJumpApex:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: '{I} '
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 1363a9d9ca886e741bf7446fd6169c24, type: 2}
-  MaxJumpHeight:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: '{I} '
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 661512a7e6190754c859389501b85860, type: 2}
-  EnableRedirect: 1
-  RedirectMaxDegrees:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: '{I} '
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: b1c4743d61ccc9a4f919b7d3194f8ecd, type: 2}
-  RedirectAngleThreshold:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: '{I} '
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: da890464ded9b6745b3612940bf56964, type: 2}
-  MoveInput:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: IntermediateProperties
-    ConstantValue: {x: 0, y: 0}
-    Variable: {fileID: 11400000, guid: f48af2d5870a315459ef8f032591c5be, type: 2}
-  NewVelocityOut:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: IntermediateProperties
-    ConstantValue: {x: 0, y: 0, z: 0}
-    Variable: {fileID: 11400000, guid: 9bb89c095cc264240a1d00bcb25ce309, type: 2}
-  NewRotationOut:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: IntermediateProperties
-    ConstantValue: {x: 0, y: 0, z: 0, w: 0}
-    Variable: {fileID: 11400000, guid: 642843bee527d554f9408523e1ab11c8, type: 2}
-  TurnSpeedAir:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: '{I} '
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: d9e739ce623881742b90c3c6fb0a9836, type: 2}
-  SlowTurnThreshold:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: '{I} '
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: fe0e8810cd015ff4bb4f086475ccd4f1, type: 2}
-  SlowTurnFactor:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: '{I} '
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 76577d76b46b4c1499c49bcf2ebc4800, type: 2}
-  CoefficientOfRollingFriction:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: '{I} '
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: b8e3341dd40276a46bfdc3c5309d9bb2, type: 2}
-  CoefficientOfTurningFriction:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: '{I} '
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 731aa6c3058ad944db017741368144de, type: 2}
-  DragCoefficientHorizontal:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: '{I} '
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: c5cf2a516c0ab254f8dd31275a21c617, type: 2}
-  EnableDeflect: 0
-  DeflectFactor:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: '{I} '
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: f10a642a0228d1646b9f083e4118e435, type: 2}
-  DeflectThresholdVelocity:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: '{I} '
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: f10a642a0228d1646b9f083e4118e435, type: 2}
-  DeflectContactDotThreshold:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: '{I} '
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: ebbf4556b5ca4724fac7aa9a0efbc4df, type: 2}
-  AlignColliderWithGroundNormal: 1
-  FallMultiplier:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: '{I} '
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 4d11961e025bc3d4b8b0158e12fc0b37, type: 2}
-  UpwardsGravityMultiplier:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: '{I} '
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: c7cb28dd3746b154bb2f86f462d824b3, type: 2}
-  MaxFallSpeed:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: '{I} '
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 7ce844f15ac152946bbf9df2bd27b40f, type: 2}
-  DragCoefficientVertical:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: '{I} '
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 82daf07a835c3034abdb39e5afa37042, type: 2}
-  GravityFactor:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: '{I} '
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 783f2468a05364043be711de8bd02039, type: 2}
-  GravityFactorAirborn:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: GravityFactorAirborn_Roll_Player
-    InstancePath: PlayerProperties/MovementProps/RollMovementProps
-    ConstantValue: 1.25
-    Variable: {fileID: 11400000, guid: dca29c24e0928464e8639fa32d6deada, type: 2}
-  EnableBounce: 0
-  BounceFactor:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: '{I} '
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: b255d62a584a16f478ba9594664c3cec, type: 2}
-  BounceThresholdVelocity:
-    UseConstant: 1
-    EnableInstanceOptions: 0
-    InstanceName: '{I} '
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: dd039a78e5da5104a9a10fecbb37ff3a, type: 2}
-  BounceGroundDotThreshold:
-    UseConstant: 1
-    EnableInstanceOptions: 0
-    InstanceName: '{I} '
-    InstancePath: IntermediateProperties
-    ConstantValue: -1
-    Variable: {fileID: 11400000, guid: 97f1ef4b3c97d45498042b6339d35d63, type: 2}
-  SlopeVerticalGravityFactor:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: '{I} '
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 942c1cff0b3162148adf2e9675e908ae, type: 2}
-  GroundStickAngleInputDownwards:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 8b1fdcbd89c6ca149af8663df3786f03, type: 2}
-  GroundStickAngleInputUpwards:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 91c567ba4c0a1dc4cb700b7671286833, type: 2}
-  GroundStickAngleOutput:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 21ab8b14c3952f84bb29af6e6a4d4953, type: 2}
-  RollInputPressed:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 688b2f12f8c42c547b744abf5d7c14d9, type: 2}
-  HorizontalSpeedOut:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 344c7bc56a05c55448d1b101c5b8b230, type: 2}
-  PlayParticlesGameEvent: {fileID: 11400000, guid: 5e06355b74bc69a46b553cc398c14ab0,
-    type: 2}
-  StopParticlesGameEvent: {fileID: 11400000, guid: 4d1fdf9f0dfaa0e47a3db72a2d18b71a,
-    type: 2}
-  BounceGameEvent: {fileID: 11400000, guid: 24255205a0786a14982c850f31d81a16, type: 2}
-  DeflectGameEvent: {fileID: 11400000, guid: e18adae0951b7f84b876ba71c67aaac4, type: 2}
-  RollSoundGameEvent: {fileID: 11400000, guid: 04a2bf2cf5e65934895dd6c42f6df3b0, type: 2}
-  PlayerCollidedWith: {fileID: 11400000, guid: e681bc16e8a93be469583e210ea5d4a2, type: 2}
 --- !u!114 &-4515850440577635702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5986,7 +5606,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 08ad9a44664ba844a9ab5aaed24da691, type: 3}
-  m_Name: Bounce Fall <GroundSlamFall> (PlayerMovement)
+  m_Name: Ground Slam Fall <GroundSlamFall> (PlayerMovement)
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -6030,13 +5650,19 @@ MonoBehaviour:
       - fieldName: startingState
         node: {fileID: 4177582487467033725}
         reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: -3587464245139835064}
+        reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: 144026596585446073}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 1
+  collapsed: 0
   BypassState: 0
-  Name: Bounce Fall
+  Name: Ground Slam Fall
   Description: 
   isActiveState: 0
   BaseSpeed:
@@ -6291,6 +5917,20 @@ MonoBehaviour:
   DeflectGameEvent: {fileID: 11400000, guid: e18adae0951b7f84b876ba71c67aaac4, type: 2}
   RollSoundGameEvent: {fileID: 11400000, guid: 04a2bf2cf5e65934895dd6c42f6df3b0, type: 2}
   PlayerCollidedWith: {fileID: 11400000, guid: e681bc16e8a93be469583e210ea5d4a2, type: 2}
+  JumpPressed:
+    UseConstant: 0
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: d00e7a08d0775a4429a3a5cfad1382a2, type: 2}
+  MinYBounceVelocity:
+    UseConstant: 1
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 80
+    Variable: {fileID: 0}
 --- !u!114 &-3814421004231281048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6545,9 +6185,6 @@ MonoBehaviour:
         reroutePoints: []
       - fieldName: transitions
         node: {fileID: 6961552687569324096}
-        reroutePoints: []
-      - fieldName: transitions
-        node: {fileID: -7801278080240121357}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -6823,6 +6460,7 @@ MonoBehaviour:
     SerializedBytes: 
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: 7515e678ba0d82a4b92ee5e8bc9cee52, type: 2}
+    - {fileID: 11400000, guid: d00e7a08d0775a4429a3a5cfad1382a2, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -6834,7 +6472,7 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 7
       Data: 1|BoolCondition, Assembly-CSharp
@@ -6890,6 +6528,60 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
+      Entry: 7
+      Data: 4|BoolCondition, Assembly-CSharp
+    - Name: targetParameter
+      Entry: 7
+      Data: 5|MyAssets.ScriptableObjects.Variables.BoolReference, Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: false
+    - Name: EnableInstanceOptions
+      Entry: 5
+      Data: false
+    - Name: InstanceName
+      Entry: 6
+      Data: 
+    - Name: InstancePath
+      Entry: 1
+      Data: IntermediateProperties
+    - Name: ConstantValue
+      Entry: 5
+      Data: false
+    - Name: Variable
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: value
+      Entry: 7
+      Data: 6|MyAssets.ScriptableObjects.Variables.BoolReference, Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: true
+    - Name: EnableInstanceOptions
+      Entry: 5
+      Data: false
+    - Name: InstanceName
+      Entry: 6
+      Data: 
+    - Name: InstancePath
+      Entry: 1
+      Data: IntermediateProperties
+    - Name: ConstantValue
+      Entry: 5
+      Data: true
+    - Name: Variable
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
       Entry: 13
       Data: 
     - Name: 
@@ -6897,7 +6589,7 @@ MonoBehaviour:
       Data: 
     - Name: FloatConditions
       Entry: 7
-      Data: 4|System.Collections.Generic.List`1[[FloatCondition, Assembly-CSharp]],
+      Data: 7|System.Collections.Generic.List`1[[FloatCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -6910,7 +6602,7 @@ MonoBehaviour:
       Data: 
     - Name: IntConditions
       Entry: 7
-      Data: 5|System.Collections.Generic.List`1[[IntCondition, Assembly-CSharp]],
+      Data: 8|System.Collections.Generic.List`1[[IntCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -6923,7 +6615,7 @@ MonoBehaviour:
       Data: 
     - Name: Vector2Conditions
       Entry: 7
-      Data: 6|System.Collections.Generic.List`1[[Vector2Condition, Assembly-CSharp]],
+      Data: 9|System.Collections.Generic.List`1[[Vector2Condition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -6936,7 +6628,7 @@ MonoBehaviour:
       Data: 
     - Name: Vector3Conditions
       Entry: 7
-      Data: 7|System.Collections.Generic.List`1[[Vector3Condition, Assembly-CSharp]],
+      Data: 10|System.Collections.Generic.List`1[[Vector3Condition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -6949,7 +6641,7 @@ MonoBehaviour:
       Data: 
     - Name: GameEventConditions
       Entry: 7
-      Data: 8|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+      Data: 11|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -6962,7 +6654,7 @@ MonoBehaviour:
       Data: 
     - Name: DynamicGameEventConditions
       Entry: 7
-      Data: 9|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+      Data: 12|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -6975,7 +6667,7 @@ MonoBehaviour:
       Data: 
     - Name: TransformConditions
       Entry: 7
-      Data: 10|System.Collections.Generic.List`1[[TransformCondition, Assembly-CSharp]],
+      Data: 13|System.Collections.Generic.List`1[[TransformCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -6987,7 +6679,7 @@ MonoBehaviour:
       Entry: 8
       Data: 
   graph: {fileID: 11400000}
-  position: {x: -2280, y: -1480}
+  position: {x: -2264, y: -1480}
   ports:
     keys:
     - startingState
@@ -6999,7 +6691,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: transitions
-        node: {fileID: -4734523447140204751}
+        node: {fileID: -3983832216869484577}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -7021,6 +6713,9 @@ MonoBehaviour:
   transitionPriority: 1
   conditionPreview: '-  Is Grounded_ Controller_ Player
 
+    -  Jump Pressed_ Controller_
+    Player
+
 '
   Description: 
   RaiseOnTransitionUnityEvents: []
@@ -7039,7 +6734,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: AirMovement -> Bounce Slam
+  m_Name: AirMovement -> Ground Slam
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -7435,9 +7130,6 @@ MonoBehaviour:
       connections:
       - fieldName: startingState
         node: {fileID: -3446420888680683612}
-        reroutePoints: []
-      - fieldName: startingState
-        node: {fileID: -334229209758072699}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -8730,9 +8422,6 @@ MonoBehaviour:
       - fieldName: startingState
         node: {fileID: -3446420888680683612}
         reroutePoints: []
-      - fieldName: startingState
-        node: {fileID: -334229209758072699}
-        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 2
@@ -9697,12 +9386,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Bounce Fall -> Roll Movement
+  m_Name: Ground Slam Fall -> Roll Movement
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: d00e7a08d0775a4429a3a5cfad1382a2, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -9714,7 +9404,61 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 1|BoolCondition, Assembly-CSharp
+    - Name: targetParameter
+      Entry: 7
+      Data: 2|MyAssets.ScriptableObjects.Variables.BoolReference, Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: false
+    - Name: EnableInstanceOptions
+      Entry: 5
+      Data: false
+    - Name: InstanceName
+      Entry: 6
+      Data: 
+    - Name: InstancePath
+      Entry: 1
+      Data: IntermediateProperties
+    - Name: ConstantValue
+      Entry: 5
+      Data: false
+    - Name: Variable
+      Entry: 10
       Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: value
+      Entry: 7
+      Data: 3|MyAssets.ScriptableObjects.Variables.BoolReference, Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: true
+    - Name: EnableInstanceOptions
+      Entry: 5
+      Data: false
+    - Name: InstanceName
+      Entry: 6
+      Data: 
+    - Name: InstancePath
+      Entry: 1
+      Data: IntermediateProperties
+    - Name: ConstantValue
+      Entry: 5
+      Data: false
+    - Name: Variable
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -9723,7 +9467,7 @@ MonoBehaviour:
       Data: 
     - Name: FloatConditions
       Entry: 7
-      Data: 1|System.Collections.Generic.List`1[[FloatCondition, Assembly-CSharp]],
+      Data: 4|System.Collections.Generic.List`1[[FloatCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -9736,7 +9480,7 @@ MonoBehaviour:
       Data: 
     - Name: IntConditions
       Entry: 7
-      Data: 2|System.Collections.Generic.List`1[[IntCondition, Assembly-CSharp]],
+      Data: 5|System.Collections.Generic.List`1[[IntCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -9749,7 +9493,7 @@ MonoBehaviour:
       Data: 
     - Name: Vector2Conditions
       Entry: 7
-      Data: 3|System.Collections.Generic.List`1[[Vector2Condition, Assembly-CSharp]],
+      Data: 6|System.Collections.Generic.List`1[[Vector2Condition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -9762,7 +9506,7 @@ MonoBehaviour:
       Data: 
     - Name: Vector3Conditions
       Entry: 7
-      Data: 4|System.Collections.Generic.List`1[[Vector3Condition, Assembly-CSharp]],
+      Data: 7|System.Collections.Generic.List`1[[Vector3Condition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -9775,7 +9519,7 @@ MonoBehaviour:
       Data: 
     - Name: GameEventConditions
       Entry: 7
-      Data: 5|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+      Data: 8|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -9788,7 +9532,7 @@ MonoBehaviour:
       Data: 
     - Name: DynamicGameEventConditions
       Entry: 7
-      Data: 6|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+      Data: 9|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -9801,7 +9545,7 @@ MonoBehaviour:
       Data: 
     - Name: TransformConditions
       Entry: 7
-      Data: 7|System.Collections.Generic.List`1[[TransformCondition, Assembly-CSharp]],
+      Data: 10|System.Collections.Generic.List`1[[TransformCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -9845,7 +9589,10 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Became Grounded_ Controller_ Player
+  conditionPreview: '- ! Jump Pressed_ Controller_ Player
+
+    -  Became Grounded_
+    Controller_ Player
 
 '
   Description: 
@@ -9917,7 +9664,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Bounce Fall -> Roll Movement
+  m_Name: Ground Slam Fall -> Roll Movement
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -10539,329 +10286,6 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   referencedState: {fileID: 4956857665740836817}
---- !u!114 &-334229209758072699
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: AirMovement -> Ground Slam
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 11400000, guid: 7515e678ba0d82a4b92ee5e8bc9cee52, type: 2}
-    - {fileID: 11400000, guid: 1980c2697dbf0704093ef4d581af5a0c, type: 2}
-    - {fileID: 11400000, guid: 0f388a1c12deb7e4d9f0da10066ee4d1, type: 2}
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: BoolConditions
-      Entry: 7
-      Data: 0|System.Collections.Generic.List`1[[BoolCondition, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 1|BoolCondition, Assembly-CSharp
-    - Name: targetParameter
-      Entry: 7
-      Data: 2|MyAssets.ScriptableObjects.Variables.BoolReference, Assembly-CSharp
-    - Name: UseConstant
-      Entry: 5
-      Data: false
-    - Name: EnableInstanceOptions
-      Entry: 5
-      Data: false
-    - Name: InstanceName
-      Entry: 1
-      Data: 
-    - Name: InstancePath
-      Entry: 1
-      Data: Assets/MyAssets/ScriptableObjects/InstancedProperties/
-    - Name: ConstantValue
-      Entry: 5
-      Data: false
-    - Name: Variable
-      Entry: 10
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: value
-      Entry: 7
-      Data: 3|MyAssets.ScriptableObjects.Variables.BoolReference, Assembly-CSharp
-    - Name: UseConstant
-      Entry: 5
-      Data: true
-    - Name: EnableInstanceOptions
-      Entry: 5
-      Data: false
-    - Name: InstanceName
-      Entry: 1
-      Data: 
-    - Name: InstancePath
-      Entry: 1
-      Data: IntermediateProperties
-    - Name: ConstantValue
-      Entry: 5
-      Data: false
-    - Name: Variable
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: FloatConditions
-      Entry: 7
-      Data: 4|System.Collections.Generic.List`1[[FloatCondition, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 5|FloatCondition, Assembly-CSharp
-    - Name: targetParameter
-      Entry: 7
-      Data: 6|MyAssets.ScriptableObjects.Variables.FloatReference, Assembly-CSharp
-    - Name: UseConstant
-      Entry: 5
-      Data: false
-    - Name: EnableInstanceOptions
-      Entry: 5
-      Data: false
-    - Name: InstanceName
-      Entry: 1
-      Data: 
-    - Name: InstancePath
-      Entry: 1
-      Data: Assets/MyAssets/ScriptableObjects/InstancedProperties/
-    - Name: ConstantValue
-      Entry: 4
-      Data: 0
-    - Name: Variable
-      Entry: 10
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: comparator
-      Entry: 3
-      Data: 1
-    - Name: value
-      Entry: 7
-      Data: 7|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
-        Assembly-CSharp
-    - Name: UseConstant
-      Entry: 5
-      Data: true
-    - Name: EnableInstanceOptions
-      Entry: 5
-      Data: false
-    - Name: InstanceName
-      Entry: 1
-      Data: '{I} '
-    - Name: InstancePath
-      Entry: 1
-      Data: IntermediateProperties
-    - Name: InstanceType
-      Entry: 6
-      Data: 
-    - Name: ConstantValue
-      Entry: 4
-      Data: 0.1
-    - Name: ReferenceValue
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: IntConditions
-      Entry: 7
-      Data: 8|System.Collections.Generic.List`1[[IntCondition, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: Vector2Conditions
-      Entry: 7
-      Data: 9|System.Collections.Generic.List`1[[Vector2Condition, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: Vector3Conditions
-      Entry: 7
-      Data: 10|System.Collections.Generic.List`1[[Vector3Condition, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: GameEventConditions
-      Entry: 7
-      Data: 11|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 12|GameEventCondition, Assembly-CSharp
-    - Name: targetParameter
-      Entry: 10
-      Data: 2
-    - Name: KeepGameEventOn
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: DynamicGameEventConditions
-      Entry: 7
-      Data: 13|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: TransformConditions
-      Entry: 7
-      Data: 14|System.Collections.Generic.List`1[[TransformCondition, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-  graph: {fileID: 11400000}
-  position: {x: -4168, y: -968}
-  ports:
-    keys:
-    - startingState
-    - nextState
-    values:
-    - _fieldName: startingState
-      _node: {fileID: -334229209758072699}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: -5785674204744995083}
-        reroutePoints: []
-      - fieldName: transitions
-        node: {fileID: -5224011267096786663}
-        reroutePoints: []
-      - fieldName: transitions
-        node: {fileID: -6407021980923341271}
-        reroutePoints: []
-      - fieldName: transitions
-        node: {fileID: -3295880431996252238}
-        reroutePoints: []
-      - fieldName: transitions
-        node: {fileID: -2408966851541608368}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: nextState
-      _node: {fileID: -334229209758072699}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: previousState
-        node: {fileID: 9158867017849541406}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 1
-      _typeConstraint: 2
-      _dynamic: 0
-  collapsed: 1
-  transitionPriority: 0
-  conditionPreview: '- ! Is Grounded_ Controller_ Player
-
-    -  Distance To Ground_
-    Controller_ Player  Greater Than 0.1
-
-    -  Ground Slam Cooldown Timer_ Movement_
-    Player: 0.1 sec
-
-    -  On Modifier Pressed_ Input
-
-'
-  Description: 
-  RaiseOnTransitionUnityEvents: []
-  RaiseOnTransitionEvents: []
-  ValidStartStates: []
-  InvalidStartStates: []
-  TriggerConditions: []
-  TimerConditions:
-  - targetParameter:
-      UseConstant: 0
-      ConstantDuration: 0
-      Variable: {fileID: 11400000, guid: 075c1fded8a47364b8151f8e495992f1, type: 2}
-    restartOnEnterPreviousState: 0
 --- !u!114 &-154165745429028355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11460,12 +10884,7 @@ MonoBehaviour:
   - {fileID: 3017535990024611490}
   - {fileID: 6961552687569324096}
   - {fileID: -1577094316006554817}
-  - {fileID: -4734523447140204751}
-  - {fileID: 9158867017849541406}
-  - {fileID: -334229209758072699}
   - {fileID: 4177582487467033725}
-  - {fileID: -7801278080240121357}
-  - {fileID: 1998031811982130766}
 --- !u!114 &144026596585446073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11481,7 +10900,8 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: d00e7a08d0775a4429a3a5cfad1382a2, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -11493,7 +10913,61 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 1|BoolCondition, Assembly-CSharp
+    - Name: targetParameter
+      Entry: 7
+      Data: 2|MyAssets.ScriptableObjects.Variables.BoolReference, Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: false
+    - Name: EnableInstanceOptions
+      Entry: 5
+      Data: false
+    - Name: InstanceName
+      Entry: 6
+      Data: 
+    - Name: InstancePath
+      Entry: 1
+      Data: IntermediateProperties
+    - Name: ConstantValue
+      Entry: 5
+      Data: false
+    - Name: Variable
+      Entry: 10
       Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: value
+      Entry: 7
+      Data: 3|MyAssets.ScriptableObjects.Variables.BoolReference, Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: true
+    - Name: EnableInstanceOptions
+      Entry: 5
+      Data: false
+    - Name: InstanceName
+      Entry: 6
+      Data: 
+    - Name: InstancePath
+      Entry: 1
+      Data: IntermediateProperties
+    - Name: ConstantValue
+      Entry: 5
+      Data: true
+    - Name: Variable
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -11502,7 +10976,7 @@ MonoBehaviour:
       Data: 
     - Name: FloatConditions
       Entry: 7
-      Data: 1|System.Collections.Generic.List`1[[FloatCondition, Assembly-CSharp]],
+      Data: 4|System.Collections.Generic.List`1[[FloatCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -11515,7 +10989,7 @@ MonoBehaviour:
       Data: 
     - Name: IntConditions
       Entry: 7
-      Data: 2|System.Collections.Generic.List`1[[IntCondition, Assembly-CSharp]],
+      Data: 5|System.Collections.Generic.List`1[[IntCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -11528,7 +11002,7 @@ MonoBehaviour:
       Data: 
     - Name: Vector2Conditions
       Entry: 7
-      Data: 3|System.Collections.Generic.List`1[[Vector2Condition, Assembly-CSharp]],
+      Data: 6|System.Collections.Generic.List`1[[Vector2Condition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -11541,7 +11015,7 @@ MonoBehaviour:
       Data: 
     - Name: Vector3Conditions
       Entry: 7
-      Data: 4|System.Collections.Generic.List`1[[Vector3Condition, Assembly-CSharp]],
+      Data: 7|System.Collections.Generic.List`1[[Vector3Condition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -11554,7 +11028,7 @@ MonoBehaviour:
       Data: 
     - Name: GameEventConditions
       Entry: 7
-      Data: 5|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+      Data: 8|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -11567,7 +11041,7 @@ MonoBehaviour:
       Data: 
     - Name: DynamicGameEventConditions
       Entry: 7
-      Data: 6|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+      Data: 9|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -11580,7 +11054,7 @@ MonoBehaviour:
       Data: 
     - Name: TransformConditions
       Entry: 7
-      Data: 7|System.Collections.Generic.List`1[[TransformCondition, Assembly-CSharp]],
+      Data: 10|System.Collections.Generic.List`1[[TransformCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -11592,7 +11066,7 @@ MonoBehaviour:
       Entry: 8
       Data: 
   graph: {fileID: 11400000}
-  position: {x: -2296, y: -984}
+  position: {x: -2264, y: -984}
   ports:
     keys:
     - startingState
@@ -11604,7 +11078,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: transitions
-        node: {fileID: -4734523447140204751}
+        node: {fileID: -3983832216869484577}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -11624,7 +11098,10 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 1
-  conditionPreview: '-  Became Grounded_ Controller_ Player
+  conditionPreview: '-  Jump Pressed_ Controller_ Player
+
+    -  Became Grounded_
+    Controller_ Player
 
 '
   Description: 
@@ -12681,9 +12158,6 @@ MonoBehaviour:
       - fieldName: transitions
         node: {fileID: 3017535990024611490}
         reroutePoints: []
-      - fieldName: transitions
-        node: {fileID: 1998031811982130766}
-        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 2
@@ -13556,7 +13030,7 @@ MonoBehaviour:
   BypassState: 0
   Name: GroundMovement
   Description: 
-  isActiveState: 0
+  isActiveState: 1
   BaseSpeed:
     UseConstant: 1
     EnableInstanceOptions: 0
@@ -15065,59 +14539,6 @@ MonoBehaviour:
       ConstantDuration: 0
       Variable: {fileID: 11400000, guid: b6204589a5aac664c88aaf66c1af8512, type: 2}
     restartOnEnterPreviousState: 1
---- !u!114 &1998031811982130766
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
-  m_Name: Ground Slam Fall <Reference>
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  graph: {fileID: 11400000}
-  position: {x: -11240, y: 4296}
-  ports:
-    keys:
-    - previousState
-    - transitions
-    values:
-    - _fieldName: previousState
-      _node: {fileID: 1998031811982130766}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: transitions
-      _node: {fileID: 1998031811982130766}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: startingState
-        node: {fileID: 493396354646836397}
-        reroutePoints: []
-      - fieldName: startingState
-        node: {fileID: -7690590077960551631}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  referencedState: {fileID: -4734523447140204751}
 --- !u!114 &2284794144336432987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15482,7 +14903,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
-  m_Name: Bounce Fall <Reference>
+  m_Name: Ground Slam Fall <Reference>
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -15930,13 +15351,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: Bounce Fall -> Roll Movement
+  m_Name: Ground Slam Fall -> Roll Movement
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: 7515e678ba0d82a4b92ee5e8bc9cee52, type: 2}
+    - {fileID: 11400000, guid: d00e7a08d0775a4429a3a5cfad1382a2, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -15948,7 +15370,7 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 7
       Data: 1|BoolCondition, Assembly-CSharp
@@ -16004,6 +15426,60 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
+      Entry: 7
+      Data: 4|BoolCondition, Assembly-CSharp
+    - Name: targetParameter
+      Entry: 7
+      Data: 5|MyAssets.ScriptableObjects.Variables.BoolReference, Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: false
+    - Name: EnableInstanceOptions
+      Entry: 5
+      Data: false
+    - Name: InstanceName
+      Entry: 6
+      Data: 
+    - Name: InstancePath
+      Entry: 1
+      Data: IntermediateProperties
+    - Name: ConstantValue
+      Entry: 5
+      Data: false
+    - Name: Variable
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: value
+      Entry: 7
+      Data: 6|MyAssets.ScriptableObjects.Variables.BoolReference, Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: true
+    - Name: EnableInstanceOptions
+      Entry: 5
+      Data: false
+    - Name: InstanceName
+      Entry: 6
+      Data: 
+    - Name: InstancePath
+      Entry: 1
+      Data: IntermediateProperties
+    - Name: ConstantValue
+      Entry: 5
+      Data: false
+    - Name: Variable
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
       Entry: 13
       Data: 
     - Name: 
@@ -16011,7 +15487,7 @@ MonoBehaviour:
       Data: 
     - Name: FloatConditions
       Entry: 7
-      Data: 4|System.Collections.Generic.List`1[[FloatCondition, Assembly-CSharp]],
+      Data: 7|System.Collections.Generic.List`1[[FloatCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -16024,7 +15500,7 @@ MonoBehaviour:
       Data: 
     - Name: IntConditions
       Entry: 7
-      Data: 5|System.Collections.Generic.List`1[[IntCondition, Assembly-CSharp]],
+      Data: 8|System.Collections.Generic.List`1[[IntCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -16037,7 +15513,7 @@ MonoBehaviour:
       Data: 
     - Name: Vector2Conditions
       Entry: 7
-      Data: 6|System.Collections.Generic.List`1[[Vector2Condition, Assembly-CSharp]],
+      Data: 9|System.Collections.Generic.List`1[[Vector2Condition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -16050,7 +15526,7 @@ MonoBehaviour:
       Data: 
     - Name: Vector3Conditions
       Entry: 7
-      Data: 7|System.Collections.Generic.List`1[[Vector3Condition, Assembly-CSharp]],
+      Data: 10|System.Collections.Generic.List`1[[Vector3Condition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -16063,7 +15539,7 @@ MonoBehaviour:
       Data: 
     - Name: GameEventConditions
       Entry: 7
-      Data: 8|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+      Data: 11|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -16076,7 +15552,7 @@ MonoBehaviour:
       Data: 
     - Name: DynamicGameEventConditions
       Entry: 7
-      Data: 9|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+      Data: 12|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -16089,7 +15565,7 @@ MonoBehaviour:
       Data: 
     - Name: TransformConditions
       Entry: 7
-      Data: 10|System.Collections.Generic.List`1[[TransformCondition, Assembly-CSharp]],
+      Data: 13|System.Collections.Generic.List`1[[TransformCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -16134,6 +15610,9 @@ MonoBehaviour:
   collapsed: 1
   transitionPriority: 1
   conditionPreview: '-  Is Grounded_ Controller_ Player
+
+    - ! Jump Pressed_ Controller_
+    Player
 
 '
   Description: 
@@ -16670,7 +16149,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Roll Movement
   Description: 
-  isActiveState: 1
+  isActiveState: 0
   BaseSpeed:
     UseConstant: 0
     EnableInstanceOptions: 0
@@ -17814,6 +17293,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
+    - {fileID: 11400000, guid: d00e7a08d0775a4429a3a5cfad1382a2, type: 2}
     - {fileID: 11400000, guid: 1980c2697dbf0704093ef4d581af5a0c, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
@@ -17826,7 +17306,61 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 1|BoolCondition, Assembly-CSharp
+    - Name: targetParameter
+      Entry: 7
+      Data: 2|MyAssets.ScriptableObjects.Variables.BoolReference, Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: false
+    - Name: EnableInstanceOptions
+      Entry: 5
+      Data: false
+    - Name: InstanceName
+      Entry: 6
+      Data: 
+    - Name: InstancePath
+      Entry: 1
+      Data: IntermediateProperties
+    - Name: ConstantValue
+      Entry: 5
+      Data: false
+    - Name: Variable
+      Entry: 10
       Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: value
+      Entry: 7
+      Data: 3|MyAssets.ScriptableObjects.Variables.BoolReference, Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: true
+    - Name: EnableInstanceOptions
+      Entry: 5
+      Data: false
+    - Name: InstanceName
+      Entry: 6
+      Data: 
+    - Name: InstancePath
+      Entry: 1
+      Data: IntermediateProperties
+    - Name: ConstantValue
+      Entry: 5
+      Data: true
+    - Name: Variable
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -17835,17 +17369,17 @@ MonoBehaviour:
       Data: 
     - Name: FloatConditions
       Entry: 7
-      Data: 1|System.Collections.Generic.List`1[[FloatCondition, Assembly-CSharp]],
+      Data: 4|System.Collections.Generic.List`1[[FloatCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 2|FloatCondition, Assembly-CSharp
+      Data: 5|FloatCondition, Assembly-CSharp
     - Name: targetParameter
       Entry: 7
-      Data: 3|MyAssets.ScriptableObjects.Variables.FloatReference, Assembly-CSharp
+      Data: 6|MyAssets.ScriptableObjects.Variables.FloatReference, Assembly-CSharp
     - Name: UseConstant
       Entry: 5
       Data: false
@@ -17863,7 +17397,7 @@ MonoBehaviour:
       Data: 0
     - Name: Variable
       Entry: 10
-      Data: 0
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -17872,7 +17406,7 @@ MonoBehaviour:
       Data: 0
     - Name: value
       Entry: 7
-      Data: 4|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
+      Data: 7|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
         Assembly-CSharp
     - Name: UseConstant
       Entry: 5
@@ -17909,7 +17443,7 @@ MonoBehaviour:
       Data: 
     - Name: IntConditions
       Entry: 7
-      Data: 5|System.Collections.Generic.List`1[[IntCondition, Assembly-CSharp]],
+      Data: 8|System.Collections.Generic.List`1[[IntCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -17922,7 +17456,7 @@ MonoBehaviour:
       Data: 
     - Name: Vector2Conditions
       Entry: 7
-      Data: 6|System.Collections.Generic.List`1[[Vector2Condition, Assembly-CSharp]],
+      Data: 9|System.Collections.Generic.List`1[[Vector2Condition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -17935,7 +17469,7 @@ MonoBehaviour:
       Data: 
     - Name: Vector3Conditions
       Entry: 7
-      Data: 7|System.Collections.Generic.List`1[[Vector3Condition, Assembly-CSharp]],
+      Data: 10|System.Collections.Generic.List`1[[Vector3Condition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -17948,7 +17482,7 @@ MonoBehaviour:
       Data: 
     - Name: GameEventConditions
       Entry: 7
-      Data: 8|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+      Data: 11|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -17961,7 +17495,7 @@ MonoBehaviour:
       Data: 
     - Name: DynamicGameEventConditions
       Entry: 7
-      Data: 9|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+      Data: 12|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -17974,7 +17508,7 @@ MonoBehaviour:
       Data: 
     - Name: TransformConditions
       Entry: 7
-      Data: 10|System.Collections.Generic.List`1[[TransformCondition, Assembly-CSharp]],
+      Data: 13|System.Collections.Generic.List`1[[TransformCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -17986,7 +17520,7 @@ MonoBehaviour:
       Entry: 8
       Data: 
   graph: {fileID: 11400000}
-  position: {x: -2296, y: -504}
+  position: {x: -2264, y: -488}
   ports:
     keys:
     - startingState
@@ -17996,10 +17530,7 @@ MonoBehaviour:
       _node: {fileID: 6219059516673579915}
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: -4734523447140204751}
-        reroutePoints: []
+      connections: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 2
@@ -18008,19 +17539,14 @@ MonoBehaviour:
       _node: {fileID: 6219059516673579915}
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: previousState
-        node: {fileID: -8239950027094308354}
-        reroutePoints: []
+      connections: []
       _direction: 1
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
   collapsed: 1
   transitionPriority: 1
-  conditionPreview: '-  Distance To Ground_ Controller_ Player  Less Than 1
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -18308,7 +17834,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
-  m_Name: Bounce Fall <Reference>
+  m_Name: Ground Slam Fall <Reference>
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -19574,7 +19100,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9e92a0607f50f4e439b317266cd51603, type: 3}
-  m_Name: Bounce Slam <GroundSlam> (PlayerMovement)
+  m_Name: Ground Slam <GroundSlam> (PlayerMovement)
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -19611,93 +19137,6 @@ MonoBehaviour:
       connections:
       - fieldName: previousState
         node: {fileID: -3983832216869484577}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-  collapsed: 1
-  BypassState: 0
-  Name: Bounce Slam
-  Description: Set velocity downwards
-  isActiveState: 0
-  SlamVelocity:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: Assets/MyAssets/ScriptableObjects/InstancedProperties/
-    ConstantValue: 80
-    Variable: {fileID: 11400000, guid: 16563b6aad1d3874c9f36700e8423423, type: 2}
-  StoredJumpVelocity:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: Assets/MyAssets/ScriptableObjects/InstancedProperties/
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 2bf3ff9449cfd14419df1c2f76b56b20, type: 2}
-  BounceThresholdVelocity:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: Assets/MyAssets/ScriptableObjects/InstancedProperties/
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: dd039a78e5da5104a9a10fecbb37ff3a, type: 2}
-  PreviousVelocity:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: Assets/MyAssets/ScriptableObjects/InstancedProperties/
-    ConstantValue: {x: 0, y: 0, z: 0}
-    Variable: {fileID: 11400000, guid: 32fe95a7d33c6774fbb7a1297b54ed10, type: 2}
-  GroundSlamCooldownTimer: {fileID: 11400000, guid: 075c1fded8a47364b8151f8e495992f1,
-    type: 2}
---- !u!114 &9158867017849541406
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e92a0607f50f4e439b317266cd51603, type: 3}
-  m_Name: Ground Slam <GroundSlam> (PlayerMovement)
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  graph: {fileID: 11400000}
-  position: {x: -3560, y: -952}
-  ports:
-    keys:
-    - previousState
-    - transitions
-    values:
-    - _fieldName: previousState
-      _node: {fileID: 9158867017849541406}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: nextState
-        node: {fileID: -334229209758072699}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: transitions
-      _node: {fileID: 9158867017849541406}
-      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: previousState
-        node: {fileID: -4734523447140204751}
         reroutePoints: []
       _direction: 1
       _connectionType: 0

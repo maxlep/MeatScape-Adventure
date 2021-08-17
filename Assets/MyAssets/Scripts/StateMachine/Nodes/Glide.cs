@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Den.Tools;
 using DotLiquid.Util;
 using KinematicCharacterController;
 using MyAssets.Graphs.StateMachine.Nodes;
@@ -94,6 +95,10 @@ public class Glide : BaseMovement
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Inputs")] [Required]
         protected TransformSceneReference GlidePivot;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Inputs")] [Required]
+        protected FloatReference GlideEnterImpulse;
 
         #endregion
 
@@ -116,6 +121,7 @@ public class Glide : BaseMovement
         {
             base.Enter();
             gravity *= GravityFactor.Value;
+            playerController.AddImpulseOverlayed(playerController.transform.forward * GlideEnterImpulse.Value);
         }
 
         public override void Exit()

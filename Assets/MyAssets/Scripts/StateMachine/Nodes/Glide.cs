@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using DotLiquid.Util;
 using KinematicCharacterController;
 using MyAssets.Graphs.StateMachine.Nodes;
 using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
 using MyAssets.Scripts.Utils;
 using Sirenix.OdinInspector;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class Glide : BaseMovement
@@ -39,6 +41,10 @@ public class Glide : BaseMovement
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Horizontal")] [Required]
         protected FloatReference TimeToTargetSpeed;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Horizontal")] [Required]
+        protected FloatReference BreakingDrag;
 
         #endregion
 
@@ -47,6 +53,18 @@ public class Glide : BaseMovement
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [Required] [TabGroup("Vertical")]
         private FloatReference FallMultiplier;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [Required] [TabGroup("Vertical")]
+        private FloatReference DragDivisor;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [Required] [TabGroup("Vertical")]
+        private FloatReference SteeringFacInfluence;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [Required] [TabGroup("Vertical")]
+        private FloatReference BaseSpeedFacInfluence;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [Required] [TabGroup("Vertical")]
@@ -70,6 +88,14 @@ public class Glide : BaseMovement
         
 
         #endregion
+        
+        #region Inputs
+
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Inputs")] [Required]
+        protected TransformSceneReference GlidePivot;
+
+        #endregion
 
         #region Outputs
 
@@ -80,6 +106,8 @@ public class Glide : BaseMovement
         #endregion
         
         protected Vector3 previousVelocityOutput = Vector3.zero;
+        private float steeringFac;
+        private float baseSpeedFac;
 
         
         #region Lifecycle methods
@@ -93,6 +121,7 @@ public class Glide : BaseMovement
         public override void Exit()
         {
             base.Exit();
+            GlidePivot.Value.localRotation = quaternion.identity;
         }
 
         public override void Execute()
@@ -184,8 +213,8 @@ public class Glide : BaseMovement
             #region Get New Speed
 
             var moveDir = moveInputCameraRelative.xoz().normalized;
-            var steeringAngle = Vector3.Angle(dir, moveDir);
-            var steeringFac = steeringAngle / 180;
+            var steeringAngle = Mathf.Clamp(Vector3.Angle(dir, moveDir), 0f, 90f);
+            steeringFac = steeringAngle / 90;   //Clamp at 90 for max friction
 
             //TurnFactor.Value = Vector3.SignedAngle(horizontalDir, steeringDir, Vector3.up) / 30;
             
@@ -197,19 +226,27 @@ public class Glide : BaseMovement
 
             float targetMagnitude;
             float currentMagnitude = Mathf.Clamp01(currentSpeed / BaseSpeed.Value);
+            bool isBreaking = false;
             
             //If move input is zero, take current speed and start accelerating forward
-             if (Mathf.Approximately(0f, MoveInput.Value.magnitude))
-                 targetMagnitude = currentMagnitude + GlideIdleAcceleratePercent.Value * Time.deltaTime;
-            
-             //If projected move input is in same direction as velocity, set target speed
+            if (Mathf.Approximately(0f, MoveInput.Value.magnitude))
+            {
+                targetMagnitude = currentMagnitude + GlideIdleAcceleratePercent.Value * Time.deltaTime;
+            }
+
+            //If projected move input is in same direction as velocity, set target speed
             else if (Vector3.Dot(dir.xoz(), moveDir) > AccelerateDotThreshold.Value)
                 targetMagnitude = 1f;
-            
+
             //Otherwise, assume player wants to stop and turn around 
             else
+            {
                 targetMagnitude = 0f;
+                steeringFac = 0f;
+                isBreaking = true;
+            }
 
+            
             targetMagnitude = Mathf.Clamp01(targetMagnitude);
             
             var targetSpeed = BaseSpeed.Value * targetMagnitude;
@@ -223,10 +260,29 @@ public class Glide : BaseMovement
                 //Only apply drag if not accelerating to base speed
                 newSpeed = currentSpeed - drag - turningFriction;
             }
+
+            if (isBreaking)
+                newSpeed -= BreakingDrag.Value * newSpeed * Time.deltaTime;
+
+            if (BaseSpeed.Value != 0f)
+                baseSpeedFac = Mathf.Clamp01(newSpeed / BaseSpeed.Value);
             
             
             #endregion
             
+            #endregion
+
+            #region Update Pivot
+
+            var turnAngle = Vector3.SignedAngle(dir, moveDir, Vector3.up);
+            turnAngle = Mathf.Clamp(-turnAngle, -40f, 40f);
+            
+            //If breaking, dont change turn angle
+            if (isBreaking) turnAngle = GlidePivot.Value.localRotation.z;
+            
+            var tiltAngle = Mathf.Lerp(-45f, 20f, baseSpeedFac);
+            GlidePivot.Value.localRotation = Quaternion.Euler(tiltAngle,  GlidePivot.Value.localRotation.y, turnAngle);
+
             #endregion
             
             HorizontalSpeedOut.Value = newSpeed;
@@ -246,12 +302,13 @@ public class Glide : BaseMovement
 
             Vector3 newVelocity = currentVelocity.y * Vector3.up;
 
-           
             float gravityAirborn = gravity * GravityFactorAirborn.Value;
-            
+
             if (newVelocity.y <= 0f)  //Falling
             {
                 var drag = newVelocity.y * DragCoefficientVerticalDownwards.Value * Time.deltaTime;
+                var dragFac = steeringFac * SteeringFacInfluence.Value + baseSpeedFac * BaseSpeedFacInfluence.Value;
+                drag *= 1f / ((dragFac * DragDivisor.Value) + 1f);
                 newVelocity.y -= drag;
                 newVelocity.y += gravityAirborn * FallMultiplier.Value * Time.deltaTime;
             }

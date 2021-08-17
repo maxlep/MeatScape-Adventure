@@ -33,6 +33,9 @@ public class TeleportManager : MonoBehaviour
         if (playerSceneRef.Value != null)
         {
             charMotor = playerSceneRef.Value.GetComponent<KinematicCharacterMotor>();
+
+            //Save pos 1 as the spawn position (some delay to wait for load)
+            LeanTween.value(0f, 1f, 2f).setOnComplete(() => SavePosition(1));
         }
     }
 

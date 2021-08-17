@@ -275,12 +275,13 @@ public class Glide : BaseMovement
             #region Update Pivot
 
             var turnAngle = Vector3.SignedAngle(dir, moveDir, Vector3.up);
-            turnAngle = Mathf.Clamp(-turnAngle, -40f, 40f);
+            turnAngle = Mathf.Clamp(-turnAngle, -60f, 60f);
             
             //If breaking, dont change turn angle
             if (isBreaking) turnAngle = GlidePivot.Value.localRotation.z;
             
-            var tiltAngle = Mathf.Lerp(-45f, 20f, baseSpeedFac);
+            var tiltAngle = Mathf.Lerp(-45f, 20f, (MoveInput.Value.y + 1f)/2f);
+            //var tiltAngle = Mathf.Lerp(-45f, 20f, baseSpeedFac);
             GlidePivot.Value.localRotation = Quaternion.Euler(tiltAngle,  GlidePivot.Value.localRotation.y, turnAngle);
 
             #endregion
@@ -307,7 +308,8 @@ public class Glide : BaseMovement
             if (newVelocity.y <= 0f)  //Falling
             {
                 var drag = newVelocity.y * DragCoefficientVerticalDownwards.Value * Time.deltaTime;
-                var dragFac = steeringFac * SteeringFacInfluence.Value + baseSpeedFac * BaseSpeedFacInfluence.Value;
+                var dragFac = steeringFac * SteeringFacInfluence.Value + (MoveInput.Value.y + 1f)/2f * BaseSpeedFacInfluence.Value;
+                //var dragFac = steeringFac * SteeringFacInfluence.Value + baseSpeedFac * BaseSpeedFacInfluence.Value;
                 drag *= 1f / ((dragFac * DragDivisor.Value) + 1f);
                 newVelocity.y -= drag;
                 newVelocity.y += gravityAirborn * FallMultiplier.Value * Time.deltaTime;

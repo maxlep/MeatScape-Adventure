@@ -14,6 +14,20 @@ namespace MyAssets.Scripts.Events
 {
     public class ConditionalEvent : SerializedMonoBehaviour
     {
+        [SerializeField] [Required] 
+        [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(1f, .85f, .9f)]
+        private List<StateMachineGraph> StateMachines;
+        
+        [Tooltip("Event is fired when ANY of these states are entered")]
+        [SerializeField] [Required] 
+        [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)]  [GUIColor(.88f, 1f, .95f)]
+        private List<StateNode> ValidStates;
+
+        [Tooltip("Event is fired when NONE of the states above are active and we just exited one or more of them")]
+        [SerializeField] [Required]
+        [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)]  [GUIColor(.88f, 1f, .95f)]
+        private List<StateNode> InvalidStates;
+        
         [Tooltip("Transition only valid if ALL of these Bool condition are met")] [ListDrawerSettings(DraggableItems = false)]
         [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)]
         [Required] [HideReferenceObjectPicker]
@@ -60,8 +74,61 @@ namespace MyAssets.Scripts.Events
             allConditions = allConditions.Union(Vector3Conditions).ToList();
         }
 
+        private void Start()
+        {
+            foreach (var stateMachine in StateMachines)
+            {
+                stateMachine.onChangeState += EvaluateStateChange;
+            }
+        }
+        
+        private void EvaluateStateChange(StateNode exitingState, StateNode enteringState)
+        {
+            TryRaise(exitingState, enteringState);
+        }
+
+        //For call by events
         public void TryRaise()
         {
+            TryRaise(null, null);
+        }
+
+        //For call by subscription to state change event
+        public void TryRaise(StateNode exitingState, StateNode enteringState)
+        {
+            #region Valid State Check
+
+            if (!ValidStates.IsNullOrEmpty())
+            {
+                //Return if no valid states are active
+                bool noneValid = true;
+                foreach (var stateMachine in StateMachines)
+                foreach (var validState in ValidStates)
+                    if (stateMachine.currentStates.Contains(validState))
+                        noneValid = false;
+
+                if (noneValid) return;
+            }
+            
+
+            #endregion
+
+            #region Invalid State Check
+
+            if (!InvalidStates.IsNullOrEmpty())
+            {
+                //Return if any invalid state is active
+                foreach (var stateMachine in StateMachines)
+                foreach (var invalidState in InvalidStates)
+                    if (stateMachine.currentStates.Contains(invalidState))
+                        return;
+
+            }
+
+            #endregion
+
+            #region Condition Check
+
             //Check all Conditions (AND)
             if (!allConditions.IsNullOrEmpty())
             {
@@ -73,6 +140,8 @@ namespace MyAssets.Scripts.Events
             }
 
             Response.Invoke();
+
+            #endregion
         }
     }
 }

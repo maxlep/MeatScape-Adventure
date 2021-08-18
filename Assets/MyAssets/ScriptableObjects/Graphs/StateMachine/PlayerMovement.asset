@@ -765,12 +765,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Hunger Level_ Player  Greater Than 0
-
-    -  On Modifier
-    Pressed_ Input
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents:
   - m_PersistentCalls:
@@ -2554,10 +2549,7 @@ MonoBehaviour:
       _node: {fileID: -6559187640381592347}
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: startingState
-        node: {fileID: 8359291343029673483}
-        reroutePoints: []
+      connections: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 2
@@ -3589,10 +3581,7 @@ MonoBehaviour:
       _node: {fileID: -5742620326802664836}
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: nextState
-        node: {fileID: 8359291343029673483}
-        reroutePoints: []
+      connections: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 2
@@ -3601,15 +3590,12 @@ MonoBehaviour:
       _node: {fileID: -5742620326802664836}
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: startingState
-        node: {fileID: -5394790113833797430}
-        reroutePoints: []
+      connections: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 1
+  collapsed: 0
   BypassState: 0
   Name: Clump Pitch
   Description: 
@@ -3857,10 +3843,7 @@ MonoBehaviour:
       _node: {fileID: -5394790113833797430}
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: -5742620326802664836}
-        reroutePoints: []
+      connections: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 2
@@ -3869,10 +3852,7 @@ MonoBehaviour:
       _node: {fileID: -5394790113833797430}
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: previousState
-        node: {fileID: 4847382009070371305}
-        reroutePoints: []
+      connections: []
       _direction: 1
       _connectionType: 1
       _typeConstraint: 2
@@ -5014,7 +4994,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 0
+  collapsed: 1
   BypassState: 0
   Name: Glide
   Description: 
@@ -5212,6 +5192,13 @@ MonoBehaviour:
     ConstantValue: 1
     Variable: {fileID: 0}
   GlidePivot: {fileID: 11400000, guid: 0d8c6ca3660a7ab458f8ba7a20544b82, type: 2}
+  GlideEnterImpulse:
+    UseConstant: 1
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 40
+    Variable: {fileID: 0}
   HorizontalSpeedOut:
     UseConstant: 0
     EnableInstanceOptions: 0
@@ -5880,7 +5867,7 @@ MonoBehaviour:
     EnableInstanceOptions: 0
     InstanceName: '{I} '
     InstancePath: IntermediateProperties
-    ConstantValue: 0
+    ConstantValue: 0.65
     Variable: {fileID: 11400000, guid: b255d62a584a16f478ba9594664c3cec, type: 2}
   BounceThresholdVelocity:
     UseConstant: 1
@@ -9061,12 +9048,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Is On Slideable Slope_ Controller_ Player
-
-    -  Waited
-    Jump Ground Delay_ Movement_ Player
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -9287,9 +9269,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Is Grounded_ Controller_ Player
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -10523,9 +10503,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 20
-  conditionPreview: '-  Slingshot Released Trigger_ Controller_ Player
-
-'
+  conditionPreview: 
   Description: Catch-all for release slingshot without reaching timer. LOWEST PRIORITY
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -11665,7 +11643,7 @@ MonoBehaviour:
     EnableInstanceOptions: 0
     InstanceName: 
     InstancePath: IntermediateProperties
-    ConstantValue: 0
+    ConstantValue: 300
     Variable: {fileID: 11400000, guid: 7be00214ef026e141a6ec22ccf6d3154, type: 2}
   TurnSpeed:
     UseConstant: 0
@@ -14885,14 +14863,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Jump Trigger_ Controller_ Player
-
-    -  Hunger Level_ Player 
-    Greater Than 0
-
-    -  Flatten Jump Delay Timer_ Movement_ Player: 0.1 sec
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents:
   - m_PersistentCalls:
@@ -15683,10 +15654,7 @@ MonoBehaviour:
       _node: {fileID: 4847382009070371305}
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: nextState
-        node: {fileID: -5394790113833797430}
-        reroutePoints: []
+      connections: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 2
@@ -16866,9 +16834,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Jump Attack Trigger_ Controller_ Player
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -18736,10 +18702,7 @@ MonoBehaviour:
       _node: {fileID: 8359291343029673483}
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: -6559187640381592347}
-        reroutePoints: []
+      connections: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 2
@@ -18748,10 +18711,7 @@ MonoBehaviour:
       _node: {fileID: 8359291343029673483}
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: previousState
-        node: {fileID: -5742620326802664836}
-        reroutePoints: []
+      connections: []
       _direction: 1
       _connectionType: 1
       _typeConstraint: 2

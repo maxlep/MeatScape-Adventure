@@ -11,7 +11,13 @@ public class BubbleMover : MonoBehaviour, IMoverController
     [SerializeField] private MMFeedbacks DestroyFeedbacks;
     [SerializeField] private float Speed;
     [SerializeField] private float Lifetime = 8f;
-    
+    [SerializeField] private TransformSceneReference Container;
+
+    private void Awake()
+    {
+        if (Container.Value != null)
+            transform.parent = Container.Value;
+    }
 
     private void Start()
     {

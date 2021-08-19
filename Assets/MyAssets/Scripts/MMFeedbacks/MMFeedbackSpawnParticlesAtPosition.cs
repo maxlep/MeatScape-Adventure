@@ -27,6 +27,7 @@ namespace MoreMountains.Feedbacks
         [HideIf("useLocalTransform")] public Vector3Reference TargetPosition;
         public Vector3 Offset;
         public float DestroyTime = 5f;
+        public TransformSceneReference Container;
 
         protected ParticleSystem _instantiatedParticleSystem;
         
@@ -48,7 +49,10 @@ namespace MoreMountains.Feedbacks
                     (Instantiate(ParticlesPrefab, TargetPosition.Value + Offset, Quaternion.identity))
                     .GetComponent<ParticleSystem>();
             }
-            
+
+            if (Container.Value != null)
+                _instantiatedParticleSystem.transform.parent = Container.Value;
+
         }
         
 

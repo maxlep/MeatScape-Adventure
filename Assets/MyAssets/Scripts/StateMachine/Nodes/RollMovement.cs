@@ -102,6 +102,10 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         [TabGroup("Vertical")] [Required]
         protected FloatReference BounceGroundDotThreshold;
         
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [TabGroup("Vertical")] [Required]
+        protected FloatReference MinYBounceVelocity;
+        
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Vertical")] [Required]
         protected FloatReference SlopeVerticalGravityFactor;
@@ -273,6 +277,8 @@ namespace MyAssets.Graphs.StateMachine.Nodes
                 if (EnableRedirect && CheckRedirectConditions(reflectedVelocity))
                     reflectedVelocity = CalculateRedirectedImpulse(reflectedVelocity);
                 
+                if (reflectedVelocity.y < MinYBounceVelocity.Value)
+                    reflectedVelocity.y = MinYBounceVelocity.Value;
 
                 resultingVelocity = reflectedVelocity;
             }

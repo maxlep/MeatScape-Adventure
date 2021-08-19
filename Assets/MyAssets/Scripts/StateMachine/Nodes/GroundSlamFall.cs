@@ -11,11 +11,7 @@ public class GroundSlamFall : RollMovement
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required]
     protected BoolReference JumpPressed;
-    
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Vertical")] [Required]
-    protected FloatReference MinYBounceVelocity;
-    
+
     protected override Vector3 CalculateVelocity(VelocityInfo velocityInfo)
         {
             Vector3 currentVelocity = velocityInfo.currentVelocity;

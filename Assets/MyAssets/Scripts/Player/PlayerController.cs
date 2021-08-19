@@ -79,7 +79,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference SlingshotPressed;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference DashPressed;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference ModifierPressed;
-    [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector3Reference PreviousVelocity;
+    [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector3Reference PreviousVelocityAfterUpdate;
+    [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector3Reference PreviousVelocityDuringUpdate;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private FloatReference DistanceToGround;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private FloatReference DistanceToMeatGround;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference IsPlayerDead;
@@ -366,15 +367,17 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         ungroundTrigger = false;
 
         #endregion
-        
-        
+
+        PreviousVelocityDuringUpdate.Value = currentVelocity;
+
+
     }
 
     public void AfterCharacterUpdate(float deltaTime, Vector3 previousVelocity)
     {
         // This is called after the motor has finished everything in its update
         StoredJumpVelocity.Value = 0f;
-        PreviousVelocity.Value = previousVelocity;
+        PreviousVelocityAfterUpdate.Value = previousVelocity;
         
         
         #region Rigidbody Sweep Test
@@ -589,7 +592,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
         if (isMeatGrounded && isRegeneratingMeat && !noRegenFromMeatContact)
         {
-            meatDistance += PreviousVelocity.Value.magnitude * Time.deltaTime;
+            meatDistance += PreviousVelocityAfterUpdate.Value.magnitude * Time.deltaTime;
             if (meatDistance >= DistancePerClump.Value)
             {
                 meatDistance %= DistancePerClump.Value;
@@ -695,7 +698,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         IsPlayerDead.Value = true;
         GameObject ragdoll = Instantiate(ragdollPrefab, transform.position, transform.rotation);
         Rigidbody[] ragdollsRbs = ragdoll.GetComponentsInChildren<Rigidbody>();
-        ragdollsRbs.ForEach(r => r.velocity = PreviousVelocity.Value);
+        ragdollsRbs.ForEach(r => r.velocity = PreviousVelocityAfterUpdate.Value);
         freeLookCam.Follow = ragdollsRbs[0].transform;
         freeLookCam.LookAt = ragdollsRbs[0].transform;
 

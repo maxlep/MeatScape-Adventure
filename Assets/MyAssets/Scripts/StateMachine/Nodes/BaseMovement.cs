@@ -177,7 +177,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
             var currentDir = currentVelocity.xz();
             
-            return Vector3.zero;
+            return currentVelocity;
         }
 
         protected bool CheckRedirectConditions(Vector3 impulseVelocity)

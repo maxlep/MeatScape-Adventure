@@ -2,11 +2,12 @@
 using System.Linq;
 using UnityEngine;
 using System;
+using Sirenix.OdinInspector;
 
 /// <summary>
 /// Singleton class
 /// </summary>
-public class ObjectPoolManager : MonoBehaviour
+public class ObjectPoolManager : SerializedMonoBehaviour
 {
     public static ObjectPoolManager Instance;
     
@@ -19,8 +20,14 @@ public class ObjectPoolManager : MonoBehaviour
 
     [SerializeField] private List<PoolObject> poolObjects;
 
-    private Dictionary<GameObject, PoolObject> poolMapping;
-    private Dictionary<GameObject, Dictionary<int, GameObject>> pools;
+    //Dict of {Prefab, PoolObject for that Prefab} - For getting obj from pool given a Prefab
+    [SerializeField] private Dictionary<GameObject, PoolObject> poolMapping;
+    
+    //Dict of {Prefab, {InstanceID, Instanced Obj}} - For accessing Instance pool given a Prefab
+    [SerializeField] private Dictionary<GameObject, Dictionary<int, GameObject>> pools;
+    
+    //Dict of {Instanced Obj ID, Prefab} - For getting a Prefab given and Instanced Obj
+    [SerializeField] private Dictionary<int, GameObject> instanceToPrefab;
 
     private void Awake()
     {
@@ -33,6 +40,7 @@ public class ObjectPoolManager : MonoBehaviour
             poolMapping.Add(po.poolObjectPrefab, po);
         }
         pools = new Dictionary<GameObject, Dictionary<int, GameObject>>();
+        instanceToPrefab = new Dictionary<int, GameObject>();
         foreach(PoolObject po in poolObjects)
         {
            SetupPool(po);
@@ -50,6 +58,7 @@ public class ObjectPoolManager : MonoBehaviour
             newObj = Instantiate(po.poolObjectPrefab, transform);
             newObj.SetActive(false);
             objectPool.Add(newObj.GetInstanceID(), newObj);
+            instanceToPrefab.Add(newObj.GetInstanceID(), po.poolObjectPrefab);
         }
     }
 
@@ -62,26 +71,43 @@ public class ObjectPoolManager : MonoBehaviour
         {
             objectFromPool = Instantiate(poolMapping[poolObjectPrefab].poolObjectPrefab, transform);
             pools[poolObjectPrefab].Add(objectFromPool.GetInstanceID(), objectFromPool);
+            instanceToPrefab.Add(objectFromPool.GetInstanceID(), poolObjectPrefab);
             // Debug.Log($"Had to increase pool size for: {poolObjectPrefab.name} to {pools[poolObjectPrefab].Count}");
         }
 
         objectFromPool.transform.position = position;
         objectFromPool.transform.rotation = rotation;
-        objectFromPool.transform.parent = parent;
+        if (parent != null) objectFromPool.transform.parent = parent;
         objectFromPool.SetActive(true);
         
         return objectFromPool;
     }
 
-    public bool ReturnObjectToPool(GameObject poolObjectPrefab, GameObject gameObject)
+    public bool ReturnObjectToPool(GameObject gameObj)
     {
-        if (!poolMapping.ContainsKey(poolObjectPrefab)) return false;
-        var objectPool = pools[poolObjectPrefab];
+        if (!instanceToPrefab.ContainsKey(gameObj.GetInstanceID()))
+        {
+            Debug.LogError($"Key Not Found for instance! | Key: {gameObj.GetInstanceID()}");
+            return false;
+        }
 
-        var existsInPool = objectPool.TryGetValue(gameObject.GetInstanceID(), out var objectToReturn);
-        if(!existsInPool) return false;
+        var prefab = instanceToPrefab[gameObj.GetInstanceID()];
         
-        if (objectPool.Count > poolMapping[poolObjectPrefab].poolSize)
+        if (!poolMapping.ContainsKey(prefab))
+        {
+            Debug.LogError($"Key Not Found! for prefab! | Key: {gameObj.GetInstanceID()}");
+            return false;
+        }
+        var objectPool = pools[prefab];
+
+        var existsInPool = objectPool.TryGetValue(gameObj.GetInstanceID(), out var objectToReturn);
+        if (!existsInPool)
+        {
+            Debug.LogError($"Object doesn't exist in pool! | Key: {gameObj.GetInstanceID()}");
+            return false;
+        }
+        
+        if (objectPool.Count > poolMapping[prefab].poolSize)
         {
             objectPool.Remove(objectToReturn.GetInstanceID());
             // Debug.Log($"Decreased pool size for: {poolObjectPrefab.name} to {pools[poolObjectPrefab].Count}");
@@ -94,10 +120,10 @@ public class ObjectPoolManager : MonoBehaviour
         return true;
     }
 
-    public void ReturnObjectToPoolDelayed(GameObject poolObjectPrefab, GameObject gameObject, float delay, Action<bool> onComplete = null)
+    public void ReturnObjectToPoolDelayed(GameObject gameObj, float delay, Action<bool> onComplete = null)
     {
         LeanTween.value(0, 1, delay).setOnComplete(() => {
-            bool returned = this.ReturnObjectToPool(poolObjectPrefab, gameObject);
+            bool returned = this.ReturnObjectToPool(gameObj);
             if(onComplete != null) onComplete(returned);
         });
     }

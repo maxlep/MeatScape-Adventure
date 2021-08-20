@@ -775,8 +775,8 @@ GameObject:
   - component: {fileID: 903412385}
   - component: {fileID: 3732428043601812333}
   - component: {fileID: 903412382}
-  - component: {fileID: 903412388}
   - component: {fileID: 4301313967144573816}
+  - component: {fileID: 6015186488718396733}
   m_Layer: 0
   m_Name: BubbleFeedback
   m_TagString: Untagged
@@ -865,7 +865,7 @@ MonoBehaviour:
   - {fileID: 903412379}
   - {fileID: 3732428043601812333}
   - {fileID: 903412385}
-  - {fileID: 903412388}
+  - {fileID: 6015186488718396733}
   - {fileID: 4301313967144573816}
   - {fileID: 903412378}
   InitializationMode: 2
@@ -1339,41 +1339,6 @@ MonoBehaviour:
     TargetBPM: 120
   DebugActive: 0
   PauseDuration: 2.5
---- !u!114 &903412388
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7121415237227721447}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bce85594d78e41442a7bfb6ed40e10a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Active: 1
-  Label: Instantiate Object
-  Chance: 100
-  Timing:
-    TimescaleMode: 0
-    InitialDelay: 0
-    CooldownDuration: 0
-    NumberOfRepeats: 0
-    RepeatForever: 0
-    DelayBetweenRepeats: 1
-    Sequence: {fileID: 0}
-    TrackID: 0
-    Quantized: 0
-    TargetBPM: 120
-  DebugActive: 0
-  VfxToInstantiate: {fileID: 3071338721881509913, guid: dee0c24ad87e3ff4ebd48969945638c6,
-    type: 3}
-  PositionMode: 1
-  TargetTransform: {fileID: 7121415237219970874}
-  TargetPosition: {x: 0, y: 0, z: 0}
-  VfxPositionOffset: {x: 0, y: 0, z: 0}
-  VfxCreateObjectPool: 0
-  VfxObjectPoolSize: 5
 --- !u!114 &4301313967144573816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1403,6 +1368,39 @@ MonoBehaviour:
   DebugActive: 0
   PauseDurationMin: 1
   PauseDurationMax: 2
+--- !u!114 &6015186488718396733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7121415237227721447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aca5ff03582174949b3c338ac29daad1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Active: 1
+  Label: Instantiate Object From Pool
+  Chance: 100
+  Timing:
+    TimescaleMode: 0
+    InitialDelay: 0
+    CooldownDuration: 0
+    NumberOfRepeats: 0
+    RepeatForever: 0
+    DelayBetweenRepeats: 1
+    Sequence: {fileID: 0}
+    TrackID: 0
+    Quantized: 0
+    TargetBPM: 120
+  DebugActive: 0
+  VfxToInstantiate: {fileID: 3071338721881509913, guid: dee0c24ad87e3ff4ebd48969945638c6,
+    type: 3}
+  PositionMode: 1
+  TargetTransform: {fileID: 7121415237219970874}
+  TargetPosition: {x: 0, y: 0, z: 0}
+  VfxPositionOffset: {x: 0, y: 0, z: 0}
 --- !u!1001 &1139742187828396276
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -50,7 +50,7 @@ namespace MoreMountains.Feedbacks
                     .GetComponent<ParticleSystem>();
             }
 
-            if (Container.Value != null)
+            if (Container != null && Container.Value != null)
                 _instantiatedParticleSystem.transform.parent = Container.Value;
 
         }

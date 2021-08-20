@@ -1,5 +1,184 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2788615183817532578
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 778225666069777311}
+  - component: {fileID: 8545107952619125376}
+  - component: {fileID: 11829024596548601}
+  - component: {fileID: 156932795985136032}
+  - component: {fileID: 4070733802668001368}
+  m_Layer: 0
+  m_Name: LifeTimeFeedback
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &778225666069777311
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2788615183817532578}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3071338721881509912}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8545107952619125376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2788615183817532578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 841b72de2996c5c40bfb394f3d0e0a98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Feedbacks:
+  - {fileID: 11829024596548601}
+  - {fileID: 156932795985136032}
+  InitializationMode: 2
+  SafeMode: 3
+  AutoPlayOnStart: 0
+  DebugActive: 0
+--- !u!114 &11829024596548601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2788615183817532578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66650ffe68eb1f548acc774ac2db1b80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Active: 1
+  Label: Pause
+  Chance: 100
+  Timing:
+    TimescaleMode: 0
+    InitialDelay: 0
+    CooldownDuration: 0
+    NumberOfRepeats: 0
+    RepeatForever: 0
+    DelayBetweenRepeats: 1
+    Sequence: {fileID: 0}
+    TrackID: 0
+    Quantized: 0
+    TargetBPM: 120
+  DebugActive: 0
+  PauseDuration: 8
+--- !u!114 &156932795985136032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2788615183817532578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23a102c1a91e34644aa37f1e4f00c31a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Active: 1
+  Label: Events
+  Chance: 100
+  Timing:
+    TimescaleMode: 0
+    InitialDelay: 0
+    CooldownDuration: 0
+    NumberOfRepeats: 0
+    RepeatForever: 0
+    DelayBetweenRepeats: 1
+    Sequence: {fileID: 0}
+    TrackID: 0
+    Quantized: 0
+    TargetBPM: 120
+  DebugActive: 0
+  PlayEvents:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5966790629705995278}
+        m_TargetAssemblyTypeName: MoreMountains.Feedbacks.MMFeedbacks, MoreMountains.Feedbacks
+        m_MethodName: PlayFeedbacks
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  StopEvents:
+    m_PersistentCalls:
+      m_Calls: []
+  InitializationEvents:
+    m_PersistentCalls:
+      m_Calls: []
+  ResetEvents:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &4070733802668001368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2788615183817532578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 468d0d7ee2257a34c966318be3e94f24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UnityEvents:
+  - UnityCallback: 2
+    delay: 0.1
+    unityEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8545107952619125376}
+          m_TargetAssemblyTypeName: MoreMountains.Feedbacks.MMFeedbacks, MoreMountains.Feedbacks
+          m_MethodName: PlayFeedbacks
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - UnityCallback: 3
+    delay: 0
+    unityEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8545107952619125376}
+          m_TargetAssemblyTypeName: MoreMountains.Feedbacks.MMFeedbacks, MoreMountains.Feedbacks
+          m_MethodName: StopFeedbacks
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &3071338720476376589
 GameObject:
   m_ObjectHideFlags: 0
@@ -175,6 +354,7 @@ Transform:
   m_Children:
   - {fileID: 3969678694572759639}
   - {fileID: 2828402379039137890}
+  - {fileID: 778225666069777311}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -241,11 +421,11 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 3071338721881509913}
+    - {fileID: 8545107952619125376}
     - {fileID: 0}
-    - {fileID: 3071338720476376591}
+    - {fileID: 5966790629705995278}
     - {fileID: 0}
-    - {fileID: 3071338720476376589}
+    - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
@@ -299,13 +479,13 @@ MonoBehaviour:
       Data: 0
     - Name: m_TargetAssemblyTypeName
       Entry: 1
-      Data: UnityEngine.GameObject, UnityEngine
+      Data: MoreMountains.Feedbacks.MMFeedbacks, MoreMountains.Feedbacks
     - Name: m_MethodName
       Entry: 1
-      Data: SetActive
+      Data: StopFeedbacks
     - Name: m_Mode
       Entry: 3
-      Data: 6
+      Data: 1
     - Name: m_Arguments
       Entry: 7
       Data: 7|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
@@ -344,13 +524,13 @@ MonoBehaviour:
       Data: 2
     - Name: m_TargetAssemblyTypeName
       Entry: 1
-      Data: UnityEngine.Collider, UnityEngine
+      Data: MoreMountains.Feedbacks.MMFeedbacks, MoreMountains.Feedbacks
     - Name: m_MethodName
       Entry: 1
-      Data: set_enabled
+      Data: PlayFeedbacks
     - Name: m_Mode
       Entry: 3
-      Data: 6
+      Data: 1
     - Name: m_Arguments
       Entry: 7
       Data: 9|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
@@ -434,13 +614,13 @@ MonoBehaviour:
       Data: 0
     - Name: m_TargetAssemblyTypeName
       Entry: 1
-      Data: UnityEngine.GameObject, UnityEngine
+      Data: MoreMountains.Feedbacks.MMFeedbacks, MoreMountains.Feedbacks
     - Name: m_MethodName
       Entry: 1
-      Data: SetActive
+      Data: StopFeedbacks
     - Name: m_Mode
       Entry: 3
-      Data: 6
+      Data: 1
     - Name: m_Arguments
       Entry: 7
       Data: 16|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
@@ -479,13 +659,13 @@ MonoBehaviour:
       Data: 2
     - Name: m_TargetAssemblyTypeName
       Entry: 1
-      Data: UnityEngine.Collider, UnityEngine
+      Data: MoreMountains.Feedbacks.MMFeedbacks, MoreMountains.Feedbacks
     - Name: m_MethodName
       Entry: 1
-      Data: set_enabled
+      Data: PlayFeedbacks
     - Name: m_Mode
       Entry: 3
-      Data: 6
+      Data: 1
     - Name: m_Arguments
       Entry: 7
       Data: 18|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
@@ -569,13 +749,13 @@ MonoBehaviour:
       Data: 0
     - Name: m_TargetAssemblyTypeName
       Entry: 1
-      Data: UnityEngine.GameObject, UnityEngine
+      Data: MoreMountains.Feedbacks.MMFeedbacks, MoreMountains.Feedbacks
     - Name: m_MethodName
       Entry: 1
-      Data: SetActive
+      Data: StopFeedbacks
     - Name: m_Mode
       Entry: 3
-      Data: 6
+      Data: 1
     - Name: m_Arguments
       Entry: 7
       Data: 25|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
@@ -614,13 +794,13 @@ MonoBehaviour:
       Data: 2
     - Name: m_TargetAssemblyTypeName
       Entry: 1
-      Data: UnityEngine.Collider, UnityEngine
+      Data: MoreMountains.Feedbacks.MMFeedbacks, MoreMountains.Feedbacks
     - Name: m_MethodName
       Entry: 1
-      Data: set_enabled
+      Data: PlayFeedbacks
     - Name: m_Mode
       Entry: 3
-      Data: 6
+      Data: 1
     - Name: m_Arguments
       Entry: 7
       Data: 27|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
@@ -2525,6 +2705,7 @@ GameObject:
   - component: {fileID: 2828402379039137890}
   - component: {fileID: 5966790629705995278}
   - component: {fileID: 7259665731736891880}
+  - component: {fileID: 624598796848704332}
   m_Layer: 18
   m_Name: DestroyFeedback
   m_TagString: Untagged
@@ -2560,6 +2741,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Feedbacks:
   - {fileID: 7259665731736891880}
+  - {fileID: 624598796848704332}
   InitializationMode: 2
   SafeMode: 3
   AutoPlayOnStart: 0
@@ -2605,6 +2787,34 @@ MonoBehaviour:
   Offset: {x: 0, y: 0, z: 0}
   DestroyTime: 5
   Container: {fileID: 11400000, guid: 0d369a55f93b92f40bc0da93af509ce2, type: 2}
+--- !u!114 &624598796848704332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9154109119385577354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6274a96de9bac6941be9dcc4e7715df6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Active: 1
+  Label: Return Object To Pool
+  Chance: 100
+  Timing:
+    TimescaleMode: 0
+    InitialDelay: 0
+    CooldownDuration: 0
+    NumberOfRepeats: 0
+    RepeatForever: 0
+    DelayBetweenRepeats: 1
+    Sequence: {fileID: 0}
+    TrackID: 0
+    Quantized: 0
+    TargetBPM: 120
+  DebugActive: 0
+  ObjectToPool: {fileID: 3071338721881509913}
 --- !u!1001 &3606357447831913529
 PrefabInstance:
   m_ObjectHideFlags: 0

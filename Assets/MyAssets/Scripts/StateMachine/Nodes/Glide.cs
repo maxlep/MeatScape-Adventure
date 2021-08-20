@@ -65,7 +65,15 @@ public class Glide : BaseMovement
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [Required] [TabGroup("Vertical")]
-        private FloatReference BaseSpeedFacInfluence;
+        private FloatReference TiltFacInfluence;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [Required] [TabGroup("Vertical")]
+        private FloatReference TurnAngleLerpRate;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [Required] [TabGroup("Vertical")]
+        private FloatReference TiltAngleLerpRate;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [Required] [TabGroup("Vertical")]
@@ -112,7 +120,9 @@ public class Glide : BaseMovement
         
         protected Vector3 previousVelocityOutput = Vector3.zero;
         private float steeringFac;
-        private float baseSpeedFac;
+        private float tiltFac;
+        private float tiltAngle;
+        private float turnAngle;
 
         
         #region Lifecycle methods
@@ -122,6 +132,8 @@ public class Glide : BaseMovement
             base.Enter();
             gravity *= GravityFactor.Value;
             playerController.AddImpulseOverlayed(playerController.transform.forward * GlideEnterImpulse.Value);
+            tiltAngle = 0f;
+            turnAngle = 0f;
         }
 
         public override void Exit()
@@ -270,24 +282,24 @@ public class Glide : BaseMovement
             if (isBreaking)
                 newSpeed -= BreakingDrag.Value * newSpeed * Time.deltaTime;
 
-            if (BaseSpeed.Value != 0f)
-                baseSpeedFac = Mathf.Clamp01(newSpeed / BaseSpeed.Value);
-            
-            
+
             #endregion
             
             #endregion
 
             #region Update Pivot
 
-            var turnAngle = Vector3.SignedAngle(dir, moveDir, Vector3.up);
-            turnAngle = Mathf.Clamp(-turnAngle, -60f, 60f);
+            var turnAngleTarget = Vector3.SignedAngle(dir, moveDir, Vector3.up);
+            turnAngleTarget = Mathf.Clamp(-turnAngleTarget, -60f, 60f);
+            turnAngle = Mathf.Lerp(turnAngle, turnAngleTarget, TurnAngleLerpRate.Value * Time.deltaTime);
             
             //If breaking, dont change turn angle
-            if (isBreaking) turnAngle = GlidePivot.Value.localRotation.z;
+            if (isBreaking) turnAngleTarget = GlidePivot.Value.localRotation.z;
+
+            tiltFac = (MoveInput.Value.y + 1f) / 2f;
+            var tiltAngleTarget = Mathf.Lerp(-45f, 20f, tiltFac);
+            tiltAngle = Mathf.Lerp(tiltAngle, tiltAngleTarget, TiltAngleLerpRate.Value * Time.deltaTime);
             
-            var tiltAngle = Mathf.Lerp(-45f, 20f, (MoveInput.Value.y + 1f)/2f);
-            //var tiltAngle = Mathf.Lerp(-45f, 20f, baseSpeedFac);
             GlidePivot.Value.localRotation = Quaternion.Euler(tiltAngle,  GlidePivot.Value.localRotation.y, turnAngle);
 
             #endregion
@@ -314,9 +326,8 @@ public class Glide : BaseMovement
             if (newVelocity.y <= 0f)  //Falling
             {
                 var drag = newVelocity.y * DragCoefficientVerticalDownwards.Value * Time.deltaTime;
-                var dragFac = steeringFac * SteeringFacInfluence.Value + (MoveInput.Value.y + 1f)/2f * BaseSpeedFacInfluence.Value;
-                //var dragFac = steeringFac * SteeringFacInfluence.Value + baseSpeedFac * BaseSpeedFacInfluence.Value;
-                drag *= 1f / ((dragFac * DragDivisor.Value) + 1f);
+                var dragFac = steeringFac * SteeringFacInfluence.Value + tiltFac * TiltFacInfluence.Value;
+                drag *= 1f / ((dragFac * DragDivisor.Value) + 1f);  //As drag fac increases, decrease drag to fall faster
                 newVelocity.y -= drag;
                 newVelocity.y += gravityAirborn * FallMultiplier.Value * Time.deltaTime;
             }

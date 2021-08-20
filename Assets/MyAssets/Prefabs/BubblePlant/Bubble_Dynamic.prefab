@@ -401,9 +401,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Mover: {fileID: 1026493730305165526}
-  DestroyFeedbacks: {fileID: 5966790629705995278}
   Speed: 15
-  Lifetime: 8
   Container: {fileID: 11400000, guid: 8a3290d624e8e0b49af8b7f1b94f0bf4, type: 2}
 --- !u!114 &3754126290684431916
 MonoBehaviour:
@@ -2706,6 +2704,7 @@ GameObject:
   - component: {fileID: 5966790629705995278}
   - component: {fileID: 7259665731736891880}
   - component: {fileID: 624598796848704332}
+  - component: {fileID: 5994112820228475376}
   m_Layer: 18
   m_Name: DestroyFeedback
   m_TagString: Untagged
@@ -2741,6 +2740,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Feedbacks:
   - {fileID: 7259665731736891880}
+  - {fileID: 5994112820228475376}
   - {fileID: 624598796848704332}
   InitializationMode: 2
   SafeMode: 3
@@ -2815,6 +2815,54 @@ MonoBehaviour:
     TargetBPM: 120
   DebugActive: 0
   ObjectToPool: {fileID: 3071338721881509913}
+--- !u!114 &5994112820228475376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9154109119385577354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8992174433e952f4ab19e373a3c9ddba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Active: 1
+  Label: SoundCustomSource
+  Chance: 100
+  Timing:
+    TimescaleMode: 0
+    InitialDelay: 0
+    CooldownDuration: 0
+    NumberOfRepeats: 0
+    RepeatForever: 0
+    DelayBetweenRepeats: 1
+    Sequence: {fileID: 0}
+    TrackID: 0
+    Quantized: 0
+    TargetBPM: 120
+  DebugActive: 0
+  Sfx: {fileID: 8300000, guid: 9d0dcc5ab8ef07147899723972d37d4b, type: 3}
+  RandomSfx: []
+  audioSourceSettings:
+    Priority: 128
+    StereoPan: 0
+    SpatialBlend: 1
+    ReverbZoneMix: 1
+    DopplerLevel: 1
+    Spread: 0
+    VolumeRolloff: 0
+    MinDistance: 10
+    MaxDistance: 500
+  TestButton: 0
+  TestStopButton: 0
+  PlayMethod: 2
+  PoolSize: 10
+  MinVolume: 1
+  MaxVolume: 1
+  MinPitch: 0.85
+  MaxPitch: 1.15
+  SfxAudioMixerGroup: {fileID: 0}
 --- !u!1001 &3606357447831913529
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2904,12 +2952,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d7a27ced5aa6e641aa7b644d7cf1de3, type: 3}
---- !u!4 &1224868051698547602 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2518569909222145963, guid: 4d7a27ced5aa6e641aa7b644d7cf1de3,
-    type: 3}
-  m_PrefabInstance: {fileID: 3606357447831913529}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &1311096169588381588 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 2323199869129053101, guid: 4d7a27ced5aa6e641aa7b644d7cf1de3,
@@ -2925,6 +2967,12 @@ ParticleSystem:
 --- !u!198 &1310693924510679284 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 2322977608379385037, guid: 4d7a27ced5aa6e641aa7b644d7cf1de3,
+    type: 3}
+  m_PrefabInstance: {fileID: 3606357447831913529}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1224868051698547602 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2518569909222145963, guid: 4d7a27ced5aa6e641aa7b644d7cf1de3,
     type: 3}
   m_PrefabInstance: {fileID: 3606357447831913529}
   m_PrefabAsset: {fileID: 0}

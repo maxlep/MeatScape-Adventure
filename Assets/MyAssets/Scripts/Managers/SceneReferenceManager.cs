@@ -35,36 +35,50 @@ public class SceneReferenceManager : MonoBehaviour
         {
             if (transformPair.AreValuesAssigned)
                 transformPair.AssignValueToReference();
+            else
+                Debug.LogError("Scene Reference NOT assigned!");
         }
         foreach (var gameObjectScenePair in GameObjectSceneList)
         {
             if (gameObjectScenePair.AreValuesAssigned)
                 gameObjectScenePair.AssignValueToReference();
+            else
+                Debug.LogError("Scene Reference NOT assigned!");
         }
         foreach (var particleSystemScenePair in ParticleSystemSceneList)
         {
             if (particleSystemScenePair.AreValuesAssigned)
                 particleSystemScenePair.AssignValueToReference();
+            else
+                Debug.LogError("Scene Reference NOT assigned!");
         }
         foreach (var mmFeedbacksScenePair in MMFeedbacksSceneList)
         {
             if (mmFeedbacksScenePair.AreValuesAssigned)
                 mmFeedbacksScenePair.AssignValueToReference();
+            else
+                Debug.LogError("Scene Reference NOT assigned!");
         }
         foreach (var animatorScenePair in AnimatorSceneList)
         {
             if (animatorScenePair.AreValuesAssigned)
                 animatorScenePair.AssignValueToReference();
+            else
+                Debug.LogError("Scene Reference NOT assigned!");
         }
         foreach (var animatableScenePair in AnimatableSceneList)
         {
             if (animatableScenePair.AreValuesAssigned)
                 animatableScenePair.AssignValueToReference();
+            else
+                Debug.LogError("Scene Reference NOT assigned!");
         }
         foreach (var cameraScenePair in CameraSceneList)
         {
             if (cameraScenePair.AreValuesAssigned)
                 cameraScenePair.AssignValueToReference();
+            else
+                Debug.LogError("Scene Reference NOT assigned!");
         }
     }
 }

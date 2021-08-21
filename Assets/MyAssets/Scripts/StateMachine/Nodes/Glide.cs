@@ -13,7 +13,7 @@ using UnityEngine;
 
 public class Glide : BaseMovement
 {
-    #region Horizontal Movement
+        #region Horizontal Movement
 
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Horizontal")] [Required]
@@ -66,15 +66,7 @@ public class Glide : BaseMovement
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [Required] [TabGroup("Vertical")]
         private FloatReference TiltFacInfluence;
-        
-        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
-        [Required] [TabGroup("Vertical")]
-        private FloatReference TurnAngleLerpRate;
-        
-        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
-        [Required] [TabGroup("Vertical")]
-        private FloatReference TiltAngleLerpRate;
-        
+
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [Required] [TabGroup("Vertical")]
         private FloatReference UpwardsGravityMultiplier;
@@ -107,6 +99,31 @@ public class Glide : BaseMovement
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Inputs")] [Required]
         protected FloatReference GlideEnterImpulse;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [Required] [TabGroup("Inputs")]
+        private FloatReference TurnAngleLerpRate;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [Required] [TabGroup("Inputs")]
+        private FloatReference TiltAngleLerpRate;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [Required] [TabGroup("Inputs")]
+        private FloatReference TurnAngleMin;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [Required] [TabGroup("Inputs")]
+        private FloatReference TurnAngleMax;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [Required] [TabGroup("Inputs")]
+        private FloatReference TiltAngleMin;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [Required] [TabGroup("Inputs")]
+        private FloatReference TiltAngleMax;
+
 
         #endregion
 
@@ -115,12 +132,18 @@ public class Glide : BaseMovement
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Outputs")] [Required]
         protected FloatReference HorizontalSpeedOut;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Outputs")] [Required]
+        protected FloatReference SteeringFac;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Outputs")] [Required]
+        protected FloatReference TiltFac;
 
         #endregion
         
         protected Vector3 previousVelocityOutput = Vector3.zero;
-        private float steeringFac;
-        private float tiltFac;
         private float tiltAngle;
         private float turnAngle;
 
@@ -232,11 +255,11 @@ public class Glide : BaseMovement
 
             var moveDir = moveInputCameraRelative.xoz().normalized;
             var steeringAngle = Mathf.Clamp(Vector3.Angle(dir, moveDir), 0f, 90f);
-            steeringFac = steeringAngle / 90;   //Clamp at 90 for max friction
+            SteeringFac.Value = steeringAngle / 90;   //Clamp at 90 for max friction
 
             //TurnFactor.Value = Vector3.SignedAngle(horizontalDir, steeringDir, Vector3.up) / 30;
             
-            var turningFriction = (1 + (CoefficientOfTurningFriction.Value * steeringFac));
+            var turningFriction = (1 + (CoefficientOfTurningFriction.Value * SteeringFac.Value));
 
             var drag = currentSpeed * DragCoefficientHorizontal.Value * Time.deltaTime;
 
@@ -260,7 +283,7 @@ public class Glide : BaseMovement
             else
             {
                 targetMagnitude = 0f;
-                steeringFac = 0f;
+                SteeringFac.Value = 0f;
                 isBreaking = true;
             }
 
@@ -290,14 +313,14 @@ public class Glide : BaseMovement
             #region Update Pivot
 
             var turnAngleTarget = Vector3.SignedAngle(dir, moveDir, Vector3.up);
-            turnAngleTarget = Mathf.Clamp(-turnAngleTarget, -60f, 60f);
+            turnAngleTarget = Mathf.Clamp(-turnAngleTarget, TurnAngleMin.Value, TurnAngleMax.Value);
             turnAngle = Mathf.Lerp(turnAngle, turnAngleTarget, TurnAngleLerpRate.Value * Time.deltaTime);
             
             //If breaking, dont change turn angle
             if (isBreaking) turnAngleTarget = GlidePivot.Value.localRotation.z;
 
-            tiltFac = (MoveInput.Value.y + 1f) / 2f;
-            var tiltAngleTarget = Mathf.Lerp(-45f, 20f, tiltFac);
+            TiltFac.Value = (MoveInput.Value.y + 1f) / 2f;
+            var tiltAngleTarget = Mathf.Lerp(TiltAngleMin.Value, TiltAngleMax.Value, TiltFac.Value);
             tiltAngle = Mathf.Lerp(tiltAngle, tiltAngleTarget, TiltAngleLerpRate.Value * Time.deltaTime);
             
             GlidePivot.Value.localRotation = Quaternion.Euler(tiltAngle,  GlidePivot.Value.localRotation.y, turnAngle);
@@ -326,7 +349,7 @@ public class Glide : BaseMovement
             if (newVelocity.y <= 0f)  //Falling
             {
                 var drag = newVelocity.y * DragCoefficientVerticalDownwards.Value * Time.deltaTime;
-                var dragFac = steeringFac * SteeringFacInfluence.Value + tiltFac * TiltFacInfluence.Value;
+                var dragFac = SteeringFac.Value * SteeringFacInfluence.Value + TiltFac.Value * TiltFacInfluence.Value;
                 drag *= 1f / ((dragFac * DragDivisor.Value) + 1f);  //As drag fac increases, decrease drag to fall faster
                 newVelocity.y -= drag;
                 newVelocity.y += gravityAirborn * FallMultiplier.Value * Time.deltaTime;

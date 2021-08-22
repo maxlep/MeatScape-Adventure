@@ -20,11 +20,14 @@ public class ForceEffector : MonoBehaviour
     [SerializeField] private LayerMapper LayerMapper;
     [SerializeField] private Vector3Reference PreviousVelocity;
     [SerializeField] private GameEvent OnForceEffectorActivated;
+    
+    [SerializeField] [ShowIf("forceDirectionType", ForceDirectionType.Directional)]
+    private bool useDirectionOfVelocity;
 
     [SerializeField] [ShowIf("forceDirectionType", ForceDirectionType.Directional)] 
     [LabelText("IsLocalSpace")]
     private bool isDirectionLocalSpace = true;
-
+    
     [SerializeField] [ShowIf("forceDirectionType", ForceDirectionType.Directional)]
     private Vector3 direction;
 
@@ -144,6 +147,9 @@ public class ForceEffector : MonoBehaviour
                 Vector3 dir = (isDirectionLocalSpace) ? 
                     transform.TransformDirection(direction.normalized) :
                     direction.normalized;
+                
+                if (useDirectionOfVelocity)
+                    dir = PreviousVelocity.Value.normalized;
             
                 //No mult by time.deltaTime because impulse
                 force = forceMagnitude * dir;

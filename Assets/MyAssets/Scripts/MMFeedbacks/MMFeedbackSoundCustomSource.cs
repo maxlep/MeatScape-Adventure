@@ -50,7 +50,7 @@ namespace MoreMountains.Feedbacks
         public float ReverbZoneMix = 1f;
         
         [Range(0f, 5f)]
-        public float DopplerLevel = 1f;
+        public float DopplerLevel = 0f;
         
         [Range(0f, 360f)]
         public float Spread = 0f;

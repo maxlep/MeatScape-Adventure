@@ -390,10 +390,13 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
             GameObject other = hit.collider.gameObject;
             
             //Activate Force Effectors
-            if (other.layer == layerMapper.GetLayer(LayerEnum.Bounce))
+            if (other.layer == layerMapper.GetLayer(LayerEnum.Bounce) ||
+                other.layer == layerMapper.GetLayer(LayerEnum.Interactable) ||
+                other.layer == layerMapper.GetLayer(LayerEnum.InteractableTarget))
             {
                 ForceEffector forceEffector = other.GetComponent<ForceEffector>();
-                forceEffector.Activate(this);
+                if (forceEffector != null)
+                    forceEffector.Activate(this);
             }
             
             //Broadcast trigger collisions info

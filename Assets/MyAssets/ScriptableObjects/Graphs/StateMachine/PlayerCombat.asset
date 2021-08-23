@@ -582,6 +582,229 @@ MonoBehaviour:
   InvalidStartStates: []
   TriggerConditions: []
   TimerConditions: []
+--- !u!114 &-5670502902608540479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
+  m_Name: Forward Throw Charge -> DoNothing
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: fa9e2570e424006469817a9df67ffc12, type: 2}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: BoolConditions
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[BoolCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 1|BoolCondition, Assembly-CSharp
+    - Name: targetParameter
+      Entry: 7
+      Data: 2|MyAssets.ScriptableObjects.Variables.BoolReference, Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: false
+    - Name: EnableInstanceOptions
+      Entry: 5
+      Data: false
+    - Name: InstanceName
+      Entry: 1
+      Data: 
+    - Name: InstancePath
+      Entry: 1
+      Data: Assets/MyAssets/ScriptableObjects/InstancedProperties/
+    - Name: ConstantValue
+      Entry: 5
+      Data: false
+    - Name: Variable
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: value
+      Entry: 7
+      Data: 3|MyAssets.ScriptableObjects.Variables.BoolReference, Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: true
+    - Name: EnableInstanceOptions
+      Entry: 5
+      Data: false
+    - Name: InstanceName
+      Entry: 6
+      Data: 
+    - Name: InstancePath
+      Entry: 1
+      Data: IntermediateProperties
+    - Name: ConstantValue
+      Entry: 5
+      Data: false
+    - Name: Variable
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: FloatConditions
+      Entry: 7
+      Data: 4|System.Collections.Generic.List`1[[FloatCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: IntConditions
+      Entry: 7
+      Data: 5|System.Collections.Generic.List`1[[IntCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Vector2Conditions
+      Entry: 7
+      Data: 6|System.Collections.Generic.List`1[[Vector2Condition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Vector3Conditions
+      Entry: 7
+      Data: 7|System.Collections.Generic.List`1[[Vector3Condition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: GameEventConditions
+      Entry: 7
+      Data: 8|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: DynamicGameEventConditions
+      Entry: 7
+      Data: 9|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: TransformConditions
+      Entry: 7
+      Data: 10|System.Collections.Generic.List`1[[TransformCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  graph: {fileID: 11400000}
+  position: {x: 2792, y: -1864}
+  ports:
+    keys:
+    - startingState
+    - nextState
+    values:
+    - _fieldName: startingState
+      _node: {fileID: -5670502902608540479}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: transitions
+        node: {fileID: -4695961148579739637}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: nextState
+      _node: {fileID: -5670502902608540479}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: previousState
+        node: {fileID: -1651560789672905927}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 2
+      _dynamic: 0
+  collapsed: 1
+  transitionPriority: 1
+  conditionPreview: '- ! Attack Pressed_ Controller_ Player
+
+'
+  Description: <Lower Priority> If attack presed but timer not reached.
+  RaiseOnTransitionUnityEvents: []
+  RaiseOnTransitionEvents: []
+  ValidStartStates: []
+  InvalidStartStates: []
+  TriggerConditions: []
+  TimerConditions: []
 --- !u!114 &-4695961148579739637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -664,6 +887,9 @@ MonoBehaviour:
         reroutePoints: []
       - fieldName: startingState
         node: {fileID: -4018497126496825186}
+        reroutePoints: []
+      - fieldName: startingState
+        node: {fileID: -5670502902608540479}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -924,7 +1150,7 @@ MonoBehaviour:
       Entry: 8
       Data: 
   graph: {fileID: 11400000}
-  position: {x: 2776, y: -1032}
+  position: {x: 2792, y: -840}
   ports:
     keys:
     - startingState
@@ -1574,7 +1800,7 @@ MonoBehaviour:
       Entry: 8
       Data: 
   graph: {fileID: 11400000}
-  position: {x: 2776, y: -1544}
+  position: {x: 2792, y: -1368}
   ports:
     keys:
     - startingState
@@ -1670,6 +1896,9 @@ MonoBehaviour:
         reroutePoints: []
       - fieldName: nextState
         node: {fileID: -2753180840715720298}
+        reroutePoints: []
+      - fieldName: nextState
+        node: {fileID: -5670502902608540479}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -1870,12 +2099,12 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: 1368, y: -1816}
+  position: {x: 1368, y: -2072}
   ports:
     keys: []
     values: []
-  Width: 4171
-  Height: 1855
+  Width: 4319
+  Height: 2285
   Color: {r: 1, g: 1, b: 1, a: 0.08}
   TextColor: {r: 1, g: 1, b: 1, a: 1}
   Description: Clump Throw
@@ -1902,9 +2131,9 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   nodes:
+  - {fileID: -269645449966665761}
   - {fileID: 6366080442694501292}
   - {fileID: -2725368094518049691}
-  - {fileID: -269645449966665761}
   - {fileID: 4601134146122477444}
   - {fileID: 9174840935225501389}
   - {fileID: 5736769057387298889}
@@ -1931,6 +2160,7 @@ MonoBehaviour:
   - {fileID: 8750123879746153421}
   - {fileID: -2753180840715720298}
   - {fileID: -4018497126496825186}
+  - {fileID: -5670502902608540479}
 --- !u!114 &32925268295708575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3061,7 +3291,7 @@ MonoBehaviour:
       Entry: 8
       Data: 
   graph: {fileID: 11400000}
-  position: {x: 2776, y: -472}
+  position: {x: 2792, y: -328}
   ports:
     keys:
     - startingState
@@ -3609,4 +3839,4 @@ MonoBehaviour:
   BypassState: 0
   Name: DoNothing
   Description: 
-  isActiveState: 0
+  isActiveState: 1

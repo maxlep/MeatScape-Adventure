@@ -13,11 +13,15 @@ public class FreeLookAddOn : MonoBehaviour
     [SerializeField] private float accelerationX = .025f;
     [SerializeField] private float accelerationY = .025f;
     [SerializeField] private bool InvertY = false;
+    [SerializeField] private float recenterTimer = 3f;
+    [SerializeField] private float recenterAcceleration = .1f;
     
     private CinemachineFreeLook _freeLookComponent;
     private InputAction lookInput, mousePosition;
     private float previousVelocityX = 0f;
     private float previousVelocityY = 0f;
+    private float lastInputTime = Mathf.NegativeInfinity;
+    
 
     private void Awake()
     {
@@ -35,6 +39,9 @@ public class FreeLookAddOn : MonoBehaviour
     private void LateUpdate()
     {
         Look();
+        
+        if (lastInputTime + recenterTimer < Time.time)
+            Recenter();
     }
     
     // Update the look movement each time the event is trigger.
@@ -49,10 +56,13 @@ public class FreeLookAddOn : MonoBehaviour
 
         //Normalize the vector to have an uniform vector in whichever form it came from (I.E Gamepad, mouse, etc)
         Vector2 lookMovement = lookInput.ReadValue<Vector2>();
+        if (!Mathf.Approximately(0f, lookMovement.sqrMagnitude)) lastInputTime = Time.time;
+        
         lookMovement.y = InvertY ? -lookMovement.y : lookMovement.y;
 
         // This is because X axis is only contains between -180 and 180 instead of 0 and 1 like the Y axis
         lookMovement.x = lookMovement.x * 180f;
+
 
         float targetVelocityX = lookMovement.x * LookSpeedX;
         float targetVelocityY = lookMovement.y * LookSpeedY;
@@ -72,5 +82,13 @@ public class FreeLookAddOn : MonoBehaviour
         
     previousVelocityX = newVelocityX;
     previousVelocityY = newVelocityY;
+    }
+
+    private void Recenter()
+    {
+        float outVelocityY = 0f;
+        
+        _freeLookComponent.m_YAxis.Value =
+            Mathf.SmoothDamp(_freeLookComponent.m_YAxis.Value, .5f, ref outVelocityY, recenterAcceleration);
     }
 }

@@ -62,6 +62,10 @@ public class MeateorStrike : RollMovement
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
     [TabGroup("Inputs")] [Required]
     protected LeanTweenType VelocityEasingType;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required]
+    private BoolVariable SlingshotReady;
 
     #endregion
 
@@ -106,6 +110,7 @@ public class MeateorStrike : RollMovement
     {
         base.Enter();
         
+        SlingshotReady.Value = false;
         PlayerCollidedWith.Subscribe(CheckForHit);
         
         duration = MeateorStrikeDurationTimer.Duration;

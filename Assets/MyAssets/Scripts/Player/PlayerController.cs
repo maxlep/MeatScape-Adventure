@@ -72,6 +72,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference MinSlopeSlideAngle;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference MaxStableDenivelationAngle;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference Scale;
+    [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference MeaatClumpBoostForce;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector2Reference MoveInput;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector3Reference BaseVelocity;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference JumpPressed;
@@ -577,6 +578,12 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     public Vector3 GetPlatformVelocity()
     {
         return charMotor.Velocity - charMotor.BaseVelocity;
+    }
+
+    public void ApplyMeatClumpBoost()
+    {
+        Vector3 force = PreviousVelocityAfterUpdate.Value.normalized * MeaatClumpBoostForce.Value;
+        AddImpulseOverlayed(force);
     }
 
     #endregion

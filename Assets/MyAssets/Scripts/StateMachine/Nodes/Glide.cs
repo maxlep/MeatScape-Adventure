@@ -7,6 +7,7 @@ using MyAssets.Graphs.StateMachine.Nodes;
 using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
 using MyAssets.Scripts.Utils;
+using Shapes;
 using Sirenix.OdinInspector;
 using Unity.Mathematics;
 using UnityEngine;
@@ -81,6 +82,10 @@ public class Glide : BaseMovement
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Vertical")] [Required]
+        protected FloatReference DragCoefficientVerticalUpwards;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Vertical")] [Required]
         protected FloatReference GravityFactor;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
@@ -123,6 +128,10 @@ public class Glide : BaseMovement
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [Required] [TabGroup("Inputs")]
         private FloatReference TiltAngleMax;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [Required] [TabGroup("Inputs")]
+        private FloatReference MaxUpwardsTiltThresholdSpeed;
 
 
         #endregion
@@ -146,6 +155,7 @@ public class Glide : BaseMovement
         protected Vector3 previousVelocityOutput = Vector3.zero;
         private float tiltAngle;
         private float turnAngle;
+        private Vector3 tiltedDir;
 
         
         #region Lifecycle methods
@@ -203,19 +213,21 @@ public class Glide : BaseMovement
 
             #endregion
 
+            //NOTE: Here the horizontal velocity is fed into the vertical velocity!!!
             Vector3 horizontalVelocity = CalculateHorizontalVelocity(currentVelocity, effectiveGroundNormal);
-            Vector3 verticalVelocity = CalculateVerticalVelocity(currentVelocity, effectiveGroundNormal);
+            Vector3 verticalVelocity = CalculateVerticalVelocity(horizontalVelocity, effectiveGroundNormal);  //This methods gravity works but horizontal tilted y is lost...
+            //Vector3 verticalVelocity = CalculateVerticalVelocity(currentVelocity, effectiveGroundNormal);   //This method the horizontal tilted is correct but also overrides dir of previous frame's velocity...
 
-            //Redirect impulseVelocityRedirectble if conditions met
+            //Redirect impulseVelocityRedirectable if conditions met
             if (EnableRedirect && CheckRedirectConditions(impulseVelocityRedirectble))
                 totalImpulse += CalculateRedirectedImpulse(impulseVelocityRedirectble);
             else
                 totalImpulse += impulseVelocityRedirectble;
 
-            resultingVelocity = horizontalVelocity + verticalVelocity;
+            //Let vertical velocity set the y because it includes the vertical velocity from the horizontalvelocity method
+            resultingVelocity = horizontalVelocity.xoz() + verticalVelocity.oyo();
             resultingVelocity += totalImpulse;
-            
-            
+
             previousVelocityOutput = resultingVelocity;
             return resultingVelocity;
         }
@@ -225,7 +237,9 @@ public class Glide : BaseMovement
             CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
             CharacterTransientGroundingReport LastGroundingStatus = playerController.LastGroundingStatus;
 
-            float currentSpeed = currentVelocity.xoz().magnitude;
+            //float currentSpeedHorizontal = currentVelocity.xoz().magnitude;
+            float currentSpeed = currentVelocity.magnitude;
+            var horizontalSpeed = currentVelocity.xoz().magnitude;
 
             #region Get New Move Direction
 
@@ -252,61 +266,27 @@ public class Glide : BaseMovement
             #endregion
             
             #region Get New Speed
-
+            
             var moveDir = moveInputCameraRelative.xoz().normalized;
             var steeringAngle = Mathf.Clamp(Vector3.Angle(dir, moveDir), 0f, 90f);
             SteeringFac.Value = steeringAngle / 90;   //Clamp at 90 for max friction
 
-            //TurnFactor.Value = Vector3.SignedAngle(horizontalDir, steeringDir, Vector3.up) / 30;
-            
-            var turningFriction = (1 + (CoefficientOfTurningFriction.Value * SteeringFac.Value));
+            #region Check Breaking
 
-            var drag = currentSpeed * DragCoefficientHorizontal.Value * Time.deltaTime;
-
-            #region Accelerate to target speed
-
-            float targetMagnitude;
-            float currentMagnitude = Mathf.Clamp01(currentSpeed / BaseSpeed.Value);
             bool isBreaking = false;
             
-            //If move input is zero, take current speed and start accelerating forward
-            if (Mathf.Approximately(0f, MoveInput.Value.magnitude))
+            //If projected move input is not in same direction as velocity, assuming breaking
+            if (Vector3.Dot(dir.xoz(), moveDir) < AccelerateDotThreshold.Value)
             {
-                targetMagnitude = currentMagnitude + GlideIdleAcceleratePercent.Value * Time.deltaTime;
-            }
-
-            //If projected move input is in same direction as velocity, set target speed
-            else if (Vector3.Dot(dir.xoz(), moveDir) > AccelerateDotThreshold.Value)
-                targetMagnitude = 1f;
-
-            //Otherwise, assume player wants to stop and turn around 
-            else
-            {
-                targetMagnitude = 0f;
                 SteeringFac.Value = 0f;
                 isBreaking = true;
             }
-
             
-            targetMagnitude = Mathf.Clamp01(targetMagnitude);
-            
-            var targetSpeed = BaseSpeed.Value * targetMagnitude;
-            if (newSpeed < targetSpeed)
-            {
-                //TimeToTargetSpeed = Time to get to target speed from 0
-                newSpeed = currentSpeed + targetSpeed * Time.deltaTime / TimeToTargetSpeed.Value;
-            }
-            else
-            {
-                //Only apply drag if not accelerating to base speed
-                newSpeed = currentSpeed - drag - turningFriction;
-            }
-
-            if (isBreaking)
-                newSpeed -= BreakingDrag.Value * newSpeed * Time.deltaTime;
-
-
             #endregion
+            
+            var turningFriction = (1 + (CoefficientOfTurningFriction.Value * SteeringFac.Value)) * Time.deltaTime;
+            var dragHorizontal = horizontalSpeed * DragCoefficientHorizontal.Value * Time.deltaTime;
+            newSpeed = currentSpeed - dragHorizontal - turningFriction;
             
             #endregion
 
@@ -320,10 +300,34 @@ public class Glide : BaseMovement
             if (isBreaking) turnAngleTarget = GlidePivot.Value.localRotation.z;
 
             TiltFac.Value = (MoveInput.Value.y + 1f) / 2f;
+            
+            //To stop floating in air forever when tilted up and going slow
+            //Need certain amount of speed to be able to tilt above horizontal
+            
+            
+            if (horizontalSpeed < MaxUpwardsTiltThresholdSpeed.Value)
+            {
+                var maxTiltFac = horizontalSpeed / MaxUpwardsTiltThresholdSpeed.Value;
+                var currentMaxTilt = Mathf.Lerp(2f, -1f, maxTiltFac);   //This is the most the player can currently tilt upwards (-1 being most tilt up)
+                TiltFac.Value = Mathf.Max(currentMaxTilt, TiltFac.Value);   //Enforce the current max tilt
+            }
+                
+            
             var tiltAngleTarget = Mathf.Lerp(TiltAngleMin.Value, TiltAngleMax.Value, TiltFac.Value);
             tiltAngle = Mathf.Lerp(tiltAngle, tiltAngleTarget, TiltAngleLerpRate.Value * Time.deltaTime);
             
             GlidePivot.Value.localRotation = Quaternion.Euler(tiltAngle,  GlidePivot.Value.localRotation.y, turnAngle);
+
+            #endregion
+
+            #region Tilt Direction
+
+            // var tiltDirAmount = (MoveInput.Value.y + 1f) / 2f;
+            // var tiltDirAngle = Mathf.Lerp(-60f, 60f, tiltDirAmount);
+            // tiltDirAngle = Mathf.Lerp(tiltAngle, tiltAngleTarget, TiltAngleLerpRate.Value * Time.deltaTime);
+            var playerRight = Vector3.Cross(currentVelocity.xoz().normalized, Vector3.up);
+            newDirection = Quaternion.AngleAxis(-tiltAngle, playerRight) * newDirection;
+            tiltedDir = newDirection;
 
             #endregion
             
@@ -342,7 +346,7 @@ public class Glide : BaseMovement
 
             #region Airborn
 
-            Vector3 newVelocity = currentVelocity.y * Vector3.up;
+            Vector3 newVelocity = currentVelocity.oyo();
 
             float gravityAirborn = gravity * GravityFactorAirborn.Value;
 
@@ -356,6 +360,8 @@ public class Glide : BaseMovement
             }
             else if (newVelocity.y > 0f)
             {
+                var drag = newVelocity.y * DragCoefficientVerticalUpwards.Value * Time.deltaTime;
+                newVelocity.y -= drag;
                 newVelocity.y += gravityAirborn * UpwardsGravityMultiplier.Value * Time.deltaTime;
             }
 
@@ -393,5 +399,44 @@ public class Glide : BaseMovement
             playerController.Gravity = gravity * GravityFactorAirborn.Value;
             playerController.UpwardsGravityFactor = UpwardsGravityMultiplier.Value ;
             playerController.DownwardsGravityFactor = FallMultiplier.Value;
+        }
+        
+        public override void DrawGizmos()
+        {
+            if (playerController == null) return;
+        
+            // set up all static parameters. these are used for all following Draw.Line calls
+            Draw.LineGeometry = LineGeometry.Volumetric3D;
+            Draw.LineThicknessSpace = ThicknessSpace.Meters;
+            Draw.LineThickness = .1f;
+
+            Vector3 startPos = playerController.transform.position;
+            Vector3 endPos = playerController.transform.position + newDirection * (newSpeed / BaseSpeed.Value) * 10f;
+            Vector3 endPos2 = playerController.transform.position + moveInputCameraRelative * 10f;
+            Vector3 endPos4 = playerController.transform.position + tiltedDir * 10f;
+            //Vector3 endPos6 = playerController.transform.position + playerController.GroundingStatus.GroundNormal * 10f;
+            //Vector3 endPos7 = playerController.transform.position + intersectingVector * 10f;
+
+            Color actualMoveColor = new Color(1f, 1f, 0f, .35f);
+            Color moveInputColor = new Color(0f, 1f, 0f, .35f);
+            Color projectedMoveInputColor = new Color(.3f, 1f, .8f, .35f);
+            Color cachedVelocityColor = new Color(0f, 0f, 1f, .35f);
+            Color slopeRightColor = Color.magenta;
+            Color groundNormalColor = Color.white;
+
+            Draw.Line(startPos, endPos, actualMoveColor); //Actual move
+            Draw.Line(startPos, endPos2, moveInputColor); //Move Input
+            Draw.Line(startPos, endPos4, cachedVelocityColor); //TiledDir
+            //Draw.Line(startPos, endPos5, slopeRightColor); //Slope Right
+            //Draw.Line(startPos, endPos6, groundNormalColor); //Ground Normal
+            //Draw.Line(startPos, endPos7, slopeRightColor); //Intersecting Vector
+            
+            
+            Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos, .25f, actualMoveColor);
+            Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos2, .25f, moveInputColor);
+            Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos4, .25f, cachedVelocityColor);
+            //Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos5, .25f, slopeRightColor);
+            //Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos6, .25f, groundNormalColor);
+            //Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Meters, endPos7, .25f, slopeRightColor);
         }
 }

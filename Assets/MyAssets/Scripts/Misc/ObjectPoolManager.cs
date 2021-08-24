@@ -21,13 +21,13 @@ public class ObjectPoolManager : SerializedMonoBehaviour
     [SerializeField] private List<PoolObject> poolObjects;
 
     //Dict of {Prefab, PoolObject for that Prefab} - For getting obj from pool given a Prefab
-    [SerializeField] private Dictionary<GameObject, PoolObject> poolMapping;
+    private Dictionary<GameObject, PoolObject> poolMapping;
     
     //Dict of {Prefab, {InstanceID, Instanced Obj}} - For accessing Instance pool given a Prefab
-    [SerializeField] private Dictionary<GameObject, Dictionary<int, GameObject>> pools;
+    private Dictionary<GameObject, Dictionary<int, GameObject>> pools;
     
     //Dict of {Instanced Obj ID, Prefab} - For getting a Prefab given and Instanced Obj
-    [SerializeField] private Dictionary<int, GameObject> instanceToPrefab;
+    private Dictionary<int, GameObject> instanceToPrefab;
 
     private void Awake()
     {

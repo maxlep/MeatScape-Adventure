@@ -11,6 +11,10 @@ public class GroundSlamFall : RollMovement
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required]
     protected BoolReference JumpPressed;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Outputs")] [Required]
+    protected Vector3Reference VelocityBeforeGroundSlam;
 
     protected override Vector3 CalculateVelocity(VelocityInfo velocityInfo)
         {
@@ -99,6 +103,10 @@ public class GroundSlamFall : RollMovement
                 GroundStickAngleOutput.Value = GroundStickAngleInputDownwards.Value;
 
             #endregion
+
+            //Update while still falling
+            if (!GroundingStatus.FoundAnyGround)
+                VelocityBeforeGroundSlam.Value = resultingVelocity;
             
             previousVelocityOutput = resultingVelocity;
             return resultingVelocity;

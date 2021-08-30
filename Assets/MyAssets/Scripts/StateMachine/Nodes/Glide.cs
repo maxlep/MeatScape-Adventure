@@ -165,8 +165,8 @@ public class Glide : BaseMovement
             base.Enter();
             gravity *= GravityFactor.Value;
             playerController.AddImpulseOverlayed(playerController.transform.forward * GlideEnterImpulse.Value);
-            tiltAngle = 0f;
             turnAngle = 0f;
+            tiltAngle = 0f;
         }
 
         public override void Exit()

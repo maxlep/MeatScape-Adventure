@@ -110,6 +110,8 @@ namespace MyAssets.Scripts.Events
         public void TryRaise()
         {
             TryRaise(null, null);
+            GameEventConditions.ForEach(e => e.ResetGameEvent());
+            DynamicGameEventConditions.ForEach(e => e.ResetGameEvent());
         }
 
         //For call by subscription to state change event

@@ -57,6 +57,16 @@ namespace MyAssets.Scripts.Events
         [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)]
         [Required] [HideReferenceObjectPicker]
         [OdinSerialize] private List<Vector3Condition> Vector3Conditions = new List<Vector3Condition>();
+        
+        [Tooltip("Transition only valid if ALL of these GameEvent condition are met")] [ListDrawerSettings(DraggableItems = false)]
+        [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)]
+        [Required] [HideReferenceObjectPicker]
+        [OdinSerialize] private List<GameEventCondition> GameEventConditions = new List<GameEventCondition>();
+    
+        [Tooltip("Transition only valid if ALL of these DynamicGameEvent condition are met")] [ListDrawerSettings(DraggableItems = false)]
+        [PropertySpace(SpaceBefore = 0, SpaceAfter = 10)] [GUIColor(.9f, .95f, 1f)]
+        [Required] [HideReferenceObjectPicker]
+        [OdinSerialize] private List<DynamicGameEventCondition> DynamicGameEventConditions = new List<DynamicGameEventCondition>();
 
         public UnityEvent Response;
 
@@ -72,6 +82,15 @@ namespace MyAssets.Scripts.Events
             allConditions = allConditions.Union(TimerConditions).ToList();
             allConditions = allConditions.Union(Vector2Conditions).ToList();
             allConditions = allConditions.Union(Vector3Conditions).ToList();
+            allConditions = allConditions.Union(GameEventConditions).ToList();
+            allConditions = allConditions.Union(DynamicGameEventConditions).ToList();
+            
+            //Init all conditions (Really just for the events)
+            allConditions.ForEach(c => c.Init(""));
+            
+            //Subscribe to game events for try raise.
+            GameEventConditions.ForEach(e => e.TargetParameter.Subscribe(TryRaise));
+            DynamicGameEventConditions.ForEach(e => e.TargetParameter.Subscribe((p, c) => TryRaise()));
         }
 
         private void Start()
@@ -81,7 +100,7 @@ namespace MyAssets.Scripts.Events
                 stateMachine.onChangeState += EvaluateStateChange;
             }
         }
-        
+
         private void EvaluateStateChange(StateNode exitingState, StateNode enteringState)
         {
             TryRaise(exitingState, enteringState);

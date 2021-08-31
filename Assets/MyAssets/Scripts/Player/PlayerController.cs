@@ -146,7 +146,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     private Vector3 moveDirection;
     private InputAction playerMove;
-    
+
     private GroundingInfo groundInfo, meatGroundInfo;
     private bool isMeatGrounded => DistanceToMeatGround.Value <= DistanceToMeatGroundThreshold.Value;
     private bool isRegeneratingMeat;
@@ -170,7 +170,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     private float capsuleStartHeight, capsuleStartRadius;
     private Vector3 capsuleStartCenter;
-    
+
     public float Gravity { get => gravity; set => gravity = value; }
     public float UpwardsGravityFactor { get => upwardsGravityFactor; set => upwardsGravityFactor = value; }
     public float DownwardsGravityFactor { get => downwardsGravityFactor; set => downwardsGravityFactor = value; }
@@ -307,7 +307,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
         #region OverlayedVelocity
 
-        if (ungroundTrigger && (impulseOverlayedOverrideX.y > 0f) ||
+        if(ungroundTrigger && (impulseOverlayedOverrideX.y > 0f) ||
                                 impulseOverlayed.y > 0f ||
                                 StoredJumpVelocity.Value > 0f ||
                                 overrideVelocity.y > 0f)
@@ -334,34 +334,34 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         {
             currentVelocity.y = StoredJumpVelocity.Value;
             NewVelocity.Value = currentVelocity; //Update new velocity to keep in sync
-        } 
-        
+        }
+
         //This stored velocity completely overrides and sets the velocity
         //NOTE: NO LONGER Ignores 0 components
-            // if(!Mathf.Approximately(overrideVelocity.x, 0f))
-            // {
-            //     currentVelocity.x = overrideVelocity.x;
-            //     NewVelocity.Value = currentVelocity; //Update new velocity to keep in sync
-            // }
-            // if(!Mathf.Approximately(overrideVelocity.y, 0f))
-            // {
-            //     currentVelocity.y = overrideVelocity.y;
-            //     NewVelocity.Value = currentVelocity; //Update new velocity to keep in sync
-            // }
-            // if(!Mathf.Approximately(overrideVelocity.z, 0f))
-            // {
-            //     currentVelocity.z = overrideVelocity.z;
-            //     NewVelocity.Value = currentVelocity; //Update new velocity to keep in sync
-            // }
+        // if(!Mathf.Approximately(overrideVelocity.x, 0f))
+        // {
+        //     currentVelocity.x = overrideVelocity.x;
+        //     NewVelocity.Value = currentVelocity; //Update new velocity to keep in sync
+        // }
+        // if(!Mathf.Approximately(overrideVelocity.y, 0f))
+        // {
+        //     currentVelocity.y = overrideVelocity.y;
+        //     NewVelocity.Value = currentVelocity; //Update new velocity to keep in sync
+        // }
+        // if(!Mathf.Approximately(overrideVelocity.z, 0f))
+        // {
+        //     currentVelocity.z = overrideVelocity.z;
+        //     NewVelocity.Value = currentVelocity; //Update new velocity to keep in sync
+        // }
 
-            if (!Mathf.Approximately(0f, overrideVelocity.magnitude))
-            {
-                currentVelocity = overrideVelocity;
-                NewVelocity.Value = currentVelocity;
-            }
+        if(!Mathf.Approximately(0f, overrideVelocity.magnitude))
+        {
+            currentVelocity = overrideVelocity;
+            NewVelocity.Value = currentVelocity;
+        }
 
-            #endregion
-        
+        #endregion
+
 
         #region Reset Vars
 
@@ -384,29 +384,29 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         // This is called after the motor has finished everything in its update
         StoredJumpVelocity.Value = 0f;
         PreviousVelocityAfterUpdate.Value = previousVelocity;
-        
-        
-        #region Rigidbody Sweep Test
-        
-        var sweepHits = playerRb.SweepTestAll(previousVelocity.normalized, 
-            previousVelocity.magnitude  * deltaTime, QueryTriggerInteraction.Collide);
 
-        foreach (var hit in sweepHits)
+
+        #region Rigidbody Sweep Test
+
+        var sweepHits = playerRb.SweepTestAll(previousVelocity.normalized,
+            previousVelocity.magnitude * deltaTime, QueryTriggerInteraction.Collide);
+
+        foreach(var hit in sweepHits)
         {
             GameObject other = hit.collider.gameObject;
-            
+
             //Activate Force Effectors
-            if (other.layer == layerMapper.GetLayer(LayerEnum.Bounce) ||
+            if(other.layer == layerMapper.GetLayer(LayerEnum.Bounce) ||
                 other.layer == layerMapper.GetLayer(LayerEnum.Interactable) ||
                 other.layer == layerMapper.GetLayer(LayerEnum.InteractableTarget))
             {
                 ForceEffector forceEffector = other.GetComponent<ForceEffector>();
-                if (forceEffector != null)
+                if(forceEffector != null)
                     forceEffector.Activate(this);
             }
-            
+
             //Broadcast trigger collisions info
-            if (hit.collider.isTrigger)
+            if(hit.collider.isTrigger)
             {
                 CollisionInfo collisionInfo = new CollisionInfo()
                 {
@@ -509,19 +509,19 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     {
         float gravityFactor = gravity;
 
-        if (dir.y > 0)
+        if(dir.y > 0)
             gravityFactor *= upwardsGravityFactor;
         else
             gravityFactor *= downwardsGravityFactor;
 
         Vector3 impulse = Mathf.Sqrt(-2f * gravityFactor * distance) * dir;
 
-        if (additiveY)
+        if(additiveY)
             AddImpulseOverlayed(impulse.oyo());
-        else 
+        else
             StoredJumpVelocity.Value = impulse.y;
-            
-        
+
+
         AddImpulseOverlayed(impulse.xoz());
     }
 
@@ -556,8 +556,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         slingshotLine.Start = Vector3.zero;
         slingshotLine.End = transform.InverseTransformDirection(arrowVector);
         slingshotCone.transform.position = slingshotLine.transform.position + arrowVector;
-        
-        if (arrowVector.sqrMagnitude > 0f)
+
+        if(arrowVector.sqrMagnitude > 0f)
             slingshotCone.transform.rotation = Quaternion.LookRotation(arrowVector);
     }
 
@@ -605,16 +605,16 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
             HungerDecayTimer.RestartTimer();
         }
 
-        if (isMeatGrounded && isRegeneratingMeat && !noRegenFromMeatContact)
+        if(isMeatGrounded && isRegeneratingMeat && !noRegenFromMeatContact)
         {
             meatDistance += PreviousVelocityAfterUpdate.Value.magnitude * Time.deltaTime;
-            if (meatDistance >= DistancePerClump.Value)
+            if(meatDistance >= DistancePerClump.Value)
             {
                 meatDistance %= DistancePerClump.Value;
                 IncrementHunger(1);
             }
         }
-        else if (!isMeatGrounded)
+        else if(!isMeatGrounded)
         {
             meatDistance = 0;
         }
@@ -671,7 +671,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     public void IncrementHunger(int amount)
     {
         HungerOut.Value += amount;
-        HungerOut.Value = Mathf.Clamp(HungerOut.Value, 0, HungerSoftMax.Value);
+        HungerOut.Value = Mathf.Max(HungerOut.Value, 0);
     }
 
     #endregion
@@ -750,7 +750,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private void UpdateParameters()
     {
         IsGrounded.Value = charMotor.GroundingStatus.FoundAnyGround;
-        if (charMotor.GroundingStatus.FoundAnyGround) SlingshotReady.Value = true;
+        if(charMotor.GroundingStatus.FoundAnyGround) SlingshotReady.Value = true;
         IsOnSlidebleSlope.Value = StandingOnSlideableSlope();
         BaseVelocity.Value = charMotor.BaseVelocity;
         groundInfo = GetGroundInfo(charMotor.StableGroundLayers);
@@ -759,10 +759,10 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         DistanceToMeatGround.Value = meatGroundInfo.distance;
         GroundSlamCooldownTimer.UpdateTime();
 
-        if (!LastGroundingStatus.FoundAnyGround && GroundingStatus.FoundAnyGround)
+        if(!LastGroundingStatus.FoundAnyGround && GroundingStatus.FoundAnyGround)
             BecameGrounded.Activate();
-        
-            
+
+
 
         else if(LastGroundingStatus.FoundAnyGround && !GroundingStatus.FoundAnyGround)
             BecameUngrounded.Activate();
@@ -788,7 +788,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         RaycastHit hit;
         var offset = Vector3.up * collider.bounds.size.y;
         bool foundGroundBelow = CastColliderDown(out hit, offset, Mathf.Infinity, groundMask);
-        if (foundGroundBelow)
+        if(foundGroundBelow)
         {
             info.foundGround = true;
             info.normal = hit.normal;
@@ -808,7 +808,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     {
         var bounds = collider.bounds;
         var center = bounds.center + (Vector3.up * (-bounds.extents.y + bounds.extents.z));
-        if (Physics.SphereCast(center + offset, collider.bounds.extents.z, Vector3.down, out hit,
+        if(Physics.SphereCast(center + offset, collider.bounds.extents.z, Vector3.down, out hit,
             dist, groundMask))
         {
             return true;
@@ -844,7 +844,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         }
 
         //Broadcast trigger collisions info
-        if (other.isTrigger)
+        if(other.isTrigger)
         {
             CollisionInfo collisionInfo = new CollisionInfo()
             {
@@ -909,7 +909,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private InteractionReceiver GetInteractionReceiver(GameObject other)
     {
         InteractionReceiver interactionReceiver = other.GetComponent<InteractionReceiver>();
-        if (interactionReceiver == null)
+        if(interactionReceiver == null)
             interactionReceiver = other.GetComponent<InteractionReceiverProxy>()?.InteractionReceiver;
 
         return interactionReceiver;

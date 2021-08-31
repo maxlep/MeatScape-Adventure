@@ -4,25 +4,41 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [HideReferenceObjectPicker]
-public class ControlledProperty {
-    
+public class ControlledProperty
+{
+
     [Title("")]
     [SerializeField] bool useCustomUpdate = false;
-    
-    [Required][HideReferenceObjectPicker][SerializeField] private CurveReference ControlCurve;
+    [SerializeField] bool stopAtMax = true;
 
-    [HideIf("useCustomUpdate")][Required][SerializeField] [HideReferenceObjectPicker] 
+    [Required] [HideReferenceObjectPicker] [SerializeField] private CurveReference ControlCurve;
+
+    [HideIf("useCustomUpdate")]
+    [Required]
+    [SerializeField]
+    [HideReferenceObjectPicker]
     private FloatVariable ControlledVariable;
 
-    [ShowIf("useCustomUpdate")][Required][SerializeField] [HideReferenceObjectPicker] 
+    [ShowIf("useCustomUpdate")]
+    [Required]
+    [SerializeField]
+    [HideReferenceObjectPicker]
     [PropertySpace(5f, 0f)]
     UnityEvent<float> CustomUpdate;
 
-    public void Update(float percent) {
-        if(useCustomUpdate) {
-            CustomUpdate.Invoke(ControlCurve.Value.Evaluate(percent));
+
+    public void Update(float percent)
+    {
+        float newValue = ControlCurve.Value.Evaluate(percent);
+        if(!stopAtMax && percent > 1)
+        {
+            newValue *= percent;
+        }
+        if(useCustomUpdate)
+        {
+            CustomUpdate.Invoke(newValue);
             return;
         }
-        ControlledVariable.Value = ControlCurve.Value.Evaluate(percent);
+        ControlledVariable.Value = newValue;
     }
 }

@@ -133,7 +133,10 @@ public class Glide : BaseMovement
         [Required] [TabGroup("Inputs")]
         private FloatReference MaxUpwardsTiltThresholdSpeed;
 
-
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Inputs")] [Required] 
+        private FloatReference HungerDecayTime;
+        
         #endregion
 
         #region Outputs
@@ -153,11 +156,12 @@ public class Glide : BaseMovement
         #endregion
         
         protected Vector3 previousVelocityOutput = Vector3.zero;
+        private Vector3 tiltedDir;
         private float tiltAngle;
         private float turnAngle;
-        private Vector3 tiltedDir;
+        private float lastHungerDecayTime;
 
-        
+
         #region Lifecycle methods
 
         public override void Enter()
@@ -165,6 +169,8 @@ public class Glide : BaseMovement
             base.Enter();
             gravity *= GravityFactor.Value;
             playerController.AddImpulseOverlayed(playerController.transform.forward * GlideEnterImpulse.Value);
+            playerController.IncrementHunger(-1);
+            lastHungerDecayTime = Time.time;
             turnAngle = 0f;
             tiltAngle = 0f;
         }
@@ -178,6 +184,13 @@ public class Glide : BaseMovement
         public override void Execute()
         {
             base.Execute();
+            
+            //Hunger decay
+            if (lastHungerDecayTime + HungerDecayTime.Value < Time.time)
+            {
+                playerController.IncrementHunger(-1);
+                lastHungerDecayTime = Time.time;
+            }
         }
 
         #endregion

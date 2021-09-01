@@ -160,6 +160,7 @@ public class Glide : BaseMovement
         private float tiltAngle;
         private float turnAngle;
         private float lastHungerDecayTime;
+        private bool firstVelocityUpdate;
 
 
         #region Lifecycle methods
@@ -171,6 +172,7 @@ public class Glide : BaseMovement
             playerController.AddImpulseOverlayed(playerController.transform.forward * GlideEnterImpulse.Value);
             playerController.IncrementHunger(-1);
             lastHungerDecayTime = Time.time;
+            firstVelocityUpdate = true;
             turnAngle = 0f;
             tiltAngle = 0f;
         }
@@ -241,6 +243,7 @@ public class Glide : BaseMovement
             resultingVelocity = horizontalVelocity.xoz() + verticalVelocity.oyo();
             resultingVelocity += totalImpulse;
 
+            firstVelocityUpdate = false;
             previousVelocityOutput = resultingVelocity;
             return resultingVelocity;
         }
@@ -250,8 +253,8 @@ public class Glide : BaseMovement
             CharacterGroundingReport GroundingStatus = playerController.GroundingStatus;
             CharacterTransientGroundingReport LastGroundingStatus = playerController.LastGroundingStatus;
 
-            //float currentSpeedHorizontal = currentVelocity.xoz().magnitude;
-            float currentSpeed = currentVelocity.magnitude;
+            //TODO: This is terrible...please refactor
+            float currentSpeed = (firstVelocityUpdate) ? currentVelocity.xoz().magnitude : currentVelocity.magnitude;
             var horizontalSpeed = currentVelocity.xoz().magnitude;
 
             #region Get New Move Direction

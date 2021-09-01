@@ -4,6 +4,7 @@ using KinematicCharacterController;
 using MyAssets.Graphs.StateMachine.Nodes;
 using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
+using MyAssets.Scripts.Utils;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -29,11 +30,15 @@ public class Bounce : BaseMovement
 
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required]
-    protected FloatReference MinYBounceVelocity;
-
+    protected FloatReference GroundSlamVelocity;
+    
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required]
-    protected FloatReference GroundSlamVelocity;
+    protected FloatReference BounceHorizontalVelocity;
+    
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+    [TabGroup("Inputs")] [Required]
+    protected FloatReference BounceVerticalVelocity;
 
     #endregion
 
@@ -74,15 +79,24 @@ public class Bounce : BaseMovement
 
             //Reflect velocity perfectly then dampen the y based on dot with normal
             Vector3 reflectedVelocity = Vector3.Reflect(prevVel, GroundingStatus.GroundNormal);
-            reflectedVelocity.y *= BounceFactor.Value;
+            //reflectedVelocity.y *= BounceFactor.Value;
                 
             //Redirect bounce if conditions met
             if (EnableRedirect && CheckRedirectConditions(reflectedVelocity))
                 reflectedVelocity = CalculateRedirectedImpulse(reflectedVelocity);
 
 
-            if (reflectedVelocity.y < MinYBounceVelocity.Value)
-                reflectedVelocity.y = MinYBounceVelocity.Value;
+            reflectedVelocity.y = BounceVerticalVelocity.Value;
+            
+            //Cap horizontal velocity
+            if (reflectedVelocity.xoz().magnitude > BounceHorizontalVelocity.Value)
+            {
+                Vector3 horizontalDir = reflectedVelocity.xoz().normalized;
+                reflectedVelocity.x = 0f;
+                reflectedVelocity.z = 0f;
+                reflectedVelocity += horizontalDir * BounceHorizontalVelocity.Value;
+            }
+                
 
             playerController.SetVelocity(reflectedVelocity);
         }

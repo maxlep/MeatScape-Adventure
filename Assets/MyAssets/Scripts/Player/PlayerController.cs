@@ -133,7 +133,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Frenzy Parameters"), SerializeField] private TimerReference FrenzyDecayTimer;
     [FoldoutGroup("Frenzy Parameters"), SerializeField] private IntReference FrenzyOut;
 
-    [FoldoutGroup("Feedbacks")] [SerializeField] private MMFeedbacks damageFeedback;
     [FoldoutGroup("Feedbacks")] [SerializeField] private MMFeedbacks sizeUpFeedback;
     [FoldoutGroup("Feedbacks")] [SerializeField] private MMFeedbacks sizeDownFeedback;
 
@@ -534,7 +533,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         if(lastDamageTime + InvincibilityTime.Value > Time.time)
             return;
 
-        damageFeedback.PlayFeedbacks();
         this.AddImpulse(knockbackDir * knockbackSpeed);
 
         if(HungerOut.Value <= 0)
@@ -600,7 +598,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         HungerDecayTimer?.UpdateTime();
         if(HungerDecayTimer.IsFinished && HungerOut.Value > 0 && !noHungerDecay)
         {
-            damageFeedback.PlayFeedbacks();
             IncrementHunger(-1);
             HungerDecayTimer.RestartTimer();
         }

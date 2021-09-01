@@ -48,6 +48,7 @@ public class Bounce : BaseMovement
     public override void Enter()
     {
         base.Enter();
+        playerController.IncrementHunger(-1);
         DoBounce();
     }
 

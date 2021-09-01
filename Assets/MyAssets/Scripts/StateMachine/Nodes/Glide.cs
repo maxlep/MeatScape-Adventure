@@ -106,6 +106,10 @@ public class Glide : BaseMovement
         protected FloatReference GlideEnterImpulse;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Inputs")] [Required] 
+        private FloatReference EnterVelocityFactor;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [Required] [TabGroup("Inputs")]
         private FloatReference TurnAngleLerpRate;
         
@@ -137,6 +141,7 @@ public class Glide : BaseMovement
         [TabGroup("Inputs")] [Required] 
         private FloatReference HungerDecayTime;
         
+        
         #endregion
 
         #region Outputs
@@ -155,7 +160,6 @@ public class Glide : BaseMovement
 
         #endregion
         
-        protected Vector3 previousVelocityOutput = Vector3.zero;
         private Vector3 tiltedDir;
         private float tiltAngle;
         private float turnAngle;
@@ -244,7 +248,6 @@ public class Glide : BaseMovement
             resultingVelocity += totalImpulse;
 
             firstVelocityUpdate = false;
-            previousVelocityOutput = resultingVelocity;
             return resultingVelocity;
         }
 
@@ -254,7 +257,7 @@ public class Glide : BaseMovement
             CharacterTransientGroundingReport LastGroundingStatus = playerController.LastGroundingStatus;
 
             //TODO: This is terrible...please refactor
-            float currentSpeed = (firstVelocityUpdate) ? currentVelocity.xoz().magnitude : currentVelocity.magnitude;
+            float currentSpeed = (firstVelocityUpdate) ? currentVelocity.xoz().magnitude * EnterVelocityFactor.Value : currentVelocity.magnitude;
             var horizontalSpeed = currentVelocity.xoz().magnitude;
 
             #region Get New Move Direction
@@ -311,6 +314,7 @@ public class Glide : BaseMovement
             var turnAngleTarget = Vector3.SignedAngle(dir, moveDir, Vector3.up);
             turnAngleTarget = Mathf.Clamp(-turnAngleTarget, TurnAngleMin.Value, TurnAngleMax.Value);
             turnAngle = Mathf.Lerp(turnAngle, turnAngleTarget, TurnAngleLerpRate.Value * Time.deltaTime);
+            
             
             //If breaking, dont change turn angle
             if (isBreaking) turnAngleTarget = GlidePivot.Value.localRotation.z;

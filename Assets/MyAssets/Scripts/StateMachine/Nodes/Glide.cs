@@ -257,7 +257,7 @@ public class Glide : BaseMovement
             CharacterTransientGroundingReport LastGroundingStatus = playerController.LastGroundingStatus;
 
             //TODO: This is terrible...please refactor
-            float currentSpeed = (firstVelocityUpdate) ? currentVelocity.xoz().magnitude * EnterVelocityFactor.Value : currentVelocity.magnitude;
+            float currentSpeed = (firstVelocityUpdate) ? currentVelocity.magnitude * EnterVelocityFactor.Value : currentVelocity.magnitude;
             var horizontalSpeed = currentVelocity.xoz().magnitude;
 
             #region Get New Move Direction

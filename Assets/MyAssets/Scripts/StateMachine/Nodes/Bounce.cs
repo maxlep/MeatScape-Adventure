@@ -80,6 +80,7 @@ public class Bounce : BaseMovement
             //Reflect velocity perfectly then dampen the y based on dot with normal
             Vector3 reflectedVelocity = Vector3.Reflect(prevVel, GroundingStatus.GroundNormal);
             //reflectedVelocity.y *= BounceFactor.Value;
+            
                 
             //Redirect bounce if conditions met
             if (EnableRedirect && CheckRedirectConditions(reflectedVelocity))
@@ -96,9 +97,9 @@ public class Bounce : BaseMovement
                 reflectedVelocity.z = 0f;
                 reflectedVelocity += horizontalDir * BounceHorizontalVelocity.Value;
             }
-                
+            
 
-            playerController.SetVelocity(reflectedVelocity);
+            playerController.SetVelocity(reflectedVelocity, true);
         }
     }
 }

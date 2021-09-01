@@ -16,6 +16,14 @@ public class GroundSlamFall : RollMovement
     [TabGroup("Outputs")] [Required]
     protected Vector3Reference VelocityBeforeGroundSlam;
 
+    private bool bounced;
+
+    public override void Enter()
+    {
+        base.Enter();
+        bounced = false;
+    }
+
     protected override Vector3 CalculateVelocity(VelocityInfo velocityInfo)
         {
             Vector3 currentVelocity = velocityInfo.currentVelocity;
@@ -90,6 +98,7 @@ public class GroundSlamFall : RollMovement
                 if (reflectedVelocity.y < MinYBounceVelocity.Value)
                     reflectedVelocity.y = MinYBounceVelocity.Value;
 
+                bounced = true;
                 resultingVelocity = reflectedVelocity;
             }
 
@@ -105,7 +114,7 @@ public class GroundSlamFall : RollMovement
             #endregion
 
             //Update while still falling
-            if (!GroundingStatus.FoundAnyGround)
+            if (!bounced && !GroundingStatus.FoundAnyGround && resultingVelocity.y < 0f)
                 VelocityBeforeGroundSlam.Value = resultingVelocity;
             
             previousVelocityOutput = resultingVelocity;

@@ -60,7 +60,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Roll Combat
   Description: 
-  isActiveState: 0
+  isActiveState: 1
   PlayerCollidedWith_CollisionInfo: {fileID: 11400000, guid: e681bc16e8a93be469583e210ea5d4a2,
     type: 2}
   PlayerCollidedWithTrigger_CollisionInfo: {fileID: 11400000, guid: 9fcba23e465f11b43aaaeefe321e9a6e,
@@ -795,7 +795,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 1
-  conditionPreview: 
+  conditionPreview: '- ! Attack Pressed_ Controller_ Player
+
+'
   Description: <Lower Priority> If attack presed but timer not reached.
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -1180,7 +1182,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '- ! Attack Pressed_ Controller_ Player
+
+    -  Foward Throw
+    Min Charge Time_ Combat_ Player: 0.1 sec
+
+'
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -3106,7 +3113,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Pitch Clump Fire_ Anim_ Player
+
+'
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -3314,7 +3323,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Attack Trigger Release_ Controller_ Player
+
+    -  Foward
+    Throw Min Charge Time_ Combat_ Player: 0.1 sec
+
+'
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents:
@@ -3576,6 +3590,11 @@ MonoBehaviour:
     Glide
 
     -  Valid:  Ground  Slam  Fall
+
+    -  Attack Trigger_ Controller_
+    Player
+
+    -  Hunger Level_ Player  Greater Than 0
 
 '
   Description: 

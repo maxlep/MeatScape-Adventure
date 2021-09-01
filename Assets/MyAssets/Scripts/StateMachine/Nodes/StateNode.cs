@@ -19,7 +19,7 @@ public class StateNode : CollapsableNode
     [Tooltip("If enabled, this state will be completely skipped if on enter, there are valid transition out of state.")]
     [SerializeField] private bool BypassState = false;
 
-    [SerializeField] private string Name;
+    [SerializeField] protected string Name;
     
     [SerializeField] [TextArea(3, 3)] [PropertySpace(0f, 10f)] 
     [FoldoutGroup("Description", false)] [HideLabel]

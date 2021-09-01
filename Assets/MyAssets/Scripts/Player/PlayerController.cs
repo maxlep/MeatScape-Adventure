@@ -288,7 +288,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         //     currentVelocity  = charMotor.GetDirectionTangentToSurface(currentVelocity ,
         //         charMotor.GroundingStatus.GroundNormal) * currentVelocity .magnitude;
         // }
-
         VelocityInfo velocityInfo = new VelocityInfo()
         {
             currentVelocity = currentVelocity,
@@ -335,24 +334,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
             NewVelocity.Value = currentVelocity; //Update new velocity to keep in sync
         }
 
-        //This stored velocity completely overrides and sets the velocity
-        //NOTE: NO LONGER Ignores 0 components
-        // if(!Mathf.Approximately(overrideVelocity.x, 0f))
-        // {
-        //     currentVelocity.x = overrideVelocity.x;
-        //     NewVelocity.Value = currentVelocity; //Update new velocity to keep in sync
-        // }
-        // if(!Mathf.Approximately(overrideVelocity.y, 0f))
-        // {
-        //     currentVelocity.y = overrideVelocity.y;
-        //     NewVelocity.Value = currentVelocity; //Update new velocity to keep in sync
-        // }
-        // if(!Mathf.Approximately(overrideVelocity.z, 0f))
-        // {
-        //     currentVelocity.z = overrideVelocity.z;
-        //     NewVelocity.Value = currentVelocity; //Update new velocity to keep in sync
-        // }
-
         if(!Mathf.Approximately(0f, overrideVelocity.magnitude))
         {
             currentVelocity = overrideVelocity;
@@ -360,7 +341,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         }
 
         #endregion
-
 
         #region Reset Vars
 
@@ -374,8 +354,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         #endregion
 
         PreviousVelocityDuringUpdate.Value = currentVelocity;
-
-
     }
 
     public void AfterCharacterUpdate(float deltaTime, Vector3 previousVelocity)
@@ -416,7 +394,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
                 PlayerCollidedWithTrigger_CollisionInfo.Raise(collisionInfo);
             }
         }
-
         #endregion
     }
 
@@ -497,8 +474,9 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     }
 
     //Directly set the velocity of player
-    public void SetVelocity(Vector3 velocity)
+    public void SetVelocity(Vector3 velocity, bool ungroundMotor = false)
     {
+        ungroundTrigger = ungroundMotor;
         overrideVelocity = velocity;
     }
 

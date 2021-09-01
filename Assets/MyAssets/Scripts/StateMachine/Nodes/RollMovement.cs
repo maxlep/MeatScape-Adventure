@@ -238,6 +238,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
             #endregion
 
+            //if (Name.Equals("Roll Movement")) Debug.Log($"Roll b4 Update: {currentVelocity}");
             Vector3 horizontalVelocity = CalculateHorizontalVelocity(currentVelocity, effectiveGroundNormal);
             Vector3 verticalVelocity = CalculateVerticalVelocity(currentVelocity, effectiveGroundNormal);
 
@@ -250,6 +251,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             resultingVelocity = horizontalVelocity + verticalVelocity;
             resultingVelocity += totalImpulse;
 
+            //if (Name.Equals("Roll Movement")) Debug.Log($"Roll after Update: {resultingVelocity}");
 
             #region Bounce
 
@@ -294,6 +296,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
             #endregion
             
+            //if (Name.Equals("Roll Movement")) Debug.Log($"Roll final Update: {resultingVelocity}");
             previousVelocityOutput = resultingVelocity;
             return resultingVelocity;
         }

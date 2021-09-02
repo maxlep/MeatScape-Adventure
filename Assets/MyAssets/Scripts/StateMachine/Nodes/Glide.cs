@@ -127,6 +127,10 @@ public class Glide : BaseMovement
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [Required] [TabGroup("Inputs")]
+        private BoolReference InvertTilt;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [Required] [TabGroup("Inputs")]
         private FloatReference TiltAngleMin;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
@@ -140,6 +144,10 @@ public class Glide : BaseMovement
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Inputs")] [Required] 
         private FloatReference HungerDecayTime;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Inputs")] [Required] 
+        private FloatReference TiltInitialInputDelay;
         
         
         #endregion
@@ -164,6 +172,7 @@ public class Glide : BaseMovement
         private float tiltAngle;
         private float turnAngle;
         private float lastHungerDecayTime;
+        private float enterStateTime;
         private bool firstVelocityUpdate;
 
 
@@ -177,6 +186,7 @@ public class Glide : BaseMovement
             playerController.IncrementHunger(-1);
             lastHungerDecayTime = Time.time;
             firstVelocityUpdate = true;
+            enterStateTime = Time.time;
             turnAngle = 0f;
             tiltAngle = 0f;
         }
@@ -277,7 +287,10 @@ public class Glide : BaseMovement
 
             Vector3 currentDir = currentVelocity.xoz().normalized;
 
-            dir = Vector3.SmoothDamp(currentDir, moveInputCameraRelative.xoz().normalized,
+            Vector3 horizontalMoveInput = moveInputCameraRelative.xoz().normalized;
+            if (!InvertTilt.Value) horizontalMoveInput.z = -horizontalMoveInput.z;
+
+            dir = Vector3.SmoothDamp(currentDir, horizontalMoveInput,
                 ref dummyVel, currentTurnSpeed).normalized;
 
             newDirection = dir;
@@ -286,7 +299,7 @@ public class Glide : BaseMovement
             
             #region Get New Speed
             
-            var moveDir = moveInputCameraRelative.xoz().normalized;
+            var moveDir = horizontalMoveInput;
             var steeringAngle = Mathf.Clamp(Vector3.Angle(dir, moveDir), 0f, 90f);
             SteeringFac.Value = steeringAngle / 90;   //Clamp at 90 for max friction
 
@@ -311,15 +324,29 @@ public class Glide : BaseMovement
 
             #region Update Pivot
 
-            var turnAngleTarget = Vector3.SignedAngle(dir, moveDir, Vector3.up);
+            //If move input is away from current dir, reflect the move input forwards to correctly calculate turn angle
+            Vector3 turnAngleTargetDir = moveDir;
+            if (Vector3.Dot(moveDir, PlayerCameraTransform.Value.forward) < 0f)
+                turnAngleTargetDir = Vector3.Reflect(turnAngleTargetDir, PlayerCameraTransform.Value.forward);
+            
+            var turnAngleTarget = Vector3.SignedAngle(dir, turnAngleTargetDir, Vector3.up);
             turnAngleTarget = Mathf.Clamp(-turnAngleTarget, TurnAngleMin.Value, TurnAngleMax.Value);
             turnAngle = Mathf.Lerp(turnAngle, turnAngleTarget, TurnAngleLerpRate.Value * Time.deltaTime);
             
+            Debug.Log($"target: {turnAngleTarget} | actual {turnAngle}");
             
             //If breaking, dont change turn angle
-            if (isBreaking) turnAngleTarget = GlidePivot.Value.localRotation.z;
+            //if (isBreaking) turnAngleTarget = GlidePivot.Value.localRotation.z;
+            
 
-            TiltFac.Value = (MoveInput.Value.y + 1f) / 2f;
+            //Invert tilt controls
+            float moveInputY = (InvertTilt.Value) ? -MoveInput.Value.y : MoveInput.Value.y;
+            
+            //If just entered state, wait for delay before taking tilt input (so play doesnt accidently nose-dive down holding forward)
+            if (enterStateTime + TiltInitialInputDelay.Value > Time.time)
+                TiltFac.Value = 0f;
+            else
+                TiltFac.Value = (moveInputY + 1f) / 2f;
             
             //To stop floating in air forever when tilted up and going slow
             //Need certain amount of speed to be able to tilt above horizontal

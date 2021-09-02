@@ -1,13 +1,15 @@
 ﻿using System;
 using MyAssets.ScriptableObjects.Variables;
+using MyAssets.ScriptableObjects.Variables.ValueReferences;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace MyAssets.Scripts.ShaderHelpers
 {
-    public class ShadowProjectorSetter : MonoBehaviour
+    public class ShadowProjectorSetter : SerializedMonoBehaviour
     {
-        [SerializeField] private FloatVariable blobDiameter;
-        [SerializeField] private FloatReference heightToHalf;
+        [SerializeField] private FloatValueReference blobDiameter;
+        [SerializeField] private FloatValueReference heightToHalf;
         [SerializeField] private Projector projector;
 
         private void Awake()

@@ -67,6 +67,7 @@ public class MeateorStrike : RollMovement
     [TabGroup("Inputs")] [Required]
     private BoolVariable SlingshotReady;
 
+
     #endregion
 
     #region Outputs
@@ -111,6 +112,7 @@ public class MeateorStrike : RollMovement
         base.Enter();
         
         SlingshotReady.Value = false;
+        playerController.ResetSlingshotParams();
         PlayerCollidedWith.Subscribe(CheckForHit);
         
         duration = MeateorStrikeDurationTimer.Duration;

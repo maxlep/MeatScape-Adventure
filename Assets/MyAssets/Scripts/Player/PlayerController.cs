@@ -115,6 +115,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     #endregion
 
+    #region Hunger
 
     [Title("Hunger value")]
     [FoldoutGroup("Hunger Parameters"), SerializeField] private LayerMask HungerSurfaceMask;
@@ -123,8 +124,12 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Hunger Parameters"), SerializeField] private TimerReference HungerDecayTimer;
     [FoldoutGroup("Hunger Parameters"), SerializeField] private IntReference HungerSoftMax;
     [FoldoutGroup("Hunger Parameters"), SerializeField] private IntReference HungerOut;
+
+    #endregion
+    
     [Title("Model scale")]
     [FoldoutGroup("Hunger Parameters"), SerializeField] private TransformSceneReference SizeChangePivot;
+    
     [Title("Blend shapes")]
     [FoldoutGroup("Hunger Parameters"), SerializeField] private SkinnedMeshRenderer SkinnedMesh;
     [FoldoutGroup("Hunger Parameters"), SerializeField] private SkinnedMeshRenderer EyesSkinnedMesh;
@@ -149,6 +154,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private GroundingInfo groundInfo, meatGroundInfo;
     private bool isMeatGrounded => DistanceToMeatGround.Value <= DistanceToMeatGroundThreshold.Value;
     private bool isRegeneratingMeat;
+    private bool slingshotFoundGround; //store true if grounded after slingshot
+    private bool slingshotInputReset; //store true if grounded after slingshot performed and slingshot released
     private float meatDistance;
 
     public KinematicCharacterMotor CharacterMotor => charMotor;
@@ -236,6 +243,13 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         InputManager.Instance.onInteract += AttemptInspect;
         InputManager.Instance.onFunction3 += RemoveHunger;
         InputManager.Instance.onFunction4 += FeedHunger;
+
+        //Keep track whether player has released the button after slingshot
+        // InputManager.Instance.onSlingshot_Released += () =>
+        // {
+        //     if (!SlingshotReady.Value && !slingshotInputReset)
+        //         slingshotInputReset = true;
+        // };
 
         freeLookCam = freeLookCamRef.Value.GetComponent<CinemachineFreeLook>();
     }
@@ -567,6 +581,13 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         AddImpulseOverlayed(force);
     }
 
+    public void ResetSlingshotParams()
+    {
+        SlingshotReady.Value = false;
+        slingshotFoundGround = false;
+        slingshotInputReset = false;
+    }
+
     #endregion
 
     #region Hunger
@@ -725,7 +746,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private void UpdateParameters()
     {
         IsGrounded.Value = charMotor.GroundingStatus.FoundAnyGround;
-        if(charMotor.GroundingStatus.FoundAnyGround) SlingshotReady.Value = true;
         IsOnSlidebleSlope.Value = StandingOnSlideableSlope();
         BaseVelocity.Value = charMotor.BaseVelocity;
         groundInfo = GetGroundInfo(charMotor.StableGroundLayers);
@@ -734,9 +754,20 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         DistanceToMeatGround.Value = meatGroundInfo.distance;
         GroundSlamCooldownTimer.UpdateTime();
 
+        //Track if grounded after slingshot
+        if (!SlingshotReady.Value && !slingshotFoundGround && charMotor.GroundingStatus.FoundAnyGround)
+            slingshotFoundGround = true;
+        
+        //Keep track whether player has released the button after slingshot
+        if (!SlingshotReady.Value && !slingshotInputReset && !SlingshotPressed.Value)
+            slingshotInputReset = true;
+        
+        //Slingshot ready if found ground and released input after performing it
+        if (!SlingshotReady.Value && slingshotInputReset && slingshotFoundGround)
+            SlingshotReady.Value = true;
+
         if(!LastGroundingStatus.FoundAnyGround && GroundingStatus.FoundAnyGround)
             BecameGrounded.Activate();
-
 
 
         else if(LastGroundingStatus.FoundAnyGround && !GroundingStatus.FoundAnyGround)

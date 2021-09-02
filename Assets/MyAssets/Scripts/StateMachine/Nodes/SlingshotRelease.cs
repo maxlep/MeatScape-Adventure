@@ -23,10 +23,7 @@ public class SlingshotRelease : PlayerStateNode
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required]
     private TimerVariable DelayTimer;
-    
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Inputs")] [Required]
-    private BoolVariable SlingshotReady;
+
 
     #endregion
 
@@ -37,7 +34,7 @@ public class SlingshotRelease : PlayerStateNode
     {
         base.Enter();
         Release();
-        SlingshotReady.Value = false;
+        playerController.ResetSlingshotParams();
     }
 
     private void Release()

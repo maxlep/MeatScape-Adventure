@@ -773,10 +773,7 @@ MonoBehaviour:
       _node: {fileID: -5670502902608540479}
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: -4695961148579739637}
-        reroutePoints: []
+      connections: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 2
@@ -785,17 +782,16 @@ MonoBehaviour:
       _node: {fileID: -5670502902608540479}
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: previousState
-        node: {fileID: -1651560789672905927}
-        reroutePoints: []
+      connections: []
       _direction: 1
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
   collapsed: 1
   transitionPriority: 1
-  conditionPreview: 
+  conditionPreview: '- ! Attack Pressed_ Controller_ Player
+
+'
   Description: <Lower Priority> If attack presed but timer not reached.
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -885,9 +881,6 @@ MonoBehaviour:
         reroutePoints: []
       - fieldName: startingState
         node: {fileID: -4018497126496825186}
-        reroutePoints: []
-      - fieldName: startingState
-        node: {fileID: -5670502902608540479}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -1178,9 +1171,14 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 1
+  collapsed: 0
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '- ! Attack Pressed_ Controller_ Player
+
+    -  Foward Throw
+    Min Charge Time_ Combat_ Player: 0 sec
+
+'
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -1889,9 +1887,6 @@ MonoBehaviour:
         reroutePoints: []
       - fieldName: nextState
         node: {fileID: -2753180840715720298}
-        reroutePoints: []
-      - fieldName: nextState
-        node: {fileID: -5670502902608540479}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -2947,7 +2942,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Forward Throw Start
   Description: 
-  isActiveState: 0
+  isActiveState: 1
 --- !u!114 &1625376886150853897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3074,7 +3069,7 @@ MonoBehaviour:
       Entry: 8
       Data: 
   graph: {fileID: 11400000}
-  position: {x: 4024, y: -424}
+  position: {x: 4024, y: -392}
   ports:
     keys:
     - startingState

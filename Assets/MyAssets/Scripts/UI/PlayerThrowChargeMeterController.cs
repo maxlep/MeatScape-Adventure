@@ -216,15 +216,7 @@ namespace MyAssets.Scripts.UI
             }
 
             float chargeAngRad = Mathf.Lerp(angRadMin, angRadMax, tempFill);
-            float minChargeAngRad;
-            if (minFilled)
-            {
-                minChargeAngRad = Mathf.Lerp(angRadMin, angRadMax, minFillThreshold.Value);
-            }
-            else
-            {
-                minChargeAngRad = chargeAngRad;
-            }
+            float minChargeAngRad = angRadMin;
 
             if (released)
             {
@@ -310,16 +302,23 @@ namespace MyAssets.Scripts.UI
             
             if (popped)
             {
-                poppedElapsedTime += deltaTime;
-                poppedElapsedTime = Mathf.Min(poppedElapsedTime + deltaTime, poppedAnimTime);
-                if (Mathf.Approximately(poppedElapsedTime, poppedAnimTime) && !complete)
+                if (minFilled)
+                {
+                    poppedElapsedTime += deltaTime;
+                    poppedElapsedTime = Mathf.Min(poppedElapsedTime + deltaTime, poppedAnimTime);
+                    if (Mathf.Approximately(poppedElapsedTime, poppedAnimTime) && !complete)
+                    {
+                        complete = true;
+                    }
+
+                    var pct = poppedElapsedTime / poppedAnimTime;
+                    var lerp = 1 + poppedAnimCurve.Evaluate(pct);
+                    circleRadius *= lerp;
+                }
+                else
                 {
                     complete = true;
                 }
-
-                var pct = poppedElapsedTime / poppedAnimTime;
-                var lerp = 1 + poppedAnimCurve.Evaluate(pct);
-                circleRadius *= lerp;
             }
             // Bottom
             DrawDiscUI(_rectTransform, bottomPos, circleRadius);

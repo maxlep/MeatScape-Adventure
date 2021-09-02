@@ -333,8 +333,6 @@ public class Glide : BaseMovement
             turnAngleTarget = Mathf.Clamp(-turnAngleTarget, TurnAngleMin.Value, TurnAngleMax.Value);
             turnAngle = Mathf.Lerp(turnAngle, turnAngleTarget, TurnAngleLerpRate.Value * Time.deltaTime);
             
-            Debug.Log($"target: {turnAngleTarget} | actual {turnAngle}");
-            
             //If breaking, dont change turn angle
             //if (isBreaking) turnAngleTarget = GlidePivot.Value.localRotation.z;
             

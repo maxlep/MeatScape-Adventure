@@ -765,12 +765,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Hunger Level_ Player  Greater Than 0
-
-    -  On Modifier
-    Pressed_ Input
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents:
   - m_PersistentCalls:
@@ -1155,9 +1150,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Post Meateor Strike Duration_ Meateor_ Player: 0.65 sec
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -1391,16 +1384,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 10
-  conditionPreview: '-  Slingshot Released Trigger_ Controller_ Player
-
-    -  Time
-    To Optimal Charge_ Slingshot_ Player  Less Than  Slingshot Optimal Charge Error
-    Threshold_ Roll_ Player
-
-    -  Slingshot Min Charge Timer_ Roll_ Player: 0.1
-    sec
-
-'
+  conditionPreview: 
   Description: Optimal release.  LOW PRIORITY
   RaiseOnTransitionUnityEvents:
   - m_PersistentCalls:
@@ -1723,12 +1707,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Is Grounded_ Controller_ Player
-
-    -  On Activate Force
-    Effector_ Event
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -2004,12 +1983,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '- ! Is Grounded_ Controller_ Player
-
-    - ! Is On Slideable
-    Slope_ Controller_ Player
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -2275,12 +2249,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 15
-  conditionPreview: '-  Slingshot Released Trigger_ Controller_ Player
-
-    -  Slingshot
-    Min Charge Timer_ Roll_ Player: 0.1 sec
-
-'
+  conditionPreview: 
   Description: Slingshot released,  not optimal. LOWER PRIORITY
   RaiseOnTransitionUnityEvents:
   - m_PersistentCalls:
@@ -2534,9 +2503,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 1
-  conditionPreview: '-  Is Grounded_ Controller_ Player
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -2915,12 +2882,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Is Grounded_ Controller_ Player
-
-    -  Waited Jump Ground
-    Delay_ Movement_ Player
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -3559,12 +3521,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Is Grounded_ Controller_ Player
-
-    -  Jump Trigger_ Controller_
-    Player
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -4341,9 +4298,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Add Impulse Trigger_ Controller_ Player
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -4643,9 +4598,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Flatten Timer_ Movement_ Player: 0.4 sec
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -4763,7 +4716,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 1
+  collapsed: 0
   BypassState: 0
   Name: Glide
   Description: 
@@ -4973,14 +4926,14 @@ MonoBehaviour:
     EnableInstanceOptions: 0
     InstanceName: '{I} '
     InstancePath: IntermediateProperties
-    ConstantValue: 0
+    ConstantValue: 50
     Variable: {fileID: 0}
   EnterVelocityFactor:
     UseConstant: 1
     EnableInstanceOptions: 0
-    InstanceName: 
+    InstanceName: '{I} '
     InstancePath: IntermediateProperties
-    ConstantValue: 0.3
+    ConstantValue: 1
     Variable: {fileID: 0}
   TurnAngleLerpRate:
     UseConstant: 1
@@ -5010,6 +4963,13 @@ MonoBehaviour:
     InstancePath: IntermediateProperties
     ConstantValue: 80
     Variable: {fileID: 0}
+  InvertTilt:
+    UseConstant: 1
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 1
+    Variable: {fileID: 0}
   TiltAngleMin:
     UseConstant: 1
     EnableInstanceOptions: 0
@@ -5029,7 +4989,7 @@ MonoBehaviour:
     EnableInstanceOptions: 0
     InstanceName: '{I} '
     InstancePath: IntermediateProperties
-    ConstantValue: 220
+    ConstantValue: 180
     Variable: {fileID: 0}
   HungerDecayTime:
     UseConstant: 1
@@ -5037,6 +4997,13 @@ MonoBehaviour:
     InstanceName: '{I} '
     InstancePath: IntermediateProperties
     ConstantValue: 3
+    Variable: {fileID: 0}
+  TiltInitialInputDelay:
+    UseConstant: 1
+    EnableInstanceOptions: 0
+    InstanceName: '{I} '
+    InstancePath: IntermediateProperties
+    ConstantValue: 0.3
     Variable: {fileID: 0}
   HorizontalSpeedOut:
     UseConstant: 0
@@ -5768,14 +5735,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '- ! Is Grounded_ Controller_ Player
-
-    -  Hunger Level_ Player 
-    Greater Than 0
-
-    -  On Glide Pressed_ Input
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -5999,9 +5959,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '- ! Is Grounded_ Controller_ Player
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -6277,12 +6235,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 1
-  conditionPreview: '-  Is Grounded_ Controller_ Player
-
-    -  Jump Pressed_ Controller_
-    Player
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -6577,17 +6530,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '- ! Is Grounded_ Controller_ Player
-
-    -  Jump Trigger_ Controller_
-    Player
-
-    -  Distance To Ground_ Controller_ Player  Greater Than 0.1
-
-    - 
-    Ground Slam Cooldown Timer_ Movement_ Player: 0.2 sec
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -7026,12 +6969,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Is Grounded_ Controller_ Player
-
-    -  Waited Jump Ground
-    Delay_ Movement_ Player
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -7682,9 +7620,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Meateor Strike Duration Timer_ Movement_ Player: 0.35 sec
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -8115,12 +8051,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Is Grounded_ Controller_ Player
-
-    - ! Is On Slideable
-    Slope_ Controller_ Player
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -8452,12 +8383,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Is On Slideable Slope_ Controller_ Player
-
-    -  Waited
-    Jump Ground Delay_ Movement_ Player
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -8678,9 +8604,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Is Grounded_ Controller_ Player
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -8954,9 +8878,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Became Grounded_ Controller_ Player
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -9389,9 +9311,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Dash Pressed Trigger_ Controller_ Player
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents:
   - m_PersistentCalls:
@@ -9724,9 +9644,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 20
-  conditionPreview: '-  Slingshot Released Trigger_ Controller_ Player
-
-'
+  conditionPreview: 
   Description: Catch-all for release slingshot without reaching timer. LOWEST PRIORITY
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -10330,12 +10248,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 1
-  conditionPreview: '-  Jump Pressed_ Controller_ Player
-
-    -  Became Grounded_
-    Controller_ Player
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -11419,12 +11332,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '- ! Is Grounded_ Controller_ Player
-
-    -  On Activate Force
-    Effector_ Event
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -11883,8 +11791,6 @@ MonoBehaviour:
 
     -  Valid:  Forward  Throw
 
-    - ! Is Grounded_ Controller_ Player
-
 '
   Description: 
   RaiseOnTransitionUnityEvents: []
@@ -12116,8 +12022,6 @@ MonoBehaviour:
     - 
     Valid:  Forward  Throw  Start
 
-    -  Is Grounded_ Controller_ Player
-
 '
   Description: 
   RaiseOnTransitionUnityEvents: []
@@ -12273,7 +12177,7 @@ MonoBehaviour:
   BypassState: 0
   Name: GroundMovement
   Description: 
-  isActiveState: 0
+  isActiveState: 1
   BaseSpeed:
     UseConstant: 1
     EnableInstanceOptions: 0
@@ -13084,16 +12988,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Is On Slideable Slope_ Controller_ Player
-
-    -  Waited
-    Jump Ground Delay_ Movement_ Player
-
-    -  New Velocity_ Controller_ Player.
-    X  Ignore 0. X &&  New Velocity_ Controller_ Player. Y  Less Than 0. Y &&  New
-    Velocity_ Controller_ Player. Z  Ignore 0. Z
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -13549,18 +13444,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Slingshot Released Trigger_ Controller_ Player
-
-    -  Time
-    To Optimal Charge_ Slingshot_ Player  Less Than  Slingshot Optimal Charge Error
-    Threshold_ Roll_ Player
-
-    -  Hunger Level_ Player  Greater Than 0
-
-    - 
-    Slingshot Min Charge Timer_ Roll_ Player: 0.1 sec
-
-'
+  conditionPreview: 
   Description: Homing Meateor Stirke.  Slingshot released at optimal time and has
     hunger
   RaiseOnTransitionUnityEvents:
@@ -13802,10 +13686,7 @@ MonoBehaviour:
       _node: {fileID: 1501994445477452080}
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: transitions
-        node: {fileID: 8988548520584293854}
-        reroutePoints: []
+      connections: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 2
@@ -13814,20 +13695,14 @@ MonoBehaviour:
       _node: {fileID: 1501994445477452080}
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: previousState
-        node: {fileID: 2565929086891376809}
-        reroutePoints: []
+      connections: []
       _direction: 1
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Distance To Ground_ Controller_ Player  Less Than  Half Vertical
-    Bounce Velocity_ Player
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -14159,14 +14034,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Slingshot Pressed_ Controller_ Player
-
-    -  Slingshot Ready_
-    Slingshot_ Player
-
-    -  Slingshot Delay Timer_ Roll_ Player: 0.15 sec
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -14261,10 +14129,7 @@ MonoBehaviour:
       _node: {fileID: 2565929086891376809}
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: nextState
-        node: {fileID: 1501994445477452080}
-        reroutePoints: []
+      connections: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 2
@@ -14782,14 +14647,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Jump Trigger_ Controller_ Player
-
-    -  Hunger Level_ Player 
-    Greater Than 0
-
-    -  Flatten Jump Delay Timer_ Movement_ Player: 0.1 sec
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents:
   - m_PersistentCalls:
@@ -15255,9 +15113,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Meateor Collide Trigger_ Controller_ Player
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -15585,12 +15441,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 1
-  conditionPreview: '-  Is Grounded_ Controller_ Player
-
-    - ! Jump Pressed_ Controller_
-    Player
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -16129,7 +15980,7 @@ MonoBehaviour:
   BypassState: 0
   Name: Roll Movement
   Description: 
-  isActiveState: 1
+  isActiveState: 0
   BaseSpeed:
     UseConstant: 0
     EnableInstanceOptions: 0
@@ -16454,9 +16305,7 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 11400000, guid: 1980c2697dbf0704093ef4d581af5a0c, type: 2}
-    - {fileID: 11400000, guid: 05650f363e346de4781a55bc1845c9aa, type: 2}
+    ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -16481,68 +16330,7 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 2|FloatCondition, Assembly-CSharp
-    - Name: targetParameter
-      Entry: 7
-      Data: 3|MyAssets.ScriptableObjects.Variables.FloatReference, Assembly-CSharp
-    - Name: UseConstant
-      Entry: 5
-      Data: false
-    - Name: EnableInstanceOptions
-      Entry: 5
-      Data: false
-    - Name: InstanceName
-      Entry: 1
-      Data: 
-    - Name: InstancePath
-      Entry: 1
-      Data: Assets/MyAssets/ScriptableObjects/InstancedProperties/
-    - Name: ConstantValue
-      Entry: 4
       Data: 0
-    - Name: Variable
-      Entry: 10
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: comparator
-      Entry: 3
-      Data: 1
-    - Name: value
-      Entry: 7
-      Data: 4|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
-        Assembly-CSharp
-    - Name: UseConstant
-      Entry: 5
-      Data: false
-    - Name: EnableInstanceOptions
-      Entry: 5
-      Data: false
-    - Name: InstanceName
-      Entry: 1
-      Data: '{I} '
-    - Name: InstancePath
-      Entry: 1
-      Data: IntermediateProperties
-    - Name: InstanceType
-      Entry: 6
-      Data: 
-    - Name: ConstantValue
-      Entry: 4
-      Data: 10
-    - Name: ReferenceValue
-      Entry: 10
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -16551,7 +16339,7 @@ MonoBehaviour:
       Data: 
     - Name: IntConditions
       Entry: 7
-      Data: 5|System.Collections.Generic.List`1[[IntCondition, Assembly-CSharp]],
+      Data: 2|System.Collections.Generic.List`1[[IntCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -16564,7 +16352,7 @@ MonoBehaviour:
       Data: 
     - Name: Vector2Conditions
       Entry: 7
-      Data: 6|System.Collections.Generic.List`1[[Vector2Condition, Assembly-CSharp]],
+      Data: 3|System.Collections.Generic.List`1[[Vector2Condition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -16577,7 +16365,7 @@ MonoBehaviour:
       Data: 
     - Name: Vector3Conditions
       Entry: 7
-      Data: 7|System.Collections.Generic.List`1[[Vector3Condition, Assembly-CSharp]],
+      Data: 4|System.Collections.Generic.List`1[[Vector3Condition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -16590,7 +16378,7 @@ MonoBehaviour:
       Data: 
     - Name: GameEventConditions
       Entry: 7
-      Data: 8|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
+      Data: 5|System.Collections.Generic.List`1[[GameEventCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -16603,7 +16391,7 @@ MonoBehaviour:
       Data: 
     - Name: DynamicGameEventConditions
       Entry: 7
-      Data: 9|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
+      Data: 6|System.Collections.Generic.List`1[[DynamicGameEventCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -16616,7 +16404,7 @@ MonoBehaviour:
       Data: 
     - Name: TransformConditions
       Entry: 7
-      Data: 10|System.Collections.Generic.List`1[[TransformCondition, Assembly-CSharp]],
+      Data: 7|System.Collections.Generic.List`1[[TransformCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -16660,10 +16448,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Distance To Ground_ Controller_ Player  Greater Than  Half
-    Vertical Bounce Velocity_ Player
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -16882,9 +16667,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Jump Attack Trigger_ Controller_ Player
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -17125,12 +16908,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Slingshot Ready_ Slingshot_ Player
-
-    -  Slingshot Pressed
-    Trigger_ Controller_ Player
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -17480,9 +17258,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Jump Trigger_ Controller_ Player
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -17762,9 +17538,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '-  Hunger Level_ Player  Less Than Equal To 0
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -18085,12 +17859,7 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: '- ! Jump Pressed_ Controller_ Player
-
-    -  Became Grounded_
-    Controller_ Player
-
-'
+  conditionPreview: 
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -18758,9 +18527,6 @@ MonoBehaviour:
       _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
-      - fieldName: startingState
-        node: {fileID: 1501994445477452080}
-        reroutePoints: []
       - fieldName: startingState
         node: {fileID: 5255118899373657846}
         reroutePoints: []

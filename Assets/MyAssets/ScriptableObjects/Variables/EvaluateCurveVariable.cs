@@ -26,7 +26,7 @@ namespace MyAssets.ScriptableObjects.Variables
         
         protected event OnUpdate OnUpdate;
 
-        public float Value => _value;
+        [ReadOnly] public float Value => _value;
         
         [Button]
         private void Recalculate()

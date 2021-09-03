@@ -227,6 +227,7 @@ namespace MyAssets.Scripts.UI
                 }
                 #endif
                 
+                minFilled = true;
                 if (releasedElapsedTime < releasedAnimTime)
                 {
                     releasedElapsedTime += deltaTime;

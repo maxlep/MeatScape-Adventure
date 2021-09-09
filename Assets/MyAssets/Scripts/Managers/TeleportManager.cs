@@ -36,21 +36,29 @@ public class TeleportManager : MonoBehaviour
 
             //Save pos 1 as the spawn position (some delay to wait for load)
             LeanTween.value(0f, 1f, 2f).setOnComplete(() => SavePosition(1));
+            
+            //Save pos 2 way above spawn position
+            LeanTween.value(0f, 1f, 2f).setOnComplete(() => SavePosition(2, Vector3.up * 500f));
         }
     }
-
+    
     private void SavePosition(int index)
+    {
+        SavePosition(index, Vector3.zero);
+    }
+
+    private void SavePosition(int index, Vector3 offset)
     {
         switch (index)
         {
             case (1):
-                pos1 = charMotor.transform.position;
+                pos1 = charMotor.transform.position + offset;
                 break;
             case (2):
-                pos2 = charMotor.transform.position;
+                pos2 = charMotor.transform.position + offset;;
                 break;
             case (3):
-                pos3 = charMotor.transform.position;
+                pos3 = charMotor.transform.position + offset;;
                 break;
         }
         

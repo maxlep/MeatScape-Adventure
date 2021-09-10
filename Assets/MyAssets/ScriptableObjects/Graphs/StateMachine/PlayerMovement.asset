@@ -822,12 +822,99 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: ea83faa710e694844be5aa3bcf95bc9d, type: 2}
+    - {fileID: 11400000, guid: 76b390d1416bc8740a3bfa1c76c30bad, type: 2}
+    - {fileID: 11400000, guid: 0a6bb5f9cdf333941a452a06c50e8ee5, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: GroundSlamVelocity
+      Entry: 7
+      Data: 0|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
+        Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: false
+    - Name: EnableInstanceOptions
+      Entry: 5
+      Data: false
+    - Name: InstanceName
+      Entry: 1
+      Data: '{I} '
+    - Name: InstancePath
+      Entry: 1
+      Data: IntermediateProperties
+    - Name: InstanceType
+      Entry: 6
+      Data: 
+    - Name: ConstantValue
+      Entry: 4
+      Data: 0
+    - Name: ReferenceValue
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: BounceHorizontalVelocity
+      Entry: 7
+      Data: 1|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
+        Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: false
+    - Name: EnableInstanceOptions
+      Entry: 5
+      Data: false
+    - Name: InstanceName
+      Entry: 1
+      Data: '{I} '
+    - Name: InstancePath
+      Entry: 1
+      Data: IntermediateProperties
+    - Name: InstanceType
+      Entry: 6
+      Data: 
+    - Name: ConstantValue
+      Entry: 4
+      Data: 0
+    - Name: ReferenceValue
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: BounceVerticalVelocity
+      Entry: 7
+      Data: 2|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
+        Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: false
+    - Name: EnableInstanceOptions
+      Entry: 5
+      Data: false
+    - Name: InstanceName
+      Entry: 1
+      Data: '{I} '
+    - Name: InstancePath
+      Entry: 1
+      Data: IntermediateProperties
+    - Name: InstanceType
+      Entry: 6
+      Data: 
+    - Name: ConstantValue
+      Entry: 4
+      Data: 0
+    - Name: ReferenceValue
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
   graph: {fileID: 11400000}
   position: {x: -1176, y: -3016}
   ports:
@@ -974,27 +1061,6 @@ MonoBehaviour:
     InstancePath: IntermediateProperties
     ConstantValue: -1
     Variable: {fileID: 0}
-  GroundSlamVelocity:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: '{I} '
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 16563b6aad1d3874c9f36700e8423423, type: 2}
-  BounceHorizontalVelocity:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: '{I} '
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 666169ef8b5f4e34883c05b6f3504ad8, type: 2}
-  BounceVerticalVelocity:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: '{I} '
-    InstancePath: IntermediateProperties
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 7fe06b022437c374187d5f584847bb0c, type: 2}
   BounceGameEvent: {fileID: 11400000, guid: 24255205a0786a14982c850f31d81a16, type: 2}
 --- !u!114 &-8096019312336862349
 MonoBehaviour:
@@ -5292,6 +5358,13 @@ MonoBehaviour:
     InstancePath: IntermediateProperties
     ConstantValue: 0.3
     Variable: {fileID: 11400000, guid: f50ee3a37033c6a4f9fafc168f86dce2, type: 2}
+  HorizontalFriction:
+    UseConstant: 1
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 30
+    Variable: {fileID: 0}
   GlideIdleAcceleratePercent:
     UseConstant: 1
     EnableInstanceOptions: 0
@@ -5360,7 +5433,7 @@ MonoBehaviour:
     EnableInstanceOptions: 0
     InstanceName: '{I} '
     InstancePath: IntermediateProperties
-    ConstantValue: 0
+    ConstantValue: 5
     Variable: {fileID: 0}
   DragCoefficientVerticalUpwards:
     UseConstant: 1
@@ -5459,7 +5532,21 @@ MonoBehaviour:
     EnableInstanceOptions: 0
     InstanceName: '{I} '
     InstancePath: IntermediateProperties
-    ConstantValue: 180
+    ConstantValue: 400
+    Variable: {fileID: 0}
+  MaxUpwardsTiltMin:
+    UseConstant: 1
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 1.5
+    Variable: {fileID: 0}
+  MaxTiltLerpSpeed:
+    UseConstant: 1
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 10000
     Variable: {fileID: 0}
   HungerDecayTime:
     UseConstant: 1
@@ -19735,12 +19822,41 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: ea83faa710e694844be5aa3bcf95bc9d, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: SlamVelocity
+      Entry: 7
+      Data: 0|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
+        Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: false
+    - Name: EnableInstanceOptions
+      Entry: 5
+      Data: false
+    - Name: InstanceName
+      Entry: 1
+      Data: '{I} '
+    - Name: InstancePath
+      Entry: 1
+      Data: IntermediateProperties
+    - Name: InstanceType
+      Entry: 6
+      Data: 
+    - Name: ConstantValue
+      Entry: 4
+      Data: 0
+    - Name: ReferenceValue
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
   graph: {fileID: 11400000}
   position: {x: -4200, y: -1992}
   ports:
@@ -19777,13 +19893,6 @@ MonoBehaviour:
   Name: Ground Slam
   Description: Set velocity downwards
   isActiveState: 0
-  SlamVelocity:
-    UseConstant: 0
-    EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: Assets/MyAssets/ScriptableObjects/InstancedProperties/
-    ConstantValue: 80
-    Variable: {fileID: 11400000, guid: 16563b6aad1d3874c9f36700e8423423, type: 2}
   StoredJumpVelocity:
     UseConstant: 0
     EnableInstanceOptions: 0

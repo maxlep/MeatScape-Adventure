@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using MyAssets.ScriptableObjects.Variables;
+using MyAssets.ScriptableObjects.Variables.ValueReferences;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class GroundSlam : PlayerStateNode
 {
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference SlamVelocity;
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatValueReference SlamVelocity;
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference StoredJumpVelocity;
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference BounceThresholdVelocity;
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private Vector3Reference PreviousVelocity;

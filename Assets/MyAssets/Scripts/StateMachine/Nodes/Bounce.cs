@@ -4,6 +4,7 @@ using KinematicCharacterController;
 using MyAssets.Graphs.StateMachine.Nodes;
 using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
+using MyAssets.ScriptableObjects.Variables.ValueReferences;
 using MyAssets.Scripts.Utils;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -30,15 +31,15 @@ public class Bounce : BaseMovement
 
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required]
-    protected FloatReference GroundSlamVelocity;
+    protected FloatValueReference GroundSlamVelocity;
     
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required]
-    protected FloatReference BounceHorizontalVelocity;
+    protected FloatValueReference BounceHorizontalVelocity;
     
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
     [TabGroup("Inputs")] [Required]
-    protected FloatReference BounceVerticalVelocity;
+    protected FloatValueReference BounceVerticalVelocity;
 
     #endregion
 

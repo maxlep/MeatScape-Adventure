@@ -1,10 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using Den.Tools;
-using DotLiquid.Util;
 using KinematicCharacterController;
 using MyAssets.Graphs.StateMachine.Nodes;
-using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
 using MyAssets.Scripts.Utils;
 using Shapes;
@@ -35,6 +31,10 @@ public class Glide : BaseMovement
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Horizontal")] [Required]
         protected FloatReference DragCoefficientHorizontal;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Horizontal")] [Required]
+        protected FloatReference HorizontalFriction;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Horizontal")] [Required]
@@ -144,6 +144,14 @@ public class Glide : BaseMovement
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [Required] [TabGroup("Inputs")]
         private FloatReference MaxUpwardsTiltThresholdSpeed;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [Required] [TabGroup("Inputs")]
+        private FloatReference MaxUpwardsTiltMin;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [Required] [TabGroup("Inputs")]
+        private FloatReference MaxTiltLerpSpeed;
 
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Inputs")] [Required] 
@@ -319,10 +327,11 @@ public class Glide : BaseMovement
             }
             
             #endregion
-            
+
+            var horizontalFriction = HorizontalFriction.Value * Time.deltaTime;
             var turningFriction = (1 + (CoefficientOfTurningFriction.Value * SteeringFac.Value)) * Time.deltaTime;
             var dragHorizontal = horizontalSpeed * DragCoefficientHorizontal.Value * Time.deltaTime;
-            newSpeed = currentSpeed - dragHorizontal - turningFriction;
+            newSpeed = currentSpeed - dragHorizontal - turningFriction - horizontalFriction;
             
             #endregion
 
@@ -352,12 +361,10 @@ public class Glide : BaseMovement
             
             //To stop floating in air forever when tilted up and going slow
             //Need certain amount of speed to be able to tilt above horizontal
-            
-            
             if (horizontalSpeed < MaxUpwardsTiltThresholdSpeed.Value)
             {
                 var maxTiltFac = horizontalSpeed / MaxUpwardsTiltThresholdSpeed.Value;
-                var currentMaxTilt = Mathf.Lerp(2f, -1f, maxTiltFac);   //This is the most the player can currently tilt upwards (-1 being most tilt up)
+                var currentMaxTilt = Mathf.Lerp(MaxUpwardsTiltMin.Value, -1f, maxTiltFac);   //This is the most the player can currently tilt upwards (-1 being most tilt up)
                 TiltFac.Value = Mathf.Max(currentMaxTilt, TiltFac.Value);   //Enforce the current max tilt
             }
                 
@@ -420,8 +427,7 @@ public class Glide : BaseMovement
             {
                 newVelocity.y = -Mathf.Abs(MaxFallSpeed.Value);
             }
-            
-            
+
             #endregion
 
             return newVelocity;

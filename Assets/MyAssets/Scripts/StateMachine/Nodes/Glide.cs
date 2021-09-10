@@ -115,7 +115,11 @@ public class Glide : BaseMovement
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [Required] [TabGroup("Inputs")]
-        private FloatReference TiltAngleLerpRate;
+        private FloatReference TiltAngleLerpRateUp;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [Required] [TabGroup("Inputs")]
+        private FloatReference TiltAngleLerpRateDown;
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [Required] [TabGroup("Inputs")]
@@ -359,7 +363,9 @@ public class Glide : BaseMovement
                 
             
             var tiltAngleTarget = Mathf.Lerp(TiltAngleMin.Value, TiltAngleMax.Value, TiltFac.Value);
-            tiltAngle = Mathf.Lerp(tiltAngle, tiltAngleTarget, TiltAngleLerpRate.Value * Time.deltaTime);
+
+            var currentTiltRate = (tiltAngleTarget < tiltAngle) ? TiltAngleLerpRateUp.Value : TiltAngleLerpRateDown.Value;
+            tiltAngle = Mathf.Lerp(tiltAngle, tiltAngleTarget, currentTiltRate * Time.deltaTime);
             
             GlidePivot.Value.localRotation = Quaternion.Euler(tiltAngle,  GlidePivot.Value.localRotation.y, turnAngle);
 

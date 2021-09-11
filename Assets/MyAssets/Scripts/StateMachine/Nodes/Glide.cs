@@ -148,10 +148,6 @@ public class Glide : BaseMovement
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [Required] [TabGroup("Inputs")]
         private FloatReference MaxUpwardsTiltMin;
-        
-        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
-        [Required] [TabGroup("Inputs")]
-        private FloatReference MaxTiltLerpSpeed;
 
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Inputs")] [Required] 

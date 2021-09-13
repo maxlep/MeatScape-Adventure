@@ -23,6 +23,9 @@ public class ForceEffector : MonoBehaviour
     [SerializeField] private bool CancelGlide = true;
     [SerializeField] private GameEvent onEffectorCancelGlide;
     
+    [SerializeField] [ShowIf("forceType", ForceType.Constant)]
+    private float apposingVelocityMultiplier = 1f;
+
     [SerializeField] [ShowIf("forceDirectionType", ForceDirectionType.Directional)]
     private bool useDirectionOfVelocity;
 
@@ -143,8 +146,9 @@ public class ForceEffector : MonoBehaviour
 
     private void ApplyForceToPlayer(PlayerController playerController, bool isConstant)
     {
-        Vector3 force = Vector3.zero;
+        
         playerController.UngroundMotor();
+        Vector3 force = Vector3.zero;
 
         switch (forceDirectionType)
         {
@@ -155,14 +159,19 @@ public class ForceEffector : MonoBehaviour
                 
                 if (useDirectionOfVelocity)
                     dir = PreviousVelocity.Value.normalized;
+
+                float forceMag = forceMagnitude;
             
                 //No mult by time.deltaTime because impulse
-                force = forceMagnitude * dir;
                 if (isConstant)
-                    force *= Time.deltaTime;
+                {
+                    bool isApposingForce = (Vector3.Dot(PreviousVelocity.Value.normalized, dir) < 0f);
+                    if (isApposingForce) forceMag *= apposingVelocityMultiplier;
+                }
+                    
                 
                 bool isAdditive = forceType == ForceType.Constant;
-                playerController.SetImpulseDistance(dir, forceMagnitude, isAdditive);
+                playerController.SetImpulseDistance(dir, forceMag, isAdditive);
                 break;
             
             case(ForceDirectionType.Radial):

@@ -4490,6 +4490,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: jumpHungerMultiplier
+      Entry: 6
+      Data: 
   graph: {fileID: 11400000}
   position: {x: 6552, y: 1016}
   ports:
@@ -5245,7 +5248,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 0
+  collapsed: 1
   BypassState: 0
   Name: Glide
   Description: 
@@ -9588,6 +9591,7 @@ MonoBehaviour:
     SerializedBytes: 
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: fa38c7346c1cd314d91492a8835c85f7, type: 2}
+    - {fileID: 11400000, guid: a2f4d5c7602ec9c48be191cdf32f81ff, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -9618,6 +9622,34 @@ MonoBehaviour:
     - Name: ReferenceValue
       Entry: 10
       Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: jumpHungerMultiplier
+      Entry: 7
+      Data: 1|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
+        Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: false
+    - Name: EnableInstanceOptions
+      Entry: 5
+      Data: false
+    - Name: InstanceName
+      Entry: 1
+      Data: '{I} '
+    - Name: InstancePath
+      Entry: 1
+      Data: IntermediateProperties
+    - Name: InstanceType
+      Entry: 6
+      Data: 
+    - Name: ConstantValue
+      Entry: 4
+      Data: 0
+    - Name: ReferenceValue
+      Entry: 10
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -9656,7 +9688,7 @@ MonoBehaviour:
   BypassState: 0
   Name: GroundSlamJump
   Description: 
-  isActiveState: 0
+  isActiveState: 1
   JumpImpulse:
     UseConstant: 0
     EnableInstanceOptions: 0
@@ -13248,7 +13280,7 @@ MonoBehaviour:
   BypassState: 0
   Name: GroundMovement
   Description: 
-  isActiveState: 1
+  isActiveState: 0
   BaseSpeed:
     UseConstant: 1
     EnableInstanceOptions: 0
@@ -15886,6 +15918,7 @@ MonoBehaviour:
     SerializedBytes: 
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: fa38c7346c1cd314d91492a8835c85f7, type: 2}
+    - {fileID: 11400000, guid: a2f4d5c7602ec9c48be191cdf32f81ff, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -15916,6 +15949,34 @@ MonoBehaviour:
     - Name: ReferenceValue
       Entry: 10
       Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: jumpHungerMultiplier
+      Entry: 7
+      Data: 1|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
+        Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: false
+    - Name: EnableInstanceOptions
+      Entry: 5
+      Data: false
+    - Name: InstanceName
+      Entry: 1
+      Data: '{I} '
+    - Name: InstancePath
+      Entry: 1
+      Data: IntermediateProperties
+    - Name: InstanceType
+      Entry: 6
+      Data: 
+    - Name: ConstantValue
+      Entry: 4
+      Data: 0
+    - Name: ReferenceValue
+      Entry: 10
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -15958,36 +16019,36 @@ MonoBehaviour:
   timeToJumpApex:
     UseConstant: 0
     EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: Assets/MyAssets/ScriptableObjects/InstancedProperties/
+    InstanceName: '{I} '
+    InstancePath: IntermediateProperties
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 1363a9d9ca886e741bf7446fd6169c24, type: 2}
   maxJumpHeight:
     UseConstant: 0
     EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: Assets/MyAssets/ScriptableObjects/InstancedProperties/
+    InstanceName: '{I} '
+    InstancePath: IntermediateProperties
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 661512a7e6190754c859389501b85860, type: 2}
   StoredJumpVelocity:
     UseConstant: 0
     EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: Assets/MyAssets/ScriptableObjects/InstancedProperties/
+    InstanceName: '{I} '
+    InstancePath: IntermediateProperties
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 2bf3ff9449cfd14419df1c2f76b56b20, type: 2}
   jumpGroundDelay:
     UseConstant: 0
     EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: Assets/MyAssets/ScriptableObjects/InstancedProperties/
+    InstanceName: '{I} '
+    InstancePath: IntermediateProperties
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 324837fd9b74bdb48abfa5049fd2a21c, type: 2}
   hasWaitedJumpDelay:
     UseConstant: 0
     EnableInstanceOptions: 0
-    InstanceName: 
-    InstancePath: Assets/MyAssets/ScriptableObjects/InstancedProperties/
+    InstanceName: '{I} '
+    InstancePath: IntermediateProperties
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 358e23c96757a634d87c428b8667b8ee, type: 2}
   triggerJumpAnim: {fileID: 11400000, guid: 692eae34b308467428fcb511fd2a56c5, type: 2}
@@ -19531,7 +19592,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 0
+  collapsed: 1
   BypassState: 0
   Name: NoLowJump
   Description: An AirMovement state but with no low jump fall multiplier

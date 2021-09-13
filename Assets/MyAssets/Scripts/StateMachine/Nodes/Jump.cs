@@ -11,6 +11,7 @@ public class Jump : PlayerStateNode
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference StoredJumpVelocity;
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatReference jumpGroundDelay;
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatValueReference jumpStatMultiplier;
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatValueReference jumpHungerMultiplier;
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private BoolReference hasWaitedJumpDelay;
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TriggerVariable triggerJumpAnim;
 
@@ -35,6 +36,7 @@ public class Jump : PlayerStateNode
         playerController.UngroundMotor();
         StoredJumpVelocity.Value = jumpVelocity + Mathf.Max(playerController.GetPlatformVelocity().y, 0f);
         StoredJumpVelocity.Value *= jumpStatMultiplier.Value;
+        StoredJumpVelocity.Value *= jumpHungerMultiplier.Value;
         triggerJumpAnim.Activate();
     }
 

@@ -13,6 +13,7 @@ public class GroundSlamJump : PlayerStateNode
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private BoolReference hasWaitedJumpDelay;
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private TriggerVariable triggerJumpAnim;
     [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatValueReference jumpStatMultiplier;
+    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] private FloatValueReference jumpHungerMultiplier;
 
 
     
@@ -21,7 +22,7 @@ public class GroundSlamJump : PlayerStateNode
     {
         base.Enter();
         playerController.UngroundMotor();
-        playerController.AddImpulseOverlayed(Vector3.up * JumpImpulse.Value * jumpStatMultiplier.Value);
+        playerController.AddImpulseOverlayed(Vector3.up * JumpImpulse.Value * jumpStatMultiplier.Value * jumpHungerMultiplier.Value);
         triggerJumpAnim.Activate();
     }
 

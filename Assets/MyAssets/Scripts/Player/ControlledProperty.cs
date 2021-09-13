@@ -29,11 +29,8 @@ public class ControlledProperty
 
     public void Update(float percent)
     {
+        if (stopAtMax && percent > 1f) percent = 1f;
         float newValue = ControlCurve.Value.Evaluate(percent);
-        if(!stopAtMax && percent > 1)
-        {
-            newValue *= percent;
-        }
         if(useCustomUpdate)
         {
             CustomUpdate.Invoke(newValue);

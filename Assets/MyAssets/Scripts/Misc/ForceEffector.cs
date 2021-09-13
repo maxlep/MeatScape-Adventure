@@ -20,6 +20,8 @@ public class ForceEffector : MonoBehaviour
     [SerializeField] private LayerMapper LayerMapper;
     [SerializeField] private Vector3Reference PreviousVelocity;
     [SerializeField] private GameEvent OnForceEffectorActivated;
+    [SerializeField] private bool CancelGlide = true;
+    [SerializeField] private GameEvent onEffectorCancelGlide;
     
     [SerializeField] [ShowIf("forceDirectionType", ForceDirectionType.Directional)]
     private bool useDirectionOfVelocity;
@@ -74,7 +76,7 @@ public class ForceEffector : MonoBehaviour
 
         impulseActived = true;
         onActivateEffector.Invoke();
-        
+
         switch (forceType)
         {
             case (ForceType.Constant):
@@ -82,11 +84,13 @@ public class ForceEffector : MonoBehaviour
             
             case (ForceType.Impulse):
                 OnForceEffectorActivated.Raise();
+                if (CancelGlide) onEffectorCancelGlide.Raise();
                 ApplyForceToPlayer(playerController, false);
                 break;
             
             case (ForceType.Reflect):
                 OnForceEffectorActivated.Raise();
+                if (CancelGlide) onEffectorCancelGlide.Raise();
                 ReflectVelocity(playerController);
                 break;
             
@@ -123,6 +127,7 @@ public class ForceEffector : MonoBehaviour
         {
             case (ForceType.Constant):
                 OnForceEffectorActivated.Raise();
+                if (CancelGlide) onEffectorCancelGlide.Raise();
                 PlayerController playerController = other.gameObject.GetComponent<PlayerController>();
                 ApplyForceToPlayer(playerController, true);
                 break;

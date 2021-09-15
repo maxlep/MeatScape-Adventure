@@ -1,3 +1,4 @@
+using System;
 using System.Numerics;
 using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables.ValueReferences;
@@ -49,14 +50,21 @@ public class PlayerSlingshotChargeMeterController : SerializedMonoBehaviour
     [TitleGroup("Style")] [SerializeField] private float FullChargeWidth = .5f;
     [TitleGroup("Style")] [SerializeField] private Color FullChargeColor = Color.yellow;
 
-    [SerializeField] private RectTransform tickTransform;
-    [SerializeField] private Rectangle tickRect;
+    [SerializeField] private RectTransform TickTransform;
+    [SerializeField] private RectTransform OptimalChargeTransform;
+    [SerializeField] private Rectangle OptimalChargeRect;
+    [SerializeField] private RectTransform FullChargeTransform;
+    [SerializeField] private Rectangle FullChargeRect;
+    [SerializeField] private RectTransform ScalePivot;
+    [SerializeField] private float AppearAnimDuration;
 
 
     //private void OnEnable() => OnPostRender.Subscribe(DrawBar);
     //private void OnDisable() => OnPostRender.Subscribe(DrawBar);
 
     private void OnRenderObject() => DrawBar();
+
+    private void Awake() => ScalePivot.localScale = Vector3.zero;
 
 
     private void DrawBar()
@@ -67,7 +75,8 @@ public class PlayerSlingshotChargeMeterController : SerializedMonoBehaviour
         Draw.LineGeometry = LineGeometry.Flat2D;
         Draw.LineThickness = 1f;
 
-        Vector3 origin = Offset;
+        //Vector3 origin = Offset;
+        Vector3 origin = Vector3.zero;
         float halfWidth = ChargeMeterWidth / 2f;
         float widthWithMargin = ChargeMeterWidth - BorderHorizontalMargin;
         float heightWithMargin = ChargeMeterHeight - BorderVerticalMargin;
@@ -79,8 +88,8 @@ public class PlayerSlingshotChargeMeterController : SerializedMonoBehaviour
         //Draw.RectangleBorder(origin, Quaternion.identity, new Rect(-halfWidth, 0f, chargeMeterWidth, chargeMeterHeight), Color.black, 1f, Vector4.one);
         
         //Meter Fill
-        Draw.RectangleBorder(origin, quaternion.identity, new Vector2(widthWithMargin, 
-            heightWithMargin), RectPivot.Center, FillThickness, CornerRadius, FillColor);
+        // Draw.RectangleBorder(origin, quaternion.identity, new Vector2(widthWithMargin, 
+        //     heightWithMargin), RectPivot.Center, FillThickness, CornerRadius, FillColor);
         
         //Meter Optimal Timing Fill
         float optimalFillCenterPercent = OptimalChargeTime.Value / TimeToMaxCharge.Duration;
@@ -88,32 +97,56 @@ public class PlayerSlingshotChargeMeterController : SerializedMonoBehaviour
         float optimalFillCenterX = Mathf.Lerp(0, ChargeMeterWidth, optimalFillCenterPercent);
         float optimalFillWidth = Mathf.Lerp(0, ChargeMeterWidth, optimalFillWidthPercent);
         Vector3 optimalFillPos = leftPivot + Vector3.right * optimalFillCenterX;
-        Draw.RectangleBorder(optimalFillPos, quaternion.identity, new Vector2(optimalFillWidth, 
-            heightWithMargin), RectPivot.Center, FillThickness, CornerRadius, OptimalFillColor);
+        // Draw.RectangleBorder(optimalFillPos, quaternion.identity, new Vector2(optimalFillWidth, 
+        //     heightWithMargin), RectPivot.Center, FillThickness, CornerRadius, OptimalFillColor);
+
+        OptimalChargeTransform.localPosition = optimalFillPos;
+        OptimalChargeRect.Width = optimalFillWidth;
+        OptimalChargeRect.Height = heightWithMargin;
         
         //Meter Full Charge Fill
         Vector3 fullChargeFillPos = leftPivot + Vector3.right * (ChargeMeterWidth - FullChargeWidth/2f);
-        Draw.RectangleBorder(fullChargeFillPos, quaternion.identity, new Vector2(FullChargeWidth, 
-            heightWithMargin), RectPivot.Center, FillThickness, CornerRadius, FullChargeColor);
+        // Draw.RectangleBorder(fullChargeFillPos, quaternion.identity, new Vector2(FullChargeWidth, 
+        //     heightWithMargin), RectPivot.Center, FillThickness, CornerRadius, FullChargeColor);
+
+        FullChargeTransform.localPosition = fullChargeFillPos;
+        FullChargeRect.Width = FullChargeWidth;
+        FullChargeRect.Height = heightWithMargin;
         
         //Meter Border
-        Draw.RectangleBorder(origin, quaternion.identity, new Vector2(ChargeMeterWidth, 
-            ChargeMeterHeight), RectPivot.Center, BorderThickness, CornerRadius, Color.black);
+        // Draw.RectangleBorder(origin, quaternion.identity, new Vector2(ChargeMeterWidth, 
+        //     ChargeMeterHeight), RectPivot.Center, BorderThickness, CornerRadius, Color.black);
         
         //Tick Mark Fill
         float tickHeightWithMargin = TickHeight - BorderVerticalMargin;
         float tickWidthWithMargin = TickWidth - BorderHorizontalMargin;
         Vector3 tickMarkPos = leftPivot + Vector3.right * PercentToMaxCharge.Value * ChargeMeterWidth;
-        Draw.RectangleBorder(tickMarkPos, quaternion.identity, new Vector2(tickWidthWithMargin, 
-            tickHeightWithMargin), RectPivot.Center, FillThickness, CornerRadius, TickFillColor);
+        // Draw.RectangleBorder(tickMarkPos, quaternion.identity, new Vector2(tickWidthWithMargin, 
+        //     tickHeightWithMargin), RectPivot.Center, FillThickness, CornerRadius, TickFillColor);
 
-        tickTransform.localPosition = tickMarkPos;
+        TickTransform.localPosition = tickMarkPos;
 
         //Tick Mark Border
-        Draw.RectangleBorder(tickMarkPos, quaternion.identity, new Vector2(TickWidth, 
-            TickHeight), RectPivot.Center, TickThickness, CornerRadius, TickBorderColor);
+        // Draw.RectangleBorder(tickMarkPos, quaternion.identity, new Vector2(TickWidth, 
+        //     TickHeight), RectPivot.Center, TickThickness, CornerRadius, TickBorderColor);
 
         //Reset global Draw parameters
         Draw.Matrix = Matrix4x4.identity;
+    }
+
+    public void EnableBar()
+    {
+        LeanTween.value(0f, 1f, AppearAnimDuration).setOnUpdate(t =>
+        {
+            ScalePivot.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, t);
+        });
+    }
+    
+    public void DisableBar()
+    {
+        LeanTween.value(0f, 1f, AppearAnimDuration).setOnUpdate(t =>
+        {
+            ScalePivot.localScale = Vector3.Lerp(Vector3.one, Vector3.zero, t);
+        });
     }
 }

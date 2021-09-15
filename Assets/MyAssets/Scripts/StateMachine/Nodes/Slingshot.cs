@@ -23,7 +23,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Inputs")] [Required]
-        private FloatReference TimeToMaxCharge;
+        private TimerVariable TimeToMaxCharge;
 
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Inputs")] [Required]
@@ -39,20 +39,8 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Inputs")] [Required]
-        private TimerVariable DelayTimer;
-
-        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Inputs")] [Required]
         private TransformSceneReference currentTargetSceneReference;
-        
-        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Inputs")] [Required]
-        private TriggerVariable SlingshotReleaseInput;
-        
-        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-        [TabGroup("Inputs")] [Required]
-        private GameEvent SlingshotHomingReleaseInput;
-        
+
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Inputs")] [Required]
         private TransformSceneReference SlingshotAimPivot;
@@ -61,6 +49,10 @@ namespace MyAssets.Graphs.StateMachine.Nodes
 
         #region Outputs
 
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [TabGroup("Outputs")] [Required]
+        private FloatReference PercentToMaxCharge;
+        
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Outputs")] [Required]
         private FloatReference TimeToOptimalCharge;
@@ -191,12 +183,12 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             }
             
             float timePassed = Time.time - enterTime;
-            float percentToMax = Mathf.Clamp01(timePassed/TimeToMaxCharge.Value);
-            float accumulatedForceMagnitude = Mathf.Lerp(MinForce.Value, MaxForce.Value, percentToMax);
+            PercentToMaxCharge.Value = Mathf.Clamp01(timePassed/TimeToMaxCharge.Duration);
+            float accumulatedForceMagnitude = Mathf.Lerp(MinForce.Value, MaxForce.Value, PercentToMaxCharge.Value);
             AccumulatedSlingshotForce.Value = slingDirection * accumulatedForceMagnitude;
             
             float maxArowLine = 15f;
-            playerController.SetSlingshotArrow(percentToMax * maxArowLine * slingDirection);
+            playerController.SetSlingshotArrow(PercentToMaxCharge.Value * maxArowLine * slingDirection);
             SlingshotDirection.Value = slingDirection;
             
         }

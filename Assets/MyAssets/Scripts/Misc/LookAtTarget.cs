@@ -9,18 +9,25 @@ public class LookAtTarget : MonoBehaviour
 {
     [SerializeField] private bool useSceneReference;
     [SerializeField] private bool ignoreY;
+    [SerializeField] private bool invertLookZ;
     [SerializeField] [HideIf("$useSceneReference")] private Transform target;
     [SerializeField] [ShowIf("$useSceneReference")] private TransformSceneReference targetRef;
     
     private void Update()
     {
         Transform targetTransform = useSceneReference ? targetRef.Value : target;
-        
+        Vector3 targetDir;
+
         if (!ignoreY)
-            transform.LookAt(targetTransform);
+        {
+            targetDir = (targetTransform.position - transform.position).normalized;
+            if (invertLookZ) targetDir = -targetDir;
+            transform.rotation = Quaternion.LookRotation(targetDir, Vector3.up);
+        }
         else
         {
-            Vector3 targetDir = (targetTransform.position - transform.position).xoz().normalized;
+            targetDir = (targetTransform.position - transform.position).xoz().normalized;
+            if (invertLookZ) targetDir = -targetDir;
             transform.rotation = Quaternion.LookRotation(targetDir, Vector3.up);
         }
             

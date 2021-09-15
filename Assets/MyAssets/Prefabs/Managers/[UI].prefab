@@ -2710,12 +2710,12 @@ MonoBehaviour:
   blendMode: 1
   scaleMode: 0
   color: {r: 0, g: 1, b: 0, a: 1}
-  zTest: 4
+  zTest: 8
   zOffsetFactor: 0
   zOffsetUnits: 0
   pivot: 1
   width: 4.8
-  height: 1.45
+  height: 1.4
   type: 3
   cornerRadiusMode: 0
   cornerRadii: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
@@ -2747,7 +2747,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 525db45b2ebe18842a5def43de83a261, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3022,12 +3022,12 @@ MonoBehaviour:
   blendMode: 1
   scaleMode: 0
   color: {r: 1, g: 0.9215687, b: 0.015686275, a: 1}
-  zTest: 4
+  zTest: 8
   zOffsetFactor: 0
   zOffsetUnits: 0
   pivot: 1
   width: 1
-  height: 1.45
+  height: 1.4
   type: 3
   cornerRadiusMode: 0
   cornerRadii: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
@@ -3059,7 +3059,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 525db45b2ebe18842a5def43de83a261, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3518,7 +3518,7 @@ MonoBehaviour:
   blendMode: 1
   scaleMode: 0
   color: {r: 0, g: 0, b: 0, a: 1}
-  zTest: 4
+  zTest: 8
   zOffsetFactor: 0
   zOffsetUnits: 0
   pivot: 1
@@ -3555,7 +3555,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 525db45b2ebe18842a5def43de83a261, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3996,23 +3996,13 @@ MonoBehaviour:
   PlayerTransform: {fileID: 11400000, guid: ee9dc19f502017e4ba44eef793921408, type: 2}
   OnPostRender: {fileID: 11400000, guid: a77740ea5cca2eb44b025d52cca87011, type: 2}
   TimeToMaxCharge: {fileID: 11400000, guid: 30267c90743e97f4abbf899153f91933, type: 2}
-  Offset: {x: 0, y: -2, z: 0}
   ChargeMeterWidth: 12
   ChargeMeterHeight: 1.5
-  CornerRadius: 0.3
-  BorderThickness: 0.3
-  BorderVerticalMargin: 0.05
-  BorderHorizontalMargin: 0.05
-  FillColor: {r: 0, g: 0, b: 0, a: 1}
-  FillThickness: 0.829
-  TickWidth: 0.5
-  TickHeight: 2.2
-  TickThickness: 0.2
-  TickBorderColor: {r: 0, g: 0, b: 0, a: 1}
-  TickFillColor: {r: 1, g: 1, b: 1, a: 1}
-  OptimalFillColor: {r: 0, g: 1, b: 0, a: 1}
+  BorderVerticalMargin: 0.1
+  BorderHorizontalMargin: 0.1
   FullChargeWidth: 1
-  FullChargeColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  BorderRect: {fileID: 8080131341460148244}
+  FillRect: {fileID: 8094198950121348749}
   TickTransform: {fileID: 1519614327860354672}
   OptimalChargeTransform: {fileID: 6987973957692801780}
   OptimalChargeRect: {fileID: 4170763975485161494}
@@ -4020,6 +4010,41 @@ MonoBehaviour:
   FullChargeRect: {fileID: 8771125744708114244}
   ScalePivot: {fileID: 8951277588585087701}
   AppearAnimDuration: 0.1
+  TickScaleAnimDuration: 0.3
+  TickScaleAnimFactor: 4
+  TickScaleAnimCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.1988934
+      value: 0.9977143
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &5681507676230552049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4239,7 +4264,7 @@ MonoBehaviour:
   blendMode: 1
   scaleMode: 0
   color: {r: 0, g: 0, b: 0, a: 1}
-  zTest: 4
+  zTest: 8
   zOffsetFactor: 0
   zOffsetUnits: 0
   pivot: 1
@@ -4276,7 +4301,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 525db45b2ebe18842a5def43de83a261, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4867,7 +4892,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -6, y: 0}
+  m_AnchoredPosition: {x: 0.83802795, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &971969569030825952
@@ -4893,12 +4918,12 @@ MonoBehaviour:
   blendMode: 1
   scaleMode: 0
   color: {r: 1, g: 1, b: 1, a: 1}
-  zTest: 4
+  zTest: 8
   zOffsetFactor: 0
   zOffsetUnits: 0
   pivot: 1
-  width: 0.49
-  height: 2.1
+  width: 0.45
+  height: 2
   type: 3
   cornerRadiusMode: 0
   cornerRadii: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
@@ -4930,7 +4955,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 525db45b2ebe18842a5def43de83a261, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6046,13 +6071,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blendMode: 1
   scaleMode: 0
-  color: {r: 0, g: 0, b: 0, a: 1}
-  zTest: 4
+  color: {r: 0.254717, g: 0.254717, b: 0.254717, a: 1}
+  zTest: 8
   zOffsetFactor: 0
   zOffsetUnits: 0
   pivot: 1
-  width: 12
-  height: 1.5
+  width: 11.9
+  height: 1.4
   type: 3
   cornerRadiusMode: 0
   cornerRadii: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
@@ -6084,7 +6109,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 525db45b2ebe18842a5def43de83a261, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

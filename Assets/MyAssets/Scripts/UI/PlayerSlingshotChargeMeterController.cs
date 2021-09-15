@@ -32,111 +32,49 @@ public class PlayerSlingshotChargeMeterController : SerializedMonoBehaviour
     [TitleGroup("Inputs")] [SerializeField]
     private FloatValueReference OptimalChargeErrorThreshold;
 
-    [TitleGroup("Style")] [SerializeField] private Vector3 Offset = Vector3.zero;
     [TitleGroup("Style")] [SerializeField] private float ChargeMeterWidth = 15f;
     [TitleGroup("Style")] [SerializeField] private float ChargeMeterHeight = 2f;
-    [TitleGroup("Style")] [SerializeField] private float CornerRadius = .5f;
-    [TitleGroup("Style")] [SerializeField] private float BorderThickness = .3f;
-    [TitleGroup("Style")] [SerializeField] private float BorderVerticalMargin = .05f;
-    [TitleGroup("Style")] [SerializeField] private float BorderHorizontalMargin = .05f;
-    [TitleGroup("Style")] [SerializeField] private Color FillColor = Color.black;
-    [TitleGroup("Style")] [SerializeField] private float FillThickness = 1f;
-    [TitleGroup("Style")] [SerializeField] private float TickWidth = .5f;
-    [TitleGroup("Style")] [SerializeField] private float TickHeight = 3f;
-    [TitleGroup("Style")] [SerializeField] private float TickThickness = .2f;
-    [TitleGroup("Style")] [SerializeField] private Color TickBorderColor = Color.white;
-    [TitleGroup("Style")] [SerializeField] private Color TickFillColor = Color.white;
-    [TitleGroup("Style")] [SerializeField] private Color OptimalFillColor = Color.green;
+    [TitleGroup("Style")] [SerializeField] private float BorderVerticalMargin = .5f;
+    [TitleGroup("Style")] [SerializeField] private float BorderHorizontalMargin = .5f;
     [TitleGroup("Style")] [SerializeField] private float FullChargeWidth = .5f;
-    [TitleGroup("Style")] [SerializeField] private Color FullChargeColor = Color.yellow;
 
+    [SerializeField] private Rectangle BorderRect;
+    [SerializeField] private Rectangle FillRect;
     [SerializeField] private RectTransform TickTransform;
     [SerializeField] private RectTransform OptimalChargeTransform;
     [SerializeField] private Rectangle OptimalChargeRect;
     [SerializeField] private RectTransform FullChargeTransform;
     [SerializeField] private Rectangle FullChargeRect;
     [SerializeField] private RectTransform ScalePivot;
-    [SerializeField] private float AppearAnimDuration;
+    [SerializeField] private float AppearAnimDuration = .1f;
+    [SerializeField] private float TickScaleAnimDuration = .1f;
+    [SerializeField] private float TickScaleAnimFactor = 2f;
+    [SerializeField] private AnimationCurve TickScaleAnimCurve;
 
-
-    //private void OnEnable() => OnPostRender.Subscribe(DrawBar);
-    //private void OnDisable() => OnPostRender.Subscribe(DrawBar);
+    private LTDescr appearTween;
+    private LTDescr disappearTween;
+    private LTDescr tickScaleTween;
 
     private void OnRenderObject() => DrawBar();
 
-    private void Awake() => ScalePivot.localScale = Vector3.zero;
-
-
-    private void DrawBar()
+    private void Awake()
     {
-        Draw.Matrix = transform.localToWorldMatrix;
-        Draw.ZTest = CompareFunction.Always;
-        Draw.BlendMode = ShapesBlendMode.Transparent;
-        Draw.LineGeometry = LineGeometry.Flat2D;
-        Draw.LineThickness = 1f;
-
-        //Vector3 origin = Offset;
-        Vector3 origin = Vector3.zero;
-        float halfWidth = ChargeMeterWidth / 2f;
-        float widthWithMargin = ChargeMeterWidth - BorderHorizontalMargin;
-        float heightWithMargin = ChargeMeterHeight - BorderVerticalMargin;
-        Vector3 leftPivot = origin + Vector3.left * halfWidth;
-        
-        //Background
-        //Draw.Line(origin -Vector3.right * halfWidth, origin + Vector3.right * halfWidth, LineEndCap.None, Color.black);
-        //Draw.Rectangle(ShapesBlendMode.Transparent, true, origin, Quaternion.identity, new Rect(-halfWidth, 0f, chargeMeterWidth, chargeMeterHeight), Color.black, 1f, Vector4.one);
-        //Draw.RectangleBorder(origin, Quaternion.identity, new Rect(-halfWidth, 0f, chargeMeterWidth, chargeMeterHeight), Color.black, 1f, Vector4.one);
-        
-        //Meter Fill
-        // Draw.RectangleBorder(origin, quaternion.identity, new Vector2(widthWithMargin, 
-        //     heightWithMargin), RectPivot.Center, FillThickness, CornerRadius, FillColor);
-        
-        //Meter Optimal Timing Fill
-        float optimalFillCenterPercent = OptimalChargeTime.Value / TimeToMaxCharge.Duration;
-        float optimalFillWidthPercent = OptimalChargeErrorThreshold.Value * 2f / TimeToMaxCharge.Duration;
-        float optimalFillCenterX = Mathf.Lerp(0, ChargeMeterWidth, optimalFillCenterPercent);
-        float optimalFillWidth = Mathf.Lerp(0, ChargeMeterWidth, optimalFillWidthPercent);
-        Vector3 optimalFillPos = leftPivot + Vector3.right * optimalFillCenterX;
-        // Draw.RectangleBorder(optimalFillPos, quaternion.identity, new Vector2(optimalFillWidth, 
-        //     heightWithMargin), RectPivot.Center, FillThickness, CornerRadius, OptimalFillColor);
-
-        OptimalChargeTransform.localPosition = optimalFillPos;
-        OptimalChargeRect.Width = optimalFillWidth;
-        OptimalChargeRect.Height = heightWithMargin;
-        
-        //Meter Full Charge Fill
-        Vector3 fullChargeFillPos = leftPivot + Vector3.right * (ChargeMeterWidth - FullChargeWidth/2f);
-        // Draw.RectangleBorder(fullChargeFillPos, quaternion.identity, new Vector2(FullChargeWidth, 
-        //     heightWithMargin), RectPivot.Center, FillThickness, CornerRadius, FullChargeColor);
-
-        FullChargeTransform.localPosition = fullChargeFillPos;
-        FullChargeRect.Width = FullChargeWidth;
-        FullChargeRect.Height = heightWithMargin;
-        
-        //Meter Border
-        // Draw.RectangleBorder(origin, quaternion.identity, new Vector2(ChargeMeterWidth, 
-        //     ChargeMeterHeight), RectPivot.Center, BorderThickness, CornerRadius, Color.black);
-        
-        //Tick Mark Fill
-        float tickHeightWithMargin = TickHeight - BorderVerticalMargin;
-        float tickWidthWithMargin = TickWidth - BorderHorizontalMargin;
-        Vector3 tickMarkPos = leftPivot + Vector3.right * PercentToMaxCharge.Value * ChargeMeterWidth;
-        // Draw.RectangleBorder(tickMarkPos, quaternion.identity, new Vector2(tickWidthWithMargin, 
-        //     tickHeightWithMargin), RectPivot.Center, FillThickness, CornerRadius, TickFillColor);
-
-        TickTransform.localPosition = tickMarkPos;
-
-        //Tick Mark Border
-        // Draw.RectangleBorder(tickMarkPos, quaternion.identity, new Vector2(TickWidth, 
-        //     TickHeight), RectPivot.Center, TickThickness, CornerRadius, TickBorderColor);
-
-        //Reset global Draw parameters
-        Draw.Matrix = Matrix4x4.identity;
+        if (Application.isPlaying)
+            ScalePivot.localScale = Vector3.zero;
     }
-
+    
     public void EnableBar()
     {
-        LeanTween.value(0f, 1f, AppearAnimDuration).setOnUpdate(t =>
+        //Cancel the disableBar tweens before starting appear tweens
+        if (disappearTween != null) LeanTween.cancel(disappearTween.id);
+        if (tickScaleTween != null)
+        {
+            LeanTween.cancel(tickScaleTween.id);
+            TickTransform.localScale = Vector3.one;
+        }
+        
+        //Tween for pop-in when enable bar
+        appearTween = LeanTween.value(0f, 1f, AppearAnimDuration).setOnUpdate(t =>
         {
             ScalePivot.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, t);
         });
@@ -144,9 +82,66 @@ public class PlayerSlingshotChargeMeterController : SerializedMonoBehaviour
     
     public void DisableBar()
     {
-        LeanTween.value(0f, 1f, AppearAnimDuration).setOnUpdate(t =>
+        if (appearTween != null) LeanTween.cancel(appearTween.id);
+        
+        //Scale tick up and back down to emphasis the ending location
+        tickScaleTween = LeanTween.value(0f, TickScaleAnimFactor, TickScaleAnimDuration).setOnUpdate(t =>
         {
-            ScalePivot.localScale = Vector3.Lerp(Vector3.one, Vector3.zero, t);
+            TickTransform.localScale = new Vector3(1f, t, 1f);
         });
+        tickScaleTween.setEase(TickScaleAnimCurve);
+        
+        //Start disappear tween when tick is done animating
+        tickScaleTween.setOnComplete(_ =>
+        {
+            disappearTween = LeanTween.value(0f, 1f, AppearAnimDuration).setOnUpdate(t =>
+            {
+                ScalePivot.localScale = Vector3.Lerp(Vector3.one, Vector3.zero, t);
+            });
+        });
+
+
     }
+
+
+    private void DrawBar()
+    {
+        //Vector3 origin = Offset;
+        Vector3 origin = Vector3.zero;
+        float halfWidth = ChargeMeterWidth / 2f;
+        float heightWithMargin = ChargeMeterHeight - BorderVerticalMargin;
+        float widthWithMargin = ChargeMeterWidth - BorderHorizontalMargin;
+        Vector3 leftPivot = origin + Vector3.left * halfWidth;
+        
+        //Border
+        BorderRect.Width = ChargeMeterWidth;
+        BorderRect.Height = ChargeMeterHeight;
+        
+        //Fill
+        FillRect.Width = widthWithMargin;
+        FillRect.Height = heightWithMargin;
+        
+
+        //Meter Optimal Timing Fill
+        float optimalFillCenterPercent = OptimalChargeTime.Value / TimeToMaxCharge.Duration;
+        float optimalFillWidthPercent = OptimalChargeErrorThreshold.Value * 2f / TimeToMaxCharge.Duration;
+        float optimalFillCenterX = Mathf.Lerp(0, ChargeMeterWidth, optimalFillCenterPercent);
+        float optimalFillWidth = Mathf.Lerp(0, ChargeMeterWidth, optimalFillWidthPercent);
+        Vector3 optimalFillPos = leftPivot + Vector3.right * optimalFillCenterX;
+        OptimalChargeTransform.localPosition = optimalFillPos;
+        OptimalChargeRect.Width = optimalFillWidth;
+        OptimalChargeRect.Height = heightWithMargin;
+        
+        //Meter Full Charge Fill
+        Vector3 fullChargeFillPos = leftPivot + Vector3.right * (ChargeMeterWidth - FullChargeWidth/2f);
+        FullChargeTransform.localPosition = fullChargeFillPos;
+        FullChargeRect.Width = FullChargeWidth;
+        FullChargeRect.Height = heightWithMargin;
+        
+        //Tick Mark Fill
+        Vector3 tickMarkPos = leftPivot + Vector3.right * PercentToMaxCharge.Value * ChargeMeterWidth;
+        TickTransform.localPosition = tickMarkPos;
+    }
+
+    
 }

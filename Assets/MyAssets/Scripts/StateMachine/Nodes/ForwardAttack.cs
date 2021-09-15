@@ -10,60 +10,99 @@ public class ForwardAttack : PlayerStateNode
 {
     #region Inputs
 
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Inputs")] [Required] 
+    [HideIf("$collapsed")]
+    [LabelWidth(LABEL_WIDTH)]
+    [SerializeField]
+    [TabGroup("Inputs")]
+    [Required]
     private MeatClumpController MeatClumpPrefab;
-    
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Inputs")] [Required] 
+
+    [HideIf("$collapsed")]
+    [LabelWidth(LABEL_WIDTH)]
+    [SerializeField]
+    [TabGroup("Inputs")]
+    [Required]
     private IntReference CurrentHungerLevel;
-    
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
-    [TabGroup("Inputs")] [Required] 
+
+    [HideIf("$collapsed")]
+    [LabelWidth(LABEL_WIDTH)]
+    [SerializeField]
+    [TabGroup("Inputs")]
+    [Required]
     private IntReference HungerCost;
-    
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Inputs")] [Required] 
+
+    [HideIf("$collapsed")]
+    [LabelWidth(LABEL_WIDTH)]
+    [SerializeField]
+    [TabGroup("Inputs")]
+    [Required]
     private FloatReference ThrowDelay;
-    
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
-    [TabGroup("Inputs")] [Required] 
+
+    [HideIf("$collapsed")]
+    [LabelWidth(LABEL_WIDTH)]
+    [SerializeField]
+    [TabGroup("Inputs")]
+    [Required]
     private FloatReference ThrowSpeed;
-    
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Inputs")] [Required]
+
+    [HideIf("$collapsed")]
+    [LabelWidth(LABEL_WIDTH)]
+    [SerializeField]
+    [TabGroup("Inputs")]
+    [Required]
     private BoolReference ClumpOverCharged;
 
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Inputs")] [Required] 
+    [HideIf("$collapsed")]
+    [LabelWidth(LABEL_WIDTH)]
+    [SerializeField]
+    [TabGroup("Inputs")]
+    [Required]
     private TransformSceneReference FirePoint;
-    
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Inputs")] [Required] 
+
+    [HideIf("$collapsed")]
+    [LabelWidth(LABEL_WIDTH)]
+    [SerializeField]
+    [TabGroup("Inputs")]
+    [Required]
     private TransformSceneReference PlayerCameraTransform;
-    
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Inputs")] [Required] 
+
+    [HideIf("$collapsed")]
+    [LabelWidth(LABEL_WIDTH)]
+    [SerializeField]
+    [TabGroup("Inputs")]
+    [Required]
     private Vector2Reference MoveInput;
-    
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
-    [TabGroup("Inputs")] [Required] 
+
+    [HideIf("$collapsed")]
+    [LabelWidth(LABEL_WIDTH)]
+    [SerializeField]
+    [TabGroup("Inputs")]
+    [Required]
     private TimerReference comboTimer;
-    
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
-    [TabGroup("Inputs")] [Required] 
+
+    [HideIf("$collapsed")]
+    [LabelWidth(LABEL_WIDTH)]
+    [SerializeField]
+    [TabGroup("Inputs")]
+    [Required]
     private TimerReference comboFinishTimer;
-    
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
-    [TabGroup("Inputs")] [Required] 
+
+    [HideIf("$collapsed")]
+    [LabelWidth(LABEL_WIDTH)]
+    [SerializeField]
+    [TabGroup("Inputs")]
+    [Required]
     private TransformSceneReference CurrentTargetRef;
-    
+
     #endregion
 
     #region Outputs
 
-    [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
-    [TabGroup("Outputs")] [Required] 
+    [HideIf("$collapsed")]
+    [LabelWidth(LABEL_WIDTH)]
+    [SerializeField]
+    [TabGroup("Outputs")]
+    [Required]
     private BoolReference WaitedAttackDelay;
 
     #endregion
@@ -82,20 +121,21 @@ public class ForwardAttack : PlayerStateNode
         Vector2 rotatedMoveInput = rotOffset * MoveInput.Value;
         return new Vector3(rotatedMoveInput.x, 0, rotatedMoveInput.y);
     }
-    
+
     public override void Enter()
     {
         base.Enter();
-        
+
         comboTimer.RestartTimer();
         comboFinishTimer.RestartTimer();
-        CurrentHungerLevel.Value = Mathf.FloorToInt(Mathf.Max(0f, CurrentHungerLevel.Value - HungerCost.Value));
+        var hungerCost = HungerCost.Value * (ClumpOverCharged.Value ? 2 : 1);
+        CurrentHungerLevel.Value = Mathf.FloorToInt(Mathf.Max(0f, CurrentHungerLevel.Value - hungerCost));
 
         Vector3 throwDirection;
         var aimTarget = CurrentTargetRef.Value;
-        
+
         //If no target, throw forward
-        if (aimTarget.SafeIsUnityNull())
+        if(aimTarget.SafeIsUnityNull())
         {
             throwDirection = GetMoveDirection().normalized;
         }
@@ -105,13 +145,13 @@ public class ForwardAttack : PlayerStateNode
             Collider targetCollider = aimTarget.GetComponent<Collider>();
             Vector3 targetPosition;
 
-            if (targetCollider != null)
+            if(targetCollider != null)
                 targetPosition = targetCollider.bounds.center;
-            
+
 
             else
                 targetPosition = aimTarget.position;
-            
+
 
             throwDirection = (targetPosition - FirePoint.Value.position).normalized;
         }
@@ -121,7 +161,7 @@ public class ForwardAttack : PlayerStateNode
         MeatClumpController clump = Instantiate(MeatClumpPrefab);
         clump.transform.position = FirePoint.Value.position;
         clump.SetMoving(ThrowSpeed.Value, throwDirection);
-        if (ClumpOverCharged.Value) clump.SetOverCharged();
+        if(ClumpOverCharged.Value) clump.SetOverCharged();
 
         playerController.OnClumpThrown(throwDirection);
     }
@@ -142,7 +182,7 @@ public class ForwardAttack : PlayerStateNode
         base.Exit();
 
         WaitedAttackDelay.Value = false;
-        
+
         TimeUtils.SetTimeout(ThrowDelay.Value, () => WaitedAttackDelay.Value = true);
     }
 }

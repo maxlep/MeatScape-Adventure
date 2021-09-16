@@ -64,8 +64,7 @@ public class GroundSlamAttack: PlayerStateNode
         );
         
         //Scale the radius with player scale
-        Collider[] hitColliders = Physics.OverlapSphere(playerPosition, GroundSlamRadius.Value, hitMask, QueryTriggerInteraction.Collide);
-        
+        Collider[] hitColliders = Physics.OverlapSphere(playerPosition, GroundSlamRadius.Value, EnemyMask | InteractableMask, QueryTriggerInteraction.Collide);
         foreach (var collider in hitColliders)
         {
             GameObject otherObj = collider.gameObject;

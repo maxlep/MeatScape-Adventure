@@ -90,7 +90,7 @@ public class MeateorStrikeCombat : PlayerStateNode
         currentRadius = AttackBaseRadius.Value * PlayerScale.Value;
         
         //Overlap sphere on contact point to deal damage
-        Collider[] hitColliders = Physics.OverlapSphere(collisionInfo.contactPoint, currentRadius, hitMask);
+        Collider[] hitColliders = Physics.OverlapSphere(collisionInfo.contactPoint, currentRadius, hitMask, QueryTriggerInteraction.Collide);
         
         foreach (var collider in hitColliders)
         {

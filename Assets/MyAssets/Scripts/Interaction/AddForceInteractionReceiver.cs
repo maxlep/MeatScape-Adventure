@@ -2,17 +2,34 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using MyAssets.Scripts.Utils;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class AddForceInteractionReceiver : InteractionReceiver
 {
-    [SerializeField] private List<Rigidbody> launchRbs;
-    [SerializeField] private bool horizontalOnly; 
+    [SerializeField] private bool horizontalOnly;
     [SerializeField] private bool isImpulse;
     [SerializeField] private float launchForce = 1000f;
     [SerializeField] private bool applyExplosiveForce;
     [SerializeField] private float explosiveForce = 1000f;
     [SerializeField] private float explosiveRadius = 20f;
+    [SerializeField] private List<Rigidbody> launchRbs = new List<Rigidbody>();
+
+    [Button("Populate Rigidbodies")]
+    public void PopulateRigidbodies()
+    {
+        GetChildRigidbodies(transform);
+    }
+
+    private void GetChildRigidbodies(Transform targetTransform)
+    {
+        foreach(Transform child in targetTransform)
+        {
+            Rigidbody childRb = child.gameObject.GetComponent<Rigidbody>();
+            if (childRb != null) launchRbs.Add(childRb);
+            GetChildRigidbodies(child);
+        }
+    }
     
     public override void RespondGroundSlamInteraction(GroundSlamPayload payload)
     {

@@ -3929,6 +3929,7 @@ GameObject:
   - component: {fileID: 8263029801591384787}
   - component: {fileID: 3795146580591262160}
   - component: {fileID: 6867029527411873850}
+  - component: {fileID: 2115373730191403374}
   - component: {fileID: 8662638737545053534}
   m_Layer: 5
   m_Name: SlingshotChargeMeter
@@ -4092,7 +4093,7 @@ MonoBehaviour:
   ScalePivot: {fileID: 8951277588585087701}
   AppearAnimDuration: 0.1
   TickScaleAnimDuration: 0.3
-  TickScaleAnimFactor: 4
+  TickScaleAnimFactor: 3
   TickScaleAnimCurve:
     serializedVersion: 2
     m_Curve:
@@ -4106,8 +4107,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.1988934
-      value: 0.9977143
+      time: 0.39866045
+      value: 0.99999475
       inSlope: 0
       outSlope: 0
       tangentMode: 136
@@ -4195,14 +4196,47 @@ MonoBehaviour:
   StateMachine: {fileID: 11400000, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
   ExitState: {fileID: -2916305283311469656, guid: 7a3214574a4315847bb608ab776638ad,
     type: 2}
-  EnterState: {fileID: 0}
+  EnterState: {fileID: 454363467314561103, guid: 7a3214574a4315847bb608ab776638ad,
+    type: 2}
   OnStateChange:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1224398286765393277}
         m_TargetAssemblyTypeName: PlayerSlingshotChargeMeterController, Assembly-CSharp
         m_MethodName: DisableBar
-        m_Mode: 1
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+--- !u!114 &2115373730191403374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3995477155766927667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbdd7941d76692841b8033dd8c43275b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StateMachine: {fileID: 11400000, guid: 7a3214574a4315847bb608ab776638ad, type: 2}
+  ExitState: {fileID: -2916305283311469656, guid: 7a3214574a4315847bb608ab776638ad,
+    type: 2}
+  EnterState: {fileID: -6161325389549305292, guid: 7a3214574a4315847bb608ab776638ad,
+    type: 2}
+  OnStateChange:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1224398286765393277}
+        m_TargetAssemblyTypeName: PlayerSlingshotChargeMeterController, Assembly-CSharp
+        m_MethodName: DisableBar
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4974,7 +5008,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.6339722, y: 0}
+  m_AnchoredPosition: {x: -6, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &971969569030825952
@@ -9753,6 +9787,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1505851196}
     m_Modifications:
+    - target: {fileID: 1396460801447505006, guid: 42c26f98070ea7449a7c629d6f84c7b6,
+        type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1396460801447505006, guid: 42c26f98070ea7449a7c629d6f84c7b6,
+        type: 3}
+      propertyPath: m_VelocityScale
+      value: 0.02
+      objectReference: {fileID: 0}
     - target: {fileID: 3176616978392967851, guid: 42c26f98070ea7449a7c629d6f84c7b6,
         type: 3}
       propertyPath: m_RootOrder
@@ -9761,17 +9805,17 @@ PrefabInstance:
     - target: {fileID: 3176616978392967851, guid: 42c26f98070ea7449a7c629d6f84c7b6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3176616978392967851, guid: 42c26f98070ea7449a7c629d6f84c7b6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.68
+      value: -0.27
       objectReference: {fileID: 0}
     - target: {fileID: 3176616978392967851, guid: 42c26f98070ea7449a7c629d6f84c7b6,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3176616978392967851, guid: 42c26f98070ea7449a7c629d6f84c7b6,
         type: 3}
@@ -9823,18 +9867,123 @@ PrefabInstance:
       propertyPath: m_Name
       value: SlingshotOptimalUIParticles (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8056571636026270463, guid: 42c26f98070ea7449a7c629d6f84c7b6,
+        type: 3}
+      propertyPath: ClampVelocityModule.dampen
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8056571636026270463, guid: 42c26f98070ea7449a7c629d6f84c7b6,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8056571636026270463, guid: 42c26f98070ea7449a7c629d6f84c7b6,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8056571636026270463, guid: 42c26f98070ea7449a7c629d6f84c7b6,
+        type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8056571636026270463, guid: 42c26f98070ea7449a7c629d6f84c7b6,
+        type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8056571636026270463, guid: 42c26f98070ea7449a7c629d6f84c7b6,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.minScalar
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8056571636026270463, guid: 42c26f98070ea7449a7c629d6f84c7b6,
+        type: 3}
+      propertyPath: InitialModule.startLifetime.minScalar
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8056571636026270463, guid: 42c26f98070ea7449a7c629d6f84c7b6,
+        type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8056571636026270463, guid: 42c26f98070ea7449a7c629d6f84c7b6,
+        type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].cycleCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8056571636026270463, guid: 42c26f98070ea7449a7c629d6f84c7b6,
+        type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8056571636026270463, guid: 42c26f98070ea7449a7c629d6f84c7b6,
+        type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8056571636026270463, guid: 42c26f98070ea7449a7c629d6f84c7b6,
+        type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[1].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8056571636026270463, guid: 42c26f98070ea7449a7c629d6f84c7b6,
+        type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.scalar
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8056571636026270463, guid: 42c26f98070ea7449a7c629d6f84c7b6,
+        type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[0].inSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8056571636026270463, guid: 42c26f98070ea7449a7c629d6f84c7b6,
+        type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[1].inSlope
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8056571636026270463, guid: 42c26f98070ea7449a7c629d6f84c7b6,
+        type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[0].outSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8056571636026270463, guid: 42c26f98070ea7449a7c629d6f84c7b6,
+        type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[1].inWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8056571636026270463, guid: 42c26f98070ea7449a7c629d6f84c7b6,
+        type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[1].outSlope
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8056571636026270463, guid: 42c26f98070ea7449a7c629d6f84c7b6,
+        type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[1].outWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8056571636026270463, guid: 42c26f98070ea7449a7c629d6f84c7b6,
+        type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[0].tangentMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8056571636026270463, guid: 42c26f98070ea7449a7c629d6f84c7b6,
+        type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[1].tangentMode
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2060176979725288915, guid: 42c26f98070ea7449a7c629d6f84c7b6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 42c26f98070ea7449a7c629d6f84c7b6, type: 3}
---- !u!4 &8801682868625581124 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3176616978392967851, guid: 42c26f98070ea7449a7c629d6f84c7b6,
-    type: 3}
-  m_PrefabInstance: {fileID: 6210542639512014575}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &4179048635236002832 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 8056571636026270463, guid: 42c26f98070ea7449a7c629d6f84c7b6,
+    type: 3}
+  m_PrefabInstance: {fileID: 6210542639512014575}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8801682868625581124 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3176616978392967851, guid: 42c26f98070ea7449a7c629d6f84c7b6,
     type: 3}
   m_PrefabInstance: {fileID: 6210542639512014575}
   m_PrefabAsset: {fileID: 0}
@@ -10520,12 +10669,12 @@ PrefabInstance:
     - target: {fileID: 3176616978392967851, guid: 42c26f98070ea7449a7c629d6f84c7b6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.85
+      value: 0.28
       objectReference: {fileID: 0}
     - target: {fileID: 3176616978392967851, guid: 42c26f98070ea7449a7c629d6f84c7b6,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3176616978392967851, guid: 42c26f98070ea7449a7c629d6f84c7b6,
         type: 3}

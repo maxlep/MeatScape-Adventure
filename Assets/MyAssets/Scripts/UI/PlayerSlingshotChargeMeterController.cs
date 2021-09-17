@@ -80,14 +80,17 @@ public class PlayerSlingshotChargeMeterController : SerializedMonoBehaviour
         });
     }
     
-    public void DisableBar()
+    public void DisableBar(bool isMeateorStrike)
     {
         if (appearTween != null) LeanTween.cancel(appearTween.id);
+
+        Color borderOriginalColor = BorderRect.Color;
         
         //Scale tick up and back down to emphasis the ending location
         tickScaleTween = LeanTween.value(0f, TickScaleAnimFactor, TickScaleAnimDuration).setOnUpdate(t =>
         {
             TickTransform.localScale = new Vector3(1f, t, 1f);
+            if (isMeateorStrike) BorderRect.Color = Color.Lerp(borderOriginalColor, OptimalChargeRect.Color, t);
         });
         tickScaleTween.setEase(TickScaleAnimCurve);
         

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using BehaviorDesigner.Runtime.Tasks;
+using EnhancedHierarchy.Icons;
 using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
 using MyAssets.ScriptableObjects.Variables.ValueReferences;
@@ -19,8 +20,10 @@ public class ForceEffector : MonoBehaviour
     [SerializeField] private ForceDirectionType forceDirectionType;
     [SerializeField] private LayerMapper LayerMapper;
     [SerializeField] private Vector3Reference PreviousVelocity;
-    [SerializeField] private GameEvent OnForceEffectorActivated;
     [SerializeField] private bool CancelGlide = true;
+    [SerializeField] private bool AffectRigidbodies = true;
+    [SerializeField] private float RigidodyForce = 1000f;
+    [SerializeField] private GameEvent OnForceEffectorActivated;
     [SerializeField] private GameEvent onEffectorCancelGlide;
     
     [SerializeField] [ShowIf("forceType", ForceType.Constant)]
@@ -109,6 +112,20 @@ public class ForceEffector : MonoBehaviour
         {
             PlayerController playerController = other.gameObject.GetComponent<PlayerController>();
             Activate(playerController);
+            return;
+        }
+        
+        //Handle force on rbs other than player
+        if (!AffectRigidbodies) return;
+        
+        if (other.gameObject.layer != LayerMapper.GetLayer(LayerEnum.Player))
+        {
+            Rigidbody rb = other.attachedRigidbody;
+            if (rb != null)
+            {
+                onActivateEffector.Invoke();
+                ApplyForceToRigidbody(rb, false);
+            }
         }
     }
 
@@ -123,9 +140,18 @@ public class ForceEffector : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.layer != LayerMapper.GetLayer(LayerEnum.Player))
+        //Apply constant force to non-player Rbs
+        if (other.gameObject.layer != LayerMapper.GetLayer(LayerEnum.Player) && forceType == ForceType.Constant)
+        {
+            Rigidbody rb = other.attachedRigidbody;
+            if (rb != null)
+            {
+                ApplyForceToRigidbody(rb, false);
+            }
             return;
-
+        }
+            
+        //Apply force to player
         switch (forceType)
         {
             case (ForceType.Constant):
@@ -188,6 +214,49 @@ public class ForceEffector : MonoBehaviour
                 break;
         }
     }
+    
+    private void ApplyForceToRigidbody(Rigidbody rb, bool isConstant)
+    {
+        Vector3 force = Vector3.zero;
+
+        switch (forceDirectionType)
+        {
+            case(ForceDirectionType.Directional):
+                Vector3 dir = (isDirectionLocalSpace) ? 
+                    transform.TransformDirection(direction.normalized) :
+                    direction.normalized;
+                
+                if (useDirectionOfVelocity)
+                    dir = PreviousVelocity.Value.normalized;
+
+                float forceMag = RigidodyForce;
+            
+                //No mult by time.deltaTime because impulse
+                if (isConstant)
+                {
+                    bool isApposingForce = (Vector3.Dot(PreviousVelocity.Value.normalized, dir) < 0f);
+                    if (isApposingForce) forceMag *= apposingVelocityMultiplier;
+                }
+                    
+                
+                bool isAdditive = forceType == ForceType.Constant;
+                rb.AddForce(dir * forceMag);
+                break;
+            
+            case(ForceDirectionType.Radial):
+                Vector3 target = (isTargetLocalSpace) ?
+                    transform.TransformPoint(targetPoint)
+                    : targetPoint;
+            
+                Vector3 radialForceDir = (target - rb.position).normalized;
+                force = radialForceDir * RigidodyForce * Time.deltaTime;
+                if (isConstant)
+                    force *= Time.deltaTime;
+                
+                rb.AddForce(force);
+                break;
+        }
+    }
 
     private void ReflectVelocity(PlayerController playerController)
     {
@@ -211,12 +280,7 @@ public class ForceEffector : MonoBehaviour
         
         if (force.y > 0f)
             playerController.UngroundMotor();
-        
-        // if (isOverlayForce)
-        //     playerController.AddImpulseOverlayed(force);
-        // else
-        //     playerController.AddImpulse(force);
-        
+
         playerController.SetImpulseDistance(force.normalized, forceMagnitude);
     }
 

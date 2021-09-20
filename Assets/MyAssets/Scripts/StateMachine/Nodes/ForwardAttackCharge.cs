@@ -5,6 +5,8 @@ using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
 using MyAssets.ScriptableObjects.Variables.ValueReferences;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class ForwardAttackCharge : PlayerStateNode
@@ -113,7 +115,7 @@ public class ForwardAttackCharge : PlayerStateNode
         //float chargedTime = Time.time - chargeStartTime;
         //float percentToMaxCharge = Mathf.Lerp(0f, TimeToMaxCharge.Value, chargedTime);
         //ThrowSpeedOut.Value = Mathf.Lerp(MinThrowSpeed.Value, MaxThrowSpeed.Value, percentToMaxCharge);
-        ThrowSpeedOut.Value = (reachedMaxCharge) ? MaxThrowSpeed.Value : MinThrowSpeed.Value;
+        ThrowSpeedOut.Value = Mathf.Lerp(MinThrowSpeed.Value, MaxThrowSpeed.Value, ClumpThrowPercentToMaxCharge.Value);
         ThrowSpeedOut.Value *= ThrowSpeedStatMultiplier.Value;
         ClumpOverChargedOut.Value = reachedMaxCharge;
         RunSpeedChargeClumpFactorOut.Value = 1f;

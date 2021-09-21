@@ -1,16 +1,23 @@
+using System;
 using MyAssets.ScriptableObjects.Variables;
 using UnityEngine;
 
 public class ChargeClumpScaler : MonoBehaviour
 {
-    [SerializeField]
-    private FloatReference ClumpThrowPercentToMaxCharge;
+    [SerializeField] private FloatReference ClumpThrowPercentToMaxCharge;
+    [SerializeField] private FloatReference ClumpScaleFactor;
+    [SerializeField] private float ClumpStartScale = 1f;
 
-    [SerializeField]
-    private FloatReference ClumpScaleFactor;
+    private Vector3 originalScale;
+
+    private void Awake()
+    {
+        originalScale = transform.localScale;
+    }
+
     void Update()
     {
-        transform.localScale = ClumpThrowPercentToMaxCharge.Value * (Vector3.one * 2 * ClumpScaleFactor.Value);
+        transform.localScale = originalScale * Mathf.Lerp(ClumpStartScale, ClumpScaleFactor.Value, ClumpThrowPercentToMaxCharge.Value);
     }
 
     public void SetScaleToZero()

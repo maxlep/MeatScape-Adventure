@@ -130,7 +130,7 @@ public class MeatClumpController : MonoBehaviour
                 if (interactableScript == null)
                     interactableScript = collider.GetComponent<InteractionReceiverProxy>()?.InteractionReceiver;
                 if (interactableScript == null)
-                    interactableScript = collider.attachedRigidbody.GetComponent<InteractionReceiverProxy>()?.InteractionReceiver;
+                    interactableScript = collider.attachedRigidbody?.GetComponent<InteractionReceiverProxy>()?.InteractionReceiver;
                 
                 if (interactableScript != null)
                     interactableScript.ReceiveMeatClumpHitInteraction(new MeatClumpHitPayload()

@@ -42,7 +42,8 @@ namespace MyAssets.Scripts.Camera
                 scaleMin = ScaleCurve_Hunger_Player.MinValue;
                 scaleMax = ScaleCurve_Hunger_Player.MaxValue;
                 
-                var fac = (_scaleValue.Value - scaleMin) / (scaleMax - scaleMin);
+                //var fac = (_scaleValue.Value - scaleMin) / (scaleMax - scaleMin);
+                var fac = _scaleValue.Value;
                 
                 _cinemachineFreeLook.m_Orbits[0] = new CinemachineFreeLook.Orbit(_topRigHeight.Value.Evaluate(fac), _topRigRadius.Value.Evaluate(fac));
                 _cinemachineFreeLook.m_Orbits[1] = new CinemachineFreeLook.Orbit(_midRigHeight.Value.Evaluate(fac), _midRigRadius.Value.Evaluate(fac));

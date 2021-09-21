@@ -95,10 +95,10 @@ MonoBehaviour:
   TestStopButton: 0
   PlayMethod: 2
   PoolSize: 10
-  MinVolume: 1
-  MaxVolume: 1
-  MinPitch: 1
-  MaxPitch: 1
+  MinVolume: 0.7
+  MaxVolume: 0.7
+  MinPitch: 0.9
+  MaxPitch: 1.1
   SfxAudioMixerGroup: {fileID: 0}
 --- !u!114 &1693065992770973756
 MonoBehaviour:
@@ -585,10 +585,11 @@ MonoBehaviour:
       Data: 
   horizontalOnly: 1
   isImpulse: 0
-  launchForce: 1000
+  launchForce: 10000
   applyExplosiveForce: 0
   explosiveForce: 1000
   explosiveRadius: 20
+  cooldown: 0.05
   launchRbs:
   - {fileID: 8806433949242721816}
 --- !u!65 &2684627157992563518
@@ -8786,8 +8787,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 26.5, y: 20.32, z: 31}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 40.5, y: 32.4, z: 43.8}
+  m_Center: {x: -9.59, y: -4.5, z: 0}
 --- !u!114 &2766380800823548211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9541,6 +9542,12 @@ PrefabInstance:
       propertyPath: m_ConnectedAnchor.z
       value: 0.019269899
       objectReference: {fileID: 0}
+    - target: {fileID: 8285828668592645942, guid: a1f7316185480b0479562b00f4c4f884,
+        type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 8285828668592645942, guid: a1f7316185480b0479562b00f4c4f884,
+        type: 3}
     - target: {fileID: 8934878440263666774, guid: a1f7316185480b0479562b00f4c4f884,
         type: 3}
       propertyPath: m_ConnectedAnchor.x

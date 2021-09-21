@@ -130,6 +130,8 @@ public class MeateorStrikeCombat : PlayerStateNode
         var interactableScript = interactableCollider.GetComponent<InteractionReceiver>();
         if (interactableScript == null)
             interactableScript = interactableCollider.GetComponent<InteractionReceiverProxy>()?.InteractionReceiver;
+        if (interactableScript == null)
+            interactableScript = interactableCollider.attachedRigidbody?.GetComponent<InteractionReceiverProxy>()?.InteractionReceiver;
         
         if (interactableScript != null)
         {

@@ -13,7 +13,10 @@ public class AddForceInteractionReceiver : InteractionReceiver
     [SerializeField] private bool applyExplosiveForce;
     [SerializeField] private float explosiveForce = 1000f;
     [SerializeField] private float explosiveRadius = 20f;
+    [SerializeField] private float cooldown = .05f;
     [SerializeField] private List<Rigidbody> launchRbs = new List<Rigidbody>();
+
+    private float lastActivateTime = Mathf.NegativeInfinity;
 
     [Button("Populate Rigidbodies")]
     public void PopulateRigidbodies()
@@ -57,6 +60,9 @@ public class AddForceInteractionReceiver : InteractionReceiver
 
     private void Launch(Vector3 dir, Vector3 origin)
     {
+        if (lastActivateTime + cooldown > Time.time)
+            return;
+        
         ForceMode forceMode = (isImpulse) ? ForceMode.Impulse : ForceMode.Force;
         Vector3 forceDir = dir;
         if (horizontalOnly) forceDir = forceDir.xoz(); 
@@ -67,6 +73,8 @@ public class AddForceInteractionReceiver : InteractionReceiver
             if (applyExplosiveForce)
                 rb.AddExplosionForce(explosiveForce, origin, explosiveRadius);
         }
-        
+
+        lastActivateTime = Time.time;
+
     }
 }

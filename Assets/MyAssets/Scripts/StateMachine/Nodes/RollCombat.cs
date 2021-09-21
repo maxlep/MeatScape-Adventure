@@ -89,6 +89,8 @@ public class RollCombat : PlayerStateNode
             InteractionReceiver interactionReceiver = collisionInfo.other.GetComponent<InteractionReceiver>();
             if (interactionReceiver == null)
                 interactionReceiver = collisionInfo.other.GetComponent<InteractionReceiverProxy>()?.InteractionReceiver;
+            if (interactionReceiver == null)
+                interactionReceiver = collisionInfo.other.attachedRigidbody?.GetComponent<InteractionReceiverProxy>()?.InteractionReceiver;
             
             if (interactionReceiver != null) interactionReceiver.ReceiveRollIntoInteraction(new RollIntoPayload()
             {

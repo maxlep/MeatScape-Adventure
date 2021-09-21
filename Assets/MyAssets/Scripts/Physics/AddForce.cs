@@ -7,7 +7,8 @@ namespace MyAssets.Scripts.Misc
 {
     public class AddForce : MonoBehaviour
     {
-        [Header("Direction")] 
+        [Header("Direction")]
+        [SerializeField] private bool invertDirection;
         [SerializeField] private bool useTransform = true;
         [SerializeField] [ShowIf("useTransform")] private Transform firePoint;
         [SerializeField] [HideIf("useTransform")] private Vector3 fireDir;
@@ -40,6 +41,7 @@ namespace MyAssets.Scripts.Misc
         public void Launch()
         {
             Vector3 dir = useTransform ? firePoint.forward : fireDir;
+            if (invertDirection) dir = -dir;
             Launch(dir, transform.position);
         }
         

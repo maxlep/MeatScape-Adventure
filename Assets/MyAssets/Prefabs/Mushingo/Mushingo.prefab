@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1563952834}
   - component: {fileID: 5196298336998909244}
   - component: {fileID: 4088303705082439125}
-  - component: {fileID: 8174635030621782936}
+  - component: {fileID: 5067998787819999756}
   m_Layer: 18
   m_Name: PunchFeedback
   m_TagString: Untagged
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Feedbacks:
   - {fileID: 4088303705082439125}
-  - {fileID: 8174635030621782936}
+  - {fileID: 5067998787819999756}
   InitializationMode: 2
   SafeMode: 3
   AutoPlayOnStart: 0
@@ -82,7 +82,7 @@ MonoBehaviour:
   BoundParticleSystem: {fileID: 7800029699255948471}
   MoveToPosition: 0
   RandomParticleSystems: []
---- !u!114 &8174635030621782936
+--- !u!114 &5067998787819999756
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -91,11 +91,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1563952833}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2ce51367856bd49b72678cc4263225, type: 3}
+  m_Script: {fileID: 11500000, guid: 8992174433e952f4ab19e373a3c9ddba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Active: 1
-  Label: Sound
+  Label: SoundCustomSource
   Chance: 100
   Timing:
     TimescaleMode: 0
@@ -113,14 +113,24 @@ MonoBehaviour:
   RandomSfx:
   - {fileID: 8300000, guid: 9527fbfc4c32d5a4f8bb31df22796777, type: 3}
   - {fileID: 8300000, guid: 25c4abe49ae3ef849a89a676bec94f23, type: 3}
+  audioSourceSettings:
+    Priority: 128
+    StereoPan: 0
+    SpatialBlend: 1
+    ReverbZoneMix: 1
+    DopplerLevel: 0
+    Spread: 0
+    VolumeRolloff: 0
+    MinDistance: 5
+    MaxDistance: 500
   TestButton: 0
   TestStopButton: 0
   PlayMethod: 2
   PoolSize: 10
-  MinVolume: 0.4
-  MaxVolume: 0.4
-  MinPitch: 1.05
-  MaxPitch: 0.95
+  MinVolume: 1
+  MaxVolume: 1
+  MinPitch: 1
+  MaxPitch: 1
   SfxAudioMixerGroup: {fileID: 0}
 --- !u!1 &2746908410937705164
 GameObject:
@@ -228,7 +238,7 @@ MonoBehaviour:
     Variable: {fileID: 11400000, guid: 32fe95a7d33c6774fbb7a1297b54ed10, type: 2}
   CancelGlide: 1
   AffectRigidbodies: 1
-  RigidodyForce: 5000
+  RigidodyForce: 10000
   OnForceEffectorActivated: {fileID: 11400000, guid: cd8ee4c0d9f2ce545a2f78894b1fb06f,
     type: 2}
   onEffectorCancelGlide: {fileID: 11400000, guid: 5f059fd8aa360c8479a211f3016c2cd6,
@@ -305,7 +315,7 @@ MonoBehaviour:
   _editor_DrawExtra: 0
   _editor_horizontal: 1
   _editor_category: 0
-  Editor_InIsolatedScene: 1
+  Editor_InIsolatedScene: 0
   Editor_JustCreated: 1
   UseDOTS: 0
   DOTSObstacleType: 2

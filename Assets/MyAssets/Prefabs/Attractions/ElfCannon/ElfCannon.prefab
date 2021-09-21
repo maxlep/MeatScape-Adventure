@@ -1,5 +1,135 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3193648704171355069
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5419995245656777754}
+  - component: {fileID: 354708736272055608}
+  - component: {fileID: 3923082088779130742}
+  - component: {fileID: 1693065992770973756}
+  m_Layer: 0
+  m_Name: Launch Feedback
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5419995245656777754
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3193648704171355069}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6552168205200800748}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &354708736272055608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3193648704171355069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 841b72de2996c5c40bfb394f3d0e0a98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Feedbacks:
+  - {fileID: 3923082088779130742}
+  - {fileID: 1693065992770973756}
+  InitializationMode: 2
+  SafeMode: 3
+  AutoPlayOnStart: 0
+  DebugActive: 0
+--- !u!114 &3923082088779130742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3193648704171355069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8992174433e952f4ab19e373a3c9ddba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Active: 1
+  Label: SoundCustomSource
+  Chance: 100
+  Timing:
+    TimescaleMode: 0
+    InitialDelay: 0
+    CooldownDuration: 0
+    NumberOfRepeats: 0
+    RepeatForever: 0
+    DelayBetweenRepeats: 1
+    Sequence: {fileID: 0}
+    TrackID: 0
+    Quantized: 0
+    TargetBPM: 120
+  DebugActive: 0
+  Sfx: {fileID: 8300000, guid: 4360e70629ae8c34da01ed52b20a43b2, type: 3}
+  RandomSfx: []
+  audioSourceSettings:
+    Priority: 128
+    StereoPan: 0
+    SpatialBlend: 0
+    ReverbZoneMix: 1
+    DopplerLevel: 5
+    Spread: 0
+    VolumeRolloff: 0
+    MinDistance: 5
+    MaxDistance: 500
+  TestButton: 0
+  TestStopButton: 0
+  PlayMethod: 2
+  PoolSize: 10
+  MinVolume: 1
+  MaxVolume: 1
+  MinPitch: 1
+  MaxPitch: 1
+  SfxAudioMixerGroup: {fileID: 0}
+--- !u!114 &1693065992770973756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3193648704171355069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c27131831afa28b499cb120fc9059997, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Active: 1
+  Label: Particles Play
+  Chance: 100
+  Timing:
+    TimescaleMode: 0
+    InitialDelay: 0
+    CooldownDuration: 0
+    NumberOfRepeats: 0
+    RepeatForever: 0
+    DelayBetweenRepeats: 1
+    Sequence: {fileID: 0}
+    TrackID: 0
+    Quantized: 0
+    TargetBPM: 120
+  DebugActive: 0
+  BoundParticleSystem: {fileID: 8907835937564685958}
+  MoveToPosition: 0
+  RandomParticleSystems: []
 --- !u!1 &6552168205200800723
 GameObject:
   m_ObjectHideFlags: 0
@@ -9,9 +139,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6552168205200800748}
-  - component: {fileID: 6552168205200800749}
-  - component: {fileID: 6552168205200800750}
-  m_Layer: 0
+  - component: {fileID: 8806433949242721816}
+  - component: {fileID: 2149801210336855113}
+  - component: {fileID: 2684627157992563518}
+  m_Layer: 18
   m_Name: ElfCannon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31,11 +162,29 @@ Transform:
   m_Children:
   - {fileID: 6552168205495464079}
   - {fileID: 6552168206759000957}
+  - {fileID: 5419995245656777754}
   - {fileID: 5754640018620208055}
+  - {fileID: 8907835937584083910}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6552168205200800749
+--- !u!54 &8806433949242721816
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6552168205200800723}
+  serializedVersion: 2
+  m_Mass: 10
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &2149801210336855113
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,16 +193,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 6552168205200800723}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e39f83680b5e4d9a91b831bcfb2d551b, type: 3}
+  m_Script: {fileID: 11500000, guid: 2333cdcdfe82b7147b26fa064ae0113d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 5754640018620208048}
+    - {fileID: 2149801210336855113}
     - {fileID: 0}
-    - {fileID: 6552168205200800750}
+    - {fileID: 0}
+    - {fileID: 0}
     - {fileID: 0}
     SerializedBytesString: 
     Prefab: {fileID: 0}
@@ -66,10 +216,10 @@ MonoBehaviour:
         System.Xml
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 4
     - Name: 
       Entry: 7
-      Data: 1|InspectInteraction, Assembly-CSharp
+      Data: 1|GroundSlamInteraction, Assembly-CSharp
     - Name: Conditionals
       Entry: 7
       Data: 2|MS.Internal.Xml.XPath.ClonableStack`1[[IConditional, Assembly-CSharp]],
@@ -85,7 +235,7 @@ MonoBehaviour:
       Data: 
     - Name: onInteract
       Entry: 7
-      Data: 3|UnityEngine.Events.UnityEvent`1[[InspectPayload, Assembly-CSharp]],
+      Data: 3|UnityEngine.Events.UnityEvent`1[[GroundSlamPayload, Assembly-CSharp]],
         UnityEngine.CoreModule
     - Name: m_PersistentCalls
       Entry: 7
@@ -96,7 +246,7 @@ MonoBehaviour:
         UnityEngine.CoreModule]], mscorlib
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 1
     - Name: 
       Entry: 7
       Data: 6|UnityEngine.Events.PersistentCall, UnityEngine.CoreModule
@@ -105,13 +255,13 @@ MonoBehaviour:
       Data: 0
     - Name: m_TargetAssemblyTypeName
       Entry: 1
-      Data: UnityEngine.GameObject, UnityEngine
+      Data: AddForceInteractionReceiver, Assembly-CSharp
     - Name: m_MethodName
       Entry: 1
-      Data: SetActive
+      Data: RespondGroundSlamInteraction
     - Name: m_Mode
       Entry: 3
-      Data: 6
+      Data: 0
     - Name: m_Arguments
       Entry: 7
       Data: 7|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
@@ -132,7 +282,7 @@ MonoBehaviour:
       Data: 
     - Name: m_BoolArgument
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 8
       Data: 
@@ -143,26 +293,251 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
       Entry: 7
-      Data: 8|UnityEngine.Events.PersistentCall, UnityEngine.CoreModule
+      Data: 8|MeatClumpHitInteraction, Assembly-CSharp
+    - Name: Conditionals
+      Entry: 7
+      Data: 9|MS.Internal.Xml.XPath.ClonableStack`1[[IConditional, Assembly-CSharp]],
+        System.Xml
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: onInteract
+      Entry: 7
+      Data: 10|UnityEngine.Events.UnityEvent`1[[MeatClumpHitPayload, Assembly-CSharp]],
+        UnityEngine.CoreModule
+    - Name: m_PersistentCalls
+      Entry: 7
+      Data: 11|UnityEngine.Events.PersistentCallGroup, UnityEngine.CoreModule
+    - Name: m_Calls
+      Entry: 7
+      Data: 12|System.Collections.Generic.List`1[[UnityEngine.Events.PersistentCall,
+        UnityEngine.CoreModule]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 13|UnityEngine.Events.PersistentCall, UnityEngine.CoreModule
     - Name: m_Target
       Entry: 10
-      Data: 2
+      Data: 0
     - Name: m_TargetAssemblyTypeName
       Entry: 1
-      Data: MyAssets.Scripts.Misc.AddForce, Assembly-CSharp
+      Data: AddForceInteractionReceiver, Assembly-CSharp
     - Name: m_MethodName
       Entry: 1
-      Data: Launch
+      Data: RespondMeatClumpHitInteraction
     - Name: m_Mode
       Entry: 3
-      Data: 1
+      Data: 0
     - Name: m_Arguments
       Entry: 7
-      Data: 9|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
+      Data: 14|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
+    - Name: m_ObjectArgument
+      Entry: 10
+      Data: 2
+    - Name: m_ObjectArgumentAssemblyTypeName
+      Entry: 1
+      Data: UnityEngine.Object, UnityEngine
+    - Name: m_IntArgument
+      Entry: 3
+      Data: 0
+    - Name: m_FloatArgument
+      Entry: 4
+      Data: 0
+    - Name: m_StringArgument
+      Entry: 1
+      Data: 
+    - Name: m_BoolArgument
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_CallState
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 15|MeateorStrikeIntoInteraction, Assembly-CSharp
+    - Name: Conditionals
+      Entry: 7
+      Data: 16|System.Collections.Generic.List`1[[IConditional, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: onInteract
+      Entry: 7
+      Data: 17|UnityEngine.Events.UnityEvent`1[[MeateorStrikeIntoPayload, Assembly-CSharp]],
+        UnityEngine.CoreModule
+    - Name: m_PersistentCalls
+      Entry: 7
+      Data: 18|UnityEngine.Events.PersistentCallGroup, UnityEngine.CoreModule
+    - Name: m_Calls
+      Entry: 7
+      Data: 19|System.Collections.Generic.List`1[[UnityEngine.Events.PersistentCall,
+        UnityEngine.CoreModule]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 20|UnityEngine.Events.PersistentCall, UnityEngine.CoreModule
+    - Name: m_Target
+      Entry: 10
+      Data: 0
+    - Name: m_TargetAssemblyTypeName
+      Entry: 1
+      Data: AddForceInteractionReceiver, Assembly-CSharp
+    - Name: m_MethodName
+      Entry: 1
+      Data: RespondMeateorStirkeIntoInteraction
+    - Name: m_Mode
+      Entry: 3
+      Data: 0
+    - Name: m_Arguments
+      Entry: 7
+      Data: 21|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
     - Name: m_ObjectArgument
       Entry: 10
       Data: 3
+    - Name: m_ObjectArgumentAssemblyTypeName
+      Entry: 1
+      Data: UnityEngine.Object, UnityEngine
+    - Name: m_IntArgument
+      Entry: 3
+      Data: 0
+    - Name: m_FloatArgument
+      Entry: 4
+      Data: 0
+    - Name: m_StringArgument
+      Entry: 1
+      Data: 
+    - Name: m_BoolArgument
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_CallState
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 22|RollIntoInteraction, Assembly-CSharp
+    - Name: Conditionals
+      Entry: 7
+      Data: 23|MS.Internal.Xml.XPath.ClonableStack`1[[IConditional, Assembly-CSharp]],
+        System.Xml
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: onInteract
+      Entry: 7
+      Data: 24|UnityEngine.Events.UnityEvent`1[[RollIntoPayload, Assembly-CSharp]],
+        UnityEngine.CoreModule
+    - Name: m_PersistentCalls
+      Entry: 7
+      Data: 25|UnityEngine.Events.PersistentCallGroup, UnityEngine.CoreModule
+    - Name: m_Calls
+      Entry: 7
+      Data: 26|System.Collections.Generic.List`1[[UnityEngine.Events.PersistentCall,
+        UnityEngine.CoreModule]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 27|UnityEngine.Events.PersistentCall, UnityEngine.CoreModule
+    - Name: m_Target
+      Entry: 10
+      Data: 0
+    - Name: m_TargetAssemblyTypeName
+      Entry: 1
+      Data: AddForceInteractionReceiver, Assembly-CSharp
+    - Name: m_MethodName
+      Entry: 1
+      Data: RespondRollIntoInteraction
+    - Name: m_Mode
+      Entry: 3
+      Data: 0
+    - Name: m_Arguments
+      Entry: 7
+      Data: 28|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
+    - Name: m_ObjectArgument
+      Entry: 10
+      Data: 4
     - Name: m_ObjectArgumentAssemblyTypeName
       Entry: 1
       Data: UnityEngine.Object, UnityEngine
@@ -208,43 +583,27 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
---- !u!114 &6552168205200800750
-MonoBehaviour:
+  horizontalOnly: 1
+  isImpulse: 0
+  launchForce: 1000
+  applyExplosiveForce: 0
+  explosiveForce: 1000
+  explosiveRadius: 20
+  launchRbs:
+  - {fileID: 8806433949242721816}
+--- !u!65 &2684627157992563518
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6552168205200800723}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4aba233a3c634539b45193aa03be1637, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useTransform: 1
-  firePoint: {fileID: 6552168205751854639}
-  fireDir: {x: 0, y: 0, z: 0}
-  horizontalOnly: 0
-  isImpulse: 0
-  launchForce: 40000
-  applyExplosiveForce: 0
-  explosiveForce: 1000
-  explosiveRadius: 20
-  launchRbs:
-  - {fileID: 1803565972853723097}
-  - {fileID: 1598705582448765435}
-  - {fileID: 955683488169914988}
-  - {fileID: 416473562735164782}
-  - {fileID: 4947195430260284237}
-  - {fileID: 6441476967446570634}
-  - {fileID: 5376676811964785131}
-  - {fileID: 5194063052978209394}
-  - {fileID: 9162159252642990663}
-  - {fileID: 9076901926722126732}
-  - {fileID: 4898572504529328648}
-  - {fileID: 1372667943841788435}
-  - {fileID: 6037158954895970688}
-  - {fileID: 8718200522393615589}
-  - {fileID: 9045729124440822709}
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: -7.9, y: 4.22, z: 8.44}
 --- !u!1 &6552168205339796617
 GameObject:
   m_ObjectHideFlags: 0
@@ -258,7 +617,8 @@ GameObject:
   - component: {fileID: 6552168205339796613}
   - component: {fileID: 6552168205339796612}
   - component: {fileID: 6552168205339796619}
-  m_Layer: 0
+  - component: {fileID: 1311786468120094028}
+  m_Layer: 14
   m_Name: Wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -273,8 +633,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6552168205339796617}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1.62}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.07, y: -5.26, z: -4.05}
+  m_LocalScale: {x: 1.7061, y: 1.7061, z: 1.7061}
   m_Children: []
   m_Father: {fileID: 6552168205495464079}
   m_RootOrder: 0
@@ -1614,9 +1974,22 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!114 &1311786468120094028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6552168205339796617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3865ef858751a934f894a8fc565e35fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionReceiver: {fileID: 2149801210336855113}
 --- !u!1 &6552168205460257779
 GameObject:
   m_ObjectHideFlags: 0
@@ -1630,7 +2003,8 @@ GameObject:
   - component: {fileID: 6552168205460257551}
   - component: {fileID: 6552168205460257550}
   - component: {fileID: 6552168205460257549}
-  m_Layer: 0
+  - component: {fileID: 443184116070668310}
+  m_Layer: 14
   m_Name: Barrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4266,9 +4640,22 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!114 &443184116070668310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6552168205460257779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3865ef858751a934f894a8fc565e35fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionReceiver: {fileID: 2149801210336855113}
 --- !u!1 &6552168205495464078
 GameObject:
   m_ObjectHideFlags: 0
@@ -4315,7 +4702,8 @@ GameObject:
   - component: {fileID: 6552168205720262633}
   - component: {fileID: 6552168205720262632}
   - component: {fileID: 6552168205720262639}
-  m_Layer: 0
+  - component: {fileID: 1912073137060928368}
+  m_Layer: 14
   m_Name: Wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4330,8 +4718,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6552168205720262637}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 15.3}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.07000673, y: -5.259997, z: 15.22}
+  m_LocalScale: {x: 1.7061, y: 1.7061, z: 1.7061}
   m_Children: []
   m_Father: {fileID: 6552168205495464079}
   m_RootOrder: 1
@@ -5671,9 +6059,22 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!114 &1912073137060928368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6552168205720262637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3865ef858751a934f894a8fc565e35fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionReceiver: {fileID: 2149801210336855113}
 --- !u!1 &6552168205751854638
 GameObject:
   m_ObjectHideFlags: 0
@@ -5717,7 +6118,6 @@ GameObject:
   - component: {fileID: 6552168206466593920}
   - component: {fileID: 6552168206466593927}
   - component: {fileID: 6552168206466593926}
-  - component: {fileID: 6552168206466593925}
   m_Layer: 0
   m_Name: BarrelBack
   m_TagString: Untagged
@@ -8341,20 +8741,6 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
---- !u!64 &6552168206466593925
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6552168206466593931}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &6552168206759000956
 GameObject:
   m_ObjectHideFlags: 0
@@ -8365,9 +8751,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6552168206759000957}
   - component: {fileID: 6552168206759000959}
-  - component: {fileID: 6552168206759000958}
+  - component: {fileID: 2766380800823548211}
+  - component: {fileID: 6439661980060111061}
   m_Layer: 14
-  m_Name: InteractionTrigger
+  m_Name: Launch Interaction
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8383,7 +8770,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.15, y: 9.92, z: 8.82}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 3888217910716081578}
   m_Father: {fileID: 6552168205200800748}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8400,7 +8788,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 26.5, y: 20.32, z: 31}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6552168206759000958
+--- !u!114 &2766380800823548211
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8409,10 +8797,523 @@ MonoBehaviour:
   m_GameObject: {fileID: 6552168206759000956}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3865ef858751a934f894a8fc565e35fd, type: 3}
+  m_Script: {fileID: 11500000, guid: e39f83680b5e4d9a91b831bcfb2d551b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionReceiver: {fileID: 6552168205200800749}
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 5754640018620208048}
+    - {fileID: 0}
+    - {fileID: 6439661980060111061}
+    - {fileID: 0}
+    - {fileID: 354708736272055608}
+    - {fileID: 0}
+    - {fileID: 5873712424019481861}
+    - {fileID: 0}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Interactions
+      Entry: 7
+      Data: 0|MS.Internal.Xml.XPath.ClonableStack`1[[IInteraction, Assembly-CSharp]],
+        System.Xml
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 1|InspectInteraction, Assembly-CSharp
+    - Name: Conditionals
+      Entry: 7
+      Data: 2|MS.Internal.Xml.XPath.ClonableStack`1[[IConditional, Assembly-CSharp]],
+        System.Xml
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: onInteract
+      Entry: 7
+      Data: 3|UnityEngine.Events.UnityEvent`1[[InspectPayload, Assembly-CSharp]],
+        UnityEngine.CoreModule
+    - Name: m_PersistentCalls
+      Entry: 7
+      Data: 4|UnityEngine.Events.PersistentCallGroup, UnityEngine.CoreModule
+    - Name: m_Calls
+      Entry: 7
+      Data: 5|System.Collections.Generic.List`1[[UnityEngine.Events.PersistentCall,
+        UnityEngine.CoreModule]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 4
+    - Name: 
+      Entry: 7
+      Data: 6|UnityEngine.Events.PersistentCall, UnityEngine.CoreModule
+    - Name: m_Target
+      Entry: 10
+      Data: 0
+    - Name: m_TargetAssemblyTypeName
+      Entry: 1
+      Data: UnityEngine.GameObject, UnityEngine
+    - Name: m_MethodName
+      Entry: 1
+      Data: SetActive
+    - Name: m_Mode
+      Entry: 3
+      Data: 6
+    - Name: m_Arguments
+      Entry: 7
+      Data: 7|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
+    - Name: m_ObjectArgument
+      Entry: 10
+      Data: 1
+    - Name: m_ObjectArgumentAssemblyTypeName
+      Entry: 1
+      Data: UnityEngine.Object, UnityEngine
+    - Name: m_IntArgument
+      Entry: 3
+      Data: 0
+    - Name: m_FloatArgument
+      Entry: 4
+      Data: 0
+    - Name: m_StringArgument
+      Entry: 1
+      Data: 
+    - Name: m_BoolArgument
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_CallState
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 8|UnityEngine.Events.PersistentCall, UnityEngine.CoreModule
+    - Name: m_Target
+      Entry: 10
+      Data: 2
+    - Name: m_TargetAssemblyTypeName
+      Entry: 1
+      Data: MyAssets.Scripts.Misc.AddForce, Assembly-CSharp
+    - Name: m_MethodName
+      Entry: 1
+      Data: Launch
+    - Name: m_Mode
+      Entry: 3
+      Data: 1
+    - Name: m_Arguments
+      Entry: 7
+      Data: 9|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
+    - Name: m_ObjectArgument
+      Entry: 10
+      Data: 3
+    - Name: m_ObjectArgumentAssemblyTypeName
+      Entry: 1
+      Data: UnityEngine.Object, UnityEngine
+    - Name: m_IntArgument
+      Entry: 3
+      Data: 0
+    - Name: m_FloatArgument
+      Entry: 4
+      Data: 0
+    - Name: m_StringArgument
+      Entry: 1
+      Data: 
+    - Name: m_BoolArgument
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_CallState
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 10|UnityEngine.Events.PersistentCall, UnityEngine.CoreModule
+    - Name: m_Target
+      Entry: 10
+      Data: 4
+    - Name: m_TargetAssemblyTypeName
+      Entry: 1
+      Data: MoreMountains.Feedbacks.MMFeedbacks, MoreMountains.Feedbacks
+    - Name: m_MethodName
+      Entry: 1
+      Data: PlayFeedbacks
+    - Name: m_Mode
+      Entry: 3
+      Data: 1
+    - Name: m_Arguments
+      Entry: 7
+      Data: 11|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
+    - Name: m_ObjectArgument
+      Entry: 10
+      Data: 5
+    - Name: m_ObjectArgumentAssemblyTypeName
+      Entry: 1
+      Data: UnityEngine.Object, UnityEngine
+    - Name: m_IntArgument
+      Entry: 3
+      Data: 0
+    - Name: m_FloatArgument
+      Entry: 4
+      Data: 0
+    - Name: m_StringArgument
+      Entry: 1
+      Data: 
+    - Name: m_BoolArgument
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_CallState
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 12|UnityEngine.Events.PersistentCall, UnityEngine.CoreModule
+    - Name: m_Target
+      Entry: 10
+      Data: 6
+    - Name: m_TargetAssemblyTypeName
+      Entry: 1
+      Data: MyAssets.Scripts.Misc.AddForce, Assembly-CSharp
+    - Name: m_MethodName
+      Entry: 1
+      Data: Launch
+    - Name: m_Mode
+      Entry: 3
+      Data: 1
+    - Name: m_Arguments
+      Entry: 7
+      Data: 13|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
+    - Name: m_ObjectArgument
+      Entry: 10
+      Data: 7
+    - Name: m_ObjectArgumentAssemblyTypeName
+      Entry: 1
+      Data: UnityEngine.Object, UnityEngine
+    - Name: m_IntArgument
+      Entry: 3
+      Data: 0
+    - Name: m_FloatArgument
+      Entry: 4
+      Data: 0
+    - Name: m_StringArgument
+      Entry: 1
+      Data: 
+    - Name: m_BoolArgument
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_CallState
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+--- !u!114 &6439661980060111061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6552168206759000956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aba233a3c634539b45193aa03be1637, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  invertDirection: 0
+  useTransform: 1
+  firePoint: {fileID: 6552168205751854639}
+  fireDir: {x: 0, y: 0, z: 0}
+  horizontalOnly: 0
+  isImpulse: 0
+  launchForce: 40000
+  applyExplosiveForce: 0
+  explosiveForce: 1000
+  explosiveRadius: 20
+  launchRbs:
+  - {fileID: 1803565972853723097}
+  - {fileID: 1598705582448765435}
+  - {fileID: 955683488169914988}
+  - {fileID: 416473562735164782}
+  - {fileID: 4947195430260284237}
+  - {fileID: 6441476967446570634}
+  - {fileID: 5376676811964785131}
+  - {fileID: 5194063052978209394}
+  - {fileID: 9162159252642990663}
+  - {fileID: 9076901926722126732}
+  - {fileID: 4898572504529328648}
+  - {fileID: 1372667943841788435}
+  - {fileID: 6037158954895970688}
+  - {fileID: 8718200522393615589}
+  - {fileID: 9045729124440822709}
+--- !u!1 &7424484674386406624
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3888217910716081578}
+  - component: {fileID: 5873712424019481861}
+  m_Layer: 14
+  m_Name: CannonKnockback
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3888217910716081578
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7424484674386406624}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6552168206759000957}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5873712424019481861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7424484674386406624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aba233a3c634539b45193aa03be1637, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  invertDirection: 1
+  useTransform: 1
+  firePoint: {fileID: 6552168205751854639}
+  fireDir: {x: 0, y: 0, z: 0}
+  horizontalOnly: 0
+  isImpulse: 0
+  launchForce: 20000
+  applyExplosiveForce: 0
+  explosiveForce: 1000
+  explosiveRadius: 20
+  launchRbs:
+  - {fileID: 8806433949242721816}
+--- !u!1001 &2871276758400229544
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 6552168205200800748}
+    m_Modifications:
+    - target: {fileID: 1783899312016058751, guid: 17749527f24a38e4a8518725a42d1df3,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2069507768163691186, guid: 17749527f24a38e4a8518725a42d1df3,
+        type: 3}
+      propertyPath: clearBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2698543428240577488, guid: 17749527f24a38e4a8518725a42d1df3,
+        type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6649054028619984782, guid: 17749527f24a38e4a8518725a42d1df3,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6649054028620076590, guid: 17749527f24a38e4a8518725a42d1df3,
+        type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6649054028638981966, guid: 17749527f24a38e4a8518725a42d1df3,
+        type: 3}
+      propertyPath: m_Name
+      value: CFXR Explosion 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6649054028639474542, guid: 17749527f24a38e4a8518725a42d1df3,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6649054028639474542, guid: 17749527f24a38e4a8518725a42d1df3,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 6.537951
+      objectReference: {fileID: 0}
+    - target: {fileID: 6649054028639474542, guid: 17749527f24a38e4a8518725a42d1df3,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 6.537951
+      objectReference: {fileID: 0}
+    - target: {fileID: 6649054028639474542, guid: 17749527f24a38e4a8518725a42d1df3,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 6.537951
+      objectReference: {fileID: 0}
+    - target: {fileID: 6649054028639474542, guid: 17749527f24a38e4a8518725a42d1df3,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -25.18
+      objectReference: {fileID: 0}
+    - target: {fileID: 6649054028639474542, guid: 17749527f24a38e4a8518725a42d1df3,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 13.31
+      objectReference: {fileID: 0}
+    - target: {fileID: 6649054028639474542, guid: 17749527f24a38e4a8518725a42d1df3,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 8.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 6649054028639474542, guid: 17749527f24a38e4a8518725a42d1df3,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.70710677
+      objectReference: {fileID: 0}
+    - target: {fileID: 6649054028639474542, guid: 17749527f24a38e4a8518725a42d1df3,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 6649054028639474542, guid: 17749527f24a38e4a8518725a42d1df3,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6649054028639474542, guid: 17749527f24a38e4a8518725a42d1df3,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6649054028639474542, guid: 17749527f24a38e4a8518725a42d1df3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90.00001
+      objectReference: {fileID: 0}
+    - target: {fileID: 6649054028639474542, guid: 17749527f24a38e4a8518725a42d1df3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6649054028639474542, guid: 17749527f24a38e4a8518725a42d1df3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6649054028645614184, guid: 17749527f24a38e4a8518725a42d1df3,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6649054028927298312, guid: 17749527f24a38e4a8518725a42d1df3,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6649054028927298313, guid: 17749527f24a38e4a8518725a42d1df3,
+        type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6649054029572757662, guid: 17749527f24a38e4a8518725a42d1df3,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6649054029572757663, guid: 17749527f24a38e4a8518725a42d1df3,
+        type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6649054029692529115, guid: 17749527f24a38e4a8518725a42d1df3,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6649054029692529116, guid: 17749527f24a38e4a8518725a42d1df3,
+        type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6649054029846979193, guid: 17749527f24a38e4a8518725a42d1df3,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6649054029846979194, guid: 17749527f24a38e4a8518725a42d1df3,
+        type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 17749527f24a38e4a8518725a42d1df3, type: 3}
+--- !u!4 &8907835937584083910 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6649054028639474542, guid: 17749527f24a38e4a8518725a42d1df3,
+    type: 3}
+  m_PrefabInstance: {fileID: 2871276758400229544}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &8907835937564685958 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6649054028620076590, guid: 17749527f24a38e4a8518725a42d1df3,
+    type: 3}
+  m_PrefabInstance: {fileID: 2871276758400229544}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6552168206326975567
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8468,7 +9369,7 @@ PrefabInstance:
     - target: {fileID: 1527121454873747448, guid: a1f7316185480b0479562b00f4c4f884,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1527121454873747448, guid: a1f7316185480b0479562b00f4c4f884,
         type: 3}
@@ -8691,9 +9592,9 @@ Rigidbody:
     type: 3}
   m_PrefabInstance: {fileID: 6552168206326975567}
   m_PrefabAsset: {fileID: 0}
---- !u!54 &955683488169914988 stripped
+--- !u!54 &416473562735164782 stripped
 Rigidbody:
-  m_CorrespondingSourceObject: {fileID: 6318197700662181411, guid: a1f7316185480b0479562b00f4c4f884,
+  m_CorrespondingSourceObject: {fileID: 6857405787884613921, guid: a1f7316185480b0479562b00f4c4f884,
     type: 3}
   m_PrefabInstance: {fileID: 6552168206326975567}
   m_PrefabAsset: {fileID: 0}
@@ -8727,15 +9628,15 @@ Rigidbody:
     type: 3}
   m_PrefabInstance: {fileID: 6552168206326975567}
   m_PrefabAsset: {fileID: 0}
---- !u!54 &416473562735164782 stripped
+--- !u!54 &9076901926722126732 stripped
 Rigidbody:
-  m_CorrespondingSourceObject: {fileID: 6857405787884613921, guid: a1f7316185480b0479562b00f4c4f884,
+  m_CorrespondingSourceObject: {fileID: 2817661760133042115, guid: a1f7316185480b0479562b00f4c4f884,
     type: 3}
   m_PrefabInstance: {fileID: 6552168206326975567}
   m_PrefabAsset: {fileID: 0}
---- !u!54 &4898572504529328648 stripped
+--- !u!54 &955683488169914988 stripped
 Rigidbody:
-  m_CorrespondingSourceObject: {fileID: 1807847778815907399, guid: a1f7316185480b0479562b00f4c4f884,
+  m_CorrespondingSourceObject: {fileID: 6318197700662181411, guid: a1f7316185480b0479562b00f4c4f884,
     type: 3}
   m_PrefabInstance: {fileID: 6552168206326975567}
   m_PrefabAsset: {fileID: 0}
@@ -8763,9 +9664,9 @@ Rigidbody:
     type: 3}
   m_PrefabInstance: {fileID: 6552168206326975567}
   m_PrefabAsset: {fileID: 0}
---- !u!54 &9076901926722126732 stripped
+--- !u!54 &4898572504529328648 stripped
 Rigidbody:
-  m_CorrespondingSourceObject: {fileID: 2817661760133042115, guid: a1f7316185480b0479562b00f4c4f884,
+  m_CorrespondingSourceObject: {fileID: 1807847778815907399, guid: a1f7316185480b0479562b00f4c4f884,
     type: 3}
   m_PrefabInstance: {fileID: 6552168206326975567}
   m_PrefabAsset: {fileID: 0}

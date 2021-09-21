@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace MoreMountains.Feedbacks
 {
@@ -34,6 +36,9 @@ namespace MoreMountains.Feedbacks
         /// the transform at which to instantiate the object
         [MMFEnumCondition("PositionMode", (int)PositionModes.Transform)]
         public Transform TargetTransform;
+        //Should new obj inherit rotation from targetTransform
+        [MMFEnumCondition("PositionMode", (int)PositionModes.Transform)]
+        public bool InheritRotation;
         /// the transform at which to instantiate the object
         [MMFEnumCondition("PositionMode", (int)PositionModes.WorldPosition)]
         public Vector3 TargetPosition;
@@ -41,6 +46,8 @@ namespace MoreMountains.Feedbacks
         public Vector3 VfxPositionOffset;
 
         protected GameObject _newGameObject;
+        
+        public UnityEvent<GameObject> onInstantiateObj;
         
         /// <summary>
         /// On Play we instantiate the specified object, either from the object pool or from scratch
@@ -52,10 +59,11 @@ namespace MoreMountains.Feedbacks
             if (Active && (VfxToInstantiate != null))
             {
                 _newGameObject = ObjectPoolManager.Instance.GetObjectFromPool(VfxToInstantiate, GetPosition(position),
-                    Quaternion.identity);
+                    GetRotation());
                 //_newGameObject = GameObject.Instantiate(VfxToInstantiate) as GameObject;
                 //_newGameObject.transform.position = GetPosition(position);
                 
+                onInstantiateObj.Invoke(_newGameObject);
             }
         }
 
@@ -73,6 +81,23 @@ namespace MoreMountains.Feedbacks
                     return position + VfxPositionOffset;
                 default:
                     return position + VfxPositionOffset;
+            }
+        }
+        
+        protected virtual Quaternion GetRotation()
+        {
+            switch (PositionMode)
+            {
+                case PositionModes.FeedbackPosition:
+                    return quaternion.identity;
+                case PositionModes.Transform:
+                    return InheritRotation ? TargetTransform.rotation : Quaternion.identity;
+                case PositionModes.WorldPosition:
+                    return Quaternion.identity;
+                case PositionModes.Script:
+                    return Quaternion.identity;
+                default:
+                    return Quaternion.identity;
             }
         }
     }

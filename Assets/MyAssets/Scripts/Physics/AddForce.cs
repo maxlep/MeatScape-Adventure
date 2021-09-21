@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MyAssets.ScriptableObjects.Events;
 using MyAssets.Scripts.Utils;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -15,17 +16,20 @@ namespace MyAssets.Scripts.Misc
         [SerializeField] private bool horizontalOnly;
         
         [Header("Force")]
-        [SerializeField] private bool isImpulse;
+        [SerializeField] private ForceMode forceMode = ForceMode.Force;
         [SerializeField] private float launchForce = 1000f;
         [SerializeField] private bool applyExplosiveForce;
         [SerializeField] private float explosiveForce = 1000f;
         [SerializeField] private float explosiveRadius = 20f;
+        [SerializeField] private GameObject targetObject;
         [SerializeField] private List<Rigidbody> launchRbs = new List<Rigidbody>();
         
         [Button("Populate Rigidbodies")]
         public void PopulateRigidbodies()
         {
-            GetChildRigidbodies(transform);
+            launchRbs.Clear();
+            Transform targetTrans = (targetObject != null) ? targetObject.transform : transform;
+            GetChildRigidbodies(targetTrans);
         }
         
         private void GetChildRigidbodies(Transform targetTransform)
@@ -47,7 +51,6 @@ namespace MyAssets.Scripts.Misc
         
         private void Launch(Vector3 dir, Vector3 origin)
         {
-            ForceMode forceMode = (isImpulse) ? ForceMode.Impulse : ForceMode.Force;
             Vector3 forceDir = dir;
             if (horizontalOnly) forceDir = forceDir.xoz(); 
         
@@ -57,6 +60,11 @@ namespace MyAssets.Scripts.Misc
                 if (applyExplosiveForce)
                     rb.AddExplosionForce(explosiveForce, origin, explosiveRadius);
             }
+        }
+
+        public void SetTargetObject(GameObject targetObj)
+        {
+            targetObject = targetObj;
         }
     }
 }

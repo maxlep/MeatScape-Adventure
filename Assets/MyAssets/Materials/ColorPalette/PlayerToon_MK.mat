@@ -8,20 +8,21 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: PlayerToon_MK
-  m_Shader: {fileID: 4800000, guid: 371dee73dabc89140878360402049bfc, type: 3}
+  m_Shader: {fileID: 4800000, guid: c4ae631e7daaae74eb5266cfa7a61b79, type: 3}
   m_ShaderKeywords: DR_CEL_EXTRA_ON _CELPRIMARYMODE_SINGLE _FRESNELHIGHLIGHTS_ON
-    _MK_ARTISTIC_PROJECTION_SCREEN_SPACE _MK_DETAIL_BLEND_MIX _MK_ENVIRONMENT_REFLECTIONS_AMBIENT
+    _MK_ARTISTIC_PROJECTION_SCREEN_SPACE _MK_BLEND_CUSTOM _MK_DETAIL_BLEND_MIX _MK_ENVIRONMENT_REFLECTIONS_AMBIENT
     _MK_FRESNEL_HIGHLIGHTS _MK_LIGHT_CEL _MK_NORMAL_MAP _MK_RECEIVE_SHADOWS _MK_SPECULAR_ISOTROPIC
-    _MK_VERTEX_ANIMATION_PULSE _MK_WRAPPED_DIFFUSE _RECEIVESHADOWS_ON _TEXTUREBLENDINGMODE_MULTIPLY
+    _MK_SURFACE_TYPE_TRANSPARENT _MK_WRAPPED_DIFFUSE _RECEIVESHADOWS_ON _TEXTUREBLENDINGMODE_MULTIPLY
     _UNITYSHADOWMODE_NONE _WRAPPEDLIGHTING_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: 3000
   stringTagMap:
-    IGNOREPROJECTOR: False
-    RenderType: Opaque
-  disabledShaderPasses: []
+    IGNOREPROJECTOR: true
+    RenderType: Transparent
+  disabledShaderPasses:
+  - SHADOWCASTER
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -170,7 +171,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _AdvancedTab: 1
+    - _AdvancedTab: 0
     - _AlphaClip: 0
     - _AlphaClipping: 0
     - _AlphaCutoff: 0.5
@@ -178,9 +179,9 @@ Material:
     - _Artistic: 0
     - _ArtisticFrequency: 1
     - _ArtisticProjection: 1
-    - _Blend: 0
-    - _BlendDst: 0
-    - _BlendSrc: 1
+    - _Blend: 4
+    - _BlendDst: 10
+    - _BlendSrc: 5
     - _Brightness: 1
     - _BumpScale: 1
     - _CelExtraEnabled: 1
@@ -261,7 +262,7 @@ Material:
     - _Parallax: 0.02
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _RenderFace: 0
+    - _RenderFace: 2
     - _RenderPriority: 0
     - _Rim: 0
     - _RimEnabled: 1
@@ -293,7 +294,7 @@ Material:
     - _StencilWriteMask: 255
     - _StencilZFail: 0
     - _StylizeTab: 1
-    - _Surface: 0
+    - _Surface: 1
     - _TextureBlendingMode: 0
     - _TextureImpact: 1
     - _ThresholdMapScale: 1
@@ -301,8 +302,8 @@ Material:
     - _UnityShadowMode: 0
     - _UnityShadowPower: 0.2
     - _UnityShadowSharpness: 1
-    - _VertexAnimation: 2
-    - _VertexAnimationIntensity: 0.01
+    - _VertexAnimation: 0
+    - _VertexAnimationIntensity: 0
     - _VertexAnimationStutter: 0
     - _VertexColorsEnabled: 0
     - _Workflow: 0
@@ -310,7 +311,7 @@ Material:
     - _ZTest: 4
     - _ZWrite: 1
     m_Colors:
-    - _AlbedoColor: {r: 0.929, g: 0.27684197, b: 0.30328092, a: 1}
+    - _AlbedoColor: {r: 0.929, g: 0.27684167, b: 0.30328062, a: 1}
     - _Color: {r: 0.8679245, g: 0.18422928, b: 0.18422928, a: 1}
     - _ColorDim: {r: 0.38679248, g: 0.24265754, b: 0.24617304, a: 1}
     - _ColorDimCurve: {r: 0.8862745, g: 0.19607836, b: 0.19607836, a: 1}

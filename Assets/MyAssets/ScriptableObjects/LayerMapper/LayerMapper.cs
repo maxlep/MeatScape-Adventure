@@ -42,5 +42,6 @@ public enum LayerEnum
     EnemyAgent,
     Bounce,
     Interactable,
-    InteractableTarget
+    InteractableTarget,
+    Camera
 }

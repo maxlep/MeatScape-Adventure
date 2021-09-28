@@ -140,6 +140,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     [FoldoutGroup("Feedbacks")] [SerializeField] private MMFeedbacks sizeUpFeedback;
     [FoldoutGroup("Feedbacks")] [SerializeField] private MMFeedbacks sizeDownFeedback;
+    [FoldoutGroup("Feedbacks")] [SerializeField] private MMFeedbacks inspectStartFeedback;
+    [FoldoutGroup("Feedbacks")] [SerializeField] private MMFeedbacks InspectStopFeedback;
 
     [FoldoutGroup("Referenced Components")] [SerializeField] private Line slingshotLine;
     [FoldoutGroup("Referenced Components")] [SerializeField] private GameObject slingshotCone;
@@ -846,6 +848,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
             {
                 interactablesInRange.Add(interactableScript);
                 interactableScript.ReceiveTriggerEnterInteraction(new TriggerEnterPayload());
+                if (interactablesInRange.Count == 1) inspectStartFeedback.PlayFeedbacks();
             }
         }
 
@@ -872,6 +875,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
             {
                 interactablesInRange.Remove(interactableScript);
                 interactableScript.ReceiveTriggerExitInteraction(new TriggerExitPayload());
+                if (interactablesInRange.Count == 0) InspectStopFeedback.PlayFeedbacks();
             }
         }
     }

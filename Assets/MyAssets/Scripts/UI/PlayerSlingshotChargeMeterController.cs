@@ -54,6 +54,7 @@ public class PlayerSlingshotChargeMeterController : SerializedMonoBehaviour
     private LTDescr appearTween;
     private LTDescr disappearTween;
     private LTDescr tickScaleTween;
+    private Color borderOriginalColor;
 
     private void OnRenderObject() => DrawBar();
 
@@ -61,12 +62,18 @@ public class PlayerSlingshotChargeMeterController : SerializedMonoBehaviour
     {
         if (Application.isPlaying)
             ScalePivot.localScale = Vector3.zero;
+        
+        borderOriginalColor = BorderRect.Color;
     }
     
     public void EnableBar()
     {
         //Cancel the disableBar tweens before starting appear tweens
-        if (disappearTween != null) LeanTween.cancel(disappearTween.id);
+        if (disappearTween != null)
+        {
+            LeanTween.cancel(disappearTween.id);
+            BorderRect.Color = borderOriginalColor;
+        }
         if (tickScaleTween != null)
         {
             LeanTween.cancel(tickScaleTween.id);
@@ -83,8 +90,6 @@ public class PlayerSlingshotChargeMeterController : SerializedMonoBehaviour
     public void DisableBar(bool isMeateorStrike)
     {
         if (appearTween != null) LeanTween.cancel(appearTween.id);
-
-        Color borderOriginalColor = BorderRect.Color;
         
         //Scale tick up and back down to emphasis the ending location
         tickScaleTween = LeanTween.value(0f, TickScaleAnimFactor, TickScaleAnimDuration).setOnUpdate(t =>

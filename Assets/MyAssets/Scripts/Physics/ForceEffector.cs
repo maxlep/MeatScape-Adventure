@@ -19,8 +19,11 @@ public class ForceEffector : MonoBehaviour
     [SerializeField] private ForceType forceType;
     [SerializeField] private ForceDirectionType forceDirectionType;
     [SerializeField] private LayerMapper LayerMapper;
+    [SerializeField] private TransformSceneReference PlayerTransformReference;
     [SerializeField] private Vector3Reference PreviousVelocity;
+    [SerializeField] private float ActivateCooldown = .2f;
     [SerializeField] private bool CancelGlide = true;
+    [SerializeField] private bool SetVelocity = false;
     [SerializeField] private bool AffectRigidbodies = true;
     [SerializeField] private float RigidodyForce = 1000f;
     [SerializeField] private GameEvent OnForceEffectorActivated;
@@ -57,7 +60,8 @@ public class ForceEffector : MonoBehaviour
     [SerializeField]
     private UnityEvent onActivateEffector;
 
-    private bool impulseActived;
+    private float lastActivateTime;
+    private PlayerController playerController;
     
     [Serializable]
     private enum ForceType
@@ -74,13 +78,19 @@ public class ForceEffector : MonoBehaviour
         Radial
     }
 
+    private void Awake()
+    {
+        playerController = PlayerTransformReference.Value.GetComponent<PlayerController>();
+    }
+    
+
     //To be called by player controller on rigibody sweep
-    public void Activate(PlayerController playerController)
+    public void Activate()
     {
         //Prevent double activate from onTriggerEnter and SweepTest
-        if (impulseActived) return;
+        if (lastActivateTime + ActivateCooldown > Time.time) return;
 
-        impulseActived = true;
+        lastActivateTime = Time.time;
         onActivateEffector.Invoke();
 
         switch (forceType)
@@ -106,12 +116,12 @@ public class ForceEffector : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //Prevent double activate from onTriggerEnter and SweepTest
-        if (impulseActived) return;
+        if (lastActivateTime + ActivateCooldown > Time.time) return;
         
         if (other.gameObject.layer == LayerMapper.GetLayer(LayerEnum.Player))
         {
             PlayerController playerController = other.gameObject.GetComponent<PlayerController>();
-            Activate(playerController);
+            Activate();
             return;
         }
         
@@ -126,15 +136,6 @@ public class ForceEffector : MonoBehaviour
                 onActivateEffector.Invoke();
                 ApplyForceToRigidbody(rb, false);
             }
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.layer == LayerMapper.GetLayer(LayerEnum.Player))
-        {
-            //Reset impulse activated flag
-            impulseActived = false;
         }
     }
 
@@ -197,7 +198,7 @@ public class ForceEffector : MonoBehaviour
                     
                 
                 bool isAdditive = forceType == ForceType.Constant;
-                playerController.SetImpulseDistance(dir, forceMag, isAdditive);
+                playerController.SetImpulseDistance(dir, forceMag, isAdditive, SetVelocity);
                 break;
             
             case(ForceDirectionType.Radial):
@@ -210,7 +211,8 @@ public class ForceEffector : MonoBehaviour
                 if (isConstant)
                     force *= Time.deltaTime;
                 
-                playerController.AddImpulse(force);
+                if (SetVelocity) playerController.SetVelocity(force);
+                else playerController.AddImpulse(force);
                 break;
         }
     }

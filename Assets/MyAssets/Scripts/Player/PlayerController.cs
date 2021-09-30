@@ -354,6 +354,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         {
             currentVelocity = overrideVelocity;
             NewVelocity.Value = currentVelocity;
+            PreviousVelocityAfterUpdate.Value = currentVelocity;
+            PreviousVelocityDuringUpdate.Value = currentVelocity;
         }
 
         #endregion
@@ -395,7 +397,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
             {
                 ForceEffector forceEffector = other.GetComponent<ForceEffector>();
                 if(forceEffector != null)
-                    forceEffector.Activate(this);
+                    forceEffector.Activate();
             }
 
             //Broadcast trigger collisions info
@@ -498,7 +500,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     //Set an overlayed impulse that is needed to move player a certain distance in a direction
     //Takes into account current gravity and factors
-    public void SetImpulseDistance(Vector3 dir, float distance, bool additiveY = false)
+    public void SetImpulseDistance(Vector3 dir, float distance, bool additiveY = false, bool overrideX = false)
     {
         float gravityFactor = gravity;
 
@@ -515,7 +517,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
             StoredJumpVelocity.Value = impulse.y;
 
 
-        AddImpulseOverlayed(impulse.xoz());
+        AddImpulseOverlayed(impulse.xoz(), overrideX);
     }
 
     public void Damage(int damage, Vector3 knockbackDir, float knockbackSpeed)

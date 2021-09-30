@@ -101,7 +101,7 @@ public class ForceEffector : MonoBehaviour
             case (ForceType.Impulse):
                 OnForceEffectorActivated.Raise();
                 if (CancelGlide) onEffectorCancelGlide.Raise();
-                ApplyForceToPlayer(playerController, false);
+                ApplyForceToPlayer(false);
                 break;
             
             case (ForceType.Reflect):
@@ -159,7 +159,7 @@ public class ForceEffector : MonoBehaviour
                 OnForceEffectorActivated.Raise();
                 if (CancelGlide) onEffectorCancelGlide.Raise();
                 PlayerController playerController = other.gameObject.GetComponent<PlayerController>();
-                ApplyForceToPlayer(playerController, true);
+                ApplyForceToPlayer( true);
                 break;
             
             case (ForceType.Impulse):
@@ -171,7 +171,7 @@ public class ForceEffector : MonoBehaviour
         }
     }
 
-    private void ApplyForceToPlayer(PlayerController playerController, bool isConstant)
+    private void ApplyForceToPlayer(bool isConstant)
     {
         
         playerController.UngroundMotor();

@@ -172,7 +172,9 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private Vector3 impulseRedirectable;
     private Vector3 impulseOverlayed;
     private Vector3 impulseOverlayedOverrideX;
+    private bool impuleOverlayedOverrideXFlag;
     private Vector3 overrideVelocity;
+    private bool overrideVelocityFlag;
 
     private float lastDamageTime = -Mathf.Infinity;
 
@@ -337,10 +339,11 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         }
 
         //This stored velocity overrides current x velocity
-        if(!Mathf.Approximately(0f, impulseOverlayedOverrideX.sqrMagnitude))
+        if(impuleOverlayedOverrideXFlag)
         {
             currentVelocity = impulseOverlayedOverrideX;
             NewVelocity.Value = currentVelocity; //Update new velocity to keep in sync
+            impuleOverlayedOverrideXFlag = false;
         }
 
         //This stored velocity overrides current y velocity
@@ -350,12 +353,13 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
             NewVelocity.Value = currentVelocity; //Update new velocity to keep in sync
         }
 
-        if(!Mathf.Approximately(0f, overrideVelocity.magnitude))
+        if(overrideVelocityFlag)
         {
             currentVelocity = overrideVelocity;
             NewVelocity.Value = currentVelocity;
             PreviousVelocityAfterUpdate.Value = currentVelocity;
             PreviousVelocityDuringUpdate.Value = currentVelocity;
+            overrideVelocityFlag = false;
         }
 
         #endregion
@@ -482,11 +486,15 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     //Add an impulse that is independent of state and is applied at player controller level
     public void AddImpulseOverlayed(Vector3 addImpulse, bool overrideXComponent = false, bool ungroundMotor = false)
     {
-        if(overrideXComponent)
+
+        if (overrideXComponent)
+        {
             impulseOverlayedOverrideX += addImpulse;
+            impuleOverlayedOverrideXFlag = true;
+        }
         else
             impulseOverlayed += addImpulse;
-
+        
         ungroundTrigger = ungroundMotor;
         AddImpulseTrigger.Activate();
     }
@@ -496,6 +504,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     {
         ungroundTrigger = ungroundMotor;
         overrideVelocity = velocity;
+        overrideVelocityFlag = true;
     }
 
     //Set an overlayed impulse that is needed to move player a certain distance in a direction

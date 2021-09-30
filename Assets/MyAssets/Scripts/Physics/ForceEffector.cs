@@ -210,7 +210,7 @@ public class ForceEffector : MonoBehaviour
                 force = radialForceDir * radialAcceleration * Time.deltaTime;
                 if (isConstant)
                     force *= Time.deltaTime;
-                
+
                 if (SetVelocity) playerController.SetVelocity(force);
                 else playerController.AddImpulse(force);
                 break;

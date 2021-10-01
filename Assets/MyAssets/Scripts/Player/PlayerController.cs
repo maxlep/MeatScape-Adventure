@@ -857,9 +857,15 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
             InteractionReceiver interactableScript = GetInteractionReceiver(otherGameObject);
             if(interactableScript != null)
             {
-                interactablesInRange.Add(interactableScript);
+                //Only add to list if has inspect interaction
+                if (interactableScript.HasInspectInteraction)
+                {
+                    interactablesInRange.Add(interactableScript);
+                    inspectStartFeedback.PlayFeedbacks();
+                }
+                    
+                
                 interactableScript.ReceiveTriggerEnterInteraction(new TriggerEnterPayload());
-                if (interactablesInRange.Count == 1) inspectStartFeedback.PlayFeedbacks();
             }
         }
 
@@ -884,7 +890,9 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
             InteractionReceiver interactableScript = GetInteractionReceiver(otherGameObject);
             if(interactableScript != null)
             {
-                interactablesInRange.Remove(interactableScript);
+                if (interactablesInRange.Contains(interactableScript))
+                    interactablesInRange.Remove(interactableScript);
+                
                 interactableScript.ReceiveTriggerExitInteraction(new TriggerExitPayload());
                 if (interactablesInRange.Count == 0) InspectStopFeedback.PlayFeedbacks();
             }

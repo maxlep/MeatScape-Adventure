@@ -6,6 +6,8 @@ public class InteractionReceiver : SerializedMonoBehaviour
 {
     [SerializeField] [ListDrawerSettings(DraggableItems = true)] private List<IInteraction> Interactions;
 
+    public bool HasInspectInteraction => CheckForInspectInteractions();
+
     #region Receive Interactions
 
     public virtual bool ReceiveInspectInteraction(InspectPayload inspectPayload)
@@ -149,4 +151,16 @@ public class InteractionReceiver : SerializedMonoBehaviour
     public virtual void RespondJumpOnInteraction(JumpOnPayload jumpOnPayload) {}
 
     #endregion
+
+    private bool CheckForInspectInteractions()
+    {
+        bool hasInspectInteraction = false;
+        foreach (var interaction in Interactions)
+        {
+            if (interaction.GetType() == typeof(InspectInteraction))
+                hasInspectInteraction = true;
+        }
+
+        return hasInspectInteraction;
+    }
 }

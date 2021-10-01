@@ -50,7 +50,7 @@ namespace MyAssets.Scripts.ElfControllers
 
         private Vector3 TopOfLadderPos;
 
-        private void Start()
+        public void Activate()
         {
             StartClimbLadderTween();
         }

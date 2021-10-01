@@ -326,7 +326,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1994608432154975927}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.29, y: 96.5, z: 3.08}
+  m_LocalPosition: {x: 5.29, y: 50.78, z: 3.08}
   m_LocalScale: {x: 1.3995416, y: 2.6823776, z: 13.702341}
   m_Children: []
   m_Father: {fileID: 6802992641538337441}
@@ -421,8 +421,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3217999977327141852}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 45.5, z: 67.7}
-  m_LocalScale: {x: 12.108, y: 99.085236, z: 8.977259}
+  m_LocalPosition: {x: 0, y: 22.6, z: 67.7}
+  m_LocalScale: {x: 12.108, y: 54.565002, z: 8.977259}
   m_Children: []
   m_Father: {fileID: 6802992641538337441}
   m_RootOrder: 5
@@ -1557,7 +1557,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6802992642296181103}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 96.5, z: 55.9}
+  m_LocalPosition: {x: 0, y: 51.1, z: 55.9}
   m_LocalScale: {x: 12.108, y: 2.6823776, z: 96.02874}
   m_Children: []
   m_Father: {fileID: 6802992641538337441}
@@ -1652,8 +1652,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6802992642973827593}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 47.8, z: 9.1}
-  m_LocalScale: {x: 12.108, y: 100.010345, z: 2.4604666}
+  m_LocalPosition: {x: 0, y: 24.1, z: 9.1}
+  m_LocalScale: {x: 12.108, y: 53.65955, z: 2.4604666}
   m_Children:
   - {fileID: 3124322838995921623}
   - {fileID: 3047225733659483297}
@@ -1749,6 +1749,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6802992643609463254}
   - component: {fileID: 6802992643609463255}
+  - component: {fileID: 3581712398078497068}
   m_Layer: 0
   m_Name: RocketStunt
   m_TagString: Untagged
@@ -1788,8 +1789,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ElfTransform: {fileID: 737521436667312567}
-  TimeToClimb: 10
-  DistanceToClimb: 98
+  TimeToClimb: 6
+  DistanceToClimb: 50
   TimeToRally: 4
   DistanceToSprint: 100
   TimeToSpint: 2
@@ -2023,6 +2024,40 @@ MonoBehaviour:
           m_StringArgument: CheeringComplete
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &3581712398078497068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6802992643609463273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 468d0d7ee2257a34c966318be3e94f24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UnityEvents:
+  - UnityCallback: 1
+    randomDelay: 1
+    delay: 0
+    delayMin: 0
+    delayMax: 3
+    unityEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 6802992643609463255}
+          m_TargetAssemblyTypeName: MyAssets.Scripts.ElfControllers.ElfRocketStuntController,
+            Assembly-CSharp
+          m_MethodName: Activate
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &7089397150361749783
 GameObject:
   m_ObjectHideFlags: 0
@@ -2131,7 +2166,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7307533009873583265}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.38, y: 96.5, z: 3.08}
+  m_LocalPosition: {x: -5.38, y: 50.78, z: 3.08}
   m_LocalScale: {x: 1.3995416, y: 2.6823776, z: 13.702341}
   m_Children: []
   m_Father: {fileID: 6802992641538337441}
@@ -2226,7 +2261,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7804503466799779302}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 96.5, z: -6.8}
+  m_LocalPosition: {x: 0, y: 50.78, z: -6.8}
   m_LocalScale: {x: 12.108, y: 2.6823776, z: 11.321012}
   m_Children: []
   m_Father: {fileID: 6802992641538337441}
@@ -2848,6 +2883,12 @@ PrefabInstance:
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f9dd18ee211955498cb4f6436a2dd71, type: 3}
+--- !u!4 &737521436667312567 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2047102006146050590, guid: 2f9dd18ee211955498cb4f6436a2dd71,
+    type: 3}
+  m_PrefabInstance: {fileID: 1609183351449146281}
+  m_PrefabAsset: {fileID: 0}
 --- !u!95 &737521437003972546 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 2047102005675175019, guid: 2f9dd18ee211955498cb4f6436a2dd71,
@@ -2857,12 +2898,6 @@ Animator:
 --- !u!4 &1609183350288993769 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1307287104, guid: 2f9dd18ee211955498cb4f6436a2dd71,
-    type: 3}
-  m_PrefabInstance: {fileID: 1609183351449146281}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &737521436667312567 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2047102006146050590, guid: 2f9dd18ee211955498cb4f6436a2dd71,
     type: 3}
   m_PrefabInstance: {fileID: 1609183351449146281}
   m_PrefabAsset: {fileID: 0}
@@ -2983,15 +3018,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4e84120dab5fa4342b13417a3ff8964c, type: 3}
---- !u!1 &3358490414032946192 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 118716, guid: 4e84120dab5fa4342b13417a3ff8964c,
-    type: 3}
-  m_PrefabInstance: {fileID: 3358490414032931756}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &3358490414013397842 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 19820798, guid: 4e84120dab5fa4342b13417a3ff8964c,
+    type: 3}
+  m_PrefabInstance: {fileID: 3358490414032931756}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3358490414032946192 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 118716, guid: 4e84120dab5fa4342b13417a3ff8964c,
     type: 3}
   m_PrefabInstance: {fileID: 3358490414032931756}
   m_PrefabAsset: {fileID: 0}
@@ -3030,7 +3065,7 @@ PrefabInstance:
     - target: {fileID: 6035810027756291695, guid: d4cb6b02a6c79c14f9ac844a7819c348,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 87.2
+      value: 47.5
       objectReference: {fileID: 0}
     - target: {fileID: 6035810027756291695, guid: d4cb6b02a6c79c14f9ac844a7819c348,
         type: 3}
@@ -3125,7 +3160,7 @@ PrefabInstance:
     - target: {fileID: 6035810027756291695, guid: d4cb6b02a6c79c14f9ac844a7819c348,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 87.2
+      value: 47.5
       objectReference: {fileID: 0}
     - target: {fileID: 6035810027756291695, guid: d4cb6b02a6c79c14f9ac844a7819c348,
         type: 3}
@@ -3220,7 +3255,7 @@ PrefabInstance:
     - target: {fileID: 6035810027756291695, guid: d4cb6b02a6c79c14f9ac844a7819c348,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 87.2
+      value: 47.5
       objectReference: {fileID: 0}
     - target: {fileID: 6035810027756291695, guid: d4cb6b02a6c79c14f9ac844a7819c348,
         type: 3}
@@ -3397,15 +3432,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4e84120dab5fa4342b13417a3ff8964c, type: 3}
---- !u!1 &7999802323530807061 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 118716, guid: 4e84120dab5fa4342b13417a3ff8964c,
-    type: 3}
-  m_PrefabInstance: {fileID: 7999802323530692777}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &7999802323512215639 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 19820798, guid: 4e84120dab5fa4342b13417a3ff8964c,
+    type: 3}
+  m_PrefabInstance: {fileID: 7999802323530692777}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7999802323530807061 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 118716, guid: 4e84120dab5fa4342b13417a3ff8964c,
     type: 3}
   m_PrefabInstance: {fileID: 7999802323530692777}
   m_PrefabAsset: {fileID: 0}

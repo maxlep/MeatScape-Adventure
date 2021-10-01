@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 public class UnityCallbackEvents : MonoBehaviour
 {
@@ -25,14 +26,30 @@ public class UnityCallbackEvents : MonoBehaviour
     }
 
     [System.Serializable]
-    public struct UnityCallbackEvent
+    public class UnityCallbackEvent
     {
         [HideLabel] public UnityCallback UnityCallback;
         
-        [PropertySpace(0f, 10f)] 
-        public float delay;
+        [SerializeField]
+        private bool randomDelay;
+        
+        [HideIf("randomDelay")] [SerializeField]
+        private float delay;
+        
+        [ShowIf("randomDelay")] [SerializeField]
+        private float delayMin;
+        
+        [ShowIf("randomDelay")] [SerializeField] [PropertySpace(0f, 10f)]
+        private float delayMax;
         
         [HideLabel] public UnityEvent unityEvent;
+
+        public float Delay => GetDelay();
+
+        public float GetDelay()
+        {
+            return randomDelay ? Random.Range(delayMin, delayMax) : delay;
+        }
     }
 
     private void Awake()
@@ -69,10 +86,10 @@ public class UnityCallbackEvents : MonoBehaviour
         
         OnUpdateEvents.ForEach(e =>
         {
-            if (Mathf.Approximately(0f, e.delay))
+            if (Mathf.Approximately(0f, e.Delay))
                 e.unityEvent.Invoke();
             else
-                LeanTween.value(0f, 1f, e.delay)
+                LeanTween.value(0f, 1f, e.Delay)
                     .setOnComplete(_ => e.unityEvent.Invoke());
         });
     }
@@ -83,10 +100,10 @@ public class UnityCallbackEvents : MonoBehaviour
         
         OnFixedUpdateEvents.ForEach(e =>
         {
-            if (Mathf.Approximately(0f, e.delay))
+            if (Mathf.Approximately(0f, e.Delay))
                 e.unityEvent.Invoke();
             else
-                LeanTween.value(0f, 1f, e.delay)
+                LeanTween.value(0f, 1f, e.Delay)
                     .setOnComplete(_ => e.unityEvent.Invoke());
         });
     }
@@ -99,10 +116,10 @@ public class UnityCallbackEvents : MonoBehaviour
         {
             if (e.UnityCallback == unityCallback)
             {
-                if (Mathf.Approximately(0f, e.delay))
+                if (Mathf.Approximately(0f, e.Delay))
                     e.unityEvent.Invoke();
                 else
-                    LeanTween.value(0f, 1f, e.delay)
+                    LeanTween.value(0f, 1f, e.Delay)
                         .setOnComplete(_ => e.unityEvent.Invoke());
             }
         }

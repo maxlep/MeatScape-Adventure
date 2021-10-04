@@ -36,7 +36,6 @@ public class ConeEmitter : MonoBehaviour
         initialSpeed = Random.Range(InitialSpeedMin, InitialSpeedMax);
         lifeTime = Random.Range(LifetimeMin, LifetimeMax);
         percentLifetime = 0f;
-        Debug.Log("Init");
     }
 
     private void OnDisable()
@@ -49,7 +48,6 @@ public class ConeEmitter : MonoBehaviour
         if (isDead) return;
         
         percentLifetime = (Time.time - StartTime) / lifeTime;
-        Debug.Log($"Percent: {percentLifetime}");
 
         if (percentLifetime > 1f)
         {

@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class AssignRandomMesh : MonoBehaviour
 {
-    [SerializeField] private SkinnedMeshRenderer Renderer;
+    [SerializeField] private List<SkinnedMeshRenderer> Renderers;
     [SerializeField] private List<Mesh> RandomMeshes;
 
     public void Assign()
     {
         int randomIndex = Random.Range(0, RandomMeshes.Count);
-        Renderer.sharedMesh = RandomMeshes[randomIndex];
+        Renderers.ForEach(r => r.sharedMesh = RandomMeshes[randomIndex]);
     }
 }

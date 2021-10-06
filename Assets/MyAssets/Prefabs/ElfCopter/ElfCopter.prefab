@@ -246,62 +246,75 @@ Transform:
   m_Father: {fileID: 374926926922592718}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &374926926713362661
+--- !u!1 &374926926922592713
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 374926926922592718}
+  - component: {fileID: 374926926922592719}
+  m_Layer: 0
+  m_Name: ElfCopter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &374926926922592718
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374926926922592713}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 22.2, y: -99.4, z: -163}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 374926926384035529}
+  - {fileID: 374926926274761264}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &374926926922592719
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8961548496318146607}
+  m_GameObject: {fileID: 374926926922592713}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4db3c450680fd4c809d5ad90a2f24e5f, type: 3}
+  m_Script: {fileID: 11500000, guid: 379dac7138ba441c9b45ea6f3bd6691e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fixTransforms: 1
-  solver:
-    IKPosition: {x: 23.907476, y: -98.89648, z: -163.56831}
-    IKPositionWeight: 1
-    root: {fileID: 8581046466733863573}
-    target: {fileID: 3396390726990766724}
-    IKRotationWeight: 0.5
-    IKRotation: {x: -0.09476314, y: 0.63226587, z: 0.7657924, w: 0.06943977}
-    bendNormal: {x: 0.40539253, y: -0.01213812, z: -0.31448722}
-    bone1:
-      transform: {fileID: 4666455110725549522}
-      weight: 1
-      solverPosition: {x: 0, y: 0, z: 0}
-      solverRotation: {x: 0, y: 0, z: 0, w: 1}
-      defaultLocalPosition: {x: 0.5293627, y: -0.18701458, z: -0.06240478}
-      defaultLocalRotation: {x: -0.0020442605, y: 0.051283535, z: 0.9983683, w: -0.025030917}
-      length: 0
-      sqrMag: 0
-      axis: {x: -1, y: -0, z: -0}
-    bone2:
-      transform: {fileID: 2747566057443042111}
-      weight: 1
-      solverPosition: {x: 0, y: 0, z: 0}
-      solverRotation: {x: 0, y: 0, z: 0, w: 1}
-      defaultLocalPosition: {x: -0.00000014560646, y: 0.87293315, z: 0.000000005355105}
-      defaultLocalRotation: {x: -0.035225414, y: -0.0026872864, z: -0.02748159, w: 0.99899787}
-      length: 0
-      sqrMag: 0
-      axis: {x: -1, y: -0, z: -0}
-    bone3:
-      transform: {fileID: 5515554041107253784}
-      weight: 1
-      solverPosition: {x: 0, y: 0, z: 0}
-      solverRotation: {x: 0, y: 0, z: 0, w: 1}
-      defaultLocalPosition: {x: -0.00000003454261, y: 0.73179644, z: 0.0000000016880222}
-      defaultLocalRotation: {x: 0.6196275, y: 0.09529951, z: -0.06911343, w: 0.7760175}
-      length: 0
-      sqrMag: 0
-      axis: {x: -1, y: -0, z: -0}
-    goal: 0
-    bendModifier: 0
-    maintainRotationWeight: 0
-    bendModifierWeight: 1
-    bendGoal: {fileID: 0}
+  CurveObject: {fileID: 374926926274761277}
+  Agent: {fileID: 374926926384035529}
+  Speed: 35
+  InitialOffsetDistance: 0
+  LeanAngle: 30
+--- !u!95 &374926927629594792
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 717598309791012105}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: a1e0cc3a6afba7c418c2435ebaf9f1cb, type: 3}
+  m_Controller: {fileID: 9100000, guid: 6a84e09dbbc8262419bd53404b58c385, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &374926926713362650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -358,74 +371,62 @@ MonoBehaviour:
     maintainRotationWeight: 0
     bendModifierWeight: 1
     bendGoal: {fileID: 0}
---- !u!1 &374926926922592713
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 374926926922592718}
-  - component: {fileID: 374926926922592719}
-  m_Layer: 0
-  m_Name: ElfCopter
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &374926926922592718
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 374926926922592713}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 22.2, y: -99.4, z: -163}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 374926926384035529}
-  - {fileID: 374926926274761264}
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &374926926922592719
+--- !u!114 &374926926713362661
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 374926926922592713}
+  m_GameObject: {fileID: 8961548496318146607}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 379dac7138ba441c9b45ea6f3bd6691e, type: 3}
+  m_Script: {fileID: 11500000, guid: 4db3c450680fd4c809d5ad90a2f24e5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurveObject: {fileID: 374926926274761277}
-  Agent: {fileID: 374926926384035529}
-  Speed: 35
-  InitialOffsetDistance: 0
---- !u!95 &374926927629594792
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 717598309791012105}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: a1e0cc3a6afba7c418c2435ebaf9f1cb, type: 3}
-  m_Controller: {fileID: 9100000, guid: 6a84e09dbbc8262419bd53404b58c385, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  fixTransforms: 1
+  solver:
+    IKPosition: {x: 23.907476, y: -98.89648, z: -163.56831}
+    IKPositionWeight: 1
+    root: {fileID: 8581046466733863573}
+    target: {fileID: 3396390726990766724}
+    IKRotationWeight: 0.5
+    IKRotation: {x: -0.09476314, y: 0.63226587, z: 0.7657924, w: 0.06943977}
+    bendNormal: {x: 0.40539253, y: -0.01213812, z: -0.31448722}
+    bone1:
+      transform: {fileID: 4666455110725549522}
+      weight: 1
+      solverPosition: {x: 0, y: 0, z: 0}
+      solverRotation: {x: 0, y: 0, z: 0, w: 1}
+      defaultLocalPosition: {x: 0.5293627, y: -0.18701458, z: -0.06240478}
+      defaultLocalRotation: {x: -0.0020442605, y: 0.051283535, z: 0.9983683, w: -0.025030917}
+      length: 0
+      sqrMag: 0
+      axis: {x: -1, y: -0, z: -0}
+    bone2:
+      transform: {fileID: 2747566057443042111}
+      weight: 1
+      solverPosition: {x: 0, y: 0, z: 0}
+      solverRotation: {x: 0, y: 0, z: 0, w: 1}
+      defaultLocalPosition: {x: -0.00000014560646, y: 0.87293315, z: 0.000000005355105}
+      defaultLocalRotation: {x: -0.035225414, y: -0.0026872864, z: -0.02748159, w: 0.99899787}
+      length: 0
+      sqrMag: 0
+      axis: {x: -1, y: -0, z: -0}
+    bone3:
+      transform: {fileID: 5515554041107253784}
+      weight: 1
+      solverPosition: {x: 0, y: 0, z: 0}
+      solverRotation: {x: 0, y: 0, z: 0, w: 1}
+      defaultLocalPosition: {x: -0.00000003454261, y: 0.73179644, z: 0.0000000016880222}
+      defaultLocalRotation: {x: 0.6196275, y: 0.09529951, z: -0.06911343, w: 0.7760175}
+      length: 0
+      sqrMag: 0
+      axis: {x: -1, y: -0, z: -0}
+    goal: 0
+    bendModifier: 0
+    maintainRotationWeight: 0
+    bendModifierWeight: 1
+    bendGoal: {fileID: 0}
 --- !u!1001 &374926927033444440
 PrefabInstance:
   m_ObjectHideFlags: 0

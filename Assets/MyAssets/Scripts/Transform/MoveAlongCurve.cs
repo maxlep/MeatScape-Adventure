@@ -11,6 +11,7 @@ public class MoveAlongCurve : MonoBehaviour
     [SerializeField] private Transform Agent;
     [SerializeField] private float Speed = 20f;
     [SerializeField] private float InitialOffsetDistance = 0f;
+    [SerializeField] private float LeanAngle;
 
     private BGCcMath bGcMath;
     private float distanceTraveled;
@@ -28,6 +29,9 @@ public class MoveAlongCurve : MonoBehaviour
         
         Vector3 tangent;
         Agent.position = bGcMath.CalcPositionAndTangentByDistance(distanceTraveled, out tangent);
-        Agent.rotation = Quaternion.LookRotation(tangent);
+
+        Vector3 curveRight = Vector3.Cross(tangent, Vector3.up);
+        Vector3 tiltedTangent = Quaternion.AngleAxis(-LeanAngle, curveRight) * tangent;
+        Agent.rotation = Quaternion.LookRotation(tiltedTangent);
     }
 }

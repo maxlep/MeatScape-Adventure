@@ -59,6 +59,5 @@ public class Flatten : PlayerStateNode {
 		FlattenStopEvent.Raise();
 		playerController.onStartUpdateVelocity -= UpdateVelocity;
 		playerController.onStartUpdateRotation -= UpdateRotation;
-
 	}
 }

@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Cinemachine;
+using Den.Tools;
 using MyAssets.ScriptableObjects.Events;
 using Sirenix.Utilities;
 using MyAssets.ScriptableObjects.Variables;
 using MyAssets.Scripts.Utils;
+using Shapes;
 using UnityEngine;
 
 namespace MyAssets.Scripts.Player
@@ -21,7 +25,8 @@ namespace MyAssets.Scripts.Player
         [SerializeField] private LayerMapper layerMapper;
         [SerializeField] private LayerMask targetableMask;
         [SerializeField] private LayerMask obstructionLayerMask;
-        [SerializeField] private float maxRange;
+        [SerializeField] private float maxRange = 90f;
+        [SerializeField] private float maxRangeNotFacing = 15f;
         [SerializeField] private float aimReticleYOffset;
         [SerializeField] private float timeToLoseLockOnTarget = 2f;
         [SerializeField] private float reticleMoveTime = .15f;
@@ -50,8 +55,8 @@ namespace MyAssets.Scripts.Player
         
         private GameObject targetingReticle;
         private LTDescr targettingMoveTween;
-        
-        #region Lifecycle
+
+#region Lifecycle
         private void Awake()
         {
             InputManager.Instance.onLockOn += () => UpdateLockOn(!lockedOn.Value);
@@ -71,6 +76,11 @@ namespace MyAssets.Scripts.Player
         
         private void Update()
         {
+            //Remove stale cached weights
+#if UNITY_EDITOR
+            weightsCache.RemoveWhere(collider => (DateTime.Now - weightsCache[collider].time).Seconds >= weightCacheStaleTimer);
+#endif
+            
             //Change distance and aim offset with size (indirectly)
             framingTransposer.m_CameraDistance = freeLookCam.m_Orbits[1].m_Radius;
             groupComposer.m_TrackedObjectOffset.y = lockOnCameraAimOffsetYDistance.Value +
@@ -308,8 +318,18 @@ namespace MyAssets.Scripts.Player
         #region Calculate
         private float GetTargetWeight(Collider target)
         {
+            if (target == null) return 0;
+
+#if UNITY_EDITOR
+            weightsCache.TryAdd(target, new WeightStatus());
+            weightsCache[target].Reset();
+#endif
+            
             if (target.SafeIsUnityNull()) return 0;
             bool isLockOnTarget = lockedOn.Value && target.Equals(currentTarget);
+#if UNITY_EDITOR
+            weightsCache[target].isLockOnTarget = isLockOnTarget;
+#endif
             
             //TODO: Consider the last hit enemy here
             // if(current.gameObject.GetInstanceID() == enemyHitId.Value) {
@@ -319,8 +339,12 @@ namespace MyAssets.Scripts.Player
 
             //If target not within camera bounds
             if (!CameraUtils.IsVisible(target.bounds.center, target.bounds.extents, camera.Value))
+            {
+#if UNITY_EDITOR
+                weightsCache[target].inCamera = false;
+#endif
                 return 0;
-            
+            }
             
             //Check for obstructions
             RaycastHit hit = default(RaycastHit);
@@ -337,6 +361,10 @@ namespace MyAssets.Scripts.Player
 
             if (hitObstruction)
             {
+#if UNITY_EDITOR
+                weightsCache[target].isObstructed = true;
+#endif
+                
                 if (!isLockOnTarget)
                     return 0;
 
@@ -352,21 +380,64 @@ namespace MyAssets.Scripts.Player
             var targetPos = target.bounds.center;
             
             var playerToTargetRay = targetPos - transform.position;
-            var playerAlignment = Vector3.Dot(transform.forward, playerToTargetRay);
-            playerAlignment = Mathf.Max(.01f, playerAlignment);    //Prevent 0 value that would stop LockOn
+            var playerAlignment = Vector3.Dot(transform.forward.normalized, playerToTargetRay.normalized);
+            playerAlignment = Mathf.Clamp01(playerAlignment);
+#if UNITY_EDITOR
+            weightsCache[target].playerAlignmentFactor = playerAlignment;
+#endif
             
             var sqrRange = Mathf.Pow(maxRange, 2);
-            var distFac = playerToTargetRay.sqrMagnitude / sqrRange;
+            var maxRangeFac = playerToTargetRay.sqrMagnitude / sqrRange;
+            var maxRangeNotFacingFac = Mathf.Clamp01(playerToTargetRay.sqrMagnitude / Mathf.Pow(maxRangeNotFacing, 2));
+            // Already squared from distance calculation
+#if UNITY_EDITOR
+            weightsCache[target].playerDistanceFactor = maxRangeFac;
+#endif
             
             var camTransform = camera.Value.transform;
             var camToTargetRay = targetPos - camTransform.position;
-            var camAlignment = Vector3.Dot(camTransform.forward, camToTargetRay);
+            var camAlignment = Mathf.Clamp01(Vector3.Dot(camTransform.forward.normalized, playerToTargetRay.normalized));
+#if UNITY_EDITOR
+            weightsCache[target].cameraAlignmentFactor = camAlignment;
+#endif
             
-            if (distFac > 1) return 0;
+            if (maxRangeFac > 1)
+            {
+#if UNITY_EDITOR
+                weightsCache[target].inRange = false;
+#endif
+                return 0;
+            };
             
             // Debug.Log($"{camToTargetRay.sqrMagnitude}|{playerToTargetRay.sqrMagnitude}|{sqrRange}|{distFac}|{target.name}");
-            
-            return Mathf.Max(0f,(camAlignment * (1 - distFac)) * (1 - distFac) * (playerAlignment * (1 - distFac)));
+
+            var weight =
+                Mathf.Max(
+                    0f, 
+                    (camAlignment * (1 - maxRangeFac))
+                        * (1 - maxRangeFac)
+                        * (playerAlignment * (1 - maxRangeFac))
+                );
+#if UNITY_EDITOR
+            weightsCache[target].playerAlignmentFactor = (playerAlignment * Math.Max(maxRangeFac, 0.5f)) * 0.3f;
+            weightsCache[target].playerDistanceFactor = (1 - maxRangeNotFacingFac) * 0.3f;
+            weightsCache[target].cameraAlignmentFactor = (camAlignment * camAlignment * (1 - maxRangeFac)) * 0.3f;
+            weight =
+                weightsCache[target].playerAlignmentFactor
+                + weightsCache[target].playerDistanceFactor
+                + weightsCache[target].cameraAlignmentFactor;
+#else
+            weight =
+                (playerAlignment * distFac * distFac)
+                + ((1 - distFac) * (1 - distFac) * (1 - distFac))
+                + (camAlignment * (1 - distFac));
+#endif
+            weight = Mathf.Clamp01(weight);
+#if  UNITY_EDITOR
+
+            weightsCache[target].totalWeight = weight;
+#endif
+            return weight;
         }
         
         private Vector3 GetTargetPosition(Collider target)
@@ -378,10 +449,68 @@ namespace MyAssets.Scripts.Player
             return center;
         }
         #endregion
+        
+        // Debug
+#if UNITY_EDITOR
+        private float weightCacheStaleTimer = 3f;
+        private class WeightStatus
+        {
+            public DateTime time;
+            public float totalWeight;
+            public float playerAlignmentFactor;
+            public float playerDistanceFactor;
+            public float cameraAlignmentFactor;
+            public bool inRange;
+            public bool isObstructed;
+            public bool inCamera;
+            public bool isLockOnTarget;
+
+            public WeightStatus()
+            {
+                Reset();
+            }
+
+            public void Reset()
+            {
+                time = DateTime.Now;
+                totalWeight = 0;
+                inRange = true;
+                isObstructed = false;
+                inCamera = true;
+                isLockOnTarget = false;
+            }
+        }
+        private Dictionary<Collider, WeightStatus> weightsCache = new Dictionary<Collider, WeightStatus>();
+#endif
 
         private void OnDrawGizmos() {
-            Gizmos.color = Color.blue;
+            Gizmos.color = Color.gray;
             Gizmos.DrawWireSphere(transform.position, maxRange);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, maxRangeNotFacing);
+            
+            foreach (var kv in weightsCache)
+            {
+                var pos = kv.Key.transform.position;
+                var rad = 30 * Mathf.Clamp01(kv.Value.totalWeight);
+                // Gizmos.color = Color.yellow;
+                // Gizmos.DrawSphere(pos, rad);
+                Color color = Color.blue;
+
+                if (!kv.Value.inCamera || !kv.Value.inRange || kv.Value.isObstructed)
+                {
+                    color = Color.red;
+                }
+                else if (kv.Value.isLockOnTarget)
+                {
+                    color = Color.green;
+                }
+                else
+                {
+                    color = Color.Lerp(Color.yellow, color, kv.Value.cameraAlignmentFactor);
+                }
+                Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Pixels, pos, rad, color);
+            }
         }
     }
 }

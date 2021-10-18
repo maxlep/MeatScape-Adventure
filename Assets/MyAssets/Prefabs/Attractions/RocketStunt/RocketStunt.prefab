@@ -1910,6 +1910,21 @@ MonoBehaviour:
   TimeToFall: 2
   RotateTime: 2
   CheeringTime: 3
+  OnReset:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 737521437003972546}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Reset
+          m_BoolArgument: 0
+        m_CallState: 2
   OnFinishClimb:
     m_PersistentCalls:
       m_Calls:
@@ -2037,10 +2052,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnityEvents:
-  - UnityCallback: 1
+  - UnityCallback: 2
+    randomDelay: 0
+    delay: 0.05
+    delayMin: 0
+    delayMax: 0
+    unityEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 6802992643609463255}
+          m_TargetAssemblyTypeName: MyAssets.Scripts.ElfControllers.ElfRocketStuntController,
+            Assembly-CSharp
+          m_MethodName: Reset
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - UnityCallback: 2
     randomDelay: 1
     delay: 0
-    delayMin: 0
+    delayMin: 1
     delayMax: 3
     unityEvent:
       m_PersistentCalls:

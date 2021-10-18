@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4762985527270589584}
   - component: {fileID: 4762985527270589596}
   - component: {fileID: 4762985527270589597}
+  - component: {fileID: 7191636799657794725}
   m_Layer: 0
   m_Name: InflateAndRiseFeedback
   m_TagString: Untagged
@@ -54,7 +55,7 @@ MonoBehaviour:
   - {fileID: 4762985527270589597}
   InitializationMode: 2
   SafeMode: 3
-  AutoPlayOnStart: 1
+  AutoPlayOnStart: 0
   DebugActive: 0
 --- !u!114 &4762985527270589599
 MonoBehaviour:
@@ -437,6 +438,39 @@ MonoBehaviour:
   DestinationPosition: {x: 0, y: 40, z: 0}
   InitialPositionTransform: {fileID: 4762985528917502394}
   DestinationPositionTransform: {fileID: 4762985527659488643}
+--- !u!114 &7191636799657794725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4762985527270589586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 468d0d7ee2257a34c966318be3e94f24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UnityEvents:
+  - UnityCallback: 2
+    randomDelay: 0
+    delay: 0.1
+    delayMin: 0
+    delayMax: 0
+    unityEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4762985527270589598}
+          m_TargetAssemblyTypeName: MoreMountains.Feedbacks.MMFeedbacks, MoreMountains.Feedbacks
+          m_MethodName: PlayFeedbacks
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &4762985527379311312
 GameObject:
   m_ObjectHideFlags: 0

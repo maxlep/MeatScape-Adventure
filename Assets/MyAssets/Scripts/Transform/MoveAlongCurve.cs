@@ -15,6 +15,7 @@ public class MoveAlongCurve : MonoBehaviour
 
     private BGCcMath bGcMath;
     private float distanceTraveled;
+    private bool isStopped;
 
     private void Awake()
     {
@@ -24,6 +25,8 @@ public class MoveAlongCurve : MonoBehaviour
 
     private void Update()
     {
+        if (isStopped) return;
+        
         distanceTraveled += Speed * Time.deltaTime;
         distanceTraveled %= bGcMath.GetDistance();  //Wrap
         
@@ -33,5 +36,15 @@ public class MoveAlongCurve : MonoBehaviour
         Vector3 curveRight = Vector3.Cross(tangent, Vector3.up);
         Vector3 tiltedTangent = Quaternion.AngleAxis(-LeanAngle, curveRight) * tangent;
         Agent.rotation = Quaternion.LookRotation(tiltedTangent);
+    }
+
+    public void Stop()
+    {
+        isStopped = true;
+    }
+
+    public void Resume()
+    {
+        isStopped = false;
     }
 }

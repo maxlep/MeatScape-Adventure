@@ -8,8 +8,14 @@ namespace MyAssets.Scripts.IK
     {
         [SerializeField] private TransformSceneReference lookAtTarget;
         [SerializeField] private LookAtIK lookAtIK;
+        [SerializeField] private bool runOnStart = true;
 
-        private void Update()
+        private void Start()
+        {
+            if (runOnStart) SetTarget();
+        }
+
+        public void SetTarget()
         {
             lookAtIK.solver.target = lookAtTarget.Value;
             lookAtIK.solver.IKPositionWeight = 1f;

@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using BehaviorDesigner.Runtime.Tasks;
-using EnhancedHierarchy.Icons;
 using MyAssets.ScriptableObjects.Events;
 using MyAssets.ScriptableObjects.Variables;
 using MyAssets.ScriptableObjects.Variables.ValueReferences;

@@ -1,6 +1,5 @@
 ﻿using System;
 using BansheeGz.BGSpline.Components;
-using DotLiquid.Util;
 using Unity.Mathematics;
 using UnityEngine;
 

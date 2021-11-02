@@ -428,9 +428,9 @@ namespace MyAssets.Scripts.Player
                 + weightsCache[target].cameraAlignmentFactor;
 #else
             weight =
-                (playerAlignment * distFac * distFac)
-                + ((1 - distFac) * (1 - distFac) * (1 - distFac))
-                + (camAlignment * (1 - distFac));
+                playerAlignment
+                + maxRangeFac
+                + camAlignment;
 #endif
             weight = Mathf.Clamp01(weight);
 #if  UNITY_EDITOR

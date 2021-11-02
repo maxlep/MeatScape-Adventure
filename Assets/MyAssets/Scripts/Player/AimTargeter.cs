@@ -483,6 +483,7 @@ namespace MyAssets.Scripts.Player
         private Dictionary<Collider, WeightStatus> weightsCache = new Dictionary<Collider, WeightStatus>();
 #endif
 
+#if UNITY_EDITOR
         private void OnDrawGizmos() {
             Gizmos.color = Color.gray;
             Gizmos.DrawWireSphere(transform.position, maxRange);
@@ -512,5 +513,6 @@ namespace MyAssets.Scripts.Player
                 Draw.Sphere(ShapesBlendMode.Transparent, ThicknessSpace.Pixels, pos, rad, color);
             }
         }
+#endif
     }
 }

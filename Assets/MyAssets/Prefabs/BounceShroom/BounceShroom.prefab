@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7128677276793891777}
   - component: {fileID: 7128677276793891788}
-  - component: {fileID: 7128677276793891791}
   - component: {fileID: 7128677276793891790}
   - component: {fileID: 1578224007}
+  - component: {fileID: 6564563282002193487}
   m_Layer: 13
   m_Name: BounceFeedback
   m_TagString: Untagged
@@ -47,51 +47,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Feedbacks:
-  - {fileID: 7128677276793891791}
+  - {fileID: 6564563282002193487}
   - {fileID: 7128677276793891790}
   - {fileID: 1578224007}
   InitializationMode: 2
   SafeMode: 3
   AutoPlayOnStart: 0
   DebugActive: 0
---- !u!114 &7128677276793891791
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7128677276793891776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2ce51367856bd49b72678cc4263225, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Active: 1
-  Label: Sound
-  Chance: 100
-  Timing:
-    TimescaleMode: 0
-    InitialDelay: 0
-    CooldownDuration: 0
-    NumberOfRepeats: 0
-    RepeatForever: 0
-    DelayBetweenRepeats: 1
-    Sequence: {fileID: 0}
-    TrackID: 0
-    Quantized: 0
-    TargetBPM: 120
-  DebugActive: 0
-  Sfx: {fileID: 8300000, guid: bf8a2436d993d8e4d99e561c4b3950c9, type: 3}
-  RandomSfx: []
-  TestButton: 0
-  TestStopButton: 0
-  PlayMethod: 2
-  PoolSize: 10
-  MinVolume: 0.3
-  MaxVolume: 0.3
-  MinPitch: 0.9
-  MaxPitch: 1.1
-  SfxAudioMixerGroup: {fileID: 0}
 --- !u!114 &7128677276793891790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,6 +269,54 @@ MonoBehaviour:
   ResetEvents:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6564563282002193487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7128677276793891776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8992174433e952f4ab19e373a3c9ddba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Active: 1
+  Label: SoundCustomSource
+  Chance: 100
+  Timing:
+    TimescaleMode: 0
+    InitialDelay: 0
+    CooldownDuration: 0
+    NumberOfRepeats: 0
+    RepeatForever: 0
+    DelayBetweenRepeats: 1
+    Sequence: {fileID: 0}
+    TrackID: 0
+    Quantized: 0
+    TargetBPM: 120
+  DebugActive: 0
+  Sfx: {fileID: 8300000, guid: bf8a2436d993d8e4d99e561c4b3950c9, type: 3}
+  RandomSfx: []
+  audioSourceSettings:
+    Priority: 128
+    StereoPan: 0
+    SpatialBlend: 1
+    ReverbZoneMix: 1
+    DopplerLevel: 0
+    Spread: 0
+    VolumeRolloff: 0
+    MinDistance: 15
+    MaxDistance: 500
+  TestButton: 0
+  TestStopButton: 0
+  PlayMethod: 2
+  PoolSize: 10
+  MinVolume: 1
+  MaxVolume: 1
+  MinPitch: 0.9
+  MaxPitch: 1.1
+  SfxAudioMixerGroup: {fileID: 0}
 --- !u!1 &7128677276836154447
 GameObject:
   m_ObjectHideFlags: 0
@@ -433,7 +443,7 @@ MonoBehaviour:
   _editor_DrawExtra: 0
   _editor_horizontal: 1
   _editor_category: 0
-  Editor_InIsolatedScene: 1
+  Editor_InIsolatedScene: 0
   Editor_JustCreated: 0
   UseDOTS: 0
   DOTSObstacleType: 2

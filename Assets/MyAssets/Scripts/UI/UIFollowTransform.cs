@@ -83,7 +83,6 @@ namespace MyAssets.Scripts.UI
                 if (canvasRect != null)
                 {
                     var canvasPoint = screenPoint * _camera.pixelRect.size.Inverse() * canvasRect.rect.size;
-                    Debug.Log($"Chargebar: {worldPoint}, {screenPoint}, {canvasPoint} | {_camera.pixelRect.size}, {canvasRect.rect.size}");
                     _follower.anchoredPosition = canvasPoint;
                 }
             }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace MyAssets.Scripts.ElfControllers
@@ -53,6 +54,11 @@ namespace MyAssets.Scripts.ElfControllers
         private void Awake()
         {
             StartPos = ElfTransform.position;
+        }
+        
+        private void OnDisable()
+        {
+            Reset();
         }
         public void Activate()
         {

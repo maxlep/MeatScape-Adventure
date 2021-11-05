@@ -73,6 +73,13 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference MaxStableDenivelationAngle;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference Scale;
     [FoldoutGroup("Referenced Inputs")] [SerializeField] private FloatReference MeaatClumpBoostForce;
+    [FoldoutGroup("Referenced Inputs")] [SerializeField] private IntReference CurrentHatIndex;
+    [FoldoutGroup("Referenced Inputs")] [SerializeField] private List<GameObject> HatList;
+    
+    #endregion
+
+    #region ReferencedOutputs
+
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector2Reference MoveInput;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private Vector3Reference BaseVelocity;
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference JumpPressed;
@@ -87,6 +94,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Referenced Outputs")] [SerializeField] private BoolReference IsPlayerDead;
 
     #endregion
+
 
     #region TransitionParameters
 
@@ -126,7 +134,9 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Hunger Parameters"), SerializeField] private IntReference HungerOut;
 
     #endregion
-    
+
+    #region Other
+
     [Title("Model scale")]
     [FoldoutGroup("Hunger Parameters"), SerializeField] private TransformSceneReference SizeChangePivot;
     
@@ -149,6 +159,10 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("GameEvents")] [SerializeField] private GameEvent throwClumpEvent;
     [FoldoutGroup("GameEvents")] [SerializeField] private DynamicGameEvent PlayerCollidedWith_CollisionInfo;
     [FoldoutGroup("GameEvents")] [SerializeField] private DynamicGameEvent PlayerCollidedWithTrigger_CollisionInfo;
+
+    #endregion
+    
+    
 
     private Vector3 moveDirection;
     private InputAction playerMove;
@@ -256,6 +270,16 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         // };
 
         freeLookCam = freeLookCamRef.Value.GetComponent<CinemachineFreeLook>();
+    }
+
+    private void OnEnable()
+    {
+        CurrentHatIndex.Subscribe(UpdateHat);
+    }
+
+    private void OnDisable()
+    {
+        CurrentHatIndex.Unsubscribe(UpdateHat);
     }
 
     // Update is called once per frame.
@@ -942,6 +966,21 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
             interactionReceiver = other.GetComponent<InteractionReceiverProxy>()?.InteractionReceiver;
 
         return interactionReceiver;
+    }
+
+    #endregion
+
+    #region Cosmetics
+
+    private void UpdateHat()
+    {
+        for (int i = 0; i < HatList.Count; i++)
+        {
+            if (i == CurrentHatIndex.Value)
+                HatList[i].SetActive(true);
+            else
+                HatList[i].SetActive(false);
+        }
     }
 
     #endregion

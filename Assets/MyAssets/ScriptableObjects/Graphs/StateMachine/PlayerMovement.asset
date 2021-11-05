@@ -10528,7 +10528,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 1
+  collapsed: 0
   BypassState: 0
   Name: GroundSlamJump
   Description: 
@@ -21766,6 +21766,7 @@ MonoBehaviour:
     SerializedBytes: 
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: ea83faa710e694844be5aa3bcf95bc9d, type: 2}
+    - {fileID: 11400000, guid: ae76a060b7a95f644bbfc12f32fbfe0f, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -21796,6 +21797,34 @@ MonoBehaviour:
     - Name: ReferenceValue
       Entry: 10
       Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: SlamVelocityFast
+      Entry: 7
+      Data: 1|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
+        Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: false
+    - Name: EnableInstanceOptions
+      Entry: 5
+      Data: false
+    - Name: InstanceName
+      Entry: 1
+      Data: '{I} '
+    - Name: InstancePath
+      Entry: 1
+      Data: IntermediateProperties
+    - Name: InstanceType
+      Entry: 6
+      Data: 
+    - Name: ConstantValue
+      Entry: 4
+      Data: 0
+    - Name: ReferenceValue
+      Entry: 10
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -21830,7 +21859,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 1
+  collapsed: 0
   BypassState: 0
   Name: Ground Slam
   Description: Set velocity downwards
@@ -21858,3 +21887,17 @@ MonoBehaviour:
     Variable: {fileID: 11400000, guid: 32fe95a7d33c6774fbb7a1297b54ed10, type: 2}
   GroundSlamCooldownTimer: {fileID: 11400000, guid: 075c1fded8a47364b8151f8e495992f1,
     type: 2}
+  DistanceToGround:
+    UseConstant: 0
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 1980c2697dbf0704093ef4d581af5a0c, type: 2}
+  FastSlamGroundDistanceThreshold:
+    UseConstant: 1
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 40
+    Variable: {fileID: 0}

@@ -2,16 +2,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CinemachineFreeLook))]
 public class FreeLookAddOn : MonoBehaviour
 {
-    [SerializeField] [Range(0f, 10f)] private float LookSpeedX = 1f;
-    [SerializeField] [Range(0f, 10f)] private float LookSpeedY = 1f;
-    [SerializeField] private float accelerationX = .025f;
-    [SerializeField] private float accelerationY = .025f;
+    [SerializeField] [TitleGroup("Gamepad")] [Range(0f, 10f)] private float LookSpeedXGamepad = .7f;
+    [SerializeField] [TitleGroup("Gamepad")] [Range(0f, 10f)] private float LookSpeedYGamepad = .8f;
+    [SerializeField] [TitleGroup("Gamepad")] private float AccelerationXGamepad = .04f;
+    [SerializeField] [TitleGroup("Gamepad")] private float AccelerationYGamepad = .04f;
+    
+    [SerializeField] [TitleGroup("Mouse")] [Range(0f, 10f)] private float LookSpeedXMouse = .35f;
+    [SerializeField] [TitleGroup("Mouse")] [Range(0f, 10f)] private float LookSpeedYMouse = .4f;
+    [SerializeField] [TitleGroup("Mouse")] private float AccelerationXMouse = .02f;
+    [SerializeField] [TitleGroup("Mouse")]  float AccelerationYMouse = .02f;
+    
     [SerializeField] private bool InvertY = false;
     [SerializeField] private float recenterTimer = 3f;
     [SerializeField] private float recenterAcceleration = .1f;
@@ -27,7 +34,7 @@ public class FreeLookAddOn : MonoBehaviour
     {
         lookInput = InputManager.Instance.GetPlayerLook_Action();
         mousePosition = InputManager.Instance.GetMousePosition_Action();
-        Cursor.lockState = CursorLockMode.None;
+        Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = true;
     }
 
@@ -63,12 +70,17 @@ public class FreeLookAddOn : MonoBehaviour
         // This is because X axis is only contains between -180 and 180 instead of 0 and 1 like the Y axis
         lookMovement.x = lookMovement.x * 180f;
 
+        float lookSpeedX = InputManager.Instance.usingMouse ? LookSpeedXMouse : LookSpeedXGamepad;
+        float lookSpeedY = InputManager.Instance.usingMouse ? LookSpeedYMouse : LookSpeedYGamepad;
 
-        float targetVelocityX = lookMovement.x * LookSpeedX;
-        float targetVelocityY = lookMovement.y * LookSpeedY;
+        float targetVelocityX = lookMovement.x * lookSpeedX;
+        float targetVelocityY = lookMovement.y * lookSpeedY;
 
         float outVelocityX = 0f;
         float outVelocityY = 0f;
+        
+        float accelerationX = InputManager.Instance.usingMouse ? AccelerationXMouse : AccelerationXGamepad;
+        float accelerationY = InputManager.Instance.usingMouse ? AccelerationYMouse : AccelerationYGamepad;
 
         //Accelerate and Deaccelerate the move velocity
         float newVelocityX = Mathf.SmoothDamp(previousVelocityX, targetVelocityX, ref outVelocityX, accelerationX);

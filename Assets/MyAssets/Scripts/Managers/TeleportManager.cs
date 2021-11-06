@@ -65,7 +65,7 @@ public class TeleportManager : MonoBehaviour
         Debug.Log($"Saved Position {index}");
     }
 
-    private void LoadPosition(int index)
+    public void LoadPosition(int index)
     {
         switch (index)
         {

@@ -72,6 +72,8 @@ namespace MyAssets.Scripts.Events
 
         private List<ITransitionCondition> allConditions = new List<ITransitionCondition>();
 
+        private bool stopListening;
+
         private void Awake()
         {
             //Here add all conditions to master list for evaluation and init
@@ -109,6 +111,7 @@ namespace MyAssets.Scripts.Events
         //For call by events
         public void TryRaise()
         {
+            if (stopListening) return;
             TryRaise(null, null);
             GameEventConditions.ForEach(e => e.ResetGameEvent());
             DynamicGameEventConditions.ForEach(e => e.ResetGameEvent());
@@ -117,6 +120,8 @@ namespace MyAssets.Scripts.Events
         //For call by subscription to state change event
         public void TryRaise(StateNode exitingState, StateNode enteringState)
         {
+            if (stopListening) return;
+            
             #region Valid State Check
 
             if (!ValidStates.IsNullOrEmpty())
@@ -163,6 +168,11 @@ namespace MyAssets.Scripts.Events
             Response.Invoke();
 
             #endregion
+        }
+
+        public void StopListening()
+        {
+            stopListening = true;
         }
     }
 }

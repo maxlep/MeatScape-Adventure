@@ -56,6 +56,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [SerializeField] private bool noHungerDecay;
     [SerializeField] private bool noRegenFromMeatContact;
     [SerializeField] private bool ignoreInput;
+    [SerializeField] private float FallOffMapYPos = -300f;
     [ShowIf("ignoreInput"), SerializeField] private Vector2Reference fakeMoveInput;
 
     [Button]
@@ -288,6 +289,9 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         UpdateParameters();
         UpdateHunger();
         UpdateFrenzy();
+        
+        if (transform.position.y < FallOffMapYPos)
+            TeleportManager.Instance.LoadPosition(1);
     }
 
     private void OnDestroy()

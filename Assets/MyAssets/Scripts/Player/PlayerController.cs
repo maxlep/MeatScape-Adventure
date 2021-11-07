@@ -873,7 +873,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         if(otherGameObject.layer == layerMapper.GetLayer(LayerEnum.EnemyJumpTrigger) ||
             otherGameObject.IsInLayerMask(interactableMask))
         {
-            AttemptJumpAttack(other);
+            //AttemptJumpAttack(other);
         }
     }
 

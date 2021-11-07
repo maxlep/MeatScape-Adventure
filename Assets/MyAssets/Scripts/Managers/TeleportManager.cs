@@ -12,6 +12,7 @@ public class TeleportManager : MonoBehaviour
 
     private KinematicCharacterMotor charMotor;
     private Vector3 pos1, pos2, pos3;
+    private LTDescr SavePos1Tween, SavePos2Tween;
 
     private void Awake()
     {
@@ -35,13 +36,19 @@ public class TeleportManager : MonoBehaviour
             charMotor = playerSceneRef.Value.GetComponent<KinematicCharacterMotor>();
 
             //Save pos 1 as the spawn position (some delay to wait for load)
-            LeanTween.value(0f, 1f, 2f).setOnComplete(() => SavePosition(1));
+            SavePos1Tween = LeanTween.value(0f, 1f, 2f).setOnComplete(() => SavePosition(1));
             
             //Save pos 2 way above spawn position
-            LeanTween.value(0f, 1f, 2f).setOnComplete(() => SavePosition(2, Vector3.up * 500f));
+            SavePos2Tween = LeanTween.value(0f, 1f, 2f).setOnComplete(() => SavePosition(2, Vector3.up * 500f));
         }
     }
-    
+
+    private void OnDisable()
+    {
+        LeanTween.cancel(SavePos1Tween.id);
+        LeanTween.cancel(SavePos2Tween.id);
+    }
+
     private void SavePosition(int index)
     {
         SavePosition(index, Vector3.zero);

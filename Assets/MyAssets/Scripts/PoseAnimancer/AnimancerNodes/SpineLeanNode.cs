@@ -27,44 +27,54 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
         private SpecificLean _leanForward;
         private SpecificLean _leanSide;
 
-#region Lifecycle
+        #region Lifecycle
 
         public override void Enter()
         {
             base.Enter();
-            
+
             _leanForward = new SpecificLean(_animatable.Animancer.Playable, leanBones.Select(b => b.Value));
             _leanForward.Axis = leanForwardAxis.Value;
             leanForwardAxis.Subscribe(UpdateLeanForwardAxis);
-            
+
             _leanSide = new SpecificLean(_animatable.Animancer.Playable, leanBones.Select(b => b.Value));
             _leanSide.Axis = leanSideAxis.Value;
             leanSideAxis.Subscribe(UpdateLeanSideAxis);
-            
+
             acceleration.Subscribe(UpdateLeanAngles);
         }
 
         public override void Exit()
         {
             base.Exit();
-            
-            _leanForward.Destroy();
-            _leanSide.Destroy();
-            
+
             leanForwardAxis.Unsubscribe(UpdateLeanForwardAxis);
             leanSideAxis.Unsubscribe(UpdateLeanSideAxis);
             acceleration.Unsubscribe(UpdateLeanAngles);
+
+            _leanForward.Destroy();
+            _leanSide.Destroy();
         }
 
-#endregion
+        public override void OnDestroy()
+        {
+            leanForwardAxis.Unsubscribe(UpdateLeanForwardAxis);
+            leanSideAxis.Unsubscribe(UpdateLeanSideAxis);
+            acceleration.Unsubscribe(UpdateLeanAngles);
 
-#region Update methods
+            _leanForward.Destroy();
+            _leanSide.Destroy();
+        }
+
+        #endregion
+
+        #region Update methods
 
         private void UpdateLeanForwardAxis()
         {
             _leanForward.Axis = leanForwardAxis.Value;
         }
-        
+
         private void UpdateLeanSideAxis()
         {
             _leanSide.Axis = leanSideAxis.Value;
@@ -76,11 +86,11 @@ namespace MyAssets.Scripts.PoseAnimancer.AnimancerNodes
             var walkSpeedFactor = speed / maxSpeed.Value;
             var leanForwardPercent = Vector3.Dot(acceleration.Value.normalized, _animatable.transform.forward);
             _leanForward.Angle = walkSpeedFactor * leanForwardPercent * leanForwardMaxAngle.Value;
-                
+
             var leanSidePercent = Vector3.Dot(acceleration.Value.normalized, _animatable.transform.right);
             _leanSide.Angle = walkSpeedFactor * leanSidePercent * leanSideMaxAngle.Value;
         }
 
-#endregion
+        #endregion
     }
 }

@@ -34,7 +34,7 @@ public class StateMachineGraph : NodeGraph
 
     private List<StartNode> startNodes = new List<StartNode>();
     private HashSet<TriggerVariable> triggersFromTransitions = new HashSet<TriggerVariable>();
-    private List<(StateNode fromState, StateNode toState, TransitionNode transition)> validTransitions = 
+    private List<(StateNode fromState, StateNode toState, TransitionNode transition)> validTransitions =
         new List<(StateNode fromState, StateNode toState, TransitionNode transition)>();
     private List<TriggerVariable> receivedTriggers = new List<TriggerVariable>();
     private bool debugOnStateChange = false;
@@ -42,14 +42,14 @@ public class StateMachineGraph : NodeGraph
     public delegate void OnChangeState(StateNode exitingState, StateNode enteringState);
 
     public event OnChangeState onChangeState;
-    
+
     #region Getters
 
     public StartNode GetStartNode(int index)
     {
         return startNodes.TryGetAtIndex(index);
     }
-    
+
     #endregion
 
     #region LifeCycle Methods
@@ -63,7 +63,7 @@ public class StateMachineGraph : NodeGraph
     {
         currentStates.ForEach(s => s.Execute());
     }
-        
+
     public void ExecuteFixedUpdates()
     {
         currentStates.ForEach(s => s.ExecuteFixed());
@@ -85,6 +85,11 @@ public class StateMachineGraph : NodeGraph
         startNodes.ForEach(s => s.OnApplictionExit());
     }
 
+    public void OnDestroy()
+    {
+        currentStates.ForEach(s => s.OnDestroy());
+    }
+
     #endregion
 
     #region Init/Dep Injection
@@ -100,29 +105,28 @@ public class StateMachineGraph : NodeGraph
         transitionNodes.ForEach(t => t.IsInitialized = false);
         StateReferenceNodes.ForEach(r => r.IsInitialized = false);
 
-        if (isRuntime) startNodes.ForEach((i) =>
-        {
+        if(isRuntime) startNodes.ForEach((i) => {
             i.RuntimeInitialize();
             InitNodesRecursively(i, i.ExecutionOrderIndex);
         });
         else InitNodesNonRuntime();
 
         SubscribeToTriggers();
-        if (isRuntime) EnterStartStates();
+        if(isRuntime) EnterStartStates();
     }
 
     //Init all nodes on graph, not runtime
     private void InitNodesNonRuntime()
     {
-        foreach (var stateNode in stateNodes)
+        foreach(var stateNode in stateNodes)
         {
             stateNode.Initialize(this);
         }
-        foreach (var transitionNode in transitionNodes)
+        foreach(var transitionNode in transitionNodes)
         {
             transitionNode.Initialize(this);
         }
-        foreach (var stateReferenceNode in StateReferenceNodes)
+        foreach(var stateReferenceNode in StateReferenceNodes)
         {
             stateReferenceNode.Initialize(this);
         }
@@ -132,58 +136,57 @@ public class StateMachineGraph : NodeGraph
     private void InitNodesRecursively(Node nextNode, int startNodeIndex)
     {
         //Init nodes, return if already initialized
-        if (nextNode is StateNode nodeAsState)
+        if(nextNode is StateNode nodeAsState)
         {
-            if (nodeAsState.IsInitialized) return;
+            if(nodeAsState.IsInitialized) return;
             nodeAsState.Initialize(this);
             nodeAsState.RuntimeInitialize(startNodeIndex);
         }
 
         TransitionNode nodeAsTransition = nextNode as TransitionNode;
-        if (nodeAsTransition != null)
+        if(nodeAsTransition != null)
         {
-            if (nodeAsTransition.IsInitialized) return;
+            if(nodeAsTransition.IsInitialized) return;
             nodeAsTransition.Initialize(this);
             nodeAsTransition.RuntimeInitialize();
         }
-        
+
         StateReferenceNode nodeAsReference = nextNode as StateReferenceNode;
-        if (nodeAsReference != null)
+        if(nodeAsReference != null)
         {
-            if (nodeAsReference.IsInitialized) return;
+            if(nodeAsReference.IsInitialized) return;
             nodeAsReference.Initialize(this);
             nodeAsReference.RuntimeInitialize();
         }
-        
+
         //Call recursively for each linked node
         nextNode.LinkedNodes.ForEach(n => InitNodesRecursively(n, startNodeIndex));
 
         //Call recursively for each connected node, return if none connected
-        nextNode.Outputs.ForEach(output =>
-        {
+        nextNode.Outputs.ForEach(output => {
             var connections = output.GetConnections();
-            if (connections.Count < 1) return;
-            
+            if(connections.Count < 1) return;
+
             connections.ForEach(c => InitNodesRecursively(c.node, startNodeIndex));
         });
     }
 
     private void SubscribeToTriggers()
     {
-        foreach (var transitionNode in transitionNodes)
+        foreach(var transitionNode in transitionNodes)
         {
-            foreach (var transitionTrigger in transitionNode.TriggerVars)
+            foreach(var transitionTrigger in transitionNode.TriggerVars)
             {
                 triggersFromTransitions.Add(transitionTrigger);
             }
         }
 
-        foreach (var triggerVar in triggersFromTransitions)
+        foreach(var triggerVar in triggersFromTransitions)
         {
             triggerVar.OnUpdate += () => receivedTriggers.Add(triggerVar);
         }
     }
-    
+
     public void InjectDependencies(LayeredStateMachine parentMachine)
     {
         this.parentMachine = parentMachine;
@@ -198,31 +201,30 @@ public class StateMachineGraph : NodeGraph
         StateReferenceNodes.Clear();
         AnimationLayerStartNodes.Clear();
 
-        foreach (var node in nodes)
+        foreach(var node in nodes)
         {
             //If its an StateNode
             var nodeAsState = node as StateNode;
-            if (nodeAsState != null)
+            if(nodeAsState != null)
             {
                 stateNodes.Add(nodeAsState);
                 continue;
             }
-            
+
             //If its a Transition Node (including global ones)
             var nodeAsTransition = node as TransitionNode;
-            if (nodeAsTransition != null && nodeAsTransition)
+            if(nodeAsTransition != null && nodeAsTransition)
             {
                 transitionNodes.Add(nodeAsTransition);
                 continue;
             }
-            
+
             //If its an AnyState node, get transitions
             var nodeAsAnyState = node as AnyStateNode;
-            if (nodeAsAnyState != null && nodeAsAnyState)
+            if(nodeAsAnyState != null && nodeAsAnyState)
             {
                 NodePort transitionsPort = nodeAsAnyState.GetOutputPort("Transitions");
-                transitionsPort.GetConnections().ForEach(c =>
-                {
+                transitionsPort.GetConnections().ForEach(c => {
                     globalTransitions.Add(c.node as TransitionNode);
                 });
                 continue;
@@ -230,32 +232,32 @@ public class StateMachineGraph : NodeGraph
 
             //If its an StartNode
             var nodeAsStart = node as StartNode;
-            if (nodeAsStart != null)
+            if(nodeAsStart != null)
             {
                 //If its an AnimationLayerStartNode
                 var nodeAsAnimationLayer = node as AnimationLayerStartNode;
-                if (nodeAsAnimationLayer != null)
+                if(nodeAsAnimationLayer != null)
                 {
                     AnimationLayerStartNodes.Add(nodeAsAnimationLayer);
                 }
-                
+
                 startNodes.Add(nodeAsStart);
                 continue;
             }
-            
+
             //If its an StateReferenceNode
             var nodeAsRef = node as StateReferenceNode;
-            if (nodeAsRef != null)
+            if(nodeAsRef != null)
             {
                 StateReferenceNodes.Add(nodeAsRef);
                 continue;
             }
         }
-        
+
         //Sort start nodes by execution order
-        startNodes =  startNodes.OrderBy(s => s.ExecutionOrderIndex).ToList();
+        startNodes = startNodes.OrderBy(s => s.ExecutionOrderIndex).ToList();
     }
-     
+
 
     #endregion
 
@@ -264,44 +266,44 @@ public class StateMachineGraph : NodeGraph
     private void EnterStartStates()
     {
         currentStates = new List<StateNode>();
-        
+
         //Loop through start nodes and enter entry states
-        foreach (var startNode in startNodes)
+        foreach(var startNode in startNodes)
         {
             StateNode entryState = startNode.GetOutputPort("EntryState").Connection.node as StateNode;
-            if (entryState != null)
+            if(entryState != null)
             {
                 currentStates.Add(entryState);
                 entryState.Enter();
             }
         }
     }
-    
+
     public void CheckForValidTransitions()
     {
         //Store valid state changes
-        for (int i = 0; i < currentStates.Count; i++)
+        for(int i = 0; i < currentStates.Count; i++)
         {
             (StateNode nextState, TransitionNode transition) = currentStates[i].CheckStateTransitions(receivedTriggers);
-            if (nextState != null) validTransitions.Add((currentStates[i], nextState, transition));
-            
+            if(nextState != null) validTransitions.Add((currentStates[i], nextState, transition));
+
         }
     }
 
     public void ApplyValidTransitions()
     {
-        foreach (var (exitingState, nextState, transition) in validTransitions)
+        foreach(var (exitingState, nextState, transition) in validTransitions)
         {
             transition?.RaiseTransitionEvents();
             ChangeState(exitingState, nextState);
         }
 
         validTransitions.Clear();
-        
+
         //Reset Cached triggers
         receivedTriggers.Clear();
     }
-    
+
     private void ChangeState(StateNode exitingState, StateNode nextState)
     {
         //Check if nextState has bypass enabled, if so recursively check transitions and bypass
@@ -312,22 +314,22 @@ public class StateMachineGraph : NodeGraph
         currentStates.Insert(index, nextState);
         currentStates.Remove(exitingState);
         nextState.Enter();
-        
+
         onChangeState?.Invoke(exitingState, nextState);
-        if (debugOnStateChange) Debug.LogError($"{name}: {exitingState.name} -> {nextState.name}");
+        if(debugOnStateChange) Debug.LogError($"{name}: {exitingState.name} -> {nextState.name}");
     }
 
     private StateNode GetBypassStateRecursively(StateNode nodeToBypass)
     {
-        if (nodeToBypass.GetBypassState())
+        if(nodeToBypass.GetBypassState())
         {
-            (StateNode bypassNextState,TransitionNode transition) = nodeToBypass.CheckStateTransitions();
-            if (bypassNextState != null)
+            (StateNode bypassNextState, TransitionNode transition) = nodeToBypass.CheckStateTransitions();
+            if(bypassNextState != null)
             {
                 transition?.RaiseTransitionEvents();
                 return GetBypassStateRecursively(bypassNextState);
             }
-                
+
             else
                 return nodeToBypass;
         }
@@ -350,11 +352,11 @@ public class StateMachineGraph : NodeGraph
 
     public void ToggleExpandAll(bool expanded)
     {
-        foreach (var transitionNode in transitionNodes)
+        foreach(var transitionNode in transitionNodes)
         {
             transitionNode.Collapsed = expanded;
         }
-        foreach (var stateNode in stateNodes)
+        foreach(var stateNode in stateNodes)
         {
             stateNode.Collapsed = expanded;
         }
@@ -369,7 +371,7 @@ public class StateMachineGraph : NodeGraph
     {
         debugOnStateChange = !debugOnStateChange;
     }
-    
 
-    
+
+
 }

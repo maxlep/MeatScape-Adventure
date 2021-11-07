@@ -13,26 +13,29 @@ using XNode;
 
 public class StateNode : CollapsableNode
 {
-    [Input(typeConstraint = TypeConstraint.Strict)]  [PropertyOrder(-3)]  public StateMachineConnection previousState;
-    [Output(typeConstraint = TypeConstraint.Strict)] [PropertyOrder(-2)]  public StateMachineConnection transitions;
+    [Input(typeConstraint = TypeConstraint.Strict)] [PropertyOrder(-3)] public StateMachineConnection previousState;
+    [Output(typeConstraint = TypeConstraint.Strict)] [PropertyOrder(-2)] public StateMachineConnection transitions;
 
     [Tooltip("If enabled, this state will be completely skipped if on enter, there are valid transition out of state.")]
     [SerializeField] private bool BypassState = false;
 
     [SerializeField] protected string Name;
-    
-    [SerializeField] [TextArea(3, 3)] [PropertySpace(0f, 10f)] 
-    [FoldoutGroup("Description", false)] [HideLabel]
+
+    [SerializeField]
+    [TextArea(3, 3)]
+    [PropertySpace(0f, 10f)]
+    [FoldoutGroup("Description", false)]
+    [HideLabel]
     private string Description;
 
     protected const int LABEL_WIDTH = 175;
-        
+
     protected StateMachineGraph stateMachineGraph;
     protected List<VariableContainer> parameterList;
     protected List<StateReferenceNode> referenceNodes = new List<StateReferenceNode>();
     protected bool isInitialized = false;
 
-    
+
     [HideInInspector] public bool isActiveState = false;
 
     public List<StateNode> previousStates { get; private set; } = new List<StateNode>();
@@ -55,7 +58,7 @@ public class StateNode : CollapsableNode
     }
 
     public void SetParameters(List<VariableContainer> newParams) => parameterList = newParams;
-    
+
     #region Init/Dep Injection
 
     public virtual void Initialize(StateMachineGraph parentGraph)
@@ -78,9 +81,9 @@ public class StateNode : CollapsableNode
     {
         referenceNodes.Clear();
         linkedNodes.Clear();
-        foreach (var stateRefNode in stateMachineGraph.StateReferenceNodes)
+        foreach(var stateRefNode in stateMachineGraph.StateReferenceNodes)
         {
-            if (stateRefNode.ReferencedState == this)
+            if(stateRefNode.ReferencedState == this)
             {
                 referenceNodes.Add(stateRefNode);
                 linkedNodes.Add(stateRefNode);
@@ -99,9 +102,9 @@ public class StateNode : CollapsableNode
         //Check this node for transitions (previous and next)
         StoreTransitionsFromNode(this, true);
         StoreTransitionsFromNode(this, false);
-        
+
         //Check ref nodes for transitions (previous and next)
-        foreach (var refNode in referenceNodes)
+        foreach(var refNode in referenceNodes)
         {
             StoreTransitionsFromNode(refNode, true);
             StoreTransitionsFromNode(refNode, false);
@@ -112,62 +115,61 @@ public class StateNode : CollapsableNode
     {
         NodePort transitionsPort = (isInputPort) ? node.GetInputPort("previousState")
             : node.GetOutputPort("transitions");
-        
-        transitionsPort.GetConnections().ForEach(c =>
-        {
+
+        transitionsPort.GetConnections().ForEach(c => {
             //Check for connected transitions
             TransitionNode nodeAsTransition = (c.node as TransitionNode);
-            if (nodeAsTransition != null)
+            if(nodeAsTransition != null)
             {
-                if (isInputPort)
+                if(isInputPort)
                     previousTransitionNodes.Add(c.node as TransitionNode);
                 else
                     nextTransitionNodes.Add(c.node as TransitionNode);
             }
-                
-            
+
+
             //Check for direct state connections
             StateNode nodeAsState = (c.node as StateNode);
-            if (nodeAsState != null)
+            if(nodeAsState != null)
             {
-                if (isInputPort)
+                if(isInputPort)
                 {
                     previousNoTransitionStates.Add(nodeAsState);
                 }
                 else
                 {
-                    if (nextNoTransitionState != null) 
+                    if(nextNoTransitionState != null)
                         Debug.LogError("More than 1 directly connected state output" +
                                        $"found for node {node.name}! Make sure <2 states" +
                                        $"are connected directly");
-                
+
                     nextNoTransitionState = nodeAsState;
                 }
             }
-            
+
             //Check for direct ref node connections
             StateReferenceNode nodeAsRef = (c.node as StateReferenceNode);
-            if (nodeAsRef != null && nodeAsRef.ReferencedState != null)
+            if(nodeAsRef != null && nodeAsRef.ReferencedState != null)
             {
-                if (isInputPort)
+                if(isInputPort)
                 {
                     previousNoTransitionStates.Add(nodeAsRef.ReferencedState);
                 }
                 else
                 {
-                    if (nextNoTransitionState != null) 
+                    if(nextNoTransitionState != null)
                         Debug.LogError("More than 1 directly connected state output" +
                                        $"found for node {node.name}! Make sure <2 states" +
                                        $"are connected directly");
-                
+
                     nextNoTransitionState = nodeAsRef.ReferencedState;
                 }
-                
+
             }
-            
+
             //Check if connected to entry node
             StartNode nodeAsStart = (c.node as StartNode);
-            if (nodeAsStart != null)
+            if(nodeAsStart != null)
                 isEntryState = true;
         });
 
@@ -181,18 +183,18 @@ public class StateNode : CollapsableNode
     private void PopulatePreviousStates()
     {
         previousStates.Clear();
-        
+
         //Get previous state from direct connection
-        foreach (var previousNoTransitionState in previousNoTransitionStates)
+        foreach(var previousNoTransitionState in previousNoTransitionStates)
         {
             previousStates.Add(previousNoTransitionState);
         }
 
         //Get previous states from transitions (this node and ref nodes accounted for)
-        foreach (var transitionNode in previousTransitionNodes)
+        foreach(var transitionNode in previousTransitionNodes)
         {
             StateNode transState = transitionNode.GetStartingState();
-            if (transState != null)
+            if(transState != null)
                 previousStates.Add(transState);
         }
     }
@@ -200,40 +202,40 @@ public class StateNode : CollapsableNode
     private void PopulateNextStates()
     {
         nextStates.Clear();
-        
+
         //Get next state from direct connection
-        if (nextNoTransitionState != null)
+        if(nextNoTransitionState != null)
             nextStates.Add(nextNoTransitionState);
 
         //Get next states from transitions (this node and ref nodes accounted for)
-        foreach (var transitionNode in nextTransitionNodes)
+        foreach(var transitionNode in nextTransitionNodes)
         {
             StateNode transState = transitionNode.GetNextState();
-            if (transState != null)
+            if(transState != null)
                 nextStates.Add(transState);
         }
     }
 
-    
+
     protected virtual void OnValidate()
     {
         string graphName = (graph != null) ? graph.name : "";
         name = $"{Name} <{this.GetType().Name}> ({graphName})";
     }
-    
+
     #endregion
-    
+
     #region LifeCycle Methods
 
     public virtual void Awaken()
     {
-        
+
     }
 
     public virtual void Enter()
     {
         isActiveState = true;
-        foreach (var transition in nextTransitionNodes)
+        foreach(var transition in nextTransitionNodes)
         {
             transition.ResetTriggers();
             transition.ResetGameEvents();
@@ -243,7 +245,7 @@ public class StateNode : CollapsableNode
 
     public virtual void Execute()
     {
-        
+
     }
 
     public virtual void ExecuteFixed()
@@ -258,32 +260,36 @@ public class StateNode : CollapsableNode
     public virtual void OnApplictionExit()
     {
     }
-    
+
+    public virtual void OnDestroy()
+    {
+    }
+
     public virtual void DrawGizmos()
     {
-        
+
     }
-    
+
     #endregion
 
     public virtual (StateNode, TransitionNode) CheckStateTransitions(List<TriggerVariable> receivedTriggers = null)
     {
         //Check for direct connection to state that bypasses transitions
-        if (nextNoTransitionState != null) return (nextNoTransitionState, null);
-        
+        if(nextNoTransitionState != null) return (nextNoTransitionState, null);
+
         //Check global transitions
-        foreach (var transition in stateMachineGraph.globalTransitions)
+        foreach(var transition in stateMachineGraph.globalTransitions)
         {
-            if (transition.EvaluateConditions(receivedTriggers))
+            if(transition.EvaluateConditions(receivedTriggers))
             {
                 return (transition.GetNextState(), transition);
             }
         }
-        
+
         //Check connected and ref node transitions
-        foreach (var transition in nextTransitionNodes)
+        foreach(var transition in nextTransitionNodes)
         {
-            if (transition.EvaluateConditions(receivedTriggers))
+            if(transition.EvaluateConditions(receivedTriggers))
             {
                 return (transition.GetNextState(), transition);
             }

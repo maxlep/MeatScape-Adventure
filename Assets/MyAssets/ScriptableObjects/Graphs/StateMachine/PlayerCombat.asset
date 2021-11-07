@@ -1171,7 +1171,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '- ! Attack Pressed_ Controller_ Player
+
+    -  Foward Throw
+    Min Charge Time_ Combat_ Player: 0.2 sec
+
+'
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -2893,7 +2898,35 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: ForceCancelDelay
+      Entry: 7
+      Data: 0|MyAssets.ScriptableObjects.Variables.ValueReferences.FloatValueReference,
+        Assembly-CSharp
+    - Name: UseConstant
+      Entry: 5
+      Data: true
+    - Name: EnableInstanceOptions
+      Entry: 5
+      Data: false
+    - Name: InstanceName
+      Entry: 1
+      Data: '{I} '
+    - Name: InstancePath
+      Entry: 1
+      Data: IntermediateProperties
+    - Name: InstanceType
+      Entry: 6
+      Data: 
+    - Name: ConstantValue
+      Entry: 4
+      Data: 0.75
+    - Name: ReferenceValue
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   graph: {fileID: 11400000}
   position: {x: 3416, y: -440}
   ports:
@@ -2931,11 +2964,13 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 1
+  collapsed: 0
   BypassState: 0
   Name: Forward Throw Start
   Description: 
   isActiveState: 0
+  throwClumpAnimComplete: {fileID: 11400000, guid: d0e2a76a1d7f8744db2f9e3d0cf3fbf3,
+    type: 2}
 --- !u!114 &1625376886150853897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3094,7 +3129,9 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Pitch Clump Fire_ Anim_ Player
+
+'
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents: []
@@ -3302,7 +3339,12 @@ MonoBehaviour:
       _dynamic: 0
   collapsed: 1
   transitionPriority: 0
-  conditionPreview: 
+  conditionPreview: '-  Attack Trigger Release_ Controller_ Player
+
+    -  Foward
+    Throw Min Charge Time_ Combat_ Player: 0.2 sec
+
+'
   Description: 
   RaiseOnTransitionUnityEvents: []
   RaiseOnTransitionEvents:
@@ -3564,6 +3606,11 @@ MonoBehaviour:
     Glide
 
     -  Valid:  Ground  Slam  Fall
+
+    -  Attack Trigger_ Controller_
+    Player
+
+    -  Hunger Level_ Player  Greater Than 0
 
 '
   Description: 

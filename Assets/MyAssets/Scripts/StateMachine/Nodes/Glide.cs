@@ -22,6 +22,13 @@ public class Glide : BaseMovement
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
         [TabGroup("Horizontal")] [Required]
+        protected FloatReference TurnAcceleration;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] [TabGroup("Horizontal")] [Required]
+        protected FloatReference HorizontalRecenterTime;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
+        [TabGroup("Horizontal")] [Required]
         protected FloatReference AccelerateDotThreshold;
 
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField] 
@@ -179,6 +186,7 @@ public class Glide : BaseMovement
         private Vector3 tiltedDir;
         private float tiltAngle;
         private float turnAngle;
+        private float currentTurnSpeed;
         private float lastHungerDecayTime;
         private float enterStateTime;
         private bool firstVelocityUpdate;
@@ -197,6 +205,7 @@ public class Glide : BaseMovement
             enterStateTime = Time.time;
             turnAngle = 0f;
             tiltAngle = 0f;
+            currentTurnSpeed = 0f;
         }
 
         public override void Exit()
@@ -287,19 +296,29 @@ public class Glide : BaseMovement
             var slowTurnThreshold = SlowTurnThreshold.Value;
             var percentToSlowTurnSpeed = Mathf.InverseLerp(0f, slowTurnThreshold, currentSpeed);
             
-            float currentTurnSpeed;
-
             //Lerp from turn speed to slow turn speed based on current velocity
-
-            currentTurnSpeed = Mathf.Lerp(TurnSpeed.Value, SlowTurnSpeed.Value, percentToSlowTurnSpeed);
-
+            float targetTurnSpeed = Mathf.Lerp(TurnSpeed.Value, SlowTurnSpeed.Value, percentToSlowTurnSpeed);
+            
+            //Scale turn speed with x input magnitude
+            if (!Mathf.Approximately(0f, MoveInput.Value.x))
+                targetTurnSpeed *= MoveInput.Value.x;
+            
+            currentTurnSpeed = Mathf.Lerp(currentTurnSpeed, targetTurnSpeed, TurnAcceleration.Value * Time.deltaTime);
+            
             Vector3 currentDir = currentVelocity.xoz().normalized;
 
             Vector3 horizontalMoveInput = moveInputCameraRelative.xoz().normalized;
             if (!InvertTilt.Value) horizontalMoveInput.z = -horizontalMoveInput.z;
-
-            dir = Vector3.SmoothDamp(currentDir, horizontalMoveInput,
-                ref dummyVel, currentTurnSpeed).normalized;
+            
+            //dir = Vector3.SmoothDamp(currentDir, horizontalMoveInput,
+            //    ref dummyVel, currentTurnSpeed).normalized;
+            
+            dir = Quaternion.AngleAxis(targetTurnSpeed, Vector3.up) * currentDir;
+            
+            //If no input, re-center forward
+            if (Mathf.Approximately(0f, MoveInput.Value.x))
+                dir = Vector3.SmoothDamp(currentDir, PlayerCameraTransform.Value.transform.forward.xoz(),
+                    ref dummyVel, HorizontalRecenterTime.Value);
 
             newDirection = dir;
 

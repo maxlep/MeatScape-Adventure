@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine.Utility;
+using MoreMountains.Feedbacks;
 using MyAssets.ScriptableObjects.Variables;
 using MyAssets.ScriptableObjects.Variables.ValueReferences;
 using UnityEngine;
@@ -16,6 +17,8 @@ public class MeatScale : MonoBehaviour
     [SerializeField] private float DishRotDegrees = 30f;
     [SerializeField] private float DishYRange = 100f;
     [SerializeField] private float DishLerpSpeed = 5f;
+    [SerializeField] private AudioSource ReelAudioSource;
+    [SerializeField] private float ReelThreshold = 1f;
 
     private float targetWeight;
     private float currentWeight;
@@ -33,11 +36,30 @@ public class MeatScale : MonoBehaviour
     {
         if (playerIsInside)  //Open cage so player doesnt get stuck
             targetWeight = TargetSize.Value;
-
+        
         currentWeight = Mathf.Lerp(currentWeight, targetWeight, DishLerpSpeed * Time.deltaTime);
+        float currentTargetDelta = Mathf.Abs(targetWeight - currentWeight);
         
         float percentToTargetSize = Mathf.InverseLerp(0, TargetSize.Value, currentWeight);
-
+        
+        //Manage chain reel audio
+        Debug.Log(percentToTargetSize);
+        if (currentTargetDelta > ReelThreshold)
+        {
+            if (!ReelAudioSource.isPlaying)
+            {
+                ReelAudioSource.Play();
+            }
+        }
+        else
+        {
+            if (ReelAudioSource.isPlaying)
+            {
+                ReelAudioSource.Stop();
+            }
+        }
+            
+        
         //Rotate Top bone
         float currentRotZ = Mathf.Lerp(-DishRotDegrees, DishRotDegrees, percentToTargetSize);
         BoneRotatePivot.rotation = Quaternion.Euler(BoneRotatePivot.rotation.x, BoneRotatePivot.rotation.y, currentRotZ);

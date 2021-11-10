@@ -43,7 +43,6 @@ public class MeatScale : MonoBehaviour
         float percentToTargetSize = Mathf.InverseLerp(0, TargetSize.Value, currentWeight);
         
         //Manage chain reel audio
-        Debug.Log(percentToTargetSize);
         if (currentTargetDelta > ReelThreshold)
         {
             if (!ReelAudioSource.isPlaying)
@@ -62,7 +61,7 @@ public class MeatScale : MonoBehaviour
         
         //Rotate Top bone
         float currentRotZ = Mathf.Lerp(-DishRotDegrees, DishRotDegrees, percentToTargetSize);
-        BoneRotatePivot.rotation = Quaternion.Euler(BoneRotatePivot.rotation.x, BoneRotatePivot.rotation.y, currentRotZ);
+        BoneRotatePivot.localRotation = Quaternion.Euler(BoneRotatePivot.rotation.x, BoneRotatePivot.rotation.y, currentRotZ);
         
         //Move dishes
         float moveDist = Mathf.Lerp(0f, DishYRange, percentToTargetSize);

@@ -118,7 +118,11 @@ namespace MyAssets.Graphs.StateMachine.Nodes
         
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
         [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")] [Required]
-        private FloatReference SlideTurnThresholdSpeed;
+        private FloatValueReference SlideTurnThresholdSpeed;
+        
+        [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
+        [TabGroup("Fast Turn")] [ShowIf("$EnableFastTurn")] [Required]
+        private FloatValueReference SlideTurnThresholdSpeedFactor;
 
 
         [HideIf("$collapsed")] [LabelWidth(LABEL_WIDTH)] [SerializeField]
@@ -346,7 +350,7 @@ namespace MyAssets.Graphs.StateMachine.Nodes
             if (noTurn && deltaAngle_VelToMoveDir > FastTurnAngleThreshold.Value &&
                 MoveInput.Value.magnitude > FastTurnInputDeadZone.Value)
             {
-                if (currentSpeed > SlideTurnThresholdSpeed.Value)
+                if (currentSpeed >= SlideTurnThresholdSpeed.Value * SlideTurnThresholdSpeedFactor.Value)
                 {
                     IsSlideTurning.Value = true;
                     SlideTurnTriggered.Activate();

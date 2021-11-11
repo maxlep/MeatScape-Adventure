@@ -806,6 +806,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         //Slingshot ready if found ground and released input after performing it
         if (!SlingshotReady.Value && slingshotInputReset && slingshotFoundGround)
             SlingshotReady.Value = true;
+            SlingshotReady.Value = true;
 
         if(!LastGroundingStatus.FoundAnyGround && GroundingStatus.FoundAnyGround)
             BecameGrounded.Activate();

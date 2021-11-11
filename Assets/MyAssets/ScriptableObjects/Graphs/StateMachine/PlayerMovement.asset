@@ -2397,7 +2397,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Ground Slam Fall (Just Bounce) -> Ground Slam Bounce
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -5368,7 +5368,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 2
       _dynamic: 0
-  collapsed: 0
+  collapsed: 1
   BypassState: 0
   Name: Glide
   Description: 
@@ -9697,7 +9697,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Meateor Strike -> NoLowJump
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -10593,7 +10593,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67f1d00eaf5e4f6aa7167bd216112c3c, type: 3}
-  m_Name: ' -> '
+  m_Name: Ground Slam Fall (Just Bounce) -> Ground Slam Bounce
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -12409,6 +12409,7 @@ MonoBehaviour:
   - {fileID: -3186113973784908318}
   - {fileID: -3473047470375253942}
   - {fileID: -4145213193903334583}
+  - {fileID: 548921379977825918}
 --- !u!114 &144026596585446073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13894,6 +13895,56 @@ MonoBehaviour:
   InvalidStartStates: []
   TriggerConditions: []
   TimerConditions: []
+--- !u!114 &548921379977825918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9765dbd106402834486abf236b500707, type: 3}
+  m_Name: Glide <Reference>
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: -14152, y: -2200}
+  ports:
+    keys:
+    - previousState
+    - transitions
+    values:
+    - _fieldName: previousState
+      _node: {fileID: 548921379977825918}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: transitions
+      _node: {fileID: 548921379977825918}
+      _typeQualifiedName: StateMachineConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: startingState
+        node: {fileID: 5756824846197644187}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  referencedState: {fileID: -4414920255951470105}
 --- !u!114 &647826158662486185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20061,6 +20112,9 @@ MonoBehaviour:
         reroutePoints: []
       - fieldName: transitions
         node: {fileID: -205945317275717737}
+        reroutePoints: []
+      - fieldName: transitions
+        node: {fileID: 548921379977825918}
         reroutePoints: []
       _direction: 0
       _connectionType: 0

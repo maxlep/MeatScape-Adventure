@@ -115,6 +115,7 @@ public class TimeManager : MonoBehaviour
         Time.timeScale = 0f;
         isPaused = true;
         pauseText.SetActive(true);
+        AudioListener.pause = true;
     }
 
     private void UnPauseGame()
@@ -122,6 +123,7 @@ public class TimeManager : MonoBehaviour
         Time.timeScale = timescaleFactor;
         isPaused = false;
         pauseText.SetActive(false);
+        AudioListener.pause = false;
     }
 
     #endregion

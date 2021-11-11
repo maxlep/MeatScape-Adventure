@@ -84,6 +84,7 @@ public class ForwardAttackCharge : PlayerStateNode
         base.Enter();
         reachedMinCharge = false;
         reachedMaxCharge = false;
+        ClumpOverChargedOut.Value = reachedMaxCharge;
         chargeStartTime = Time.time;
         RunSpeedChargeClumpFactorOut.Value = RunSpeedChargeClumpFactor.Value;
         ClumpMinChargePercent.Value =  ClumpMinChargeTime.Duration / TimeToMaxCharge.Value;
@@ -98,15 +99,16 @@ public class ForwardAttackCharge : PlayerStateNode
         if (!reachedMaxCharge && elapsedChargeTime > TimeToMaxCharge.Value)
         {
             reachedMaxCharge = true;
+            ClumpOverChargedOut.Value = reachedMaxCharge;
             ClumpThrowMaxChargeEvent.Raise();
         }
 
         if (!reachedMinCharge && elapsedChargeTime > ThrowMinChargeTime.Duration)
         {
             reachedMinCharge = true;
+            ClumpOverChargedOut.Value = reachedMaxCharge;
             ClumpThrowMinChargeEvent.Raise();
         }
-            
     }
 
     public override void Exit()

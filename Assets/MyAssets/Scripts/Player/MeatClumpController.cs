@@ -124,20 +124,32 @@ public class MeatClumpController : MonoBehaviour
             }
 
             //Hit Interactable
+            bool receivedMeatClumpHit = false;
             if (hitInteractable)
             {
                 var interactableScript = collider.GetComponent<InteractionReceiver>();
                 if (interactableScript == null)
+                {
                     interactableScript = collider.GetComponent<InteractionReceiverProxy>()?.InteractionReceiver;
+                }
                 if (interactableScript == null)
-                    interactableScript = collider.attachedRigidbody?.GetComponent<InteractionReceiverProxy>()?.InteractionReceiver;
+                {
+                    interactableScript = collider.attachedRigidbody?
+                        .GetComponent<InteractionReceiverProxy>()
+                        ?.InteractionReceiver;
+                }
                 
                 if (interactableScript != null)
+                {
                     interactableScript.ReceiveMeatClumpHitInteraction(new MeatClumpHitPayload()
                     {
                         hitDir = currentVelocity.normalized,
-                        origin = transform.position
+                        origin = transform.position,
+                        hitObj = hitObj.transform,
+                        clumpObj = transform
                     });
+                    receivedMeatClumpHit = true;
+                }
 
                 var damageableScript = collider.GetComponent<Damageable>();
                 if ((!damageableScript?.SafeIsUnityNull()) ?? false)
@@ -149,8 +161,11 @@ public class MeatClumpController : MonoBehaviour
                 if (shaderUpdater.SafeIsUnityNull())
                     shaderUpdater.StartSplat(-meshTransform.forward);
                 
+                if (!receivedMeatClumpHit)
+                {
+                    transform.SetParent(hitObj.transform);
+                }
                 impactFeedbacks.PlayFeedbacks();
-                transform.SetParent(hitObj.transform);
                 OnCollideWithEnemy.Invoke();
             }
         }

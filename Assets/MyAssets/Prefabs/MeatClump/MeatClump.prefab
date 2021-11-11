@@ -38,14 +38,17 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1025103307960676489}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 468d0d7ee2257a34c966318be3e94f24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   UnityEvents:
   - UnityCallback: 3
+    randomDelay: 0
     delay: 0.1
+    delayMin: 0
+    delayMax: 0
     unityEvent:
       m_PersistentCalls:
         m_Calls:
@@ -231,6 +234,7 @@ GameObject:
   - component: {fileID: 8239211911836117986}
   - component: {fileID: 8339928552127525950}
   - component: {fileID: 6312137172070335375}
+  - component: {fileID: 4181513107509294310}
   m_Layer: 10
   m_Name: SplatFeedback
   m_TagString: Untagged
@@ -267,6 +271,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Feedbacks:
   - {fileID: 8339928552127525950}
+  - {fileID: 4181513107509294310}
   - {fileID: 6312137172070335375}
   InitializationMode: 2
   SafeMode: 3
@@ -371,6 +376,43 @@ MonoBehaviour:
   ResetEvents:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4181513107509294310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6908684000516486566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdfe4b9b079619143a9748eeee75e698, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Active: 1
+  Label: Particles Instantiation
+  Chance: 100
+  Timing:
+    TimescaleMode: 0
+    InitialDelay: 0
+    CooldownDuration: 0
+    NumberOfRepeats: 0
+    RepeatForever: 0
+    DelayBetweenRepeats: 1
+    Sequence: {fileID: 0}
+    TrackID: 0
+    Quantized: 0
+    TargetBPM: 120
+  DebugActive: 0
+  Mode: 1
+  CachedRecycle: 1
+  ParticlesPrefab: {fileID: 4021103657954561960, guid: 5c755f9bc5253ea418e919994537dcc7,
+    type: 3}
+  RandomParticlePrefabs: []
+  PositionMode: 1
+  InstantiateParticlesPosition: {fileID: 7432549252289664646}
+  TargetWorldPosition: {x: 0, y: 0, z: 0}
+  Offset: {x: 0, y: 0, z: 0}
+  NestParticles: 0
 --- !u!1 &7432549251251677246
 GameObject:
   m_ObjectHideFlags: 0

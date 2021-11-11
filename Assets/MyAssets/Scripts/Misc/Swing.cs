@@ -20,6 +20,11 @@ public class Swing : MonoBehaviour
         StartSwingTween();
     }
 
+    private void OnDisable()
+    {
+        if (swingTween != null) LeanTween.cancel(swingTween.id);
+    }
+
     private void StartSwingTween()
     {
         if (isReverse)

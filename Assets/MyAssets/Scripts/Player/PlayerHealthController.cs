@@ -2,12 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.Diagnostics;
 using System.Linq;
 using Den.Tools;
 using MyAssets.ScriptableObjects.Variables;
 using Shapes;
 using Sirenix.Utilities;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public class PlayerHealthController : MonoBehaviour
 {
@@ -17,8 +19,12 @@ public class PlayerHealthController : MonoBehaviour
     [SerializeField] private GameObject healthTickPrefab;
     [SerializeField] private RectTransform healthBarRect;
     [SerializeField] private Gradient healthGradient;
+    [SerializeField] private Color overchargeOutlineColor;
+    [SerializeField] private Color defaultOutlineColor;
 
     private List<PlayerHealthTickController> healthTickList = new List<PlayerHealthTickController>();
+
+    private Color _originalOutlineColor;
 
     private void Awake()
     {
@@ -28,9 +34,11 @@ public class PlayerHealthController : MonoBehaviour
 
         //Trigger update to get latest.
         currentHungerLevel.Value = currentHungerLevel.Value;
+
+        _originalOutlineColor = (healthTickList.FirstOrDefault()?.GetOutlineColor()).GetValueOrDefault();
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         currentHungerLevel.Unsubscribe(UpdateHealthBar);
     }
@@ -61,11 +69,25 @@ public class PlayerHealthController : MonoBehaviour
 
     private void UpdateHealthTickColor()
     {
-        foreach (var healthTick in healthTickList)
+        float percentHealth = (float) currentHungerLevel.Value / (float) maxHungerLevel.Value;
+        float percentToOne = percentHealth % 1;
+        bool isOvercharged = percentHealth > 1;
+        Color healthColor = healthGradient.Evaluate(percentHealth);
+
+        for (int i = 0; i < healthTickList.Count; i++)
         {
-            float percentHealth = Mathf.InverseLerp(0f, maxHungerLevel.Value, currentHungerLevel.Value);
-            PlayerHealthTickController healthTickController = healthTick.GetComponent<PlayerHealthTickController>();
-            healthTickController.SetColor(healthGradient.Evaluate(percentHealth));
+            var healthTickController = healthTickList[i];
+            float tickHealthThreshold = (float) (i + 1) / (float) healthTickList.Count;
+
+            healthTickController.SetColor(healthColor);
+
+            var isTickOvercharged =
+                (Mathf.Approximately(percentToOne, tickHealthThreshold)
+                    || percentToOne > tickHealthThreshold
+                    || percentHealth >= 2)
+                && isOvercharged;
+            var outlineColor = isTickOvercharged ? overchargeOutlineColor : defaultOutlineColor;
+            healthTickController.SetOutlineColor(outlineColor);
         }
     }
 }

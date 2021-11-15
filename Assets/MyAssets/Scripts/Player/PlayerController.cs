@@ -13,6 +13,7 @@ using MyAssets.ScriptableObjects.Variables;
 using MyAssets.ScriptableObjects.Variables.ValueReferences;
 using MyAssets.Scripts.Player;
 using MyAssets.Scripts.Utils;
+using RootMotion.FinalIK;
 using Shapes;
 using Sirenix.OdinInspector;
 using Unity.Mathematics;
@@ -58,6 +59,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [SerializeField] private bool ignoreInput;
     [SerializeField] private float FallOffMapYPos = -300f;
     [SerializeField] private ConfigurableJoint GrabJoint;
+    [SerializeField] private ArmIK GrabArmIK;
     [SerializeField] private SphereCollider GrabCollider;
     [SerializeField] private LayerMask GrabMask;
     [ShowIf("ignoreInput"), SerializeField] private Vector2Reference fakeMoveInput;
@@ -214,6 +216,8 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private bool isInvincible;
     private bool ungroundTrigger;
     private int grabbedObjLayer;
+    
+    private Dictionary<Collider, int> ColliderLayerDict = new Dictionary<Collider, int>();
 
     public delegate void _OnStartUpdateVelocity(VelocityInfo velocityInfo);
     public delegate void _OnStartUpdateRotation(Quaternion currentRotation);
@@ -990,12 +994,16 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
             {
                 GrabJoint.connectedBody = otherRb;
                 grabbedObjLayer = otherRb.gameObject.layer;
-                otherRb.gameObject.layer = layerMapper.GetLayer(LayerEnum.Grabbed);
+                //otherRb.gameObject.layer = layerMapper.GetLayer(LayerEnum.Grabbed);
+                GrabArmIK.enabled = true;
+                GrabArmIK.solver.arm.target = hitCollider.transform;
 
-                IgnoreCollisionRecursively(otherRb, true);
+                ColliderLayerDict.Clear();
+                ChangeColliderLayers(otherRb);
+                break;
             }
 
-            break;
+            
         }
     }
     
@@ -1003,8 +1011,10 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     {
         if (GrabJoint.connectedBody == null) return;
         
-        GrabJoint.connectedBody.gameObject.layer = grabbedObjLayer;
-        IgnoreCollisionRecursively(GrabJoint.connectedBody, false);
+        //GrabJoint.connectedBody.gameObject.layer = grabbedObjLayer;
+        GrabArmIK.solver.arm.target = null;
+        GrabArmIK.enabled = false;
+        RevertColliderLayers();
         GrabJoint.connectedBody = null;
     }
 
@@ -1021,13 +1031,22 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         return interactionReceiver;
     }
 
-    private void IgnoreCollisionRecursively(Rigidbody otherRb, bool ignore)
+    private void ChangeColliderLayers(Rigidbody otherRb)
     {
         Collider[] colliders = otherRb.transform.GetComponentsInChildren<Collider>();
 
         foreach (var col in colliders)
         {
-            Physics.IgnoreCollision(collider, col, ignore);
+            ColliderLayerDict.Add(col, col.gameObject.layer);
+            col.gameObject.layer = layerMapper.GetLayer(LayerEnum.Grabbed);
+        }
+    }
+
+    private void RevertColliderLayers()
+    {
+        foreach (var keyPair in ColliderLayerDict)
+        {
+            keyPair.Key.gameObject.layer = keyPair.Value;
         }
     }
 

@@ -57,6 +57,9 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [SerializeField] private bool noRegenFromMeatContact;
     [SerializeField] private bool ignoreInput;
     [SerializeField] private float FallOffMapYPos = -300f;
+    [SerializeField] private ConfigurableJoint GrabJoint;
+    [SerializeField] private SphereCollider GrabCollider;
+    [SerializeField] private LayerMask GrabMask;
     [ShowIf("ignoreInput"), SerializeField] private Vector2Reference fakeMoveInput;
 
     [Button]
@@ -260,7 +263,9 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         InputManager.Instance.onSlingshot_Pressed += () => SlingshotTrigger.Activate();
         InputManager.Instance.onSlingshot_Released += () => SlingshotReleaseTrigger.Activate();
         InputManager.Instance.onDash_Pressed += () => DashPressTrigger.Activate();
-        InputManager.Instance.onInteract += AttemptInspect;
+        InputManager.Instance.onInteract_Pressed += AttemptInspect;
+        InputManager.Instance.onInteract_Pressed += AttemptGrab;
+        InputManager.Instance.onInteract_Released += ReleaseGrab;
         InputManager.Instance.onFunction3 += RemoveHunger;
         InputManager.Instance.onFunction4 += FeedHunger;
 
@@ -963,6 +968,29 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         if(interactablesInRange.Count < 1) return;
 
         interactablesInRange[0].ReceiveInspectInteraction(new InspectPayload());
+    }
+
+    private void AttemptGrab()
+    {
+        Debug.Log(GrabCollider.bounds.center);
+        //Overlap sphere to grab rigidbody
+        Collider[] hitColliders = Physics.OverlapSphere(GrabCollider.bounds.center, GrabCollider.bounds.extents.x, GrabMask, QueryTriggerInteraction.Ignore);
+        
+        foreach (var hitCollider in hitColliders)
+        {
+            Rigidbody otherRb = hitCollider.attachedRigidbody;
+            if (otherRb == null) continue;
+            
+            if (otherRb.gameObject.IsInLayerMask(GrabMask))
+                GrabJoint.connectedBody = otherRb;
+
+            break;
+        }
+    }
+    
+    private void ReleaseGrab()
+    {
+        GrabJoint.connectedBody = null;
     }
 
     #endregion

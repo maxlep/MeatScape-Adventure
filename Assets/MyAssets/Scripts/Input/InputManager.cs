@@ -78,7 +78,8 @@ public class InputManager : MonoBehaviour
     public event _OnLoad onLoad;
     public event _OnJump_Pressed onJump_Pressed;
     public event _OnJump_Released onJump_Released;
-    public event _OnInteract onInteract;
+    public event _OnInteract onInteract_Pressed;
+    public event _OnInteract onInteract_Released;
     public event _OnPauseGame onPauseGame;
     public event _OnBackspace onBackspace;
     public event _OnFrameForward onFrameForward;
@@ -127,7 +128,7 @@ public class InputManager : MonoBehaviour
     private PlayerInput _inputs;
     private InputActionMap playerActions, uiActions;
     private InputAction playerMove, playerLook, playerJump, playerRegenerateMeat, mousePosition, playerSlingshot, playerDash,
-        playerAttack, playerModifier, cycleTarget;
+        playerAttack, playerModifier, cycleTarget, inspect;
 
     public static bool PlatformInvertsScroll()
     {
@@ -157,6 +158,7 @@ public class InputManager : MonoBehaviour
         cycleTarget = playerActions.FindAction("CycleTarget");
         playerAttack = playerActions.FindAction("Attack");
         playerModifier = playerActions.FindAction("Modifier");
+        inspect = playerActions.FindAction("Interact");
         mousePosition = uiActions.FindAction("MousePosition");
         playerActions.Disable();
         
@@ -174,6 +176,12 @@ public class InputManager : MonoBehaviour
         
         playerModifier.performed += OnModifier_Pressed;
         playerModifier.canceled += OnModifier_Released;
+        
+        playerModifier.performed += OnModifier_Pressed;
+        playerModifier.canceled += OnModifier_Released;
+        
+        inspect.performed += OnInteract_Pressed;
+        inspect.canceled += OnInteract_Released;
 
         cycleTarget.performed += OnCycleTarget_Pressed;
     }
@@ -316,9 +324,14 @@ public class InputManager : MonoBehaviour
         if (onJump_Released != null) onJump_Released();
     }
     
-    public void OnInteract()
+    public void OnInteract_Pressed(InputAction.CallbackContext ctx)
     {
-        if (onInteract != null) onInteract();
+        if (onInteract_Pressed != null) onInteract_Pressed();
+    }
+    
+    public void OnInteract_Released(InputAction.CallbackContext ctx)
+    {
+        if (onInteract_Released != null) onInteract_Released();
     }
 
     public void OnPauseGame()

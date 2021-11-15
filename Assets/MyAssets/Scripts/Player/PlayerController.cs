@@ -131,6 +131,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Hunger Parameters"), SerializeField] private FloatReference DistanceToMeatGroundThreshold;
     [FoldoutGroup("Hunger Parameters"), SerializeField] private FloatReference DistancePerClump;
     [FoldoutGroup("Hunger Parameters"), SerializeField] private TimerReference HungerDecayTimer;
+    [FoldoutGroup("Hunger Parameters"), SerializeField] private CurveReference HungerDecayAmountCurve;
     [FoldoutGroup("Hunger Parameters"), SerializeField] private IntReference HungerSoftMax;
     [FoldoutGroup("Hunger Parameters"), SerializeField] private IntReference HungerOut;
 
@@ -638,8 +639,12 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         HungerDecayTimer?.UpdateTime();
         if(HungerDecayTimer.IsFinished && HungerOut.Value > 0 && !noHungerDecay)
         {
-            IncrementHunger(-1);
+            var percentHealth = (float) HungerOut.Value / (float) HungerSoftMax.Value;
+            var floatAmount = HungerDecayAmountCurve.Value.Evaluate(percentHealth);
+            var amount = Mathf.RoundToInt(floatAmount);
+            IncrementHunger(-amount);
             HungerDecayTimer.RestartTimer();
+            Debug.Log($"Decay hunger: {HungerOut.Value} {percentHealth} {-amount}");
         }
 
         if(isMeatGrounded && isRegeneratingMeat && !noRegenFromMeatContact)

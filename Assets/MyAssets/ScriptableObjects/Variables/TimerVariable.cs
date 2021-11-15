@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [Required]
 [InlineEditor(InlineEditorObjectFieldModes.Foldout)]
 [CreateAssetMenu(fileName = "TimerVariable", menuName = "Variables/TimerVariable", order = 0)]
 public class TimerVariable : ScriptableObject
 {
-    [SerializeField] private float duration;
+    [SerializeField] [FormerlySerializedAs("duration")] public float Duration;
     [ShowInInspector, NonSerialized] private float? remainingTime = null;
     [ShowInInspector, NonSerialized] private bool isFinished = false;
     [TextArea (7, 10)] [HideInInlineEditors] public String Description;
@@ -17,9 +18,9 @@ public class TimerVariable : ScriptableObject
     public delegate void OnUpdate_();
     public event OnUpdate_ OnUpdate;
 
-    public float Duration => duration;
+    // public float Duration => duration;
     public float? RemainingTime => remainingTime;
-    public float ElapsedTime => duration - (remainingTime ?? duration);
+    public float ElapsedTime => Duration - (remainingTime ?? Duration);
     public bool IsFinished => isFinished;
 
     public bool IsStopped => isStopped;
@@ -48,7 +49,7 @@ public class TimerVariable : ScriptableObject
     {
         isStopped = true;
     }
-    
+
     public void Subscribe(OnUpdate_ callback)
     {
         this.OnUpdate += callback;
@@ -63,7 +64,7 @@ public class TimerVariable : ScriptableObject
     {
         if (!isStopped && !isFinished)
         {
-            remainingTime = Mathf.Max(0f, duration - (Time.time - startTime));
+            remainingTime = Mathf.Max(0f, Duration - (Time.time - startTime));
             OnUpdate?.Invoke();
             if (remainingTime == 0)
             {
@@ -129,6 +130,21 @@ public class TimerReference
             
             Debug.LogError("Trying to access duration for timer variable that is not set!");
             return Mathf.Infinity;
+        }
+        set
+        {
+            if (UseConstant)
+            {
+                ConstantDuration = value;
+                return;
+            }
+            if (Variable != null)
+            {
+                Variable.Duration = value;
+                return;
+            }
+            
+            Debug.LogError("Trying to access duration for timer variable that is not set!");
         }
     }
 

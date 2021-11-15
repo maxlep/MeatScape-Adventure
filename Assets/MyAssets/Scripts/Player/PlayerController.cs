@@ -135,6 +135,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     [FoldoutGroup("Hunger Parameters"), SerializeField] private FloatReference DistancePerClump;
     [FoldoutGroup("Hunger Parameters"), SerializeField] private TimerReference HungerDecayTimer;
     [FoldoutGroup("Hunger Parameters"), SerializeField] private CurveReference HungerDecayAmountCurve;
+    [FoldoutGroup("Hunger Parameters"), SerializeField] private CurveReference HungerDecayTimerCurve;
     [FoldoutGroup("Hunger Parameters"), SerializeField] private IntReference HungerSoftMax;
     [FoldoutGroup("Hunger Parameters"), SerializeField] private IntReference HungerOut;
 
@@ -642,10 +643,13 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     private void UpdateHunger()
     {
+        var percentHealth = (float) HungerOut.Value / (float) HungerSoftMax.Value;
+        var decayTime = HungerDecayTimerCurve.Value.Evaluate(percentHealth);
+        HungerDecayTimer.Duration = decayTime;
+        
         HungerDecayTimer?.UpdateTime();
         if(HungerDecayTimer.IsFinished && HungerOut.Value > 0 && !noHungerDecay)
         {
-            var percentHealth = (float) HungerOut.Value / (float) HungerSoftMax.Value;
             var floatAmount = HungerDecayAmountCurve.Value.Evaluate(percentHealth);
             var amount = Mathf.RoundToInt(floatAmount);
             IncrementHunger(-amount);

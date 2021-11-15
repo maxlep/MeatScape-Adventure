@@ -212,6 +212,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     private bool isInvincible;
     private bool ungroundTrigger;
+    private int grabbedObjLayer;
 
     public delegate void _OnStartUpdateVelocity(VelocityInfo velocityInfo);
     public delegate void _OnStartUpdateRotation(Quaternion currentRotation);
@@ -980,9 +981,15 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
         {
             Rigidbody otherRb = hitCollider.attachedRigidbody;
             if (otherRb == null) continue;
-            
+
             if (otherRb.gameObject.IsInLayerMask(GrabMask))
+            {
                 GrabJoint.connectedBody = otherRb;
+                grabbedObjLayer = otherRb.gameObject.layer;
+                otherRb.gameObject.layer = layerMapper.GetLayer(LayerEnum.Grabbed);
+
+                IgnoreCollisionRecursively(otherRb, true);
+            }
 
             break;
         }
@@ -990,6 +997,10 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     
     private void ReleaseGrab()
     {
+        if (GrabJoint.connectedBody == null) return;
+        
+        GrabJoint.connectedBody.gameObject.layer = grabbedObjLayer;
+        IgnoreCollisionRecursively(GrabJoint.connectedBody, false);
         GrabJoint.connectedBody = null;
     }
 
@@ -1004,6 +1015,16 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
             interactionReceiver = other.GetComponent<InteractionReceiverProxy>()?.InteractionReceiver;
 
         return interactionReceiver;
+    }
+
+    private void IgnoreCollisionRecursively(Rigidbody otherRb, bool ignore)
+    {
+        Collider[] colliders = otherRb.transform.GetComponentsInChildren<Collider>();
+
+        foreach (var col in colliders)
+        {
+            Physics.IgnoreCollision(collider, col, ignore);
+        }
     }
 
     #endregion

@@ -43,5 +43,6 @@ public enum LayerEnum
     Bounce,
     Interactable,
     InteractableTarget,
-    Camera
+    Camera,
+    Grabbed
 }

@@ -55,6 +55,8 @@ public class PlayerHealthController : MonoBehaviour
             GameObject healthTick = Instantiate(healthTickPrefab, healthBarRect);
             healthTickList.Add(healthTick.GetComponent<PlayerHealthTickController>());
         }
+
+        healthTickList.Reverse();
     }
 
     private void UpdateHealthBar(int prev, int current)

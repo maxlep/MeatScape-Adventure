@@ -217,7 +217,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     private bool ungroundTrigger;
     private int grabbedObjLayer;
     
-    private Dictionary<Collider, int> ColliderLayerDict = new Dictionary<Collider, int>();
+    private Dictionary<GameObject, int> ColliderLayerDict = new Dictionary<GameObject, int>();
 
     public delegate void _OnStartUpdateVelocity(VelocityInfo velocityInfo);
     public delegate void _OnStartUpdateRotation(Quaternion currentRotation);
@@ -658,7 +658,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
             var amount = Mathf.RoundToInt(floatAmount);
             IncrementHunger(-amount);
             HungerDecayTimer.RestartTimer();
-            Debug.Log($"Decay hunger: {HungerOut.Value} {percentHealth} {-amount}");
         }
 
         if(isMeatGrounded && isRegeneratingMeat && !noRegenFromMeatContact)
@@ -1037,7 +1036,10 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
         foreach (var col in colliders)
         {
-            ColliderLayerDict.Add(col, col.gameObject.layer);
+            //Case of object with multiple colliders on same gameobj
+            if (ColliderLayerDict.ContainsKey(col.gameObject)) continue;
+            
+            ColliderLayerDict.Add(col.gameObject, col.gameObject.layer);
             col.gameObject.layer = layerMapper.GetLayer(LayerEnum.Grabbed);
         }
     }
@@ -1046,7 +1048,7 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
     {
         foreach (var keyPair in ColliderLayerDict)
         {
-            keyPair.Key.gameObject.layer = keyPair.Value;
+            keyPair.Key.layer = keyPair.Value;
         }
     }
 

@@ -105,5 +105,6 @@ public class RollCombat : PlayerStateNode
     {
         base.Exit();
         PlayerCollidedWith_CollisionInfo.Unsubscribe(this.OnPlayerCollidedWith);
+        PlayerCollidedWithTrigger_CollisionInfo.Unsubscribe(this.OnPlayerCollidedWith);
     }
 }

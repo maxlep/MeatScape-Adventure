@@ -97,13 +97,17 @@ public class GroundSlamAttack: PlayerStateNode
             interactableScript = interactableCollider.GetComponent<InteractionReceiverProxy>()?.InteractionReceiver;
         if (interactableScript == null)
             interactableScript = interactableCollider.attachedRigidbody?.GetComponent<InteractionReceiverProxy>()?.InteractionReceiver;
-        
+
         if (interactableScript != null)
+        {
             interactableScript.ReceiveGroundSlamInteraction(new GroundSlamPayload()
             {
                 origin = playerPosition,
                 hitDir = (interactableCollider.transform.position - playerPosition).normalized
             });
+            Debug.Log($"Ground Slammed : {interactableCollider.gameObject.name}");
+        }
+            
     }
 
     public override void DrawGizmos()

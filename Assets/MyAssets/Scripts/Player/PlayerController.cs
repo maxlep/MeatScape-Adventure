@@ -980,7 +980,6 @@ public class PlayerController : SerializedMonoBehaviour, ICharacterController
 
     private void AttemptGrab()
     {
-        Debug.Log(GrabCollider.bounds.center);
         //Overlap sphere to grab rigidbody
         Collider[] hitColliders = Physics.OverlapSphere(GrabCollider.bounds.center, GrabCollider.bounds.extents.x, GrabMask, QueryTriggerInteraction.Ignore);
         

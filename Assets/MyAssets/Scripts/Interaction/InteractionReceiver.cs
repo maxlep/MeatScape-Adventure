@@ -21,7 +21,6 @@ public class InteractionReceiver : SerializedMonoBehaviour
                 hasInteraction = true;
             }
         }
-        Debug.Log("Respond Inspect");
         return hasInteraction;
     }
     
@@ -36,7 +35,6 @@ public class InteractionReceiver : SerializedMonoBehaviour
                 hasInteraction = true;
             }
         }
-        Debug.Log("Respond Ground Slam");
         return hasInteraction;
     }
     
@@ -51,7 +49,6 @@ public class InteractionReceiver : SerializedMonoBehaviour
                 hasInteraction = true;
             }
         }
-        Debug.Log("Respond trigger enter");
         return hasInteraction;
     }
     
@@ -66,7 +63,6 @@ public class InteractionReceiver : SerializedMonoBehaviour
                 hasInteraction = true;
             }
         }
-        Debug.Log("Respond trigger exit");
         return hasInteraction;
     }
     
@@ -81,7 +77,6 @@ public class InteractionReceiver : SerializedMonoBehaviour
                 hasInteraction = true;
             }
         }
-        Debug.Log("Respond roll into");
         return hasInteraction;
     }
     
@@ -96,7 +91,6 @@ public class InteractionReceiver : SerializedMonoBehaviour
                 hasInteraction = true;
             }
         }
-        Debug.Log("Respond meateor strike into");
         return hasInteraction;
     }
     
@@ -111,7 +105,6 @@ public class InteractionReceiver : SerializedMonoBehaviour
                 hasInteraction = true;
             }
         }
-        Debug.Log("Respond Meat Clump Hit");
         return hasInteraction;
     }
     
@@ -126,7 +119,6 @@ public class InteractionReceiver : SerializedMonoBehaviour
                 hasInteraction = true;
             }
         }
-        Debug.Log("Respond Jump On");
         return hasInteraction;
     }
 

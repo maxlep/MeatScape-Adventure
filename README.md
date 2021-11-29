@@ -12,6 +12,8 @@ But be careful not to overexert Meatman, you wouldn't like Meatman hungry...
 *A project from __Bowl Monkey Labs__.*  
 *Created by Dan Colom, Gabriel Hardwick, and Max Lepkowski.*
 
+![MeatScape Adventure cover image. A smiling red meat man and an old green elf embrace like old friends.](https://img.itch.zone/aW1nLzc0NjcxMTMuanBn/original/Mifjer.jpg "MeatScape Adventure")
+
 ## A note from the developers
 
 This is a demo of what was supposed to be a much larger game.
